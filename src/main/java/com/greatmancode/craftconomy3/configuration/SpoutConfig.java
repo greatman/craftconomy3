@@ -3,7 +3,6 @@ package com.greatmancode.craftconomy3.configuration;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.zip.ZipFile;
 
 import org.apache.commons.io.FileUtils;
 import org.spout.api.exception.ConfigurationException;

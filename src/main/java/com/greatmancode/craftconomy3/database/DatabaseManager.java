@@ -16,15 +16,13 @@ import com.greatmancode.craftconomy3.database.tables.CurrencyTable;
 public class DatabaseManager {
 
 	private Database db = null;
-	public DatabaseManager() throws Exception{
+
+	public DatabaseManager() throws Exception {
 		String databasetype = Common.getInstance().getConfigurationManager().getConfig().getString("System.Database.Type");
-		if (databasetype.equals("sqlite"))
-		{
+		if (databasetype.equals("sqlite")) {
 			SQLiteConfiguration config = new SQLiteConfiguration(Common.getInstance().getConfigurationManager().getDataFolder() + File.separator + "database.db");
 			db = DatabaseFactory.createNewDatabase(config);
-		}
-		else if (databasetype.equals("mysql"))
-		{
+		} else if (databasetype.equals("mysql")) {
 			MySQLConfiguration config = new MySQLConfiguration();
 			config.setHost(Common.getInstance().getConfigurationManager().getConfig().getString("System.Database.Address"));
 			config.setUser(Common.getInstance().getConfigurationManager().getConfig().getString("System.Database.Username"));
@@ -33,15 +31,15 @@ public class DatabaseManager {
 			config.setPort(Common.getInstance().getConfigurationManager().getConfig().getInt("System.Database.Port"));
 			db = DatabaseFactory.createNewDatabase(config);
 		}
-		
+
 		db.registerTable(AccountTable.class);
 		db.registerTable(AccessTable.class);
 		db.registerTable(BalanceTable.class);
 		db.registerTable(CurrencyTable.class);
-		
+
 		db.connect();
 	}
-	
+
 	public Database getDatabase() {
 		return db;
 	}
