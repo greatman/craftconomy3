@@ -8,7 +8,7 @@ public class SpoutLoader extends CommonPlugin {
 	@Override
 	public void onEnable() {
 		instance = this;
-		new Common(false);
+		new Common(false, getLogger());
 	}
 
 	@Override

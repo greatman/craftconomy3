@@ -23,14 +23,10 @@ public class Common {
 
 	private DatabaseManager dbManager = null;
 
-	public Common(boolean isBukkit) {
+	public Common(boolean isBukkit, Logger log) {
 		instance = this;
 		Common.isBukkit = isBukkit;
-		if (isBukkit) {
-			log = BukkitLoader.getInstance().getLogger();
-		} else {
-			log = SpoutLoader.getInstance().getLogger();
-		}
+		this.log = log;
 
 		sendConsoleMessage(Level.INFO, "Starting up!");
 		sendConsoleMessage(Level.INFO, "Loading the Configuration");
@@ -41,9 +37,9 @@ public class Common {
 		} catch (Exception e) {
 			sendConsoleMessage(Level.SEVERE, "A error occured while trying to connect to the database. Message received: " + e.getMessage());
 			if (isBukkit()) {
-				BukkitLoader.getInstance().getPluginLoader().disablePlugin(BukkitLoader.getInstance());
+				BukkitCaller.disablePlugin();
 			} else {
-				SpoutLoader.getInstance().getPluginLoader().disablePlugin(SpoutLoader.getInstance());
+				SpoutCaller.disablePlugin();
 			}
 			return;
 		}
