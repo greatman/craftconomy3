@@ -13,16 +13,19 @@ public class ConfigurationManager {
 	private File dataFolder = null;
 	
 	public ConfigurationManager() {
-		if (Common.isBukkit()) {
-			config = new BukkitConfig();
-			dataFolder = BukkitLoader.getInstance().getDataFolder();
-		} else {
-			config = new SpoutConfig();
-			dataFolder = SpoutLoader.getInstance().getDataFolder();
-		}
+		
 		
 	}
 
+	public void initialize() {
+		if (Common.isBukkit()) {
+			dataFolder = BukkitLoader.getInstance().getDataFolder();
+			config = new BukkitConfig();
+		} else {
+			dataFolder = SpoutLoader.getInstance().getDataFolder();
+			config = new SpoutConfig();
+		}
+	}
 	public Config getConfig() {
 		return config;
 	}

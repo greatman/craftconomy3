@@ -7,7 +7,7 @@ public class BukkitLoader extends JavaPlugin {
 	private static BukkitLoader instance = null;
 	public void onEnable() {
 		instance = this;
-		new Common(true,getLogger());
+		new Common(true,getLogger()).initialize();
 	}
 	
 	public void onDisable() {

@@ -3,6 +3,7 @@ package com.greatmancode.craftconomy3.configuration;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.zip.ZipFile;
 
 import org.apache.commons.io.FileUtils;
 import org.spout.api.exception.ConfigurationException;
@@ -17,7 +18,8 @@ public class SpoutConfig extends Config {
 		File file = new File(Common.getInstance().getConfigurationManager().getDataFolder(), "config.yml");
 		if (!file.exists())
 		{
-			URL inputURL = getClass().getResource("config.yml");
+			URL inputURL = getClass().getResource("/config.yml");
+			System.out.println(inputURL);
 			try {
 				FileUtils.copyURLToFile(inputURL, file);
 			} catch (IOException e) {

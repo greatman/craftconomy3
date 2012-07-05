@@ -4,7 +4,7 @@
 	<groupId>com.greatmancode</groupId>
 	<artifactId>craftconomy3</artifactId>
 	<version>3.0.0-SNAPSHOT</version>
-	
+
 	<name>Craftconomy3</name>
 	<url>https://github.com/greatman/Craftconomy3</url>
 	<description>Economy Handler for Bukkit/Spout</description>
@@ -33,7 +33,7 @@
 			<id>spout-repo</id>
 			<url>http://repo.spout.org</url>
 		</repository>
-		
+
 	</repositories>
 
 	<dependencies>
@@ -53,6 +53,20 @@
 			<groupId>org.bukkit</groupId>
 			<artifactId>bukkit</artifactId>
 			<version>${bukkitVersion}</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.xerial</groupId>
+			<artifactId>sqlite-jdbc</artifactId>
+			<version>3.7.2</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.14</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
@@ -102,6 +116,26 @@
 				<configuration>
 					<excludePackageNames></excludePackageNames>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>1.7.1</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+						<configuration>
+							<artifactSet>
+								<excludes>
+									<exclude>junit:junit</exclude>
+								</excludes>
+							</artifactSet>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>

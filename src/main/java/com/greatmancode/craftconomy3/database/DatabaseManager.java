@@ -1,5 +1,7 @@
 package com.greatmancode.craftconomy3.database;
 
+import java.io.File;
+
 import com.alta189.simplesave.Database;
 import com.alta189.simplesave.DatabaseFactory;
 import com.alta189.simplesave.mysql.MySQLConfiguration;
@@ -18,7 +20,7 @@ public class DatabaseManager {
 		String databasetype = Common.getInstance().getConfigurationManager().getConfig().getString("System.Database.Type");
 		if (databasetype.equals("sqlite"))
 		{
-			SQLiteConfiguration config = new SQLiteConfiguration(Common.getInstance().getConfigurationManager().getDataFolder() + "database.db");
+			SQLiteConfiguration config = new SQLiteConfiguration(Common.getInstance().getConfigurationManager().getDataFolder() + File.separator + "database.db");
 			db = DatabaseFactory.createNewDatabase(config);
 		}
 		else if (databasetype.equals("mysql"))
@@ -38,8 +40,6 @@ public class DatabaseManager {
 		db.registerTable(CurrencyTable.class);
 		
 		db.connect();
-		
-		
 	}
 	
 	public Database getDatabase() {

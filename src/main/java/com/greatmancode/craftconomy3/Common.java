@@ -27,10 +27,13 @@ public class Common {
 		instance = this;
 		Common.isBukkit = isBukkit;
 		this.log = log;
-
+	}
+	
+	public void initialize() {
 		sendConsoleMessage(Level.INFO, "Starting up!");
 		sendConsoleMessage(Level.INFO, "Loading the Configuration");
 		config = new ConfigurationManager();
+		config.initialize();
 		sendConsoleMessage(Level.INFO, "Connecting to database");
 		try {
 			dbManager = new DatabaseManager();
