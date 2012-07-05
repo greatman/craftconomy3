@@ -47,6 +47,7 @@ public class Common {
 		currencyManager = new CurrencyManager();
 		sendConsoleMessage(Level.INFO, "Loading the Account Handler");
 		accountHandler = new AccountHandler();
+		
 		sendConsoleMessage(Level.INFO, "Loaded!");
 	}
 
