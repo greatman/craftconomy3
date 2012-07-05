@@ -1,0 +1,262 @@
+name: Craftconomy
+main: com.greatmancode.craftconomy3.BukkitLoader
+version: ${releaseVersion} b${BUILD_NUMBER}
+author: Greatman
+softdepend: [Spout]
+commands:
+    money:
+      description: Check / Distribute currency.
+    bank:
+      description: Check / Distribute money on a Bank.
+    craftconomy:
+      description: Configuration command
+permissions:
+    Craftconomy.*:
+        default: op
+        description: Gives access to all commands
+        children:
+            Craftconomy.money.help: true
+            Craftconomy.account.empty: true
+            Craftconomy.money.give: true
+            Craftconomy.money.holdings.others: true
+            Craftconomy.money.holdings: true
+            Craftconomy.money.pay: true
+            Craftconomy.money.purge: true
+            Craftconomy.money.set: true
+            Craftconomy.money.take: true
+            Craftconomy.money.exchange: true
+            Craftconomy.account.remove: true
+            Craftconomy.account.create: true
+            Craftconomy.account.empty: true
+            Craftconomy.bank.create: true
+            Craftconomy.bank.delete: true
+            Craftconomy.bank.deposit: true
+            Craftconomy.bank.give: true
+            Craftconomy.bank.help: true
+            Craftconomy.bank.holdings: true
+            Craftconomy.bank.set: true
+            Craftconomy.bank.take: true
+            Craftconomy.bank.withdraw: true
+            Craftconomy.bank.add: true
+            Craftconomy.bank.remove: true
+            Craftconomy.currency.exchange: true
+            Craftconomy.currency.create: true
+            Craftconomy.currency.modify: true
+            Craftconomy.currency.remove: true
+            
+    Craftconomy.currency.*:
+        description: Gives access to all currency config commands
+        children:
+          Craftconomy.currency.exchange: true
+          Craftconomy.currency.create: true
+          Craftconomy.currency.modify: true
+          Craftconomy.currency.remove: true
+
+    Craftconomy.banks.*:
+        description: Give access to all bank commands
+        children:
+          Craftconomy.bank.create: true
+          Craftconomy.bank.delete: true
+          Craftconomy.bank.deposit: true
+          Craftconomy.bank.give: true
+          Craftconomy.bank.help: true
+          Craftconomy.bank.holdings: true
+          Craftconomy.bank.set: true
+          Craftconomy.bank.take: true
+          Craftconomy.bank.withdraw: true
+          Craftconomy.bank.add: true
+          Craftconomy.bank.remove: true
+          
+    Craftconomy.bankuser:
+        description: Give access to the player bank account commands
+        children:
+          Craftconomy.bank.help: true
+          Craftconomy.bank.holdings: true
+          Craftconomy.bank.withdraw: true
+          Craftconomy.bank.deposit: true
+          Craftconomy.bank.create: true
+          Craftconomy.bank.add: true
+          Craftconomy.bank.remove: true
+          
+    Craftconomy.accounts.*:
+        description: Gives access only to higher level commands
+        children:
+            Craftconomy.accounts.create: true
+            Craftconomy.accounts.remove: true
+            Craftconomy.accounts.empty: true
+            
+    Craftconomy.money.*:
+        description: Gives access to all money commands
+        children:
+            Craftconomy.money.help: true
+            Craftconomy.money.give: true
+            Craftconomy.money.holdings.others: true
+            Craftconomy.money.holdings: true
+            Craftconomy.money.pay: true
+            Craftconomy.money.purge: true
+            Craftconomy.money.set: true
+            Craftconomy.money.take: true
+            Craftconomy.money.exchange: true
+            
+            
+    Craftconomy.plus:
+        description: Gives access to user plus only commands
+        children:
+            Craftconomy.money.help: true
+            Craftconomy.money.holdings: true
+            Craftconomy.money.holdings.others: true
+            Craftconomy.money.pay: true
+            Craftconomy.money.exchange: true
+            
+    Craftconomy.user:
+        description: Gives access to user only commands
+        children:
+            Craftconomy.money.help: true
+            Craftconomy.money.holdings: true
+            Craftconomy.money.pay: true
+            Craftconomy.money.exchange: true
+            
+    Craftconomy.money.help:
+        description: Allows you to request help information.
+        default: op
+        command: "/money help"
+        
+    Craftconomy.money.holdings:
+        description: Check your balance.
+        default: op
+        command: "/money"
+        
+    Craftconomy.money.holdings.others:
+        description: Check other players balance.
+        default: op
+        command: "/money <account-name>"
+        examples:
+          - "/money greatman321"
+          
+    Craftconomy.money.pay:
+        description: Send money to others.
+        default: op
+        command: "/money pay <account-name> <amount> [Currency]"
+        examples:
+          - "/money pay greatman321 30"
+          
+    Craftconomy.accounts.create:
+        description: Create an account.
+        default: op
+        command: "/money create <account-name>"
+        examples:
+          - "/money create greatman321"
+          - "/money create greatman321"
+          
+    Craftconomy.accounts.remove:
+        description: Remove an existing account
+        default: op
+        command: "/money remove <account-name>"
+        examples:
+          - "/money remove greatman"
+          
+    Craftconomy.money.give:
+        description: Give account a certain amount
+        default: op
+        command: "/money give <account-name> <amount> [Currency] [World]"
+        examples:
+          - "/money give greatman 30"
+          
+    Craftconomy.money.take:
+        description: Take a certain amount from an account
+        default: op
+        command: "/money take <account-name> <amount> [Currency] [World]"
+        examples:
+          - "/money take greatman 30"
+          
+    Craftconomy.money.set:
+        description: Set an account's balance to this amount
+        default: op
+        command: "/money set <account-name> <amount> [Currency] [World]"
+        examples:
+          - "/money set greatman 30"
+    
+    Craftconomy.money.exchange:
+        description: Exchange money into another currency.
+        default: op
+        command: "/money exchange <Source Currency> <Destination Currency> <Amount>"
+         
+    Craftconomy.accounts.empty:
+        description: Empty / Drop entire database of accounts.
+        default: op
+        command: "/money empty"
+        
+    Craftconomy.bank.give:
+        description: Give money in a bank account
+        default: op
+        command: "/bank give <account-name> <amount> [Currency] [World]"
+        
+    Craftconomy.bank.take:
+        description: Take money in a bank account
+        default: op
+        command: "/bank take <account-name> <amount> [Currency] [World]"
+        
+    Craftconomy.bank.set:
+        description: Set the bank account to a certain amount
+        default: op
+        command: "/bank set <account-name> <amount> [Currency] [World]"
+        
+    Craftconomy.banks.holdings:
+        description: Check a bank account
+        default: op
+        command: "/bank <account-name>"
+        
+    Craftconomy.bank.deposit:
+        description: Deposit money in your bank account
+        default: op
+        command: "/bank deposit <amount> [Currency]"
+        
+    Craftconomy.bank.withdraw:
+        description: Withdraw money from your bank account
+        default: op
+        command: "/bank withdraw <amount> [Currency]"
+    
+    Craftconomy.bank.add:
+        description: Add someone in your bank account
+        default: op
+        command: "/bank add <Bank Name> <Player Name>"
+    
+    Craftconomy.bank.remove:
+        description: Remove someone from your bank account
+        default: op
+        command: "/bank remove <Bank Name> <Player Name>"
+        
+    Craftconomy.bank.create:
+        description: Create a bank account
+        default: op
+        command: "/bank create <Bank Name>"
+    
+    Craftconomy.bank.delete:
+        description: Delete a bank account
+        default: op
+        command: "/bank delete <Bank Name>"
+
+    Craftconomy.bank.admindelete:
+        description: Remove a bank account (Admin permission)
+        default: op
+        command: "/bank delete <Bank Name>"
+    
+    Craftconomy.currency.create:
+        description: Create a currency
+        default: op
+        command: "/craftcurrency currencycreate <Currency Name>"
+        
+    Craftconomy.currency.modify:
+        description: Modify a currency
+        default: op
+        command: "/craftcurrency currencymodify <Currency Name>"
+        
+    Craftconomy.currency.remove:
+        description: Remove a currency
+        default: op
+        command: "/craftcurrency currencyremove <Currency Name>"
+    
+    Craftconomy.currency.exchange:
+        description: Set the exchange rate of a currency
+        default: op
+        command: "/craftconomy currencyexchange <Source Currency> <Destination Currency> <Rate>"

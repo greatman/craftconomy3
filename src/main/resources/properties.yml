@@ -1,0 +1,9 @@
+name: ${project.name}
+version: ${releaseVersion} b${buildNumber}
+description: ${project.description}
+author: [ Greatman ]
+website: ${project.url}
+
+main: com.greatmancode.craftconomy3.SpoutLoader
+load: POSTWORLD
+platform: SERVER
