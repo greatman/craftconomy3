@@ -84,9 +84,9 @@ public class Account {
 	
 	/**
 	 * withdraw a certain amount of money in the account
-	 * @param amount The amount of money to add
-	 * @param world The World we want to add money in
-	 * @param currencyName The currency we want to add money in
+	 * @param amount The amount of money to withdraw
+	 * @param world The World we want to withdraw money from
+	 * @param currencyName The currency we want to withdraw money from
 	 * @return The new balance
 	 */
 	public double withdraw(double amount, String world, String currencyName) {
@@ -113,5 +113,7 @@ public class Account {
 		}
 		return balance;
 	}
+	
+	
 
 }

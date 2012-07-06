@@ -5,14 +5,14 @@ import com.greatmancode.craftconomy3.database.tables.CurrencyTable;
 
 public class Currency {
 
-	private int databaseID;
 	private CurrencyTable entry = new CurrencyTable();
 
 	public Currency(int databaseID, String name, String plural, String minor, String minorPlural) {
-		setName(name);
-		setPlural(plural);
-		setMinor(minor);
-		setMinorPlural(minorPlural);
+		entry.name = name;
+		entry.plural = plural;
+		entry.minor = minor;
+		entry.minorplural = minorPlural;
+		entry.id = databaseID;
 	}
 
 	public String getName() {
@@ -52,7 +52,7 @@ public class Currency {
 	}
 
 	public int getDatabaseID() {
-		return databaseID;
+		return entry.id;
 	}
 	
 	private void save() {
