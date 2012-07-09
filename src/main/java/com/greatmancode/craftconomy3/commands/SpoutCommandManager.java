@@ -35,6 +35,11 @@ public class SpoutCommandManager implements CommandExecutor, CommandLoader {
 					{
 						newargs[i - 1] = args.getString(i);
 					}
+					if (newargs.length >= Common.getInstance().getCommandManager().getMoneyCmdList().get(args.getString(0)).minArgs() && newargs.length <= Common.getInstance().getCommandManager().getMoneyCmdList().get(args.getString(0)).maxArgs())
+					{
+						source.sendMessage(Common.getInstance().getCommandManager().getMoneyCmdList().get(args.getString(0)).help());
+						return true;
+					}
 					Common.getInstance().getCommandManager().getMoneyCmdList().get(args.getString(0)).execute(source.getName(), newargs);
 					return true;
 				} else {

@@ -13,10 +13,10 @@ import com.greatmancode.craftconomy3.database.tables.BalanceTable;
 public class Account {
 
 	private AccountTable account;
+
 	public Account(String name) {
 		AccountTable result = Common.getInstance().getDatabaseManager().getDatabase().select(AccountTable.class).where().equal("username", name).execute().findOne();
-		if (result == null)
-		{
+		if (result == null) {
 			result = new AccountTable();
 			result.name = name;
 			Common.getInstance().getDatabaseManager().getDatabase().save(result);
@@ -28,48 +28,46 @@ public class Account {
 		}
 		account = result;
 	}
-	
-	//TODO
+
+	// TODO
 	public List<Balance> getAllBalance() {
 		List<Balance> balanceList = new ArrayList<Balance>();
 		Iterator<BalanceTable> list = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal("username_id", account.id).execute().find().iterator();
 		while (list.hasNext()) {
 			BalanceTable table = list.next();
-			 balanceList.add(new Balance(table.worldName, Common.getInstance().getCurrencyManager().getCurrency(table.currency_id),table.balance));
+			balanceList.add(new Balance(table.worldName, Common.getInstance().getCurrencyManager().getCurrency(table.currency_id), table.balance));
 		}
 		return balanceList;
 	}
-	
+
 	public List<Balance> getAllWorldBalance(String world) {
 		List<Balance> balanceList = new ArrayList<Balance>();
 		Iterator<BalanceTable> list = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal("username_id", account.id).and().equal("worldName", world).execute().find().iterator();
 		while (list.hasNext()) {
 			BalanceTable table = list.next();
-			 balanceList.add(new Balance(table.worldName, Common.getInstance().getCurrencyManager().getCurrency(table.currency_id),table.balance));
+			balanceList.add(new Balance(table.worldName, Common.getInstance().getCurrencyManager().getCurrency(table.currency_id), table.balance));
 		}
 		return balanceList;
 	}
-	
+
 	/**
-	 * Get's the player balance. Sends 0.0 in case of a error
+	 * Get's the player balance. Sends double.MIN_NORMAL in case of a error
 	 * @param world The world to search in
 	 * @param currencyName
 	 * @return
 	 */
 	public double getBalance(String world, String currencyName) {
-		double balance = 0.0;
+		double balance = Double.MIN_NORMAL;
 		Currency currency = Common.getInstance().getCurrencyManager().getCurrency(currencyName);
-		if (currency != null)
-		{
+		if (currency != null) {
 			BalanceTable balanceTable = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal("username_id", account.id).and().equal("balance_id", currency.getDatabaseID()).execute().findOne();
-			if (balanceTable != null)
-			{
+			if (balanceTable != null) {
 				balance = balanceTable.balance;
 			}
 		}
 		return balance;
 	}
-	
+
 	/**
 	 * Adds a certain amount of money in the account
 	 * @param amount The amount of money to add
@@ -80,17 +78,13 @@ public class Account {
 	public double deposit(double amount, String world, String currencyName) {
 		double balance = 0.0;
 		Currency currency = Common.getInstance().getCurrencyManager().getCurrency(currencyName);
-		if (currency != null)
-		{
+		if (currency != null) {
 			BalanceTable balanceTable = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal("username_id", account.id).and().equal("balance_id", currency.getDatabaseID()).execute().findOne();
-			if (balanceTable != null)
-			{
+			if (balanceTable != null) {
 				balance += amount;
 				balanceTable.balance = balance;
-				
-			}
-			else
-			{
+
+			} else {
 				balanceTable = new BalanceTable();
 				balanceTable.currency_id = currency.getDatabaseID();
 				balanceTable.username_id = account.id;
@@ -101,7 +95,7 @@ public class Account {
 		}
 		return balance;
 	}
-	
+
 	/**
 	 * withdraw a certain amount of money in the account
 	 * @param amount The amount of money to withdraw
@@ -112,17 +106,13 @@ public class Account {
 	public double withdraw(double amount, String world, String currencyName) {
 		double balance = 0.0;
 		Currency currency = Common.getInstance().getCurrencyManager().getCurrency(currencyName);
-		if (currency != null)
-		{
+		if (currency != null) {
 			BalanceTable balanceTable = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal("username_id", account.id).and().equal("balance_id", currency.getDatabaseID()).execute().findOne();
-			if (balanceTable != null)
-			{
+			if (balanceTable != null) {
 				balance -= amount;
 				balanceTable.balance = balance;
-				
-			}
-			else
-			{
+
+			} else {
 				balanceTable = new BalanceTable();
 				balanceTable.currency_id = currency.getDatabaseID();
 				balanceTable.username_id = account.id;
@@ -133,7 +123,15 @@ public class Account {
 		}
 		return balance;
 	}
-	
-	
 
+	public boolean hasEnough(double amount, String worldName, String currencyName) {
+		boolean result = false;
+		Currency currency = Common.getInstance().getCurrencyManager().getCurrency(currencyName);
+		if (currency != null) {
+			if (getBalance(worldName, currencyName) >= amount) {
+				result = true;
+			}
+		}
+		return result;
+	}
 }

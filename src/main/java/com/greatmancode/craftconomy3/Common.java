@@ -106,10 +106,14 @@ public class Common {
 	public String format(String worldName, Currency currency, double balance) {
 		StringBuilder string = new StringBuilder();
 		
-		//We put the world name if the conf is true
-		if (getConfigurationManager().getConfig().getBoolean("System.Default.Currency.MultiWorld")) {
-			string.append(worldName  + ":").append(" ");
+		if (worldName != null)
+		{
+			//We put the world name if the conf is true
+			if (getConfigurationManager().getConfig().getBoolean("System.Default.Currency.MultiWorld")) {
+				string.append(worldName  + ":").append(" ");
+			}
 		}
+		
 		
 		//We removes some cents if it's something like 20.20381 it would set it to 20.20
 		String[] theAmount = Double.toString(balance).split("\\.");

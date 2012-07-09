@@ -30,6 +30,11 @@ public class BukkitCommandManager implements CommandExecutor, CommandLoader {
 					for (int i = 1; i < newargs.length; i++) {
 						newargs[i - 1] = args[i];
 					}
+					if (newargs.length >= Common.getInstance().getCommandManager().getMoneyCmdList().get(args[0]).minArgs() && newargs.length <= Common.getInstance().getCommandManager().getMoneyCmdList().get(args[0]).maxArgs())
+					{
+						commandSender.sendMessage(Common.getInstance().getCommandManager().getMoneyCmdList().get(args[0]).help());
+						return true;
+					}
 					Common.getInstance().getCommandManager().getMoneyCmdList().get(args[0]).execute(commandSender.getName(), newargs);
 					return true;
 				} else {
