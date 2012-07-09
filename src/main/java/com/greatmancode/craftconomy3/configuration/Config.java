@@ -5,5 +5,5 @@ public abstract class Config {
 	public abstract long getLong(String path);
 	public abstract double getDouble(String path);
 	public abstract String getString(String path);
-	
+	public abstract boolean getBoolean(String path);
 }

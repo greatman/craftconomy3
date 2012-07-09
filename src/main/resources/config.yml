@@ -6,7 +6,8 @@ System:
       Minor: Coin
       MinorPlural: Coins
       MultiWorld: false
-
+      #Show Money to pretty way
+      LongMode: true
     Account:
       # Default account balance when created
       Holdings: 30.0

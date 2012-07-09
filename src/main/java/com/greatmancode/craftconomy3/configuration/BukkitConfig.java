@@ -34,5 +34,10 @@ public class BukkitConfig extends Config {
 	public String getString(String path) {
 		return BukkitLoader.getInstance().getConfig().getString(path);
 	}
+	@Override
+	public boolean getBoolean(String path) {
+		// TODO Auto-generated method stub
+		return BukkitLoader.getInstance().getConfig().getBoolean(path);
+	}
 
 }

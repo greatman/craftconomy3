@@ -29,7 +29,6 @@ public class SpoutConfig extends Config {
 		try {
 			config.load();
 		} catch (ConfigurationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -51,6 +50,10 @@ public class SpoutConfig extends Config {
 	@Override
 	public String getString(String path) {
 		return config.getNode(path).getString();
+	}
+	@Override
+	public boolean getBoolean(String path) {
+		return config.getNode(path).getBoolean();
 	}
 
 }

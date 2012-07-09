@@ -1,5 +1,9 @@
 package com.greatmancode.craftconomy3.account;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.currency.Currency;
 import com.greatmancode.craftconomy3.currency.CurrencyManager;
@@ -26,8 +30,24 @@ public class Account {
 	}
 	
 	//TODO
-	public void getAllBalance() {
-		
+	public List<Balance> getAllBalance() {
+		List<Balance> balanceList = new ArrayList<Balance>();
+		Iterator<BalanceTable> list = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal("username_id", account.id).execute().find().iterator();
+		while (list.hasNext()) {
+			BalanceTable table = list.next();
+			 balanceList.add(new Balance(table.worldName, Common.getInstance().getCurrencyManager().getCurrency(table.currency_id),table.balance));
+		}
+		return balanceList;
+	}
+	
+	public List<Balance> getAllWorldBalance(String world) {
+		List<Balance> balanceList = new ArrayList<Balance>();
+		Iterator<BalanceTable> list = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal("username_id", account.id).and().equal("worldName", world).execute().find().iterator();
+		while (list.hasNext()) {
+			BalanceTable table = list.next();
+			 balanceList.add(new Balance(table.worldName, Common.getInstance().getCurrencyManager().getCurrency(table.currency_id),table.balance));
+		}
+		return balanceList;
 	}
 	
 	/**
