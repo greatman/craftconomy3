@@ -3,8 +3,7 @@ package com.greatmancode.craftconomy3.commands;
 import java.util.HashMap;
 
 import com.greatmancode.craftconomy3.Common;
-import com.greatmancode.craftconomy3.commands.money.AllCommand;
-import com.greatmancode.craftconomy3.commands.money.MainCommand;
+import com.greatmancode.craftconomy3.commands.money.*;
 
 public class CommandManager {
 
@@ -14,8 +13,8 @@ public class CommandManager {
 	public CommandManager() {
 		moneyCmdList.put("", new MainCommand());
 		moneyCmdList.put("all", new AllCommand());
+		moneyCmdList.put("pay", new PayCommand());
 		if (Common.isBukkit()) {
-			cmdLoader = new BukkitCommandManager();
 		}
 		else
 		{

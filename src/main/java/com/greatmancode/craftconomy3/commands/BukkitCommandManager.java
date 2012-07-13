@@ -12,6 +12,7 @@ public class BukkitCommandManager implements CommandExecutor, CommandLoader {
 
 	@Override
 	public boolean onCommand(CommandSender commandSender, Command command, String commandLabel, String[] args) {
+		System.out.println(command.getName());
 		if (command.getName().equals("money")) {
 			if (args.length == 0) {
 				Common.getInstance().getCommandManager().getMoneyCmdList().get("").execute(commandSender.getName(), args);
@@ -30,13 +31,15 @@ public class BukkitCommandManager implements CommandExecutor, CommandLoader {
 					for (int i = 1; i < newargs.length; i++) {
 						newargs[i - 1] = args[i];
 					}
-					if (newargs.length >= Common.getInstance().getCommandManager().getMoneyCmdList().get(args[0]).minArgs() && newargs.length <= Common.getInstance().getCommandManager().getMoneyCmdList().get(args[0]).maxArgs())
-					{
+					System.out.println(Common.getInstance().getCommandManager().getMoneyCmdList().get(args[0]).minArgs() + " " + newargs.length);
+					if (newargs.length >= Common.getInstance().getCommandManager().getMoneyCmdList().get(args[0]).minArgs() && newargs.length <= Common.getInstance().getCommandManager().getMoneyCmdList().get(args[0]).maxArgs()) {
+						Common.getInstance().getCommandManager().getMoneyCmdList().get(args[0]).execute(commandSender.getName(), newargs);
+						return true;
+
+					} else {
 						commandSender.sendMessage(Common.getInstance().getCommandManager().getMoneyCmdList().get(args[0]).help());
 						return true;
 					}
-					Common.getInstance().getCommandManager().getMoneyCmdList().get(args[0]).execute(commandSender.getName(), newargs);
-					return true;
 				} else {
 					commandSender.sendMessage(ChatColor.RED + "You don't have enough permissions!");
 					return true;

@@ -1,6 +1,6 @@
 package com.greatmancode.craftconomy3;
 
-import org.spout.api.ChatColor;
+import org.spout.api.chat.style.ChatStyle;
 import org.spout.api.player.Player;
 
 public class SpoutCaller implements Caller{
@@ -43,22 +43,22 @@ public class SpoutCaller implements Caller{
 	}
 	
 	public String addColor(String str) {
-	    str = str.replace("&0", ChatColor.BLACK.toString());
-	    str = str.replace("&1", ChatColor.DARK_BLUE.toString());
-	    str = str.replace("&2", ChatColor.DARK_GREEN.toString());
-	    str = str.replace("&3", ChatColor.DARK_BLUE.toString());
-	    str = str.replace("&4", ChatColor.DARK_RED.toString());
-	    str = str.replace("&5", ChatColor.PURPLE.toString());
-	    str = str.replace("&6", ChatColor.GOLD.toString());
-	    str = str.replace("&7", ChatColor.GRAY.toString());
-	    str = str.replace("&8", ChatColor.DARK_GRAY.toString());
-	    str = str.replace("&9", ChatColor.BLUE.toString());
-	    str = str.replace("&a", ChatColor.BRIGHT_GREEN.toString());
-	    str = str.replace("&b", ChatColor.BLUE.toString());
-	    str = str.replace("&c", ChatColor.RED.toString());
-	    str = str.replace("&d", ChatColor.PINK.toString());
-	    str = str.replace("&e", ChatColor.YELLOW.toString());
-	    str = str.replace("&f", ChatColor.WHITE.toString());
+	    str = str.replace("&0", ChatStyle.BLACK.toString());
+	    str = str.replace("&1", ChatStyle.DARK_BLUE.toString());
+	    str = str.replace("&2", ChatStyle.DARK_GREEN.toString());
+	    str = str.replace("&3", ChatStyle.DARK_BLUE.toString());
+	    str = str.replace("&4", ChatStyle.DARK_RED.toString());
+	    str = str.replace("&5", ChatStyle.PURPLE.toString());
+	    str = str.replace("&6", ChatStyle.GOLD.toString());
+	    str = str.replace("&7", ChatStyle.GRAY.toString());
+	    str = str.replace("&8", ChatStyle.DARK_GRAY.toString());
+	    str = str.replace("&9", ChatStyle.BLUE.toString());
+	    str = str.replace("&a", ChatStyle.BRIGHT_GREEN.toString());
+	    str = str.replace("&b", ChatStyle.BLUE.toString());
+	    str = str.replace("&c", ChatStyle.RED.toString());
+	    str = str.replace("&d", ChatStyle.PINK.toString());
+	    str = str.replace("&e", ChatStyle.YELLOW.toString());
+	    str = str.replace("&f", ChatStyle.WHITE.toString());
 	    return str;
 }
 }

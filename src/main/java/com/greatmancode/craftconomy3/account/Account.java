@@ -15,7 +15,7 @@ public class Account {
 	private AccountTable account;
 
 	public Account(String name) {
-		AccountTable result = Common.getInstance().getDatabaseManager().getDatabase().select(AccountTable.class).where().equal("username", name).execute().findOne();
+		AccountTable result = Common.getInstance().getDatabaseManager().getDatabase().select(AccountTable.class).where().equal("name", name).execute().findOne();
 		if (result == null) {
 			result = new AccountTable();
 			result.name = name;
@@ -23,13 +23,13 @@ public class Account {
 			BalanceTable balance = new BalanceTable();
 			balance.username_id = result.id;
 			balance.currency_id = CurrencyManager.DefaultCurrencyID;
+			balance.worldName = "world";
 			balance.balance = Common.getInstance().getConfigurationManager().getConfig().getDouble("System.Default.Account.Holdings");
 			Common.getInstance().getDatabaseManager().getDatabase().save(balance);
 		}
 		account = result;
 	}
 
-	// TODO
 	public List<Balance> getAllBalance() {
 		List<Balance> balanceList = new ArrayList<Balance>();
 		Iterator<BalanceTable> list = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal("username_id", account.id).execute().find().iterator();

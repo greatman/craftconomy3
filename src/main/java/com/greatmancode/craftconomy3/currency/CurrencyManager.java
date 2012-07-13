@@ -30,8 +30,11 @@ public class CurrencyManager {
 		}
 		else
 		{
-			addCurrency(Common.getInstance().getConfigurationManager().getConfig().getString("System.Default.Currency.Name"),Common.getInstance().getConfigurationManager().getConfig().getString("System.Default.Currency.NamePlural"),Common.getInstance().getConfigurationManager().getConfig().getString("System.Default.Currency.Minor"),Common.getInstance().getConfigurationManager().getConfig().getString("System.Default.Currency.MinorPlural"),true);
+			addCurrency(defaultCurrency,Common.getInstance().getConfigurationManager().getConfig().getString("System.Default.Currency.NamePlural"),Common.getInstance().getConfigurationManager().getConfig().getString("System.Default.Currency.Minor"),Common.getInstance().getConfigurationManager().getConfig().getString("System.Default.Currency.MinorPlural"),true);
+			DefaultCurrencyID = getCurrency(defaultCurrency).getDatabaseID();
 		}
+		System.out.println("mes println");
+		System.out.println(currencyList.toString() + getCurrency(defaultCurrency).getDatabaseID());
 	}
 	
 	/**
@@ -57,6 +60,7 @@ public class CurrencyManager {
 		CurrencyTable DBresult = Common.getInstance().getDatabaseManager().getDatabase().select(CurrencyTable.class).where().equal("name", name).execute().findOne();
 		if (DBresult != null)
 		{
+			System.out.println("I FOUND IT WOWOOO");
 			result = getCurrency(DBresult.id);
 		}
 		return result;
