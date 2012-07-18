@@ -2,7 +2,6 @@ package com.greatmancode.craftconomy3.currency;
 
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.database.tables.CurrencyTable;
@@ -15,12 +14,11 @@ public class CurrencyManager {
 	
 	public CurrencyManager() {
 		//Let's load all currency in the database
-		List<CurrencyTable> result = Common.getInstance().getDatabaseManager().getDatabase().select(CurrencyTable.class).execute().find();
-		Iterator<CurrencyTable> iterator = result.iterator();
+		Iterator<CurrencyTable> iterator = Common.getInstance().getDatabaseManager().getDatabase().select(CurrencyTable.class).execute().find().iterator();
 		while (iterator.hasNext())
 		{
 			CurrencyTable entry = iterator.next();
-			addCurrency(entry.name, entry.plural, entry.minor, entry.minorplural, false);
+			addCurrency(entry.id,entry.name, entry.plural, entry.minor, entry.minorplural, false);
 		}
 		String defaultCurrency = Common.getInstance().getConfigurationManager().getConfig().getString("System.Default.Currency.Name");
 		Currency defaultCur = getCurrency(defaultCurrency);
@@ -33,8 +31,6 @@ public class CurrencyManager {
 			addCurrency(defaultCurrency,Common.getInstance().getConfigurationManager().getConfig().getString("System.Default.Currency.NamePlural"),Common.getInstance().getConfigurationManager().getConfig().getString("System.Default.Currency.Minor"),Common.getInstance().getConfigurationManager().getConfig().getString("System.Default.Currency.MinorPlural"),true);
 			DefaultCurrencyID = getCurrency(defaultCurrency).getDatabaseID();
 		}
-		System.out.println("mes println");
-		System.out.println(currencyList.toString() + getCurrency(defaultCurrency).getDatabaseID());
 	}
 	
 	/**
@@ -60,7 +56,6 @@ public class CurrencyManager {
 		CurrencyTable DBresult = Common.getInstance().getDatabaseManager().getDatabase().select(CurrencyTable.class).where().equal("name", name).execute().findOne();
 		if (DBresult != null)
 		{
-			System.out.println("I FOUND IT WOWOOO");
 			result = getCurrency(DBresult.id);
 		}
 		return result;

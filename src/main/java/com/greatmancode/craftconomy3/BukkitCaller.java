@@ -60,4 +60,8 @@ public class BukkitCaller implements Caller{
 		    str = str.replace("&f", ChatColor.WHITE.toString());
 		    return str;
 	}
+	
+	public String getDefaultWorld() {
+		return BukkitLoader.getInstance().getServer().getWorlds().get(0).getName();
+	}
 }

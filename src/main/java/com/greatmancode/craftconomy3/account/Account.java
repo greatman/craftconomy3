@@ -16,18 +16,23 @@ public class Account {
 
 	public Account(String name) {
 		AccountTable result = Common.getInstance().getDatabaseManager().getDatabase().select(AccountTable.class).where().equal("name", name).execute().findOne();
+		boolean create = false;
 		if (result == null) {
 			result = new AccountTable();
 			result.name = name;
+			create = true;
+		}
+		account = result;
+		if (create)
+		{
 			Common.getInstance().getDatabaseManager().getDatabase().save(result);
 			BalanceTable balance = new BalanceTable();
 			balance.username_id = result.id;
 			balance.currency_id = CurrencyManager.DefaultCurrencyID;
-			balance.worldName = "world";
+			balance.worldName = getWorldPlayerCurrentlyIn();
 			balance.balance = Common.getInstance().getConfigurationManager().getConfig().getDouble("System.Default.Account.Holdings");
 			Common.getInstance().getDatabaseManager().getDatabase().save(balance);
 		}
-		account = result;
 	}
 
 	public List<Balance> getAllBalance() {
@@ -60,7 +65,7 @@ public class Account {
 		double balance = Double.MIN_NORMAL;
 		Currency currency = Common.getInstance().getCurrencyManager().getCurrency(currencyName);
 		if (currency != null) {
-			BalanceTable balanceTable = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal("username_id", account.id).and().equal("balance_id", currency.getDatabaseID()).execute().findOne();
+			BalanceTable balanceTable = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal("username_id", account.id).and().equal("currency_id", currency.getDatabaseID()).and().equal("worldName", world).execute().findOne();
 			if (balanceTable != null) {
 				balance = balanceTable.balance;
 			}
@@ -79,7 +84,7 @@ public class Account {
 		double balance = 0.0;
 		Currency currency = Common.getInstance().getCurrencyManager().getCurrency(currencyName);
 		if (currency != null) {
-			BalanceTable balanceTable = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal("username_id", account.id).and().equal("balance_id", currency.getDatabaseID()).execute().findOne();
+			BalanceTable balanceTable = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal("username_id", account.id).and().equal("currency_id", currency.getDatabaseID()).and().equal("worldName", world).execute().findOne();
 			if (balanceTable != null) {
 				balance += amount;
 				balanceTable.balance = balance;
@@ -107,7 +112,7 @@ public class Account {
 		double balance = 0.0;
 		Currency currency = Common.getInstance().getCurrencyManager().getCurrency(currencyName);
 		if (currency != null) {
-			BalanceTable balanceTable = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal("username_id", account.id).and().equal("balance_id", currency.getDatabaseID()).execute().findOne();
+			BalanceTable balanceTable = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal("username_id", account.id).and().equal("currency_id", currency.getDatabaseID()).and().equal("worldName", world).execute().findOne();
 			if (balanceTable != null) {
 				balance -= amount;
 				balanceTable.balance = balance;
@@ -133,5 +138,20 @@ public class Account {
 			}
 		}
 		return result;
+	}
+	
+	/**
+	 * Returns the world that the player is currently in
+	 * @return
+	 */
+	public String getWorldPlayerCurrentlyIn() {
+		String world = "any";
+		if (Common.getInstance().getServerCaller().isOnline(account.name)) {
+			if (Common.getInstance().getConfigurationManager().getConfig().getBoolean("System.Default.Currency.MultiWorld"))
+			{
+				world = Common.getInstance().getServerCaller().getPlayerWorld(account.name);
+			}
+		}
+		return world;
 	}
 }

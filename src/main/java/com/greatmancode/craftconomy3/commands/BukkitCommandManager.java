@@ -12,9 +12,14 @@ public class BukkitCommandManager implements CommandExecutor, CommandLoader {
 
 	@Override
 	public boolean onCommand(CommandSender commandSender, Command command, String commandLabel, String[] args) {
-		System.out.println(command.getName());
 		if (command.getName().equals("money")) {
 			if (args.length == 0) {
+				if (Common.getInstance().getCommandManager().getMoneyCmdList().get("").playerOnly()) {
+					if (!(commandSender instanceof Player)) {
+						commandSender.sendMessage(ChatColor.RED + "Only a player can use this command!");
+						return true;
+					}
+				}
 				Common.getInstance().getCommandManager().getMoneyCmdList().get("").execute(commandSender.getName(), args);
 				return true;
 			}
@@ -28,10 +33,9 @@ public class BukkitCommandManager implements CommandExecutor, CommandLoader {
 				}
 				if (!(commandSender instanceof Player) || Common.getInstance().getCommandManager().getMoneyCmdList().get(args[0]).permission(commandSender.getName())) {
 					String[] newargs = new String[args.length - 1];
-					for (int i = 1; i < newargs.length; i++) {
+					for (int i = 1; i <= newargs.length; i++) {
 						newargs[i - 1] = args[i];
 					}
-					System.out.println(Common.getInstance().getCommandManager().getMoneyCmdList().get(args[0]).minArgs() + " " + newargs.length);
 					if (newargs.length >= Common.getInstance().getCommandManager().getMoneyCmdList().get(args[0]).minArgs() && newargs.length <= Common.getInstance().getCommandManager().getMoneyCmdList().get(args[0]).maxArgs()) {
 						Common.getInstance().getCommandManager().getMoneyCmdList().get(args[0]).execute(commandSender.getName(), newargs);
 						return true;

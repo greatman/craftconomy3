@@ -10,6 +10,7 @@ public class PayCommand implements CraftconomyCommand {
 	@Override
 	public void execute(String sender, String[] args) {
 		if (Common.getInstance().getServerCaller().isOnline(args[0])) {
+			System.out.println("ARGS SIZE " + args.length);
 			if (Tools.isdouble(args[1])) {
 				double amount = Double.parseDouble(args[1]);
 				boolean hasEnough = false;

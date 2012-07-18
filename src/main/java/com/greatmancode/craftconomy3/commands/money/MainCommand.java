@@ -13,7 +13,7 @@ public class MainCommand implements CraftconomyCommand {
 	public void execute(String sender, String[] args) {
 		Common.getInstance().getServerCaller().sendMessage(sender, "Balance: ");
 		Account account = Common.getInstance().getAccountHandler().getAccount(sender);
-		Iterator<Balance> balanceList = account.getAllWorldBalance(Common.getInstance().getServerCaller().getPlayerWorld(sender)).iterator();
+		Iterator<Balance> balanceList = account.getAllWorldBalance(account.getWorldPlayerCurrentlyIn()).iterator();
 		while (balanceList.hasNext())
 		{
 			Balance bl = balanceList.next();
@@ -43,7 +43,6 @@ public class MainCommand implements CraftconomyCommand {
 
 	@Override
 	public boolean playerOnly() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 

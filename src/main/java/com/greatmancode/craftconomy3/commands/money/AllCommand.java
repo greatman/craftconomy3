@@ -16,7 +16,9 @@ public class AllCommand implements CraftconomyCommand {
 		Iterator<Balance> balanceList = account.getAllBalance().iterator();
 		while(balanceList.hasNext())
 		{
-			
+			Balance bl = balanceList.next();
+			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().format(bl.getWorld(), bl.getCurrency(), bl.getBalance()));
+		
 		}
 	}
 

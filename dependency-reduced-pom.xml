@@ -71,6 +71,8 @@
               <artifactSet>
                 <excludes>
                   <exclude>junit:junit</exclude>
+                  <exclude>org.bukkit:bukkit</exclude>
+                  <exclude>org.spout:spoutapi</exclude>
                 </excludes>
               </artifactSet>
             </configuration>
@@ -82,7 +84,7 @@
   <repositories>
     <repository>
       <id>spout-repo</id>
-      <url>http://repo.spout.org</url>
+      <url>http://nexus.spout.org/content/groups/public/</url>
     </repository>
     <repository>
       <id>alta-repo</id>
@@ -100,7 +102,13 @@
       <groupId>org.spout</groupId>
       <artifactId>spoutapi</artifactId>
       <version>dev-SNAPSHOT</version>
-      <scope>provided</scope>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.bukkit</groupId>
+      <artifactId>bukkit</artifactId>
+      <version>1.2.5-R4.0</version>
+      <scope>compile</scope>
     </dependency>
   </dependencies>
   <properties>

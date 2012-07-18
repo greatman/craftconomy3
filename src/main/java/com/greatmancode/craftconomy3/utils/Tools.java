@@ -28,6 +28,7 @@ public class Tools {
 	
 	public static boolean isdouble(String number)
 	{
+		System.out.println("RECEIVED " + number);
 		boolean result = false;
 		try
 		{

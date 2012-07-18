@@ -1,5 +1,6 @@
 package com.greatmancode.craftconomy3;
 
+import org.spout.api.chat.ChatArguments;
 import org.spout.api.chat.style.ChatStyle;
 import org.spout.api.player.Player;
 
@@ -24,7 +25,7 @@ public class SpoutCaller implements Caller{
 		Player p = SpoutLoader.getInstance().getEngine().getPlayer(playerName, true);
 		if (p != null)
 		{
-			p.sendMessage(addColor("&a[&fMoney&a]&f" + message));
+			p.sendMessage(ChatArguments.fromString("&a[&fMoney&a]&f" + message).asString());
 		}
 	}
 	
@@ -41,8 +42,8 @@ public class SpoutCaller implements Caller{
 	public boolean isOnline(String playerName) {
 		return SpoutLoader.getInstance().getEngine().getPlayer(playerName, true) != null;
 	}
-	
 	public String addColor(String str) {
+		
 	    str = str.replace("&0", ChatStyle.BLACK.toString());
 	    str = str.replace("&1", ChatStyle.DARK_BLUE.toString());
 	    str = str.replace("&2", ChatStyle.DARK_GREEN.toString());

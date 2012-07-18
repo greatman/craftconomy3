@@ -6,7 +6,7 @@ System:
       Minor: Coin
       MinorPlural: Coins
       MultiWorld: false
-      #Show Money to pretty way
+      #Show Money the pretty way
       LongMode: true
     Account:
       # Default account balance when created
