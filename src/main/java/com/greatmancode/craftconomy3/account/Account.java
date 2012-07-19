@@ -35,6 +35,10 @@ public class Account {
 		}
 	}
 
+	/**
+	 * Get the whole account balance
+	 * @return A list of all account balance
+	 */
 	public List<Balance> getAllBalance() {
 		List<Balance> balanceList = new ArrayList<Balance>();
 		Iterator<BalanceTable> list = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal("username_id", account.id).execute().find().iterator();
@@ -45,7 +49,16 @@ public class Account {
 		return balanceList;
 	}
 
+	/**
+	 * Get the whole account balance in a certain world
+	 * @param world The world to search in
+	 * @return A list of Balance
+	 */
 	public List<Balance> getAllWorldBalance(String world) {
+		if (!Common.getInstance().getConfigurationManager().getConfig().getBoolean("System.Default.Currency.MultiWorld"))
+		{
+			world = "any";
+		}
 		List<Balance> balanceList = new ArrayList<Balance>();
 		Iterator<BalanceTable> list = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal("username_id", account.id).and().equal("worldName", world).execute().find().iterator();
 		while (list.hasNext()) {
@@ -58,11 +71,15 @@ public class Account {
 	/**
 	 * Get's the player balance. Sends double.MIN_NORMAL in case of a error
 	 * @param world The world to search in
-	 * @param currencyName
-	 * @return
+	 * @param currencyName The currency Name
+	 * @return The balance
 	 */
 	public double getBalance(String world, String currencyName) {
 		double balance = Double.MIN_NORMAL;
+		if (!Common.getInstance().getConfigurationManager().getConfig().getBoolean("System.Default.Currency.MultiWorld"))
+		{
+			world = "any";
+		}
 		Currency currency = Common.getInstance().getCurrencyManager().getCurrency(currencyName);
 		if (currency != null) {
 			BalanceTable balanceTable = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal("username_id", account.id).and().equal("currency_id", currency.getDatabaseID()).and().equal("worldName", world).execute().findOne();
@@ -82,6 +99,10 @@ public class Account {
 	 */
 	public double deposit(double amount, String world, String currencyName) {
 		BalanceTable balanceTable = null;
+		if (!Common.getInstance().getConfigurationManager().getConfig().getBoolean("System.Default.Currency.MultiWorld"))
+		{
+			world = "any";
+		}
 		Currency currency = Common.getInstance().getCurrencyManager().getCurrency(currencyName);
 		if (currency != null) {
 			balanceTable = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal("username_id", account.id).and().equal("currency_id", currency.getDatabaseID()).and().equal("worldName", world).execute().findOne();
@@ -109,6 +130,10 @@ public class Account {
 	 */
 	public double withdraw(double amount, String world, String currencyName) {
 		BalanceTable balanceTable = null;
+		if (!Common.getInstance().getConfigurationManager().getConfig().getBoolean("System.Default.Currency.MultiWorld"))
+		{
+			world = "any";
+		}
 		Currency currency = Common.getInstance().getCurrencyManager().getCurrency(currencyName);
 		if (currency != null) {
 			balanceTable = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal("username_id", account.id).and().equal("currency_id", currency.getDatabaseID()).and().equal("worldName", world).execute().findOne();
@@ -127,11 +152,21 @@ public class Account {
 		return balanceTable.balance;
 	}
 
+	/**
+	 * Checks if we have enough money in a certain balance
+	 * @param amount The amount of money to check
+	 * @param worldName The World we want to check
+	 * @param currencyName The currency we want to check
+	 * @return True if there's enough money. Else false
+	 */
 	public boolean hasEnough(double amount, String worldName, String currencyName) {
 		boolean result = false;
+		if (!Common.getInstance().getConfigurationManager().getConfig().getBoolean("System.Default.Currency.MultiWorld"))
+		{
+			worldName = "any";
+		}
 		Currency currency = Common.getInstance().getCurrencyManager().getCurrency(currencyName);
 		if (currency != null) {
-			System.out.println("Here " + worldName + ":" + currencyName + ":" + amount);
 			if (getBalance(worldName, currencyName) >= amount) {
 				result = true;
 			}
@@ -141,7 +176,7 @@ public class Account {
 	
 	/**
 	 * Returns the world that the player is currently in
-	 * @return
+	 * @return The world name that the player is currently in or any if he is not online/Multiworld system not enabled
 	 */
 	public String getWorldPlayerCurrentlyIn() {
 		String world = "any";

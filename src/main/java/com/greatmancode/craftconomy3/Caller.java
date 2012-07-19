@@ -10,4 +10,5 @@ public interface Caller {
 	public boolean isOnline(String playerName);
 	public String addColor(String message);
 	public boolean worldExist(String worldName);
+	public String getDefaultWorld();
 }

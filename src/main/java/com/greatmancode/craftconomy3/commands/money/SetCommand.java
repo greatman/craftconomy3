@@ -6,7 +6,7 @@ import com.greatmancode.craftconomy3.currency.Currency;
 import com.greatmancode.craftconomy3.currency.CurrencyManager;
 import com.greatmancode.craftconomy3.utils.Tools;
 
-public class TakeCommand implements CraftconomyCommand {
+public class SetCommand implements CraftconomyCommand {
 
 	@Override
 	public void execute(String sender, String[] args) {
@@ -14,7 +14,7 @@ public class TakeCommand implements CraftconomyCommand {
 			if (Tools.isValidDouble(args[1])) {
 				double amount = Double.parseDouble(args[1]);
 				Currency currency = Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.DefaultCurrencyID);
-				
+
 				if (args.length > 2) {
 					if (Common.getInstance().getCurrencyManager().getCurrency(args[2]) != null) {
 						currency = Common.getInstance().getCurrencyManager().getCurrency(args[2]);
@@ -58,7 +58,7 @@ public class TakeCommand implements CraftconomyCommand {
 
 	@Override
 	public String help() {
-		return "/money take <Player Name> <Amount> *<Currency> *<World> - take money from someone";
+		return "/money set <Player Name> <Amount> *<Currency> *<World> - take money from someone";
 	}
 
 	@Override

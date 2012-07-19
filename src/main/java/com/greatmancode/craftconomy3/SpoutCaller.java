@@ -50,4 +50,9 @@ public class SpoutCaller implements Caller{
 	public boolean worldExist(String worldName) {
 		return SpoutLoader.getInstance().getEngine().getWorld(worldName) != null;
 	}
+
+	@Override
+	public String getDefaultWorld() {
+		return SpoutLoader.getInstance().getEngine().getWorlds().iterator().next().getName();
+	}
 }
