@@ -22,7 +22,7 @@ public class BukkitCaller implements Caller{
 		Player p = BukkitLoader.getInstance().getServer().getPlayerExact(playerName);
 		if (p != null)
 		{
-			p.sendMessage(addColor("&a[&fMoney&a]&f" + message));
+			p.sendMessage(addColor(CHAT_PREFIX + message));
 		}
 	}
 
@@ -42,26 +42,31 @@ public class BukkitCaller implements Caller{
 
 	@Override
 	public String addColor(String str) {
-		    str = str.replace("&0", ChatColor.BLACK.toString());
-		    str = str.replace("&1", ChatColor.DARK_BLUE.toString());
-		    str = str.replace("&2", ChatColor.DARK_GREEN.toString());
-		    str = str.replace("&3", ChatColor.DARK_AQUA.toString());
-		    str = str.replace("&4", ChatColor.DARK_RED.toString());
-		    str = str.replace("&5", ChatColor.DARK_PURPLE.toString());
-		    str = str.replace("&6", ChatColor.GOLD.toString());
-		    str = str.replace("&7", ChatColor.GRAY.toString());
-		    str = str.replace("&8", ChatColor.DARK_GRAY.toString());
-		    str = str.replace("&9", ChatColor.BLUE.toString());
-		    str = str.replace("&a", ChatColor.GREEN.toString());
-		    str = str.replace("&b", ChatColor.AQUA.toString());
-		    str = str.replace("&c", ChatColor.RED.toString());
-		    str = str.replace("&d", ChatColor.LIGHT_PURPLE.toString());
-		    str = str.replace("&e", ChatColor.YELLOW.toString());
-		    str = str.replace("&f", ChatColor.WHITE.toString());
+		    str = str.replace("{{BLACK}}", ChatColor.BLACK.toString());
+		    str = str.replace("{{DARK_BLUE}}", ChatColor.DARK_BLUE.toString());
+		    str = str.replace("{{DARK_GREEN}}", ChatColor.DARK_GREEN.toString());
+		    str = str.replace("{{DARK_CYAN}}", ChatColor.DARK_AQUA.toString());
+		    str = str.replace("{{DARK_RED}}", ChatColor.DARK_RED.toString());
+		    str = str.replace("{{PURPLE}}", ChatColor.DARK_PURPLE.toString());
+		    str = str.replace("{{GOLD}}", ChatColor.GOLD.toString());
+		    str = str.replace("{{GRAY}}", ChatColor.GRAY.toString());
+		    str = str.replace("{{DARK_GRAY}}", ChatColor.DARK_GRAY.toString());
+		    str = str.replace("{{BLUE}}", ChatColor.BLUE.toString());
+		    str = str.replace("{{BRIGHT_GREEN}}", ChatColor.GREEN.toString());
+		    str = str.replace("{{CYAN}}", ChatColor.AQUA.toString());
+		    str = str.replace("{{RED}}", ChatColor.RED.toString());
+		    str = str.replace("{{PINK}}", ChatColor.LIGHT_PURPLE.toString());
+		    str = str.replace("{{YELLOW}}", ChatColor.YELLOW.toString());
+		    str = str.replace("{{WHITE}}", ChatColor.WHITE.toString());
 		    return str;
 	}
 	
 	public String getDefaultWorld() {
 		return BukkitLoader.getInstance().getServer().getWorlds().get(0).getName();
+	}
+
+	@Override
+	public boolean worldExist(String worldName) {
+		return BukkitLoader.getInstance().getServer().getWorld(worldName) != null;
 	}
 }

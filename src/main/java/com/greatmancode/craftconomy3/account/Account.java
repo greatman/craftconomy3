@@ -81,13 +81,12 @@ public class Account {
 	 * @return The new balance
 	 */
 	public double deposit(double amount, String world, String currencyName) {
-		double balance = 0.0;
+		BalanceTable balanceTable = null;
 		Currency currency = Common.getInstance().getCurrencyManager().getCurrency(currencyName);
 		if (currency != null) {
-			BalanceTable balanceTable = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal("username_id", account.id).and().equal("currency_id", currency.getDatabaseID()).and().equal("worldName", world).execute().findOne();
+			balanceTable = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal("username_id", account.id).and().equal("currency_id", currency.getDatabaseID()).and().equal("worldName", world).execute().findOne();
 			if (balanceTable != null) {
-				balance += amount;
-				balanceTable.balance = balance;
+				balanceTable.balance += amount;
 
 			} else {
 				balanceTable = new BalanceTable();
@@ -98,7 +97,7 @@ public class Account {
 			}
 			Common.getInstance().getDatabaseManager().getDatabase().save(balanceTable);
 		}
-		return balance;
+		return balanceTable.balance;
 	}
 
 	/**
@@ -109,13 +108,12 @@ public class Account {
 	 * @return The new balance
 	 */
 	public double withdraw(double amount, String world, String currencyName) {
-		double balance = 0.0;
+		BalanceTable balanceTable = null;
 		Currency currency = Common.getInstance().getCurrencyManager().getCurrency(currencyName);
 		if (currency != null) {
-			BalanceTable balanceTable = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal("username_id", account.id).and().equal("currency_id", currency.getDatabaseID()).and().equal("worldName", world).execute().findOne();
+			balanceTable = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal("username_id", account.id).and().equal("currency_id", currency.getDatabaseID()).and().equal("worldName", world).execute().findOne();
 			if (balanceTable != null) {
-				balance -= amount;
-				balanceTable.balance = balance;
+				balanceTable.balance -= amount;
 
 			} else {
 				balanceTable = new BalanceTable();
@@ -126,13 +124,14 @@ public class Account {
 			}
 			Common.getInstance().getDatabaseManager().getDatabase().save(balanceTable);
 		}
-		return balance;
+		return balanceTable.balance;
 	}
 
 	public boolean hasEnough(double amount, String worldName, String currencyName) {
 		boolean result = false;
 		Currency currency = Common.getInstance().getCurrencyManager().getCurrency(currencyName);
 		if (currency != null) {
+			System.out.println("Here " + worldName + ":" + currencyName + ":" + amount);
 			if (getBalance(worldName, currencyName) >= amount) {
 				result = true;
 			}

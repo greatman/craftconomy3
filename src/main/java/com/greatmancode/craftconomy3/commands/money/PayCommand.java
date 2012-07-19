@@ -10,35 +10,34 @@ public class PayCommand implements CraftconomyCommand {
 	@Override
 	public void execute(String sender, String[] args) {
 		if (Common.getInstance().getServerCaller().isOnline(args[0])) {
-			System.out.println("ARGS SIZE " + args.length);
-			if (Tools.isdouble(args[1])) {
+			if (Tools.isValidDouble(args[1])) {
 				double amount = Double.parseDouble(args[1]);
 				boolean hasEnough = false;
 				Currency currency = Common.getInstance().getCurrencyManager().getCurrency(Common.getInstance().getConfigurationManager().getConfig().getString("System.Default.Currency.Name"));
-				
+
 				if (args.length > 2) {
 					if (Common.getInstance().getCurrencyManager().getCurrency(args[2]) != null) {
 						currency = Common.getInstance().getCurrencyManager().getCurrency(args[2]);
 					} else {
-						Common.getInstance().getServerCaller().sendMessage(sender, "&4That currency doesn't exist!");
+						Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}That currency doesn't exist!");
 						return;
 					}
 				}
-				hasEnough = Common.getInstance().getAccountHandler().getAccount(sender).hasEnough(amount, Common.getInstance().getServerCaller().getPlayerWorld(sender), currency.getName());
+				hasEnough = Common.getInstance().getAccountHandler().getAccount(sender).hasEnough(amount, Common.getInstance().getAccountHandler().getAccount(sender).getWorldPlayerCurrentlyIn(), currency.getName());
 
 				if (hasEnough) {
-					Common.getInstance().getAccountHandler().getAccount(sender).withdraw(amount, Common.getInstance().getServerCaller().getPlayerWorld(sender), currency.getName());
-					Common.getInstance().getAccountHandler().getAccount(args[0]).deposit(amount, Common.getInstance().getServerCaller().getPlayerWorld(sender), currency.getName());
-					Common.getInstance().getServerCaller().sendMessage(sender, "&2Sent &f" + Common.getInstance().format(null, currency, amount) + "&2 to &f" + args[0]);
-					Common.getInstance().getServerCaller().sendMessage(sender, "&2Received &f" + Common.getInstance().format(null, currency, amount) + "&2 from &f" + sender);
+					Common.getInstance().getAccountHandler().getAccount(sender).withdraw(amount, Common.getInstance().getAccountHandler().getAccount(sender).getWorldPlayerCurrentlyIn(), currency.getName());
+					Common.getInstance().getAccountHandler().getAccount(args[0]).deposit(amount, Common.getInstance().getAccountHandler().getAccount(sender).getWorldPlayerCurrentlyIn(), currency.getName());
+					Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Sent {{WHITE}}" + Common.getInstance().format(null, currency, amount) + "{{DARK_GREEN}} to {{WHITE}}" + args[0]);
+					Common.getInstance().getServerCaller().sendMessage(args[0], "{{DARK_GREEN}}Received {{WHITE}}" + Common.getInstance().format(null, currency, amount) + "{{DARK_GREEN}} from {{WHITE}}" + sender);
 				} else {
-					Common.getInstance().getServerCaller().sendMessage(sender, "&4 You don't have enough money!");
+					Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}} You don't have enough money!");
 				}
 			} else {
-				Common.getInstance().getServerCaller().sendMessage(sender, "&4Excepted Double as Amount. Received something else!");
+				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Excepted a positive number as Amount. Received something else!");
 			}
 		} else {
-			Common.getInstance().getServerCaller().sendMessage(sender, "&4The player isin't online!");
+			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}The player isin't online!");
 		}
 	}
 

@@ -11,7 +11,7 @@ public class MainCommand implements CraftconomyCommand {
 
 	@Override
 	public void execute(String sender, String[] args) {
-		Common.getInstance().getServerCaller().sendMessage(sender, "Balance: ");
+		Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Balance: ");
 		Account account = Common.getInstance().getAccountHandler().getAccount(sender);
 		Iterator<Balance> balanceList = account.getAllWorldBalance(account.getWorldPlayerCurrentlyIn()).iterator();
 		while (balanceList.hasNext())

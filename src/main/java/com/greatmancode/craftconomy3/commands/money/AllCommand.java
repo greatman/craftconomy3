@@ -11,7 +11,7 @@ public class AllCommand implements CraftconomyCommand {
 
 	@Override
 	public void execute(String sender, String[] args) {
-		// TODO Auto-generated method stub
+		Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Balance: ");
 		Account account = Common.getInstance().getAccountHandler().getAccount(sender);
 		Iterator<Balance> balanceList = account.getAllBalance().iterator();
 		while(balanceList.hasNext())

@@ -2,40 +2,47 @@ package com.greatmancode.craftconomy3.utils;
 
 public class Tools {
 
-	public static boolean isInteger(String number)
-	{
+	public static boolean isInteger(String number) {
 		boolean result = false;
-		try
-		{
+		try {
 			Integer.parseInt(number);
 			result = true;
+		} catch (NumberFormatException e) {
 		}
-		catch (NumberFormatException e){}
 		return result;
 	}
-	
-	public static boolean isLong(String number)
-	{
+
+	public static boolean isLong(String number) {
 		boolean result = false;
-		try
-		{
+		try {
 			Long.parseLong(number);
 			result = true;
+		} catch (NumberFormatException e) {
 		}
-		catch (NumberFormatException e){}
 		return result;
 	}
-	
-	public static boolean isdouble(String number)
-	{
-		System.out.println("RECEIVED " + number);
+
+	public static boolean isDouble(String number) {
 		boolean result = false;
-		try
-		{
+		try {
 			Double.parseDouble(number);
 			result = true;
+		} catch (NumberFormatException e) {
 		}
-		catch (NumberFormatException e){}
 		return result;
+	}
+
+	public static boolean isValidDouble(String number) {
+		boolean valid = false;
+		if (isDouble(number)) {
+			if (isPositive(Double.parseDouble(number))) {
+				valid = true;
+			}
+		}
+		return valid;
+	}
+
+	public static boolean isPositive(double number) {
+		return number > 0.00;
 	}
 }

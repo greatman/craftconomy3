@@ -12,6 +12,8 @@ public class BukkitCommandManager implements CommandExecutor, CommandLoader {
 
 	@Override
 	public boolean onCommand(CommandSender commandSender, Command command, String commandLabel, String[] args) {
+
+		// TODO: Better way to handle no args.
 		if (command.getName().equals("money")) {
 			if (args.length == 0) {
 				if (Common.getInstance().getCommandManager().getMoneyCmdList().get("").playerOnly()) {
@@ -20,8 +22,14 @@ public class BukkitCommandManager implements CommandExecutor, CommandLoader {
 						return true;
 					}
 				}
-				Common.getInstance().getCommandManager().getMoneyCmdList().get("").execute(commandSender.getName(), args);
-				return true;
+				if (!(commandSender instanceof Player) || Common.getInstance().getCommandManager().getMoneyCmdList().get("").permission(commandSender.getName())) {
+					Common.getInstance().getCommandManager().getMoneyCmdList().get("").execute(commandSender.getName(), args);
+					return true;
+				} else {
+					commandSender.sendMessage(ChatColor.RED + "You don't have enough permissions!");
+					return true;
+				}
+
 			}
 
 			if (Common.getInstance().getCommandManager().getMoneyCmdList().containsKey(args[0])) {
