@@ -30,7 +30,7 @@ public class SpoutCommandManager implements CommandExecutor, CommandLoader {
 					}
 				}
 				if (!(source instanceof Player) || Common.getInstance().getCommandManager().getMoneyCmdList().get("").permission(source.getName())) {
-					Common.getInstance().getCommandManager().getMoneyCmdList().get("").execute(source.getName(), args.getRawArgs());
+					Common.getInstance().getCommandManager().getMoneyCmdList().get("").execute(source.getName(), new String[] {});
 					return true;
 				} else {
 					source.sendMessage(ChatArguments.fromString("{{DARK_RED}}Not enough permissions!"));

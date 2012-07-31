@@ -153,6 +153,36 @@ public class Account {
 	}
 
 	/**
+	 * set a certain amount of money in the account
+	 * @param amount The amount of money to set
+	 * @param world The World we want to set money to
+	 * @param currencyName The currency we want to set money to
+	 * @return The new balance
+	 */
+	public double set(double amount, String world, String currencyName) {
+		BalanceTable balanceTable = null;
+		if (!Common.getInstance().getConfigurationManager().getConfig().getBoolean("System.Default.Currency.MultiWorld"))
+		{
+			world = "any";
+		}
+		Currency currency = Common.getInstance().getCurrencyManager().getCurrency(currencyName);
+		if (currency != null) {
+			balanceTable = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal("username_id", account.id).and().equal("currency_id", currency.getDatabaseID()).and().equal("worldName", world).execute().findOne();
+			if (balanceTable != null) {
+				balanceTable.balance = amount;
+
+			} else {
+				balanceTable = new BalanceTable();
+				balanceTable.currency_id = currency.getDatabaseID();
+				balanceTable.username_id = account.id;
+				balanceTable.worldName = world;
+				balanceTable.balance = amount;
+			}
+			Common.getInstance().getDatabaseManager().getDatabase().save(balanceTable);
+		}
+		return balanceTable.balance;
+	}
+	/**
 	 * Checks if we have enough money in a certain balance
 	 * @param amount The amount of money to check
 	 * @param worldName The World we want to check

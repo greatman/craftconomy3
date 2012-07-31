@@ -14,6 +14,10 @@ public class CommandManager {
 		moneyCmdList.put("", new MainCommand());
 		moneyCmdList.put("all", new AllCommand());
 		moneyCmdList.put("pay", new PayCommand());
+		moneyCmdList.put("give", new GiveCommand());
+		moneyCmdList.put("take", new TakeCommand());
+		moneyCmdList.put("set", new SetCommand());
+		moneyCmdList.put("delete", new DeleteCommand());
 		if (Common.isBukkit()) {
 		}
 		else

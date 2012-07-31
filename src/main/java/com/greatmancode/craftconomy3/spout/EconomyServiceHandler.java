@@ -54,4 +54,20 @@ public class EconomyServiceHandler extends EconomyService {
 		return 2;
 	}
 
+	@Override
+	public String getCurrencySymbol() {
+		return null;
+	}
+
+	@Override
+	public String format(double amount) {
+		// TODO Auto-generated method stub
+		return Common.getInstance().format(Common.getInstance().getServerCaller().getDefaultWorld(), Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.DefaultCurrencyID), amount);
+	}
+
+	@Override
+	public String formatShort(double amount) {
+		return format(amount);
+	}
+
 }
