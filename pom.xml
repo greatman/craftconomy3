@@ -4,7 +4,7 @@
 	<groupId>com.greatmancode</groupId>
 	<artifactId>craftconomy3</artifactId>
 	<version>3.0.0-SNAPSHOT</version>
-
+	<inceptionYear>2011</inceptionYear>
 	<name>Craftconomy3</name>
 	<url>https://github.com/greatman/Craftconomy3</url>
 	<description>Economy Handler for Bukkit/Spout</description>
@@ -16,6 +16,12 @@
 		<url>https://github.com/greatman/craftconomy3</url>
 	</scm>
 
+
+	<!-- Organization -->
+	<organization>
+		<name>Greatman</name>
+		<url>http://github.com/greatman</url>
+	</organization>
 	<!-- Continuous integration -->
 	<ciManagement>
 		<system>jenkins</system>
@@ -25,7 +31,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<spoutVersion>dev-SNAPSHOT</spoutVersion>
-		<bukkitVersion>1.2.5-R4.0</bukkitVersion>
+		<bukkitVersion>1.2.5-R5.0</bukkitVersion>
 	</properties>
 
 	<repositories>
@@ -163,7 +169,7 @@
 					</execution>
 				</executions>
 				<configuration>
-					<quiet>true</quiet>
+					<quiet>false</quiet>
 					<encoding>UTF-8</encoding>
 					<strictCheck>true</strictCheck>
 					<header>${basedir}/HEADER.txt</header>
@@ -177,8 +183,7 @@
 					<properties>
 						<name>${project.name}</name>
 						<url>${project.organization.url}</url>
-						<copyright>Copyright (c) ${project.inceptionYear}-2012,
-							${project.organization.name}</copyright>
+						<copyright>Copyright (c) ${project.inceptionYear}-2012, ${project.organization.name}</copyright>
 					</properties>
 					<includes>
 						<include>src/main/java/**</include>
