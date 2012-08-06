@@ -51,7 +51,7 @@ public class SpoutCaller implements Caller{
 		Player p = SpoutLoader.getInstance().getEngine().getPlayer(playerName, true);
 		if (p != null)
 		{
-			worldName = p.getEntity().getWorld().getName();
+			worldName = p.getWorld().getName();
 		}
 		return worldName;
 	}
