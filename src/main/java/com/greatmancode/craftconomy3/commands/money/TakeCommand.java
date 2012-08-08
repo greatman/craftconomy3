@@ -76,7 +76,7 @@ public class TakeCommand implements CraftconomyCommand {
 
 	@Override
 	public String help() {
-		return "/money take <Player Name> <Amount> *<Currency> *<World> - take money from someone";
+		return "/money take <Player Name> <Amount> [Currency] [World] - take money from someone";
 	}
 
 	@Override

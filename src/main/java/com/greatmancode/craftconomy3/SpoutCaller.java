@@ -18,6 +18,8 @@
  */
 package com.greatmancode.craftconomy3;
 
+import java.io.File;
+
 import org.spout.api.chat.ChatArguments;
 import org.spout.api.player.Player;
 
@@ -72,5 +74,10 @@ public class SpoutCaller implements Caller{
 	@Override
 	public String getDefaultWorld() {
 		return SpoutLoader.getInstance().getEngine().getWorlds().iterator().next().getName();
+	}
+
+	@Override
+	public File getDataFolder() {
+		return SpoutLoader.getInstance().getDataFolder();
 	}
 }

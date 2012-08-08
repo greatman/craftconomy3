@@ -79,7 +79,6 @@ public class EconomyServiceHandler extends EconomyService {
 
 	@Override
 	public String format(double amount) {
-		// TODO Auto-generated method stub
 		return Common.getInstance().format(Common.getInstance().getServerCaller().getDefaultWorld(), Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.DefaultCurrencyID), amount);
 	}
 

@@ -76,7 +76,7 @@ public class SetCommand implements CraftconomyCommand {
 
 	@Override
 	public String help() {
-		return "/money set <Player Name> <Amount> *<Currency> *<World> - take money from someone";
+		return "/money set <Player Name> <Amount> [Currency] [World] - take money from someone";
 	}
 
 	@Override

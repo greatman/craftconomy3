@@ -75,7 +75,7 @@ public class GiveCommand implements CraftconomyCommand {
 
 	@Override
 	public String help() {
-		return "/money give <Player Name> <Amount> *<Currency> *<World> - Give money to someone";
+		return "/money give <Player Name> <Amount> [Currency] [World] - Give money to someone";
 	}
 
 	@Override

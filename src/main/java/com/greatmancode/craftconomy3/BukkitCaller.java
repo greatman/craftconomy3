@@ -18,6 +18,8 @@
  */
 package com.greatmancode.craftconomy3;
 
+import java.io.File;
+
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
@@ -87,4 +89,11 @@ public class BukkitCaller implements Caller{
 	public boolean worldExist(String worldName) {
 		return BukkitLoader.getInstance().getServer().getWorld(worldName) != null;
 	}
+
+	@Override
+	public File getDataFolder() {
+		return BukkitLoader.getInstance().getDataFolder();
+	}
+	
+	
 }

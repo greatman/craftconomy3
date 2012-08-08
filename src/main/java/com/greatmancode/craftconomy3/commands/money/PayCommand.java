@@ -66,7 +66,7 @@ public class PayCommand implements CraftconomyCommand {
 
 	@Override
 	public String help() {
-		return "/money pay <Player Name> <Amount> *<Currency> - Send money to someone";
+		return "/money pay <Player Name> <Amount> [Currency] - Send money to someone";
 	}
 
 	@Override

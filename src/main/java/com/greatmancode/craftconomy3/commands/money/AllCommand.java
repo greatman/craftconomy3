@@ -42,13 +42,11 @@ public class AllCommand implements CraftconomyCommand {
 
 	@Override
 	public boolean permission(String sender) {
-		// TODO Auto-generated method stub
 		return Common.getInstance().getServerCaller().checkPermission(sender, "craftconomy.money.balance");
 	}
 
 	@Override
 	public String help() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

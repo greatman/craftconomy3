@@ -16,20 +16,17 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Craftconomy3.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.greatmancode.craftconomy3;
+package com.greatmancode.craftconomy3.database.tables.iconomy;
 
-import java.io.File;
+import com.alta189.simplesave.Field;
+import com.alta189.simplesave.Table;
 
-public interface Caller {
+@Table("iconomy")
+public class iConomyTable {
 
-	public static final String CHAT_PREFIX = "{{DARK_GREEN}}[{{WHITE}}Money{{DARK_GREEN}}]{{WHITE}} ";
-	public void disablePlugin();
-	public boolean checkPermission(String playerName, String perm);
-	public void sendMessage(String playerName, String message);
-	public String getPlayerWorld(String playerName);
-	public boolean isOnline(String playerName);
-	public String addColor(String message);
-	public boolean worldExist(String worldName);
-	public String getDefaultWorld();
-	public File getDataFolder();
+	@Field
+	public String username;
+	
+	@Field
+	public double balance;
 }

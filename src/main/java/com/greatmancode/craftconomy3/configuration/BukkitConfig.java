@@ -54,7 +54,6 @@ public class BukkitConfig extends Config {
 	}
 	@Override
 	public boolean getBoolean(String path) {
-		// TODO Auto-generated method stub
 		return BukkitLoader.getInstance().getConfig().getBoolean(path);
 	}
 

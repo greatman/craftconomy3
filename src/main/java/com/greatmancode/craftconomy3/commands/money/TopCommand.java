@@ -16,36 +16,41 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Craftconomy3.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.greatmancode.craftconomy3.account;
-
-import java.util.HashMap;
+package com.greatmancode.craftconomy3.commands.money;
 
 import com.greatmancode.craftconomy3.Common;
-import com.greatmancode.craftconomy3.database.tables.AccountTable;
+import com.greatmancode.craftconomy3.commands.CraftconomyCommand;
 
-public class AccountHandler {
-	public HashMap<String, Account> accountList = new HashMap<String, Account>();
+public class TopCommand implements CraftconomyCommand {
 
-	public Account getAccount(String name) {
-		name = name.toLowerCase();
-		Account account = null;
-		if (accountList.containsKey(name)) {
-			account = accountList.get(name);
-		} else {
-			account = new Account(name);
-			accountList.put(name, account);
-			
-		}
-		return account;
+	@Override
+	public void execute(String sender, String[] args) {
+		
 	}
-	
-	/**
-	 * Check if a account exist in the database.
-	 * @param name The name to check
-	 */
-	public boolean exist(String name) {
-		return Common.getInstance().getDatabaseManager().getDatabase().select(AccountTable.class).where().contains("name", name).execute().findOne() != null;
+
+	@Override
+	public boolean permission(String sender) {
+		return Common.getInstance().getServerCaller().checkPermission(sender, "craftconomy.money.top");
 	}
-	
-	
+
+	@Override
+	public String help() {
+		return "/money top <Currency> [World] - Shows the top list"; 
+	}
+
+	@Override
+	public int maxArgs() {
+		return 2;
+	}
+
+	@Override
+	public int minArgs() {
+		return 1;
+	}
+
+	@Override
+	public boolean playerOnly() {
+		return false;
+	}
+
 }
