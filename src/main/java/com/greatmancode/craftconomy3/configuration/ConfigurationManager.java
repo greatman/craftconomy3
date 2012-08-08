@@ -20,9 +20,7 @@ package com.greatmancode.craftconomy3.configuration;
 
 import java.io.File;
 
-import com.greatmancode.craftconomy3.BukkitLoader;
 import com.greatmancode.craftconomy3.Common;
-import com.greatmancode.craftconomy3.SpoutLoader;
 
 public class ConfigurationManager {
 
@@ -36,11 +34,11 @@ public class ConfigurationManager {
 	}
 
 	public void initialize() {
+		dataFolder = Common.getInstance().getServerCaller().getDataFolder();
 		if (Common.isBukkit()) {
-			dataFolder = BukkitLoader.getInstance().getDataFolder();
+			
 			config = new BukkitConfig();
 		} else {
-			dataFolder = SpoutLoader.getInstance().getDataFolder();
 			config = new SpoutConfig();
 		}
 	}
