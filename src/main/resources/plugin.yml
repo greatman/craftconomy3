@@ -1,6 +1,6 @@
 name: Craftconomy
 main: com.greatmancode.craftconomy3.BukkitLoader
-version: ${releaseVersion} b${BUILD_NUMBER}
+version: ${version} b${BUILD_NUMBER}
 author: Greatman
 softdepend: [Spout]
 commands:
