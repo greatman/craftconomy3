@@ -36,7 +36,7 @@ public class CreateCommand implements CraftconomyCommand {
 
 	@Override
 	public boolean permission(String sender) {
-		return Common.getInstance().getServerCaller().checkPermission(sender, "craftconomy.money.create");
+		return Common.getInstance().getServerCaller().checkPermission(sender, "craftconomy.account.create");
 	}
 
 	@Override

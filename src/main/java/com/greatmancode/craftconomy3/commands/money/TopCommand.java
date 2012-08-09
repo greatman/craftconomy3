@@ -20,12 +20,14 @@ package com.greatmancode.craftconomy3.commands.money;
 
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.commands.CraftconomyCommand;
+import com.greatmancode.craftconomy3.database.tables.BalanceTable;
 
 public class TopCommand implements CraftconomyCommand {
 
 	@Override
 	public void execute(String sender, String[] args) {
 		
+		//TODO: Need alta to add a orderQuery
 	}
 
 	@Override

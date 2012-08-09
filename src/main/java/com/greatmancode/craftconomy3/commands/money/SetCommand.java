@@ -71,7 +71,7 @@ public class SetCommand implements CraftconomyCommand {
 
 	@Override
 	public boolean permission(String sender) {
-		return Common.getInstance().getServerCaller().checkPermission(sender, "craftconomy.money.take");
+		return Common.getInstance().getServerCaller().checkPermission(sender, "craftconomy.money.set");
 	}
 
 	@Override

@@ -14,23 +14,22 @@ System:
 
   Bank:
     Price: 50
+    Interest:
+      # Enables the interest system
+      Enabled: false
+      # The interval of the system - in seconds
+      # 60 => 1 minute
+      Interval: 60
+      # The currencys which shall get interest
+      Currencys: [A,B]
+      # Which currency shall gain what Percentage
+      Percentage: [1,2]
+      # The maximum amount of each currency, more a user
+      # can't reach through interest
+      EndMax: [1000, 1000]
     
   PayDay:
     Enabled: []
-
-  Interest:
-    # Enables the interest system
-    Enabled: false
-    # The interval of the system - in seconds
-    # 60 => 1 minute
-    Interval: 60
-    # The currencys which shall get interest
-    Currencys: [A,B]
-    # Which currency shall gain what Percentage
-    Percentage: [1,2]
-    # The maximum amount of each currency, more a user
-    # can't reach through interest
-    EndMax: [1000, 1000]
     
   # Logs all monetary transactions passed through CraftConomy (NOT WORKING)
   Logging:
@@ -39,7 +38,6 @@ System:
   Convert:
     Enabled: false
     Type: iconomy
-    TableName: iConomy
     DatabaseType: mysql
     Address: localhost
     Port: 3306
@@ -56,19 +54,6 @@ System:
     # sqlite
     #  - These will attempt to create & connect to SQLite
     Type: 'sqlite'
-
-    # The table used for the accounts
-    AccountTable: 'Account'
-    BalanceTable: 'Balance'
-    
-    # The table used for the bank
-    BankTable: 'Bank'
-    BankBalanceTable: 'BankBalance'
-    BankMemberTable: 'BankMember'
-    
-    # The table used for currency
-    CurrencyTable: 'Currency'
-    CurrencyExchangeTable: 'CurrencyExchange'    
     
     #Modify if using MySQL
     Address: 'localhost'
@@ -76,5 +61,3 @@ System:
     Username: 'root'
     Password: ''
     Db: 'Craftconomy'
-  Debug:
-    fixName: false

@@ -47,7 +47,7 @@ public class AllCommand implements CraftconomyCommand {
 
 	@Override
 	public String help() {
-		return null;
+		return "/money all - Display your balance on all the worlds";
 	}
 
 	@Override
