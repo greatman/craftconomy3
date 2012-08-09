@@ -1,4 +1,4 @@
-name: ${project.name}
+name: Craftconomy
 version: ${releaseVersion} b${buildNumber}
 description: ${project.description}
 author: [ Greatman ]

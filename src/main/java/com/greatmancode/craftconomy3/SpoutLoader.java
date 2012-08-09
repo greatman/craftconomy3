@@ -18,11 +18,14 @@
  */
 package com.greatmancode.craftconomy3;
 
+import java.io.IOException;
+
 import org.spout.api.plugin.CommonPlugin;
 import org.spout.api.plugin.ServiceManager.ServicePriority;
 import org.spout.api.plugin.services.EconomyService;
 
 import com.greatmancode.craftconomy3.spout.EconomyServiceHandler;
+import com.greatmancode.craftconomy3.utils.MetricsSpout;
 
 public class SpoutLoader extends CommonPlugin {
 
@@ -32,6 +35,13 @@ public class SpoutLoader extends CommonPlugin {
 		instance = this;
 		new Common(false, getLogger()).initialize();
 		getEngine().getServiceManager().register(EconomyService.class, new EconomyServiceHandler(), this, ServicePriority.Normal);
+		
+		try {
+			new MetricsSpout(this).start();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override

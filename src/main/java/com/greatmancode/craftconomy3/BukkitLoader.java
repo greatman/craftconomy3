@@ -18,9 +18,12 @@
  */
 package com.greatmancode.craftconomy3;
 
+import java.io.IOException;
+
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.greatmancode.craftconomy3.commands.BukkitCommandManager;
+import com.greatmancode.craftconomy3.utils.MetricsBukkit;
 
 public class BukkitLoader extends JavaPlugin {
 
@@ -29,6 +32,13 @@ public class BukkitLoader extends JavaPlugin {
 		instance = this;
 		new Common(true,getLogger()).initialize();
 		this.getCommand("money").setExecutor(new BukkitCommandManager());
+		
+		try {
+			new MetricsBukkit(this).start();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public void onDisable() {
