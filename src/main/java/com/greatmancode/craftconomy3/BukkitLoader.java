@@ -36,7 +36,6 @@ public class BukkitLoader extends JavaPlugin {
 		try {
 			new MetricsBukkit(this).start();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

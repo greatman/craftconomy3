@@ -36,6 +36,9 @@ public class SpoutCaller implements Caller{
 		if (p != null)
 		{
 			result = p.hasPermission(perm);
+		} else {
+			//It's the console
+			result = true;
 		}
 		return result;
 		
