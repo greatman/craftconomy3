@@ -26,7 +26,12 @@ import org.bukkit.entity.Player;
 
 import com.greatmancode.craftconomy3.Common;
 
-public class BukkitCommandManager implements CommandExecutor, CommandLoader {
+/**
+ * Handles the commands for the Bukkit server
+ * @author greatman
+ *
+ */
+public class BukkitCommandManager implements CommandExecutor, CommandManager {
 
 	@Override
 	public boolean onCommand(CommandSender commandSender, Command command, String commandLabel, String[] args) {

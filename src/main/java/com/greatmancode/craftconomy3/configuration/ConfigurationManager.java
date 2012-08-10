@@ -22,11 +22,14 @@ import java.io.File;
 
 import com.greatmancode.craftconomy3.Common;
 
+/**
+ * Configuration Loader. Load the configuration with the Server configuration manager.
+ * @author greatman
+ *
+ */
 public class ConfigurationManager {
 
 	private Config config = null;
-
-	private File dataFolder = null;
 	
 	public ConfigurationManager() {
 		
@@ -34,7 +37,6 @@ public class ConfigurationManager {
 	}
 
 	public void initialize() {
-		dataFolder = Common.getInstance().getServerCaller().getDataFolder();
 		if (Common.isBukkit()) {
 			
 			config = new BukkitConfig();
@@ -42,11 +44,13 @@ public class ConfigurationManager {
 			config = new SpoutConfig();
 		}
 	}
+	
+	/**
+	 * Retrieve the configuration handler
+	 * @return The configuration handler.
+	 */
 	public Config getConfig() {
 		return config;
 	}
-	
-	public File getDataFolder() {
-		return dataFolder;
-	}
+
 }

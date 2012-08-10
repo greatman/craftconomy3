@@ -35,7 +35,7 @@ import com.alta189.simplesave.exceptions.TableRegistrationException;
 import com.alta189.simplesave.mysql.MySQLConfiguration;
 import com.alta189.simplesave.sqlite.SQLiteConfiguration;
 import com.greatmancode.craftconomy3.account.AccountManager;
-import com.greatmancode.craftconomy3.commands.CommandManager;
+import com.greatmancode.craftconomy3.commands.CommandLoader;
 import com.greatmancode.craftconomy3.configuration.ConfigurationManager;
 import com.greatmancode.craftconomy3.currency.Currency;
 import com.greatmancode.craftconomy3.currency.CurrencyManager;
@@ -59,7 +59,7 @@ public class Common {
 	private CurrencyManager currencyManager = null;
 
 	private DatabaseManager dbManager = null;
-	private CommandManager commandManager;
+	private CommandLoader commandManager;
 	private Caller serverCaller;
 
 	public Common(boolean isBukkit, Logger log) {
@@ -92,7 +92,7 @@ public class Common {
 		accountManager = new AccountManager();
 
 		sendConsoleMessage(Level.INFO, "Loading commands");
-		commandManager = new CommandManager();
+		commandManager = new CommandLoader();
 
 		// We check if we want to convert
 		if (config.getConfig().getBoolean("System.Convert.Enabled")) {
@@ -142,7 +142,7 @@ public class Common {
 						config.setPort(Common.getInstance().getConfigurationManager().getConfig().getInt("System.Convert.Port"));
 						db = DatabaseFactory.createNewDatabase(config);
 					} else {
-						SQLiteConfiguration config = new SQLiteConfiguration(Common.getInstance().getConfigurationManager().getDataFolder() + File.separator + getConfigurationManager().getConfig().getString("System.Convert.Address"));
+						SQLiteConfiguration config = new SQLiteConfiguration(Common.getInstance().getServerCaller().getDataFolder() + File.separator + getConfigurationManager().getConfig().getString("System.Convert.Address"));
 						db = DatabaseFactory.createNewDatabase(config);
 					}
 
@@ -173,6 +173,15 @@ public class Common {
 		sendConsoleMessage(Level.INFO, "Loaded!");
 	}
 
+	public void disable() {
+		try {
+			Common.getInstance().getDatabaseManager().getDatabase().close();
+		} catch (ConnectionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	public static boolean isBukkit() {
 		return isBukkit;
 	}
@@ -205,7 +214,7 @@ public class Common {
 		return currencyManager;
 	}
 
-	public CommandManager getCommandManager() {
+	public CommandLoader getCommandManager() {
 		return commandManager;
 	}
 

@@ -24,8 +24,16 @@ import java.util.Iterator;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.database.tables.CurrencyTable;
 
+/**
+ * Currency Handler
+ * @author greatman
+ *
+ */
 public class CurrencyManager {
 
+	/**
+	 * The default currency database ID
+	 */
 	public static int DefaultCurrencyID;
 			
 	private HashMap<Integer, Currency> currencyList = new HashMap<Integer,Currency>();
@@ -65,9 +73,9 @@ public class CurrencyManager {
 		return result;
 	}
 	/**
-	 * 
-	 * @param name
-	 * @return
+	 * Get a currency
+	 * @param name The name of the currency
+	 * @return A currency instance if the currency is found else null
 	 */
 	public Currency getCurrency(String name) {
 		Currency result = null;

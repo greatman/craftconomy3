@@ -23,9 +23,19 @@ import java.util.HashMap;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.database.tables.AccountTable;
 
+/**
+ * Provides access to a account.
+ * @author greatman
+ *
+ */
 public class AccountManager {
 	public HashMap<String, Account> accountList = new HashMap<String, Account>();
 
+	/**
+	 * Retrieve a account. Accounts prefixed with bank: are bank accounts.
+	 * @param name The name of the account to retrieve
+	 * @return A economy account
+	 */
 	public Account getAccount(String name) {
 		name = name.toLowerCase();
 		Account account = null;

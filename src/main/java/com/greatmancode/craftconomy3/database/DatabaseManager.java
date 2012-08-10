@@ -31,6 +31,11 @@ import com.greatmancode.craftconomy3.database.tables.AccountTable;
 import com.greatmancode.craftconomy3.database.tables.BalanceTable;
 import com.greatmancode.craftconomy3.database.tables.CurrencyTable;
 
+/**
+ * Handle the database link.
+ * @author greatman
+ *
+ */
 public class DatabaseManager {
 
 	private Database db = null;
@@ -38,7 +43,7 @@ public class DatabaseManager {
 	public DatabaseManager() throws Exception {
 		String databasetype = Common.getInstance().getConfigurationManager().getConfig().getString("System.Database.Type");
 		if (databasetype.equals("sqlite")) {
-			SQLiteConfiguration config = new SQLiteConfiguration(Common.getInstance().getConfigurationManager().getDataFolder() + File.separator + "database.db");
+			SQLiteConfiguration config = new SQLiteConfiguration(Common.getInstance().getServerCaller().getDataFolder() + File.separator + "database.db");
 			db = DatabaseFactory.createNewDatabase(config);
 		} else if (databasetype.equals("mysql")) {
 			MySQLConfiguration config = new MySQLConfiguration();
@@ -58,6 +63,10 @@ public class DatabaseManager {
 		db.connect();
 	}
 
+	/**
+	 * Retrieve the database
+	 * @return The Database link.
+	 */
 	public Database getDatabase() {
 		return db;
 	}

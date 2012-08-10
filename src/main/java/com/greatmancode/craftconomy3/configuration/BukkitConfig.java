@@ -26,7 +26,7 @@ import com.greatmancode.craftconomy3.Common;
 public class BukkitConfig extends Config {
 
 	public BukkitConfig() {
-		File file = new File(Common.getInstance().getConfigurationManager().getDataFolder(), "config.yml");
+		File file = new File(Common.getInstance().getServerCaller().getDataFolder(), "config.yml");
 		if (!file.exists())
 		{
 			BukkitLoader.getInstance().getConfig().options().copyDefaults(true);

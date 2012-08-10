@@ -26,15 +26,15 @@ import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.database.tables.AccessTable;
 
 /**
- * Used with bank accounts
+ * Used with bank accounts. Takes care of the access control of a bank account.
  * @author greatman
  *
  */
 public class AccountACL {
 
-	//<Player Name, Access or not>
 	private HashMap<String, AccountACLValue> aclList = new HashMap<String,AccountACLValue>();
 	private Account account;
+	
 	public AccountACL(Account account, int accountID) {
 		this.account = account;
 		List<AccessTable> aclTable = Common.getInstance().getDatabaseManager().getDatabase().select(AccessTable.class).where().equal("account_id", accountID).execute().find();

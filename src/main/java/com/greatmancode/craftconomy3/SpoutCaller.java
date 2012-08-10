@@ -24,6 +24,11 @@ import java.util.logging.Level;
 import org.spout.api.chat.ChatArguments;
 import org.spout.api.player.Player;
 
+/**
+ * Server caller for Spout
+ * @author greatman
+ *
+ */
 public class SpoutCaller implements Caller{
 
 	public void disablePlugin() {

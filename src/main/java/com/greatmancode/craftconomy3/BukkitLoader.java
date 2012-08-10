@@ -25,6 +25,11 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.greatmancode.craftconomy3.commands.BukkitCommandManager;
 import com.greatmancode.craftconomy3.utils.MetricsBukkit;
 
+/**
+ * Class used when the plugin is loaded from Craftbukkit
+ * @author greatman
+ *
+ */
 public class BukkitLoader extends JavaPlugin {
 
 	private static BukkitLoader instance = null;
@@ -41,7 +46,7 @@ public class BukkitLoader extends JavaPlugin {
 	}
 	
 	public void onDisable() {
-		
+		Common.getInstance().disable();
 	}
 	
 	public static BukkitLoader getInstance() {

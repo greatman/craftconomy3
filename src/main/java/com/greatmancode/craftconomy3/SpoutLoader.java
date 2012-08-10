@@ -27,6 +27,11 @@ import org.spout.api.plugin.services.EconomyService;
 import com.greatmancode.craftconomy3.spout.EconomyServiceHandler;
 import com.greatmancode.craftconomy3.utils.MetricsSpout;
 
+/**
+ * Class used when the plugin is loaded from Spout.
+ * @author greatman
+ *
+ */
 public class SpoutLoader extends CommonPlugin {
 
 	private static SpoutLoader instance = null;
@@ -45,7 +50,7 @@ public class SpoutLoader extends CommonPlugin {
 
 	@Override
 	public void onDisable() {
-
+		Common.getInstance().disable();
 	}
 	
 	public static SpoutLoader getInstance() {

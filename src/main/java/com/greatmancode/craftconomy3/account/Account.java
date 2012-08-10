@@ -28,12 +28,21 @@ import com.greatmancode.craftconomy3.currency.CurrencyManager;
 import com.greatmancode.craftconomy3.database.tables.AccountTable;
 import com.greatmancode.craftconomy3.database.tables.BalanceTable;
 
+/**
+ * Represents a economy account.
+ * @author greatman
+ *
+ */
 public class Account {
 
 	public static final String BANK_PREFIX = "bank:";
 	private AccountTable account;
 	private AccountACL acl;
 
+	/**
+	 * Load a account. Creates one if it doesn't exist.
+	 * @param name
+	 */
 	public Account(String name) {
 		AccountTable result = Common.getInstance().getDatabaseManager().getDatabase().select(AccountTable.class).where().equal("name", name).execute().findOne();
 		boolean create = false;

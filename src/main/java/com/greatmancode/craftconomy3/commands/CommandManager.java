@@ -18,42 +18,11 @@
  */
 package com.greatmancode.craftconomy3.commands;
 
-import java.util.HashMap;
+/**
+ * Represents a Command Manager
+ * @author greatman
+ *
+ */
+public interface CommandManager {
 
-import com.greatmancode.craftconomy3.Common;
-import com.greatmancode.craftconomy3.commands.bank.*;
-import com.greatmancode.craftconomy3.commands.money.*;
-
-public class CommandManager {
-
-	private HashMap<String, CraftconomyCommand> moneyCmdList = new HashMap<String, CraftconomyCommand>();
-	private HashMap<String, CraftconomyCommand> bankCmdList = new HashMap<String, CraftconomyCommand>();
-	private CommandLoader cmdLoader;
-	public CommandManager() {
-		moneyCmdList.put("", new MainCommand());
-		moneyCmdList.put("all", new AllCommand());
-		moneyCmdList.put("pay", new PayCommand());
-		moneyCmdList.put("give", new GiveCommand());
-		moneyCmdList.put("take", new TakeCommand());
-		moneyCmdList.put("set", new SetCommand());
-		moneyCmdList.put("delete", new DeleteCommand());
-		moneyCmdList.put("create", new CreateCommand());
-		moneyCmdList.put("delete", new DeleteCommand());
-		
-		bankCmdList.put("create", new BankCreateCommand());
-		bankCmdList.put("balance", new BankBalanceCommand());
-		bankCmdList.put("deposit", new BankDepositCommand());
-		bankCmdList.put("withdraw", new BankWithdrawCommand());
-		if (!Common.isBukkit()) {
-			cmdLoader = new SpoutCommandManager();
-		}
-	}
-	
-	public HashMap<String, CraftconomyCommand> getMoneyCmdList() {
-		return moneyCmdList;
-	}
-	
-	public HashMap<String, CraftconomyCommand> getBankCmdList() {
-		return bankCmdList;
-	}
 }

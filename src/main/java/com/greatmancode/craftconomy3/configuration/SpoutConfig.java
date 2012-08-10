@@ -32,7 +32,7 @@ public class SpoutConfig extends Config {
 
 	private YamlConfiguration config = null;
 	public SpoutConfig() {
-		File file = new File(Common.getInstance().getConfigurationManager().getDataFolder(), "config.yml");
+		File file = new File(Common.getInstance().getServerCaller().getDataFolder(), "config.yml");
 		if (!file.exists())
 		{
 			URL inputURL = getClass().getResource("/config.yml");

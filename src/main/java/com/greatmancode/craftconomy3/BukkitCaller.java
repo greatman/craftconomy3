@@ -24,6 +24,11 @@ import java.util.logging.Level;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
+/**
+ * Server caller for Craftbukkit
+ * @author greatman
+ *
+ */
 public class BukkitCaller implements Caller {
 
 	public void disablePlugin() {

@@ -28,6 +28,10 @@ public class AccountACLValue {
 		this.table = entry;
 	}
 
+	/**
+	 * Represents a database entry of the ACL entry.
+	 * @return a AccessTable instance
+	 */
 	public AccessTable getTable() {
 		return table;
 	}

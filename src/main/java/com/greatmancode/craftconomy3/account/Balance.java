@@ -20,6 +20,11 @@ package com.greatmancode.craftconomy3.account;
 
 import com.greatmancode.craftconomy3.currency.Currency;
 
+/**
+ * Represents a balance entry for easy formatting.
+ * @author greatman
+ *
+ */
 public class Balance {
 
 	private String world;
