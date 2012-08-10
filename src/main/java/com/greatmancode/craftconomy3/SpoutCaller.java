@@ -19,6 +19,7 @@
 package com.greatmancode.craftconomy3;
 
 import java.io.File;
+import java.util.logging.Level;
 
 import org.spout.api.chat.ChatArguments;
 import org.spout.api.player.Player;
@@ -45,6 +46,8 @@ public class SpoutCaller implements Caller{
 		if (p != null)
 		{
 			p.sendMessage(ChatArguments.fromString(CHAT_PREFIX + message));
+		} else {
+			Common.getInstance().getLogger().log(Level.INFO, CHAT_PREFIX + message);
 		}
 	}
 	

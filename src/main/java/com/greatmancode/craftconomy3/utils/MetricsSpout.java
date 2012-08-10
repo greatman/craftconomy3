@@ -29,8 +29,7 @@ package com.greatmancode.craftconomy3.utils;
  *
  * adapted for Spout by
  *
- * @author $Author: dredhorse$
- * @version $FullVersion$
+ * @author redhorse
  */
 
 

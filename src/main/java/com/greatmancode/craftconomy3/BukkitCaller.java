@@ -19,6 +19,7 @@
 package com.greatmancode.craftconomy3;
 
 import java.io.File;
+import java.util.logging.Level;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -43,6 +44,8 @@ public class BukkitCaller implements Caller{
 		if (p != null)
 		{
 			p.sendMessage(addColor(CHAT_PREFIX + message));
+		} else {
+			Common.getInstance().getLogger().log(Level.INFO, addColor(CHAT_PREFIX + message));
 		}
 	}
 
