@@ -37,54 +37,45 @@ public class SpoutCommandManager implements CommandExecutor, CommandLoader {
 
 	@Override
 	public boolean processCommand(CommandSource source, Command command, CommandContext args) throws CommandException {
-		//TODO: Better way to handle no args.
+		CraftconomyCommand cmd = null;
 		if (command.getPreferredName().equals("money")) {
 			if (args.length() == 0) {
-
-				if (Common.getInstance().getCommandManager().getMoneyCmdList().get("").playerOnly()) {
-					if (!(source instanceof Player)) {
-						source.sendMessage(ChatArguments.fromString("{{DARK_RED}}Only a player can use this command!"));
-						return true;
-					}
-				}
-				if (!(source instanceof Player) || Common.getInstance().getCommandManager().getMoneyCmdList().get("").permission(source.getName())) {
-					Common.getInstance().getCommandManager().getMoneyCmdList().get("").execute(source.getName(), new String[] {});
-					return true;
-				} else {
-					source.sendMessage(ChatArguments.fromString("{{DARK_RED}}Not enough permissions!"));
-					return true;
-				}
-
+				cmd = Common.getInstance().getCommandManager().getMoneyCmdList().get("");
+			} else {
+				Common.getInstance().getCommandManager().getMoneyCmdList().get(args.getString(0));
 			}
-			if (Common.getInstance().getCommandManager().getMoneyCmdList().containsKey(args.getString(0))) {
-
-				if (Common.getInstance().getCommandManager().getMoneyCmdList().get(args.getString(0)).playerOnly()) {
-					if (!(source instanceof Player)) {
-						source.sendMessage(ChatArguments.fromString("{{DARK_RED}}Only a player can use this command!"));
-						return true;
-					}
-				}
-
-				if (!(source instanceof Player) || Common.getInstance().getCommandManager().getMoneyCmdList().get(args.getString(0)).permission(source.getName())) {
-					String[] newargs = new String[args.length() - 1];
-					for (int i = 1; i < args.length(); i++) {
-						newargs[i - 1] = args.getString(i);
-					}
-					if (newargs.length >= Common.getInstance().getCommandManager().getMoneyCmdList().get(args.getString(0)).minArgs() && newargs.length <= Common.getInstance().getCommandManager().getMoneyCmdList().get(args.getString(0)).maxArgs()) {
-						source.sendMessage(Common.getInstance().getCommandManager().getMoneyCmdList().get(args.getString(0)).help());
-						return true;
-					}
-					Common.getInstance().getCommandManager().getMoneyCmdList().get(args.getString(0)).execute(source.getName(), newargs);
-					return true;
-				} else {
-					source.sendMessage(ChatArguments.fromString("{{DARK_RED}}Not enough permissions!"));
+		} else if (command.getPreferredName().equals("bank")) {
+			if (args.length() == 0) {
+				cmd = Common.getInstance().getCommandManager().getBankCmdList().get("");
+			} else {
+				Common.getInstance().getCommandManager().getBankCmdList().get(args.getString(0));
+			}
+		}
+		if (cmd != null) {
+			if (cmd.playerOnly()) {
+				if (!(source instanceof Player)) {
+					source.sendMessage(ChatArguments.fromString("{{DARK_RED}}Only a player can use this command!"));
 					return true;
 				}
+			}
+
+			if (!(source instanceof Player) || cmd.permission(source.getName())) {
+				String[] newargs = new String[args.length() - 1];
+				for (int i = 1; i < args.length(); i++) {
+					newargs[i - 1] = args.getString(i);
+				}
+				if (newargs.length >= cmd.minArgs() && newargs.length <= cmd.maxArgs()) {
+					source.sendMessage(cmd.help());
+					return true;
+				}
+				cmd.execute(source.getName(), newargs);
+				return true;
+			} else {
+				source.sendMessage(ChatArguments.fromString("{{DARK_RED}}Not enough permissions!"));
+				return true;
 			}
 		}
 		return false;
 	}
-	
-	
 
 }

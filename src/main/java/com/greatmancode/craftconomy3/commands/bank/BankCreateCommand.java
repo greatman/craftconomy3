@@ -22,7 +22,7 @@ import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.account.Account;
 import com.greatmancode.craftconomy3.commands.CraftconomyCommand;
 
-public class CreateCommand implements CraftconomyCommand {
+public class BankCreateCommand implements CraftconomyCommand {
 
 	@Override
 	public void execute(String sender, String[] args) {
