@@ -30,7 +30,6 @@ import java.util.logging.Logger;
 
 import com.alta189.simplesave.Database;
 import com.alta189.simplesave.DatabaseFactory;
-import com.alta189.simplesave.Table;
 import com.alta189.simplesave.exceptions.ConnectionException;
 import com.alta189.simplesave.exceptions.TableRegistrationException;
 import com.alta189.simplesave.mysql.MySQLConfiguration;

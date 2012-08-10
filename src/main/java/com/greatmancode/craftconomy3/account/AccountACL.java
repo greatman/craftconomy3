@@ -47,6 +47,58 @@ public class AccountACL {
 	}
 	
 	/**
+	 * Checks if a player can deposit money
+	 * @param name The player name
+	 * @return True if the player can deposit money, else false
+	 */
+	public boolean canDeposit(String name) {
+		boolean result = false;
+		if (aclList.containsKey(name)) {
+			result = aclList.get(name).getTable().deposit;
+		}
+		return result;
+	}
+	
+	/**
+	 * Checks if a player can withdraw money
+	 * @param name The player name
+	 * @return True if the player can withdraw money, else false.
+	 */
+	public boolean canWithdraw(String name) {
+		boolean result = false;
+		if (aclList.containsKey(name)) {
+			result = aclList.get(name).getTable().withdraw;
+		}
+		return result;
+	}
+	
+	/**
+	 * Checks if a player can modify the ACL
+	 * @param name The player name
+	 * @return True if the player can modify the ACL, else false.
+	 */
+	public boolean canAcl(String name) {
+		boolean result = false;
+		if (aclList.containsKey(name)) {
+			result = aclList.get(name).getTable().acl;
+		}
+		return result;
+	}
+	
+	/**
+	 * Checks if a player can show the balance of the account
+	 * @param name The player name
+	 * @return True if the player can show the balance of the account, else false.
+	 */
+	public boolean canShow(String name) {
+		boolean result = false;
+		if (aclList.containsKey(name)) {
+			result = aclList.get(name).getTable().show;
+		}
+		return result;
+	}
+	
+	/**
 	 * Set if a player can deposit money in the account
 	 * @param name The Player name
 	 * @param deposit Can deposit or not
