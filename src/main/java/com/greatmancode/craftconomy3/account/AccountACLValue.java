@@ -16,33 +16,19 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Craftconomy3.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.greatmancode.craftconomy3.database.tables;
+package com.greatmancode.craftconomy3.account;
 
-import com.alta189.simplesave.Field;
-import com.alta189.simplesave.Id;
-import com.alta189.simplesave.Table;
+import com.greatmancode.craftconomy3.database.tables.AccessTable;
 
-@Table("acl")
-public class AccessTable {
+public class AccountACLValue {
 
-	@Id
-	public int id;
-	@Field
-	public int account_id;
+	private AccessTable table;
 	
-	@Field
-	public String playerName;
-	
-	@Field
-	public boolean deposit;
-	
-	@Field
-	public boolean withdraw;
-	
-	@Field
-	public boolean acl;
-	
-	@Field
-	public boolean show;
-	
+	public AccountACLValue(AccessTable entry) {
+		this.table = entry;
+	}
+
+	public AccessTable getTable() {
+		return table;
+	}
 }
