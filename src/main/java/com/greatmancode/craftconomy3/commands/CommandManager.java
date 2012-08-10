@@ -42,6 +42,8 @@ public class CommandManager {
 		
 		bankCmdList.put("create", new BankCreateCommand());
 		bankCmdList.put("balance", new BankBalanceCommand());
+		bankCmdList.put("deposit", new BankDepositCommand());
+		bankCmdList.put("withdraw", new BankWithdrawCommand());
 		if (!Common.isBukkit()) {
 			cmdLoader = new SpoutCommandManager();
 		}
