@@ -21,7 +21,9 @@ package com.greatmancode.craftconomy3.account;
 import java.util.HashMap;
 
 import com.greatmancode.craftconomy3.Common;
+import com.greatmancode.craftconomy3.database.tables.AccessTable;
 import com.greatmancode.craftconomy3.database.tables.AccountTable;
+import com.greatmancode.craftconomy3.database.tables.BalanceTable;
 
 /**
  * Provides access to a account.
@@ -57,5 +59,28 @@ public class AccountManager {
 		return Common.getInstance().getDatabaseManager().getDatabase().select(AccountTable.class).where().contains("name", name.toLowerCase()).execute().findOne() != null;
 	}
 	
+	
+	/**
+	 * Delete a account from the system
+	 * @param name The account name
+	 * @return True if the account has been deleted. Else false.
+	 */
+	public boolean delete(String name) {
+		boolean result = false;
+		if (exist(name)) {
+			Account account = getAccount(name);
+			AccountTable accountTable = Common.getInstance().getDatabaseManager().getDatabase().select(AccountTable.class).where().contains("name", name).execute().findOne();
+			Common.getInstance().getDatabaseManager().getDatabase().remove(Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal("username_id", accountTable.id).execute().find());
+			if (account.isBankAccount()) {
+				Common.getInstance().getDatabaseManager().getDatabase().remove(Common.getInstance().getDatabaseManager().getDatabase().select(AccessTable.class).where().equal("account_id", accountTable.id).execute().find());
+			}
+			Common.getInstance().getDatabaseManager().getDatabase().remove(accountTable);
+			accountList.remove(name);
+			result = true;
+		}
+		return result;
+		
+		
+	}
 	
 }
