@@ -41,7 +41,7 @@ public class Account {
 
 	/**
 	 * Load a account. Creates one if it doesn't exist.
-	 * @param name
+	 * @param name The account name
 	 */
 	public Account(String name) {
 		AccountTable result = Common.getInstance().getDatabaseManager().getDatabase().select(AccountTable.class).where().equal("name", name).execute().findOne();

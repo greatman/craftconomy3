@@ -56,7 +56,13 @@ public class AccountManager {
 	 * @param name The name to check
 	 */
 	public boolean exist(String name) {
-		return Common.getInstance().getDatabaseManager().getDatabase().select(AccountTable.class).where().contains("name", name.toLowerCase()).execute().findOne() != null;
+		boolean result = false;
+		if (accountList.containsKey(name)) {
+			result = true;
+		} else {
+			result = Common.getInstance().getDatabaseManager().getDatabase().select(AccountTable.class).where().contains("name", name.toLowerCase()).execute().findOne() != null;
+		}
+		return result;
 	}
 	
 	
