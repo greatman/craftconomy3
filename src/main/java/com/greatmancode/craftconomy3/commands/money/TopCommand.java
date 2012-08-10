@@ -27,7 +27,7 @@ public class TopCommand implements CraftconomyCommand {
 	public void execute(String sender, String[] args) {
 		
 		//TODO: Need alta to add a orderQuery
-		Common.getInstance().getServerCaller().sendMessage(sender, "{{RED}}Command not yet implemented.");
+		Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Command not yet implemented.");
 	}
 
 	@Override

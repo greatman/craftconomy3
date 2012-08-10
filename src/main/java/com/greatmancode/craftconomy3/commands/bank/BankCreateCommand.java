@@ -30,13 +30,13 @@ public class BankCreateCommand implements CraftconomyCommand {
 			if (Common.getInstance().getAccountManager().getAccount(sender).hasEnough(Common.getInstance().getConfigurationManager().getConfig().getDouble("System.Bank.Price"), Common.getInstance().getServerCaller().getPlayerWorld(sender), Common.getInstance().getCurrencyManager().getCurrency(Common.getInstance().getConfigurationManager().getConfig().getString("System.Bank.Currency")).getName())) {
 				Account account = Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + args[0]);
 				account.getAccountACL().set(sender,true,true,true,true);
-				Common.getInstance().getServerCaller().sendMessage(sender, "The account has been created!");
+				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}The account has been created!");
 			} else {
-				Common.getInstance().getServerCaller().sendMessage(sender, "{{RED}}You don't have enough money to create a bank account! You need {{WHITE}}" + Common.getInstance().format(null, Common.getInstance().getCurrencyManager().getCurrency(Common.getInstance().getConfigurationManager().getConfig().getString("System.Bank.Currency")), Common.getInstance().getConfigurationManager().getConfig().getDouble("System.Bank.Price")));
+				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}You don't have enough money to create a bank account! You need {{WHITE}}" + Common.getInstance().format(null, Common.getInstance().getCurrencyManager().getCurrency(Common.getInstance().getConfigurationManager().getConfig().getString("System.Bank.Currency")), Common.getInstance().getConfigurationManager().getConfig().getDouble("System.Bank.Price")));
 			}
 			
 		} else {
-			Common.getInstance().getServerCaller().sendMessage(sender, "{{RED}}This account already exists!");
+			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}This account already exists!");
 		}
 	}
 

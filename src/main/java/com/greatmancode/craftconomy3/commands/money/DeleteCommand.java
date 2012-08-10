@@ -31,9 +31,9 @@ public class DeleteCommand implements CraftconomyCommand {
 			AccountTable account = Common.getInstance().getDatabaseManager().getDatabase().select(AccountTable.class).where().contains("name", args[0]).execute().findOne();
 			Common.getInstance().getDatabaseManager().getDatabase().remove(Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().contains("username_id", account.id).execute().find());
 			Common.getInstance().getDatabaseManager().getDatabase().remove(account);
-			Common.getInstance().getServerCaller().sendMessage(sender, "{{GREEN}}The account {{WHITE}}" + args[0] + " {{GREEN}}has been deleted!");
+			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}The account {{WHITE}}" + args[0] + " {{DARK_GREEN}}has been deleted!");
 		} else {
-			Common.getInstance().getServerCaller().sendMessage(sender, "{{RED}}This account doesn't exist!");
+			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}This account doesn't exist!");
 		}
 	}
 

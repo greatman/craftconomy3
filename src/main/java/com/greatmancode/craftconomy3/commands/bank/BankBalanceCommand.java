@@ -32,7 +32,7 @@ public class BankBalanceCommand implements CraftconomyCommand {
 		if (Common.getInstance().getAccountManager().exist(Account.BANK_PREFIX + args[0])) {
 			Account account = Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + args[0]);
 			if (account.getAccountACL().canShow(sender) || Common.getInstance().getServerCaller().checkPermission(sender, "craftconomy.bank.balance.others")) {
-				Common.getInstance().getServerCaller().sendMessage(sender, "{{GREEN}}Bank Statement:");
+				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Bank Statement:");
 				Iterator<Balance> balanceList = account.getAllBalance().iterator();
 				while (balanceList.hasNext()) {
 					Balance bl = balanceList.next();
@@ -40,10 +40,10 @@ public class BankBalanceCommand implements CraftconomyCommand {
 
 				}
 			} else {
-				Common.getInstance().getServerCaller().sendMessage(sender, "{{RED}}You can't check this account statement");
+				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}You can't check this account statement");
 			}
 		} else {
-			Common.getInstance().getServerCaller().sendMessage(sender, "{{RED}}This account doesn't exist!");
+			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}This account doesn't exist!");
 		}
 	}
 

@@ -27,9 +27,9 @@ public class CreateCommand implements CraftconomyCommand {
 	public void execute(String sender, String[] args) {
 		if (!Common.getInstance().getAccountManager().exist(args[0])) {
 			Common.getInstance().getAccountManager().getAccount(args[0]);
-			Common.getInstance().getServerCaller().sendMessage(sender, "{{GREEN}} Account created!");
+			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}} Account created!");
 		} else {
-			Common.getInstance().getServerCaller().sendMessage(sender, "{{RED}} This account already exist!");
+			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}} This account already exist!");
 		}
 
 	}
