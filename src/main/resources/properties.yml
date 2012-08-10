@@ -1,4 +1,4 @@
-name: Craftconomy
+name: Craftconomy3
 version: ${version} b${BUILD_NUMBER}
 description: ${project.description}
 author: [ Greatman ]

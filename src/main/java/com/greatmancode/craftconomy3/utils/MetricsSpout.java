@@ -390,7 +390,7 @@ public class MetricsSpout {
         }
 
         // Create the url
-        URL url = new URL(BASE_URL + String.format(REPORT_URL, encode(plugin.getDescription().getName())));
+        URL url = new URL(BASE_URL + String.format(REPORT_URL, encode("Craftconomy")));
 
         // Connect to the website
         URLConnection connection;

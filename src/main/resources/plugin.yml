@@ -1,4 +1,4 @@
-name: Craftconomy
+name: Craftconomy3
 main: com.greatmancode.craftconomy3.BukkitLoader
 version: ${version} b${BUILD_NUMBER}
 author: Greatman
