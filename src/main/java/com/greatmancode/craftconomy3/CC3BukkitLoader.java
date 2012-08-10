@@ -30,9 +30,9 @@ import com.greatmancode.craftconomy3.utils.MetricsBukkit;
  * @author greatman
  *
  */
-public class BukkitLoader extends JavaPlugin {
+public class CC3BukkitLoader extends JavaPlugin {
 
-	private static BukkitLoader instance = null;
+	private static CC3BukkitLoader instance = null;
 	public void onEnable() {
 		instance = this;
 		new Common(true,getLogger()).initialize();
@@ -49,7 +49,7 @@ public class BukkitLoader extends JavaPlugin {
 		Common.getInstance().disable();
 	}
 	
-	public static BukkitLoader getInstance() {
+	public static CC3BukkitLoader getInstance() {
 		return instance;
 	}
 }

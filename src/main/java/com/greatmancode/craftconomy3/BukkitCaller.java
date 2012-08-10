@@ -32,12 +32,12 @@ import org.bukkit.entity.Player;
 public class BukkitCaller implements Caller {
 
 	public void disablePlugin() {
-		BukkitLoader.getInstance().getPluginLoader().disablePlugin(BukkitLoader.getInstance());
+		CC3BukkitLoader.getInstance().getPluginLoader().disablePlugin(CC3BukkitLoader.getInstance());
 	}
 
 	public boolean checkPermission(String playerName, String perm) {
 		boolean result = false;
-		Player p = BukkitLoader.getInstance().getServer().getPlayerExact(playerName);
+		Player p = CC3BukkitLoader.getInstance().getServer().getPlayerExact(playerName);
 		if (p != null) {
 			result = p.hasPermission(perm);
 		} else {
@@ -48,7 +48,7 @@ public class BukkitCaller implements Caller {
 	}
 
 	public void sendMessage(String playerName, String message) {
-		Player p = BukkitLoader.getInstance().getServer().getPlayerExact(playerName);
+		Player p = CC3BukkitLoader.getInstance().getServer().getPlayerExact(playerName);
 		if (p != null) {
 			p.sendMessage(addColor(CHAT_PREFIX + message));
 		} else {
@@ -58,7 +58,7 @@ public class BukkitCaller implements Caller {
 
 	public String getPlayerWorld(String playerName) {
 		String result = "";
-		Player p = BukkitLoader.getInstance().getServer().getPlayerExact(playerName);
+		Player p = CC3BukkitLoader.getInstance().getServer().getPlayerExact(playerName);
 		if (p != null) {
 			result = p.getWorld().getName();
 		}
@@ -66,7 +66,7 @@ public class BukkitCaller implements Caller {
 	}
 
 	public boolean isOnline(String playerName) {
-		return BukkitLoader.getInstance().getServer().getPlayerExact(playerName) != null;
+		return CC3BukkitLoader.getInstance().getServer().getPlayerExact(playerName) != null;
 	}
 
 	@Override
@@ -91,17 +91,17 @@ public class BukkitCaller implements Caller {
 	}
 
 	public String getDefaultWorld() {
-		return BukkitLoader.getInstance().getServer().getWorlds().get(0).getName();
+		return CC3BukkitLoader.getInstance().getServer().getWorlds().get(0).getName();
 	}
 
 	@Override
 	public boolean worldExist(String worldName) {
-		return BukkitLoader.getInstance().getServer().getWorld(worldName) != null;
+		return CC3BukkitLoader.getInstance().getServer().getWorld(worldName) != null;
 	}
 
 	@Override
 	public File getDataFolder() {
-		return BukkitLoader.getInstance().getDataFolder();
+		return CC3BukkitLoader.getInstance().getDataFolder();
 	}
 
 }

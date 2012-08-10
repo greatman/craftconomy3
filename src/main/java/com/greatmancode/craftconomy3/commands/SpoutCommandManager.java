@@ -27,7 +27,7 @@ import org.spout.api.exception.CommandException;
 import org.spout.api.player.Player;
 
 import com.greatmancode.craftconomy3.Common;
-import com.greatmancode.craftconomy3.SpoutLoader;
+import com.greatmancode.craftconomy3.CC3SpoutLoader;
 
 /**
  * Handle the commands for the Spout server.
@@ -37,7 +37,7 @@ import com.greatmancode.craftconomy3.SpoutLoader;
 public class SpoutCommandManager implements CommandExecutor, CommandManager {
 
 	public SpoutCommandManager() {
-		SpoutLoader.getInstance().getEngine().getRootCommand().addSubCommand(SpoutLoader.getInstance(), "money").setHelp("Money Related Commands").setExecutor(this);
+		CC3SpoutLoader.getInstance().getEngine().getRootCommand().addSubCommand(CC3SpoutLoader.getInstance(), "money").setHelp("Money Related Commands").setExecutor(this);
 	}
 
 	@Override

@@ -32,9 +32,9 @@ import com.greatmancode.craftconomy3.utils.MetricsSpout;
  * @author greatman
  *
  */
-public class SpoutLoader extends CommonPlugin {
+public class CC3SpoutLoader extends CommonPlugin {
 
-	private static SpoutLoader instance = null;
+	private static CC3SpoutLoader instance = null;
 	@Override
 	public void onEnable() {
 		instance = this;
@@ -53,7 +53,7 @@ public class SpoutLoader extends CommonPlugin {
 		Common.getInstance().disable();
 	}
 	
-	public static SpoutLoader getInstance() {
+	public static CC3SpoutLoader getInstance() {
 		return instance;
 	}
 

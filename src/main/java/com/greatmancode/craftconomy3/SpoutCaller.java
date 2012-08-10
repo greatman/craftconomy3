@@ -32,12 +32,12 @@ import org.spout.api.player.Player;
 public class SpoutCaller implements Caller{
 
 	public void disablePlugin() {
-		SpoutLoader.getInstance().getPluginLoader().disablePlugin(SpoutLoader.getInstance());
+		CC3SpoutLoader.getInstance().getPluginLoader().disablePlugin(CC3SpoutLoader.getInstance());
 	}
 	
 	public boolean checkPermission(String playerName, String perm) {
 		boolean result = false;
-		Player p = SpoutLoader.getInstance().getEngine().getPlayer(playerName, true);
+		Player p = CC3SpoutLoader.getInstance().getEngine().getPlayer(playerName, true);
 		if (p != null)
 		{
 			result = p.hasPermission(perm);
@@ -50,7 +50,7 @@ public class SpoutCaller implements Caller{
 	}
 	
 	public void sendMessage(String playerName, String message) {
-		Player p = SpoutLoader.getInstance().getEngine().getPlayer(playerName, true);
+		Player p = CC3SpoutLoader.getInstance().getEngine().getPlayer(playerName, true);
 		if (p != null)
 		{
 			p.sendMessage(ChatArguments.fromString(CHAT_PREFIX + message));
@@ -61,7 +61,7 @@ public class SpoutCaller implements Caller{
 	
 	public String getPlayerWorld(String playerName) {
 		String worldName = "";
-		Player p = SpoutLoader.getInstance().getEngine().getPlayer(playerName, true);
+		Player p = CC3SpoutLoader.getInstance().getEngine().getPlayer(playerName, true);
 		if (p != null)
 		{
 			worldName = p.getWorld().getName();
@@ -70,7 +70,7 @@ public class SpoutCaller implements Caller{
 	}
 
 	public boolean isOnline(String playerName) {
-		return SpoutLoader.getInstance().getEngine().getPlayer(playerName, true) != null;
+		return CC3SpoutLoader.getInstance().getEngine().getPlayer(playerName, true) != null;
 	}
 	public String addColor(String str) {
 		//Useless with Spout
@@ -79,16 +79,16 @@ public class SpoutCaller implements Caller{
 
 	@Override
 	public boolean worldExist(String worldName) {
-		return SpoutLoader.getInstance().getEngine().getWorld(worldName) != null;
+		return CC3SpoutLoader.getInstance().getEngine().getWorld(worldName) != null;
 	}
 
 	@Override
 	public String getDefaultWorld() {
-		return SpoutLoader.getInstance().getEngine().getWorlds().iterator().next().getName();
+		return CC3SpoutLoader.getInstance().getEngine().getWorlds().iterator().next().getName();
 	}
 
 	@Override
 	public File getDataFolder() {
-		return SpoutLoader.getInstance().getDataFolder();
+		return CC3SpoutLoader.getInstance().getDataFolder();
 	}
 }

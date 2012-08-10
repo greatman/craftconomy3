@@ -20,7 +20,7 @@ package com.greatmancode.craftconomy3.configuration;
 
 import java.io.File;
 
-import com.greatmancode.craftconomy3.BukkitLoader;
+import com.greatmancode.craftconomy3.CC3BukkitLoader;
 import com.greatmancode.craftconomy3.Common;
 
 public class BukkitConfig extends Config {
@@ -29,32 +29,32 @@ public class BukkitConfig extends Config {
 		File file = new File(Common.getInstance().getServerCaller().getDataFolder(), "config.yml");
 		if (!file.exists())
 		{
-			BukkitLoader.getInstance().getConfig().options().copyDefaults(true);
-			BukkitLoader.getInstance().saveConfig();
+			CC3BukkitLoader.getInstance().getConfig().options().copyDefaults(true);
+			CC3BukkitLoader.getInstance().saveConfig();
 		}
 	}
 	@Override
 	public int getInt(String path) {
-		return BukkitLoader.getInstance().getConfig().getInt(path);
+		return CC3BukkitLoader.getInstance().getConfig().getInt(path);
 	}
 
 	@Override
 	public long getLong(String path) {
-		return BukkitLoader.getInstance().getConfig().getLong(path);
+		return CC3BukkitLoader.getInstance().getConfig().getLong(path);
 	}
 
 	@Override
 	public double getDouble(String path) {
-		return BukkitLoader.getInstance().getConfig().getDouble(path);
+		return CC3BukkitLoader.getInstance().getConfig().getDouble(path);
 	}
 
 	@Override
 	public String getString(String path) {
-		return BukkitLoader.getInstance().getConfig().getString(path);
+		return CC3BukkitLoader.getInstance().getConfig().getString(path);
 	}
 	@Override
 	public boolean getBoolean(String path) {
-		return BukkitLoader.getInstance().getConfig().getBoolean(path);
+		return CC3BukkitLoader.getInstance().getConfig().getBoolean(path);
 	}
 
 }
