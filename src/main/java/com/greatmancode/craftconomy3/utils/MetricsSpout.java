@@ -41,9 +41,9 @@ import org.spout.api.scheduler.TaskPriority;
 import org.spout.api.util.config.yaml.YamlConfiguration;
 
 import java.io.*;
+import java.net.HttpURLConnection;
 import java.net.Proxy;
 import java.net.URL;
-import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.*;
 import java.util.logging.Level;
@@ -356,7 +356,7 @@ public class MetricsSpout {
         final StringBuilder data = new StringBuilder();
         data.append(encode("guid")).append('=').append(encode(guid));
         encodeDataPair(data, "version", description.getVersion());
-        encodeDataPair(data, "server", Spout.getAPIVersion());
+        encodeDataPair(data, "server", "SpoutServer " + Spout.getAPIVersion());
         encodeDataPair(data, "players", Integer.toString(Spout.getEngine().getOnlinePlayers().length));
         encodeDataPair(data, "revision", String.valueOf(REVISION));
 
@@ -393,17 +393,18 @@ public class MetricsSpout {
         URL url = new URL(BASE_URL + String.format(REPORT_URL, encode("Craftconomy")));
 
         // Connect to the website
-        URLConnection connection;
+        HttpURLConnection connection;
 
         // Mineshafter creates a socks proxy, so we can safely bypass it
         // It does not reroute POST requests so we need to go around it
         if (isMineshafterPresent()) {
-            connection = url.openConnection(Proxy.NO_PROXY);
+            connection = (HttpURLConnection) url.openConnection(Proxy.NO_PROXY);
         } else {
-            connection = url.openConnection();
+            connection = (HttpURLConnection) url.openConnection();
         }
 
         connection.setDoOutput(true);
+        connection.setRequestMethod("POST");
 
         // Write the data
         final OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());
