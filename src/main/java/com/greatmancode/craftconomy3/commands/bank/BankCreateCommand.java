@@ -26,9 +26,9 @@ public class BankCreateCommand implements CraftconomyCommand {
 
 	@Override
 	public void execute(String sender, String[] args) {
-		if (!Common.getInstance().getAccountHandler().exist(Account.BANK_PREFIX + args[0])) {
-			if (Common.getInstance().getAccountHandler().getAccount(sender).hasEnough(Common.getInstance().getConfigurationManager().getConfig().getDouble("System.Bank.Price"), Common.getInstance().getServerCaller().getPlayerWorld(sender), Common.getInstance().getCurrencyManager().getCurrency(Common.getInstance().getConfigurationManager().getConfig().getString("System.Bank.Currency")).getName())) {
-				Account account = Common.getInstance().getAccountHandler().getAccount(Account.BANK_PREFIX + args[0]);
+		if (!Common.getInstance().getAccountManager().exist(Account.BANK_PREFIX + args[0])) {
+			if (Common.getInstance().getAccountManager().getAccount(sender).hasEnough(Common.getInstance().getConfigurationManager().getConfig().getDouble("System.Bank.Price"), Common.getInstance().getServerCaller().getPlayerWorld(sender), Common.getInstance().getCurrencyManager().getCurrency(Common.getInstance().getConfigurationManager().getConfig().getString("System.Bank.Currency")).getName())) {
+				Account account = Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + args[0]);
 				account.getAccountACL().set(sender,true,true,true,true);
 				Common.getInstance().getServerCaller().sendMessage(sender, "The account has been created!");
 			} else {

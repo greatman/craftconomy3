@@ -34,7 +34,7 @@ import com.alta189.simplesave.exceptions.ConnectionException;
 import com.alta189.simplesave.exceptions.TableRegistrationException;
 import com.alta189.simplesave.mysql.MySQLConfiguration;
 import com.alta189.simplesave.sqlite.SQLiteConfiguration;
-import com.greatmancode.craftconomy3.account.AccountHandler;
+import com.greatmancode.craftconomy3.account.AccountManager;
 import com.greatmancode.craftconomy3.commands.CommandManager;
 import com.greatmancode.craftconomy3.configuration.ConfigurationManager;
 import com.greatmancode.craftconomy3.currency.Currency;
@@ -54,7 +54,7 @@ public class Common {
 	private static boolean isBukkit = false;
 
 	// Managers
-	private AccountHandler accountHandler = null;
+	private AccountManager accountManager = null;
 	private ConfigurationManager config = null;
 	private CurrencyManager currencyManager = null;
 
@@ -89,7 +89,7 @@ public class Common {
 		sendConsoleMessage(Level.INFO, "Loading Currencies");
 		currencyManager = new CurrencyManager();
 		sendConsoleMessage(Level.INFO, "Loading the Account Handler");
-		accountHandler = new AccountHandler();
+		accountManager = new AccountManager();
 
 		sendConsoleMessage(Level.INFO, "Loading commands");
 		commandManager = new CommandManager();
@@ -117,7 +117,7 @@ public class Common {
 								if (info.length >= 2) {
 									String[] balance = info[1].split(":");
 									try {
-										getAccountHandler().getAccount(info[0]).set(Double.parseDouble(balance[1]), defaultWorld, getCurrencyManager().getCurrency(CurrencyManager.DefaultCurrencyID).getName());
+										getAccountManager().getAccount(info[0]).set(Double.parseDouble(balance[1]), defaultWorld, getCurrencyManager().getCurrency(CurrencyManager.DefaultCurrencyID).getName());
 									} catch (NumberFormatException e) {
 										sendConsoleMessage(Level.SEVERE, "User " + info[0] + " have a invalid balance" + balance[1]);
 									}
@@ -154,7 +154,7 @@ public class Common {
 							Iterator<iConomyTable> icoListIterator = icoList.iterator();
 							while (icoListIterator.hasNext()) {
 								iConomyTable entry = icoListIterator.next();
-								getAccountHandler().getAccount(entry.username).set(entry.balance, defaultWorld, getCurrencyManager().getCurrency(CurrencyManager.DefaultCurrencyID).getName());
+								getAccountManager().getAccount(entry.username).set(entry.balance, defaultWorld, getCurrencyManager().getCurrency(CurrencyManager.DefaultCurrencyID).getName());
 								
 							}
 							sendConsoleMessage(Level.INFO, "Done converting!");
@@ -189,8 +189,8 @@ public class Common {
 		return instance;
 	}
 
-	public AccountHandler getAccountHandler() {
-		return accountHandler;
+	public AccountManager getAccountManager() {
+		return accountManager;
 	}
 
 	public ConfigurationManager getConfigurationManager() {

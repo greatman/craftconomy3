@@ -27,19 +27,19 @@ public class EconomyServiceHandler extends EconomyService {
 
 	@Override
 	public boolean has(String name, double amount) {
-		return Common.getInstance().getAccountHandler().getAccount(name).hasEnough(amount, Common.getInstance().getAccountHandler().getAccount(name).getWorldPlayerCurrentlyIn(), Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.DefaultCurrencyID).getName());
+		return Common.getInstance().getAccountManager().getAccount(name).hasEnough(amount, Common.getInstance().getAccountManager().getAccount(name).getWorldPlayerCurrentlyIn(), Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.DefaultCurrencyID).getName());
 	}
 
 	@Override
 	public double get(String name) {
-		return Common.getInstance().getAccountHandler().getAccount(name).getBalance(Common.getInstance().getAccountHandler().getAccount(name).getWorldPlayerCurrentlyIn(), Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.DefaultCurrencyID).getName());
+		return Common.getInstance().getAccountManager().getAccount(name).getBalance(Common.getInstance().getAccountManager().getAccount(name).getWorldPlayerCurrentlyIn(), Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.DefaultCurrencyID).getName());
 	}
 
 	@Override
 	public boolean withdraw(String name, double amount) {
 		boolean result = false;
-		if (Common.getInstance().getAccountHandler().getAccount(name).hasEnough(amount, Common.getInstance().getAccountHandler().getAccount(name).getWorldPlayerCurrentlyIn(), Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.DefaultCurrencyID).getName())) {
-			Common.getInstance().getAccountHandler().getAccount(name).withdraw(amount, Common.getInstance().getAccountHandler().getAccount(name).getWorldPlayerCurrentlyIn(), Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.DefaultCurrencyID).getName());
+		if (Common.getInstance().getAccountManager().getAccount(name).hasEnough(amount, Common.getInstance().getAccountManager().getAccount(name).getWorldPlayerCurrentlyIn(), Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.DefaultCurrencyID).getName())) {
+			Common.getInstance().getAccountManager().getAccount(name).withdraw(amount, Common.getInstance().getAccountManager().getAccount(name).getWorldPlayerCurrentlyIn(), Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.DefaultCurrencyID).getName());
 		}
 
 		return result;
@@ -47,7 +47,7 @@ public class EconomyServiceHandler extends EconomyService {
 
 	@Override
 	public boolean deposit(String name, double amount) {
-		Common.getInstance().getAccountHandler().getAccount(name).deposit(amount, Common.getInstance().getAccountHandler().getAccount(name).getWorldPlayerCurrentlyIn(), Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.DefaultCurrencyID).getName());
+		Common.getInstance().getAccountManager().getAccount(name).deposit(amount, Common.getInstance().getAccountManager().getAccount(name).getWorldPlayerCurrentlyIn(), Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.DefaultCurrencyID).getName());
 		return true;
 	}
 

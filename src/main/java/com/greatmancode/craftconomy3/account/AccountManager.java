@@ -23,7 +23,7 @@ import java.util.HashMap;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.database.tables.AccountTable;
 
-public class AccountHandler {
+public class AccountManager {
 	public HashMap<String, Account> accountList = new HashMap<String, Account>();
 
 	public Account getAccount(String name) {

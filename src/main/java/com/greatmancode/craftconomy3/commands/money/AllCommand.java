@@ -30,7 +30,7 @@ public class AllCommand implements CraftconomyCommand {
 	@Override
 	public void execute(String sender, String[] args) {
 		Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Balance: ");
-		Account account = Common.getInstance().getAccountHandler().getAccount(sender);
+		Account account = Common.getInstance().getAccountManager().getAccount(sender);
 		Iterator<Balance> balanceList = account.getAllBalance().iterator();
 		while(balanceList.hasNext())
 		{

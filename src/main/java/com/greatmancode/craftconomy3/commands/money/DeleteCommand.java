@@ -27,7 +27,7 @@ public class DeleteCommand implements CraftconomyCommand {
 
 	@Override
 	public void execute(String sender, String[] args) {
-		if (Common.getInstance().getAccountHandler().exist(args[0])) {
+		if (Common.getInstance().getAccountManager().exist(args[0])) {
 			AccountTable account = Common.getInstance().getDatabaseManager().getDatabase().select(AccountTable.class).where().contains("name", args[0]).execute().findOne();
 			Common.getInstance().getDatabaseManager().getDatabase().remove(Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().contains("username_id", account.id).execute().find());
 			Common.getInstance().getDatabaseManager().getDatabase().remove(account);

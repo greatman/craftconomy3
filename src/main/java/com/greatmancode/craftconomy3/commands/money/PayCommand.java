@@ -41,11 +41,11 @@ public class PayCommand implements CraftconomyCommand {
 						return;
 					}
 				}
-				hasEnough = Common.getInstance().getAccountHandler().getAccount(sender).hasEnough(amount, Common.getInstance().getAccountHandler().getAccount(sender).getWorldPlayerCurrentlyIn(), currency.getName());
+				hasEnough = Common.getInstance().getAccountManager().getAccount(sender).hasEnough(amount, Common.getInstance().getAccountManager().getAccount(sender).getWorldPlayerCurrentlyIn(), currency.getName());
 
 				if (hasEnough) {
-					Common.getInstance().getAccountHandler().getAccount(sender).withdraw(amount, Common.getInstance().getAccountHandler().getAccount(sender).getWorldPlayerCurrentlyIn(), currency.getName());
-					Common.getInstance().getAccountHandler().getAccount(args[0]).deposit(amount, Common.getInstance().getAccountHandler().getAccount(sender).getWorldPlayerCurrentlyIn(), currency.getName());
+					Common.getInstance().getAccountManager().getAccount(sender).withdraw(amount, Common.getInstance().getAccountManager().getAccount(sender).getWorldPlayerCurrentlyIn(), currency.getName());
+					Common.getInstance().getAccountManager().getAccount(args[0]).deposit(amount, Common.getInstance().getAccountManager().getAccount(sender).getWorldPlayerCurrentlyIn(), currency.getName());
 					Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Sent {{WHITE}}" + Common.getInstance().format(null, currency, amount) + "{{DARK_GREEN}} to {{WHITE}}" + args[0]);
 					Common.getInstance().getServerCaller().sendMessage(args[0], "{{DARK_GREEN}}Received {{WHITE}}" + Common.getInstance().format(null, currency, amount) + "{{DARK_GREEN}} from {{WHITE}}" + sender);
 				} else {

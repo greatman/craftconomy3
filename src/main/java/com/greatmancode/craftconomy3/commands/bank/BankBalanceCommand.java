@@ -29,8 +29,8 @@ public class BankBalanceCommand implements CraftconomyCommand {
 
 	@Override
 	public void execute(String sender, String[] args) {
-		if (Common.getInstance().getAccountHandler().exist(Account.BANK_PREFIX + args[0])) {
-			Account account = Common.getInstance().getAccountHandler().getAccount(Account.BANK_PREFIX + args[0]);
+		if (Common.getInstance().getAccountManager().exist(Account.BANK_PREFIX + args[0])) {
+			Account account = Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + args[0]);
 			if (account.getAccountACL().canShow(sender) || Common.getInstance().getServerCaller().checkPermission(sender, "craftconomy.bank.balance.others")) {
 				Common.getInstance().getServerCaller().sendMessage(sender, "{{GREEN}}Bank Statement:");
 				Iterator<Balance> balanceList = account.getAllBalance().iterator();
