@@ -55,7 +55,7 @@ public class BukkitCommandManager implements CommandExecutor, CommandManager {
 		if (cmd != null) {
 			if (cmd.playerOnly()) {
 				if (!(commandSender instanceof Player)) {
-					commandSender.sendMessage(Caller.CHAT_PREFIX + ChatColor.RED + "Only a player can use this command!");
+					commandSender.sendMessage(Common.getInstance().getServerCaller().addColor(Caller.CHAT_PREFIX + ChatColor.RED + "Only a player can use this command!"));
 					return true;
 				}
 			}
@@ -75,11 +75,11 @@ public class BukkitCommandManager implements CommandExecutor, CommandManager {
 					return true;
 
 				} else {
-					commandSender.sendMessage(Caller.CHAT_PREFIX + cmd.help());
+					commandSender.sendMessage(Common.getInstance().getServerCaller().addColor(Caller.CHAT_PREFIX + cmd.help()));
 					return true;
 				}
 			} else {
-				commandSender.sendMessage(Caller.CHAT_PREFIX + ChatColor.RED + "You don't have enough permissions!");
+				commandSender.sendMessage(Common.getInstance().getServerCaller().addColor(Caller.CHAT_PREFIX + ChatColor.RED + "You don't have enough permissions!"));
 				return true;
 			}
 		}
