@@ -25,13 +25,13 @@ import com.greatmancode.craftconomy3.currency.Currency;
 import com.greatmancode.craftconomy3.currency.CurrencyManager;
 import com.greatmancode.craftconomy3.utils.Tools;
 
-public class BankDepositCommand implements CraftconomyCommand {
+public class BankWithdrawCommand implements CraftconomyCommand {
 
 	@Override
 	public void execute(String sender, String[] args) {
 		if (Common.getInstance().getAccountManager().exist(Account.BANK_PREFIX + args[0])) {
 			Account bankAccount = Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + args[0]);
-			if (bankAccount.getAccountACL().canDeposit(sender) || Common.getInstance().getServerCaller().checkPermission(sender, "craftconomy.bank.deposit.others")) {
+			if (bankAccount.getAccountACL().canWithdraw(sender) || Common.getInstance().getServerCaller().checkPermission(sender, "craftconomy.bank.withdraw.others")) {
 				if (Tools.isValidDouble(args[1])) {
 					double amount = Double.parseDouble(args[1]);
 					Currency currency = Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.DefaultCurrencyID);
@@ -45,9 +45,9 @@ public class BankDepositCommand implements CraftconomyCommand {
 					}
 					Account playerAccount = Common.getInstance().getAccountManager().getAccount(sender);
 					if (playerAccount.hasEnough(amount, playerAccount.getWorldPlayerCurrentlyIn(), currency.getName())) {
-						playerAccount.withdraw(amount, playerAccount.getWorldPlayerCurrentlyIn(), currency.getName());
-						bankAccount.deposit(amount, playerAccount.getWorldPlayerCurrentlyIn(), currency.getName());
-						Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Deposited {{WHITE}}" + Common.getInstance().format(null, currency, amount) + "{{DARK_GREEN}} in the {{WHITE}}" + args[0] + "{{DARK_GREEN}} bank Account.");
+						bankAccount.withdraw(amount, playerAccount.getWorldPlayerCurrentlyIn(), currency.getName());
+						playerAccount.deposit(amount, playerAccount.getWorldPlayerCurrentlyIn(), currency.getName());
+						Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Withdrawed {{WHITE}}" + Common.getInstance().format(null, currency, amount) + "{{DARK_GREEN}} from the {{WHITE}}" + args[0] + "{{DARK_GREEN}} bank Account.");
 					} else {
 						Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Not enough money!");
 					}
@@ -56,24 +56,22 @@ public class BankDepositCommand implements CraftconomyCommand {
 					
 				}
 			} else {
-				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}You can't deposit in this account!");
+				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}You can't withdraw in this account!");
 			}
 			
 		} else {
 			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}This account doesn't exist!");
 		}
-		
-
 	}
 
 	@Override
 	public boolean permission(String sender) {
-		return Common.getInstance().getServerCaller().checkPermission(sender, "craftconomy.bank.deposit");
+		return Common.getInstance().getServerCaller().checkPermission(sender, "craftconomy.bank.withdraw");
 	}
 
 	@Override
 	public String help() {
-		return "/bank deposit <Account Name> <Amount> [Currency] - Deposit money in a account.";
+		return "/bank withdraw <Account Name> <Amount> [Currency] - Withdraw money in a account.";
 	}
 
 	@Override

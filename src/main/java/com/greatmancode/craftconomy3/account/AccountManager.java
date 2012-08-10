@@ -44,7 +44,7 @@ public class AccountManager {
 	 * @param name The name to check
 	 */
 	public boolean exist(String name) {
-		return Common.getInstance().getDatabaseManager().getDatabase().select(AccountTable.class).where().contains("name", name).execute().findOne() != null;
+		return Common.getInstance().getDatabaseManager().getDatabase().select(AccountTable.class).where().contains("name", name.toLowerCase()).execute().findOne() != null;
 	}
 	
 	
