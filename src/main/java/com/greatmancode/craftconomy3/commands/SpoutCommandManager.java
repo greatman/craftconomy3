@@ -65,9 +65,14 @@ public class SpoutCommandManager implements CommandExecutor, CommandManager {
 			}
 
 			if (!(source instanceof Player) || cmd.permission(source.getName())) {
-				String[] newargs = new String[args.length() - 1];
-				for (int i = 1; i < args.length(); i++) {
-					newargs[i - 1] = args.getString(i);
+				String[] newargs;
+				if (args.length() == 0) {
+					newargs = new String[0];
+				} else {
+					newargs = new String[args.length() - 1];
+					for (int i = 1; i <= newargs.length; i++) {
+						newargs[i - 1] = args.getString(i);
+					}
 				}
 				if (newargs.length >= cmd.minArgs() && newargs.length <= cmd.maxArgs()) {
 					source.sendMessage(cmd.help());

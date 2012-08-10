@@ -59,10 +59,16 @@ public class BukkitCommandManager implements CommandExecutor, CommandManager {
 				}
 			}
 			if (!(commandSender instanceof Player) || cmd.permission(commandSender.getName())) {
-				String[] newargs = new String[args.length - 1];
-				for (int i = 1; i <= newargs.length; i++) {
-					newargs[i - 1] = args[i];
+				String[] newargs;
+				if (args.length == 0) {
+					newargs = new String[0];
+				} else {
+					newargs = new String[args.length - 1];
+					for (int i = 1; i <= newargs.length; i++) {
+						newargs[i - 1] = args[i];
+					}
 				}
+				
 				if (newargs.length >= cmd.minArgs() && newargs.length <= cmd.maxArgs()) {
 					cmd.execute(commandSender.getName(), newargs);
 					return true;
