@@ -24,6 +24,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import com.greatmancode.craftconomy3.Caller;
 import com.greatmancode.craftconomy3.Common;
 
 /**
@@ -54,7 +55,7 @@ public class BukkitCommandManager implements CommandExecutor, CommandManager {
 		if (cmd != null) {
 			if (cmd.playerOnly()) {
 				if (!(commandSender instanceof Player)) {
-					commandSender.sendMessage(ChatColor.RED + "Only a player can use this command!");
+					commandSender.sendMessage(Caller.CHAT_PREFIX + ChatColor.RED + "Only a player can use this command!");
 					return true;
 				}
 			}
@@ -74,11 +75,11 @@ public class BukkitCommandManager implements CommandExecutor, CommandManager {
 					return true;
 
 				} else {
-					commandSender.sendMessage(cmd.help());
+					commandSender.sendMessage(Caller.CHAT_PREFIX + cmd.help());
 					return true;
 				}
 			} else {
-				commandSender.sendMessage(ChatColor.RED + "You don't have enough permissions!");
+				commandSender.sendMessage(Caller.CHAT_PREFIX + ChatColor.RED + "You don't have enough permissions!");
 				return true;
 			}
 		}

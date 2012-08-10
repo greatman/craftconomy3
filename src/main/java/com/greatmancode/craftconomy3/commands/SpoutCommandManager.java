@@ -26,6 +26,7 @@ import org.spout.api.command.CommandSource;
 import org.spout.api.exception.CommandException;
 import org.spout.api.player.Player;
 
+import com.greatmancode.craftconomy3.Caller;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.CC3SpoutLoader;
 
@@ -59,7 +60,7 @@ public class SpoutCommandManager implements CommandExecutor, CommandManager {
 		if (cmd != null) {
 			if (cmd.playerOnly()) {
 				if (!(source instanceof Player)) {
-					source.sendMessage(ChatArguments.fromString("{{DARK_RED}}Only a player can use this command!"));
+					source.sendMessage(ChatArguments.fromString(Caller.CHAT_PREFIX + "{{DARK_RED}}Only a player can use this command!"));
 					return true;
 				}
 			}
@@ -75,13 +76,13 @@ public class SpoutCommandManager implements CommandExecutor, CommandManager {
 					}
 				}
 				if (newargs.length >= cmd.minArgs() && newargs.length <= cmd.maxArgs()) {
-					source.sendMessage(cmd.help());
+					source.sendMessage(ChatArguments.fromString(Caller.CHAT_PREFIX + cmd.help()));
 					return true;
 				}
 				cmd.execute(source.getName(), newargs);
 				return true;
 			} else {
-				source.sendMessage(ChatArguments.fromString("{{DARK_RED}}Not enough permissions!"));
+				source.sendMessage(ChatArguments.fromString(Caller.CHAT_PREFIX + "{{DARK_RED}}Not enough permissions!"));
 				return true;
 			}
 		}
