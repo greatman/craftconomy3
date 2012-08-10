@@ -76,10 +76,10 @@ public class SpoutCommandManager implements CommandExecutor, CommandManager {
 					}
 				}
 				if (newargs.length >= cmd.minArgs() && newargs.length <= cmd.maxArgs()) {
-					source.sendMessage(ChatArguments.fromString(Caller.CHAT_PREFIX + cmd.help()));
+					cmd.execute(source.getName(), newargs);
 					return true;
 				}
-				cmd.execute(source.getName(), newargs);
+				source.sendMessage(ChatArguments.fromString(Caller.CHAT_PREFIX + cmd.help()));
 				return true;
 			} else {
 				source.sendMessage(ChatArguments.fromString(Caller.CHAT_PREFIX + "{{DARK_RED}}Not enough permissions!"));
