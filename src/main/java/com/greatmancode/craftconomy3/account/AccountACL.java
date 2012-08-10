@@ -106,9 +106,9 @@ public class AccountACL {
 	public void setDeposit(String name, boolean deposit) {
 		if (aclList.containsKey(name)) {
 			AccountACLValue value = aclList.get(name);
-			set(name, deposit, value.getTable().withdraw , value.getTable().acl, value.getTable().show);
+			set(name, deposit, value.getTable().withdraw , value.getTable().acl, value.getTable().show, value.getTable().owner);
 		} else {
-			set(name,deposit,false,false,false);
+			set(name,deposit,false,false,false, false);
 		}
 	}
 	
@@ -120,9 +120,9 @@ public class AccountACL {
 	public void setWithdraw(String name, boolean withdraw) {
 		if (aclList.containsKey(name)) {
 			AccountACLValue value = aclList.get(name);
-			set(name, value.getTable().deposit, withdraw, value.getTable().acl, value.getTable().show);
+			set(name, value.getTable().deposit, withdraw, value.getTable().acl, value.getTable().show, value.getTable().owner);
 		} else {
-			set(name,false,withdraw,false,false);
+			set(name,false,withdraw,false,false, false);
 		}
 	}
 	
@@ -134,9 +134,9 @@ public class AccountACL {
 	public void setAcl(String name, boolean acl) {
 		if (aclList.containsKey(name)) {
 			AccountACLValue value = aclList.get(name);
-			set(name, value.getTable().deposit, value.getTable().withdraw, acl, value.getTable().show);
+			set(name, value.getTable().deposit, value.getTable().withdraw, acl, value.getTable().show, value.getTable().owner);
 		} else {
-			set(name,false,false,acl,false);
+			set(name,false,false,acl,false, false);
 		}
 	}
 	
@@ -149,9 +149,9 @@ public class AccountACL {
 	public void setShow(String name, boolean show) {
 		if (aclList.containsKey(name)) {
 			AccountACLValue value = aclList.get(name);
-			set(name, value.getTable().deposit, value.getTable().withdraw, value.getTable().acl, show);
+			set(name, value.getTable().deposit, value.getTable().withdraw, value.getTable().acl, show, value.getTable().owner);
 		} else {
-			set(name,false,false,false,show);
+			set(name,false,false,false,show, false);
 		}
 	}
 	/**
@@ -162,7 +162,7 @@ public class AccountACL {
 	 * @param acl Can modify the ACL or not
 	 * @param show Can show the balance
 	 */
-	public void set(String name, boolean deposit, boolean withdraw, boolean acl, boolean show) {
+	public void set(String name, boolean deposit, boolean withdraw, boolean acl, boolean show, boolean owner) {
 		AccessTable table = null;
 		if (aclList.containsKey(name)) {
 			table = Common.getInstance().getDatabaseManager().getDatabase().select(AccessTable.class).where().equal("id", aclList.get(name).getTable().id).execute().findOne();
@@ -176,10 +176,23 @@ public class AccountACL {
 		table.withdraw = withdraw;
 		table.acl = acl;
 		table.show = show;
+		table.owner = owner;
 		Common.getInstance().getDatabaseManager().getDatabase().save(table);
 		aclList.put(name, new AccountACLValue(table));
 	}
 	
+	/**
+	 * Checks if the player is the bank owner.
+	 * @param name The player name to check
+	 * @return True if the player is the owner of the account. Else false.
+	 */
+	public boolean isOwner(String name) {
+		boolean result = false;
+		if (aclList.containsKey(name)) {
+			result = aclList.get(name).getTable().owner;
+		}
+		return result;
+	}
 	/**
 	 * Returns the related account
 	 * @return The related account

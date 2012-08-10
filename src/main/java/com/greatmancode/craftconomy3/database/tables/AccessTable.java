@@ -45,4 +45,7 @@ public class AccessTable {
 	@Field
 	public boolean show;
 	
+	@Field
+	public boolean owner;
+	
 }
