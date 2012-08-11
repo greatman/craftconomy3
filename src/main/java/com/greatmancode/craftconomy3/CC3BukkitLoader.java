@@ -36,14 +36,15 @@ public class CC3BukkitLoader extends JavaPlugin {
 	private MetricsBukkit metrics;
 	public void onEnable() {
 		instance = this;
-		new Common(true,getLogger()).initialize();
-		this.getCommand("money").setExecutor(new BukkitCommandManager());
 		
 		try {
 			metrics = new MetricsBukkit(this);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		new Common(true,getLogger()).initialize();
+		this.getCommand("money").setExecutor(new BukkitCommandManager());
+
 	}
 	
 	public void onDisable() {

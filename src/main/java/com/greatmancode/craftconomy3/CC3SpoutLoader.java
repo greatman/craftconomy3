@@ -40,15 +40,15 @@ public class CC3SpoutLoader extends CommonPlugin {
 	@Override
 	public void onEnable() {
 		instance = this;
-		new Common(false, getLogger()).initialize();
-		getEngine().getServiceManager().register(EconomyService.class, new EconomyServiceHandler(), this, ServicePriority.Normal);
-		
 		try {
 			metrics = new MetricsSpout(this);
 			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		new Common(false, getLogger()).initialize();
+		getEngine().getServiceManager().register(EconomyService.class, new EconomyServiceHandler(), this, ServicePriority.Normal);
+
 	}
 
 	@Override
