@@ -45,6 +45,7 @@ public class CommandLoader {
 		moneyCmdList.put("delete", new DeleteCommand());
 		moneyCmdList.put("create", new CreateCommand());
 		moneyCmdList.put("delete", new DeleteCommand());
+		moneyCmdList.put("help", new HelpCommand());
 
 		bankCmdList.put("create", new BankCreateCommand());
 		bankCmdList.put("balance", new BankBalanceCommand());
