@@ -39,6 +39,8 @@ public class SpoutCommandManager implements CommandExecutor, CommandManager {
 
 	public SpoutCommandManager() {
 		CC3SpoutLoader.getInstance().getEngine().getRootCommand().addSubCommand(CC3SpoutLoader.getInstance(), "money").setHelp("Money Related Commands").setExecutor(this);
+		CC3SpoutLoader.getInstance().getEngine().getRootCommand().addSubCommand(CC3SpoutLoader.getInstance(), "bank").setHelp("Bank Related Commands").setExecutor(this);
+		
 	}
 
 	@Override
@@ -48,13 +50,13 @@ public class SpoutCommandManager implements CommandExecutor, CommandManager {
 			if (args.length() == 0) {
 				cmd = Common.getInstance().getCommandManager().getMoneyCmdList().get("");
 			} else {
-				Common.getInstance().getCommandManager().getMoneyCmdList().get(args.getString(0));
+				cmd = Common.getInstance().getCommandManager().getMoneyCmdList().get(args.getString(0));
 			}
 		} else if (command.getPreferredName().equals("bank")) {
 			if (args.length() == 0) {
 				cmd = Common.getInstance().getCommandManager().getBankCmdList().get("");
 			} else {
-				Common.getInstance().getCommandManager().getBankCmdList().get(args.getString(0));
+				cmd = Common.getInstance().getCommandManager().getBankCmdList().get(args.getString(0));
 			}
 		}
 		if (cmd != null) {
