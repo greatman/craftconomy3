@@ -22,7 +22,7 @@ import java.io.File;
 import java.util.logging.Level;
 
 import org.spout.api.chat.ChatArguments;
-import org.spout.api.player.Player;
+import org.spout.api.entity.Player;
 
 import com.greatmancode.craftconomy3.utils.MetricsSpout;
 import com.greatmancode.craftconomy3.utils.MetricsSpout.Graph;
