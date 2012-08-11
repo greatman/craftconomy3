@@ -46,6 +46,7 @@ public class CommandLoader {
 		moneyCmdList.put("create", new CreateCommand());
 		moneyCmdList.put("delete", new DeleteCommand());
 		moneyCmdList.put("help", new HelpCommand());
+		moneyCmdList.put("balance", new BalanceCommand());
 
 		bankCmdList.put("create", new BankCreateCommand());
 		bankCmdList.put("balance", new BankBalanceCommand());
@@ -54,6 +55,8 @@ public class CommandLoader {
 		bankCmdList.put("set", new BankSetCommand());
 		bankCmdList.put("", new BankHelpCommand());
 		bankCmdList.put("give", new BankGiveCommand());
+		bankCmdList.put("take", new BankTakeCommand());
+		bankCmdList.put("perm", new BankPermCommand());
 
 		if (!Common.isBukkit()) {
 			cmdLoader = new SpoutCommandManager();

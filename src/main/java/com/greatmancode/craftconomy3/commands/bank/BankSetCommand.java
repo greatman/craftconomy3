@@ -21,57 +21,77 @@ package com.greatmancode.craftconomy3.commands.bank;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.account.Account;
 import com.greatmancode.craftconomy3.commands.CraftconomyCommand;
+import com.greatmancode.craftconomy3.currency.Currency;
+import com.greatmancode.craftconomy3.currency.CurrencyManager;
+import com.greatmancode.craftconomy3.utils.Tools;
 
 public class BankSetCommand implements CraftconomyCommand {
 
 	@Override
 	public void execute(String sender, String[] args) {
 		if (Common.getInstance().getAccountManager().exist(Account.BANK_PREFIX + args[0])) {
-			Account account = Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + args[0]);
-			if (account.getAccountACL().canAcl(sender) || account.getAccountACL().isOwner(sender) || Common.getInstance().getServerCaller().checkPermission(sender, "craftconomy.bank.set.others")) {
-
-				if (args[1].equalsIgnoreCase("deposit")) {
-					account.getAccountACL().setDeposit(args[2], Boolean.parseBoolean(args[3]));
-				} else if (args[1].equalsIgnoreCase("withdraw")) {
-					account.getAccountACL().setWithdraw(args[2], Boolean.parseBoolean(args[3]));
-				} else if (args[1].equalsIgnoreCase("acl")) {
-					account.getAccountACL().setAcl(args[2], Boolean.parseBoolean(args[3]));
-				} else if (args[1].equalsIgnoreCase("show")) {
-					account.getAccountACL().setShow(args[2], Boolean.parseBoolean(args[3]));
-				} else {
-					Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Invalid flag!");
-					return;
+			Account bankAccount = Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + args[0]);
+			if (Tools.isValidDouble(args[1])) {
+				double amount = Double.parseDouble(args[1]);
+				Currency currency = Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.DefaultCurrencyID);
+				if (args.length > 2) {
+					if (Common.getInstance().getCurrencyManager().getCurrency(args[2]) != null) {
+						currency = Common.getInstance().getCurrencyManager().getCurrency(args[2]);
+					} else {
+						Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}That currency doesn't exist!");
+						return;
+					}
 				}
-				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}The flag {{WHITE}}" + args[1] + "{{DARK_GREEN}} for the player {{WHITE}}" + args[2] + "{{DARK_GREEN}} has been set to {{WHITE}}" + args[3]);
+				String worldName = "any";
+				if (args.length > 3) {
+					if (Common.getInstance().getConfigurationManager().getConfig().getBoolean("System.Default.Currency.MultiWorld")) {
+						if (!Common.getInstance().getServerCaller().worldExist(args[3])) {
+							Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}This world doesn't exist!");
+							return;
+						}
+						worldName = args[3];
+					}
+				} else {
+					if (!Common.getInstance().getServerCaller().isOnline(sender)) {
+						worldName = Common.getInstance().getServerCaller().getDefaultWorld();
+					} else {
+						worldName = Common.getInstance().getAccountManager().getAccount(sender).getWorldPlayerCurrentlyIn();
+					}
+				}
+				if (bankAccount.hasEnough(amount, worldName, currency.getName())) {
+					bankAccount.set(amount, worldName, currency.getName());
+					Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Set {{WHITE}}" + Common.getInstance().format(worldName, currency, amount) + "{{DARK_GREEN}} in the {{WHITE}}" + args[0] + "{{DARK_GREEN}} bank Account.");
+				} else {
+					Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}The bank account doesn't have enough money!");
+				}
+				
+				
 			} else {
-				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}You can't modify the ACL of this account!");
+				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Invalid amount!");
 			}
 		} else {
 			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}This account doesn't exist!");
 		}
-
 	}
 
 	@Override
 	public boolean permission(String sender) {
-		// TODO Auto-generated method stub
 		return Common.getInstance().getServerCaller().checkPermission(sender, "craftconomy.bank.set");
 	}
 
 	@Override
 	public String help() {
-		// TODO Auto-generated method stub
-		return "/bank set <Account Name> <deposit/withdraw/acl/show> <Player Name> <true/false> - Modify the permission of a player";
+		return "/bank set <Account Name> <Amount> [Currency] [World]- Set a balance in a account.";
 	}
 
 	@Override
 	public int maxArgs() {
-		return 4;
+		return 3;
 	}
 
 	@Override
 	public int minArgs() {
-		return 4;
+		return 2;
 	}
 
 	@Override
