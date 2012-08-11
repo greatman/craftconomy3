@@ -23,7 +23,7 @@ import com.greatmancode.craftconomy3.database.tables.AccessTable;
 public class AccountACLValue {
 
 	private AccessTable table;
-	
+
 	public AccountACLValue(AccessTable entry) {
 		this.table = entry;
 	}

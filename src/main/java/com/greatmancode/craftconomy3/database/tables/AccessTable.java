@@ -29,23 +29,23 @@ public class AccessTable {
 	public int id;
 	@Field
 	public int account_id;
-	
+
 	@Field
 	public String playerName;
-	
+
 	@Field
 	public boolean deposit;
-	
+
 	@Field
 	public boolean withdraw;
-	
+
 	@Field
 	public boolean acl;
-	
+
 	@Field
 	public boolean show;
-	
+
 	@Field
 	public boolean owner;
-	
+
 }

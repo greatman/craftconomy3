@@ -28,34 +28,35 @@ import com.greatmancode.craftconomy3.utils.MetricsBukkit;
 /**
  * Class used when the plugin is loaded from Craftbukkit
  * @author greatman
- *
+ * 
  */
 public class CC3BukkitLoader extends JavaPlugin {
 
 	private static CC3BukkitLoader instance = null;
 	private MetricsBukkit metrics;
+
 	public void onEnable() {
 		instance = this;
-		
+
 		try {
 			metrics = new MetricsBukkit(this);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		new Common(true,getLogger()).initialize();
+		new Common(true, getLogger()).initialize();
 		BukkitCommandManager cmdManager = new BukkitCommandManager();
 		this.getCommand("money").setExecutor(cmdManager);
 		this.getCommand("bank").setExecutor(cmdManager);
 	}
-	
+
 	public void onDisable() {
 		Common.getInstance().disable();
 	}
-	
+
 	public static CC3BukkitLoader getInstance() {
 		return instance;
 	}
-	
+
 	public MetricsBukkit getMetrics() {
 		return metrics;
 	}

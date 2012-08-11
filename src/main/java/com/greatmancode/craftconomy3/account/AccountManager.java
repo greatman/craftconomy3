@@ -28,7 +28,7 @@ import com.greatmancode.craftconomy3.database.tables.BalanceTable;
 /**
  * Provides access to a account.
  * @author greatman
- *
+ * 
  */
 public class AccountManager {
 	public HashMap<String, Account> accountList = new HashMap<String, Account>();
@@ -46,11 +46,11 @@ public class AccountManager {
 		} else {
 			account = new Account(name);
 			accountList.put(name, account);
-			
+
 		}
 		return account;
 	}
-	
+
 	/**
 	 * Check if a account exist in the database.
 	 * @param name The name to check
@@ -64,8 +64,7 @@ public class AccountManager {
 		}
 		return result;
 	}
-	
-	
+
 	/**
 	 * Delete a account from the system
 	 * @param name The account name
@@ -85,8 +84,7 @@ public class AccountManager {
 			result = true;
 		}
 		return result;
-		
-		
+
 	}
-	
+
 }

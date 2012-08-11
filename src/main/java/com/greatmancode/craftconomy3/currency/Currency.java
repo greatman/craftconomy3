@@ -24,7 +24,7 @@ import com.greatmancode.craftconomy3.database.tables.CurrencyTable;
 /**
  * Represents a currency
  * @author greatman
- *
+ * 
  */
 public class Currency {
 
@@ -113,12 +113,12 @@ public class Currency {
 	public int getDatabaseID() {
 		return entry.id;
 	}
-	
+
 	/**
 	 * Save the currency information.
 	 */
 	private void save() {
 		Common.getInstance().getDatabaseManager().getDatabase().save(entry);
 	}
-	
+
 }

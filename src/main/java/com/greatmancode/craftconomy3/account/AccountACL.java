@@ -28,24 +28,24 @@ import com.greatmancode.craftconomy3.database.tables.AccessTable;
 /**
  * Used with bank accounts. Takes care of the access control of a bank account.
  * @author greatman
- *
+ * 
  */
 public class AccountACL {
 
-	private HashMap<String, AccountACLValue> aclList = new HashMap<String,AccountACLValue>();
+	private HashMap<String, AccountACLValue> aclList = new HashMap<String, AccountACLValue>();
 	private Account account;
-	
+
 	public AccountACL(Account account, int accountID) {
 		this.account = account;
 		List<AccessTable> aclTable = Common.getInstance().getDatabaseManager().getDatabase().select(AccessTable.class).where().equal("account_id", accountID).execute().find();
 		Iterator<AccessTable> aclIterator = aclTable.iterator();
-		while(aclIterator.hasNext()) {
+		while (aclIterator.hasNext()) {
 			AccessTable entry = aclIterator.next();
 			aclList.put(entry.playerName, new AccountACLValue(entry));
 		}
-		
+
 	}
-	
+
 	/**
 	 * Checks if a player can deposit money
 	 * @param name The player name
@@ -58,7 +58,7 @@ public class AccountACL {
 		}
 		return result;
 	}
-	
+
 	/**
 	 * Checks if a player can withdraw money
 	 * @param name The player name
@@ -71,7 +71,7 @@ public class AccountACL {
 		}
 		return result;
 	}
-	
+
 	/**
 	 * Checks if a player can modify the ACL
 	 * @param name The player name
@@ -84,7 +84,7 @@ public class AccountACL {
 		}
 		return result;
 	}
-	
+
 	/**
 	 * Checks if a player can show the balance of the account
 	 * @param name The player name
@@ -97,7 +97,7 @@ public class AccountACL {
 		}
 		return result;
 	}
-	
+
 	/**
 	 * Set if a player can deposit money in the account
 	 * @param name The Player name
@@ -106,12 +106,12 @@ public class AccountACL {
 	public void setDeposit(String name, boolean deposit) {
 		if (aclList.containsKey(name)) {
 			AccountACLValue value = aclList.get(name);
-			set(name, deposit, value.getTable().withdraw , value.getTable().acl, value.getTable().show, value.getTable().owner);
+			set(name, deposit, value.getTable().withdraw, value.getTable().acl, value.getTable().show, value.getTable().owner);
 		} else {
-			set(name,deposit,false,false,false, false);
+			set(name, deposit, false, false, false, false);
 		}
 	}
-	
+
 	/**
 	 * Set if a player can withdraw money in the account
 	 * @param name The Player name
@@ -122,10 +122,10 @@ public class AccountACL {
 			AccountACLValue value = aclList.get(name);
 			set(name, value.getTable().deposit, withdraw, value.getTable().acl, value.getTable().show, value.getTable().owner);
 		} else {
-			set(name,false,withdraw,false,false, false);
+			set(name, false, withdraw, false, false, false);
 		}
 	}
-	
+
 	/**
 	 * Set if a player can modify the ACL list
 	 * @param name The player name
@@ -136,11 +136,10 @@ public class AccountACL {
 			AccountACLValue value = aclList.get(name);
 			set(name, value.getTable().deposit, value.getTable().withdraw, acl, value.getTable().show, value.getTable().owner);
 		} else {
-			set(name,false,false,acl,false, false);
+			set(name, false, false, acl, false, false);
 		}
 	}
-	
-	
+
 	/**
 	 * Set if a player can show the bank balance.
 	 * @param name The player name
@@ -151,9 +150,10 @@ public class AccountACL {
 			AccountACLValue value = aclList.get(name);
 			set(name, value.getTable().deposit, value.getTable().withdraw, value.getTable().acl, show, value.getTable().owner);
 		} else {
-			set(name,false,false,false,show, false);
+			set(name, false, false, false, show, false);
 		}
 	}
+
 	/**
 	 * Set a player in the ACL list
 	 * @param name The Player
@@ -169,7 +169,7 @@ public class AccountACL {
 		} else {
 			table = new AccessTable();
 		}
-		
+
 		table.account_id = getParent().getAccountID();
 		table.playerName = name;
 		table.deposit = deposit;
@@ -180,7 +180,7 @@ public class AccountACL {
 		Common.getInstance().getDatabaseManager().getDatabase().save(table);
 		aclList.put(name, new AccountACLValue(table));
 	}
-	
+
 	/**
 	 * Checks if the player is the bank owner.
 	 * @param name The player name to check
@@ -193,6 +193,7 @@ public class AccountACL {
 		}
 		return result;
 	}
+
 	/**
 	 * Returns the related account
 	 * @return The related account

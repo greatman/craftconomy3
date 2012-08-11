@@ -27,7 +27,7 @@ public class AccountTable {
 
 	@Id
 	public int id;
-	
+
 	@Field
 	public String name;
 }

@@ -18,33 +18,30 @@
  */
 package com.greatmancode.craftconomy3.configuration;
 
-import java.io.File;
-
 import com.greatmancode.craftconomy3.Common;
 
 /**
  * Configuration Loader. Load the configuration with the Server configuration manager.
  * @author greatman
- *
+ * 
  */
 public class ConfigurationManager {
 
 	private Config config = null;
-	
+
 	public ConfigurationManager() {
-		
-		
+
 	}
 
 	public void initialize() {
 		if (Common.isBukkit()) {
-			
+
 			config = new BukkitConfig();
 		} else {
 			config = new SpoutConfig();
 		}
 	}
-	
+
 	/**
 	 * Retrieve the configuration handler
 	 * @return The configuration handler.

@@ -27,17 +27,17 @@ public class CurrencyTable {
 
 	@Id
 	public int id;
-	
+
 	@Field
 	public String name;
-	
+
 	@Field
 	public String plural;
-	
-	@Field 
+
+	@Field
 	public String minor;
-	
+
 	@Field
 	public String minorplural;
-	
+
 }

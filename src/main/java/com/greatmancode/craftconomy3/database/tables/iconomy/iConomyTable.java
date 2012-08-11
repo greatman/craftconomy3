@@ -26,7 +26,7 @@ public class iConomyTable {
 
 	@Field
 	public String username;
-	
+
 	@Field
 	public double balance;
 }

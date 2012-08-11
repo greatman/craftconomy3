@@ -27,16 +27,16 @@ public class BalanceTable {
 
 	@Id
 	public int id;
-	
+
 	@Field
 	public int username_id;
-	
+
 	@Field
 	public int currency_id;
-	
+
 	@Field
 	public String worldName;
-	
+
 	@Field
 	public double balance;
 }

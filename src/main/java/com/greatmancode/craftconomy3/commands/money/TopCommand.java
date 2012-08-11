@@ -25,8 +25,8 @@ public class TopCommand implements CraftconomyCommand {
 
 	@Override
 	public void execute(String sender, String[] args) {
-		
-		//TODO: Need alta to add a orderQuery
+
+		// TODO: Need alta to add a orderQuery
 		Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Command not yet implemented.");
 	}
 
@@ -37,7 +37,7 @@ public class TopCommand implements CraftconomyCommand {
 
 	@Override
 	public String help() {
-		return "/money top <Currency> [World] - Shows the top list"; 
+		return "/money top <Currency> [World] - Shows the top list";
 	}
 
 	@Override

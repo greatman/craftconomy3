@@ -31,7 +31,7 @@ import com.greatmancode.craftconomy3.database.tables.BalanceTable;
 /**
  * Represents a economy account.
  * @author greatman
- *
+ * 
  */
 public class Account {
 
@@ -63,7 +63,7 @@ public class Account {
 			} else {
 				balance.balance = 0.0;
 			}
-			
+
 			Common.getInstance().getDatabaseManager().getDatabase().save(balance);
 		}
 
@@ -72,7 +72,6 @@ public class Account {
 		}
 	}
 
-	
 	/**
 	 * Returns the account database ID
 	 * @return the account database ID
@@ -80,7 +79,7 @@ public class Account {
 	public int getAccountID() {
 		return account.id;
 	}
-	
+
 	/**
 	 * Returns the account name.
 	 * @return The account name

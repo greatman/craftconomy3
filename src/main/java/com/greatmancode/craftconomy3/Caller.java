@@ -88,19 +88,19 @@ public interface Caller {
 	 * @return The data folder
 	 */
 	public File getDataFolder();
-	
+
 	/**
 	 * Add a entry in the DB Metrics graph
 	 * @param dbName The name of the database system
 	 */
 	public void addDbGraph(String dbName);
-	
+
 	/**
 	 * Add a entry in the Multiworld Metrics graph
 	 * @param enabled True if multiworld is enabled else false.
 	 */
 	public void addMultiworldGraph(boolean enabled);
-	
+
 	/**
 	 * Starts Metrics
 	 */

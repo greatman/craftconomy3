@@ -22,14 +22,14 @@ import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.account.Account;
 import com.greatmancode.craftconomy3.commands.CraftconomyCommand;
 
-public class BankSetCommand implements CraftconomyCommand{
+public class BankSetCommand implements CraftconomyCommand {
 
 	@Override
 	public void execute(String sender, String[] args) {
 		if (Common.getInstance().getAccountManager().exist(Account.BANK_PREFIX + args[0])) {
 			Account account = Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + args[0]);
 			if (account.getAccountACL().canAcl(sender) || account.getAccountACL().isOwner(sender) || Common.getInstance().getServerCaller().checkPermission(sender, "craftconomy.bank.set.others")) {
-				
+
 				if (args[1].equalsIgnoreCase("deposit")) {
 					account.getAccountACL().setDeposit(args[2], Boolean.parseBoolean(args[3]));
 				} else if (args[1].equalsIgnoreCase("withdraw")) {
@@ -49,7 +49,7 @@ public class BankSetCommand implements CraftconomyCommand{
 		} else {
 			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}This account doesn't exist!");
 		}
-		
+
 	}
 
 	@Override

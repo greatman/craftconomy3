@@ -18,7 +18,6 @@
  */
 package com.greatmancode.craftconomy3.commands;
 
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -30,7 +29,7 @@ import com.greatmancode.craftconomy3.Common;
 /**
  * Handles the commands for the Bukkit server
  * @author greatman
- *
+ * 
  */
 public class BukkitCommandManager implements CommandExecutor, CommandManager {
 
@@ -50,12 +49,14 @@ public class BukkitCommandManager implements CommandExecutor, CommandManager {
 			} else {
 				cmd = Common.getInstance().getCommandManager().getBankCmdList().get(args[0]);
 			}
+		} else {
+			return false;
 		}
 
 		if (cmd != null) {
 			if (cmd.playerOnly()) {
 				if (!(commandSender instanceof Player)) {
-					commandSender.sendMessage(Common.getInstance().getServerCaller().addColor(Caller.CHAT_PREFIX + ChatColor.RED + "Only a player can use this command!"));
+					commandSender.sendMessage(Common.getInstance().getServerCaller().addColor(Caller.CHAT_PREFIX + "{{DARK_RED}}Only a player can use this command!"));
 					return true;
 				}
 			}
@@ -69,7 +70,7 @@ public class BukkitCommandManager implements CommandExecutor, CommandManager {
 						newargs[i - 1] = args[i];
 					}
 				}
-				
+
 				if (newargs.length >= cmd.minArgs() && newargs.length <= cmd.maxArgs()) {
 					cmd.execute(commandSender.getName(), newargs);
 					return true;
@@ -79,12 +80,13 @@ public class BukkitCommandManager implements CommandExecutor, CommandManager {
 					return true;
 				}
 			} else {
-				commandSender.sendMessage(Common.getInstance().getServerCaller().addColor(Caller.CHAT_PREFIX + ChatColor.RED + "You don't have enough permissions!"));
+				commandSender.sendMessage(Common.getInstance().getServerCaller().addColor(Caller.CHAT_PREFIX + "{{DARK_RED}}You don't have enough permissions!"));
 				return true;
 			}
+		} else {
+			commandSender.sendMessage(Common.getInstance().getServerCaller().addColor(Caller.CHAT_PREFIX + "{{DARK_RED}}Sub-Command not found! Use {{WHITE}}/" + command.getName() + " help {{DARK_RED}} for help."));
+			return true;
 		}
-
-		return false;
 	}
 
 }

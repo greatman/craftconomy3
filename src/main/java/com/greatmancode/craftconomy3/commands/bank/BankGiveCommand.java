@@ -16,23 +16,24 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Craftconomy3.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.greatmancode.craftconomy3.commands.money;
+package com.greatmancode.craftconomy3.commands.bank;
 
 import com.greatmancode.craftconomy3.Common;
+import com.greatmancode.craftconomy3.account.Account;
 import com.greatmancode.craftconomy3.commands.CraftconomyCommand;
 import com.greatmancode.craftconomy3.currency.Currency;
 import com.greatmancode.craftconomy3.currency.CurrencyManager;
 import com.greatmancode.craftconomy3.utils.Tools;
 
-public class TakeCommand implements CraftconomyCommand {
+public class BankGiveCommand implements CraftconomyCommand {
 
 	@Override
 	public void execute(String sender, String[] args) {
-		if (Common.getInstance().getServerCaller().isOnline(args[0])) {
+		if (Common.getInstance().getAccountManager().exist(Account.BANK_PREFIX + args[0])) {
+			Account bankAccount = Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + args[0]);
 			if (Tools.isValidDouble(args[1])) {
 				double amount = Double.parseDouble(args[1]);
 				Currency currency = Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.DefaultCurrencyID);
-
 				if (args.length > 2) {
 					if (Common.getInstance().getCurrencyManager().getCurrency(args[2]) != null) {
 						currency = Common.getInstance().getCurrencyManager().getCurrency(args[2]);
@@ -41,47 +42,30 @@ public class TakeCommand implements CraftconomyCommand {
 						return;
 					}
 				}
-				String worldName = "any";
-				if (args.length > 3) {
-					if (Common.getInstance().getConfigurationManager().getConfig().getBoolean("System.Default.Currency.MultiWorld")) {
-						if (!Common.getInstance().getServerCaller().worldExist(args[3])) {
-							Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}This world doesn't exist!");
-							return;
-						}
-						worldName = args[3];
-					}
-				} else {
-					if (!Common.getInstance().getServerCaller().isOnline(sender)) {
-						worldName = Common.getInstance().getServerCaller().getDefaultWorld();
-					} else {
-						worldName = Common.getInstance().getAccountManager().getAccount(sender).getWorldPlayerCurrentlyIn();
-					}
-				}
+				bankAccount.deposit(amount, Common.getInstance().getAccountManager().getAccount(sender).getWorldPlayerCurrentlyIn(), currency.getName());
+				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Deposited {{WHITE}}" + Common.getInstance().format(null, currency, amount) + "{{DARK_GREEN}} from the {{WHITE}}" + args[0] + "{{DARK_GREEN}} bank Account.");
 
-				Common.getInstance().getAccountManager().getAccount(args[0]).withdraw(amount, worldName, currency.getName());
-				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Took {{WHITE}}" + Common.getInstance().format(worldName, currency, amount) + "{{DARK_GREEN}} to {{WHITE}}" + args[0]);
-				Common.getInstance().getServerCaller().sendMessage(args[0], "{{DARK_GREEN}}Removed {{WHITE}}" + Common.getInstance().format(worldName, currency, amount) + "{{DARK_GREEN}} by {{WHITE}}" + sender);
 			} else {
-				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Excepted a positive number as Amount. Received something else!");
+				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Invalid amount!");
 			}
 		} else {
-			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}The player isin't online!");
+			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}This account doesn't exist!");
 		}
 	}
 
 	@Override
 	public boolean permission(String sender) {
-		return Common.getInstance().getServerCaller().checkPermission(sender, "craftconomy.money.take");
+		return Common.getInstance().getServerCaller().checkPermission(sender, "craftconomy.bank.give");
 	}
 
 	@Override
 	public String help() {
-		return "/money take <Player Name> <Amount> [Currency] [World] - take money from someone";
+		return "/bank give <Account Name> <Amount> [Currency] - Give money in a account.";
 	}
 
 	@Override
 	public int maxArgs() {
-		return 4;
+		return 3;
 	}
 
 	@Override

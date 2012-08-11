@@ -30,7 +30,7 @@ public class BankHelpCommand implements CraftconomyCommand {
 	@Override
 	public void execute(String sender, String[] args) {
 		Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}} ======== Bank Commands ========");
-		HashMap<String,CraftconomyCommand> cmdList = Common.getInstance().getCommandManager().getBankCmdList();
+		HashMap<String, CraftconomyCommand> cmdList = Common.getInstance().getCommandManager().getBankCmdList();
 		Iterator<Entry<String, CraftconomyCommand>> iterator = cmdList.entrySet().iterator();
 		while (iterator.hasNext()) {
 			Entry<String, CraftconomyCommand> entry = iterator.next();

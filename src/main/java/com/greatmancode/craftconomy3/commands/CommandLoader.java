@@ -27,13 +27,14 @@ import com.greatmancode.craftconomy3.commands.money.*;
 /**
  * Generic CommandLoader. Loads all the sub-commands.
  * @author greatman
- *
+ * 
  */
 public class CommandLoader {
 
 	private HashMap<String, CraftconomyCommand> moneyCmdList = new HashMap<String, CraftconomyCommand>();
 	private HashMap<String, CraftconomyCommand> bankCmdList = new HashMap<String, CraftconomyCommand>();
 	private CommandManager cmdLoader;
+
 	public CommandLoader() {
 		moneyCmdList.put("", new MainCommand());
 		moneyCmdList.put("all", new AllCommand());
@@ -44,19 +45,20 @@ public class CommandLoader {
 		moneyCmdList.put("delete", new DeleteCommand());
 		moneyCmdList.put("create", new CreateCommand());
 		moneyCmdList.put("delete", new DeleteCommand());
-		
+
 		bankCmdList.put("create", new BankCreateCommand());
 		bankCmdList.put("balance", new BankBalanceCommand());
 		bankCmdList.put("deposit", new BankDepositCommand());
 		bankCmdList.put("withdraw", new BankWithdrawCommand());
 		bankCmdList.put("set", new BankSetCommand());
 		bankCmdList.put("", new BankHelpCommand());
-		
+		bankCmdList.put("give", new BankGiveCommand());
+
 		if (!Common.isBukkit()) {
 			cmdLoader = new SpoutCommandManager();
 		}
 	}
-	
+
 	/**
 	 * Get the list of sub-commands of the /money command.
 	 * @return A HashMap containing the sub-commands.
@@ -64,7 +66,7 @@ public class CommandLoader {
 	public HashMap<String, CraftconomyCommand> getMoneyCmdList() {
 		return moneyCmdList;
 	}
-	
+
 	/**
 	 * Get the list of sub-commands of the /bank command
 	 * @return A HashMap containing the sub-commands.

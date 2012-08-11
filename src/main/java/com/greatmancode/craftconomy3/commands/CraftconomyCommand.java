@@ -21,7 +21,7 @@ package com.greatmancode.craftconomy3.commands;
 /**
  * Represents a command
  * @author greatman
- *
+ * 
  */
 public interface CraftconomyCommand {
 
@@ -31,32 +31,32 @@ public interface CraftconomyCommand {
 	 * @param args A String array of all the arguments
 	 */
 	public void execute(String sender, String[] args);
-	
+
 	/**
 	 * Checks if the command sender can execute this command.
 	 * @param sender The sender to check
 	 * @return True if the sender have permission else False
 	 */
 	public boolean permission(String sender);
-	
+
 	/**
 	 * Returns a usage/help line about the command
 	 * @return A string containing the usage/help about the command.
 	 */
 	public String help();
-	
+
 	/**
 	 * The maximum number of arguments that this command take
 	 * @return The maximum number of arguments
 	 */
 	public int maxArgs();
-	
+
 	/**
 	 * The minimum number of arguments this command take
 	 * @return The minimum number of arguments
 	 */
 	public int minArgs();
-	
+
 	/**
 	 * State if this command is for Players only
 	 * @return True if the command is for player only else false.

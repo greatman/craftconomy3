@@ -51,14 +51,14 @@ public class BankWithdrawCommand implements CraftconomyCommand {
 					} else {
 						Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Not enough money!");
 					}
-					
+
 				} else {
-					
+					Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Invalid amount!");
 				}
 			} else {
 				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}You can't withdraw in this account!");
 			}
-			
+
 		} else {
 			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}This account doesn't exist!");
 		}

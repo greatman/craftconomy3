@@ -32,11 +32,10 @@ public class AllCommand implements CraftconomyCommand {
 		Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Balance: ");
 		Account account = Common.getInstance().getAccountManager().getAccount(sender);
 		Iterator<Balance> balanceList = account.getAllBalance().iterator();
-		while(balanceList.hasNext())
-		{
+		while (balanceList.hasNext()) {
 			Balance bl = balanceList.next();
 			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().format(bl.getWorld(), bl.getCurrency(), bl.getBalance()));
-		
+
 		}
 	}
 

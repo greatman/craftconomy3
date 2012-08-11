@@ -156,7 +156,7 @@ public class Common {
 							while (icoListIterator.hasNext()) {
 								iConomyTable entry = icoListIterator.next();
 								getAccountManager().getAccount(entry.username).set(entry.balance, defaultWorld, getCurrencyManager().getCurrency(CurrencyManager.DefaultCurrencyID).getName());
-								
+
 							}
 							sendConsoleMessage(Level.INFO, "Done converting!");
 						} else {
@@ -182,7 +182,7 @@ public class Common {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static boolean isBukkit() {
 		return isBukkit;
 	}

@@ -34,7 +34,7 @@ import com.greatmancode.craftconomy3.database.tables.CurrencyTable;
 /**
  * Handle the database link.
  * @author greatman
- *
+ * 
  */
 public class DatabaseManager {
 

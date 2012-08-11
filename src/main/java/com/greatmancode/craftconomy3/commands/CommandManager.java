@@ -21,7 +21,7 @@ package com.greatmancode.craftconomy3.commands;
 /**
  * Represents a Command Manager
  * @author greatman
- *
+ * 
  */
 public interface CommandManager {
 

@@ -21,36 +21,38 @@ package com.greatmancode.craftconomy3.configuration;
 /**
  * Represents a Configuration handler
  * @author greatman
- *
+ * 
  */
 public abstract class Config {
-	
+
 	/**
 	 * Retrieve a integer from the configuration
 	 * @param path The path to the integer we want to retrieve
 	 * @return A integer
 	 */
 	public abstract int getInt(String path);
-	
+
 	/**
 	 * Retrieve a long from the configuration
 	 * @param path The path to the long we want to retrieve
 	 * @return A Long
 	 */
 	public abstract long getLong(String path);
-	
+
 	/**
 	 * Retrieve a double from the configuration
 	 * @param path The path to the double we want to retrieve
 	 * @return A double
 	 */
 	public abstract double getDouble(String path);
+
 	/**
 	 * Retrieve a String from the configuration
 	 * @param path The path to the String we want to retrieve
 	 * @return A String
 	 */
 	public abstract String getString(String path);
+
 	/**
 	 * Retrieve a Boolean from the configuration
 	 * @param path The path to the Boolean we want to retrieve

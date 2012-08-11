@@ -30,26 +30,29 @@ import com.greatmancode.craftconomy3.utils.MetricsBukkit.Graph;
 /**
  * Server caller for Craftbukkit
  * @author greatman
- *
+ * 
  */
 public class BukkitCaller implements Caller {
 
+	@Override
 	public void disablePlugin() {
 		CC3BukkitLoader.getInstance().getPluginLoader().disablePlugin(CC3BukkitLoader.getInstance());
 	}
 
+	@Override
 	public boolean checkPermission(String playerName, String perm) {
 		boolean result = false;
 		Player p = CC3BukkitLoader.getInstance().getServer().getPlayerExact(playerName);
 		if (p != null) {
 			result = p.hasPermission(perm);
 		} else {
-		 	// It's the console
+			// It's the console
 			result = true;
 		}
 		return result;
 	}
 
+	@Override
 	public void sendMessage(String playerName, String message) {
 		Player p = CC3BukkitLoader.getInstance().getServer().getPlayerExact(playerName);
 		if (p != null) {
@@ -59,6 +62,7 @@ public class BukkitCaller implements Caller {
 		}
 	}
 
+	@Override
 	public String getPlayerWorld(String playerName) {
 		String result = "";
 		Player p = CC3BukkitLoader.getInstance().getServer().getPlayerExact(playerName);
@@ -68,6 +72,7 @@ public class BukkitCaller implements Caller {
 		return result;
 	}
 
+	@Override
 	public boolean isOnline(String playerName) {
 		return CC3BukkitLoader.getInstance().getServer().getPlayerExact(playerName) != null;
 	}
@@ -93,6 +98,7 @@ public class BukkitCaller implements Caller {
 		return str;
 	}
 
+	@Override
 	public String getDefaultWorld() {
 		return CC3BukkitLoader.getInstance().getServer().getWorlds().get(0).getName();
 	}
@@ -106,12 +112,12 @@ public class BukkitCaller implements Caller {
 	public File getDataFolder() {
 		return CC3BukkitLoader.getInstance().getDataFolder();
 	}
-	
+
 	@Override
 	public void addDbGraph(String dbType) {
 		Graph graph = CC3BukkitLoader.getInstance().getMetrics().createGraph("Database Engine");
 		graph.addPlotter(new MetricsBukkit.Plotter(dbType) {
-			
+
 			@Override
 			public int getValue() {
 				// TODO Auto-generated method stub
@@ -119,7 +125,7 @@ public class BukkitCaller implements Caller {
 			}
 		});
 	}
-	
+
 	@Override
 	public void addMultiworldGraph(boolean enabled) {
 		Graph graph = CC3BukkitLoader.getInstance().getMetrics().createGraph("Multiworld");
@@ -128,7 +134,7 @@ public class BukkitCaller implements Caller {
 			stringEnabled = "Yes";
 		}
 		graph.addPlotter(new MetricsBukkit.Plotter(stringEnabled) {
-			
+
 			@Override
 			public int getValue() {
 				// TODO Auto-generated method stub
@@ -136,7 +142,8 @@ public class BukkitCaller implements Caller {
 			}
 		});
 	}
-	
+
+	@Override
 	public void startMetrics() {
 		CC3BukkitLoader.getInstance().getMetrics().start();
 	}

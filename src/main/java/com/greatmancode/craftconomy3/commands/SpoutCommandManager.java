@@ -33,14 +33,14 @@ import com.greatmancode.craftconomy3.CC3SpoutLoader;
 /**
  * Handle the commands for the Spout server.
  * @author greatman
- *
+ * 
  */
 public class SpoutCommandManager implements CommandExecutor, CommandManager {
 
 	public SpoutCommandManager() {
 		CC3SpoutLoader.getInstance().getEngine().getRootCommand().addSubCommand(CC3SpoutLoader.getInstance(), "money").setHelp("Money Related Commands").setExecutor(this);
 		CC3SpoutLoader.getInstance().getEngine().getRootCommand().addSubCommand(CC3SpoutLoader.getInstance(), "bank").setHelp("Bank Related Commands").setExecutor(this);
-		
+
 	}
 
 	@Override
@@ -58,6 +58,8 @@ public class SpoutCommandManager implements CommandExecutor, CommandManager {
 			} else {
 				cmd = Common.getInstance().getCommandManager().getBankCmdList().get(args.getString(0));
 			}
+		} else {
+			return false;
 		}
 		if (cmd != null) {
 			if (cmd.playerOnly()) {
@@ -87,8 +89,10 @@ public class SpoutCommandManager implements CommandExecutor, CommandManager {
 				source.sendMessage(ChatArguments.fromString(Caller.CHAT_PREFIX + "{{DARK_RED}}Not enough permissions!"));
 				return true;
 			}
+		} else {
+			source.sendMessage(ChatArguments.fromString(Caller.CHAT_PREFIX + "{{DARK_RED}} Sub-Command not found! Use {{WHITE}} /" + command.getPreferredName() + " help {{DARK_RED}} for help."));
+			return true;
 		}
-		return false;
 	}
 
 }

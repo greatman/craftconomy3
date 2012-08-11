@@ -27,12 +27,12 @@ public class BukkitConfig extends Config {
 
 	public BukkitConfig() {
 		File file = new File(Common.getInstance().getServerCaller().getDataFolder(), "config.yml");
-		if (!file.exists())
-		{
+		if (!file.exists()) {
 			CC3BukkitLoader.getInstance().getConfig().options().copyDefaults(true);
 			CC3BukkitLoader.getInstance().saveConfig();
 		}
 	}
+
 	@Override
 	public int getInt(String path) {
 		return CC3BukkitLoader.getInstance().getConfig().getInt(path);
@@ -52,6 +52,7 @@ public class BukkitConfig extends Config {
 	public String getString(String path) {
 		return CC3BukkitLoader.getInstance().getConfig().getString(path);
 	}
+
 	@Override
 	public boolean getBoolean(String path) {
 		return CC3BukkitLoader.getInstance().getConfig().getBoolean(path);

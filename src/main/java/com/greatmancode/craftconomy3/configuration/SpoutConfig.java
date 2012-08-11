@@ -31,10 +31,10 @@ import com.greatmancode.craftconomy3.Common;
 public class SpoutConfig extends Config {
 
 	private YamlConfiguration config = null;
+
 	public SpoutConfig() {
 		File file = new File(Common.getInstance().getServerCaller().getDataFolder(), "config.yml");
-		if (!file.exists())
-		{
+		if (!file.exists()) {
 			URL inputURL = getClass().getResource("/config.yml");
 			System.out.println(inputURL);
 			try {
@@ -50,6 +50,7 @@ public class SpoutConfig extends Config {
 			e.printStackTrace();
 		}
 	}
+
 	@Override
 	public int getInt(String path) {
 		return config.getNode(path).getInt();
@@ -69,6 +70,7 @@ public class SpoutConfig extends Config {
 	public String getString(String path) {
 		return config.getNode(path).getString();
 	}
+
 	@Override
 	public boolean getBoolean(String path) {
 		return config.getNode(path).getBoolean();

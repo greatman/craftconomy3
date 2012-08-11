@@ -30,47 +30,44 @@ import com.greatmancode.craftconomy3.utils.MetricsSpout.Graph;
 /**
  * Server caller for Spout
  * @author greatman
- *
+ * 
  */
-public class SpoutCaller implements Caller{
+public class SpoutCaller implements Caller {
 
 	@Override
 	public void disablePlugin() {
 		CC3SpoutLoader.getInstance().getPluginLoader().disablePlugin(CC3SpoutLoader.getInstance());
 	}
-	
+
 	@Override
 	public boolean checkPermission(String playerName, String perm) {
 		boolean result = false;
 		Player p = CC3SpoutLoader.getInstance().getEngine().getPlayer(playerName, true);
-		if (p != null)
-		{
+		if (p != null) {
 			result = p.hasPermission(perm);
 		} else {
-			//It's the console
+			// It's the console
 			result = true;
 		}
 		return result;
-		
+
 	}
-	
+
 	@Override
 	public void sendMessage(String playerName, String message) {
 		Player p = CC3SpoutLoader.getInstance().getEngine().getPlayer(playerName, true);
-		if (p != null)
-		{
+		if (p != null) {
 			p.sendMessage(ChatArguments.fromString(CHAT_PREFIX + message));
 		} else {
 			Common.getInstance().getLogger().log(Level.INFO, CHAT_PREFIX + message);
 		}
 	}
-	
+
 	@Override
 	public String getPlayerWorld(String playerName) {
 		String worldName = "";
 		Player p = CC3SpoutLoader.getInstance().getEngine().getPlayer(playerName, true);
-		if (p != null)
-		{
+		if (p != null) {
 			worldName = p.getWorld().getName();
 		}
 		return worldName;
@@ -80,10 +77,10 @@ public class SpoutCaller implements Caller{
 	public boolean isOnline(String playerName) {
 		return CC3SpoutLoader.getInstance().getEngine().getPlayer(playerName, true) != null;
 	}
-	
+
 	@Override
 	public String addColor(String str) {
-		//Useless with Spout
+		// Useless with Spout
 		return null;
 	}
 
@@ -101,12 +98,12 @@ public class SpoutCaller implements Caller{
 	public File getDataFolder() {
 		return CC3SpoutLoader.getInstance().getDataFolder();
 	}
-	
+
 	@Override
 	public void addDbGraph(String dbType) {
 		Graph graph = CC3SpoutLoader.getInstance().getMetrics().createGraph("Database Engine");
 		graph.addPlotter(new MetricsSpout.Plotter(dbType) {
-			
+
 			@Override
 			public int getValue() {
 				// TODO Auto-generated method stub
@@ -114,7 +111,7 @@ public class SpoutCaller implements Caller{
 			}
 		});
 	}
-	
+
 	@Override
 	public void addMultiworldGraph(boolean enabled) {
 		Graph graph = CC3SpoutLoader.getInstance().getMetrics().createGraph("Multiworld");
@@ -123,7 +120,7 @@ public class SpoutCaller implements Caller{
 			stringEnabled = "Yes";
 		}
 		graph.addPlotter(new MetricsSpout.Plotter(stringEnabled) {
-			
+
 			@Override
 			public int getValue() {
 				// TODO Auto-generated method stub
@@ -131,7 +128,7 @@ public class SpoutCaller implements Caller{
 			}
 		});
 	}
-	
+
 	@Override
 	public void startMetrics() {
 		CC3SpoutLoader.getInstance().getMetrics().start();
