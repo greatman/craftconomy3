@@ -43,8 +43,9 @@ public class CC3BukkitLoader extends JavaPlugin {
 			e.printStackTrace();
 		}
 		new Common(true,getLogger()).initialize();
-		this.getCommand("money").setExecutor(new BukkitCommandManager());
-
+		BukkitCommandManager cmdManager = new BukkitCommandManager();
+		this.getCommand("money").setExecutor(cmdManager);
+		this.getCommand("bank").setExecutor(cmdManager);
 	}
 	
 	public void onDisable() {
