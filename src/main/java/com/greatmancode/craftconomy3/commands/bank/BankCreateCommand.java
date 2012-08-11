@@ -47,7 +47,7 @@ public class BankCreateCommand implements CraftconomyCommand {
 
 	@Override
 	public String help() {
-		return null;
+		return "/bank create <Account Name> - Create a bank account";
 	}
 
 	@Override
