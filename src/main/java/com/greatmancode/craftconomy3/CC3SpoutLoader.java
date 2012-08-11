@@ -26,6 +26,7 @@ import org.spout.api.plugin.services.EconomyService;
 
 import com.greatmancode.craftconomy3.spout.EconomyServiceHandler;
 import com.greatmancode.craftconomy3.utils.MetricsSpout;
+import com.greatmancode.craftconomy3.utils.MetricsSpout.Graph;
 
 /**
  * Class used when the plugin is loaded from Spout.
@@ -35,6 +36,7 @@ import com.greatmancode.craftconomy3.utils.MetricsSpout;
 public class CC3SpoutLoader extends CommonPlugin {
 
 	private static CC3SpoutLoader instance = null;
+	private MetricsSpout metrics;
 	@Override
 	public void onEnable() {
 		instance = this;
@@ -42,7 +44,8 @@ public class CC3SpoutLoader extends CommonPlugin {
 		getEngine().getServiceManager().register(EconomyService.class, new EconomyServiceHandler(), this, ServicePriority.Normal);
 		
 		try {
-			new MetricsSpout(this).start();
+			metrics = new MetricsSpout(this);
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -55,6 +58,10 @@ public class CC3SpoutLoader extends CommonPlugin {
 	
 	public static CC3SpoutLoader getInstance() {
 		return instance;
+	}
+	
+	public MetricsSpout getMetrics() {
+		return metrics;
 	}
 
 }

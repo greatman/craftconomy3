@@ -33,13 +33,14 @@ import com.greatmancode.craftconomy3.utils.MetricsBukkit;
 public class CC3BukkitLoader extends JavaPlugin {
 
 	private static CC3BukkitLoader instance = null;
+	private MetricsBukkit metrics;
 	public void onEnable() {
 		instance = this;
 		new Common(true,getLogger()).initialize();
 		this.getCommand("money").setExecutor(new BukkitCommandManager());
 		
 		try {
-			new MetricsBukkit(this).start();
+			metrics = new MetricsBukkit(this);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -51,5 +52,9 @@ public class CC3BukkitLoader extends JavaPlugin {
 	
 	public static CC3BukkitLoader getInstance() {
 		return instance;
+	}
+	
+	public MetricsBukkit getMetrics() {
+		return metrics;
 	}
 }

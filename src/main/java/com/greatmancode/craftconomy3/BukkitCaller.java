@@ -24,6 +24,9 @@ import java.util.logging.Level;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
+import com.greatmancode.craftconomy3.utils.MetricsBukkit;
+import com.greatmancode.craftconomy3.utils.MetricsBukkit.Graph;
+
 /**
  * Server caller for Craftbukkit
  * @author greatman
@@ -102,6 +105,40 @@ public class BukkitCaller implements Caller {
 	@Override
 	public File getDataFolder() {
 		return CC3BukkitLoader.getInstance().getDataFolder();
+	}
+	
+	@Override
+	public void addDbGraph(String dbType) {
+		Graph graph = CC3BukkitLoader.getInstance().getMetrics().createGraph("Database Engine");
+		graph.addPlotter(new MetricsBukkit.Plotter(dbType) {
+			
+			@Override
+			public int getValue() {
+				// TODO Auto-generated method stub
+				return 1;
+			}
+		});
+	}
+	
+	@Override
+	public void addMultiworldGraph(boolean enabled) {
+		Graph graph = CC3BukkitLoader.getInstance().getMetrics().createGraph("Multiworld");
+		String stringEnabled = "No";
+		if (enabled) {
+			stringEnabled = "Yes";
+		}
+		graph.addPlotter(new MetricsBukkit.Plotter(stringEnabled) {
+			
+			@Override
+			public int getValue() {
+				// TODO Auto-generated method stub
+				return 1;
+			}
+		});
+	}
+	
+	public void startMetrics() {
+		CC3BukkitLoader.getInstance().getMetrics().start();
 	}
 
 }

@@ -93,7 +93,8 @@ public class Common {
 
 		sendConsoleMessage(Level.INFO, "Loading commands");
 		commandManager = new CommandLoader();
-
+		getServerCaller().addMultiworldGraph(config.getConfig().getBoolean("System.Default.Currency.MultiWorld"));
+		getServerCaller().startMetrics();
 		// We check if we want to convert
 		if (config.getConfig().getBoolean("System.Convert.Enabled")) {
 			// First, we delete the whole system
