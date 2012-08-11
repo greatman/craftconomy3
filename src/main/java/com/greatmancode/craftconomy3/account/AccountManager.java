@@ -60,7 +60,7 @@ public class AccountManager {
 		if (accountList.containsKey(name)) {
 			result = true;
 		} else {
-			result = Common.getInstance().getDatabaseManager().getDatabase().select(AccountTable.class).where().contains("name", name.toLowerCase()).execute().findOne() != null;
+			result = Common.getInstance().getDatabaseManager().getDatabase().select(AccountTable.class).where().equal("name", name.toLowerCase()).execute().findOne() != null;
 		}
 		return result;
 	}

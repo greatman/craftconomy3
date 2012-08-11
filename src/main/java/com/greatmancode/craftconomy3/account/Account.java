@@ -58,7 +58,12 @@ public class Account {
 			balance.username_id = result.id;
 			balance.currency_id = CurrencyManager.DefaultCurrencyID;
 			balance.worldName = getWorldPlayerCurrentlyIn();
-			balance.balance = Common.getInstance().getConfigurationManager().getConfig().getDouble("System.Default.Account.Holdings");
+			if (!name.contains(Account.BANK_PREFIX)) {
+				balance.balance = Common.getInstance().getConfigurationManager().getConfig().getDouble("System.Default.Account.Holdings");
+			} else {
+				balance.balance = 0.0;
+			}
+			
 			Common.getInstance().getDatabaseManager().getDatabase().save(balance);
 		}
 
