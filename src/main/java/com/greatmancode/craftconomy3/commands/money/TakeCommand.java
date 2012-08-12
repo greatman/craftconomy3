@@ -31,7 +31,7 @@ public class TakeCommand implements CraftconomyCommand {
 		if (Common.getInstance().getServerCaller().isOnline(args[0])) {
 			if (Tools.isValidDouble(args[1])) {
 				double amount = Double.parseDouble(args[1]);
-				Currency currency = Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.DefaultCurrencyID);
+				Currency currency = Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.defaultCurrencyID);
 
 				if (args.length > 2) {
 					if (Common.getInstance().getCurrencyManager().getCurrency(args[2]) != null) {

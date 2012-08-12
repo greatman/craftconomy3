@@ -27,19 +27,19 @@ public class EconomyServiceHandler extends EconomyService {
 
 	@Override
 	public boolean has(String name, double amount) {
-		return Common.getInstance().getAccountManager().getAccount(name).hasEnough(amount, Common.getInstance().getAccountManager().getAccount(name).getWorldPlayerCurrentlyIn(), Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.DefaultCurrencyID).getName());
+		return Common.getInstance().getAccountManager().getAccount(name).hasEnough(amount, Common.getInstance().getAccountManager().getAccount(name).getWorldPlayerCurrentlyIn(), Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.defaultCurrencyID).getName());
 	}
 
 	@Override
 	public double get(String name) {
-		return Common.getInstance().getAccountManager().getAccount(name).getBalance(Common.getInstance().getAccountManager().getAccount(name).getWorldPlayerCurrentlyIn(), Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.DefaultCurrencyID).getName());
+		return Common.getInstance().getAccountManager().getAccount(name).getBalance(Common.getInstance().getAccountManager().getAccount(name).getWorldPlayerCurrentlyIn(), Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.defaultCurrencyID).getName());
 	}
 
 	@Override
 	public boolean withdraw(String name, double amount) {
 		boolean result = false;
-		if (Common.getInstance().getAccountManager().getAccount(name).hasEnough(amount, Common.getInstance().getAccountManager().getAccount(name).getWorldPlayerCurrentlyIn(), Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.DefaultCurrencyID).getName())) {
-			Common.getInstance().getAccountManager().getAccount(name).withdraw(amount, Common.getInstance().getAccountManager().getAccount(name).getWorldPlayerCurrentlyIn(), Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.DefaultCurrencyID).getName());
+		if (Common.getInstance().getAccountManager().getAccount(name).hasEnough(amount, Common.getInstance().getAccountManager().getAccount(name).getWorldPlayerCurrentlyIn(), Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.defaultCurrencyID).getName())) {
+			Common.getInstance().getAccountManager().getAccount(name).withdraw(amount, Common.getInstance().getAccountManager().getAccount(name).getWorldPlayerCurrentlyIn(), Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.defaultCurrencyID).getName());
 		}
 
 		return result;
@@ -47,7 +47,7 @@ public class EconomyServiceHandler extends EconomyService {
 
 	@Override
 	public boolean deposit(String name, double amount) {
-		Common.getInstance().getAccountManager().getAccount(name).deposit(amount, Common.getInstance().getAccountManager().getAccount(name).getWorldPlayerCurrentlyIn(), Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.DefaultCurrencyID).getName());
+		Common.getInstance().getAccountManager().getAccount(name).deposit(amount, Common.getInstance().getAccountManager().getAccount(name).getWorldPlayerCurrentlyIn(), Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.defaultCurrencyID).getName());
 		return true;
 	}
 
@@ -59,12 +59,12 @@ public class EconomyServiceHandler extends EconomyService {
 
 	@Override
 	public String getCurrencyNameSingular() {
-		return Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.DefaultCurrencyID).getName();
+		return Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.defaultCurrencyID).getName();
 	}
 
 	@Override
 	public String getCurrencyNamePlural() {
-		return Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.DefaultCurrencyID).getPlural();
+		return Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.defaultCurrencyID).getPlural();
 	}
 
 	@Override
@@ -79,7 +79,7 @@ public class EconomyServiceHandler extends EconomyService {
 
 	@Override
 	public String format(double amount) {
-		return Common.getInstance().format(Common.getInstance().getServerCaller().getDefaultWorld(), Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.DefaultCurrencyID), amount);
+		return Common.getInstance().format(Common.getInstance().getServerCaller().getDefaultWorld(), Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.defaultCurrencyID), amount);
 	}
 
 	@Override

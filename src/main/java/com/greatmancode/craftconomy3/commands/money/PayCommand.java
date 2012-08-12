@@ -32,7 +32,7 @@ public class PayCommand implements CraftconomyCommand {
 			if (Tools.isValidDouble(args[1])) {
 				double amount = Double.parseDouble(args[1]);
 				boolean hasEnough = false;
-				Currency currency = Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.DefaultCurrencyID);
+				Currency currency = Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.defaultCurrencyID);
 				if (args.length > 2) {
 					if (Common.getInstance().getCurrencyManager().getCurrency(args[2]) != null) {
 						currency = Common.getInstance().getCurrencyManager().getCurrency(args[2]);

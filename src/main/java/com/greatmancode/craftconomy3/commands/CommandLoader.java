@@ -63,6 +63,7 @@ public class CommandLoader {
 		setupCmdList.put("", new SetupMainCommand());
 		setupCmdList.put("database", new SetupDatabaseCommand());
 		setupCmdList.put("multiworld", new SetupMultiWorldCommand());
+		setupCmdList.put("currency", new SetupCurrencyCommand());
 
 		if (!Common.isBukkit()) {
 			cmdLoader = new SpoutCommandManager();

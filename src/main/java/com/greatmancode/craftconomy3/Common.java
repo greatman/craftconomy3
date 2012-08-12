@@ -47,6 +47,7 @@ public class Common {
 	private CommandLoader commandManager;
 	private Caller serverCaller;
 	private boolean databaseInitialized = false;
+	private boolean currencyInitialized;
 
 	public Common(boolean isBukkit, Logger log) {
 		instance = this;
@@ -68,14 +69,14 @@ public class Common {
 			sendConsoleMessage(Level.WARNING, "Loading Craftconomy in setup mode. Please type /ccsetup to start the setup.");
 		} else {
 			try {
-				dbManager = new DatabaseManager();
+				initialiseDatabase();
 			} catch (Exception e) {
 				sendConsoleMessage(Level.SEVERE, "A error occured while trying to connect to the database. Message received: " + e.getMessage());
 				getServerCaller().disablePlugin();
 				return;
 			}
 			sendConsoleMessage(Level.INFO, "Loading Currencies");
-			currencyManager = new CurrencyManager();
+			initializeCurrency();
 			sendConsoleMessage(Level.INFO, "Loading the Account Handler");
 			accountManager = new AccountManager();
 
@@ -174,6 +175,13 @@ public class Common {
 		if (!databaseInitialized ) {
 				dbManager = new DatabaseManager();
 				databaseInitialized = true;
+		}
+	}
+	
+	public void initializeCurrency() {
+		if (!currencyInitialized) {
+			currencyManager = new CurrencyManager();
+			currencyInitialized = true;
 		}
 	}
 }

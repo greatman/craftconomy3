@@ -34,7 +34,7 @@ public class CurrencyManager {
 	/**
 	 * The default currency database ID
 	 */
-	public static int DefaultCurrencyID;
+	public static int defaultCurrencyID;
 
 	private HashMap<Integer, Currency> currencyList = new HashMap<Integer, Currency>();
 
@@ -43,15 +43,10 @@ public class CurrencyManager {
 		Iterator<CurrencyTable> iterator = Common.getInstance().getDatabaseManager().getDatabase().select(CurrencyTable.class).execute().find().iterator();
 		while (iterator.hasNext()) {
 			CurrencyTable entry = iterator.next();
+			if (entry.status == true) {
+				defaultCurrencyID = entry.id;
+			}
 			addCurrency(entry.id, entry.name, entry.plural, entry.minor, entry.minorplural, false);
-		}
-		String defaultCurrency = Common.getInstance().getConfigurationManager().getConfig().getString("System.Default.Currency.Name");
-		Currency defaultCur = getCurrency(defaultCurrency);
-		if (defaultCur != null) {
-			DefaultCurrencyID = defaultCur.getDatabaseID();
-		} else {
-			addCurrency(defaultCurrency, Common.getInstance().getConfigurationManager().getConfig().getString("System.Default.Currency.NamePlural"), Common.getInstance().getConfigurationManager().getConfig().getString("System.Default.Currency.Minor"), Common.getInstance().getConfigurationManager().getConfig().getString("System.Default.Currency.MinorPlural"), true);
-			DefaultCurrencyID = getCurrency(defaultCurrency).getDatabaseID();
 		}
 	}
 

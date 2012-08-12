@@ -137,7 +137,7 @@ public class Iconomy6 implements Converter {
 					if (info.length >= 2) {
 						String[] balance = info[1].split(":");
 						try {
-							Common.getInstance().getAccountManager().getAccount(info[0]).set(Double.parseDouble(balance[1]), Common.getInstance().getServerCaller().getDefaultWorld(), Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.DefaultCurrencyID).getName());
+							Common.getInstance().getAccountManager().getAccount(info[0]).set(Double.parseDouble(balance[1]), Common.getInstance().getServerCaller().getDefaultWorld(), Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.defaultCurrencyID).getName());
 						} catch (NumberFormatException e) {
 							Common.getInstance().sendConsoleMessage(Level.SEVERE, "User " + info[0] + " have a invalid balance" + balance[1]);
 						}
@@ -157,7 +157,7 @@ public class Iconomy6 implements Converter {
 				Iterator<iConomyTable> icoListIterator = icoList.iterator();
 				while (icoListIterator.hasNext()) {
 					iConomyTable entry = icoListIterator.next();
-					Common.getInstance().getAccountManager().getAccount(entry.username).set(entry.balance, Common.getInstance().getServerCaller().getDefaultWorld(), Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.DefaultCurrencyID).getName());
+					Common.getInstance().getAccountManager().getAccount(entry.username).set(entry.balance, Common.getInstance().getServerCaller().getDefaultWorld(), Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.defaultCurrencyID).getName());
 
 				}
 			}
