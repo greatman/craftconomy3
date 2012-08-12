@@ -21,19 +21,20 @@ package com.greatmancode.craftconomy3.commands.bank;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.account.Account;
 import com.greatmancode.craftconomy3.commands.CraftconomyCommand;
+import com.greatmancode.craftconomy3.currency.CurrencyManager;
 
 public class BankCreateCommand implements CraftconomyCommand {
 
 	@Override
 	public void execute(String sender, String[] args) {
 		if (!Common.getInstance().getAccountManager().exist(Account.BANK_PREFIX + args[0])) {
-			if (Common.getInstance().getAccountManager().getAccount(sender).hasEnough(Common.getInstance().getConfigurationManager().getConfig().getDouble("System.Bank.Price"), Common.getInstance().getServerCaller().getPlayerWorld(sender), Common.getInstance().getCurrencyManager().getCurrency(Common.getInstance().getConfigurationManager().getConfig().getString("System.Bank.Currency")).getName())) {
-				Common.getInstance().getAccountManager().getAccount(sender).withdraw(Common.getInstance().getConfigurationManager().getConfig().getDouble("System.Bank.Price"), Common.getInstance().getServerCaller().getPlayerWorld(sender), Common.getInstance().getCurrencyManager().getCurrency(Common.getInstance().getConfigurationManager().getConfig().getString("System.Bank.Currency")).getName());
+			if (Common.getInstance().getAccountManager().getAccount(sender).hasEnough(Common.getInstance().getConfigurationManager().getBankPrice(), Common.getInstance().getServerCaller().getPlayerWorld(sender), Common.getInstance().getCurrencyManager().getCurrency(Common.getInstance().getConfigurationManager().getBankCurrencyId()).getName())) {
+				Common.getInstance().getAccountManager().getAccount(sender).withdraw(Common.getInstance().getConfigurationManager().getBankPrice(), Common.getInstance().getServerCaller().getPlayerWorld(sender), Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.defaultCurrencyID).getName());
 				Account account = Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + args[0]);
 				account.getAccountACL().set(sender, true, true, true, true, true);
 				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}The account has been created!");
 			} else {
-				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}You don't have enough money to create a bank account! You need {{WHITE}}" + Common.getInstance().format(null, Common.getInstance().getCurrencyManager().getCurrency(Common.getInstance().getConfigurationManager().getConfig().getString("System.Bank.Currency")), Common.getInstance().getConfigurationManager().getConfig().getDouble("System.Bank.Price")));
+				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}You don't have enough money to create a bank account! You need {{WHITE}}" + Common.getInstance().format(null, Common.getInstance().getCurrencyManager().getCurrency(Common.getInstance().getConfigurationManager().getBankCurrencyId()), Common.getInstance().getConfigurationManager().getBankPrice()));
 			}
 
 		} else {

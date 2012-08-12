@@ -59,7 +59,7 @@ public class Account {
 			balance.currency_id = CurrencyManager.defaultCurrencyID;
 			balance.worldName = getWorldPlayerCurrentlyIn();
 			if (!name.contains(Account.BANK_PREFIX)) {
-				balance.balance = Common.getInstance().getConfigurationManager().getConfig().getDouble("System.Default.Account.Holdings");
+				balance.balance = Common.getInstance().getConfigurationManager().getHoldings();
 			} else {
 				balance.balance = 0.0;
 			}
@@ -128,7 +128,7 @@ public class Account {
 	 * @return A list of Balance
 	 */
 	public List<Balance> getAllWorldBalance(String world) {
-		if (!Common.getInstance().getConfigurationManager().getConfig().getBoolean("System.Default.Currency.MultiWorld")) {
+		if (!Common.getInstance().getConfigurationManager().isMultiWorld()) {
 			world = "any";
 		}
 		List<Balance> balanceList = new ArrayList<Balance>();
@@ -148,7 +148,7 @@ public class Account {
 	 */
 	public double getBalance(String world, String currencyName) {
 		double balance = Double.MIN_NORMAL;
-		if (!Common.getInstance().getConfigurationManager().getConfig().getBoolean("System.Default.Currency.MultiWorld")) {
+		if (!Common.getInstance().getConfigurationManager().isMultiWorld()) {
 			world = "any";
 		}
 		Currency currency = Common.getInstance().getCurrencyManager().getCurrency(currencyName);
@@ -170,7 +170,7 @@ public class Account {
 	 */
 	public double deposit(double amount, String world, String currencyName) {
 		BalanceTable balanceTable = null;
-		if (!Common.getInstance().getConfigurationManager().getConfig().getBoolean("System.Default.Currency.MultiWorld")) {
+		if (!Common.getInstance().getConfigurationManager().isMultiWorld()) {
 			world = "any";
 		}
 		Currency currency = Common.getInstance().getCurrencyManager().getCurrency(currencyName);
@@ -200,7 +200,7 @@ public class Account {
 	 */
 	public double withdraw(double amount, String world, String currencyName) {
 		BalanceTable balanceTable = null;
-		if (!Common.getInstance().getConfigurationManager().getConfig().getBoolean("System.Default.Currency.MultiWorld")) {
+		if (!Common.getInstance().getConfigurationManager().isMultiWorld()) {
 			world = "any";
 		}
 		Currency currency = Common.getInstance().getCurrencyManager().getCurrency(currencyName);
@@ -230,7 +230,7 @@ public class Account {
 	 */
 	public double set(double amount, String world, String currencyName) {
 		BalanceTable balanceTable = null;
-		if (!Common.getInstance().getConfigurationManager().getConfig().getBoolean("System.Default.Currency.MultiWorld")) {
+		if (!Common.getInstance().getConfigurationManager().isMultiWorld()) {
 			world = "any";
 		}
 		Currency currency = Common.getInstance().getCurrencyManager().getCurrency(currencyName);
@@ -260,7 +260,7 @@ public class Account {
 	 */
 	public boolean hasEnough(double amount, String worldName, String currencyName) {
 		boolean result = false;
-		if (!Common.getInstance().getConfigurationManager().getConfig().getBoolean("System.Default.Currency.MultiWorld")) {
+		if (!Common.getInstance().getConfigurationManager().isMultiWorld()) {
 			worldName = "any";
 		}
 		Currency currency = Common.getInstance().getCurrencyManager().getCurrency(currencyName);
@@ -279,7 +279,7 @@ public class Account {
 	public String getWorldPlayerCurrentlyIn() {
 		String world = "any";
 		if (Common.getInstance().getServerCaller().isOnline(account.name)) {
-			if (Common.getInstance().getConfigurationManager().getConfig().getBoolean("System.Default.Currency.MultiWorld")) {
+			if (Common.getInstance().getConfigurationManager().isMultiWorld()) {
 				world = Common.getInstance().getServerCaller().getPlayerWorld(account.name);
 			}
 		}

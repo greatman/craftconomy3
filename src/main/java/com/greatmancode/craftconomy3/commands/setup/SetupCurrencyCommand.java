@@ -34,6 +34,7 @@ public class SetupCurrencyCommand implements CraftconomyCommand {
 						currencyEntry.status = true;
 						Common.getInstance().getDatabaseManager().getDatabase().save(currencyEntry);
 						SetupWizard.setState(4);
+						Common.getInstance().initializeCurrency();
 						Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Way to go! Only 2 steps left! (Basics settings & Conversion from another system if needed). Type {{WHITE}}/ccsetup basic {{DARK_GREEN}}to continue");
 					} else if (name == null) {
 						Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Your currency name is empty! Type {{WHITE}}/ccsetup currency name <Name>");

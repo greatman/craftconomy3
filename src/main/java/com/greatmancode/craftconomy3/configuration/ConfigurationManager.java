@@ -19,6 +19,8 @@
 package com.greatmancode.craftconomy3.configuration;
 
 import com.greatmancode.craftconomy3.Common;
+import com.greatmancode.craftconomy3.currency.CurrencyManager;
+import com.greatmancode.craftconomy3.database.tables.ConfigTable;
 
 /**
  * Configuration Loader. Load the configuration with the Server configuration manager.
@@ -28,6 +30,9 @@ import com.greatmancode.craftconomy3.Common;
 public class ConfigurationManager {
 
 	private Config config = null;
+	private int bankCurrencyId;
+	private boolean longmode, multiworld;
+	private double bankPrice, holdings;
 	public ConfigurationManager() {
 
 	}
@@ -47,5 +52,52 @@ public class ConfigurationManager {
 	 */
 	public Config getConfig() {
 		return config;
+
+	}
+	
+	public void loadDefaultSettings() {
+		holdings = Double.parseDouble(Common.getInstance().getDatabaseManager().getDatabase().select(ConfigTable.class).where().equal("name", "holdings").execute().findOne().value);
+		bankPrice = Double.parseDouble(Common.getInstance().getDatabaseManager().getDatabase().select(ConfigTable.class).where().equal("name", "bankprice").execute().findOne().value);
+		longmode = Boolean.parseBoolean(Common.getInstance().getDatabaseManager().getDatabase().select(ConfigTable.class).where().equal("name", "longmode").execute().findOne().value);
+		multiworld = Boolean.parseBoolean(Common.getInstance().getDatabaseManager().getDatabase().select(ConfigTable.class).where().equal("name", "multiworld").execute().findOne().value);
+		bankCurrencyId = Integer.parseInt(Common.getInstance().getDatabaseManager().getDatabase().select(ConfigTable.class).where().equal("name", "bankcurrency").execute().findOne().value);
+		//Test if the currency is good. Else we revert it to the default value.
+		if (Common.getInstance().getCurrencyManager().getCurrency(bankCurrencyId) == null) {
+			bankCurrencyId = CurrencyManager.defaultCurrencyID;
+		}
+	}
+	
+	public int getBankCurrencyId() {
+		return bankCurrencyId;
+	}
+	public boolean isMultiWorld() {
+		return multiworld;
+	}
+	public boolean isLongmode() {
+		return longmode;
+	}
+
+	public void setLongmode(boolean longmode) {
+		this.longmode = longmode;
+	}
+
+	public double getBankPrice() {
+		return bankPrice;
+	}
+
+	public void setBankPrice(double bankPrice) {
+		this.bankPrice = bankPrice;
+	}
+
+	public double getHoldings() {
+		return holdings;
+	}
+
+	public void setHoldings(double holdings) {
+		this.holdings = holdings;
+	}
+
+	public void setConfig(Config config) {
+		this.config = config;
 	}
 }

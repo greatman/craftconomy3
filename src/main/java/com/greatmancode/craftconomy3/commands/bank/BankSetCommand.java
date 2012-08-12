@@ -44,7 +44,7 @@ public class BankSetCommand implements CraftconomyCommand {
 				}
 				String worldName = "any";
 				if (args.length > 3) {
-					if (Common.getInstance().getConfigurationManager().getConfig().getBoolean("System.Default.Currency.MultiWorld")) {
+					if (Common.getInstance().getConfigurationManager().isMultiWorld()) {
 						if (!Common.getInstance().getServerCaller().worldExist(args[3])) {
 							Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}This world doesn't exist!");
 							return;

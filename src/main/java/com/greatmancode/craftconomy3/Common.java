@@ -82,7 +82,7 @@ public class Common {
 
 			sendConsoleMessage(Level.INFO, "Loading commands");
 			commandManager = new CommandLoader();
-			getServerCaller().addMultiworldGraph(config.getConfig().getBoolean("System.Default.Currency.MultiWorld"));
+			getServerCaller().addMultiworldGraph(getConfigurationManager().isMultiWorld());
 			getServerCaller().startMetrics();
 			sendConsoleMessage(Level.INFO, "Loaded!");
 		}		
@@ -142,7 +142,7 @@ public class Common {
 
 		if (worldName != null) {
 			// We put the world name if the conf is true
-			if (getConfigurationManager().getConfig().getBoolean("System.Default.Currency.MultiWorld")) {
+			if (getConfigurationManager().isMultiWorld()) {
 				string.append(worldName + ":").append(" ");
 			}
 		}
@@ -159,7 +159,7 @@ public class Common {
 		}
 
 		// Do we seperate money and dollar or not?
-		if (getConfigurationManager().getConfig().getBoolean("System.Default.Currency.LongMode")) {
+		if (getConfigurationManager().isLongmode()) {
 			String subName = currency.getMinor();
 			if (Long.parseLong(theAmount[1]) > 1) {
 				subName = currency.getMinorPlural();
