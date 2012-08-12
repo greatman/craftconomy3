@@ -33,6 +33,7 @@ public class CommandLoader {
 
 	private HashMap<String, CraftconomyCommand> moneyCmdList = new HashMap<String, CraftconomyCommand>();
 	private HashMap<String, CraftconomyCommand> bankCmdList = new HashMap<String, CraftconomyCommand>();
+	private HashMap<String, CraftconomyCommand> setupCmdList = new HashMap<String, CraftconomyCommand>();
 	private CommandManager cmdLoader;
 
 	public CommandLoader() {
@@ -77,5 +78,9 @@ public class CommandLoader {
 	 */
 	public HashMap<String, CraftconomyCommand> getBankCmdList() {
 		return bankCmdList;
+	}
+	
+	public HashMap<String,CraftconomyCommand> getSetupCmdList() {
+		return setupCmdList;
 	}
 }

@@ -39,5 +39,11 @@ public class CurrencyTable {
 
 	@Field
 	public String minorplural;
+	
+	/**
+	 * 1 = Default currency, 0 = Non Default
+	 */
+	@Field
+	public boolean status;
 
 }

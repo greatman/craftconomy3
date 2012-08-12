@@ -18,32 +18,17 @@
  */
 package com.greatmancode.craftconomy3;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.Iterator;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.alta189.simplesave.Database;
-import com.alta189.simplesave.DatabaseFactory;
 import com.alta189.simplesave.exceptions.ConnectionException;
 import com.alta189.simplesave.exceptions.TableRegistrationException;
-import com.alta189.simplesave.mysql.MySQLConfiguration;
-import com.alta189.simplesave.sqlite.SQLiteConfiguration;
 import com.greatmancode.craftconomy3.account.AccountManager;
 import com.greatmancode.craftconomy3.commands.CommandLoader;
 import com.greatmancode.craftconomy3.configuration.ConfigurationManager;
 import com.greatmancode.craftconomy3.currency.Currency;
 import com.greatmancode.craftconomy3.currency.CurrencyManager;
 import com.greatmancode.craftconomy3.database.DatabaseManager;
-import com.greatmancode.craftconomy3.database.tables.AccessTable;
-import com.greatmancode.craftconomy3.database.tables.AccountTable;
-import com.greatmancode.craftconomy3.database.tables.BalanceTable;
-import com.greatmancode.craftconomy3.database.tables.iconomy.iConomyTable;
 
 public class Common {
 
@@ -61,6 +46,7 @@ public class Common {
 	private DatabaseManager dbManager = null;
 	private CommandLoader commandManager;
 	private Caller serverCaller;
+	private boolean databaseInitialized = false;
 
 	public Common(boolean isBukkit, Logger log) {
 		instance = this;
@@ -78,100 +64,27 @@ public class Common {
 		sendConsoleMessage(Level.INFO, "Loading the Configuration");
 		config = new ConfigurationManager();
 		config.initialize();
-		sendConsoleMessage(Level.INFO, "Connecting to database");
-		try {
-			dbManager = new DatabaseManager();
-		} catch (Exception e) {
-			sendConsoleMessage(Level.SEVERE, "A error occured while trying to connect to the database. Message received: " + e.getMessage());
-			getServerCaller().disablePlugin();
-			return;
-		}
-		sendConsoleMessage(Level.INFO, "Loading Currencies");
-		currencyManager = new CurrencyManager();
-		sendConsoleMessage(Level.INFO, "Loading the Account Handler");
-		accountManager = new AccountManager();
-
-		sendConsoleMessage(Level.INFO, "Loading commands");
-		commandManager = new CommandLoader();
-		getServerCaller().addMultiworldGraph(config.getConfig().getBoolean("System.Default.Currency.MultiWorld"));
-		getServerCaller().startMetrics();
-		// We check if we want to convert
-		if (config.getConfig().getBoolean("System.Convert.Enabled")) {
-			// First, we delete the whole system
-			List<AccountTable> accountTable = getDatabaseManager().getDatabase().select(AccountTable.class).execute().find();
-			getDatabaseManager().getDatabase().remove(accountTable);
-			List<AccessTable> accessTable = getDatabaseManager().getDatabase().select(AccessTable.class).execute().find();
-			getDatabaseManager().getDatabase().remove(accessTable);
-			List<BalanceTable> balanceTable = getDatabaseManager().getDatabase().select(BalanceTable.class).execute().find();
-			getDatabaseManager().getDatabase().remove(balanceTable);
-
-			String defaultWorld = Common.getInstance().getServerCaller().getDefaultWorld();
-			if (getConfigurationManager().getConfig().getString("System.Convert.Type").equalsIgnoreCase("iconomy")) {
-				if (getConfigurationManager().getConfig().getString("System.Convert.DatabaseType").equalsIgnoreCase("minidb")) {
-					File dbFile = new File(this.getServerCaller().getDataFolder(), getConfigurationManager().getConfig().getString("System.Convert.Address"));
-					if (dbFile.exists()) {
-						try {
-							BufferedReader in = new BufferedReader(new FileReader(dbFile));
-							String str;
-							while ((str = in.readLine()) != null) {
-								String[] info = str.split(" ");
-								if (info.length >= 2) {
-									String[] balance = info[1].split(":");
-									try {
-										getAccountManager().getAccount(info[0]).set(Double.parseDouble(balance[1]), defaultWorld, getCurrencyManager().getCurrency(CurrencyManager.DefaultCurrencyID).getName());
-									} catch (NumberFormatException e) {
-										sendConsoleMessage(Level.SEVERE, "User " + info[0] + " have a invalid balance" + balance[1]);
-									}
-
-								}
-							}
-							sendConsoleMessage(Level.INFO, "Done converting!");
-						} catch (FileNotFoundException e) {
-							sendConsoleMessage(Level.SEVERE, "Database file for Conversion not found! Stopping conversion. Error is: " + e.getMessage());
-						} catch (IOException e) {
-							sendConsoleMessage(Level.SEVERE, "IOException. Stopping Conversion. Error is:" + e.getMessage());
-						}
-					}
-				} else if (getConfigurationManager().getConfig().getString("System.Convert.DatabaseType").equalsIgnoreCase("mysql") || getConfigurationManager().getConfig().getString("System.Convert.DatabaseType").equalsIgnoreCase("sqlite")) {
-					Database db = null;
-					if (getConfigurationManager().getConfig().getString("System.Convert.DatabaseType").equalsIgnoreCase("mysql")) {
-						MySQLConfiguration config = new MySQLConfiguration();
-						config.setHost(Common.getInstance().getConfigurationManager().getConfig().getString("System.Convert.Address"));
-						config.setUser(Common.getInstance().getConfigurationManager().getConfig().getString("System.Convert.Username"));
-						config.setPassword(Common.getInstance().getConfigurationManager().getConfig().getString("System.Convert.Password"));
-						config.setDatabase(Common.getInstance().getConfigurationManager().getConfig().getString("System.Convert.Db"));
-						config.setPort(Common.getInstance().getConfigurationManager().getConfig().getInt("System.Convert.Port"));
-						db = DatabaseFactory.createNewDatabase(config);
-					} else {
-						SQLiteConfiguration config = new SQLiteConfiguration(Common.getInstance().getServerCaller().getDataFolder() + File.separator + getConfigurationManager().getConfig().getString("System.Convert.Address"));
-						db = DatabaseFactory.createNewDatabase(config);
-					}
-
-					try {
-						db.registerTable(iConomyTable.class);
-						db.connect();
-						List<iConomyTable> icoList = db.select(iConomyTable.class).execute().find();
-						if (icoList != null && icoList.size() > 0) {
-							Iterator<iConomyTable> icoListIterator = icoList.iterator();
-							while (icoListIterator.hasNext()) {
-								iConomyTable entry = icoListIterator.next();
-								getAccountManager().getAccount(entry.username).set(entry.balance, defaultWorld, getCurrencyManager().getCurrency(CurrencyManager.DefaultCurrencyID).getName());
-
-							}
-							sendConsoleMessage(Level.INFO, "Done converting!");
-						} else {
-							sendConsoleMessage(Level.INFO, "No account found for converting!");
-						}
-					} catch (TableRegistrationException e) {
-						sendConsoleMessage(Level.SEVERE, "Error while initializing the database connection. Error is: " + e.getMessage());
-					} catch (ConnectionException e) {
-						sendConsoleMessage(Level.SEVERE, "Error while trying to connect to the database. Error is: " + e.getMessage());
-					}
-				}
+		if (!config.getConfig().getBoolean("System.Setup")) {
+			sendConsoleMessage(Level.WARNING, "Loading Craftconomy in setup mode. Please type /ccsetup to start the setup.");
+		} else {
+			try {
+				dbManager = new DatabaseManager();
+			} catch (Exception e) {
+				sendConsoleMessage(Level.SEVERE, "A error occured while trying to connect to the database. Message received: " + e.getMessage());
+				getServerCaller().disablePlugin();
+				return;
 			}
+			sendConsoleMessage(Level.INFO, "Loading Currencies");
+			currencyManager = new CurrencyManager();
+			sendConsoleMessage(Level.INFO, "Loading the Account Handler");
+			accountManager = new AccountManager();
 
-		}
-		sendConsoleMessage(Level.INFO, "Loaded!");
+			sendConsoleMessage(Level.INFO, "Loading commands");
+			commandManager = new CommandLoader();
+			getServerCaller().addMultiworldGraph(config.getConfig().getBoolean("System.Default.Currency.MultiWorld"));
+			getServerCaller().startMetrics();
+			sendConsoleMessage(Level.INFO, "Loaded!");
+		}		
 	}
 
 	public void disable() {
@@ -257,4 +170,10 @@ public class Common {
 		return string.toString();
 	}
 
+	public void initialiseDatabase() throws TableRegistrationException, ConnectionException {
+		if (!databaseInitialized ) {
+				dbManager = new DatabaseManager();
+				databaseInitialized = true;
+		}
+	}
 }

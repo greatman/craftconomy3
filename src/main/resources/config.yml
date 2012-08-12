@@ -1,4 +1,5 @@
 System:
+  Setup: false
   Default:
     Currency:
       Name: Dollar

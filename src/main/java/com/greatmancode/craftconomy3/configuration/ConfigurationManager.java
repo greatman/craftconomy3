@@ -28,7 +28,6 @@ import com.greatmancode.craftconomy3.Common;
 public class ConfigurationManager {
 
 	private Config config = null;
-
 	public ConfigurationManager() {
 
 	}
@@ -49,5 +48,4 @@ public class ConfigurationManager {
 	public Config getConfig() {
 		return config;
 	}
-
 }

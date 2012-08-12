@@ -58,4 +58,8 @@ public class BukkitConfig extends Config {
 		return CC3BukkitLoader.getInstance().getConfig().getBoolean(path);
 	}
 
+	@Override
+	public void setValue(String path, Object value) {
+		CC3BukkitLoader.getInstance().getConfig().set(path, value);
+	}
 }

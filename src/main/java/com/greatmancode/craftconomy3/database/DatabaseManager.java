@@ -22,6 +22,8 @@ import java.io.File;
 
 import com.alta189.simplesave.Database;
 import com.alta189.simplesave.DatabaseFactory;
+import com.alta189.simplesave.exceptions.ConnectionException;
+import com.alta189.simplesave.exceptions.TableRegistrationException;
 import com.alta189.simplesave.mysql.MySQLConfiguration;
 import com.alta189.simplesave.sqlite.SQLiteConfiguration;
 
@@ -29,6 +31,7 @@ import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.database.tables.AccessTable;
 import com.greatmancode.craftconomy3.database.tables.AccountTable;
 import com.greatmancode.craftconomy3.database.tables.BalanceTable;
+import com.greatmancode.craftconomy3.database.tables.ConfigTable;
 import com.greatmancode.craftconomy3.database.tables.CurrencyTable;
 
 /**
@@ -40,7 +43,7 @@ public class DatabaseManager {
 
 	private Database db = null;
 
-	public DatabaseManager() throws Exception {
+	public DatabaseManager() throws TableRegistrationException, ConnectionException {
 		String databasetype = Common.getInstance().getConfigurationManager().getConfig().getString("System.Database.Type");
 		if (databasetype.equals("sqlite")) {
 			SQLiteConfiguration config = new SQLiteConfiguration(Common.getInstance().getServerCaller().getDataFolder() + File.separator + "database.db");
@@ -61,7 +64,8 @@ public class DatabaseManager {
 		db.registerTable(AccessTable.class);
 		db.registerTable(BalanceTable.class);
 		db.registerTable(CurrencyTable.class);
-
+		db.registerTable(ConfigTable.class);
+		
 		db.connect();
 	}
 

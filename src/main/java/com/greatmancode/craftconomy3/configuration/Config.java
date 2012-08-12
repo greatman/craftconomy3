@@ -59,4 +59,6 @@ public abstract class Config {
 	 * @return A Boolean
 	 */
 	public abstract boolean getBoolean(String path);
+	
+	public abstract void setValue(String path, Object value);
 }

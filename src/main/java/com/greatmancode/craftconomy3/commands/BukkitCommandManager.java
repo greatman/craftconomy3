@@ -49,6 +49,12 @@ public class BukkitCommandManager implements CommandExecutor, CommandManager {
 			} else {
 				cmd = Common.getInstance().getCommandManager().getBankCmdList().get(args[0]);
 			}
+		} else if (command.getName().equals("ccsetup")) {
+			if (args.length == 0) {
+				cmd = Common.getInstance().getCommandManager().getSetupCmdList().get("");
+			} else {
+				cmd = Common.getInstance().getCommandManager().getSetupCmdList().get(args[0]);
+			}
 		} else {
 			return false;
 		}

@@ -75,5 +75,16 @@ public class SpoutConfig extends Config {
 	public boolean getBoolean(String path) {
 		return config.getNode(path).getBoolean();
 	}
+	
+	@Override
+	public void setValue(String path, Object value) {
+		config.getNode(path).setValue(value);
+		try {
+			config.save();
+		} catch (ConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 }
