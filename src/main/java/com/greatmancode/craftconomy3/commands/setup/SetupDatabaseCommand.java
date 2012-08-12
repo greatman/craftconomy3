@@ -6,7 +6,7 @@ import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.SetupWizard;
 import com.greatmancode.craftconomy3.commands.CraftconomyCommand;
 
-public class DatabaseCommand implements CraftconomyCommand {
+public class SetupDatabaseCommand implements CraftconomyCommand {
 
 	@Override
 	public void execute(String sender, String[] args) {

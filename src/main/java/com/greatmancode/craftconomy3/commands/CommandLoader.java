@@ -23,6 +23,7 @@ import java.util.HashMap;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.commands.bank.*;
 import com.greatmancode.craftconomy3.commands.money.*;
+import com.greatmancode.craftconomy3.commands.setup.*;
 
 /**
  * Generic CommandLoader. Loads all the sub-commands.
@@ -58,6 +59,10 @@ public class CommandLoader {
 		bankCmdList.put("give", new BankGiveCommand());
 		bankCmdList.put("take", new BankTakeCommand());
 		bankCmdList.put("perm", new BankPermCommand());
+		
+		setupCmdList.put("", new SetupMainCommand());
+		setupCmdList.put("database", new SetupDatabaseCommand());
+		setupCmdList.put("multiworld", new SetupMultiWorldCommand());
 
 		if (!Common.isBukkit()) {
 			cmdLoader = new SpoutCommandManager();
