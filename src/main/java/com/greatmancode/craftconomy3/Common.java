@@ -77,14 +77,7 @@ public class Common {
 			}
 			sendConsoleMessage(Level.INFO, "Loading Currencies");
 			initializeCurrency();
-			sendConsoleMessage(Level.INFO, "Loading the Account Handler");
-			accountManager = new AccountManager();
-
-			sendConsoleMessage(Level.INFO, "Loading commands");
-			commandManager = new CommandLoader();
-			getServerCaller().addMultiworldGraph(getConfigurationManager().isMultiWorld());
-			getServerCaller().startMetrics();
-			sendConsoleMessage(Level.INFO, "Loaded!");
+			startUp();
 		}		
 	}
 
@@ -183,5 +176,16 @@ public class Common {
 			currencyManager = new CurrencyManager();
 			currencyInitialized = true;
 		}
+	}
+	
+	public void startUp() {
+		sendConsoleMessage(Level.INFO, "Loading the Account Handler");
+		accountManager = new AccountManager();
+
+		sendConsoleMessage(Level.INFO, "Loading commands");
+		commandManager = new CommandLoader();
+		getServerCaller().addMultiworldGraph(getConfigurationManager().isMultiWorld());
+		getServerCaller().startMetrics();
+		sendConsoleMessage(Level.INFO, "Loaded!");
 	}
 }

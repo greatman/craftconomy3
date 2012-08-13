@@ -10,4 +10,5 @@ public interface Converter {
 	public boolean setDbInfo(String field, String value);
 	public boolean connect();
 	public boolean importData();
+	public boolean allSet();
 }

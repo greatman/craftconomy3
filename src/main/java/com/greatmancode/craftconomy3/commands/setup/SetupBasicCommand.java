@@ -79,7 +79,7 @@ public class SetupBasicCommand implements CraftconomyCommand {
 
 	@Override
 	public String help() {
-		return "/ccsetup - Start the setup";
+		return "/ccsetup basic - Basic configuration";
 	}
 
 	@Override

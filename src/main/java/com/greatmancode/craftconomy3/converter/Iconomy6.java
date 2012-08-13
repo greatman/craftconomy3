@@ -11,6 +11,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 
+import org.spout.api.Spout;
+
 import com.alta189.simplesave.Database;
 import com.alta189.simplesave.DatabaseFactory;
 import com.alta189.simplesave.exceptions.ConnectionException;
@@ -75,6 +77,11 @@ public class Iconomy6 implements Converter {
 		return result;
 	}
 
+	@Override
+	public boolean allSet() {
+		return dbInfo.size() == dbConnectInfo.size();
+	}
+	
 	@Override
 	public boolean connect() {
 		boolean result = false;
