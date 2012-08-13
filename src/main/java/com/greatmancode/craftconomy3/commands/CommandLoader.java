@@ -65,6 +65,7 @@ public class CommandLoader {
 		setupCmdList.put("multiworld", new SetupMultiWorldCommand());
 		setupCmdList.put("currency", new SetupCurrencyCommand());
 		setupCmdList.put("basic", new SetupBasicCommand());
+		setupCmdList.put("convert", new SetupConvertCommand());
 
 		if (!Common.isBukkit()) {
 			cmdLoader = new SpoutCommandManager();
