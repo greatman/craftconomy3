@@ -65,6 +65,8 @@ public class Common {
 		sendConsoleMessage(Level.INFO, "Loading the Configuration");
 		config = new ConfigurationManager();
 		config.initialize();
+		sendConsoleMessage(Level.INFO, "Loading commands");
+		commandManager = new CommandLoader();
 		if (config.getConfig().getBoolean("System.Setup")) {
 			sendConsoleMessage(Level.WARNING, "Loading Craftconomy in setup mode. Please type /ccsetup to start the setup.");
 		} else {
@@ -181,9 +183,6 @@ public class Common {
 	public void startUp() {
 		sendConsoleMessage(Level.INFO, "Loading the Account Handler");
 		accountManager = new AccountManager();
-
-		sendConsoleMessage(Level.INFO, "Loading commands");
-		commandManager = new CommandLoader();
 		getServerCaller().addMultiworldGraph(getConfigurationManager().isMultiWorld());
 		getServerCaller().startMetrics();
 		sendConsoleMessage(Level.INFO, "Loaded!");
