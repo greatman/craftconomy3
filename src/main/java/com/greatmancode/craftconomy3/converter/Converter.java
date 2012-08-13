@@ -9,6 +9,6 @@ public interface Converter {
 	public List<String> getDbInfo();
 	public boolean setDbInfo(String field, String value);
 	public boolean connect();
-	public boolean importData();
+	public boolean importData(String sender);
 	public boolean allSet();
 }

@@ -11,8 +11,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 
-import org.spout.api.Spout;
-
 import com.alta189.simplesave.Database;
 import com.alta189.simplesave.DatabaseFactory;
 import com.alta189.simplesave.exceptions.ConnectionException;
@@ -133,13 +131,17 @@ public class Iconomy6 implements Converter {
 		return result;
 	}
 	@Override
-	public boolean importData() {
+	public boolean importData(String sender) {
 		boolean result = false;
 		if (flatFileReader != null) {
 			result = true;
 			String str;
 			try {
+				int i = 0;
 				while ((str = flatFileReader.readLine()) != null) {
+					if (i % 10 == 0) {
+						Common.getInstance().getServerCaller().sendMessage(sender, i + " {{DARK_GREEN}}accounts imported.");
+					}
 					String[] info = str.split(" ");
 					if (info.length >= 2) {
 						String[] balance = info[1].split(":");
@@ -150,6 +152,7 @@ public class Iconomy6 implements Converter {
 						}
 
 					}
+					i++;
 				}
 				flatFileReader.close();
 			} catch (IOException e) {
@@ -162,10 +165,15 @@ public class Iconomy6 implements Converter {
 			List<iConomyTable> icoList = db.select(iConomyTable.class).execute().find();
 			if (icoList != null && icoList.size() > 0) {
 				Iterator<iConomyTable> icoListIterator = icoList.iterator();
+				int i = 0;
 				while (icoListIterator.hasNext()) {
+					if (i % 10 == 0) {
+						Common.getInstance().getServerCaller().sendMessage(sender, i + " of  " + icoList.size() + "{{DARK_GREEN}}accounts imported.");
+						
+					}
 					iConomyTable entry = icoListIterator.next();
 					Common.getInstance().getAccountManager().getAccount(entry.username).set(entry.balance, Common.getInstance().getServerCaller().getDefaultWorld(), Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.defaultCurrencyID).getName());
-
+					i++;
 				}
 			}
 			try {
