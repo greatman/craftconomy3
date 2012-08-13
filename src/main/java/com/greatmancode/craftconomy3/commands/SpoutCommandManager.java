@@ -48,23 +48,34 @@ public class SpoutCommandManager implements CommandExecutor, CommandManager {
 	public boolean processCommand(CommandSource source, Command command, CommandContext args) throws CommandException {
 		CraftconomyCommand cmd = null;
 		if (command.getPreferredName().equals("money")) {
+			if (Common.getInstance().getConfigurationManager().getConfig().getBoolean("System.Setup")) {
+				source.sendMessage(ChatArguments.fromString(Caller.CHAT_PREFIX + "{{DARK_RED}}Craftconomy is in setup mode! Type {{WHITE}}/ccsetup."));
+				return true;
+			}
 			if (args.length() == 0) {
 				cmd = Common.getInstance().getCommandManager().getMoneyCmdList().get("");
 			} else {
 				cmd = Common.getInstance().getCommandManager().getMoneyCmdList().get(args.getString(0));
 			}
 		} else if (command.getPreferredName().equals("bank")) {
+			if (Common.getInstance().getConfigurationManager().getConfig().getBoolean("System.Setup")) {
+				source.sendMessage(ChatArguments.fromString(Caller.CHAT_PREFIX + "{{DARK_RED}}Craftconomy is in setup mode! Type {{WHITE}}/ccsetup."));
+				return true;
+			}
 			if (args.length() == 0) {
 				cmd = Common.getInstance().getCommandManager().getBankCmdList().get("");
 			} else {
 				cmd = Common.getInstance().getCommandManager().getBankCmdList().get(args.getString(0));
 			}
 		} else if (command.getPreferredName().equals("ccsetup")) {
-			if (args.length() == 0) {
-				cmd = Common.getInstance().getCommandManager().getSetupCmdList().get("");
-			} else {
-				cmd = Common.getInstance().getCommandManager().getSetupCmdList().get(args.getString(0));
+			if (Common.getInstance().getConfigurationManager().getConfig().getBoolean("System.Setup")) {
+				if (args.length() == 0) {
+					cmd = Common.getInstance().getCommandManager().getSetupCmdList().get("");
+				} else {
+					cmd = Common.getInstance().getCommandManager().getSetupCmdList().get(args.getString(0));
+				}
 			}
+			
 		} else {
 			return false;
 		}
