@@ -1,51 +1,9 @@
 System:
-  Setup: false
-  Default:
-    Currency:
-      Name: Dollar
-      NamePlural: Dollars
-      Minor: Coin
-      MinorPlural: Coins
-      MultiWorld: false
-      #Show Money the pretty way
-      LongMode: true
-    Account:
-      # Default account balance when created
-      Holdings: 30.0
-
-  Bank:
-    Price: 50
-    Currency: Dollar
-    Interest:
-      # Enables the interest system
-      Enabled: false
-      # The interval of the system - in seconds
-      # 60 => 1 minute
-      Interval: 60
-      # The currencys which shall get interest
-      Currencys: [A,B]
-      # Which currency shall gain what Percentage
-      Percentage: [1,2]
-      # The maximum amount of each currency, more a user
-      # can't reach through interest
-      EndMax: [1000, 1000]
-    
-  PayDay:
-    Enabled: []
+  Setup: true
     
   # Logs all monetary transactions passed through CraftConomy (NOT WORKING)
   Logging:
     Enabled: false
-
-  Convert:
-    Enabled: false
-    Type: iconomy
-    DatabaseType: mysql
-    Address: localhost
-    Port: 3306
-    Username: root
-    Password: test
-    Database: iconomy
     
   Database:
     # Databases Supported:
