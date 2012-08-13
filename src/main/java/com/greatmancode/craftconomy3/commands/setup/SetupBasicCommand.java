@@ -35,12 +35,12 @@ public class SetupBasicCommand implements CraftconomyCommand {
 		if (SetupWizard.getState() == 4) {
 			if (args.length == 0) {
 				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Basic setup step. Here, we will configure how Craftconomy behave globally.");
-				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}First, how much money people will have initially in their account (Of the Default currency set earlier)?. Type /ccsetup basic default <Amount>");
+				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}First, how much money people will have initially in their account (Of the Default currency set earlier)?. Type {{WHITE}}/ccsetup basic default <Amount>");
 			} else if (args.length == 2) {
 				if (args[0].equals("default")) {
 					if (Tools.isValidDouble(args[1])) {
 						defaultAmount = args[1];
-						Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Alright. Now, how much you want your users to pay for a bank account? Type /ccsetup basic bank <Price>");
+						Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Alright. Now, how much you want your users to pay for a bank account? Type {{WHITE}}/ccsetup basic bank <Price>");
 					} else {
 						Common.getInstance().getServerCaller().sendMessage(sender, args[1] + "{{DARK_RED}} Is not a valid number! Something valid is something like 30.0");
 					}
@@ -58,7 +58,7 @@ public class SetupBasicCommand implements CraftconomyCommand {
 				} else if (args[0].equals("format")) {
 					if (args[1].equals("true") || args[1].equals("false")) {
 						longmode = args[1];
-						Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Awesome! Now, type /ccsetup basic confirm to save everything!");
+						Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Awesome! Now, type {{WHITE}}/ccsetup basic confirm {{DARK_GREEN}}to save everything!");
 					} else {
 						Common.getInstance().getServerCaller().sendMessage(sender, args[1] + "{{DARK_RED}} is a invalid value!");
 					}
@@ -75,10 +75,12 @@ public class SetupBasicCommand implements CraftconomyCommand {
 					table.name = "bankprice";
 					table.value = bankprice;
 					Common.getInstance().getDatabaseManager().getDatabase().save(table);
+					table = new ConfigTable();
 					table.name = "longmode";
 					table.value = longmode;
 					Common.getInstance().getDatabaseManager().getDatabase().save(table);
 					SetupWizard.setState(5);
+					Common.getInstance().startUp();
 					Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Only 1 step left! Type {{WHITE}}/ccsetup convert {{DARK_GREEN}}to continue!");
 				}
 			} else {

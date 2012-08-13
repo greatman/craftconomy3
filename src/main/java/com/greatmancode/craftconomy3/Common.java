@@ -168,15 +168,19 @@ public class Common {
 
 	public void initialiseDatabase() throws TableRegistrationException, ConnectionException {
 		if (!databaseInitialized ) {
+			sendConsoleMessage(Level.INFO, "Loading the Database manager");
 				dbManager = new DatabaseManager();
 				databaseInitialized = true;
+				sendConsoleMessage(Level.INFO, "Loaded!");
 		}
 	}
 	
 	public void initializeCurrency() {
 		if (!currencyInitialized) {
+			sendConsoleMessage(Level.INFO, "Loading the currency manager");
 			currencyManager = new CurrencyManager();
 			currencyInitialized = true;
+			sendConsoleMessage(Level.INFO, "Loaded!");
 		}
 	}
 	

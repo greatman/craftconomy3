@@ -31,7 +31,7 @@ public class SetupCurrencyCommand implements CraftconomyCommand {
 	public void execute(String sender, String[] args) {
 		if (SetupWizard.getState() == 3) {
 			if (args.length == 0) {
-				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Alright! Half-way done! Before we continue, I must ask you a question. Do you want to convert from Craftconomy V2? Type /ccsetup currency yes or /ccsetup currency no");
+				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Alright! Half-way done! Before we continue, I must ask you a question. Do you want to convert from Craftconomy V2? Type {{WHITE}}/ccsetup currency yes {{DARK_GREEN}}or {{WHITE}}/ccsetup currency no");
 			} else if (args.length == 1) {
 				if (args[0].equals("yes")) {
 					usecc = true;
