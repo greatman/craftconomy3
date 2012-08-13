@@ -52,6 +52,7 @@ public class SetupConvertCommand implements CraftconomyCommand {
 			} else if (args.length == 1) {
 				if (args[0].equals("complete") && !inProgress) {
 					Common.getInstance().getConfigurationManager().getConfig().setValue("System.Setup", false);
+					Common.getInstance().getConfigurationManager().loadDefaultSettings();
 					Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Alright! Enjoy Craftconomy!");
 				} else if (args[0].equals("yes")) {
 					inProgress = true;
@@ -102,6 +103,7 @@ public class SetupConvertCommand implements CraftconomyCommand {
 								Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}All values are ok! Let's start this conversion!");
 								if (selectedConverter.importData(sender)) {
 									Common.getInstance().getConfigurationManager().getConfig().setValue("System.Setup", false);
+									Common.getInstance().getConfigurationManager().loadDefaultSettings();
 									Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Conversion complete! Enjoy Craftconomy!");
 								} else {
 									Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Better report that to the dev. Your totally not supposed to be here.");
