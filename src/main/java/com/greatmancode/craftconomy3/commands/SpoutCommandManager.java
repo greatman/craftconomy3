@@ -40,7 +40,8 @@ public class SpoutCommandManager implements CommandExecutor, CommandManager {
 	public SpoutCommandManager() {
 		CC3SpoutLoader.getInstance().getEngine().getRootCommand().addSubCommand(CC3SpoutLoader.getInstance(), "money").setHelp("Money Related Commands").setExecutor(this);
 		CC3SpoutLoader.getInstance().getEngine().getRootCommand().addSubCommand(CC3SpoutLoader.getInstance(), "bank").setHelp("Bank Related Commands").setExecutor(this);
-
+		CC3SpoutLoader.getInstance().getEngine().getRootCommand().addSubCommand(CC3SpoutLoader.getInstance(), "ccsetup").setHelp("Craftconomy setup command").setExecutor(this);
+		
 	}
 
 	@Override

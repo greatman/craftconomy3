@@ -65,7 +65,7 @@ public class Common {
 		sendConsoleMessage(Level.INFO, "Loading the Configuration");
 		config = new ConfigurationManager();
 		config.initialize();
-		if (!config.getConfig().getBoolean("System.Setup")) {
+		if (config.getConfig().getBoolean("System.Setup")) {
 			sendConsoleMessage(Level.WARNING, "Loading Craftconomy in setup mode. Please type /ccsetup to start the setup.");
 		} else {
 			try {

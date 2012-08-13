@@ -10,6 +10,8 @@ commands:
       description: Check / Distribute money on a Bank.
     craftconomy:
       description: Configuration command
+    ccsetup:
+      description: Setup command
 permissions:
     Craftconomy.*:
         default: op
