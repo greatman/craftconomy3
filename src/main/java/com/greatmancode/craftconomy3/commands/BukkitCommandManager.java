@@ -22,6 +22,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.spout.api.chat.ChatArguments;
 
 import com.greatmancode.craftconomy3.Caller;
 import com.greatmancode.craftconomy3.Common;
@@ -65,7 +66,18 @@ public class BukkitCommandManager implements CommandExecutor, CommandManager {
 					cmd = Common.getInstance().getCommandManager().getSetupCmdList().get(args[0]);
 				}
 			}
-			
+
+		} else if (command.getName().equals("currency")) {
+			if (Common.getInstance().getConfigurationManager().getConfig().getBoolean("System.Setup")) {
+				commandSender.sendMessage(Common.getInstance().getServerCaller().addColor(Caller.CHAT_PREFIX + "{{DARK_RED}}Craftconomy is in setup mode! Type {{WHITE}}/ccsetup."));
+				return true;
+			}
+			if (args.length == 0) {
+				cmd = Common.getInstance().getCommandManager().getCurrencyCmdList().get("");
+			} else {
+				cmd = Common.getInstance().getCommandManager().getCurrencyCmdList().get(args[0]);
+			}
+
 		} else {
 			return false;
 		}

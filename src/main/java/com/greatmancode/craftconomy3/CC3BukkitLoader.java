@@ -48,6 +48,7 @@ public class CC3BukkitLoader extends JavaPlugin {
 		this.getCommand("money").setExecutor(cmdManager);
 		this.getCommand("bank").setExecutor(cmdManager);
 		this.getCommand("ccsetup").setExecutor(cmdManager);
+		this.getCommand("currency").setExecutor(cmdManager);
 	}
 
 	public void onDisable() {
