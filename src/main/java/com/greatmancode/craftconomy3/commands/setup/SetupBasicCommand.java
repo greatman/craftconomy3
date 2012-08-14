@@ -48,9 +48,8 @@ public class SetupBasicCommand implements CraftconomyCommand {
 				} else if (args[0].equals("bank")) {
 					if (Tools.isValidDouble(args[1])) {
 						bankprice = args[1];
-						Currency currency = Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.defaultCurrencyID);
 						Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Alright. Now, I want to know if you want the long formatting or not.");
-						Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Long formatting is: {{WHITE}}30 " + currency.getPlural() + " 1 " + currency.getMinor() + ". {{DARK_GREEN}}No long formatting is: {{WHITE}}30.32 " + currency.getPlural());
+						Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Long formatting is: {{WHITE}}30 Dollars 1 Coins. {{DARK_GREEN}}No long formatting is: {{WHITE}}30.32 Dollars");
 						Common.getInstance().getServerCaller().sendMessage(sender, "Type /ccsetup basic format <True/False>");
 					} else {
 						Common.getInstance().getServerCaller().sendMessage(sender, args[1] + "{{DARK_RED}} Is not a valid number! Something valid is something like 30.0");
