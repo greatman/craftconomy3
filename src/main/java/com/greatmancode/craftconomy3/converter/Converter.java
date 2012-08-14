@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-abstract class Converter {
+public abstract class Converter {
 
 	protected List<String> dbTypes = new ArrayList<String>();
 	protected String selectedDbType;
