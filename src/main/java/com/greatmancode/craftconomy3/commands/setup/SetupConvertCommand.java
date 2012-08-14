@@ -101,6 +101,7 @@ public class SetupConvertCommand implements CraftconomyCommand {
 						} else {
 							if (selectedConverter.connect()) {
 								Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}All values are ok! Let's start this conversion!");
+								//TODO: Should probably Thread that...
 								if (selectedConverter.importData(sender)) {
 									Common.getInstance().getConfigurationManager().getConfig().setValue("System.Setup", false);
 									Common.getInstance().getConfigurationManager().loadDefaultSettings();

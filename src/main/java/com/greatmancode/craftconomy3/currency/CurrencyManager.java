@@ -85,6 +85,7 @@ public class CurrencyManager {
 	 * @param minorPlural The minor (cents) part of the currency in plural
 	 * @param save Do we add it in the database?
 	 */
+	
 	public void addCurrency(String name, String plural, String minor, String minorPlural, boolean save) {
 		addCurrency(-1, name, plural, minor, minorPlural, save);
 	}
@@ -97,6 +98,7 @@ public class CurrencyManager {
 	 * @param minorPlural The minor (cents) part of the currency in plural
 	 * @param save Do we add it in the database? If True, generates a databaseID (Whole new entry)
 	 */
+	//TODO: A check if the currency already exist.
 	public void addCurrency(int databaseID, String name, String plural, String minor, String minorPlural, boolean save) {
 		if (save) {
 			CurrencyTable entry = new CurrencyTable();
