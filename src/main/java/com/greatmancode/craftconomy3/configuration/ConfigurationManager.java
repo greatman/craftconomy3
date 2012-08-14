@@ -60,7 +60,11 @@ public class ConfigurationManager {
 		bankPrice = Double.parseDouble(Common.getInstance().getDatabaseManager().getDatabase().select(ConfigTable.class).where().equal("name", "bankprice").execute().findOne().value);
 		longmode = Boolean.parseBoolean(Common.getInstance().getDatabaseManager().getDatabase().select(ConfigTable.class).where().equal("name", "longmode").execute().findOne().value);
 		multiworld = Boolean.parseBoolean(Common.getInstance().getDatabaseManager().getDatabase().select(ConfigTable.class).where().equal("name", "multiworld").execute().findOne().value);
-		bankCurrencyId = Integer.parseInt(Common.getInstance().getDatabaseManager().getDatabase().select(ConfigTable.class).where().equal("name", "bankcurrency").execute().findOne().value);
+		ConfigTable currencyId = Common.getInstance().getDatabaseManager().getDatabase().select(ConfigTable.class).where().equal("name", "bankcurrency").execute().findOne();
+		if (currencyId != null) {
+			bankCurrencyId = Integer.parseInt(currencyId.value);
+		}
+		
 		//Test if the currency is good. Else we revert it to the default value.
 		if (Common.getInstance().getCurrencyManager().getCurrency(bankCurrencyId) == null) {
 			bankCurrencyId = CurrencyManager.defaultCurrencyID;
