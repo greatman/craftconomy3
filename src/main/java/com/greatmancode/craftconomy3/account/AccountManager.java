@@ -31,7 +31,7 @@ import com.greatmancode.craftconomy3.database.tables.BalanceTable;
  * 
  */
 public class AccountManager {
-	public HashMap<String, Account> accountList = new HashMap<String, Account>();
+	private HashMap<String, Account> accountList = new HashMap<String, Account>();
 
 	/**
 	 * Retrieve a account. Accounts prefixed with bank: are bank accounts.

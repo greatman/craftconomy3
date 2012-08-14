@@ -52,6 +52,7 @@ public class AccountACL {
 	 * @return True if the player can deposit money, else false
 	 */
 	public boolean canDeposit(String name) {
+		name = name.toLowerCase();
 		boolean result = false;
 		if (aclList.containsKey(name)) {
 			result = aclList.get(name).getTable().deposit;
@@ -65,6 +66,7 @@ public class AccountACL {
 	 * @return True if the player can withdraw money, else false.
 	 */
 	public boolean canWithdraw(String name) {
+		name = name.toLowerCase();
 		boolean result = false;
 		if (aclList.containsKey(name)) {
 			result = aclList.get(name).getTable().withdraw;
@@ -78,6 +80,7 @@ public class AccountACL {
 	 * @return True if the player can modify the ACL, else false.
 	 */
 	public boolean canAcl(String name) {
+		name = name.toLowerCase();
 		boolean result = false;
 		if (aclList.containsKey(name)) {
 			result = aclList.get(name).getTable().acl;
@@ -91,6 +94,7 @@ public class AccountACL {
 	 * @return True if the player can show the balance of the account, else false.
 	 */
 	public boolean canShow(String name) {
+		name = name.toLowerCase();
 		boolean result = false;
 		if (aclList.containsKey(name)) {
 			result = aclList.get(name).getTable().show;
@@ -104,6 +108,7 @@ public class AccountACL {
 	 * @param deposit Can deposit or not
 	 */
 	public void setDeposit(String name, boolean deposit) {
+		name = name.toLowerCase();
 		if (aclList.containsKey(name)) {
 			AccountACLValue value = aclList.get(name);
 			set(name, deposit, value.getTable().withdraw, value.getTable().acl, value.getTable().show, value.getTable().owner);
@@ -118,6 +123,7 @@ public class AccountACL {
 	 * @param withdraw Can withdraw or not
 	 */
 	public void setWithdraw(String name, boolean withdraw) {
+		name = name.toLowerCase();
 		if (aclList.containsKey(name)) {
 			AccountACLValue value = aclList.get(name);
 			set(name, value.getTable().deposit, withdraw, value.getTable().acl, value.getTable().show, value.getTable().owner);
@@ -132,6 +138,7 @@ public class AccountACL {
 	 * @param acl can modify the ACL or not
 	 */
 	public void setAcl(String name, boolean acl) {
+		name = name.toLowerCase();
 		if (aclList.containsKey(name)) {
 			AccountACLValue value = aclList.get(name);
 			set(name, value.getTable().deposit, value.getTable().withdraw, acl, value.getTable().show, value.getTable().owner);
@@ -146,6 +153,7 @@ public class AccountACL {
 	 * @param show can show the bank balance or not.
 	 */
 	public void setShow(String name, boolean show) {
+		name = name.toLowerCase();
 		if (aclList.containsKey(name)) {
 			AccountACLValue value = aclList.get(name);
 			set(name, value.getTable().deposit, value.getTable().withdraw, value.getTable().acl, show, value.getTable().owner);
@@ -164,6 +172,7 @@ public class AccountACL {
 	 */
 	public void set(String name, boolean deposit, boolean withdraw, boolean acl, boolean show, boolean owner) {
 		AccessTable table = null;
+		name = name.toLowerCase();
 		if (aclList.containsKey(name)) {
 			table = Common.getInstance().getDatabaseManager().getDatabase().select(AccessTable.class).where().equal("id", aclList.get(name).getTable().id).execute().findOne();
 		} else {
