@@ -111,4 +111,15 @@ public class CurrencyManager {
 		}
 		currencyList.put(databaseID, new Currency(databaseID, name, plural, minor, minorPlural));
 	}
+	
+	public void setDefault(int currencyId) {
+		if (currencyList.containsKey(currencyId)) {
+			CurrencyTable entry = Common.getInstance().getDatabaseManager().getDatabase().select(CurrencyTable.class).where().equal("status", true).execute().findOne();
+			if (entry != null) {
+				entry.status = false;
+				Common.getInstance().getDatabaseManager().getDatabase().save(entry);
+			}
+			defaultCurrencyID = currencyId;
+		}
+	}
 }
