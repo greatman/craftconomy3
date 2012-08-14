@@ -39,7 +39,7 @@ public class SetupDatabaseCommand implements CraftconomyCommand {
 						try {
 							Common.getInstance().initialiseDatabase();
 							SetupWizard.setState(2);
-							Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Awesome! You can type /ccsetup multiworld to continue the setup!");
+							Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Awesome! You can type {{WHITE}}/ccsetup multiworld {{DARK_GREEN}}to continue the setup!");
 						} catch(TableRegistrationException e) {
 							Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}A error occured. The error is: {{WHITE}}" + e.getMessage());
 						} catch(ConnectionException e) {
@@ -47,24 +47,24 @@ public class SetupDatabaseCommand implements CraftconomyCommand {
 						}
 					} else if (args[1].equals("mysql")) {
 						Common.getInstance().getConfigurationManager().getConfig().setValue("System.Database.Type", "mysql");
-						Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Alright! Please type /ccsetup database address <Your host> to set your MySQL address");
+						Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Alright! Please type {{WHITE}}/ccsetup database address <Your host> {{DARK_GREEN}}to set your MySQL address");
 					}
 				} else if (args[0].equals("address")) {
 					Common.getInstance().getConfigurationManager().getConfig().setValue("System.Database.Address", args[1]);
-					Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Alright! Please type /ccsetup database port <Your port> to set your MySQL port (Usually 3306)");
+					Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Alright! Please type {{WHITE}}/ccsetup database port <Your port> {{DARK_GREEN}}to set your MySQL port (Usually 3306)");
 					
 				} else if (args[0].equals("port")) {
 					Common.getInstance().getConfigurationManager().getConfig().setValue("System.Database.Port", args[1]);
-					Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Saved! Please type /ccsetup database username <Username> to set your MySQL username");
+					Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Saved! Please type {{WHITE}}/ccsetup database username <Username> {{DARK_GREEN}}to set your MySQL username");
 				} else if (args[0].equals("username")) {
 					Common.getInstance().getConfigurationManager().getConfig().setValue("System.Database.Username", args[1]);
-					Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Saved! Please type /ccsetup database password <Password> to set your MySQL password (enter \"\" for none)");
+					Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Saved! Please type {{WHITE}}/ccsetup database password <Password> {{DARK_GREEN}}to set your MySQL password (enter \"\" for none)");
 				} else if (args[0].equals("password")) {
 					Common.getInstance().getConfigurationManager().getConfig().setValue("System.Database.Password", args[1]);
-					Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Last step for database! Please type /ccsetup database db <Database Name> to set your MySQL database.");
+					Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Last step for database! Please type {{WHITE}}/ccsetup database db <Database Name> {{DARK_GREEN}}to set your MySQL database.");
 				} else if (args[0].equals("db")) {
 					Common.getInstance().getConfigurationManager().getConfig().setValue("System.Database.Db", args[1]);
-					Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Done! Please type /ccsetup database test to test your settings!");
+					Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Done! Please type {{WHITE}}/ccsetup database test {{DARK_GREEN}}to test your settings!");
 				}
 			} else if (args.length == 1 && args[0].equals("test")) {
 				if (Common.getInstance().getConfigurationManager().getConfig().getString("System.Database.Type").equals("mysql")) {

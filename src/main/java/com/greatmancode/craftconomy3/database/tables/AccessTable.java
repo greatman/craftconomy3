@@ -43,7 +43,7 @@ public class AccessTable {
 	public boolean acl;
 
 	@Field
-	public boolean show;
+	public boolean balance;
 
 	@Field
 	public boolean owner;

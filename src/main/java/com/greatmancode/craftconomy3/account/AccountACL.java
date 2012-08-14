@@ -97,7 +97,7 @@ public class AccountACL {
 		name = name.toLowerCase();
 		boolean result = false;
 		if (aclList.containsKey(name)) {
-			result = aclList.get(name).getTable().show;
+			result = aclList.get(name).getTable().balance;
 		}
 		return result;
 	}
@@ -111,7 +111,7 @@ public class AccountACL {
 		name = name.toLowerCase();
 		if (aclList.containsKey(name)) {
 			AccountACLValue value = aclList.get(name);
-			set(name, deposit, value.getTable().withdraw, value.getTable().acl, value.getTable().show, value.getTable().owner);
+			set(name, deposit, value.getTable().withdraw, value.getTable().acl, value.getTable().balance, value.getTable().owner);
 		} else {
 			set(name, deposit, false, false, false, false);
 		}
@@ -126,7 +126,7 @@ public class AccountACL {
 		name = name.toLowerCase();
 		if (aclList.containsKey(name)) {
 			AccountACLValue value = aclList.get(name);
-			set(name, value.getTable().deposit, withdraw, value.getTable().acl, value.getTable().show, value.getTable().owner);
+			set(name, value.getTable().deposit, withdraw, value.getTable().acl, value.getTable().balance, value.getTable().owner);
 		} else {
 			set(name, false, withdraw, false, false, false);
 		}
@@ -141,7 +141,7 @@ public class AccountACL {
 		name = name.toLowerCase();
 		if (aclList.containsKey(name)) {
 			AccountACLValue value = aclList.get(name);
-			set(name, value.getTable().deposit, value.getTable().withdraw, acl, value.getTable().show, value.getTable().owner);
+			set(name, value.getTable().deposit, value.getTable().withdraw, acl, value.getTable().balance, value.getTable().owner);
 		} else {
 			set(name, false, false, acl, false, false);
 		}
@@ -184,7 +184,7 @@ public class AccountACL {
 		table.deposit = deposit;
 		table.withdraw = withdraw;
 		table.acl = acl;
-		table.show = show;
+		table.balance = show;
 		table.owner = owner;
 		Common.getInstance().getDatabaseManager().getDatabase().save(table);
 		aclList.put(name, new AccountACLValue(table));
