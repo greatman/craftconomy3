@@ -12,6 +12,8 @@ commands:
       description: Configuration command
     ccsetup:
       description: Setup command
+    currency:
+      desscription: Currency management command
 permissions:
     Craftconomy.*:
         default: op
