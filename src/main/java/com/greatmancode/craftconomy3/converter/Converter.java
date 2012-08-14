@@ -18,15 +18,40 @@
  */
 package com.greatmancode.craftconomy3.converter;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
-public interface Converter {
+abstract class Converter {
 
-	public List<String> getDbTypes();
-	public boolean setDbType(String dbType);
-	public List<String> getDbInfo();
-	public boolean setDbInfo(String field, String value);
-	public boolean connect();
-	public boolean importData(String sender);
-	public boolean allSet();
+	protected List<String> dbTypes = new ArrayList<String>();
+	protected String selectedDbType;
+	protected List<String> dbInfo = new ArrayList<String>();
+	protected HashMap<String,String> dbConnectInfo = new HashMap<String,String>();
+	
+	public List<String> getDbTypes() {
+		return dbTypes;
+	}
+	public boolean setDbType(String dbType) {
+		boolean result = false;
+		if (dbTypes.contains(dbType)) {
+			selectedDbType = dbType;
+			result = true;
+		}
+		return result;
+	}
+	public abstract List<String> getDbInfo();
+	public boolean setDbInfo(String field, String value) {
+		boolean result = false;
+		if (dbInfo.contains(field)) {
+			dbConnectInfo.put(field, value);
+			result = true;
+		}
+		return result;
+	}
+	public abstract boolean connect();
+	public abstract boolean importData(String sender);
+	public boolean allSet() {
+		return dbInfo.size() == dbConnectInfo.size();
+	}
 }

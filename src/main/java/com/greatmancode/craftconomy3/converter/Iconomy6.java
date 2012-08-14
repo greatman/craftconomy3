@@ -39,33 +39,16 @@ import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.currency.CurrencyManager;
 import com.greatmancode.craftconomy3.database.tables.iconomy.iConomyTable;
 
-public class Iconomy6 implements Converter {
+public class Iconomy6 extends Converter {
 
-	private List<String> dbTypes = new ArrayList<String>();
-	private String selectedDbType;
-	private List<String> dbInfo = new ArrayList<String>();
-	private HashMap<String,String> dbConnectInfo = new HashMap<String,String>();
 	private BufferedReader flatFileReader = null;
 	private Database db = null;
+	
 	public Iconomy6() {
 		dbTypes.add("flatfile");
 		dbTypes.add("minidb");
 		dbTypes.add("sqlite");
 		dbTypes.add("mysql");
-	}
-	@Override
-	public List<String> getDbTypes() {
-		return dbTypes;
-	}
-
-	@Override
-	public boolean setDbType(String dbType) {
-		boolean result = false;
-		if (dbTypes.contains(dbType)) {
-			selectedDbType = dbType;
-			result = true;
-		}
-		return result;
 	}
 
 	@Override
@@ -81,21 +64,6 @@ public class Iconomy6 implements Converter {
 			dbInfo.add("database");
 		}
 		return dbInfo;
-	}
-
-	@Override
-	public boolean setDbInfo(String field, String value) {
-		boolean result = false;
-		if (dbInfo.contains(field)) {
-			dbConnectInfo.put(field, value);
-			result = true;
-		}
-		return result;
-	}
-
-	@Override
-	public boolean allSet() {
-		return dbInfo.size() == dbConnectInfo.size();
 	}
 	
 	@Override
