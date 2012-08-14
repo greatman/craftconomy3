@@ -29,6 +29,7 @@ import com.alta189.simplesave.exceptions.TableRegistrationException;
 import com.alta189.simplesave.mysql.MySQLConfiguration;
 import com.alta189.simplesave.sqlite.SQLiteConfiguration;
 import com.greatmancode.craftconomy3.Common;
+import com.greatmancode.craftconomy3.account.Account;
 import com.greatmancode.craftconomy3.database.tables.craftconomy2.AccountTable;
 import com.greatmancode.craftconomy3.database.tables.craftconomy2.BalanceTable;
 import com.greatmancode.craftconomy3.database.tables.craftconomy2.BankBalanceTable;
@@ -121,6 +122,8 @@ public class Craftconomy2 extends Converter {
 					}
 				}
 				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Currencies imported!");
+				
+				//Account importing
 				List<AccountTable> accountList = db.select(AccountTable.class).execute().find();
 				if (accountList != null) {
 					int i = 0;
@@ -140,12 +143,48 @@ public class Craftconomy2 extends Converter {
 							}
 						}
 						if (i % 10 == 0) {
-							Common.getInstance().getServerCaller().sendMessage(sender, i + " of  " + accountList.size() + "{{DARK_GREEN}}accounts imported.");
+							Common.getInstance().getServerCaller().sendMessage(sender, i + " of  " + accountList.size() + "{{DARK_GREEN}} accounts imported.");
 						}
 						i++;
 					}
 					
-				} 
+				}
+				
+				//Bank importing
+				List<BankTable> bankList = db.select(BankTable.class).execute().find();
+				if (bankList != null) {
+					int i = 0;
+					Iterator<BankTable> bankIterator = bankList.iterator();
+					while (bankIterator.hasNext()) {
+						BankTable entry = bankIterator.next();
+						Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + entry.name).getAccountACL().set(entry.owner, true, true, true, true, true);
+						List<BankBalanceTable> bankBalanceList = db.select(BankBalanceTable.class).where().equal("bank_id", entry.id).execute().find();
+						if (bankBalanceList != null) {
+							Iterator<BankBalanceTable> bankBalanceIterator = bankBalanceList.iterator();
+							while (bankBalanceIterator.hasNext()) {
+								BankBalanceTable balanceEntry = bankBalanceIterator.next();
+								CurrencyTable currency = db.select(CurrencyTable.class).where().equal("id", balanceEntry.currency_id).execute().findOne();
+								if (currency != null) {
+									Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + entry.name).set(balanceEntry.balance, balanceEntry.worldName, currency.name);
+								}
+							}
+						}
+						
+						//Adding members
+						List<BankMemberTable> bankMemberList = db.select(BankMemberTable.class).where().equal("bank_id", entry.id).execute().find();
+						if (bankMemberList != null ) {
+							Iterator<BankMemberTable> bankMemberIterator = bankMemberList.iterator();
+							while (bankMemberIterator.hasNext()) {
+								BankMemberTable memberEntry = bankMemberIterator.next();
+								Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + entry.name).getAccountACL().set(memberEntry.playerName, true,true, false, true,false);
+							}
+						}
+						if (i % 10 == 0) {
+							Common.getInstance().getServerCaller().sendMessage(sender, i + " of  " + bankList.size() + "{{DARK_GREEN}} bank accounts imported.");
+						}
+						i++;
+					}
+				}
 				result = true;
 			} else {
 				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}No currency found. Are you sure everything is ok?");
