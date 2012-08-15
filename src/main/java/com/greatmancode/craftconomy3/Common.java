@@ -77,9 +77,12 @@ public class Common {
 				getServerCaller().disablePlugin();
 				return;
 			}
-			sendConsoleMessage(Level.INFO, "Loading Currencies");
 			initializeCurrency();
+			sendConsoleMessage(Level.INFO, "Loading default settings.");
+			getConfigurationManager().loadDefaultSettings();
+			sendConsoleMessage(Level.INFO, "Default settings loaded!");
 			startUp();
+			sendConsoleMessage(Level.INFO, "Ready!");
 		}		
 	}
 
@@ -168,19 +171,19 @@ public class Common {
 
 	public void initialiseDatabase() throws TableRegistrationException, ConnectionException {
 		if (!databaseInitialized ) {
-			sendConsoleMessage(Level.INFO, "Loading the Database manager");
+			sendConsoleMessage(Level.INFO, "Loading the Database Manager");
 				dbManager = new DatabaseManager();
 				databaseInitialized = true;
-				sendConsoleMessage(Level.INFO, "Loaded!");
+				sendConsoleMessage(Level.INFO, "Database Manager Loaded!");
 		}
 	}
 	
 	public void initializeCurrency() {
 		if (!currencyInitialized) {
-			sendConsoleMessage(Level.INFO, "Loading the currency manager");
+			sendConsoleMessage(Level.INFO, "Loading the Currency Manager");
 			currencyManager = new CurrencyManager();
 			currencyInitialized = true;
-			sendConsoleMessage(Level.INFO, "Loaded!");
+			sendConsoleMessage(Level.INFO, "Currency Manager Loaded!");
 		}
 	}
 	
@@ -189,6 +192,6 @@ public class Common {
 		accountManager = new AccountManager();
 		getServerCaller().addMultiworldGraph(getConfigurationManager().isMultiWorld());
 		getServerCaller().startMetrics();
-		sendConsoleMessage(Level.INFO, "Loaded!");
+		sendConsoleMessage(Level.INFO, "Account Handler Loaded!");
 	}
 }
