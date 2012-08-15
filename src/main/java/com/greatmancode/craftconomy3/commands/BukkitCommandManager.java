@@ -77,6 +77,17 @@ public class BukkitCommandManager implements CommandExecutor, CommandManager {
 				cmd = Common.getInstance().getCommandManager().getCurrencyCmdList().get(args[0]);
 			}
 
+		} else if (command.getName().equals("craftconomy")) {
+			if (Common.getInstance().getConfigurationManager().getConfig().getBoolean("System.Setup")) {
+				commandSender.sendMessage(Common.getInstance().getServerCaller().addColor(Caller.CHAT_PREFIX + "{{DARK_RED}}Craftconomy is in setup mode! Type {{WHITE}}/ccsetup."));
+				return true;
+			}
+			if (args.length == 0) {
+				cmd = Common.getInstance().getCommandManager().getConfigCmdList().get("");
+			} else {
+				cmd = Common.getInstance().getCommandManager().getConfigCmdList().get(args[0]);
+			}
+
 		} else {
 			return false;
 		}

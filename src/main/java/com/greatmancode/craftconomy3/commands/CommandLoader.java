@@ -37,6 +37,7 @@ public class CommandLoader {
 	private HashMap<String, CraftconomyCommand> bankCmdList = new HashMap<String, CraftconomyCommand>();
 	private HashMap<String, CraftconomyCommand> setupCmdList = new HashMap<String, CraftconomyCommand>();
 	private HashMap<String, CraftconomyCommand> currencyCmdList = new HashMap<String, CraftconomyCommand>();
+	private HashMap<String, CraftconomyCommand> configCmdList = new HashMap<String, CraftconomyCommand>();
 	private CommandManager cmdLoader;
 
 	public CommandLoader() {
@@ -51,13 +52,14 @@ public class CommandLoader {
 		moneyCmdList.put("delete", new DeleteCommand());
 		moneyCmdList.put("help", new HelpCommand());
 		moneyCmdList.put("balance", new BalanceCommand());
+		moneyCmdList.put("top", new TopCommand());
 
 		bankCmdList.put("create", new BankCreateCommand());
 		bankCmdList.put("balance", new BankBalanceCommand());
 		bankCmdList.put("deposit", new BankDepositCommand());
 		bankCmdList.put("withdraw", new BankWithdrawCommand());
 		bankCmdList.put("set", new BankSetCommand());
-		bankCmdList.put("", new BankHelpCommand());
+		bankCmdList.put("help", new BankHelpCommand());
 		bankCmdList.put("give", new BankGiveCommand());
 		bankCmdList.put("take", new BankTakeCommand());
 		bankCmdList.put("perm", new BankPermCommand());
@@ -73,6 +75,7 @@ public class CommandLoader {
 		currencyCmdList.put("delete", new CurrencyDeleteCommand());
 		currencyCmdList.put("edit", new CurrencyEditCommand());
 		currencyCmdList.put("info", new CurrencyInfoCommand());
+		currencyCmdList.put("help", new CurrencyHelpCommand());
 
 		if (!Common.isBukkit()) {
 			cmdLoader = new SpoutCommandManager();
@@ -101,5 +104,9 @@ public class CommandLoader {
 	
 	public HashMap<String,CraftconomyCommand> getCurrencyCmdList() {
 		return currencyCmdList;
+	}
+	
+	public HashMap<String,CraftconomyCommand> getConfigCmdList() {
+		return configCmdList;
 	}
 }

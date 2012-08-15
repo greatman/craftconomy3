@@ -29,7 +29,7 @@ public class HelpCommand implements CraftconomyCommand {
 
 	@Override
 	public void execute(String sender, String[] args) {
-		Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}} ======== MOney Commands ========");
+		Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}} ======== Money Commands ========");
 		HashMap<String, CraftconomyCommand> cmdList = Common.getInstance().getCommandManager().getMoneyCmdList();
 		Iterator<Entry<String, CraftconomyCommand>> iterator = cmdList.entrySet().iterator();
 		while (iterator.hasNext()) {

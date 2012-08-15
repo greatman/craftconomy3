@@ -42,6 +42,8 @@ public class SpoutCommandManager implements CommandExecutor, CommandManager {
 		CC3SpoutLoader.getInstance().getEngine().getRootCommand().addSubCommand(CC3SpoutLoader.getInstance(), "bank").setHelp("Bank Related Commands").setExecutor(this);
 		CC3SpoutLoader.getInstance().getEngine().getRootCommand().addSubCommand(CC3SpoutLoader.getInstance(), "ccsetup").setHelp("Craftconomy setup command").setExecutor(this);
 		CC3SpoutLoader.getInstance().getEngine().getRootCommand().addSubCommand(CC3SpoutLoader.getInstance(), "currency").setHelp("Currency related command").setExecutor(this);
+		CC3SpoutLoader.getInstance().getEngine().getRootCommand().addSubCommand(CC3SpoutLoader.getInstance(), "craftconomy").setHelp("Craftconomy config command").setExecutor(this);
+
 	}
 
 	@Override
@@ -63,7 +65,7 @@ public class SpoutCommandManager implements CommandExecutor, CommandManager {
 				return true;
 			}
 			if (args.length() == 0) {
-				cmd = Common.getInstance().getCommandManager().getBankCmdList().get("");
+				cmd = Common.getInstance().getCommandManager().getBankCmdList().get("help");
 			} else {
 				cmd = Common.getInstance().getCommandManager().getBankCmdList().get(args.getString(0));
 			}
@@ -75,18 +77,29 @@ public class SpoutCommandManager implements CommandExecutor, CommandManager {
 					cmd = Common.getInstance().getCommandManager().getSetupCmdList().get(args.getString(0));
 				}
 			}
-			
-		}else if (command.getPreferredName().equals("currency")) {
+
+		} else if (command.getPreferredName().equals("currency")) {
 			if (Common.getInstance().getConfigurationManager().getConfig().getBoolean("System.Setup")) {
 				source.sendMessage(ChatArguments.fromString(Caller.CHAT_PREFIX + "{{DARK_RED}}Craftconomy is in setup mode! Type {{WHITE}}/ccsetup."));
 				return true;
 			}
 			if (args.length() == 0) {
-				cmd = Common.getInstance().getCommandManager().getCurrencyCmdList().get("");
+				cmd = Common.getInstance().getCommandManager().getCurrencyCmdList().get("help");
 			} else {
 				cmd = Common.getInstance().getCommandManager().getCurrencyCmdList().get(args.getString(0));
 			}
-			
+
+		} else if (command.getPreferredName().equals("craftconomy")) {
+			if (Common.getInstance().getConfigurationManager().getConfig().getBoolean("System.Setup")) {
+				source.sendMessage(ChatArguments.fromString(Caller.CHAT_PREFIX + "{{DARK_RED}}Craftconomy is in setup mode! Type {{WHITE}}/ccsetup."));
+				return true;
+			}
+			if (args.length() == 0) {
+				cmd = Common.getInstance().getCommandManager().getConfigCmdList().get("");
+			} else {
+				cmd = Common.getInstance().getCommandManager().getConfigCmdList().get(args.getString(0));
+			}
+
 		} else {
 			return false;
 		}
