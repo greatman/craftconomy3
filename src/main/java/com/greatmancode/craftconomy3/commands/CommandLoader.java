@@ -22,6 +22,7 @@ import java.util.HashMap;
 
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.commands.bank.*;
+import com.greatmancode.craftconomy3.commands.currency.*;
 import com.greatmancode.craftconomy3.commands.money.*;
 import com.greatmancode.craftconomy3.commands.setup.*;
 
@@ -67,6 +68,8 @@ public class CommandLoader {
 		setupCmdList.put("currency", new SetupCurrencyCommand());
 		setupCmdList.put("basic", new SetupBasicCommand());
 		setupCmdList.put("convert", new SetupConvertCommand());
+		
+		currencyCmdList.put("add", new CurrencyAddCommand());
 
 		if (!Common.isBukkit()) {
 			cmdLoader = new SpoutCommandManager();
