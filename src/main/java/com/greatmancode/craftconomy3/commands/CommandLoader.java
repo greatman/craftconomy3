@@ -80,7 +80,8 @@ public class CommandLoader {
 		
 		configCmdList.put("holdings", new ConfigHoldingsCommand());
 		configCmdList.put("longmode", new ConfigLongModeCommand());
-		
+		configCmdList.put("bankprice", new ConfigBankPriceCommand());
+		configCmdList.put("help", new ConfigHelpCommand());
 
 		if (!Common.isBukkit()) {
 			cmdLoader = new SpoutCommandManager();

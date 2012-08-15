@@ -28,7 +28,7 @@ public class BankCreateCommand implements CraftconomyCommand {
 	@Override
 	public void execute(String sender, String[] args) {
 		if (!Common.getInstance().getAccountManager().exist(Account.BANK_PREFIX + args[0])) {
-			if (Common.getInstance().getAccountManager().getAccount(sender).hasEnough(Common.getInstance().getConfigurationManager().getBankPrice(), Common.getInstance().getServerCaller().getPlayerWorld(sender), Common.getInstance().getCurrencyManager().getCurrency(Common.getInstance().getConfigurationManager().getBankCurrencyId()).getName())) {
+			if (Common.getInstance().getAccountManager().getAccount(sender).hasEnough(Common.getInstance().getConfigurationManager().getBankPrice(), Common.getInstance().getServerCaller().getPlayerWorld(sender), Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.defaultCurrencyID).getName())) {
 				Common.getInstance().getAccountManager().getAccount(sender).withdraw(Common.getInstance().getConfigurationManager().getBankPrice(), Common.getInstance().getServerCaller().getPlayerWorld(sender), Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.defaultCurrencyID).getName());
 				Account account = Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + args[0]);
 				account.getAccountACL().set(sender, true, true, true, true, true);

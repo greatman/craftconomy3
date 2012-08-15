@@ -18,40 +18,46 @@
  */
 package com.greatmancode.craftconomy3.commands.config;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map.Entry;
+
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.commands.CraftconomyCommand;
-import com.greatmancode.craftconomy3.utils.Tools;
 
-public class ConfigHoldingsCommand implements CraftconomyCommand {
+public class ConfigHelpCommand implements CraftconomyCommand {
 
 	@Override
 	public void execute(String sender, String[] args) {
-		if (Tools.isValidDouble(args[0])) {
-			Common.getInstance().getConfigurationManager().setHoldings(Double.parseDouble(args[0]));
-			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Default holdings modified!");
-		} else {
-			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Invalid amount!");
+		Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}} ======== Craftconomy Commands ========");
+		HashMap<String, CraftconomyCommand> cmdList = Common.getInstance().getCommandManager().getConfigCmdList();
+		Iterator<Entry<String, CraftconomyCommand>> iterator = cmdList.entrySet().iterator();
+		while (iterator.hasNext()) {
+			Entry<String, CraftconomyCommand> entry = iterator.next();
+			if (entry.getValue().permission(sender)) {
+				Common.getInstance().getServerCaller().sendMessage(sender, entry.getValue().help());
+			}
 		}
 	}
 
 	@Override
 	public boolean permission(String sender) {
-		return Common.getInstance().getServerCaller().checkPermission(sender, "craftconomy.config.holdings");
+		return true;
 	}
 
 	@Override
 	public String help() {
-		return "/craftconomy holdings <Amount> - Set the default amount of money of a user account.";
+		return "/craftconomy - shows config command help";
 	}
 
 	@Override
 	public int maxArgs() {
-		return 1;
+		return 0;
 	}
 
 	@Override
 	public int minArgs() {
-		return 1;
+		return 0;
 	}
 
 	@Override

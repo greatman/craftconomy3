@@ -83,7 +83,7 @@ public class BukkitCommandManager implements CommandExecutor, CommandManager {
 				return true;
 			}
 			if (args.length == 0) {
-				cmd = Common.getInstance().getCommandManager().getConfigCmdList().get("");
+				cmd = Common.getInstance().getCommandManager().getConfigCmdList().get("help");
 			} else {
 				cmd = Common.getInstance().getCommandManager().getConfigCmdList().get(args[0]);
 			}
