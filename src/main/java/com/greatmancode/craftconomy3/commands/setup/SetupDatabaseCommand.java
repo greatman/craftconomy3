@@ -71,7 +71,7 @@ public class SetupDatabaseCommand implements CraftconomyCommand {
 					try {
 						Common.getInstance().initialiseDatabase();
 						SetupWizard.setState(2);
-						Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Awesome! You can type /ccsetup multiworld to continue the setup!");
+						Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Awesome! You can type {{WHITE}}/ccsetup multiworld {{DARK_GREEN}}to continue the setup!");
 					} catch(TableRegistrationException e) {
 						Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}A error occured. The error is: {{WHITE}}" + e.getMessage());
 						Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Be sure that you entered valid information! Commands are: {{WHITE}}/ccsetup database <address/port/username/password/db> <Value>");

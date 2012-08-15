@@ -56,7 +56,7 @@ public class SetupConvertCommand implements CraftconomyCommand {
 					Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Alright! Enjoy Craftconomy!");
 				} else if (args[0].equals("yes")) {
 					inProgress = true;
-					Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Okay! Please type /ccsetup convert <" + importlist + ">");
+					Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Okay! Please type {{WHITE}}/ccsetup convert <" + importlist + ">");
 				} else if (inProgress && status == 0) {
 					if (ConverterList.converterList.containsKey(args[0])) {
 						status = 1;
@@ -65,11 +65,13 @@ public class SetupConvertCommand implements CraftconomyCommand {
 						Iterator<String> dbTypesIterator = selectedConverter.getDbTypes().iterator();
 						while (dbTypesIterator.hasNext()) {
 							list += dbTypesIterator.next();
-							if (dbTypesIterator.hasNext());
-							list += ", ";
+							if (dbTypesIterator.hasNext()) {
+								list += ", ";
+							}
+							
 						}
 						Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}You selected {{WHITE}}" + args[0] + "{{DARK_GREEN}}.");
-						Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}You now need to select the database type you are using. Please type /ccsetup convert <" + list +" >");
+						Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}You now need to select the database type you are using. Please type {{WHITE}}/ccsetup convert <" + list +" >");
 						
 					} else {
 						Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Unknown converter. Be sure to have written the name correctly!");
@@ -82,13 +84,15 @@ public class SetupConvertCommand implements CraftconomyCommand {
 						Iterator<String> dbTypesIterator = selectedConverter.getDbInfo().iterator();
 						while (dbTypesIterator.hasNext()) {
 							list += dbTypesIterator.next();
-							if (dbTypesIterator.hasNext());
-							list += ", ";
+							if (dbTypesIterator.hasNext()) {
+								list += ", ";
+							}
+							
 						}
 						Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}You selected {{WHITE}}" + args[0]);
 						Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Now, you need to insert the database information.");
 						Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}If you used a flatfile file or a flatfile database, that file need to be in the Craftconomy3 folder.");
-						Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Please type /ccsetup convert <" + list + "> <value>");
+						Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Please type {{WHITE}}/ccsetup convert <" + list + "> <value>");
 					} else {
 						Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Unknown database type.");
 					}

@@ -36,6 +36,7 @@ public class SetupCurrencyCommand implements CraftconomyCommand {
 				if (args[0].equals("yes")) {
 					usecc = true;
 					SetupWizard.setState(4);
+					Common.getInstance().initializeCurrency();
 					Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Okay! Type /ccsetup basic to configure the basic settings of Craftconomy!");
 
 				} else if (args[0].equals("no")) {
