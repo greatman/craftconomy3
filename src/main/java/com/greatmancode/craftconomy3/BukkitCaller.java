@@ -44,7 +44,12 @@ public class BukkitCaller implements Caller {
 		boolean result = false;
 		Player p = CC3BukkitLoader.getInstance().getServer().getPlayerExact(playerName);
 		if (p != null) {
-			result = p.hasPermission(perm);
+			if (p.isOp()) {
+				result = true;
+			} else {
+				result = p.hasPermission(perm);
+			}
+			
 		} else {
 			// It's the console
 			result = true;
