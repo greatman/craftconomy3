@@ -47,7 +47,7 @@ public class CC3SpoutLoader extends CommonPlugin {
 			e.printStackTrace();
 		}
 		new Common(false, getLogger()).initialize();
-		getEngine().getServiceManager().register(EconomyService.class, new EconomyServiceHandler(), this, ServicePriority.Normal);
+		getEngine().getServiceManager().register(EconomyService.class, new EconomyServiceHandler(), this, ServicePriority.High);
 
 	}
 

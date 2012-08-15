@@ -83,6 +83,9 @@ public class ConfigurationManager {
 
 	public void setLongmode(boolean longmode) {
 		this.longmode = longmode;
+		ConfigTable table = Common.getInstance().getDatabaseManager().getDatabase().select(ConfigTable.class).where().equal("name", "longmode").execute().findOne();
+		table.value = String.valueOf(longmode);
+		Common.getInstance().getDatabaseManager().getDatabase().save(table);
 	}
 
 	public double getBankPrice() {
@@ -91,6 +94,9 @@ public class ConfigurationManager {
 
 	public void setBankPrice(double bankPrice) {
 		this.bankPrice = bankPrice;
+		ConfigTable table = Common.getInstance().getDatabaseManager().getDatabase().select(ConfigTable.class).where().equal("name", "bankprice").execute().findOne();
+		table.value = String.valueOf(bankPrice);
+		Common.getInstance().getDatabaseManager().getDatabase().save(table);
 	}
 
 	public double getHoldings() {
@@ -99,9 +105,8 @@ public class ConfigurationManager {
 
 	public void setHoldings(double holdings) {
 		this.holdings = holdings;
-	}
-
-	public void setConfig(Config config) {
-		this.config = config;
+		ConfigTable table = Common.getInstance().getDatabaseManager().getDatabase().select(ConfigTable.class).where().equal("name", "holdings").execute().findOne();
+		table.value = String.valueOf(longmode);
+		Common.getInstance().getDatabaseManager().getDatabase().save(table);
 	}
 }

@@ -16,48 +16,43 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Craftconomy3.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.greatmancode.craftconomy3.commands.currency;
-
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map.Entry;
+package com.greatmancode.craftconomy3.commands.config;
 
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.commands.CraftconomyCommand;
+import com.greatmancode.craftconomy3.utils.Tools;
 
-public class CurrencyHelpCommand implements CraftconomyCommand {
+public class ConfigLongModeCommand implements CraftconomyCommand {
 
 	@Override
 	public void execute(String sender, String[] args) {
-		Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}} ======== Currency Commands ========");
-		HashMap<String, CraftconomyCommand> cmdList = Common.getInstance().getCommandManager().getCurrencyCmdList();
-		Iterator<Entry<String, CraftconomyCommand>> iterator = cmdList.entrySet().iterator();
-		while (iterator.hasNext()) {
-			Entry<String, CraftconomyCommand> entry = iterator.next();
-			if (entry.getValue().permission(sender)) {
-				Common.getInstance().getServerCaller().sendMessage(sender, entry.getValue().help());
-			}
+		if (Tools.isBoolean(args[0])) {
+			Common.getInstance().getConfigurationManager().setLongmode(Boolean.parseBoolean(args[0]));
+			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}long balance format changed!");
+		} else {
+			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Invalid mode!");
 		}
+
 	}
 
 	@Override
 	public boolean permission(String sender) {
-		return true;
+		return Common.getInstance().getServerCaller().checkPermission(sender, "craftconomy.config.longmode");
 	}
 
 	@Override
 	public String help() {
-		return "/currency - shows currency command help";
+		return "/craftconomy longmode <true/false> - Enable/disable the long balance format.";
 	}
 
 	@Override
 	public int maxArgs() {
-		return 0;
+		return 1;
 	}
 
 	@Override
 	public int minArgs() {
-		return 0;
+		return 1;
 	}
 
 	@Override

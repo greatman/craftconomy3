@@ -50,6 +50,14 @@ public class Tools {
 		return result;
 	}
 
+	public static boolean isBoolean(String number) {
+		boolean result = false;
+		if (number.equals("true") || number.equals("false")) {
+			result = true;
+		}
+		return result;
+	}
+
 	public static boolean isValidDouble(String number) {
 		boolean valid = false;
 		if (isDouble(number)) {
