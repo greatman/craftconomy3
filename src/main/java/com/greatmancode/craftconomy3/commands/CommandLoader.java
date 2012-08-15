@@ -70,6 +70,7 @@ public class CommandLoader {
 		setupCmdList.put("convert", new SetupConvertCommand());
 		
 		currencyCmdList.put("add", new CurrencyAddCommand());
+		currencyCmdList.put("delete", new CurrencyDeleteCommand());
 
 		if (!Common.isBukkit()) {
 			cmdLoader = new SpoutCommandManager();

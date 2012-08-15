@@ -20,8 +20,10 @@ package com.greatmancode.craftconomy3.currency;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 
 import com.greatmancode.craftconomy3.Common;
+import com.greatmancode.craftconomy3.database.tables.BalanceTable;
 import com.greatmancode.craftconomy3.database.tables.CurrencyTable;
 
 /**
@@ -120,6 +122,27 @@ public class CurrencyManager {
 				Common.getInstance().getDatabaseManager().getDatabase().save(entry);
 			}
 			defaultCurrencyID = currencyId;
+		}
+	}
+	
+	public void deleteCurrency(int currencyId) {
+		if (currencyList.containsKey(currencyId)) {
+			List<BalanceTable> balanceList = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal("currency_id", currencyId).execute().find();
+			if (balanceList != null) {
+				Iterator<BalanceTable> balanceIterator = balanceList.iterator();
+				while (balanceIterator.hasNext()) {
+					Common.getInstance().getDatabaseManager().getDatabase().remove(balanceIterator.next());
+				}
+			}
+			CurrencyTable table = new CurrencyTable();
+			Currency currency = getCurrency(currencyId);
+			table.id = currencyId;
+			table.name = currency.getName();
+			table.plural = currency.getPlural();
+			table.minor = currency.getMinor();
+			table.minorplural = currency.getMinorPlural();
+			Common.getInstance().getDatabaseManager().getDatabase().remove(table);
+			currencyList.remove(currencyId);
 		}
 	}
 }
