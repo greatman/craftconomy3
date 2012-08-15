@@ -72,6 +72,7 @@ public class CommandLoader {
 		currencyCmdList.put("add", new CurrencyAddCommand());
 		currencyCmdList.put("delete", new CurrencyDeleteCommand());
 		currencyCmdList.put("edit", new CurrencyEditCommand());
+		currencyCmdList.put("info", new CurrencyInfoCommand());
 
 		if (!Common.isBukkit()) {
 			cmdLoader = new SpoutCommandManager();

@@ -20,27 +20,33 @@ package com.greatmancode.craftconomy3.commands.currency;
 
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.commands.CraftconomyCommand;
+import com.greatmancode.craftconomy3.currency.Currency;
 
-public class CurrencyDeleteCommand implements CraftconomyCommand {
+public class CurrencyInfoCommand implements CraftconomyCommand {
 
 	@Override
 	public void execute(String sender, String[] args) {
-		if (Common.getInstance().getCurrencyManager().getCurrency(args[0]) != null) {
-			Common.getInstance().getCurrencyManager().deleteCurrency(Common.getInstance().getCurrencyManager().getCurrency(args[0]).getDatabaseID());
-			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Currency deleted!");
+		Currency currency = Common.getInstance().getCurrencyManager().getCurrency(args[0]);
+		if (currency != null) {
+			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}======== {{WHITE}}" + currency.getName() + " {{DARK_GREEN}}========");
+			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Name: {{WHITE}}" + currency.getName());
+			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Name Plural: {{WHITE}}" + currency.getPlural());
+			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Minor: {{WHITE}}" + currency.getMinor());
+			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Minor plural: {{WHITE}}" + currency.getMinorPlural());
 		} else {
 			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Currency not found!");
 		}
+
 	}
 
 	@Override
 	public boolean permission(String sender) {
-		return Common.getInstance().getServerCaller().checkPermission(sender, "craftconomy.currency.delete");
+		return Common.getInstance().getServerCaller().checkPermission(sender, "craftconomy.currency.info");
 	}
 
 	@Override
 	public String help() {
-		return "/currency delete <Name> - Delete a currency {{DARK_RED}}It also deletes all balance with this currency.";
+		return "/currency info <Name> - Display the information about a currency.";
 	}
 
 	@Override
@@ -50,7 +56,7 @@ public class CurrencyDeleteCommand implements CraftconomyCommand {
 
 	@Override
 	public int minArgs() {
-		return 0;
+		return 1;
 	}
 
 	@Override
