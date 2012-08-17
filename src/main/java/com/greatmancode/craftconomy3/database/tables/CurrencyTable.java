@@ -45,5 +45,8 @@ public class CurrencyTable {
 	 */
 	@Field
 	public boolean status;
+	
+	@Field
+	public double hardCap;
 
 }

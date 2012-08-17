@@ -48,7 +48,7 @@ public class CurrencyManager {
 			if (entry.status == true) {
 				defaultCurrencyID = entry.id;
 			}
-			addCurrency(entry.id, entry.name, entry.plural, entry.minor, entry.minorplural, false);
+			addCurrency(entry.id, entry.name, entry.plural, entry.minor, entry.minorplural, entry.hardCap, false);
 		}
 	}
 
@@ -88,8 +88,8 @@ public class CurrencyManager {
 	 * @param save Do we add it in the database?
 	 */
 	
-	public void addCurrency(String name, String plural, String minor, String minorPlural, boolean save) {
-		addCurrency(-1, name, plural, minor, minorPlural, save);
+	public void addCurrency(String name, String plural, String minor, String minorPlural, double hardCap, boolean save) {
+		addCurrency(-1, name, plural, minor, minorPlural, hardCap, save);
 	}
 
 	/**
@@ -101,17 +101,18 @@ public class CurrencyManager {
 	 * @param save Do we add it in the database? If True, generates a databaseID (Whole new entry)
 	 */
 	//TODO: A check if the currency already exist.
-	public void addCurrency(int databaseID, String name, String plural, String minor, String minorPlural, boolean save) {
+	public void addCurrency(int databaseID, String name, String plural, String minor, String minorPlural, double hardCap, boolean save) {
 		if (save) {
 			CurrencyTable entry = new CurrencyTable();
 			entry.minor = minor;
 			entry.minorplural = minorPlural;
 			entry.name = name;
 			entry.plural = plural;
+			entry.hardCap = hardCap;
 			Common.getInstance().getDatabaseManager().getDatabase().save(entry);
 			databaseID = entry.id;
 		}
-		currencyList.put(databaseID, new Currency(databaseID, name, plural, minor, minorPlural));
+		currencyList.put(databaseID, new Currency(databaseID, name, plural, minor, minorPlural, hardCap));
 	}
 	
 	public void setDefault(int currencyId) {

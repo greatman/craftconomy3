@@ -27,7 +27,7 @@ public class CurrencyAddCommand implements CraftconomyCommand {
 	public void execute(String sender, String[] args) {
 		if (args[0] != null && args[1] != null && args[2] != null && args[3] != null) {
 			if (Common.getInstance().getCurrencyManager().getCurrency(args[0]) == null) {
-				Common.getInstance().getCurrencyManager().addCurrency(args[0], args[1], args[2], args[3], true);
+				Common.getInstance().getCurrencyManager().addCurrency(args[0], args[1], args[2], args[3], 0.0, true);
 				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Currency added!");
 			} else {
 				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}This currency already exists!");

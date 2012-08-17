@@ -30,12 +30,13 @@ public class Currency {
 
 	private CurrencyTable entry = new CurrencyTable();
 
-	public Currency(int databaseID, String name, String plural, String minor, String minorPlural) {
+	public Currency(int databaseID, String name, String plural, String minor, String minorPlural, double hardCap) {
 		entry.name = name;
 		entry.plural = plural;
 		entry.minor = minor;
 		entry.minorplural = minorPlural;
 		entry.id = databaseID;
+		entry.hardCap = hardCap;
 	}
 
 	/**
@@ -112,6 +113,15 @@ public class Currency {
 	 */
 	public int getDatabaseID() {
 		return entry.id;
+	}
+	
+	public void setHardCap(double cap) {
+		entry.hardCap = cap;
+		save();
+	}
+	
+	public double getHardCap() {
+		return entry.hardCap;
 	}
 
 	/**
