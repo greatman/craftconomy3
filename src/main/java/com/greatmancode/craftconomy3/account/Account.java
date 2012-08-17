@@ -23,6 +23,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.greatmancode.craftconomy3.Common;
+import com.greatmancode.craftconomy3.LogInfo;
 import com.greatmancode.craftconomy3.currency.Currency;
 import com.greatmancode.craftconomy3.currency.CurrencyManager;
 import com.greatmancode.craftconomy3.database.tables.AccountTable;
@@ -187,6 +188,7 @@ public class Account {
 				balanceTable.balance = amount;
 			}
 			Common.getInstance().getDatabaseManager().getDatabase().save(balanceTable);
+			Common.getInstance().writeLog(LogInfo.DEPOSIT, getAccountName(), amount, currency, world);
 		}
 		return balanceTable.balance;
 	}
@@ -217,6 +219,7 @@ public class Account {
 				balanceTable.balance = amount;
 			}
 			Common.getInstance().getDatabaseManager().getDatabase().save(balanceTable);
+			Common.getInstance().writeLog(LogInfo.WITHDRAW, getAccountName(), amount, currency, world);
 		}
 		return balanceTable.balance;
 	}
@@ -247,6 +250,7 @@ public class Account {
 				balanceTable.balance = amount;
 			}
 			Common.getInstance().getDatabaseManager().getDatabase().save(balanceTable);
+			Common.getInstance().writeLog(LogInfo.SET, getAccountName(), amount, currency, world);
 		}
 		return balanceTable.balance;
 	}

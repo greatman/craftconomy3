@@ -18,6 +18,11 @@
  */
 package com.greatmancode.craftconomy3;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -83,7 +88,7 @@ public class Common {
 			sendConsoleMessage(Level.INFO, "Default settings loaded!");
 			startUp();
 			sendConsoleMessage(Level.INFO, "Ready!");
-		}		
+		}
 	}
 
 	public void disable() {
@@ -170,14 +175,14 @@ public class Common {
 	}
 
 	public void initialiseDatabase() throws TableRegistrationException, ConnectionException {
-		if (!databaseInitialized ) {
+		if (!databaseInitialized) {
 			sendConsoleMessage(Level.INFO, "Loading the Database Manager");
-				dbManager = new DatabaseManager();
-				databaseInitialized = true;
-				sendConsoleMessage(Level.INFO, "Database Manager Loaded!");
+			dbManager = new DatabaseManager();
+			databaseInitialized = true;
+			sendConsoleMessage(Level.INFO, "Database Manager Loaded!");
 		}
 	}
-	
+
 	public void initializeCurrency() {
 		if (!currencyInitialized) {
 			sendConsoleMessage(Level.INFO, "Loading the Currency Manager");
@@ -186,12 +191,26 @@ public class Common {
 			sendConsoleMessage(Level.INFO, "Currency Manager Loaded!");
 		}
 	}
-	
+
 	public void startUp() {
 		sendConsoleMessage(Level.INFO, "Loading the Account Handler");
 		accountManager = new AccountManager();
 		getServerCaller().addMultiworldGraph(getConfigurationManager().isMultiWorld());
 		getServerCaller().startMetrics();
 		sendConsoleMessage(Level.INFO, "Account Handler Loaded!");
+	}
+
+	public void writeLog(LogInfo info, String username, double amount, Currency currency, String worldName) {
+		if (getConfigurationManager().getConfig().getBoolean("System.Logging.Enabled")) {
+			try {
+				PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(new File(getServerCaller().getDataFolder(), "craftconomy.log"), true)));
+
+				out.println(info.toString() + ": User: " + username + " Currency: " + currency.getName() + " World: " + worldName + " Amount:" + amount);
+				out.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 }
