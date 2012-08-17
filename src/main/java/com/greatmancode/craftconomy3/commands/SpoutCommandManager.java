@@ -47,12 +47,12 @@ public class SpoutCommandManager implements CommandExecutor, CommandManager {
 	}
 
 	@Override
-	public boolean processCommand(CommandSource source, Command command, CommandContext args) throws CommandException {
+	public void processCommand(CommandSource source, Command command, CommandContext args) throws CommandException {
 		CraftconomyCommand cmd = null;
 		if (command.getPreferredName().equals("money")) {
 			if (Common.getInstance().getConfigurationManager().getConfig().getBoolean("System.Setup")) {
 				source.sendMessage(ChatArguments.fromString(Caller.CHAT_PREFIX + "{{DARK_RED}}Craftconomy is in setup mode! Type {{WHITE}}/ccsetup."));
-				return true;
+				return;
 			}
 			if (args.length() == 0) {
 				cmd = Common.getInstance().getCommandManager().getMoneyCmdList().get("");
@@ -62,7 +62,7 @@ public class SpoutCommandManager implements CommandExecutor, CommandManager {
 		} else if (command.getPreferredName().equals("bank")) {
 			if (Common.getInstance().getConfigurationManager().getConfig().getBoolean("System.Setup")) {
 				source.sendMessage(ChatArguments.fromString(Caller.CHAT_PREFIX + "{{DARK_RED}}Craftconomy is in setup mode! Type {{WHITE}}/ccsetup."));
-				return true;
+				return;
 			}
 			if (args.length() == 0) {
 				cmd = Common.getInstance().getCommandManager().getBankCmdList().get("help");
@@ -81,7 +81,7 @@ public class SpoutCommandManager implements CommandExecutor, CommandManager {
 		} else if (command.getPreferredName().equals("currency")) {
 			if (Common.getInstance().getConfigurationManager().getConfig().getBoolean("System.Setup")) {
 				source.sendMessage(ChatArguments.fromString(Caller.CHAT_PREFIX + "{{DARK_RED}}Craftconomy is in setup mode! Type {{WHITE}}/ccsetup."));
-				return true;
+				return;
 			}
 			if (args.length() == 0) {
 				cmd = Common.getInstance().getCommandManager().getCurrencyCmdList().get("help");
@@ -92,7 +92,7 @@ public class SpoutCommandManager implements CommandExecutor, CommandManager {
 		} else if (command.getPreferredName().equals("craftconomy")) {
 			if (Common.getInstance().getConfigurationManager().getConfig().getBoolean("System.Setup")) {
 				source.sendMessage(ChatArguments.fromString(Caller.CHAT_PREFIX + "{{DARK_RED}}Craftconomy is in setup mode! Type {{WHITE}}/ccsetup."));
-				return true;
+				return;
 			}
 			if (args.length() == 0) {
 				cmd = Common.getInstance().getCommandManager().getConfigCmdList().get("help");
@@ -101,13 +101,13 @@ public class SpoutCommandManager implements CommandExecutor, CommandManager {
 			}
 
 		} else {
-			return false;
+			return;
 		}
 		if (cmd != null) {
 			if (cmd.playerOnly()) {
 				if (!(source instanceof Player)) {
 					source.sendMessage(ChatArguments.fromString(Caller.CHAT_PREFIX + "{{DARK_RED}}Only a player can use this command!"));
-					return true;
+					return;
 				}
 			}
 
@@ -123,17 +123,17 @@ public class SpoutCommandManager implements CommandExecutor, CommandManager {
 				}
 				if (newargs.length >= cmd.minArgs() && newargs.length <= cmd.maxArgs()) {
 					cmd.execute(source.getName(), newargs);
-					return true;
+					return;
 				}
 				source.sendMessage(ChatArguments.fromString(Caller.CHAT_PREFIX + cmd.help()));
-				return true;
+				return;
 			} else {
 				source.sendMessage(ChatArguments.fromString(Caller.CHAT_PREFIX + "{{DARK_RED}}Not enough permissions!"));
-				return true;
+				return;
 			}
 		} else {
 			source.sendMessage(ChatArguments.fromString(Caller.CHAT_PREFIX + "{{DARK_RED}} Sub-Command not found! Use {{WHITE}} /" + command.getPreferredName() + " help {{DARK_RED}} for help."));
-			return true;
+			return;
 		}
 	}
 
