@@ -19,10 +19,12 @@
 package com.greatmancode.craftconomy3;
 
 import java.io.File;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
 import org.spout.api.chat.ChatArguments;
 import org.spout.api.entity.Player;
+import org.spout.api.scheduler.TaskPriority;
 
 import com.greatmancode.craftconomy3.utils.MetricsSpout;
 import com.greatmancode.craftconomy3.utils.MetricsSpout.Graph;
@@ -132,5 +134,10 @@ public class SpoutCaller implements Caller {
 	@Override
 	public void startMetrics() {
 		CC3SpoutLoader.getInstance().getMetrics().start();
+	}
+
+	@Override
+	public void schedule(Runnable entry, long firstStart, long repeating) {
+		CC3SpoutLoader.getInstance().getEngine().getScheduler().scheduleSyncRepeatingTask(CC3SpoutLoader.getInstance(), entry, TimeUnit.MILLISECONDS.convert(firstStart, TimeUnit.SECONDS), TimeUnit.MILLISECONDS.convert(repeating, TimeUnit.SECONDS), TaskPriority.NORMAL);
 	}
 }

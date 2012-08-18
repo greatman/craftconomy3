@@ -153,4 +153,10 @@ public class BukkitCaller implements Caller {
 		CC3BukkitLoader.getInstance().getMetrics().start();
 	}
 
+	@Override
+	public void schedule(Runnable entry, long firstStart, long repeating) {
+		CC3BukkitLoader.getInstance().getServer().getScheduler().scheduleSyncRepeatingTask(CC3BukkitLoader.getInstance(), entry, firstStart * 20L, repeating * 20L);
+		
+	}
+
 }

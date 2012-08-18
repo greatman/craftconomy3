@@ -34,6 +34,7 @@ import com.greatmancode.craftconomy3.configuration.ConfigurationManager;
 import com.greatmancode.craftconomy3.currency.Currency;
 import com.greatmancode.craftconomy3.currency.CurrencyManager;
 import com.greatmancode.craftconomy3.database.DatabaseManager;
+import com.greatmancode.craftconomy3.payday.PayDayManager;
 
 public class Common {
 
@@ -47,8 +48,9 @@ public class Common {
 	private AccountManager accountManager = null;
 	private ConfigurationManager config = null;
 	private CurrencyManager currencyManager = null;
-
 	private DatabaseManager dbManager = null;
+	private PayDayManager paydayManager = null;
+	
 	private CommandLoader commandManager;
 	private Caller serverCaller;
 	private boolean databaseInitialized = false;
@@ -135,6 +137,10 @@ public class Common {
 	public CommandLoader getCommandManager() {
 		return commandManager;
 	}
+	
+	public PayDayManager getPaydayManager() {
+		return paydayManager;
+	}
 
 	public Caller getServerCaller() {
 		return serverCaller;
@@ -193,11 +199,15 @@ public class Common {
 	}
 
 	public void startUp() {
-		sendConsoleMessage(Level.INFO, "Loading the Account Handler");
+		sendConsoleMessage(Level.INFO, "Loading the Account Manager");
 		accountManager = new AccountManager();
 		getServerCaller().addMultiworldGraph(getConfigurationManager().isMultiWorld());
 		getServerCaller().startMetrics();
-		sendConsoleMessage(Level.INFO, "Account Handler Loaded!");
+		sendConsoleMessage(Level.INFO, "Account Manager Loaded!");
+		sendConsoleMessage(Level.INFO, "Loading the PayDay manager.");
+		paydayManager = new PayDayManager();
+		sendConsoleMessage(Level.INFO, "PayDay Manager loaded!");
+		
 	}
 
 	public void writeLog(LogInfo info, String username, double amount, Currency currency, String worldName) {

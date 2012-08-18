@@ -105,4 +105,12 @@ public interface Caller {
 	 * Starts Metrics
 	 */
 	public void startMetrics();
+	
+	/**
+	 * Schedule something to be run each X seconds.
+	 * @param entry the runnable class
+	 * @param firstStart When we should run this class first?
+	 * @param repeating What is the interval to be run at? (In seconds)
+	 */
+	public void schedule(Runnable entry, long firstStart, long repeating);
 }

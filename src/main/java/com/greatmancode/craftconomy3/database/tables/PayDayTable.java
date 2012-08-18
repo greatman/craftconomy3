@@ -16,8 +16,46 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Craftconomy3.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.greatmancode.craftconomy3;
+package com.greatmancode.craftconomy3.database.tables;
 
-public enum LogInfo {
-	DEPOSIT, WITHDRAW, SET, ADMIN_CMD
+import com.alta189.simplesave.Field;
+import com.alta189.simplesave.Id;
+import com.alta189.simplesave.Table;
+
+@Table("cc3_payday")
+public class PayDayTable {
+
+	@Id
+	public int id;
+	
+	@Field
+	public String name;
+	
+	@Field
+	public boolean disabled;
+	
+	/**
+	 * In seconds
+	 */
+	@Field
+	public int interval;
+	
+	@Field
+	public String account;
+	
+	/**
+	 * 0 = wage
+	 * 1 = tax
+	 */
+	@Field
+	public int status;
+	
+	@Field
+	public int currency_id;
+	
+	@Field
+	public double value;
+	
+	@Field
+	public String worldName;
 }
