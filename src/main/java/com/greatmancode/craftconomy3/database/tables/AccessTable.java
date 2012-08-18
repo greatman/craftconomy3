@@ -22,7 +22,7 @@ import com.alta189.simplesave.Field;
 import com.alta189.simplesave.Id;
 import com.alta189.simplesave.Table;
 
-@Table("acl")
+@Table("cc3_acl")
 public class AccessTable {
 
 	@Id

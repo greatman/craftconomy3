@@ -22,7 +22,7 @@ import com.alta189.simplesave.Field;
 import com.alta189.simplesave.Id;
 import com.alta189.simplesave.Table;
 
-@Table("Account")
+@Table("cc3_account")
 public class AccountTable {
 
 	@Id

@@ -22,7 +22,7 @@ import com.alta189.simplesave.Field;
 import com.alta189.simplesave.Id;
 import com.alta189.simplesave.Table;
 
-@Table("balance")
+@Table("cc3_balance")
 public class BalanceTable {
 
 	@Id
