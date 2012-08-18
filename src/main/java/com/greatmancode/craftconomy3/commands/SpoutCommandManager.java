@@ -43,6 +43,7 @@ public class SpoutCommandManager implements CommandExecutor, CommandManager {
 		CC3SpoutLoader.getInstance().getEngine().getRootCommand().addSubCommand(CC3SpoutLoader.getInstance(), "ccsetup").setHelp("Craftconomy setup command").setExecutor(this);
 		CC3SpoutLoader.getInstance().getEngine().getRootCommand().addSubCommand(CC3SpoutLoader.getInstance(), "currency").setHelp("Currency related command").setExecutor(this);
 		CC3SpoutLoader.getInstance().getEngine().getRootCommand().addSubCommand(CC3SpoutLoader.getInstance(), "craftconomy").setHelp("Craftconomy config command").setExecutor(this);
+		CC3SpoutLoader.getInstance().getEngine().getRootCommand().addSubCommand(CC3SpoutLoader.getInstance(), "payday").setHelp("Payday config command").setExecutor(this);
 
 	}
 
@@ -98,6 +99,17 @@ public class SpoutCommandManager implements CommandExecutor, CommandManager {
 				cmd = Common.getInstance().getCommandManager().getConfigCmdList().get("help");
 			} else {
 				cmd = Common.getInstance().getCommandManager().getConfigCmdList().get(args.getString(0));
+			}
+
+		} else if (command.getPreferredName().equals("payday")) {
+			if (Common.getInstance().getConfigurationManager().getConfig().getBoolean("System.Setup")) {
+				source.sendMessage(ChatArguments.fromString(Caller.CHAT_PREFIX + "{{DARK_RED}}Craftconomy is in setup mode! Type {{WHITE}}/ccsetup."));
+				return;
+			}
+			if (args.length() == 0) {
+				cmd = Common.getInstance().getCommandManager().getPaydayCmdList().get("help");
+			} else {
+				cmd = Common.getInstance().getCommandManager().getPaydayCmdList().get(args.getString(0));
 			}
 
 		} else {

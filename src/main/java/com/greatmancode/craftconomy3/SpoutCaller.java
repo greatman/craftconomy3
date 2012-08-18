@@ -19,6 +19,8 @@
 package com.greatmancode.craftconomy3;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
@@ -137,7 +139,22 @@ public class SpoutCaller implements Caller {
 	}
 
 	@Override
-	public void schedule(Runnable entry, long firstStart, long repeating) {
-		CC3SpoutLoader.getInstance().getEngine().getScheduler().scheduleSyncRepeatingTask(CC3SpoutLoader.getInstance(), entry, TimeUnit.MILLISECONDS.convert(firstStart, TimeUnit.SECONDS), TimeUnit.MILLISECONDS.convert(repeating, TimeUnit.SECONDS), TaskPriority.NORMAL);
+	public int schedule(Runnable entry, long firstStart, long repeating) {
+		return CC3SpoutLoader.getInstance().getEngine().getScheduler().scheduleSyncRepeatingTask(CC3SpoutLoader.getInstance(), entry, TimeUnit.MILLISECONDS.convert(firstStart, TimeUnit.SECONDS), TimeUnit.MILLISECONDS.convert(repeating, TimeUnit.SECONDS), TaskPriority.NORMAL);
+	}
+
+	@Override
+	public List<String> getOnlinePlayers() {
+		List<String> list = new ArrayList<String>();
+		Player[] pList = CC3SpoutLoader.getInstance().getEngine().getOnlinePlayers();
+		for (Player p : pList) {
+			list.add(p.getName());
+		}
+		return list;
+	}
+
+	@Override
+	public void cancelSchedule(int id) {
+		CC3SpoutLoader.getInstance().getEngine().getScheduler().cancelTask(id);
 	}
 }

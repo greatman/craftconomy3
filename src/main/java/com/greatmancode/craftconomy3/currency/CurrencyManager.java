@@ -135,14 +135,7 @@ public class CurrencyManager {
 					Common.getInstance().getDatabaseManager().getDatabase().remove(balanceIterator.next());
 				}
 			}
-			CurrencyTable table = new CurrencyTable();
-			Currency currency = getCurrency(currencyId);
-			table.id = currencyId;
-			table.name = currency.getName();
-			table.plural = currency.getPlural();
-			table.minor = currency.getMinor();
-			table.minorplural = currency.getMinorPlural();
-			Common.getInstance().getDatabaseManager().getDatabase().remove(table);
+			currencyList.get(currencyId).delete();
 			currencyList.remove(currencyId);
 		}
 	}

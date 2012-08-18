@@ -19,6 +19,8 @@
 package com.greatmancode.craftconomy3;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 
 import org.bukkit.ChatColor;
@@ -154,9 +156,24 @@ public class BukkitCaller implements Caller {
 	}
 
 	@Override
-	public void schedule(Runnable entry, long firstStart, long repeating) {
-		CC3BukkitLoader.getInstance().getServer().getScheduler().scheduleSyncRepeatingTask(CC3BukkitLoader.getInstance(), entry, firstStart * 20L, repeating * 20L);
+	public int schedule(Runnable entry, long firstStart, long repeating) {
+		return CC3BukkitLoader.getInstance().getServer().getScheduler().scheduleSyncRepeatingTask(CC3BukkitLoader.getInstance(), entry, firstStart * 20L, repeating * 20L);
 		
+	}
+
+	@Override
+	public List<String> getOnlinePlayers() {
+		List<String> list = new ArrayList<String>();
+		Player[] pList = CC3BukkitLoader.getInstance().getServer().getOnlinePlayers();
+		for (Player p: pList) {
+			list.add(p.getName());
+		}
+		return list;
+	}
+
+	@Override
+	public void cancelSchedule(int id) {
+		CC3BukkitLoader.getInstance().getServer().getScheduler().cancelTask(id);
 	}
 
 }

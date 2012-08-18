@@ -130,5 +130,9 @@ public class Currency {
 	private void save() {
 		Common.getInstance().getDatabaseManager().getDatabase().save(entry);
 	}
+	
+	void delete() {
+		Common.getInstance().getDatabaseManager().getDatabase().remove(entry);
+	}
 
 }

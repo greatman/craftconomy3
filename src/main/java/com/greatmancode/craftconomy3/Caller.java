@@ -19,6 +19,7 @@
 package com.greatmancode.craftconomy3;
 
 import java.io.File;
+import java.util.List;
 
 /**
  * Represents a server Caller
@@ -112,5 +113,9 @@ public interface Caller {
 	 * @param firstStart When we should run this class first?
 	 * @param repeating What is the interval to be run at? (In seconds)
 	 */
-	public void schedule(Runnable entry, long firstStart, long repeating);
+	public int schedule(Runnable entry, long firstStart, long repeating);
+
+	public void cancelSchedule(int id);
+
+	public List<String> getOnlinePlayers();
 }

@@ -119,7 +119,9 @@ public class PayDayManager {
 	public boolean deletePayDay(int dbId) {
 		boolean result = false;
 		if (paydayList.containsKey(dbId)) {
-			Common.getInstance().getDatabaseManager().getDatabase().remove(paydayList.get(dbId));
+			PayDay entry = paydayList.get(dbId);
+			entry.stopDelay();
+			entry.delete();
 			paydayList.remove(dbId);
 			result = true;
 		}
