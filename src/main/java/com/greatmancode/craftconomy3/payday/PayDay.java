@@ -92,23 +92,43 @@ public class PayDay implements Runnable {
 
 	}
 
+	/**
+	 * Retrieve the database ID
+	 * @return the database ID
+	 */
 	public int getDatabaseId() {
 		return table.id;
 	}
 
+	/**
+	 * Retrieve the name of the payday
+	 * @return The payday name.
+	 */
 	public String getName() {
 		return table.name;
 	}
 
+	/**
+	 * Sets the payday name.
+	 * @param name The payday name.
+	 */
 	public void setName(String name) {
 		table.name = name;
 		save();
 	}
 
+	/**
+	 * Check if the payday is disabled or not.
+	 * @return True if the project is disabled else false
+	 */
 	public boolean isDisabled() {
 		return table.disabled;
 	}
 
+	/**
+	 * Sets the project as disabled or not
+	 * @param disabled Disabled or not.
+	 */
 	public void setDisabled(boolean disabled) {
 		table.disabled = disabled;
 		save();
@@ -125,6 +145,10 @@ public class PayDay implements Runnable {
 
 	}
 
+	/**
+	 * Retrieve the interval (in seconds) that the payday will run.
+	 * @return The interval in seconds.
+	 */
 	public int getInterval() {
 		return table.interval;
 	}
@@ -154,19 +178,36 @@ public class PayDay implements Runnable {
 		return result;
 	}
 
+	/**
+	 * Retrieve the account that this payday is associated with
+	 * @return The account
+	 */
 	public String getAccount() {
 		return table.account;
 	}
 
+	/**
+	 * Set the account that this payday is associated with
+	 * @param account The account to accociate to.
+	 */
 	public void setAccount(String account) {
 		table.account = account;
 		save();
 	}
 
+	/**
+	 * Retrieve the status of the payday (0 = wage, 1 = tax)
+	 * @return The status of the payday.
+	 */
 	public int getStatus() {
 		return table.status;
 	}
 
+	/**
+	 * Sets the status of the payday
+	 * @param status The status  (0 = wage, 1 = tax)
+	 * @return True if the value has been modified else false.
+	 */
 	public boolean setStatus(int status) {
 		boolean result = false;
 		if (status == 0 || status == 1) {
@@ -178,33 +219,61 @@ public class PayDay implements Runnable {
 
 	}
 
+	/**
+	 * Get the currency ID associated with this payday
+	 * @return The currency ID.
+	 */
 	public int getCurrencyId() {
 		return table.currency_id;
 	}
 
+	/**
+	 * Set the currency ID associated with this payday
+	 * @param currencyId The currency ID to set to.
+	 */
 	public void setCurrencyId(int currencyId) {
 		table.currency_id = currencyId;
 		save();
 	}
 
+	/**
+	 * Retrieve the value (The amount of money) associated with this payday
+	 * @return
+	 */
 	public double getValue() {
 		return table.value;
 	}
 
+	/**
+	 * Sets the value (The amount of money).
+	 * @param value The amount of money
+	 */
 	public void setValue(double value) {
 		table.value = value;
 		save();
 	}
 
+	/**
+	 * Retrieve the world name associated with this payday.
+	 * @return The world name.
+	 */
 	public String getWorldName() {
 		return table.worldName;
 	}
 
+	/**
+	 * Sets the world name
+	 * @param worldName The world name.
+	 */
 	public void setWorldName(String worldName) {
 		table.worldName = worldName;
 		save();
 	}
 
+	/**
+	 * Retrieve the delayed Id
+	 * @return The delayed Id
+	 */
 	public int getDelayedId() {
 		return delayedId;
 	}
@@ -217,6 +286,9 @@ public class PayDay implements Runnable {
 		delayedId = Common.getInstance().getServerCaller().schedule(this, table.interval, table.interval);
 	}
 
+	/**
+	 * Stop the delayer if it's running.
+	 */
 	public void stopDelay() {
 		if (delayedId != -1) {
 			Common.getInstance().getServerCaller().cancelSchedule(delayedId);
@@ -224,6 +296,9 @@ public class PayDay implements Runnable {
 		}
 	}
 
+	/**
+	 * Delete the payday.
+	 */
 	void delete() {
 		Common.getInstance().getDatabaseManager().getDatabase().remove(table);
 	}
