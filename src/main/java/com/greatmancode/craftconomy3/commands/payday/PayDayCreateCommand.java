@@ -2,6 +2,8 @@ package com.greatmancode.craftconomy3.commands.payday;
 
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.commands.CraftconomyCommand;
+import com.greatmancode.craftconomy3.currency.Currency;
+import com.greatmancode.craftconomy3.currency.CurrencyManager;
 import com.greatmancode.craftconomy3.utils.Tools;
 
 public class PayDayCreateCommand implements CraftconomyCommand {
@@ -10,7 +12,49 @@ public class PayDayCreateCommand implements CraftconomyCommand {
 	public void execute(String sender, String[] args) {
 		if (Common.getInstance().getPaydayManager().getPayDay(args[0]) == null) {
 			if (Tools.isInteger(args[1])) {
-				
+				if (args[2].equalsIgnoreCase("wage") || args[2].equalsIgnoreCase("tax")) {
+					if (Tools.isValidDouble(args[3])) {
+						String accountName = "", worldName = "any";
+						int currencyId = Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.defaultCurrencyID).getDatabaseID();
+						if (args.length >= 5) {
+							if (Common.getInstance().getAccountManager().exist(args[4])) {
+								accountName = args[4];
+							} else {
+								Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Account not found!");
+								return;
+							}
+						}
+						if (args.length >= 6) {
+							Currency currency = Common.getInstance().getCurrencyManager().getCurrency(args[5]);
+							if (currency != null) {
+								currencyId = currency.getDatabaseID();
+							} else {
+								Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Currency not found!");
+								return;
+							}
+						}
+						if (args.length == 7) {
+							if (Common.getInstance().getConfigurationManager().isMultiWorld()) {
+								if (Common.getInstance().getServerCaller().worldExist(args[6])) {
+									worldName = args[6];
+								} else {
+									Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}World not found!");
+									return;
+								}
+							}
+						}
+						int status = 0;
+						if (args[2].equalsIgnoreCase("tax")) {
+							status = 1;
+						}
+						Common.getInstance().getPaydayManager().addPayDay(args[0], false, Integer.parseInt(args[1]), accountName, status, currencyId, Double.parseDouble(args[3]), worldName, true);
+						Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Payday added! Add the permission node {{WHITE}}craftconomy.payday." + args[0] + " {{DARK_GREEN}}to the players you want to add this payday!");
+					} else {
+						Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Invalid Amount!");
+					}
+				} else {
+					Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Invalid mode. only wage or tax is supported!");
+				}
 			} else {
 				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Invalid interval!");
 			}
@@ -26,7 +70,7 @@ public class PayDayCreateCommand implements CraftconomyCommand {
 
 	@Override
 	public String help() {
-		return "/payday create <Name> <Interval> <wage/tax> <value> [Account] [Currency Name] [World Name] - Create a new payday";
+		return "/payday create <Name> <Interval> <wage/tax> <Amount> [Account] [Currency Name] [World Name] - Create a new payday";
 	}
 
 	@Override

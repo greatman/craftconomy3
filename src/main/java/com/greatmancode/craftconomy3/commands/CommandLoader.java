@@ -25,6 +25,7 @@ import com.greatmancode.craftconomy3.commands.bank.*;
 import com.greatmancode.craftconomy3.commands.config.*;
 import com.greatmancode.craftconomy3.commands.currency.*;
 import com.greatmancode.craftconomy3.commands.money.*;
+import com.greatmancode.craftconomy3.commands.payday.*;
 import com.greatmancode.craftconomy3.commands.setup.*;
 
 /**
@@ -83,6 +84,8 @@ public class CommandLoader {
 		configCmdList.put("longmode", new ConfigLongModeCommand());
 		configCmdList.put("bankprice", new ConfigBankPriceCommand());
 		configCmdList.put("help", new ConfigHelpCommand());
+		
+		paydayCmdList.put("create", new PayDayCreateCommand());
 
 		if (!Common.isBukkit()) {
 			cmdLoader = new SpoutCommandManager();
