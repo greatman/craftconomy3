@@ -88,6 +88,7 @@ public class CommandLoader {
 		paydayCmdList.put("create", new PayDayCreateCommand());
 		paydayCmdList.put("delete", new PayDayDeleteCommand());
 		paydayCmdList.put("help", new PayDayHelpCommand());
+		paydayCmdList.put("modify", new PayDayModifyCommand());
 
 		if (!Common.isBukkit()) {
 			cmdLoader = new SpoutCommandManager();
