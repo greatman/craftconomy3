@@ -41,7 +41,7 @@ public class SetupMultiWorldCommand implements CraftconomyCommand {
 					oldValue.name = "multiworld";
 					oldValue.value = args[0];
 					Common.getInstance().getDatabaseManager().getDatabase().save(oldValue);
-					Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}You set Multiworld to false. If you accept this setting, type {{WHITE}}/ccsetup multiworld confirm {{DARK_GREEN}}Else, just type {{WHITE}}/ccsetup multiworld <true/false>");
+					Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}You set Multiworld to " + args[0] +". If you accept this setting, type {{WHITE}}/ccsetup multiworld confirm {{DARK_GREEN}}Else, just type {{WHITE}}/ccsetup multiworld <true/false>");
 				} else if (args[0].equals("confirm")) {
 					SetupWizard.setState(3);
 					Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Step done! Type {{WHITE}}/ccsetup currency {{DARK_GREEN}}to continue!");
