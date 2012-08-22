@@ -54,7 +54,6 @@ public class BankBalanceCommand implements CraftconomyCommand {
 
 	@Override
 	public String help() {
-		// TODO Auto-generated method stub
 		return "/bank balance <Account Name> - Check the balance of a account.";
 	}
 

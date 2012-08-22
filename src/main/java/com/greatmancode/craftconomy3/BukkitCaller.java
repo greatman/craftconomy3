@@ -127,7 +127,6 @@ public class BukkitCaller implements Caller {
 
 			@Override
 			public int getValue() {
-				// TODO Auto-generated method stub
 				return 1;
 			}
 		});
@@ -144,7 +143,6 @@ public class BukkitCaller implements Caller {
 
 			@Override
 			public int getValue() {
-				// TODO Auto-generated method stub
 				return 1;
 			}
 		});

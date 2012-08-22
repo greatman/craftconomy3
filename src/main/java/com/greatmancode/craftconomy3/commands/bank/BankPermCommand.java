@@ -54,13 +54,11 @@ public class BankPermCommand implements CraftconomyCommand {
 
 	@Override
 	public boolean permission(String sender) {
-		// TODO Auto-generated method stub
 		return Common.getInstance().getServerCaller().checkPermission(sender, "craftconomy.bank.perm");
 	}
 
 	@Override
 	public String help() {
-		// TODO Auto-generated method stub
 		return "/bank perm <Account Name> <deposit/withdraw/acl/show> <Player Name> <true/false> - Modify the permission of a player";
 	}
 

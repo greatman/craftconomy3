@@ -104,10 +104,8 @@ public class Iconomy6 extends Converter {
 				db.connect();
 				result = true;
 			} catch (TableRegistrationException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (ConnectionException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
@@ -140,7 +138,6 @@ public class Iconomy6 extends Converter {
 				}
 				flatFileReader.close();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
@@ -163,7 +160,6 @@ public class Iconomy6 extends Converter {
 			try {
 				db.close();
 			} catch (ConnectionException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

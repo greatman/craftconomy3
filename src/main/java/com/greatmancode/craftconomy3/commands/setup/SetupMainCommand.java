@@ -26,7 +26,6 @@ public class SetupMainCommand implements CraftconomyCommand {
 
 	@Override
 	public void execute(String sender, String[] args) {
-		// TODO Auto-generated method stub
 		Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Welcome to the Craftconomy setup wizard.");
 		Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}This setup will help you configure Craftconomy like you want.");
 		Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}To continue, type {{WHITE}} /ccsetup database");

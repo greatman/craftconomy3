@@ -97,7 +97,6 @@ public class Common {
 		try {
 			Common.getInstance().getDatabaseManager().getDatabase().close();
 		} catch (ConnectionException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -218,7 +217,6 @@ public class Common {
 				out.println(info.toString() + ": User: " + username + " Currency: " + currency.getName() + " World: " + worldName + " Amount:" + amount);
 				out.close();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

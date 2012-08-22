@@ -82,7 +82,6 @@ public class SpoutConfig extends Config {
 		try {
 			config.save();
 		} catch (ConfigurationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
