@@ -38,7 +38,7 @@ public class PayDayTable {
 	 * In seconds
 	 */
 	@Field
-	public int interval;
+	public int time;
 	
 	@Field
 	public String account;

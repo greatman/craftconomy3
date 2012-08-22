@@ -35,7 +35,7 @@ public class PayDay implements Runnable {
 		table.id = dbId;
 		table.name = name;
 		table.disabled = disabled;
-		table.interval = interval;
+		table.time = interval;
 		table.account = account;
 		table.status = status;
 		table.currency_id = currency_id;
@@ -150,7 +150,7 @@ public class PayDay implements Runnable {
 	 * @return The interval in seconds.
 	 */
 	public int getInterval() {
-		return table.interval;
+		return table.time;
 	}
 
 	/**
@@ -161,7 +161,7 @@ public class PayDay implements Runnable {
 	public boolean setInterval(int interval) {
 		boolean result = false;
 		if (interval > 0) {
-			table.interval = interval;
+			table.time = interval;
 			save();
 			result = true;
 			if (!table.disabled) {
@@ -283,7 +283,7 @@ public class PayDay implements Runnable {
 	}
 
 	private void startDelay() {
-		delayedId = Common.getInstance().getServerCaller().schedule(this, table.interval, table.interval);
+		delayedId = Common.getInstance().getServerCaller().schedule(this, table.time, table.time);
 	}
 
 	/**
