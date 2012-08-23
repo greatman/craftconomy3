@@ -44,7 +44,7 @@ public class BankWithdrawCommand implements CraftconomyCommand {
 						}
 					}
 					Account playerAccount = Common.getInstance().getAccountManager().getAccount(sender);
-					if (playerAccount.hasEnough(amount, playerAccount.getWorldPlayerCurrentlyIn(), currency.getName())) {
+					if (bankAccount.hasEnough(amount, playerAccount.getWorldPlayerCurrentlyIn(), currency.getName())) {
 						bankAccount.withdraw(amount, playerAccount.getWorldPlayerCurrentlyIn(), currency.getName());
 						playerAccount.deposit(amount, playerAccount.getWorldPlayerCurrentlyIn(), currency.getName());
 						Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Withdrawed {{WHITE}}" + Common.getInstance().format(null, currency, amount) + "{{DARK_GREEN}} from the {{WHITE}}" + args[0] + "{{DARK_GREEN}} bank Account.");
