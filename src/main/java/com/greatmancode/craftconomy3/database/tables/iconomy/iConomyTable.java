@@ -19,11 +19,15 @@
 package com.greatmancode.craftconomy3.database.tables.iconomy;
 
 import com.alta189.simplesave.Field;
+import com.alta189.simplesave.Id;
 import com.alta189.simplesave.Table;
 
 @Table("iconomy")
 public class iConomyTable {
 
+	@Id
+	public int id;
+	
 	@Field
 	public String username;
 
