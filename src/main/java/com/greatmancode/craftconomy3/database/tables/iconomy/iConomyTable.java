@@ -33,4 +33,7 @@ public class iConomyTable {
 
 	@Field
 	public double balance;
+	
+	@Field
+	public int status;
 }

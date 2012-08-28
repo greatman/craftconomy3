@@ -152,6 +152,7 @@ public class Craftconomy2 extends Converter {
 						}
 						i++;
 					}
+					Common.getInstance().getServerCaller().sendMessage(sender, i + " of  " + accountList.size() + "{{DARK_GREEN}}accounts imported.");
 
 				}
 
@@ -189,6 +190,8 @@ public class Craftconomy2 extends Converter {
 						}
 						i++;
 					}
+					Common.getInstance().getServerCaller().sendMessage(sender, i + " of  " + bankList.size() + "{{DARK_GREEN}} bank accounts imported.");
+					
 				}
 				result = true;
 			} else {

@@ -47,13 +47,13 @@ public class SetupBasicCommand implements CraftconomyCommand {
 					if (Tools.isValidDouble(args[1])) {
 						bankprice = args[1];
 						Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Alright. Now, I want to know if you want the long formatting or not.");
-						Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Long formatting is: {{WHITE}}30 Dollars 1 Coins. {{DARK_GREEN}}No long formatting is: {{WHITE}}30.32 Dollars");
+						Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Long formatting is: {{WHITE}}30 Dollars 1 Coin. {{DARK_GREEN}}No long formatting is: {{WHITE}}30.32 Dollars");
 						Common.getInstance().getServerCaller().sendMessage(sender, "Type /ccsetup basic format <True/False>");
 					} else {
 						Common.getInstance().getServerCaller().sendMessage(sender, args[1] + "{{DARK_RED}} Is not a valid number! Something valid is something like 30.0");
 					}
 				} else if (args[0].equals("format")) {
-					if (args[1].equals("true") || args[1].equals("false")) {
+					if (args[1].equalsIgnoreCase("true") || args[1].equalsIgnoreCase("false")) {
 						longmode = args[1];
 						Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Awesome! Now, type {{WHITE}}/ccsetup basic confirm {{DARK_GREEN}}to save everything!");
 					} else {

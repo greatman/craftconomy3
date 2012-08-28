@@ -70,13 +70,13 @@ public class SetupCurrencyCommand implements CraftconomyCommand {
 			} else {
 				if (args[0].equals("name")) {
 					name = args[1];
-					Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Currency Name set to {{WHITE}}" + args[1] + "{{DARK_GREEN}}. Now, let's set the Main currency name in plural (Ex. Dollars). Type {{WHITE}}/ccsetup currency plural <Name>");
+					Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Currency Name set to {{WHITE}}" + args[1] + "{{DARK_GREEN}}. Now, let's set the Main currency name in plural (Ex. {{WHITE}}Dollars{{DARK_GREEN}}). Type {{WHITE}}/ccsetup currency plural <Name>");
 				} else if (args[0].equals("plural")) {
 					nameplural = args[1];
-					Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Currency Plural set to {{WHITE}}" + args[1] + "{{DARK_GREEN}}. Now, let's set the minor currency name (Ex. Coin). Type {{WHITE}}/ccsetup currency minor <Name>");
+					Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Currency Plural set to {{WHITE}}" + args[1] + "{{DARK_GREEN}}. Now, let's set the minor currency name (Ex. {{WHITE}}Coin{{DARK_GREEN}}). Type {{WHITE}}/ccsetup currency minor <Name>");
 				} else if (args[0].equals("minor")) {
 					minor = args[1];
-					Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Currency minor set to {{WHITE}}" + args[1] + "{{DARK_GREEN}}. Now, let's set the minor currency name in plural (Ex. Coins). Type {{WHITE}}/ccsetup currency minorplural <Name>");
+					Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Currency minor set to {{WHITE}}" + args[1] + "{{DARK_GREEN}}. Now, let's set the minor currency name in plural (Ex. {{WHITE}}Coins{{DARK_GREEN}}). Type {{WHITE}}/ccsetup currency minorplural <Name>");
 				} else if (args[0].equals("minorplural")) {
 					minorplural = args[1];
 					Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Currency minor Plural set to {{WHITE}}" + args[1] + "{{DARK_GREEN}}. Seems like your done for this part! Type {{WHITE}}/ccsetup currency confirm {{DARK_GREEN}}to finish the setup.");

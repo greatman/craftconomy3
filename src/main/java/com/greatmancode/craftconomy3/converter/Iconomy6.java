@@ -101,6 +101,7 @@ public class Iconomy6 extends Converter {
 			
 			try {
 				db.registerTable(iConomyTable.class);
+				db.setCheckTableOnRegistration(false);
 				db.connect();
 				result = true;
 			} catch (TableRegistrationException e) {
@@ -156,6 +157,7 @@ public class Iconomy6 extends Converter {
 					Common.getInstance().getAccountManager().getAccount(entry.username).set(entry.balance, Common.getInstance().getServerCaller().getDefaultWorld(), Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.defaultCurrencyID).getName());
 					i++;
 				}
+				Common.getInstance().getServerCaller().sendMessage(sender, i + " of  " + icoList.size() + "{{DARK_GREEN}}accounts imported.");
 			}
 			try {
 				db.close();
