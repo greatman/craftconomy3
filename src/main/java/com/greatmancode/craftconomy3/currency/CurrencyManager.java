@@ -122,6 +122,7 @@ public class CurrencyManager {
 				entry.status = false;
 				Common.getInstance().getDatabaseManager().getDatabase().save(entry);
 			}
+			currencyList.get(currencyId).setDefault();
 			defaultCurrencyID = currencyId;
 		}
 	}

@@ -79,6 +79,7 @@ public class CommandLoader {
 		currencyCmdList.put("edit", new CurrencyEditCommand());
 		currencyCmdList.put("info", new CurrencyInfoCommand());
 		currencyCmdList.put("help", new CurrencyHelpCommand());
+		currencyCmdList.put("default", new CurrencyDefaultCommand());
 		
 		configCmdList.put("holdings", new ConfigHoldingsCommand());
 		configCmdList.put("longmode", new ConfigLongModeCommand());

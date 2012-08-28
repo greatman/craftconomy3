@@ -134,5 +134,10 @@ public class Currency {
 	void delete() {
 		Common.getInstance().getDatabaseManager().getDatabase().remove(entry);
 	}
+	
+	void setDefault() {
+		entry.status = true;
+		save();
+	}
 
 }
