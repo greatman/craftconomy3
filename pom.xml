@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.greatmancode</groupId>
 	<artifactId>craftconomy3</artifactId>
-	<version>3.0.2-SNAPSHOT</version>
+	<version>3.0.1</version>
 	<inceptionYear>2011</inceptionYear>
 	<name>Craftconomy3</name>
 	<url>https://github.com/greatman/Craftconomy3</url>
@@ -67,20 +67,6 @@
 			<groupId>org.bukkit</groupId>
 			<artifactId>bukkit</artifactId>
 			<version>${bukkitVersion}</version>
-			<type>jar</type>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.xerial</groupId>
-			<artifactId>sqlite-jdbc</artifactId>
-			<version>3.7.2</version>
-			<type>jar</type>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<version>5.1.14</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>

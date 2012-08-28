@@ -18,6 +18,7 @@
  */
 package com.greatmancode.craftconomy3;
 
+import java.io.File;
 import java.io.IOException;
 
 import org.spout.api.plugin.CommonPlugin;
@@ -40,6 +41,8 @@ public class CC3SpoutLoader extends CommonPlugin {
 	@Override
 	public void onEnable() {
 		instance = this;
+		this.loadLibrary(new File("natives" + File.separator + "sqlite-jdbc-3.7.2.jar"));
+		this.loadLibrary(new File("natives" + File.separator + "mysql-connector-java-5.1.14.jar"));
 		try {
 			metrics = new MetricsSpout(this);
 
