@@ -20,9 +20,21 @@ package com.greatmancode.craftconomy3.converter;
 
 import java.util.HashMap;
 
+/**
+ * Contains the list of loaded converters.
+ * @author greatman
+ *
+ */
 public class ConverterList {
 
+	/**
+	 * Contains the list of the loaded converters.
+	 */
 	public static HashMap<String,Converter> converterList = new HashMap<String,Converter>();
+	
+	/**
+	 * Load the converters.
+	 */
 	public ConverterList() {
 		converterList.put("iconomy6", new Iconomy6());
 		converterList.put("craftconomy2", new Craftconomy2());

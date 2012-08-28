@@ -18,6 +18,12 @@
  */
 package com.greatmancode.craftconomy3;
 
+
+/**
+ * Global class to keep a global variable for the Setup Wizard.
+ * @author greatman
+ *
+ */
 public class SetupWizard {
 
 	/**
@@ -32,10 +38,17 @@ public class SetupWizard {
 	 */
 	private static int state = 0;
 
+	/**
+	 * Set the wizard state.
+	 * @param newState The new state to set to.
+	 */
 	public static void setState(int newState) {
 		state = newState;
 	}
 	
+	/**
+	 * Retrieve the Wizard state.
+	 */
 	public static int getState() {
 		return state;
 	}

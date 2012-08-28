@@ -22,16 +22,46 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * Represents a Converter
+ * @author greatman
+ *
+ */
 public abstract class Converter {
 
+	/**
+	 * Contains the type of Database (flatfile, sqlite, etc.) supported by the originating plugin
+	 */
 	protected List<String> dbTypes = new ArrayList<String>();
+	
+	/**
+	 * Contains the selected Db Type.
+	 */
 	protected String selectedDbType;
+	
+	/**
+	 * Contains all the required fields about the selected database type
+	 */
 	protected List<String> dbInfo = new ArrayList<String>();
+	
+	/**
+	 * Contains all the information about the required fields entered by the user.
+	 */
 	protected HashMap<String,String> dbConnectInfo = new HashMap<String,String>();
 	
+	/**
+	 * Retrieve a list of all the database type.
+	 * @return A list of database type.
+	 */
 	public List<String> getDbTypes() {
 		return dbTypes;
 	}
+	
+	/**
+	 * Sets the selected database type.
+	 * @param dbType The database type selected
+	 * @return True if the database type has been saved else false (A invalid type)
+	 */
 	public boolean setDbType(String dbType) {
 		boolean result = false;
 		if (dbTypes.contains(dbType)) {
@@ -40,7 +70,19 @@ public abstract class Converter {
 		}
 		return result;
 	}
+	
+	/**
+	 * Retrieve the list of required fields about the selected database type
+	 * @return A list of required fields to connect to the selected database type
+	 */
 	public abstract List<String> getDbInfo();
+	
+	/**
+	 * Sets a field information for the selected database type
+	 * @param field The field name.
+	 * @param value The value of the field.
+	 * @return True if the field has been saved else false (A invalid field)
+	 */
 	public boolean setDbInfo(String field, String value) {
 		boolean result = false;
 		if (dbInfo.contains(field)) {
@@ -49,9 +91,25 @@ public abstract class Converter {
 		}
 		return result;
 	}
-	public abstract boolean connect();
-	public abstract boolean importData(String sender);
+	
+	/**
+	 * Checks if we filled all the required fields
+	 * @return True if all fields has been filled else false.
+	 */
 	public boolean allSet() {
 		return dbInfo.size() == dbConnectInfo.size();
 	}
+	
+	/**
+	 * Connects to the database
+	 * @return True if the connection is successful else false.
+	 */
+	public abstract boolean connect();
+	
+	/**
+	 * Import all the data into Craftconomy
+	 * @param sender The name of the sender so we can send status update.
+	 * @return True if everything went well else false.
+	 */
+	public abstract boolean importData(String sender);
 }

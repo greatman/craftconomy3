@@ -37,6 +37,9 @@ public class ConfigurationManager {
 
 	}
 
+	/**
+	 * Initialize the Configuration manager
+	 */
 	public void initialize() {
 		if (Common.isBukkit()) {
 
@@ -55,6 +58,9 @@ public class ConfigurationManager {
 
 	}
 	
+	/**
+	 * Load the settings from the database.
+	 */
 	public void loadDefaultSettings() {
 		holdings = Double.parseDouble(Common.getInstance().getDatabaseManager().getDatabase().select(ConfigTable.class).where().equal("name", "holdings").execute().findOne().value);
 		bankPrice = Double.parseDouble(Common.getInstance().getDatabaseManager().getDatabase().select(ConfigTable.class).where().equal("name", "bankprice").execute().findOne().value);
@@ -71,16 +77,34 @@ public class ConfigurationManager {
 		}
 	}
 	
+	/**
+	 * Retrieve the Bank creation currency ID. Currently unused.
+	 * @return The bank creation currency ID.
+	 */
 	public int getBankCurrencyId() {
 		return bankCurrencyId;
 	}
+	
+	/**
+	 * Check if the plugin is set in MultiWorld mode or not.
+	 * @return True if the system is set to be MultiWorld else false.
+	 */
 	public boolean isMultiWorld() {
 		return multiworld;
 	}
+	
+	/**
+	 * Check if we should use the long format mode or the small one.
+	 * @return True or false.
+	 */
 	public boolean isLongmode() {
 		return longmode;
 	}
 
+	/**
+	 * Modify the longMode setting.
+	 * @param longmode True if we want long format else false.
+	 */
 	public void setLongmode(boolean longmode) {
 		this.longmode = longmode;
 		ConfigTable table = Common.getInstance().getDatabaseManager().getDatabase().select(ConfigTable.class).where().equal("name", "longmode").execute().findOne();
@@ -88,10 +112,18 @@ public class ConfigurationManager {
 		Common.getInstance().getDatabaseManager().getDatabase().save(table);
 	}
 
+	/**
+	 * Retrieve the price to create a bank account.
+	 * @return The price to create a bank acocunt.
+	 */
 	public double getBankPrice() {
 		return bankPrice;
 	}
 
+	/**
+	 * Sets the price to create a bank account.
+	 * @param bankPrice The new Bank creation price.
+	 */
 	public void setBankPrice(double bankPrice) {
 		this.bankPrice = bankPrice;
 		ConfigTable table = Common.getInstance().getDatabaseManager().getDatabase().select(ConfigTable.class).where().equal("name", "bankprice").execute().findOne();
@@ -99,10 +131,18 @@ public class ConfigurationManager {
 		Common.getInstance().getDatabaseManager().getDatabase().save(table);
 	}
 
+	/**
+	 * Retrieve the initial holdings in a account.
+	 * @return The initial holdings.
+	 */
 	public double getHoldings() {
 		return holdings;
 	}
 
+	/**
+	 * Sets the initial holdings in a account.
+	 * @param holdings The initials holdings to set to.
+	 */
 	public void setHoldings(double holdings) {
 		this.holdings = holdings;
 		ConfigTable table = Common.getInstance().getDatabaseManager().getDatabase().select(ConfigTable.class).where().equal("name", "holdings").execute().findOne();

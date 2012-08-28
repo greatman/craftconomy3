@@ -37,6 +37,11 @@ import com.greatmancode.craftconomy3.database.tables.craftconomy2.BankMemberTabl
 import com.greatmancode.craftconomy3.database.tables.craftconomy2.BankTable;
 import com.greatmancode.craftconomy3.database.tables.craftconomy2.CurrencyTable;
 
+/**
+ * Converter for Craftconomy 2.
+ * @author greatman
+ *
+ */
 public class Craftconomy2 extends Converter {
 
 	private Database db = null;

@@ -53,7 +53,7 @@ public class SetupBasicCommand implements CraftconomyCommand {
 						Common.getInstance().getServerCaller().sendMessage(sender, args[1] + "{{DARK_RED}} Is not a valid number! Something valid is something like 30.0");
 					}
 				} else if (args[0].equals("format")) {
-					if (args[1].equalsIgnoreCase("true") || args[1].equalsIgnoreCase("false")) {
+					if (Tools.isBoolean(args[1])) {
 						longmode = args[1];
 						Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Awesome! Now, type {{WHITE}}/ccsetup basic confirm {{DARK_GREEN}}to save everything!");
 					} else {

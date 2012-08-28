@@ -37,6 +37,11 @@ import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.currency.CurrencyManager;
 import com.greatmancode.craftconomy3.database.tables.iconomy.iConomyTable;
 
+/**
+ * Converter for iConomy 6.
+ * @author greatman
+ *
+ */
 public class Iconomy6 extends Converter {
 
 	private BufferedReader flatFileReader = null;

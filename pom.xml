@@ -135,7 +135,7 @@
 					</execution>
 				</executions>
 				<configuration>
-					<excludePackageNames></excludePackageNames>
+					<excludePackageNames>com.greatmancode.craftconomy3.commands:com.greatmancode.craftconomy3.spout</excludePackageNames>
 				</configuration>
 			</plugin>
 			<plugin>

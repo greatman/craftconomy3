@@ -60,5 +60,10 @@ public abstract class Config {
 	 */
 	public abstract boolean getBoolean(String path);
 	
+	/**
+	 * Set a value in the configuration.
+	 * @param path The path to the value we want to modify
+	 * @param value The new value.
+	 */
 	public abstract void setValue(String path, Object value);
 }

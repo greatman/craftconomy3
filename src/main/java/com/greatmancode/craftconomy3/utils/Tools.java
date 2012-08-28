@@ -18,8 +18,19 @@
  */
 package com.greatmancode.craftconomy3.utils;
 
+
+/**
+ * General tools for Craftconomy
+ * @author greatman
+ *
+ */
 public class Tools {
 
+	/**
+	 * Checks if a string is a valid integer
+	 * @param number The string to check
+	 * @return True if the string is a valid integer else false.
+	 */
 	public static boolean isInteger(String number) {
 		boolean result = false;
 		try {
@@ -30,6 +41,11 @@ public class Tools {
 		return result;
 	}
 
+	/**
+	 * Checks if a string is a valid long
+	 * @param number The string to check
+	 * @return True if the string is a valid long else false.
+	 */
 	public static boolean isLong(String number) {
 		boolean result = false;
 		try {
@@ -40,6 +56,11 @@ public class Tools {
 		return result;
 	}
 
+	/**
+	 * Checks if a string is a valid Double
+	 * @param number The string to check.
+	 * @return True if the string is a valid double else false.
+	 */
 	public static boolean isDouble(String number) {
 		boolean result = false;
 		try {
@@ -50,14 +71,24 @@ public class Tools {
 		return result;
 	}
 
+	/**
+	 * Checks if a string is a valid boolean
+	 * @param number The string to check
+	 * @return True if the string is equals to either true or false . Else false.
+	 */
 	public static boolean isBoolean(String number) {
 		boolean result = false;
-		if (number.equals("true") || number.equals("false")) {
+		if (number != null && number.equalsIgnoreCase("true") || number.equalsIgnoreCase("false")) {
 			result = true;
 		}
 		return result;
 	}
 
+	/**
+	 * Checks if a string is a valid double.
+	 * @param number The string to check
+	 * @return True if the number is a valid double (positive) else false.
+	 */
 	public static boolean isValidDouble(String number) {
 		boolean valid = false;
 		if (isDouble(number)) {
@@ -68,6 +99,11 @@ public class Tools {
 		return valid;
 	}
 
+	/**
+	 * Checks if a double is positive.
+	 * @param number The number to check
+	 * @return True if the number is positive else false.
+	 */
 	public static boolean isPositive(double number) {
 		return number > 0.00;
 	}

@@ -26,6 +26,11 @@ import java.util.logging.Level;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.database.tables.PayDayTable;
 
+/**
+ * Represents a PayDay
+ * @author greatman
+ *
+ */
 public class PayDay implements Runnable {
 
 	private PayDayTable table = new PayDayTable();
@@ -238,7 +243,7 @@ public class PayDay implements Runnable {
 
 	/**
 	 * Retrieve the value (The amount of money) associated with this payday
-	 * @return
+	 * @return The amount of money.
 	 */
 	public double getValue() {
 		return table.value;

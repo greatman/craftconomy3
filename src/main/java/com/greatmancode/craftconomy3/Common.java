@@ -36,6 +36,11 @@ import com.greatmancode.craftconomy3.currency.CurrencyManager;
 import com.greatmancode.craftconomy3.database.DatabaseManager;
 import com.greatmancode.craftconomy3.payday.PayDayManager;
 
+/**
+ * The core of Craftconomy. Every requests pass through this class
+ * @author greatman
+ *
+ */
 public class Common {
 
 	private Logger log = null;
@@ -55,7 +60,13 @@ public class Common {
 	private Caller serverCaller;
 	private boolean databaseInitialized = false;
 	private boolean currencyInitialized;
+	private boolean initialized = false;
 
+	/**
+	 * Loads the Common core.
+	 * @param isBukkit If the server is Craftbukkit or not
+	 * @param log The Logger associated with this plugin.
+	 */
 	public Common(boolean isBukkit, Logger log) {
 		instance = this;
 		Common.isBukkit = isBukkit;
@@ -67,33 +78,43 @@ public class Common {
 		}
 	}
 
+	/**
+	 * Initialize the Common core.
+	 */
 	public void initialize() {
-		sendConsoleMessage(Level.INFO, "Starting up!");
-		sendConsoleMessage(Level.INFO, "Loading the Configuration");
-		config = new ConfigurationManager();
-		config.initialize();
-		sendConsoleMessage(Level.INFO, "Loading commands");
-		commandManager = new CommandLoader();
-		if (config.getConfig().getBoolean("System.Setup")) {
-			sendConsoleMessage(Level.WARNING, "Loading Craftconomy in setup mode. Please type /ccsetup to start the setup.");
-		} else {
-			try {
-				initialiseDatabase();
-			} catch (Exception e) {
-				sendConsoleMessage(Level.SEVERE, "A error occured while trying to connect to the database. Message received: " + e.getMessage());
-				getServerCaller().disablePlugin();
-				return;
+		if (!initialized) {
+			sendConsoleMessage(Level.INFO, "Starting up!");
+			sendConsoleMessage(Level.INFO, "Loading the Configuration");
+			config = new ConfigurationManager();
+			config.initialize();
+			sendConsoleMessage(Level.INFO, "Loading commands");
+			commandManager = new CommandLoader();
+			if (config.getConfig().getBoolean("System.Setup")) {
+				sendConsoleMessage(Level.WARNING, "Loading Craftconomy in setup mode. Please type /ccsetup to start the setup.");
+			} else {
+				try {
+					initialiseDatabase();
+				} catch (Exception e) {
+					sendConsoleMessage(Level.SEVERE, "A error occured while trying to connect to the database. Message received: " + e.getMessage());
+					getServerCaller().disablePlugin();
+					return;
+				}
+				initializeCurrency();
+				sendConsoleMessage(Level.INFO, "Loading default settings.");
+				getConfigurationManager().loadDefaultSettings();
+				sendConsoleMessage(Level.INFO, "Default settings loaded!");
+				startUp();
+				sendConsoleMessage(Level.INFO, "Ready!");
 			}
-			initializeCurrency();
-			sendConsoleMessage(Level.INFO, "Loading default settings.");
-			getConfigurationManager().loadDefaultSettings();
-			sendConsoleMessage(Level.INFO, "Default settings loaded!");
-			startUp();
-			sendConsoleMessage(Level.INFO, "Ready!");
+			initialized = true;
 		}
+		
 	}
 
-	public void disable() {
+	/**
+	 * Disable the plugin.
+	 */
+	void disable() {
 		try {
 			Common.getInstance().getDatabaseManager().getDatabase().close();
 		} catch (ConnectionException e) {
@@ -101,50 +122,102 @@ public class Common {
 		}
 	}
 
+	/**
+	 * Checks if the server is a Craftbukkit server or something else.
+	 * @return True if the server is a Craftbukkit server. Else false for Spout Server
+	 */
 	public static boolean isBukkit() {
 		return isBukkit;
 	}
 
+	/**
+	 * Retrieve the logger associated with this plugin.
+	 * @return The logger instance.
+	 */
 	public Logger getLogger() {
 		return log;
 	}
 
+	/**
+	 * Sends a message to the console through the Logge.r
+	 * @param level The log level to show.
+	 * @param msg The message to send.
+	 */
 	public void sendConsoleMessage(Level level, String msg) {
 		getLogger().log(level, msg);
 	}
 
+	/**
+	 * Retrieve the instance of Common. Need to go through that to access any managers.
+	 * @return The Common instance.
+	 */
 	public static Common getInstance() {
 		return instance;
 	}
 
+	/**
+	 * Retrieve the Account Manager.
+	 * @return The Account Manager instance or null if the manager is not initialized.
+	 */
 	public AccountManager getAccountManager() {
 		return accountManager;
 	}
 
+	/**
+	 * Retrieve the Configuration Manager.
+	 * @return The Configuration Manager instance or null if the manager is not initialized.
+	 */
 	public ConfigurationManager getConfigurationManager() {
 		return config;
 	}
 
+	/**
+	 * Retrieve the Database Manager.
+	 * @return The Database Manager instance or null if the manager is not initialized.
+	 */
 	public DatabaseManager getDatabaseManager() {
 		return dbManager;
 	}
 
+	/**
+	 * Retrieve the Currency Manager.
+	 * @return The Currency Manager instance or null if the manager is not initialized.
+	 */
 	public CurrencyManager getCurrencyManager() {
 		return currencyManager;
 	}
 
+	/**
+	 * Retrieve the Command Manager.
+	 * @return The Command Manager instance or null if the manager is not initialized.
+	 */
 	public CommandLoader getCommandManager() {
 		return commandManager;
 	}
 	
+	/**
+	 * Retrieve the Payday Manager
+	 * @return The Command Manager instance or null if the manager is not initialized.
+	 */
 	public PayDayManager getPaydayManager() {
 		return paydayManager;
 	}
 
+	/**
+	 * Retrieve the Server Caller.
+	 * @return The Server Caller instance or null if the caller is not initialized.
+	 */
 	public Caller getServerCaller() {
 		return serverCaller;
 	}
 
+	/**
+	 * Format a balance to a readable string.
+	 * @param worldName The world Name associated with this balance
+	 * @param currency The currency instance associated with this balance.
+	 * @param balance The balance.
+	 * @return A pretty String showing the balance.
+	 */
 	public String format(String worldName, Currency currency, double balance) {
 		StringBuilder string = new StringBuilder();
 
@@ -179,6 +252,11 @@ public class Common {
 		return string.toString();
 	}
 
+	/**
+	 * Initialize the database Manager
+	 * @throws TableRegistrationException
+	 * @throws ConnectionException
+	 */
 	public void initialiseDatabase() throws TableRegistrationException, ConnectionException {
 		if (!databaseInitialized) {
 			sendConsoleMessage(Level.INFO, "Loading the Database Manager");
@@ -188,6 +266,9 @@ public class Common {
 		}
 	}
 
+	/**
+	 * Initialize the Currency Manager.
+	 */
 	public void initializeCurrency() {
 		if (!currencyInitialized) {
 			sendConsoleMessage(Level.INFO, "Loading the Currency Manager");
@@ -197,6 +278,9 @@ public class Common {
 		}
 	}
 
+	/**
+	 * Initialize the Account & PayDay Manager
+	 */
 	public void startUp() {
 		sendConsoleMessage(Level.INFO, "Loading the Account Manager");
 		accountManager = new AccountManager();
@@ -209,6 +293,14 @@ public class Common {
 		
 	}
 
+	/**
+	 * Write a transaction to the Log.
+	 * @param info The type of transaction to log.
+	 * @param username The username that did this transaction.
+	 * @param amount The amount of money in this transaction.
+	 * @param currency The currency associated with this transaction
+	 * @param worldName The world name associated with this transaction
+	 */
 	public void writeLog(LogInfo info, String username, double amount, Currency currency, String worldName) {
 		if (getConfigurationManager().getConfig().getBoolean("System.Logging.Enabled")) {
 			try {

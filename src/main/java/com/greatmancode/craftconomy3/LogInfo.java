@@ -18,6 +18,11 @@
  */
 package com.greatmancode.craftconomy3;
 
+/**
+ * The different transactions/actions that can be logged.
+ * @author greatman
+ *
+ */
 public enum LogInfo {
 	DEPOSIT, WITHDRAW, SET, ADMIN_CMD
 }

@@ -24,6 +24,11 @@ import java.util.Iterator;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.database.tables.PayDayTable;
 
+/**
+ * The PayDay Manager.
+ * @author greatman
+ *
+ */
 public class PayDayManager {
 
 	public HashMap<Integer, PayDay> paydayList = new HashMap<Integer, PayDay>();
@@ -115,7 +120,6 @@ public class PayDayManager {
 	 * @param dbId the database ID to remove
 	 * @return True if the entry has been removed else false.
 	 */
-	//TODO: Remove it from the sync task.
 	public boolean deletePayDay(int dbId) {
 		boolean result = false;
 		if (paydayList.containsKey(dbId)) {
