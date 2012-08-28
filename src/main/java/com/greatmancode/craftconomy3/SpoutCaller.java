@@ -27,6 +27,7 @@ import java.util.logging.Level;
 import org.spout.api.chat.ChatArguments;
 import org.spout.api.entity.Player;
 import org.spout.api.scheduler.TaskPriority;
+import org.spout.api.Server;
 
 import com.greatmancode.craftconomy3.utils.MetricsSpout;
 import com.greatmancode.craftconomy3.utils.MetricsSpout.Graph;
@@ -46,7 +47,7 @@ public class SpoutCaller implements Caller {
 	@Override
 	public boolean checkPermission(String playerName, String perm) {
 		boolean result = false;
-		Player p = CC3SpoutLoader.getInstance().getEngine().getPlayer(playerName, true);
+		Player p = ((Server)CC3SpoutLoader.getInstance().getEngine()).getPlayer(playerName, true);
 		if (p != null) {
 			result = p.hasPermission(perm);
 		} else {
@@ -59,7 +60,7 @@ public class SpoutCaller implements Caller {
 
 	@Override
 	public void sendMessage(String playerName, String message) {
-		Player p = CC3SpoutLoader.getInstance().getEngine().getPlayer(playerName, true);
+		Player p = ((Server)CC3SpoutLoader.getInstance().getEngine()).getPlayer(playerName, true);
 		if (p != null) {
 			p.sendMessage(ChatArguments.fromString(CHAT_PREFIX + message));
 		} else {
@@ -70,7 +71,7 @@ public class SpoutCaller implements Caller {
 	@Override
 	public String getPlayerWorld(String playerName) {
 		String worldName = "";
-		Player p = CC3SpoutLoader.getInstance().getEngine().getPlayer(playerName, true);
+		Player p = ((Server)CC3SpoutLoader.getInstance().getEngine()).getPlayer(playerName, true);
 		if (p != null) {
 			worldName = p.getWorld().getName();
 		}
@@ -79,7 +80,7 @@ public class SpoutCaller implements Caller {
 
 	@Override
 	public boolean isOnline(String playerName) {
-		return CC3SpoutLoader.getInstance().getEngine().getPlayer(playerName, true) != null;
+		return ((Server)CC3SpoutLoader.getInstance().getEngine()).getPlayer(playerName, true) != null;
 	}
 
 	@Override
@@ -144,7 +145,7 @@ public class SpoutCaller implements Caller {
 	@Override
 	public List<String> getOnlinePlayers() {
 		List<String> list = new ArrayList<String>();
-		Player[] pList = CC3SpoutLoader.getInstance().getEngine().getOnlinePlayers();
+		Player[] pList = ((Server)CC3SpoutLoader.getInstance().getEngine()).getOnlinePlayers();
 		for (Player p : pList) {
 			list.add(p.getName());
 		}

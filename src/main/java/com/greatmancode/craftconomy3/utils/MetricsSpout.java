@@ -33,6 +33,7 @@ package com.greatmancode.craftconomy3.utils;
  */
 
 
+import org.spout.api.Server;
 import org.spout.api.Spout;
 import org.spout.api.exception.ConfigurationException;
 import org.spout.api.plugin.Plugin;
@@ -357,7 +358,7 @@ public class MetricsSpout {
         data.append(encode("guid")).append('=').append(encode(guid));
         encodeDataPair(data, "version", description.getVersion());
         encodeDataPair(data, "server", "SpoutServer " + Spout.getAPIVersion());
-        encodeDataPair(data, "players", Integer.toString(Spout.getEngine().getOnlinePlayers().length));
+        encodeDataPair(data, "players", Integer.toString(((Server)Spout.getEngine()).getOnlinePlayers().length));
         encodeDataPair(data, "revision", String.valueOf(REVISION));
 
         // If we're pinging, append it
