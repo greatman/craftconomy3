@@ -47,10 +47,11 @@ public class PayDayManager {
 	 * @return A PayDay instance or null if not found.
 	 */
 	public PayDay getPayDay(String name) {
+		name = name.toLowerCase();
 		PayDay entry = null;
 		PayDayTable dbEntry = Common.getInstance().getDatabaseManager().getDatabase().select(PayDayTable.class).where().equal("name", name).execute().findOne();
 		if (dbEntry != null) {
-			getPayDay(dbEntry.id);
+			entry = getPayDay(dbEntry.id);
 		}
 		return entry;
 	}
@@ -98,6 +99,7 @@ public class PayDayManager {
 	 * @param save Do we add it to the database?
 	 */
 	public void addPayDay(int dbId, String name, boolean disabled, int interval, String account, int status, int currency_id, double value, String worldName, boolean save) {
+		name = name.toLowerCase();
 		if (save) {
 			PayDayTable table = new PayDayTable();
 			table.name = name;

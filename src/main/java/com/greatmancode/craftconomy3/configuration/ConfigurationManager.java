@@ -18,9 +18,13 @@
  */
 package com.greatmancode.craftconomy3.configuration;
 
+import java.util.Iterator;
+import java.util.List;
+
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.currency.CurrencyManager;
 import com.greatmancode.craftconomy3.database.tables.ConfigTable;
+import com.greatmancode.craftconomy3.database.tables.PayDayTable;
 
 /**
  * Configuration Loader. Load the configuration with the Server configuration manager.
@@ -59,9 +63,33 @@ public class ConfigurationManager {
 	}
 	
 	/**
+	 * Run on each launch to be sure the database is on the latest revision.
+	 */
+	public void dbUpdate() {
+		ConfigTable dbVersion = Common.getInstance().getDatabaseManager().getDatabase().select(ConfigTable.class).where().equal("name", "dbVersion").execute().findOne();
+		if (dbVersion == null) {
+			Common.getInstance().getLogger().info("Your database is out of date! (Version 0). Updating it to Revision 1.");
+			List<PayDayTable> payday = Common.getInstance().getDatabaseManager().getDatabase().select(PayDayTable.class).execute().find();
+			if (payday != null) {
+				Iterator<PayDayTable> iterator = payday.iterator();
+				while (iterator.hasNext()) {
+					PayDayTable entry = iterator.next();
+					entry.name = entry.name.toLowerCase();
+					Common.getInstance().getDatabaseManager().getDatabase().save(entry);
+				}
+			}
+			dbVersion = new ConfigTable();
+			dbVersion.name = "dbVersion";
+			dbVersion.value = "1";
+			Common.getInstance().getDatabaseManager().getDatabase().save(dbVersion);
+			Common.getInstance().getLogger().info("Updated to Revision 1!");
+		}
+	}
+	/**
 	 * Load the settings from the database.
 	 */
 	public void loadDefaultSettings() {
+		dbUpdate();
 		holdings = Double.parseDouble(Common.getInstance().getDatabaseManager().getDatabase().select(ConfigTable.class).where().equal("name", "holdings").execute().findOne().value);
 		bankPrice = Double.parseDouble(Common.getInstance().getDatabaseManager().getDatabase().select(ConfigTable.class).where().equal("name", "bankprice").execute().findOne().value);
 		longmode = Boolean.parseBoolean(Common.getInstance().getDatabaseManager().getDatabase().select(ConfigTable.class).where().equal("name", "longmode").execute().findOne().value);

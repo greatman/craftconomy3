@@ -247,7 +247,7 @@ public class Common {
 			}
 			string.append(theAmount[0]).append(" ").append(name).append(" ").append(theAmount[1]).append(" ").append(subName);
 		} else {
-			string.append(theAmount[0]).append(".").append(theAmount[1]).append(" ").append(name);
+			string.append(theAmount[0]).append(",").append(theAmount[1]).append(" ").append(name);
 		}
 		return string.toString();
 	}

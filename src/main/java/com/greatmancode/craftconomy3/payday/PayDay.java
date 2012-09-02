@@ -64,20 +64,19 @@ public class PayDay implements Runnable {
 
 		// Wage
 		if (getStatus() == 0) {
-			if (!getName().equals("")) {
-				if (!Common.getInstance().getAccountManager().getAccount(getName()).hasEnough(getValue() * list.size(), getWorldName(), Common.getInstance().getCurrencyManager().getCurrency(getCurrencyId()).getName())) {
+			if (!getAccount().equals("")) {
+				if (!Common.getInstance().getAccountManager().getAccount(getAccount()).hasEnough(getValue() * list.size(), getWorldName(), Common.getInstance().getCurrencyManager().getCurrency(getCurrencyId()).getName())) {
 					Common.getInstance().sendConsoleMessage(Level.INFO, "{{DARK_RED}}Impossible to give a wage for the payday {{WHITE}}" + getName() +"{{DARK_RED}}. The account doesn't have enough money!");
 					return;
 				}
-				Common.getInstance().getAccountManager().getAccount(getName()).withdraw(getValue() * list.size(), getWorldName(), Common.getInstance().getCurrencyManager().getCurrency(getCurrencyId()).getName());
-				Iterator<String> listIterator = list.iterator();
-				while (listIterator.hasNext()) {
-					String p = listIterator.next();
-					Common.getInstance().getAccountManager().getAccount(p).deposit(getValue() * list.size(), getWorldName(), Common.getInstance().getCurrencyManager().getCurrency(getCurrencyId()).getName());
-					Common.getInstance().getServerCaller().sendMessage(p, "{{DARK_GREEN}}Payday! You received " + Common.getInstance().format(getWorldName(), Common.getInstance().getCurrencyManager().getCurrency(getCurrencyId()), getValue() * list.size()));
-				}
+				Common.getInstance().getAccountManager().getAccount(getAccount()).withdraw(getValue() * list.size(), getWorldName(), Common.getInstance().getCurrencyManager().getCurrency(getCurrencyId()).getName());
 			}
-
+			Iterator<String> listIterator = list.iterator();
+			while (listIterator.hasNext()) {
+				String p = listIterator.next();
+				Common.getInstance().getAccountManager().getAccount(p).deposit(getValue() * list.size(), getWorldName(), Common.getInstance().getCurrencyManager().getCurrency(getCurrencyId()).getName());
+				Common.getInstance().getServerCaller().sendMessage(p, "{{DARK_GREEN}}Payday! You received " + Common.getInstance().format(getWorldName(), Common.getInstance().getCurrencyManager().getCurrency(getCurrencyId()), getValue() * list.size()));
+			}
 		}
 		// Tax
 		else if (getStatus() == 1) {
@@ -86,8 +85,8 @@ public class PayDay implements Runnable {
 				String p = listIterator.next();
 				if (Common.getInstance().getAccountManager().getAccount(p).hasEnough(getValue(), getWorldName(), Common.getInstance().getCurrencyManager().getCurrency(getCurrencyId()).getName())) {
 					Common.getInstance().getAccountManager().getAccount(p).withdraw(getValue(), getWorldName(), Common.getInstance().getCurrencyManager().getCurrency(getCurrencyId()).getName());
-					if (!getName().equals("")) {
-						Common.getInstance().getAccountManager().getAccount(getName()).deposit(getValue(), getWorldName(), Common.getInstance().getCurrencyManager().getCurrency(getCurrencyId()).getName());
+					if (!getAccount().equals("")) {
+						Common.getInstance().getAccountManager().getAccount(getAccount()).deposit(getValue(), getWorldName(), Common.getInstance().getCurrencyManager().getCurrency(getCurrencyId()).getName());
 					}
 				} else {
 					Common.getInstance().getServerCaller().sendMessage(p, "{{RED}}Not enough money to pay for your taxes!");
