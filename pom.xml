@@ -173,7 +173,8 @@
 					<properties>
 						<name>${project.name}</name>
 						<url>${project.organization.url}</url>
-						<copyright>Copyright (c) ${project.inceptionYear}-2012, ${project.organization.name}</copyright>
+						<copyright>Copyright (c) ${project.inceptionYear}-2012,
+							${project.organization.name}</copyright>
 					</properties>
 					<includes>
 						<include>src/main/java/**</include>
@@ -184,6 +185,25 @@
 						<exclude>src/main/java/com/greatmancode/craftconomy3/utils/MetricsSpout.java</exclude>
 					</excludes>
 				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>docs-assembly</id>
+						<phase>install</phase>
+						<configuration>
+							<finalName>javadoc</finalName>
+							<appendAssemblyId>false</appendAssemblyId>
+							<descriptors>
+								<descriptor>src/main/assembly/assemble.xml</descriptor>
+							</descriptors>
+						</configuration>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
