@@ -58,7 +58,7 @@ public class SetCommand implements CraftconomyCommand {
 					}
 				}
 
-				Common.getInstance().getAccountManager().getAccount(args[0]).withdraw(amount, worldName, currency.getName());
+				Common.getInstance().getAccountManager().getAccount(args[0]).set(amount, worldName, currency.getName());
 				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Took {{WHITE}}" + Common.getInstance().format(worldName, currency, amount) + "{{DARK_GREEN}} to {{WHITE}}" + args[0]);
 				Common.getInstance().getServerCaller().sendMessage(args[0], "{{DARK_GREEN}}Removed {{WHITE}}" + Common.getInstance().format(worldName, currency, amount) + "{{DARK_GREEN}} by {{WHITE}}" + sender);
 			} else {
@@ -76,7 +76,7 @@ public class SetCommand implements CraftconomyCommand {
 
 	@Override
 	public String help() {
-		return "/money set <Player Name> <Amount> [Currency] [World] - take money from someone";
+		return "/money set <Player Name> <Amount> [Currency] [World] - set a balance of someone";
 	}
 
 	@Override

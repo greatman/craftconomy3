@@ -133,5 +133,14 @@ public class PayDayManager {
 		}
 		return result;
 	}
+	
+	/**
+	 * Receive a COPY of the payday List to keep internal sane list.
+	 * @return A copy of the payday List.
+	 */
+	@SuppressWarnings("unchecked")
+	public HashMap<Integer, PayDay> getPayDayList() {
+		return (HashMap<Integer, PayDay>) paydayList.clone();
+	}
 
 }

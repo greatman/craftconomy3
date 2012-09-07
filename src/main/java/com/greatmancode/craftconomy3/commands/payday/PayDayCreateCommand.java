@@ -66,7 +66,7 @@ public class PayDayCreateCommand implements CraftconomyCommand {
 							status = 1;
 						}
 						Common.getInstance().getPaydayManager().addPayDay(args[0], false, Integer.parseInt(args[1]), accountName, status, currencyId, Double.parseDouble(args[3]), worldName, true);
-						Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Payday added! Add the permission node {{WHITE}}craftconomy.payday." + args[0] + " {{DARK_GREEN}}to the players you want to add this payday!");
+						Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Payday added! Add the permission node {{WHITE}}craftconomy.payday." + args[0].toLowerCase() + " {{DARK_GREEN}}to the players you want to add this payday!");
 					} else {
 						Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Invalid Amount!");
 					}
