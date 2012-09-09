@@ -238,16 +238,22 @@ public class Common {
 		if (Long.parseLong(theAmount[0]) > 1) {
 			name = currency.getPlural();
 		}
-
+		String coin;
+		if (theAmount[1].length() >= 2) {
+			coin = theAmount[1].substring(0, 1);
+		} else {
+			coin = theAmount[1];
+		}
+		
 		// Do we seperate money and dollar or not?
 		if (getConfigurationManager().isLongmode()) {
 			String subName = currency.getMinor();
-			if (Long.parseLong(theAmount[1]) > 1) {
+			if (Long.parseLong(coin) > 1) {
 				subName = currency.getMinorPlural();
 			}
-			string.append(theAmount[0]).append(" ").append(name).append(" ").append(theAmount[1]).append(" ").append(subName);
+			string.append(theAmount[0]).append(" ").append(name).append(" ").append(coin).append(" ").append(subName);
 		} else {
-			string.append(theAmount[0]).append(",").append(theAmount[1]).append(" ").append(name);
+			string.append(theAmount[0]).append(",").append(coin).append(" ").append(name);
 		}
 		return string.toString();
 	}
