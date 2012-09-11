@@ -19,6 +19,7 @@
 package com.greatmancode.craftconomy3.commands.money;
 
 import com.greatmancode.craftconomy3.Common;
+import com.greatmancode.craftconomy3.account.Account;
 import com.greatmancode.craftconomy3.commands.CraftconomyCommand;
 import com.greatmancode.craftconomy3.currency.Currency;
 import com.greatmancode.craftconomy3.currency.CurrencyManager;
@@ -28,7 +29,7 @@ public class GiveCommand implements CraftconomyCommand {
 
 	@Override
 	public void execute(String sender, String[] args) {
-		if (Common.getInstance().getServerCaller().isOnline(args[0])) {
+		if (!Account.isBankAccount(args[0]) && Common.getInstance().getAccountManager().exist(args[0])) {
 			if (Tools.isValidDouble(args[1])) {
 				double amount = Double.parseDouble(args[1]);
 				Currency currency = Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.defaultCurrencyID);
@@ -59,12 +60,13 @@ public class GiveCommand implements CraftconomyCommand {
 
 				Common.getInstance().getAccountManager().getAccount(args[0]).deposit(amount, worldName, currency.getName());
 				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Gave {{WHITE}}" + Common.getInstance().format(worldName, currency, amount) + "{{DARK_GREEN}} to {{WHITE}}" + args[0]);
-				Common.getInstance().getServerCaller().sendMessage(args[0], "{{DARK_GREEN}}Received {{WHITE}}" + Common.getInstance().format(worldName, currency, amount) + "{{DARK_GREEN}} from {{WHITE}}" + sender);
+				if(Common.getInstance().getServerCaller().isOnline(args[0]))
+					Common.getInstance().getServerCaller().sendMessage(args[0], "{{DARK_GREEN}}Received {{WHITE}}" + Common.getInstance().format(worldName, currency, amount) + "{{DARK_GREEN}} from {{WHITE}}" + sender);
 			} else {
 				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Excepted a positive number as Amount. Received something else!");
 			}
 		} else {
-			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}The player isin't online!");
+			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}The player doesn't exist!");
 		}
 	}
 

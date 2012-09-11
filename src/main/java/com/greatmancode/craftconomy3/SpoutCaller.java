@@ -139,7 +139,15 @@ public class SpoutCaller implements Caller {
 
 	@Override
 	public int schedule(Runnable entry, long firstStart, long repeating) {
-		return CC3SpoutLoader.getInstance().getEngine().getScheduler().scheduleSyncRepeatingTask(CC3SpoutLoader.getInstance(), entry, TimeUnit.MILLISECONDS.convert(firstStart, TimeUnit.SECONDS), TimeUnit.MILLISECONDS.convert(repeating, TimeUnit.SECONDS), TaskPriority.NORMAL);
+		return schedule(entry, firstStart, repeating, false);
+	}
+
+	@Override
+	public int schedule(Runnable entry, long firstStart, long repeating, boolean async) {
+		if(!async)
+			return CC3SpoutLoader.getInstance().getEngine().getScheduler().scheduleSyncRepeatingTask(CC3SpoutLoader.getInstance(), entry, TimeUnit.MILLISECONDS.convert(firstStart, TimeUnit.SECONDS), TimeUnit.MILLISECONDS.convert(repeating, TimeUnit.SECONDS), TaskPriority.NORMAL);
+		else
+			return CC3SpoutLoader.getInstance().getEngine().getScheduler().scheduleAsyncRepeatingTask(CC3SpoutLoader.getInstance(), entry, TimeUnit.MILLISECONDS.convert(firstStart, TimeUnit.SECONDS), TimeUnit.MILLISECONDS.convert(repeating, TimeUnit.SECONDS), TaskPriority.NORMAL);
 	}
 
 	@Override
@@ -155,5 +163,18 @@ public class SpoutCaller implements Caller {
 	@Override
 	public void cancelSchedule(int id) {
 		CC3SpoutLoader.getInstance().getEngine().getScheduler().cancelTask(id);
+	}
+
+	@Override
+	public int delay(Runnable entry, long start) {
+		return delay(entry, start, false);
+	}
+
+	@Override
+	public int delay(Runnable entry, long start, boolean async) {
+		if(!async)
+			return CC3SpoutLoader.getInstance().getEngine().getScheduler().scheduleSyncDelayedTask(CC3SpoutLoader.getInstance(), entry, TimeUnit.MILLISECONDS.convert(start, TimeUnit.SECONDS), TaskPriority.NORMAL);
+		else
+			return CC3SpoutLoader.getInstance().getEngine().getScheduler().scheduleAsyncDelayedTask(CC3SpoutLoader.getInstance(), entry, TimeUnit.MILLISECONDS.convert(start, TimeUnit.SECONDS), TaskPriority.NORMAL);
 	}
 }

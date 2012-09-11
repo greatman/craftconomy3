@@ -19,6 +19,7 @@
 package com.greatmancode.craftconomy3.commands.money;
 
 import com.greatmancode.craftconomy3.Common;
+import com.greatmancode.craftconomy3.account.Account;
 import com.greatmancode.craftconomy3.commands.CraftconomyCommand;
 import com.greatmancode.craftconomy3.currency.Currency;
 import com.greatmancode.craftconomy3.currency.CurrencyManager;
@@ -28,7 +29,7 @@ public class PayCommand implements CraftconomyCommand {
 
 	@Override
 	public void execute(String sender, String[] args) {
-		if (Common.getInstance().getServerCaller().isOnline(args[0])) {
+		if (!Account.isBankAccount(args[0]) && Common.getInstance().getAccountManager().exist(args[0])) {
 			if (Tools.isValidDouble(args[1])) {
 				double amount = Double.parseDouble(args[1]);
 				boolean hasEnough = false;
@@ -47,7 +48,8 @@ public class PayCommand implements CraftconomyCommand {
 					Common.getInstance().getAccountManager().getAccount(sender).withdraw(amount, Common.getInstance().getAccountManager().getAccount(sender).getWorldPlayerCurrentlyIn(), currency.getName());
 					Common.getInstance().getAccountManager().getAccount(args[0]).deposit(amount, Common.getInstance().getAccountManager().getAccount(sender).getWorldPlayerCurrentlyIn(), currency.getName());
 					Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Sent {{WHITE}}" + Common.getInstance().format(null, currency, amount) + "{{DARK_GREEN}} to {{WHITE}}" + args[0]);
-					Common.getInstance().getServerCaller().sendMessage(args[0], "{{DARK_GREEN}}Received {{WHITE}}" + Common.getInstance().format(null, currency, amount) + "{{DARK_GREEN}} from {{WHITE}}" + sender);
+					if(Common.getInstance().getServerCaller().isOnline(args[0]))
+						Common.getInstance().getServerCaller().sendMessage(args[0], "{{DARK_GREEN}}Received {{WHITE}}" + Common.getInstance().format(null, currency, amount) + "{{DARK_GREEN}} from {{WHITE}}" + sender);
 				} else {
 					Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}} You don't have enough money!");
 				}
@@ -55,7 +57,7 @@ public class PayCommand implements CraftconomyCommand {
 				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Excepted a positive number as Amount. Received something else!");
 			}
 		} else {
-			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}The player isin't online!");
+			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}The player doesn't exist!");
 		}
 	}
 
