@@ -98,6 +98,15 @@ public class Account {
 	}
 
 	/**
+	 * Checks if this account is a bank account
+	 * @param accountName The account name
+	 * @return True if this account is a bank account, else false
+	 */
+	public static boolean isBankAccount(String accountName) {
+		return accountName.contains(Account.BANK_PREFIX);
+	}
+	
+	/**
 	 * Get the account ACL. Only used with a bank account
 	 * @return The account ACL if it's a bank account, else null
 	 */
