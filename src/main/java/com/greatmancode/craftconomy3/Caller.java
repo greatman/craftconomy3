@@ -115,7 +115,13 @@ public interface Caller {
 	 */
 	public int schedule(Runnable entry, long firstStart, long repeating);
 
+	public int schedule(Runnable entry, long firstStart, long repeating, boolean async);
+	
 	public void cancelSchedule(int id);
 
+	public int delay(Runnable entry, long start);
+	
+	public int delay(Runnable entry, long start, boolean async);
+	
 	public List<String> getOnlinePlayers();
 }
