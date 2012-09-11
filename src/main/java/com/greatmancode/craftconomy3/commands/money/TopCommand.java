@@ -95,7 +95,7 @@ public class TopCommand implements CraftconomyCommand {
 		int page = 1;
 		Currency currency = Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.defaultCurrencyID);
 		if (Common.getInstance().getCurrencyManager().getCurrency(args[0]) != null) {
-			currency = Common.getInstance().getCurrencyManager().getCurrency(args[1]);
+			currency = Common.getInstance().getCurrencyManager().getCurrency(args[0]);
 		} else {
 			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}That currency doesn't exist!");
 			return;
