@@ -155,8 +155,15 @@ public class BukkitCaller implements Caller {
 
 	@Override
 	public int schedule(Runnable entry, long firstStart, long repeating) {
-		return CC3BukkitLoader.getInstance().getServer().getScheduler().scheduleSyncRepeatingTask(CC3BukkitLoader.getInstance(), entry, firstStart * 20L, repeating * 20L);
-		
+		return schedule(entry, firstStart, repeating, false);
+	}
+
+	@Override
+	public int schedule(Runnable entry, long firstStart, long repeating, boolean async) {
+		if(!async)
+			return CC3BukkitLoader.getInstance().getServer().getScheduler().scheduleSyncRepeatingTask(CC3BukkitLoader.getInstance(), entry, firstStart * 20L, repeating * 20L);
+		else
+			return CC3BukkitLoader.getInstance().getServer().getScheduler().scheduleAsyncRepeatingTask(CC3BukkitLoader.getInstance(), entry, firstStart * 20L, repeating * 20L);
 	}
 
 	@Override
@@ -172,6 +179,19 @@ public class BukkitCaller implements Caller {
 	@Override
 	public void cancelSchedule(int id) {
 		CC3BukkitLoader.getInstance().getServer().getScheduler().cancelTask(id);
+	}
+
+	@Override
+	public int delay(Runnable entry, long start) {
+		return delay(entry, start, false);
+	}
+
+	@Override
+	public int delay(Runnable entry, long start, boolean async) {
+		if(!async)
+			return CC3BukkitLoader.getInstance().getServer().getScheduler().scheduleSyncDelayedTask(CC3BukkitLoader.getInstance(), entry, start * 20L);
+		else
+			return CC3BukkitLoader.getInstance().getServer().getScheduler().scheduleAsyncDelayedTask(CC3BukkitLoader.getInstance(), entry, start * 20L);
 	}
 
 }

@@ -173,8 +173,7 @@
 					<properties>
 						<name>${project.name}</name>
 						<url>${project.organization.url}</url>
-						<copyright>Copyright (c) ${project.inceptionYear}-2012,
-							${project.organization.name}</copyright>
+						<copyright>Copyright (c) ${project.inceptionYear}-2012, ${project.organization.name}</copyright>
 					</properties>
 					<includes>
 						<include>src/main/java/**</include>
