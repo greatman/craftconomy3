@@ -113,15 +113,52 @@ public interface Caller {
 	 * @param firstStart When we should run this class first?
 	 * @param repeating What is the interval to be run at? (In seconds)
 	 */
+	
+	/**
+	 * Schedule a repeating task to be run in non-async mode.
+	 * @param entry The Runnable to be run.
+	 * @param firstStart When should the task be run (In seconds)
+	 * @param repeating How much seconds to be waiting bewtween each repeats? (0 to disable)
+	 * @return the task ID
+	 */
 	public int schedule(Runnable entry, long firstStart, long repeating);
 
+	/**
+	 * Schedule a repeating task to be run.
+	 * @param entry The Runnable to be run.
+	 * @param firstStart When should the task be run (In seconds)
+	 * @param repeating How much seconds to be waiting bewtween each repeats? (0 to disable)
+	 * @param async Should the task be async? (Threaded)
+	 * @return the task ID
+	 */
 	public int schedule(Runnable entry, long firstStart, long repeating, boolean async);
 	
+	/**
+	 * Cancel a current scheduled task
+	 * @param id The task ID.
+	 */
 	public void cancelSchedule(int id);
 
+	/**
+	 * Delay a task
+	 * @param entry The task to delay
+	 * @param start When should the task be started? (In seconds)
+	 * @return The task ID
+	 */
 	public int delay(Runnable entry, long start);
 	
+	/**
+	 * Delay a task
+	 * @param entry The task to delay
+	 * @param start When should the task be started? (In seconds)
+	 * @param async Should the task be Async? (Threaded)
+	 * @return The task ID
+	 */
 	public int delay(Runnable entry, long start, boolean async);
 	
+	/**
+	 * Retrieve a list of online players
+	 * @return A list of all players online.
+	 */
 	public List<String> getOnlinePlayers();
 }
