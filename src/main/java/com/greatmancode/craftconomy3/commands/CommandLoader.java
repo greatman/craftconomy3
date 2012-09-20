@@ -92,6 +92,7 @@ public class CommandLoader {
 		paydayCmdList.put("help", new PayDayHelpCommand());
 		paydayCmdList.put("modify", new PayDayModifyCommand());
 		paydayCmdList.put("list", new PayDayListCommand());
+		paydayCmdList.put("info", new PayDayInfoCommand());
 
 		if (Common.getInstance().getServerCaller() instanceof BukkitCaller) {
 			new BukkitCommandManager();
