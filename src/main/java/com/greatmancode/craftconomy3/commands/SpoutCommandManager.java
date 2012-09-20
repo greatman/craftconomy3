@@ -50,7 +50,7 @@ public class SpoutCommandManager implements CommandExecutor, CommandManager {
 		CraftconomyCommand cmd = null;
 		if (command.getPreferredName().equals("money")) {
 			if (Common.getInstance().getConfigurationManager().getConfig().getBoolean("System.Setup")) {
-				source.sendMessage(ChatArguments.fromString(Caller.CHAT_PREFIX + "{{DARK_RED}}Craftconomy is in setup mode! Type {{WHITE}}/ccsetup."));
+				source.sendMessage(ChatArguments.fromFormatString(Caller.CHAT_PREFIX + "{{DARK_RED}}Craftconomy is in setup mode! Type {{WHITE}}/ccsetup."));
 				return;
 			}
 			if (args.length() == 0) {
@@ -60,7 +60,7 @@ public class SpoutCommandManager implements CommandExecutor, CommandManager {
 			}
 		} else if (command.getPreferredName().equals("bank")) {
 			if (Common.getInstance().getConfigurationManager().getConfig().getBoolean("System.Setup")) {
-				source.sendMessage(ChatArguments.fromString(Caller.CHAT_PREFIX + "{{DARK_RED}}Craftconomy is in setup mode! Type {{WHITE}}/ccsetup."));
+				source.sendMessage(ChatArguments.fromFormatString(Caller.CHAT_PREFIX + "{{DARK_RED}}Craftconomy is in setup mode! Type {{WHITE}}/ccsetup."));
 				return;
 			}
 			if (args.length() == 0) {
@@ -79,7 +79,7 @@ public class SpoutCommandManager implements CommandExecutor, CommandManager {
 
 		} else if (command.getPreferredName().equals("currency")) {
 			if (Common.getInstance().getConfigurationManager().getConfig().getBoolean("System.Setup")) {
-				source.sendMessage(ChatArguments.fromString(Caller.CHAT_PREFIX + "{{DARK_RED}}Craftconomy is in setup mode! Type {{WHITE}}/ccsetup."));
+				source.sendMessage(ChatArguments.fromFormatString(Caller.CHAT_PREFIX + "{{DARK_RED}}Craftconomy is in setup mode! Type {{WHITE}}/ccsetup."));
 				return;
 			}
 			if (args.length() == 0) {
@@ -90,7 +90,7 @@ public class SpoutCommandManager implements CommandExecutor, CommandManager {
 
 		} else if (command.getPreferredName().equals("craftconomy")) {
 			if (Common.getInstance().getConfigurationManager().getConfig().getBoolean("System.Setup")) {
-				source.sendMessage(ChatArguments.fromString(Caller.CHAT_PREFIX + "{{DARK_RED}}Craftconomy is in setup mode! Type {{WHITE}}/ccsetup."));
+				source.sendMessage(ChatArguments.fromFormatString(Caller.CHAT_PREFIX + "{{DARK_RED}}Craftconomy is in setup mode! Type {{WHITE}}/ccsetup."));
 				return;
 			}
 			if (args.length() == 0) {
@@ -101,7 +101,7 @@ public class SpoutCommandManager implements CommandExecutor, CommandManager {
 
 		} else if (command.getPreferredName().equals("payday")) {
 			if (Common.getInstance().getConfigurationManager().getConfig().getBoolean("System.Setup")) {
-				source.sendMessage(ChatArguments.fromString(Caller.CHAT_PREFIX + "{{DARK_RED}}Craftconomy is in setup mode! Type {{WHITE}}/ccsetup."));
+				source.sendMessage(ChatArguments.fromFormatString(Caller.CHAT_PREFIX + "{{DARK_RED}}Craftconomy is in setup mode! Type {{WHITE}}/ccsetup."));
 				return;
 			}
 			if (args.length() == 0) {
@@ -116,7 +116,7 @@ public class SpoutCommandManager implements CommandExecutor, CommandManager {
 		if (cmd != null) {
 			if (cmd.playerOnly()) {
 				if (!(source instanceof Player)) {
-					source.sendMessage(ChatArguments.fromString(Caller.CHAT_PREFIX + "{{DARK_RED}}Only a player can use this command!"));
+					source.sendMessage(ChatArguments.fromFormatString(Caller.CHAT_PREFIX + "{{DARK_RED}}Only a player can use this command!"));
 					return;
 				}
 			}
@@ -135,14 +135,14 @@ public class SpoutCommandManager implements CommandExecutor, CommandManager {
 					cmd.execute(source.getName(), newargs);
 					return;
 				}
-				source.sendMessage(ChatArguments.fromString(Caller.CHAT_PREFIX + cmd.help()));
+				source.sendMessage(ChatArguments.fromFormatString(Caller.CHAT_PREFIX + cmd.help()));
 				return;
 			} else {
-				source.sendMessage(ChatArguments.fromString(Caller.CHAT_PREFIX + "{{DARK_RED}}Not enough permissions!"));
+				source.sendMessage(ChatArguments.fromFormatString(Caller.CHAT_PREFIX + "{{DARK_RED}}Not enough permissions!"));
 				return;
 			}
 		} else {
-			source.sendMessage(ChatArguments.fromString(Caller.CHAT_PREFIX + "{{DARK_RED}} Sub-Command not found! Use {{WHITE}} /" + command.getPreferredName() + " help {{DARK_RED}} for help."));
+			source.sendMessage(ChatArguments.fromFormatString(Caller.CHAT_PREFIX + "{{DARK_RED}} Sub-Command not found! Use {{WHITE}} /" + command.getPreferredName() + " help {{DARK_RED}} for help."));
 			return;
 		}
 	}

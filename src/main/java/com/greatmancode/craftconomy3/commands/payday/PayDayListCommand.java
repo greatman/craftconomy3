@@ -18,7 +18,6 @@
  */
 package com.greatmancode.craftconomy3.commands.payday;
 
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map.Entry;
 
@@ -31,9 +30,10 @@ public class PayDayListCommand implements CraftconomyCommand {
 	@Override
 	public void execute(String sender, String[] args) {
 		Iterator<Entry<Integer, PayDay>> paydayList = Common.getInstance().getPaydayManager().getPayDayList().entrySet().iterator();
+		Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}} ========= {{WHITE}}Payday list {{DARK_GREEN}}=========");
 		while(paydayList.hasNext()) {
 			Entry<Integer,PayDay> entry = paydayList.next();
-			Common.getInstance().getServerCaller().sendMessage(sender, "");
+			Common.getInstance().getServerCaller().sendMessage(sender, entry.getValue().getName());
 		}
 	}
 
