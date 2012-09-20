@@ -308,7 +308,7 @@ public class Common {
 	public void startUp() {
 		sendConsoleMessage(Level.INFO, "Loading the Account Manager");
 		accountManager = new AccountManager();
-		getServerCaller().addMultiworldGraph(getConfigurationManager().isMultiWorld());
+		getServerCaller().addMetricsGraph("Multiworld",getConfigurationManager().isMultiWorld());
 		getServerCaller().startMetrics();
 		sendConsoleMessage(Level.INFO, "Account Manager Loaded!");
 		sendConsoleMessage(Level.INFO, "Loading the PayDay manager.");

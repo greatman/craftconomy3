@@ -93,16 +93,14 @@ public interface Caller {
 	public File getDataFolder();
 
 	/**
-	 * Add a entry in the DB Metrics graph
-	 * @param dbName The name of the database system
+	 * Adds a metrics graph.
+	 * 
+	 * Each entry will have a getValue() of 1.
+	 * @param graphName The graph name
+	 * @param value The value.
 	 */
-	public void addDbGraph(String dbName);
-
-	/**
-	 * Add a entry in the Multiworld Metrics graph
-	 * @param enabled True if multiworld is enabled else false.
-	 */
-	public void addMultiworldGraph(boolean enabled);
+	public void addMetricsGraph(String graphName, String value);
+	public void addMetricsGraph(String graphName, boolean value);
 
 	/**
 	 * Starts Metrics

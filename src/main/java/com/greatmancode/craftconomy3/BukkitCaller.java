@@ -128,10 +128,11 @@ public class BukkitCaller implements Caller {
 		return loader.getDataFolder();
 	}
 
-	@Override
-	public void addDbGraph(String dbType) {
-		Graph graph = loader.getMetrics().createGraph("Database Engine");
-		graph.addPlotter(new MetricsBukkit.Plotter(dbType) {
+	@Override 
+	public void addMetricsGraph(String title, String value)
+	{
+		Graph graph = loader.getMetrics().createGraph(title);
+		graph.addPlotter(new MetricsBukkit.Plotter(value) {
 
 			@Override
 			public int getValue() {
@@ -139,21 +140,14 @@ public class BukkitCaller implements Caller {
 			}
 		});
 	}
-
-	@Override
-	public void addMultiworldGraph(boolean enabled) {
-		Graph graph = loader.getMetrics().createGraph("Multiworld");
+	
+	public void addMetricsGraph(String title, boolean value)
+	{
 		String stringEnabled = "No";
-		if (enabled) {
+		if (value) {
 			stringEnabled = "Yes";
 		}
-		graph.addPlotter(new MetricsBukkit.Plotter(stringEnabled) {
-
-			@Override
-			public int getValue() {
-				return 1;
-			}
-		});
+		addMetricsGraph(title, stringEnabled);
 	}
 
 	@Override
