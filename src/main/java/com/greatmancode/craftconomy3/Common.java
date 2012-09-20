@@ -38,16 +38,14 @@ import com.greatmancode.craftconomy3.payday.PayDayManager;
 
 /**
  * The core of Craftconomy. Every requests pass through this class
+ * 
  * @author greatman
- *
+ * 
  */
 public class Common {
 
 	private Logger log = null;
 	private static Common instance = null;
-
-	// True = Bukkit, False = Spout
-	private static boolean isBukkit = false;
 
 	// Managers
 	private AccountManager accountManager = null;
@@ -55,7 +53,7 @@ public class Common {
 	private CurrencyManager currencyManager = null;
 	private DatabaseManager dbManager = null;
 	private PayDayManager paydayManager = null;
-	
+
 	private CommandLoader commandManager;
 	private Caller serverCaller;
 	private boolean databaseInitialized = false;
@@ -64,17 +62,19 @@ public class Common {
 
 	/**
 	 * Loads the Common core.
-	 * @param isBukkit If the server is Craftbukkit or not
-	 * @param log The Logger associated with this plugin.
+	 * 
+	 * @param isBukkit
+	 *            If the server is Craftbukkit or not
+	 * @param log
+	 *            The Logger associated with this plugin.
 	 */
-	public Common(boolean isBukkit, Logger log) {
+	public Common(Loader loader, Logger log) {
 		instance = this;
-		Common.isBukkit = isBukkit;
 		this.log = log;
-		if (isBukkit()) {
-			serverCaller = new BukkitCaller();
-		} else {
-			serverCaller = new SpoutCaller();
+		if (loader.isBukkit()) {
+			serverCaller = new BukkitCaller(loader);
+		} else if (loader instanceof SpoutLoader) {
+			serverCaller = new SpoutCaller(loader);
 		}
 	}
 
@@ -108,7 +108,7 @@ public class Common {
 			}
 			initialized = true;
 		}
-		
+
 	}
 
 	/**
@@ -123,15 +123,8 @@ public class Common {
 	}
 
 	/**
-	 * Checks if the server is a Craftbukkit server or something else.
-	 * @return True if the server is a Craftbukkit server. Else false for Spout Server
-	 */
-	public static boolean isBukkit() {
-		return isBukkit;
-	}
-
-	/**
 	 * Retrieve the logger associated with this plugin.
+	 * 
 	 * @return The logger instance.
 	 */
 	public Logger getLogger() {
@@ -140,15 +133,20 @@ public class Common {
 
 	/**
 	 * Sends a message to the console through the Logge.r
-	 * @param level The log level to show.
-	 * @param msg The message to send.
+	 * 
+	 * @param level
+	 *            The log level to show.
+	 * @param msg
+	 *            The message to send.
 	 */
 	public void sendConsoleMessage(Level level, String msg) {
 		getLogger().log(level, msg);
 	}
 
 	/**
-	 * Retrieve the instance of Common. Need to go through that to access any managers.
+	 * Retrieve the instance of Common. Need to go through that to access any
+	 * managers.
+	 * 
 	 * @return The Common instance.
 	 */
 	public static Common getInstance() {
@@ -157,7 +155,9 @@ public class Common {
 
 	/**
 	 * Retrieve the Account Manager.
-	 * @return The Account Manager instance or null if the manager is not initialized.
+	 * 
+	 * @return The Account Manager instance or null if the manager is not
+	 *         initialized.
 	 */
 	public AccountManager getAccountManager() {
 		return accountManager;
@@ -165,7 +165,9 @@ public class Common {
 
 	/**
 	 * Retrieve the Configuration Manager.
-	 * @return The Configuration Manager instance or null if the manager is not initialized.
+	 * 
+	 * @return The Configuration Manager instance or null if the manager is not
+	 *         initialized.
 	 */
 	public ConfigurationManager getConfigurationManager() {
 		return config;
@@ -173,7 +175,9 @@ public class Common {
 
 	/**
 	 * Retrieve the Database Manager.
-	 * @return The Database Manager instance or null if the manager is not initialized.
+	 * 
+	 * @return The Database Manager instance or null if the manager is not
+	 *         initialized.
 	 */
 	public DatabaseManager getDatabaseManager() {
 		return dbManager;
@@ -181,7 +185,9 @@ public class Common {
 
 	/**
 	 * Retrieve the Currency Manager.
-	 * @return The Currency Manager instance or null if the manager is not initialized.
+	 * 
+	 * @return The Currency Manager instance or null if the manager is not
+	 *         initialized.
 	 */
 	public CurrencyManager getCurrencyManager() {
 		return currencyManager;
@@ -189,15 +195,19 @@ public class Common {
 
 	/**
 	 * Retrieve the Command Manager.
-	 * @return The Command Manager instance or null if the manager is not initialized.
+	 * 
+	 * @return The Command Manager instance or null if the manager is not
+	 *         initialized.
 	 */
 	public CommandLoader getCommandManager() {
 		return commandManager;
 	}
-	
+
 	/**
 	 * Retrieve the Payday Manager
-	 * @return The Command Manager instance or null if the manager is not initialized.
+	 * 
+	 * @return The Command Manager instance or null if the manager is not
+	 *         initialized.
 	 */
 	public PayDayManager getPaydayManager() {
 		return paydayManager;
@@ -205,7 +215,9 @@ public class Common {
 
 	/**
 	 * Retrieve the Server Caller.
-	 * @return The Server Caller instance or null if the caller is not initialized.
+	 * 
+	 * @return The Server Caller instance or null if the caller is not
+	 *         initialized.
 	 */
 	public Caller getServerCaller() {
 		return serverCaller;
@@ -213,9 +225,13 @@ public class Common {
 
 	/**
 	 * Format a balance to a readable string.
-	 * @param worldName The world Name associated with this balance
-	 * @param currency The currency instance associated with this balance.
-	 * @param balance The balance.
+	 * 
+	 * @param worldName
+	 *            The world Name associated with this balance
+	 * @param currency
+	 *            The currency instance associated with this balance.
+	 * @param balance
+	 *            The balance.
 	 * @return A pretty String showing the balance.
 	 */
 	public String format(String worldName, Currency currency, double balance) {
@@ -228,7 +244,8 @@ public class Common {
 			}
 		}
 
-		// We removes some cents if it's something like 20.20381 it would set it to 20.20
+		// We removes some cents if it's something like 20.20381 it would set it
+		// to 20.20
 		String[] theAmount = Double.toString(balance).split("\\.");
 		if (theAmount[1].length() > 2) {
 			theAmount[1] = theAmount[1].substring(0, 2);
@@ -244,7 +261,7 @@ public class Common {
 		} else {
 			coin = theAmount[1];
 		}
-		
+
 		// Do we seperate money and dollar or not?
 		if (getConfigurationManager().isLongmode()) {
 			String subName = currency.getMinor();
@@ -260,6 +277,7 @@ public class Common {
 
 	/**
 	 * Initialize the database Manager
+	 * 
 	 * @throws TableRegistrationException
 	 * @throws ConnectionException
 	 */
@@ -296,16 +314,22 @@ public class Common {
 		sendConsoleMessage(Level.INFO, "Loading the PayDay manager.");
 		paydayManager = new PayDayManager();
 		sendConsoleMessage(Level.INFO, "PayDay Manager loaded!");
-		
+
 	}
 
 	/**
 	 * Write a transaction to the Log.
-	 * @param info The type of transaction to log.
-	 * @param username The username that did this transaction.
-	 * @param amount The amount of money in this transaction.
-	 * @param currency The currency associated with this transaction
-	 * @param worldName The world name associated with this transaction
+	 * 
+	 * @param info
+	 *            The type of transaction to log.
+	 * @param username
+	 *            The username that did this transaction.
+	 * @param amount
+	 *            The amount of money in this transaction.
+	 * @param currency
+	 *            The currency associated with this transaction
+	 * @param worldName
+	 *            The world name associated with this transaction
 	 */
 	public void writeLog(LogInfo info, String username, double amount, Currency currency, String worldName) {
 		if (getConfigurationManager().getConfig().getBoolean("System.Logging.Enabled")) {

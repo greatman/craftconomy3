@@ -24,8 +24,11 @@ import java.util.List;
 import java.util.logging.Level;
 
 import org.bukkit.ChatColor;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
+import com.greatmancode.craftconomy3.commands.BukkitCommandManager;
+import com.greatmancode.craftconomy3.commands.CommandManager;
 import com.greatmancode.craftconomy3.utils.MetricsBukkit;
 import com.greatmancode.craftconomy3.utils.MetricsBukkit.Graph;
 
@@ -36,15 +39,20 @@ import com.greatmancode.craftconomy3.utils.MetricsBukkit.Graph;
  */
 public class BukkitCaller implements Caller {
 
+	private BukkitLoader loader;
+	
+	public BukkitCaller(Loader loader) {
+		this.loader = (BukkitLoader) loader;
+	}
 	@Override
 	public void disablePlugin() {
-		CC3BukkitLoader.getInstance().getPluginLoader().disablePlugin(CC3BukkitLoader.getInstance());
+		loader.getPluginLoader().disablePlugin(loader);
 	}
 
 	@Override
 	public boolean checkPermission(String playerName, String perm) {
 		boolean result = false;
-		Player p = CC3BukkitLoader.getInstance().getServer().getPlayerExact(playerName);
+		Player p = loader.getServer().getPlayerExact(playerName);
 		if (p != null) {
 			if (p.isOp()) {
 				result = true;
@@ -61,7 +69,7 @@ public class BukkitCaller implements Caller {
 
 	@Override
 	public void sendMessage(String playerName, String message) {
-		Player p = CC3BukkitLoader.getInstance().getServer().getPlayerExact(playerName);
+		Player p = loader.getServer().getPlayerExact(playerName);
 		if (p != null) {
 			p.sendMessage(addColor(CHAT_PREFIX + message));
 		} else {
@@ -72,7 +80,7 @@ public class BukkitCaller implements Caller {
 	@Override
 	public String getPlayerWorld(String playerName) {
 		String result = "";
-		Player p = CC3BukkitLoader.getInstance().getServer().getPlayerExact(playerName);
+		Player p = loader.getServer().getPlayerExact(playerName);
 		if (p != null) {
 			result = p.getWorld().getName();
 		}
@@ -81,7 +89,7 @@ public class BukkitCaller implements Caller {
 
 	@Override
 	public boolean isOnline(String playerName) {
-		return CC3BukkitLoader.getInstance().getServer().getPlayerExact(playerName) != null;
+		return loader.getServer().getPlayerExact(playerName) != null;
 	}
 
 	@Override
@@ -107,22 +115,22 @@ public class BukkitCaller implements Caller {
 
 	@Override
 	public String getDefaultWorld() {
-		return CC3BukkitLoader.getInstance().getServer().getWorlds().get(0).getName();
+		return loader.getServer().getWorlds().get(0).getName();
 	}
 
 	@Override
 	public boolean worldExist(String worldName) {
-		return CC3BukkitLoader.getInstance().getServer().getWorld(worldName) != null;
+		return loader.getServer().getWorld(worldName) != null;
 	}
 
 	@Override
 	public File getDataFolder() {
-		return CC3BukkitLoader.getInstance().getDataFolder();
+		return loader.getDataFolder();
 	}
 
 	@Override
 	public void addDbGraph(String dbType) {
-		Graph graph = CC3BukkitLoader.getInstance().getMetrics().createGraph("Database Engine");
+		Graph graph = loader.getMetrics().createGraph("Database Engine");
 		graph.addPlotter(new MetricsBukkit.Plotter(dbType) {
 
 			@Override
@@ -134,7 +142,7 @@ public class BukkitCaller implements Caller {
 
 	@Override
 	public void addMultiworldGraph(boolean enabled) {
-		Graph graph = CC3BukkitLoader.getInstance().getMetrics().createGraph("Multiworld");
+		Graph graph = loader.getMetrics().createGraph("Multiworld");
 		String stringEnabled = "No";
 		if (enabled) {
 			stringEnabled = "Yes";
@@ -150,7 +158,7 @@ public class BukkitCaller implements Caller {
 
 	@Override
 	public void startMetrics() {
-		CC3BukkitLoader.getInstance().getMetrics().start();
+		loader.getMetrics().start();
 	}
 
 	@Override
@@ -161,15 +169,15 @@ public class BukkitCaller implements Caller {
 	@Override
 	public int schedule(Runnable entry, long firstStart, long repeating, boolean async) {
 		if(!async)
-			return CC3BukkitLoader.getInstance().getServer().getScheduler().scheduleSyncRepeatingTask(CC3BukkitLoader.getInstance(), entry, firstStart * 20L, repeating * 20L);
+			return loader.getServer().getScheduler().scheduleSyncRepeatingTask(loader, entry, firstStart * 20L, repeating * 20L);
 		else
-			return CC3BukkitLoader.getInstance().getServer().getScheduler().scheduleAsyncRepeatingTask(CC3BukkitLoader.getInstance(), entry, firstStart * 20L, repeating * 20L);
+			return loader.getServer().getScheduler().scheduleAsyncRepeatingTask(loader, entry, firstStart * 20L, repeating * 20L);
 	}
 
 	@Override
 	public List<String> getOnlinePlayers() {
 		List<String> list = new ArrayList<String>();
-		Player[] pList = CC3BukkitLoader.getInstance().getServer().getOnlinePlayers();
+		Player[] pList = loader.getServer().getOnlinePlayers();
 		for (Player p: pList) {
 			list.add(p.getName());
 		}
@@ -178,7 +186,7 @@ public class BukkitCaller implements Caller {
 
 	@Override
 	public void cancelSchedule(int id) {
-		CC3BukkitLoader.getInstance().getServer().getScheduler().cancelTask(id);
+		loader.getServer().getScheduler().cancelTask(id);
 	}
 
 	@Override
@@ -189,9 +197,25 @@ public class BukkitCaller implements Caller {
 	@Override
 	public int delay(Runnable entry, long start, boolean async) {
 		if(!async)
-			return CC3BukkitLoader.getInstance().getServer().getScheduler().scheduleSyncDelayedTask(CC3BukkitLoader.getInstance(), entry, start * 20L);
+			return loader.getServer().getScheduler().scheduleSyncDelayedTask(loader, entry, start * 20L);
 		else
-			return CC3BukkitLoader.getInstance().getServer().getScheduler().scheduleAsyncDelayedTask(CC3BukkitLoader.getInstance(), entry, start * 20L);
+			return loader.getServer().getScheduler().scheduleAsyncDelayedTask(loader, entry, start * 20L);
+	}
+	
+	public FileConfiguration getConfig() {
+		return loader.getConfig();
+	}
+	
+	public void saveConfig() {
+		loader.saveConfig();
+	}
+	
+	@Override
+	public void addCommand(String name, String help, CommandManager manager) {
+		// TODO Auto-generated method stub
+		if (manager instanceof BukkitCommandManager) {
+			loader.getCommand(name).setExecutor((BukkitCommandManager)manager);
+		}
 	}
 
 }

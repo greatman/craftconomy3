@@ -20,7 +20,7 @@ package com.greatmancode.craftconomy3.configuration;
 
 import java.io.File;
 
-import com.greatmancode.craftconomy3.CC3BukkitLoader;
+import com.greatmancode.craftconomy3.BukkitCaller;
 import com.greatmancode.craftconomy3.Common;
 
 public class BukkitConfig extends Config {
@@ -28,39 +28,39 @@ public class BukkitConfig extends Config {
 	public BukkitConfig() {
 		File file = new File(Common.getInstance().getServerCaller().getDataFolder(), "config.yml");
 		if (!file.exists()) {
-			CC3BukkitLoader.getInstance().getConfig().options().copyDefaults(true);
-			CC3BukkitLoader.getInstance().saveConfig();
+			((BukkitCaller) Common.getInstance().getServerCaller()).getConfig().options().copyDefaults(true);
+			((BukkitCaller) Common.getInstance().getServerCaller()).saveConfig();
 		}
 	}
 
 	@Override
 	public int getInt(String path) {
-		return CC3BukkitLoader.getInstance().getConfig().getInt(path);
+		return ((BukkitCaller) Common.getInstance().getServerCaller()).getConfig().getInt(path);
 	}
 
 	@Override
 	public long getLong(String path) {
-		return CC3BukkitLoader.getInstance().getConfig().getLong(path);
+		return ((BukkitCaller) Common.getInstance().getServerCaller()).getConfig().getLong(path);
 	}
 
 	@Override
 	public double getDouble(String path) {
-		return CC3BukkitLoader.getInstance().getConfig().getDouble(path);
+		return ((BukkitCaller) Common.getInstance().getServerCaller()).getConfig().getDouble(path);
 	}
 
 	@Override
 	public String getString(String path) {
-		return CC3BukkitLoader.getInstance().getConfig().getString(path);
+		return ((BukkitCaller) Common.getInstance().getServerCaller()).getConfig().getString(path);
 	}
 
 	@Override
 	public boolean getBoolean(String path) {
-		return CC3BukkitLoader.getInstance().getConfig().getBoolean(path);
+		return ((BukkitCaller) Common.getInstance().getServerCaller()).getConfig().getBoolean(path);
 	}
 
 	@Override
 	public void setValue(String path, Object value) {
-		CC3BukkitLoader.getInstance().getConfig().set(path, value);
-		CC3BukkitLoader.getInstance().saveConfig();
+		((BukkitCaller) Common.getInstance().getServerCaller()).getConfig().set(path, value);
+		((BukkitCaller) Common.getInstance().getServerCaller()).saveConfig();
 	}
 }

@@ -21,6 +21,8 @@ package com.greatmancode.craftconomy3;
 import java.io.File;
 import java.util.List;
 
+import com.greatmancode.craftconomy3.commands.CommandManager;
+
 /**
  * Represents a server Caller
  * @author greatman
@@ -161,4 +163,12 @@ public interface Caller {
 	 * @return A list of all players online.
 	 */
 	public List<String> getOnlinePlayers();
+	
+	/**
+	 * Add a command in the server
+	 * @param name The name of the command
+	 * @param help The help line of the command
+	 * @param manager The manager that manage the command.
+	 */
+	public void addCommand(String name, String help, CommandManager manager);
 }

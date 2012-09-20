@@ -29,25 +29,34 @@ import org.spout.api.entity.Player;
 import org.spout.api.scheduler.TaskPriority;
 import org.spout.api.Server;
 
+import com.greatmancode.craftconomy3.commands.CommandManager;
+import com.greatmancode.craftconomy3.commands.SpoutCommandManager;
 import com.greatmancode.craftconomy3.utils.MetricsSpout;
 import com.greatmancode.craftconomy3.utils.MetricsSpout.Graph;
 
 /**
  * Server caller for Spout
+ * 
  * @author greatman
  * 
  */
 public class SpoutCaller implements Caller {
 
+	private SpoutLoader loader;
+
+	public SpoutCaller(Loader loader) {
+		this.loader = (SpoutLoader) loader;
+	}
+
 	@Override
 	public void disablePlugin() {
-		CC3SpoutLoader.getInstance().getPluginLoader().disablePlugin(CC3SpoutLoader.getInstance());
+		loader.getPluginLoader().disablePlugin(loader);
 	}
 
 	@Override
 	public boolean checkPermission(String playerName, String perm) {
 		boolean result = false;
-		Player p = ((Server)CC3SpoutLoader.getInstance().getEngine()).getPlayer(playerName, true);
+		Player p = ((Server) loader.getEngine()).getPlayer(playerName, true);
 		if (p != null) {
 			result = p.hasPermission(perm);
 		} else {
@@ -60,9 +69,9 @@ public class SpoutCaller implements Caller {
 
 	@Override
 	public void sendMessage(String playerName, String message) {
-		Player p = ((Server)CC3SpoutLoader.getInstance().getEngine()).getPlayer(playerName, true);
+		Player p = ((Server) loader.getEngine()).getPlayer(playerName, true);
 		if (p != null) {
-			p.sendMessage(ChatArguments.fromString(CHAT_PREFIX + message));
+			p.sendMessage(ChatArguments.fromFormatString(CHAT_PREFIX + message));
 		} else {
 			Common.getInstance().getLogger().log(Level.INFO, CHAT_PREFIX + message);
 		}
@@ -71,7 +80,7 @@ public class SpoutCaller implements Caller {
 	@Override
 	public String getPlayerWorld(String playerName) {
 		String worldName = "";
-		Player p = ((Server)CC3SpoutLoader.getInstance().getEngine()).getPlayer(playerName, true);
+		Player p = ((Server) loader.getEngine()).getPlayer(playerName, true);
 		if (p != null) {
 			worldName = p.getWorld().getName();
 		}
@@ -80,7 +89,7 @@ public class SpoutCaller implements Caller {
 
 	@Override
 	public boolean isOnline(String playerName) {
-		return ((Server)CC3SpoutLoader.getInstance().getEngine()).getPlayer(playerName, true) != null;
+		return ((Server) loader.getEngine()).getPlayer(playerName, true) != null;
 	}
 
 	@Override
@@ -91,22 +100,22 @@ public class SpoutCaller implements Caller {
 
 	@Override
 	public boolean worldExist(String worldName) {
-		return CC3SpoutLoader.getInstance().getEngine().getWorld(worldName) != null;
+		return loader.getEngine().getWorld(worldName) != null;
 	}
 
 	@Override
 	public String getDefaultWorld() {
-		return CC3SpoutLoader.getInstance().getEngine().getWorlds().iterator().next().getName();
+		return loader.getEngine().getWorlds().iterator().next().getName();
 	}
 
 	@Override
 	public File getDataFolder() {
-		return CC3SpoutLoader.getInstance().getDataFolder();
+		return loader.getDataFolder();
 	}
 
 	@Override
 	public void addDbGraph(String dbType) {
-		Graph graph = CC3SpoutLoader.getInstance().getMetrics().createGraph("Database Engine");
+		Graph graph = loader.getMetrics().createGraph("Database Engine");
 		graph.addPlotter(new MetricsSpout.Plotter(dbType) {
 
 			@Override
@@ -118,7 +127,7 @@ public class SpoutCaller implements Caller {
 
 	@Override
 	public void addMultiworldGraph(boolean enabled) {
-		Graph graph = CC3SpoutLoader.getInstance().getMetrics().createGraph("Multiworld");
+		Graph graph = loader.getMetrics().createGraph("Multiworld");
 		String stringEnabled = "No";
 		if (enabled) {
 			stringEnabled = "Yes";
@@ -134,7 +143,7 @@ public class SpoutCaller implements Caller {
 
 	@Override
 	public void startMetrics() {
-		CC3SpoutLoader.getInstance().getMetrics().start();
+		loader.getMetrics().start();
 	}
 
 	@Override
@@ -144,16 +153,24 @@ public class SpoutCaller implements Caller {
 
 	@Override
 	public int schedule(Runnable entry, long firstStart, long repeating, boolean async) {
-		if(!async)
-			return CC3SpoutLoader.getInstance().getEngine().getScheduler().scheduleSyncRepeatingTask(CC3SpoutLoader.getInstance(), entry, TimeUnit.MILLISECONDS.convert(firstStart, TimeUnit.SECONDS), TimeUnit.MILLISECONDS.convert(repeating, TimeUnit.SECONDS), TaskPriority.NORMAL);
+		if (!async)
+			return loader
+					.getEngine()
+					.getScheduler()
+					.scheduleSyncRepeatingTask(loader, entry, TimeUnit.MILLISECONDS.convert(firstStart, TimeUnit.SECONDS),
+							TimeUnit.MILLISECONDS.convert(repeating, TimeUnit.SECONDS), TaskPriority.NORMAL);
 		else
-			return CC3SpoutLoader.getInstance().getEngine().getScheduler().scheduleAsyncRepeatingTask(CC3SpoutLoader.getInstance(), entry, TimeUnit.MILLISECONDS.convert(firstStart, TimeUnit.SECONDS), TimeUnit.MILLISECONDS.convert(repeating, TimeUnit.SECONDS), TaskPriority.NORMAL);
+			return loader
+					.getEngine()
+					.getScheduler()
+					.scheduleAsyncRepeatingTask(loader, entry, TimeUnit.MILLISECONDS.convert(firstStart, TimeUnit.SECONDS),
+							TimeUnit.MILLISECONDS.convert(repeating, TimeUnit.SECONDS), TaskPriority.NORMAL);
 	}
 
 	@Override
 	public List<String> getOnlinePlayers() {
 		List<String> list = new ArrayList<String>();
-		Player[] pList = ((Server)CC3SpoutLoader.getInstance().getEngine()).getOnlinePlayers();
+		Player[] pList = ((Server) loader.getEngine()).getOnlinePlayers();
 		for (Player p : pList) {
 			list.add(p.getName());
 		}
@@ -162,7 +179,7 @@ public class SpoutCaller implements Caller {
 
 	@Override
 	public void cancelSchedule(int id) {
-		CC3SpoutLoader.getInstance().getEngine().getScheduler().cancelTask(id);
+		loader.getEngine().getScheduler().cancelTask(id);
 	}
 
 	@Override
@@ -172,9 +189,17 @@ public class SpoutCaller implements Caller {
 
 	@Override
 	public int delay(Runnable entry, long start, boolean async) {
-		if(!async)
-			return CC3SpoutLoader.getInstance().getEngine().getScheduler().scheduleSyncDelayedTask(CC3SpoutLoader.getInstance(), entry, TimeUnit.MILLISECONDS.convert(start, TimeUnit.SECONDS), TaskPriority.NORMAL);
+		if (!async)
+			return loader.getEngine().getScheduler().scheduleSyncDelayedTask(loader, entry, TimeUnit.MILLISECONDS.convert(start, TimeUnit.SECONDS), TaskPriority.NORMAL);
 		else
-			return CC3SpoutLoader.getInstance().getEngine().getScheduler().scheduleAsyncDelayedTask(CC3SpoutLoader.getInstance(), entry, TimeUnit.MILLISECONDS.convert(start, TimeUnit.SECONDS), TaskPriority.NORMAL);
+			return loader.getEngine().getScheduler().scheduleAsyncDelayedTask(loader, entry, TimeUnit.MILLISECONDS.convert(start, TimeUnit.SECONDS), TaskPriority.NORMAL);
+	}
+
+	@Override
+	public void addCommand(String name, String help, CommandManager manager) {
+		if (manager instanceof SpoutCommandManager) {
+			loader.getEngine().getRootCommand().addSubCommand(loader, name).setHelp(help).setExecutor((SpoutCommandManager) manager);
+		}
+
 	}
 }

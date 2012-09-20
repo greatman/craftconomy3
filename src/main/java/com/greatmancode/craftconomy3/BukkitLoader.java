@@ -22,7 +22,6 @@ import java.io.IOException;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.greatmancode.craftconomy3.commands.BukkitCommandManager;
 import com.greatmancode.craftconomy3.utils.MetricsBukkit;
 
 /**
@@ -30,38 +29,31 @@ import com.greatmancode.craftconomy3.utils.MetricsBukkit;
  * @author greatman
  * 
  */
-public class CC3BukkitLoader extends JavaPlugin {
+public class BukkitLoader extends JavaPlugin implements Loader{
 
-	private static CC3BukkitLoader instance = null;
 	private MetricsBukkit metrics;
 
 	public void onEnable() {
-		instance = this;
 
 		try {
 			metrics = new MetricsBukkit(this);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		new Common(true, getLogger()).initialize();
-		BukkitCommandManager cmdManager = new BukkitCommandManager();
-		this.getCommand("money").setExecutor(cmdManager);
-		this.getCommand("bank").setExecutor(cmdManager);
-		this.getCommand("ccsetup").setExecutor(cmdManager);
-		this.getCommand("currency").setExecutor(cmdManager);
-		this.getCommand("craftconomy").setExecutor(cmdManager);
-		this.getCommand("payday").setExecutor(cmdManager);
+		new Common(this, getLogger()).initialize();
+		
 	}
 
 	public void onDisable() {
 		Common.getInstance().disable();
 	}
 
-	public static CC3BukkitLoader getInstance() {
-		return instance;
-	}
-
 	public MetricsBukkit getMetrics() {
 		return metrics;
+	}
+
+	@Override
+	public boolean isBukkit() {
+		return true;
 	}
 }

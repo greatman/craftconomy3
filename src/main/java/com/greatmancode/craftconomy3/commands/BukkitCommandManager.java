@@ -33,6 +33,14 @@ import com.greatmancode.craftconomy3.Common;
  */
 public class BukkitCommandManager implements CommandExecutor, CommandManager {
 
+	public BukkitCommandManager() {
+		Common.getInstance().getServerCaller().addCommand("money", "", this);
+		Common.getInstance().getServerCaller().addCommand("bank", "", this);
+		Common.getInstance().getServerCaller().addCommand("ccsetup", "", this);
+		Common.getInstance().getServerCaller().addCommand("currency", "", this);
+		Common.getInstance().getServerCaller().addCommand("craftconomy", "", this);
+		Common.getInstance().getServerCaller().addCommand("payday", "", this);
+	}
 	@Override
 	public boolean onCommand(CommandSender commandSender, Command command, String commandLabel, String[] args) {
 

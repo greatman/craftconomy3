@@ -21,7 +21,9 @@ package com.greatmancode.craftconomy3.configuration;
 import java.util.Iterator;
 import java.util.List;
 
+import com.greatmancode.craftconomy3.BukkitCaller;
 import com.greatmancode.craftconomy3.Common;
+import com.greatmancode.craftconomy3.SpoutCaller;
 import com.greatmancode.craftconomy3.currency.CurrencyManager;
 import com.greatmancode.craftconomy3.database.tables.ConfigTable;
 import com.greatmancode.craftconomy3.database.tables.PayDayTable;
@@ -45,10 +47,10 @@ public class ConfigurationManager {
 	 * Initialize the Configuration manager
 	 */
 	public void initialize() {
-		if (Common.isBukkit()) {
+		if (Common.getInstance().getServerCaller() instanceof BukkitCaller) {
 
 			config = new BukkitConfig();
-		} else {
+		} else if (Common.getInstance().getServerCaller() instanceof SpoutCaller){
 			config = new SpoutConfig();
 		}
 	}

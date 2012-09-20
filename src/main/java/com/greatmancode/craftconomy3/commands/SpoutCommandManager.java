@@ -28,7 +28,6 @@ import org.spout.api.exception.CommandException;
 
 import com.greatmancode.craftconomy3.Caller;
 import com.greatmancode.craftconomy3.Common;
-import com.greatmancode.craftconomy3.CC3SpoutLoader;
 
 /**
  * Handle the commands for the Spout server.
@@ -38,13 +37,12 @@ import com.greatmancode.craftconomy3.CC3SpoutLoader;
 public class SpoutCommandManager implements CommandExecutor, CommandManager {
 
 	public SpoutCommandManager() {
-		CC3SpoutLoader.getInstance().getEngine().getRootCommand().addSubCommand(CC3SpoutLoader.getInstance(), "money").setHelp("Money Related Commands").setExecutor(this);
-		CC3SpoutLoader.getInstance().getEngine().getRootCommand().addSubCommand(CC3SpoutLoader.getInstance(), "bank").setHelp("Bank Related Commands").setExecutor(this);
-		CC3SpoutLoader.getInstance().getEngine().getRootCommand().addSubCommand(CC3SpoutLoader.getInstance(), "ccsetup").setHelp("Craftconomy setup command").setExecutor(this);
-		CC3SpoutLoader.getInstance().getEngine().getRootCommand().addSubCommand(CC3SpoutLoader.getInstance(), "currency").setHelp("Currency related command").setExecutor(this);
-		CC3SpoutLoader.getInstance().getEngine().getRootCommand().addSubCommand(CC3SpoutLoader.getInstance(), "craftconomy").setHelp("Craftconomy config command").setExecutor(this);
-		CC3SpoutLoader.getInstance().getEngine().getRootCommand().addSubCommand(CC3SpoutLoader.getInstance(), "payday").setHelp("Payday config command").setExecutor(this);
-
+		Common.getInstance().getServerCaller().addCommand("money", "Money Related Commands", this);
+		Common.getInstance().getServerCaller().addCommand("bank", "Bank related Commands", this);
+		Common.getInstance().getServerCaller().addCommand("ccsetup", "Craftconomy setup command.", this);
+		Common.getInstance().getServerCaller().addCommand("currency", "Currency related commands", this);
+		Common.getInstance().getServerCaller().addCommand("craftconomy", "Craftconomy config command", this);
+		Common.getInstance().getServerCaller().addCommand("payday", "Payday config command", this);
 	}
 
 	@Override

@@ -33,14 +33,12 @@ import com.greatmancode.craftconomy3.utils.MetricsSpout;
  * @author greatman
  * 
  */
-public class CC3SpoutLoader extends CommonPlugin {
+public class SpoutLoader extends CommonPlugin implements Loader{
 
-	private static CC3SpoutLoader instance = null;
 	private MetricsSpout metrics;
 
 	@Override
 	public void onEnable() {
-		instance = this;
 		this.loadLibrary(new File("natives" + File.separator + "sqlite-jdbc-3.7.2.jar"));
 		this.loadLibrary(new File("natives" + File.separator + "mysql-connector-java-5.1.14.jar"));
 		try {
@@ -49,7 +47,7 @@ public class CC3SpoutLoader extends CommonPlugin {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		new Common(false, getLogger()).initialize();
+		new Common(this, getLogger()).initialize();
 		getEngine().getServiceManager().register(EconomyService.class, new EconomyServiceHandler(), this, ServicePriority.High);
 
 	}
@@ -59,12 +57,11 @@ public class CC3SpoutLoader extends CommonPlugin {
 		Common.getInstance().disable();
 	}
 
-	public static CC3SpoutLoader getInstance() {
-		return instance;
-	}
-
 	public MetricsSpout getMetrics() {
 		return metrics;
 	}
 
+	public boolean isBukkit() {
+		return false;
+	}
 }

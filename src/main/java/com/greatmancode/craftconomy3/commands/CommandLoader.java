@@ -20,7 +20,9 @@ package com.greatmancode.craftconomy3.commands;
 
 import java.util.HashMap;
 
+import com.greatmancode.craftconomy3.BukkitCaller;
 import com.greatmancode.craftconomy3.Common;
+import com.greatmancode.craftconomy3.SpoutCaller;
 import com.greatmancode.craftconomy3.commands.bank.*;
 import com.greatmancode.craftconomy3.commands.config.*;
 import com.greatmancode.craftconomy3.commands.currency.*;
@@ -41,7 +43,6 @@ public class CommandLoader {
 	private HashMap<String, CraftconomyCommand> currencyCmdList = new HashMap<String, CraftconomyCommand>();
 	private HashMap<String, CraftconomyCommand> configCmdList = new HashMap<String, CraftconomyCommand>();
 	private HashMap<String, CraftconomyCommand> paydayCmdList = new HashMap<String, CraftconomyCommand>();
-	private CommandManager cmdLoader;
 
 	public CommandLoader() {
 		moneyCmdList.put("", new MainCommand());
@@ -91,8 +92,11 @@ public class CommandLoader {
 		paydayCmdList.put("help", new PayDayHelpCommand());
 		paydayCmdList.put("modify", new PayDayModifyCommand());
 
-		if (!Common.isBukkit()) {
-			cmdLoader = new SpoutCommandManager();
+		if (Common.getInstance().getServerCaller() instanceof BukkitCaller) {
+			new BukkitCommandManager();
+		}
+		else if (Common.getInstance().getServerCaller() instanceof SpoutCaller) {
+			new SpoutCommandManager();
 		}
 	}
 
