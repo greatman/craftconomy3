@@ -105,6 +105,6 @@ public class Tools {
 	 * @return True if the number is positive else false.
 	 */
 	public static boolean isPositive(double number) {
-		return number > 0.00;
+		return number >= 0.00;
 	}
 }
