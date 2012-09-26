@@ -91,10 +91,8 @@ public class Tools {
 	 */
 	public static boolean isValidDouble(String number) {
 		boolean valid = false;
-		if (isDouble(number)) {
-			if (isPositive(Double.parseDouble(number))) {
-				valid = true;
-			}
+		if (isDouble(number) && isPositive(Double.parseDouble(number))) {
+			valid = true;
 		}
 		return valid;
 	}

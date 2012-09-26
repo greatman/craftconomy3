@@ -28,6 +28,7 @@ import com.greatmancode.craftconomy3.Common;
 
 /**
  * Handles the commands for the Bukkit server
+ * 
  * @author greatman
  * 
  */
@@ -41,13 +42,14 @@ public class BukkitCommandManager implements CommandExecutor, CommandManager {
 		Common.getInstance().getServerCaller().addCommand("craftconomy", "", this);
 		Common.getInstance().getServerCaller().addCommand("payday", "", this);
 	}
+
 	@Override
 	public boolean onCommand(CommandSender commandSender, Command command, String commandLabel, String[] args) {
-
+		// TODO: Improve the setup alert
 		CraftconomyCommand cmd = null;
 		if (command.getName().equals("money")) {
-			if (Common.getInstance().getConfigurationManager().getConfig().getBoolean("System.Setup")) {
-				commandSender.sendMessage(Common.getInstance().getServerCaller().addColor(Caller.CHAT_PREFIX + "{{DARK_RED}}Craftconomy is in setup mode! Type {{WHITE}}/ccsetup."));
+			if (SETUP_ACTIVE) {
+				commandSender.sendMessage(Common.getInstance().getServerCaller().addColor(SETUP_MODE));
 				return true;
 			}
 			if (args.length == 0) {
@@ -56,8 +58,8 @@ public class BukkitCommandManager implements CommandExecutor, CommandManager {
 				cmd = Common.getInstance().getCommandManager().getMoneyCmdList().get(args[0]);
 			}
 		} else if (command.getName().equals("bank")) {
-			if (Common.getInstance().getConfigurationManager().getConfig().getBoolean("System.Setup")) {
-				commandSender.sendMessage(Common.getInstance().getServerCaller().addColor(Caller.CHAT_PREFIX + "{{DARK_RED}}Craftconomy is in setup mode! Type {{WHITE}}/ccsetup."));
+			if (SETUP_ACTIVE) {
+				commandSender.sendMessage(Common.getInstance().getServerCaller().addColor(SETUP_MODE));
 				return true;
 			}
 			if (args.length == 0) {
@@ -66,7 +68,7 @@ public class BukkitCommandManager implements CommandExecutor, CommandManager {
 				cmd = Common.getInstance().getCommandManager().getBankCmdList().get(args[0]);
 			}
 		} else if (command.getName().equals("ccsetup")) {
-			if (Common.getInstance().getConfigurationManager().getConfig().getBoolean("System.Setup")) {
+			if (SETUP_ACTIVE) {
 				if (args.length == 0) {
 					cmd = Common.getInstance().getCommandManager().getSetupCmdList().get("");
 				} else {
@@ -75,8 +77,8 @@ public class BukkitCommandManager implements CommandExecutor, CommandManager {
 			}
 
 		} else if (command.getName().equals("currency")) {
-			if (Common.getInstance().getConfigurationManager().getConfig().getBoolean("System.Setup")) {
-				commandSender.sendMessage(Common.getInstance().getServerCaller().addColor(Caller.CHAT_PREFIX + "{{DARK_RED}}Craftconomy is in setup mode! Type {{WHITE}}/ccsetup."));
+			if (SETUP_ACTIVE) {
+				commandSender.sendMessage(Common.getInstance().getServerCaller().addColor(SETUP_MODE));
 				return true;
 			}
 			if (args.length == 0) {
@@ -86,8 +88,8 @@ public class BukkitCommandManager implements CommandExecutor, CommandManager {
 			}
 
 		} else if (command.getName().equals("craftconomy")) {
-			if (Common.getInstance().getConfigurationManager().getConfig().getBoolean("System.Setup")) {
-				commandSender.sendMessage(Common.getInstance().getServerCaller().addColor(Caller.CHAT_PREFIX + "{{DARK_RED}}Craftconomy is in setup mode! Type {{WHITE}}/ccsetup."));
+			if (SETUP_ACTIVE) {
+				commandSender.sendMessage(Common.getInstance().getServerCaller().addColor(SETUP_MODE));
 				return true;
 			}
 			if (args.length == 0) {
@@ -97,8 +99,8 @@ public class BukkitCommandManager implements CommandExecutor, CommandManager {
 			}
 
 		} else if (command.getName().equals("payday")) {
-			if (Common.getInstance().getConfigurationManager().getConfig().getBoolean("System.Setup")) {
-				commandSender.sendMessage(Common.getInstance().getServerCaller().addColor(Caller.CHAT_PREFIX + "{{DARK_RED}}Craftconomy is in setup mode! Type {{WHITE}}/ccsetup."));
+			if (SETUP_ACTIVE) {
+				commandSender.sendMessage(Common.getInstance().getServerCaller().addColor(SETUP_MODE));
 				return true;
 			}
 			if (args.length == 0) {
@@ -107,16 +109,14 @@ public class BukkitCommandManager implements CommandExecutor, CommandManager {
 				cmd = Common.getInstance().getCommandManager().getPaydayCmdList().get(args[0]);
 			}
 
-		}else {
+		} else {
 			return false;
 		}
 
 		if (cmd != null) {
-			if (cmd.playerOnly()) {
-				if (!(commandSender instanceof Player)) {
+			if (cmd.playerOnly() && !(commandSender instanceof Player)) {
 					commandSender.sendMessage(Common.getInstance().getServerCaller().addColor(Caller.CHAT_PREFIX + "{{DARK_RED}}Only a player can use this command!"));
 					return true;
-				}
 			}
 			if (!(commandSender instanceof Player) || cmd.permission(commandSender.getName())) {
 				String[] newargs;

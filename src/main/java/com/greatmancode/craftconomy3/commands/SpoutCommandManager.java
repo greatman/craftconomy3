@@ -49,8 +49,8 @@ public class SpoutCommandManager implements CommandExecutor, CommandManager {
 	public void processCommand(CommandSource source, Command command, CommandContext args) throws CommandException {
 		CraftconomyCommand cmd = null;
 		if (command.getPreferredName().equals("money")) {
-			if (Common.getInstance().getConfigurationManager().getConfig().getBoolean("System.Setup")) {
-				source.sendMessage(ChatArguments.fromFormatString(Caller.CHAT_PREFIX + "{{DARK_RED}}Craftconomy is in setup mode! Type {{WHITE}}/ccsetup."));
+			if (SETUP_ACTIVE) {
+				source.sendMessage(ChatArguments.fromFormatString(SETUP_MODE));
 				return;
 			}
 			if (args.length() == 0) {
@@ -59,8 +59,8 @@ public class SpoutCommandManager implements CommandExecutor, CommandManager {
 				cmd = Common.getInstance().getCommandManager().getMoneyCmdList().get(args.getString(0));
 			}
 		} else if (command.getPreferredName().equals("bank")) {
-			if (Common.getInstance().getConfigurationManager().getConfig().getBoolean("System.Setup")) {
-				source.sendMessage(ChatArguments.fromFormatString(Caller.CHAT_PREFIX + "{{DARK_RED}}Craftconomy is in setup mode! Type {{WHITE}}/ccsetup."));
+			if (SETUP_ACTIVE) {
+				source.sendMessage(ChatArguments.fromFormatString(SETUP_MODE));
 				return;
 			}
 			if (args.length() == 0) {
@@ -69,7 +69,7 @@ public class SpoutCommandManager implements CommandExecutor, CommandManager {
 				cmd = Common.getInstance().getCommandManager().getBankCmdList().get(args.getString(0));
 			}
 		} else if (command.getPreferredName().equals("ccsetup")) {
-			if (Common.getInstance().getConfigurationManager().getConfig().getBoolean("System.Setup")) {
+			if (SETUP_ACTIVE) {
 				if (args.length() == 0) {
 					cmd = Common.getInstance().getCommandManager().getSetupCmdList().get("");
 				} else {
@@ -78,8 +78,8 @@ public class SpoutCommandManager implements CommandExecutor, CommandManager {
 			}
 
 		} else if (command.getPreferredName().equals("currency")) {
-			if (Common.getInstance().getConfigurationManager().getConfig().getBoolean("System.Setup")) {
-				source.sendMessage(ChatArguments.fromFormatString(Caller.CHAT_PREFIX + "{{DARK_RED}}Craftconomy is in setup mode! Type {{WHITE}}/ccsetup."));
+			if (SETUP_ACTIVE) {
+				source.sendMessage(ChatArguments.fromFormatString(SETUP_MODE));
 				return;
 			}
 			if (args.length() == 0) {
@@ -89,8 +89,8 @@ public class SpoutCommandManager implements CommandExecutor, CommandManager {
 			}
 
 		} else if (command.getPreferredName().equals("craftconomy")) {
-			if (Common.getInstance().getConfigurationManager().getConfig().getBoolean("System.Setup")) {
-				source.sendMessage(ChatArguments.fromFormatString(Caller.CHAT_PREFIX + "{{DARK_RED}}Craftconomy is in setup mode! Type {{WHITE}}/ccsetup."));
+			if (SETUP_ACTIVE) {
+				source.sendMessage(ChatArguments.fromFormatString(SETUP_MODE));
 				return;
 			}
 			if (args.length() == 0) {
@@ -100,8 +100,8 @@ public class SpoutCommandManager implements CommandExecutor, CommandManager {
 			}
 
 		} else if (command.getPreferredName().equals("payday")) {
-			if (Common.getInstance().getConfigurationManager().getConfig().getBoolean("System.Setup")) {
-				source.sendMessage(ChatArguments.fromFormatString(Caller.CHAT_PREFIX + "{{DARK_RED}}Craftconomy is in setup mode! Type {{WHITE}}/ccsetup."));
+			if (SETUP_ACTIVE) {
+				source.sendMessage(ChatArguments.fromFormatString(SETUP_MODE));
 				return;
 			}
 			if (args.length() == 0) {
@@ -114,11 +114,9 @@ public class SpoutCommandManager implements CommandExecutor, CommandManager {
 			return;
 		}
 		if (cmd != null) {
-			if (cmd.playerOnly()) {
-				if (!(source instanceof Player)) {
-					source.sendMessage(ChatArguments.fromFormatString(Caller.CHAT_PREFIX + "{{DARK_RED}}Only a player can use this command!"));
-					return;
-				}
+			if (cmd.playerOnly() && !(source instanceof Player)) {
+				source.sendMessage(ChatArguments.fromFormatString(Caller.CHAT_PREFIX + "{{DARK_RED}}Only a player can use this command!"));
+				return;
 			}
 
 			if (!(source instanceof Player) || cmd.permission(source.getName())) {

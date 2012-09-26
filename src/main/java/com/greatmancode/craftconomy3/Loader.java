@@ -20,5 +20,5 @@ package com.greatmancode.craftconomy3;
 
 public interface Loader
 {
-	public boolean isBukkit();
+	boolean isBukkit();
 }

@@ -21,6 +21,7 @@ package com.greatmancode.craftconomy3.account;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.database.tables.AccessTable;
@@ -32,7 +33,7 @@ import com.greatmancode.craftconomy3.database.tables.AccessTable;
  */
 public class AccountACL {
 
-	private HashMap<String, AccountACLValue> aclList = new HashMap<String, AccountACLValue>();
+	private Map<String, AccountACLValue> aclList = new HashMap<String, AccountACLValue>();
 	private Account account;
 
 	public AccountACL(Account account, int accountID) {

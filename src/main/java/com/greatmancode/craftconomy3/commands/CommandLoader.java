@@ -19,6 +19,7 @@
 package com.greatmancode.craftconomy3.commands;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import com.greatmancode.craftconomy3.BukkitCaller;
 import com.greatmancode.craftconomy3.Common;
@@ -37,12 +38,12 @@ import com.greatmancode.craftconomy3.commands.setup.*;
  */
 public class CommandLoader {
 
-	private HashMap<String, CraftconomyCommand> moneyCmdList = new HashMap<String, CraftconomyCommand>();
-	private HashMap<String, CraftconomyCommand> bankCmdList = new HashMap<String, CraftconomyCommand>();
-	private HashMap<String, CraftconomyCommand> setupCmdList = new HashMap<String, CraftconomyCommand>();
-	private HashMap<String, CraftconomyCommand> currencyCmdList = new HashMap<String, CraftconomyCommand>();
-	private HashMap<String, CraftconomyCommand> configCmdList = new HashMap<String, CraftconomyCommand>();
-	private HashMap<String, CraftconomyCommand> paydayCmdList = new HashMap<String, CraftconomyCommand>();
+	private Map<String, CraftconomyCommand> moneyCmdList = new HashMap<String, CraftconomyCommand>();
+	private Map<String, CraftconomyCommand> bankCmdList = new HashMap<String, CraftconomyCommand>();
+	private Map<String, CraftconomyCommand> setupCmdList = new HashMap<String, CraftconomyCommand>();
+	private Map<String, CraftconomyCommand> currencyCmdList = new HashMap<String, CraftconomyCommand>();
+	private Map<String, CraftconomyCommand> configCmdList = new HashMap<String, CraftconomyCommand>();
+	private Map<String, CraftconomyCommand> paydayCmdList = new HashMap<String, CraftconomyCommand>();
 
 	public CommandLoader() {
 		moneyCmdList.put("", new MainCommand());
@@ -106,7 +107,7 @@ public class CommandLoader {
 	 * Get the list of sub-commands of the /money command.
 	 * @return A HashMap containing the sub-commands.
 	 */
-	public HashMap<String, CraftconomyCommand> getMoneyCmdList() {
+	public Map<String, CraftconomyCommand> getMoneyCmdList() {
 		return moneyCmdList;
 	}
 
@@ -114,23 +115,23 @@ public class CommandLoader {
 	 * Get the list of sub-commands of the /bank command
 	 * @return A HashMap containing the sub-commands.
 	 */
-	public HashMap<String, CraftconomyCommand> getBankCmdList() {
+	public Map<String, CraftconomyCommand> getBankCmdList() {
 		return bankCmdList;
 	}
 	
-	public HashMap<String,CraftconomyCommand> getSetupCmdList() {
+	public Map<String,CraftconomyCommand> getSetupCmdList() {
 		return setupCmdList;
 	}
 	
-	public HashMap<String,CraftconomyCommand> getCurrencyCmdList() {
+	public Map<String,CraftconomyCommand> getCurrencyCmdList() {
 		return currencyCmdList;
 	}
 	
-	public HashMap<String,CraftconomyCommand> getConfigCmdList() {
+	public Map<String,CraftconomyCommand> getConfigCmdList() {
 		return configCmdList;
 	}
 
-	public HashMap<String, CraftconomyCommand> getPaydayCmdList() {
+	public Map<String, CraftconomyCommand> getPaydayCmdList() {
 		return paydayCmdList;
 	}
 }

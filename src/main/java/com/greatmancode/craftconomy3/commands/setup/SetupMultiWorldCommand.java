@@ -28,7 +28,7 @@ public class SetupMultiWorldCommand implements CraftconomyCommand {
 	private static ConfigTable oldValue = null;
 	@Override
 	public void execute(String sender, String[] args) {
-		if (SetupWizard.getState() == 2) {
+		if (SetupWizard.getState() == SetupWizard.MULTIWORLD_SETUP) {
 			if (args.length == 0) {
 				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Do you wish to have a Multiworld economy system? (Different wallet on each world). Type {{WHITE}}/ccsetup multiworld true {{DARK_GREEN}} for yes and {{WHITE}}/ccsetup multiworld false {{DARK_GREEN}} for no.");
 			} else {
@@ -43,7 +43,7 @@ public class SetupMultiWorldCommand implements CraftconomyCommand {
 					Common.getInstance().getDatabaseManager().getDatabase().save(oldValue);
 					Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}You set Multiworld to " + args[0] +". If you accept this setting, type {{WHITE}}/ccsetup multiworld confirm {{DARK_GREEN}}Else, just type {{WHITE}}/ccsetup multiworld <true/false>");
 				} else if (args[0].equals("confirm")) {
-					SetupWizard.setState(3);
+					SetupWizard.setState(SetupWizard.CURRENCY_SETUP);
 					Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Step done! Type {{WHITE}}/ccsetup currency {{DARK_GREEN}}to continue!");
 				} else {
 					Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Invalid value. Accepted value are {{WHITE}}true {{DARK_RED}}or {{WHITE}}false");

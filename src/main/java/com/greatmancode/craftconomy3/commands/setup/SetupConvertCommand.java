@@ -37,7 +37,7 @@ public class SetupConvertCommand implements CraftconomyCommand {
 	private int status = 0;
 	@Override
 	public void execute(String sender, String[] args) {
-		if (SetupWizard.getState() == 5) {
+		if (SetupWizard.getState() == SetupWizard.CONVERT_SETUP) {
 			if (args.length == 0 && status == 0) {
 				
 				Iterator<Entry<String, Converter>> iterator = ConverterList.converterList.entrySet().iterator();
@@ -97,8 +97,7 @@ public class SetupConvertCommand implements CraftconomyCommand {
 						Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Unknown database type.");
 					}
 				}
-			} else if (args.length == 2) {
-				if (inProgress && status == 2) {
+			} else if (args.length == 2 && inProgress && status == 2) {
 					if (selectedConverter.setDbInfo(args[0], args[1])) {
 						if (!selectedConverter.allSet()) {
 							Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Value saved. Please continue");
@@ -122,7 +121,6 @@ public class SetupConvertCommand implements CraftconomyCommand {
 					} else {
 						Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Unknown field.");
 					}
-				}
 			}
 		}
 		

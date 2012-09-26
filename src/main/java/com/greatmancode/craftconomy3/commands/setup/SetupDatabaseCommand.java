@@ -26,9 +26,11 @@ import com.greatmancode.craftconomy3.commands.CraftconomyCommand;
 
 public class SetupDatabaseCommand implements CraftconomyCommand {
 
+	private static final String ERROR_MESSAGE = "{{DARK_RED}}A error occured. The error is: {{WHITE}}%s";
+
 	@Override
 	public void execute(String sender, String[] args) {
-		if (SetupWizard.getState() == 1) {
+		if (SetupWizard.getState() == SetupWizard.DATABASE_SETUP) {
 			if (args.length == 0) {
 				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Database setup step. Please select the database backend by using those following commands. (Use SQLite if unsure)");
 				Common.getInstance().getServerCaller().sendMessage(sender, "/ccsetup database type <sqlite/mysql>");
@@ -38,12 +40,12 @@ public class SetupDatabaseCommand implements CraftconomyCommand {
 						Common.getInstance().getConfigurationManager().getConfig().setValue("System.Database.Type", "sqlite");
 						try {
 							Common.getInstance().initialiseDatabase();
-							SetupWizard.setState(2);
+							SetupWizard.setState(SetupWizard.MULTIWORLD_SETUP);
 							Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Awesome! You can type {{WHITE}}/ccsetup multiworld {{DARK_GREEN}}to continue the setup!");
 						} catch(TableRegistrationException e) {
-							Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}A error occured. The error is: {{WHITE}}" + e.getMessage());
+							Common.getInstance().getServerCaller().sendMessage(sender,  String.format(ERROR_MESSAGE,e.getMessage()));
 						} catch(ConnectionException e) {
-							Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}A error occured. The error is: {{WHITE}}" + e.getMessage());
+							Common.getInstance().getServerCaller().sendMessage(sender, String.format(ERROR_MESSAGE,e.getMessage()));
 						}
 					} else if (args[1].equalsIgnoreCase("mysql")) {
 						Common.getInstance().getConfigurationManager().getConfig().setValue("System.Database.Type", "mysql");
@@ -52,12 +54,12 @@ public class SetupDatabaseCommand implements CraftconomyCommand {
 						Common.getInstance().getConfigurationManager().getConfig().setValue("System.Database.Type", "h2");
 						try {
 							Common.getInstance().initialiseDatabase();
-							SetupWizard.setState(2);
+							SetupWizard.setState(SetupWizard.MULTIWORLD_SETUP);
 							Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Awesome! You can type {{WHITE}}/ccsetup multiworld {{DARK_GREEN}}to continue the setup!");
 						} catch(TableRegistrationException e) {
-							Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}A error occured. The error is: {{WHITE}}" + e.getMessage());
+							Common.getInstance().getServerCaller().sendMessage(sender, String.format(ERROR_MESSAGE,e.getMessage()));
 						} catch(ConnectionException e) {
-							Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}A error occured. The error is: {{WHITE}}" + e.getMessage());
+							Common.getInstance().getServerCaller().sendMessage(sender, String.format(ERROR_MESSAGE,e.getMessage()));
 						}
 					}
 				} else if (args[0].equals("address")) {
@@ -81,13 +83,13 @@ public class SetupDatabaseCommand implements CraftconomyCommand {
 				if (Common.getInstance().getConfigurationManager().getConfig().getString("System.Database.Type").equals("mysql")) {
 					try {
 						Common.getInstance().initialiseDatabase();
-						SetupWizard.setState(2);
+						SetupWizard.setState(SetupWizard.MULTIWORLD_SETUP);
 						Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Awesome! You can type {{WHITE}}/ccsetup multiworld {{DARK_GREEN}}to continue the setup!");
 					} catch(TableRegistrationException e) {
-						Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}A error occured. The error is: {{WHITE}}" + e.getMessage());
+						Common.getInstance().getServerCaller().sendMessage(sender, String.format(ERROR_MESSAGE,e.getMessage()));
 						Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Be sure that you entered valid information! Commands are: {{WHITE}}/ccsetup database <address/port/username/password/db> <Value>");
 					} catch(ConnectionException e) {
-						Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}A error occured. The error is: {{WHITE}}" + e.getMessage());
+						Common.getInstance().getServerCaller().sendMessage(sender, String.format(ERROR_MESSAGE,e.getMessage()));
 						Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Be sure that you entered valid information! Commands are: {{WHITE}}/ccsetup database <address/port/username/password/db> <Value>");
 					}
 					

@@ -24,8 +24,14 @@ package com.greatmancode.craftconomy3;
  * @author greatman
  *
  */
-public class SetupWizard {
+public enum SetupWizard {
 
+	NOT_STARTED,
+	DATABASE_SETUP,
+	MULTIWORLD_SETUP,
+	CURRENCY_SETUP,
+	BASIC_SETUP,
+	CONVERT_SETUP;
 	/**
 	 * Possible states:
 	 * 0 = Setup not started
@@ -36,20 +42,20 @@ public class SetupWizard {
 	 * 5 = Basic settings done. Asking for convert
 	 * 6 = done
 	 */
-	private static int state = 0;
+	private static SetupWizard state = NOT_STARTED;
 
 	/**
 	 * Set the wizard state.
 	 * @param newState The new state to set to.
 	 */
-	public static void setState(int newState) {
+	public static void setState(SetupWizard newState) {
 		state = newState;
 	}
 	
 	/**
 	 * Retrieve the Wizard state.
 	 */
-	public static int getState() {
+	public static SetupWizard getState() {
 		return state;
 	}
 }

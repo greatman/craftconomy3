@@ -94,23 +94,24 @@ public class BukkitCaller implements Caller {
 
 	@Override
 	public String addColor(String str) {
-		str = str.replace("{{BLACK}}", ChatColor.BLACK.toString());
-		str = str.replace("{{DARK_BLUE}}", ChatColor.DARK_BLUE.toString());
-		str = str.replace("{{DARK_GREEN}}", ChatColor.DARK_GREEN.toString());
-		str = str.replace("{{DARK_CYAN}}", ChatColor.DARK_AQUA.toString());
-		str = str.replace("{{DARK_RED}}", ChatColor.DARK_RED.toString());
-		str = str.replace("{{PURPLE}}", ChatColor.DARK_PURPLE.toString());
-		str = str.replace("{{GOLD}}", ChatColor.GOLD.toString());
-		str = str.replace("{{GRAY}}", ChatColor.GRAY.toString());
-		str = str.replace("{{DARK_GRAY}}", ChatColor.DARK_GRAY.toString());
-		str = str.replace("{{BLUE}}", ChatColor.BLUE.toString());
-		str = str.replace("{{BRIGHT_GREEN}}", ChatColor.GREEN.toString());
-		str = str.replace("{{CYAN}}", ChatColor.AQUA.toString());
-		str = str.replace("{{RED}}", ChatColor.RED.toString());
-		str = str.replace("{{PINK}}", ChatColor.LIGHT_PURPLE.toString());
-		str = str.replace("{{YELLOW}}", ChatColor.YELLOW.toString());
-		str = str.replace("{{WHITE}}", ChatColor.WHITE.toString());
-		return str;
+		String coloredString = str;
+		coloredString = coloredString.replace("{{BLACK}}", ChatColor.BLACK.toString());
+		coloredString = coloredString.replace("{{DARK_BLUE}}", ChatColor.DARK_BLUE.toString());
+		coloredString = coloredString.replace("{{DARK_GREEN}}", ChatColor.DARK_GREEN.toString());
+		coloredString = coloredString.replace("{{DARK_CYAN}}", ChatColor.DARK_AQUA.toString());
+		coloredString = coloredString.replace("{{DARK_RED}}", ChatColor.DARK_RED.toString());
+		coloredString = coloredString.replace("{{PURPLE}}", ChatColor.DARK_PURPLE.toString());
+		coloredString = coloredString.replace("{{GOLD}}", ChatColor.GOLD.toString());
+		coloredString = coloredString.replace("{{GRAY}}", ChatColor.GRAY.toString());
+		coloredString = coloredString.replace("{{DARK_GRAY}}", ChatColor.DARK_GRAY.toString());
+		coloredString = coloredString.replace("{{BLUE}}", ChatColor.BLUE.toString());
+		coloredString = coloredString.replace("{{BRIGHT_GREEN}}", ChatColor.GREEN.toString());
+		coloredString = coloredString.replace("{{CYAN}}", ChatColor.AQUA.toString());
+		coloredString = coloredString.replace("{{RED}}", ChatColor.RED.toString());
+		coloredString = coloredString.replace("{{PINK}}", ChatColor.LIGHT_PURPLE.toString());
+		coloredString = coloredString.replace("{{YELLOW}}", ChatColor.YELLOW.toString());
+		coloredString = coloredString.replace("{{WHITE}}", ChatColor.WHITE.toString());
+		return coloredString;
 	}
 
 	@Override

@@ -30,12 +30,12 @@ import com.greatmancode.craftconomy3.commands.CommandManager;
  */
 public interface Caller {
 
-	public static final String CHAT_PREFIX = "{{DARK_GREEN}}[{{WHITE}}Money{{DARK_GREEN}}]{{WHITE}} ";
+	String CHAT_PREFIX = "{{DARK_GREEN}}[{{WHITE}}Money{{DARK_GREEN}}]{{WHITE}} ";
 
 	/**
 	 * Disable the plugin
 	 */
-	public void disablePlugin();
+	void disablePlugin();
 
 	/**
 	 * Check the permissions of a player
@@ -43,54 +43,54 @@ public interface Caller {
 	 * @param perm The permission node to check
 	 * @return True if the player have the permission. Else false (Always true for the Console)
 	 */
-	public boolean checkPermission(String playerName, String perm);
+	boolean checkPermission(String playerName, String perm);
 
 	/**
 	 * Sends a message to a player
 	 * @param playerName The player name to send the message
 	 * @param message The message to send
 	 */
-	public void sendMessage(String playerName, String message);
+	void sendMessage(String playerName, String message);
 
 	/**
 	 * Retrieve the world name that a player is currently in
 	 * @param playerName The player name to retrieve the world
 	 * @return The world name the player is currently in. Returns "" when the player is offline
 	 */
-	public String getPlayerWorld(String playerName);
+	String getPlayerWorld(String playerName);
 
 	/**
 	 * Checks if a player is online
 	 * @param playerName The player name
 	 * @return True if the player is online. Else false.
 	 */
-	public boolean isOnline(String playerName);
+	boolean isOnline(String playerName);
 
 	/**
 	 * Add color in a message
 	 * @param message The message to add color in
 	 * @return The message with colors.
 	 */
-	public String addColor(String message);
+	String addColor(String message);
 
 	/**
 	 * Checks if a world exist.
 	 * @param worldName The world name to check
 	 * @return True if the world exist. Else false.
 	 */
-	public boolean worldExist(String worldName);
+	boolean worldExist(String worldName);
 
 	/**
 	 * Retrieve the default world of the server
 	 * @return The default world name
 	 */
-	public String getDefaultWorld();
+	String getDefaultWorld();
 
 	/**
 	 * Get the data folder (Aka. the plugin folder)
 	 * @return The data folder
 	 */
-	public File getDataFolder();
+	File getDataFolder();
 
 	/**
 	 * Adds a metrics graph.
@@ -99,13 +99,13 @@ public interface Caller {
 	 * @param graphName The graph name
 	 * @param value The value.
 	 */
-	public void addMetricsGraph(String graphName, String value);
-	public void addMetricsGraph(String graphName, boolean value);
+	void addMetricsGraph(String graphName, String value);
+	void addMetricsGraph(String graphName, boolean value);
 
 	/**
 	 * Starts Metrics
 	 */
-	public void startMetrics();
+	void startMetrics();
 	
 	/**
 	 * Schedule something to be run each X seconds.
@@ -121,7 +121,7 @@ public interface Caller {
 	 * @param repeating How much seconds to be waiting bewtween each repeats? (0 to disable)
 	 * @return the task ID
 	 */
-	public int schedule(Runnable entry, long firstStart, long repeating);
+	int schedule(Runnable entry, long firstStart, long repeating);
 
 	/**
 	 * Schedule a repeating task to be run.
@@ -131,13 +131,13 @@ public interface Caller {
 	 * @param async Should the task be async? (Threaded)
 	 * @return the task ID
 	 */
-	public int schedule(Runnable entry, long firstStart, long repeating, boolean async);
+	int schedule(Runnable entry, long firstStart, long repeating, boolean async);
 	
 	/**
 	 * Cancel a current scheduled task
 	 * @param id The task ID.
 	 */
-	public void cancelSchedule(int id);
+	void cancelSchedule(int id);
 
 	/**
 	 * Delay a task
@@ -145,7 +145,7 @@ public interface Caller {
 	 * @param start When should the task be started? (In seconds)
 	 * @return The task ID
 	 */
-	public int delay(Runnable entry, long start);
+	int delay(Runnable entry, long start);
 	
 	/**
 	 * Delay a task
@@ -154,13 +154,13 @@ public interface Caller {
 	 * @param async Should the task be Async? (Threaded)
 	 * @return The task ID
 	 */
-	public int delay(Runnable entry, long start, boolean async);
+	int delay(Runnable entry, long start, boolean async);
 	
 	/**
 	 * Retrieve a list of online players
 	 * @return A list of all players online.
 	 */
-	public List<String> getOnlinePlayers();
+	List<String> getOnlinePlayers();
 	
 	/**
 	 * Add a command in the server
@@ -168,5 +168,5 @@ public interface Caller {
 	 * @param help The help line of the command
 	 * @param manager The manager that manage the command.
 	 */
-	public void addCommand(String name, String help, CommandManager manager);
+	void addCommand(String name, String help, CommandManager manager);
 }

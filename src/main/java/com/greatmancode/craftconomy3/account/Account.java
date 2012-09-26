@@ -37,6 +37,7 @@ import com.greatmancode.craftconomy3.database.tables.BalanceTable;
 public class Account {
 
 	public static final String BANK_PREFIX = "bank:";
+	private static final String DEFAULT_WORLD = "any";
 	private AccountTable account;
 	private AccountACL acl;
 
@@ -139,7 +140,7 @@ public class Account {
 	 */
 	public List<Balance> getAllWorldBalance(String world) {
 		if (!Common.getInstance().getConfigurationManager().isMultiWorld()) {
-			world = "any";
+			world = DEFAULT_WORLD;
 		}
 		List<Balance> balanceList = new ArrayList<Balance>();
 		Iterator<BalanceTable> list = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal("username_id", account.id).and().equal("worldName", world).execute().find().iterator();
@@ -159,7 +160,7 @@ public class Account {
 	public double getBalance(String world, String currencyName) {
 		double balance = Double.MIN_NORMAL;
 		if (!Common.getInstance().getConfigurationManager().isMultiWorld()) {
-			world = "any";
+			world = DEFAULT_WORLD;
 		}
 		Currency currency = Common.getInstance().getCurrencyManager().getCurrency(currencyName);
 		if (currency != null) {
@@ -181,7 +182,7 @@ public class Account {
 	public double deposit(double amount, String world, String currencyName) {
 		BalanceTable balanceTable = null;
 		if (!Common.getInstance().getConfigurationManager().isMultiWorld()) {
-			world = "any";
+			world = DEFAULT_WORLD;
 		}
 		Currency currency = Common.getInstance().getCurrencyManager().getCurrency(currencyName);
 		if (currency != null) {
@@ -212,7 +213,7 @@ public class Account {
 	public double withdraw(double amount, String world, String currencyName) {
 		BalanceTable balanceTable = null;
 		if (!Common.getInstance().getConfigurationManager().isMultiWorld()) {
-			world = "any";
+			world = DEFAULT_WORLD;
 		}
 		Currency currency = Common.getInstance().getCurrencyManager().getCurrency(currencyName);
 		if (currency != null) {
@@ -243,7 +244,7 @@ public class Account {
 	public double set(double amount, String world, String currencyName) {
 		BalanceTable balanceTable = null;
 		if (!Common.getInstance().getConfigurationManager().isMultiWorld()) {
-			world = "any";
+			world = DEFAULT_WORLD;
 		}
 		Currency currency = Common.getInstance().getCurrencyManager().getCurrency(currencyName);
 		if (currency != null) {
@@ -273,14 +274,13 @@ public class Account {
 	 */
 	public boolean hasEnough(double amount, String worldName, String currencyName) {
 		boolean result = false;
+		
 		if (!Common.getInstance().getConfigurationManager().isMultiWorld()) {
-			worldName = "any";
+			worldName = DEFAULT_WORLD;
 		}
 		Currency currency = Common.getInstance().getCurrencyManager().getCurrency(currencyName);
-		if (currency != null) {
-			if (getBalance(worldName, currencyName) >= amount) {
+		if (currency != null && getBalance(worldName, currencyName) >= amount) {
 				result = true;
-			}
 		}
 		return result;
 	}
@@ -291,10 +291,8 @@ public class Account {
 	 */
 	public String getWorldPlayerCurrentlyIn() {
 		String world = "any";
-		if (Common.getInstance().getServerCaller().isOnline(account.name)) {
-			if (Common.getInstance().getConfigurationManager().isMultiWorld()) {
+		if (Common.getInstance().getServerCaller().isOnline(account.name) && Common.getInstance().getConfigurationManager().isMultiWorld()) {
 				world = Common.getInstance().getServerCaller().getPlayerWorld(account.name);
-			}
 		}
 		return world;
 	}

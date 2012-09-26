@@ -36,7 +36,6 @@ public class SpoutConfig extends Config {
 		File file = new File(Common.getInstance().getServerCaller().getDataFolder(), "config.yml");
 		if (!file.exists()) {
 			URL inputURL = getClass().getResource("/config.yml");
-			System.out.println(inputURL);
 			try {
 				FileUtils.copyURLToFile(inputURL, file);
 			} catch (IOException e) {

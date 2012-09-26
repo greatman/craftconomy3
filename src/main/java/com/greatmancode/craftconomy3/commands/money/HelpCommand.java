@@ -18,8 +18,8 @@
  */
 package com.greatmancode.craftconomy3.commands.money;
 
-import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import com.greatmancode.craftconomy3.Common;
@@ -30,7 +30,7 @@ public class HelpCommand implements CraftconomyCommand {
 	@Override
 	public void execute(String sender, String[] args) {
 		Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}} ======== Money Commands ========");
-		HashMap<String, CraftconomyCommand> cmdList = Common.getInstance().getCommandManager().getMoneyCmdList();
+		Map<String, CraftconomyCommand> cmdList = Common.getInstance().getCommandManager().getMoneyCmdList();
 		Iterator<Entry<String, CraftconomyCommand>> iterator = cmdList.entrySet().iterator();
 		while (iterator.hasNext()) {
 			Entry<String, CraftconomyCommand> entry = iterator.next();

@@ -21,6 +21,7 @@ package com.greatmancode.craftconomy3.currency;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.database.tables.BalanceTable;
@@ -38,7 +39,7 @@ public class CurrencyManager {
 	 */
 	public static int defaultCurrencyID;
 
-	private HashMap<Integer, Currency> currencyList = new HashMap<Integer, Currency>();
+	private Map<Integer, Currency> currencyList = new HashMap<Integer, Currency>();
 
 	public CurrencyManager() {
 		// Let's load all currency in the database
@@ -72,9 +73,9 @@ public class CurrencyManager {
 	 */
 	public Currency getCurrency(String name) {
 		Currency result = null;
-		CurrencyTable DBresult = Common.getInstance().getDatabaseManager().getDatabase().select(CurrencyTable.class).where().equal("name", name).execute().findOne();
-		if (DBresult != null) {
-			result = getCurrency(DBresult.id);
+		CurrencyTable dbResult = Common.getInstance().getDatabaseManager().getDatabase().select(CurrencyTable.class).where().equal("name", name).execute().findOne();
+		if (dbResult != null) {
+			result = getCurrency(dbResult.id);
 		}
 		return result;
 	}

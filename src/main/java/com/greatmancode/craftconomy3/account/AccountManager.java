@@ -19,6 +19,7 @@
 package com.greatmancode.craftconomy3.account;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.database.tables.AccessTable;
@@ -31,7 +32,7 @@ import com.greatmancode.craftconomy3.database.tables.BalanceTable;
  * 
  */
 public class AccountManager {
-	private HashMap<String, Account> accountList = new HashMap<String, Account>();
+	private Map<String, Account> accountList = new HashMap<String, Account>();
 
 	/**
 	 * Retrieve a account. Accounts prefixed with bank: are bank accounts.
@@ -39,13 +40,13 @@ public class AccountManager {
 	 * @return A economy account
 	 */
 	public Account getAccount(String name) {
-		name = name.toLowerCase();
+		String newName = name.toLowerCase();
 		Account account = null;
-		if (accountList.containsKey(name)) {
-			account = accountList.get(name);
+		if (accountList.containsKey(newName)) {
+			account = accountList.get(newName);
 		} else {
-			account = new Account(name);
-			accountList.put(name, account);
+			account = new Account(newName);
+			accountList.put(newName, account);
 
 		}
 		return account;

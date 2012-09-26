@@ -26,11 +26,11 @@ import com.greatmancode.craftconomy3.utils.Tools;
 
 public class SetupBasicCommand implements CraftconomyCommand {
 
-	public static String defaultAmount = null, bankprice = null, longmode = null;
+	private static String defaultAmount = null, bankprice = null, longmode = null;
 
 	@Override
 	public void execute(String sender, String[] args) {
-		if (SetupWizard.getState() == 4) {
+		if (SetupWizard.getState() == SetupWizard.BASIC_SETUP) {
 			if (args.length == 0) {
 				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Basic setup step. Here, we will configure how Craftconomy behave globally.");
 				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}First, how much money people will have initially in their account (Of the Default currency set earlier)?. Type {{WHITE}}/ccsetup basic default <Amount>");
@@ -76,7 +76,7 @@ public class SetupBasicCommand implements CraftconomyCommand {
 					table.name = "longmode";
 					table.value = longmode;
 					Common.getInstance().getDatabaseManager().getDatabase().save(table);
-					SetupWizard.setState(5);
+					SetupWizard.setState(SetupWizard.CONVERT_SETUP);
 					Common.getInstance().startUp();
 					Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Only 1 step left! Type {{WHITE}}/ccsetup convert {{DARK_GREEN}}to continue!");
 				}

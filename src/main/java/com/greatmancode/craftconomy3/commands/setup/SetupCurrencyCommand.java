@@ -25,17 +25,15 @@ import com.greatmancode.craftconomy3.database.tables.CurrencyTable;
 
 public class SetupCurrencyCommand implements CraftconomyCommand {
 
-	public static boolean usecc = false;
-	public static String name = null, nameplural = null, minor = null, minorplural = null;
+	private static String name = null, nameplural = null, minor = null, minorplural = null;
 	@Override
 	public void execute(String sender, String[] args) {
-		if (SetupWizard.getState() == 3) {
+		if (SetupWizard.getState() == SetupWizard.CURRENCY_SETUP) {
 			if (args.length == 0) {
 				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Alright! Half-way done! Before we continue, I must ask you a question. Do you want to convert from Craftconomy V2? Type {{WHITE}}/ccsetup currency yes {{DARK_GREEN}}or {{WHITE}}/ccsetup currency no");
 			} else if (args.length == 1) {
 				if (args[0].equals("yes")) {
-					usecc = true;
-					SetupWizard.setState(4);
+					SetupWizard.setState(SetupWizard.BASIC_SETUP);
 					Common.getInstance().initializeCurrency();
 					Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Okay! Type /ccsetup basic to configure the basic settings of Craftconomy!");
 
@@ -52,7 +50,7 @@ public class SetupCurrencyCommand implements CraftconomyCommand {
 						currencyEntry.minorplural = minorplural;
 						currencyEntry.status = true;
 						Common.getInstance().getDatabaseManager().getDatabase().save(currencyEntry);
-						SetupWizard.setState(4);
+						SetupWizard.setState(SetupWizard.BASIC_SETUP);
 						Common.getInstance().initializeCurrency();
 						Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Way to go! Only 2 steps left! (Basics settings & Conversion from another system if needed). Type {{WHITE}}/ccsetup basic {{DARK_GREEN}}to continue");
 					} else if (name == null) {

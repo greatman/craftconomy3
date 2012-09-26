@@ -20,6 +20,7 @@ package com.greatmancode.craftconomy3.payday;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.database.tables.PayDayTable;
@@ -31,7 +32,7 @@ import com.greatmancode.craftconomy3.database.tables.PayDayTable;
  */
 public class PayDayManager {
 
-	public HashMap<Integer, PayDay> paydayList = new HashMap<Integer, PayDay>();
+	private Map<Integer, PayDay> paydayList = new HashMap<Integer, PayDay>();
 
 	public PayDayManager() {
 		Iterator<PayDayTable> iterator = Common.getInstance().getDatabaseManager().getDatabase().select(PayDayTable.class).execute().find().iterator();
@@ -47,9 +48,9 @@ public class PayDayManager {
 	 * @return A PayDay instance or null if not found.
 	 */
 	public PayDay getPayDay(String name) {
-		name = name.toLowerCase();
+		String newName = name.toLowerCase();
 		PayDay entry = null;
-		PayDayTable dbEntry = Common.getInstance().getDatabaseManager().getDatabase().select(PayDayTable.class).where().equal("name", name).execute().findOne();
+		PayDayTable dbEntry = Common.getInstance().getDatabaseManager().getDatabase().select(PayDayTable.class).where().equal("name", newName).execute().findOne();
 		if (dbEntry != null) {
 			entry = getPayDay(dbEntry.id);
 		}
@@ -99,10 +100,10 @@ public class PayDayManager {
 	 * @param save Do we add it to the database?
 	 */
 	public void addPayDay(int dbId, String name, boolean disabled, int interval, String account, int status, int currency_id, double value, String worldName, boolean save) {
-		name = name.toLowerCase();
+		String newName = name.toLowerCase();
 		if (save) {
 			PayDayTable table = new PayDayTable();
-			table.name = name;
+			table.name = newName;
 			table.disabled = disabled;
 			table.time = interval;
 			table.account = account;
@@ -113,7 +114,7 @@ public class PayDayManager {
 			Common.getInstance().getDatabaseManager().getDatabase().save(table);
 			dbId = table.id;
 		}
-		paydayList.put(dbId, new PayDay(dbId, name, disabled, interval, account, status, currency_id, value, worldName));
+		paydayList.put(dbId, new PayDay(dbId, newName, disabled, interval, account, status, currency_id, value, worldName));
 
 	}
 	
@@ -139,8 +140,8 @@ public class PayDayManager {
 	 * @return A copy of the payday List.
 	 */
 	@SuppressWarnings("unchecked")
-	public HashMap<Integer, PayDay> getPayDayList() {
-		return (HashMap<Integer, PayDay>) paydayList.clone();
+	public Map<Integer, PayDay> getPayDayList() {
+		return (Map<Integer, PayDay>) ((HashMap<Integer, PayDay>) paydayList).clone();
 	}
 
 }

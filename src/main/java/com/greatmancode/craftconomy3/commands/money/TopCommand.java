@@ -30,8 +30,8 @@ import com.greatmancode.craftconomy3.database.tables.BalanceTable;
 
 class TopCommandThread implements Runnable {
 	class TopCommandThreadEnd implements Runnable {
-		String sender;
-		String ret;
+		private String sender;
+		private String ret;
 
 		public TopCommandThreadEnd(String sender, String ret) {
 			this.sender = sender;

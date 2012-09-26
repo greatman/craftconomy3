@@ -18,11 +18,17 @@
  */
 package com.greatmancode.craftconomy3.commands;
 
+import com.greatmancode.craftconomy3.Caller;
+import com.greatmancode.craftconomy3.Common;
+
 /**
  * Represents a Command Manager
  * @author greatman
  * 
  */
 public interface CommandManager {
+	String SETUP_MODE = Caller.CHAT_PREFIX + "{{DARK_RED}}Craftconomy is in setup mode! Type {{WHITE}}/ccsetup.";
+	boolean SETUP_ACTIVE = Common.getInstance().getConfigurationManager().getConfig().getBoolean("System.Setup");
 
+	
 }
