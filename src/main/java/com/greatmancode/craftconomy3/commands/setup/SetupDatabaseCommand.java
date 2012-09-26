@@ -33,8 +33,8 @@ public class SetupDatabaseCommand implements CraftconomyCommand {
 				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Database setup step. Please select the database backend by using those following commands. (Use SQLite if unsure)");
 				Common.getInstance().getServerCaller().sendMessage(sender, "/ccsetup database type <sqlite/mysql>");
 			} else if (args.length == 2) {
-				if (args[0].equals("type")) {
-					if (args[1].equals("sqlite")) {
+				if (args[0].equalsIgnoreCase("type")) {
+					if (args[1].equalsIgnoreCase("sqlite")) {
 						Common.getInstance().getConfigurationManager().getConfig().setValue("System.Database.Type", "sqlite");
 						try {
 							Common.getInstance().initialiseDatabase();
@@ -45,9 +45,20 @@ public class SetupDatabaseCommand implements CraftconomyCommand {
 						} catch(ConnectionException e) {
 							Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}A error occured. The error is: {{WHITE}}" + e.getMessage());
 						}
-					} else if (args[1].equals("mysql")) {
+					} else if (args[1].equalsIgnoreCase("mysql")) {
 						Common.getInstance().getConfigurationManager().getConfig().setValue("System.Database.Type", "mysql");
 						Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Alright! Please type {{WHITE}}/ccsetup database address <Your host> {{DARK_GREEN}}to set your MySQL address");
+					} else if (args[1].equalsIgnoreCase("h2")) {
+						Common.getInstance().getConfigurationManager().getConfig().setValue("System.Database.Type", "h2");
+						try {
+							Common.getInstance().initialiseDatabase();
+							SetupWizard.setState(2);
+							Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Awesome! You can type {{WHITE}}/ccsetup multiworld {{DARK_GREEN}}to continue the setup!");
+						} catch(TableRegistrationException e) {
+							Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}A error occured. The error is: {{WHITE}}" + e.getMessage());
+						} catch(ConnectionException e) {
+							Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}A error occured. The error is: {{WHITE}}" + e.getMessage());
+						}
 					}
 				} else if (args[0].equals("address")) {
 					Common.getInstance().getConfigurationManager().getConfig().setValue("System.Database.Address", args[1]);

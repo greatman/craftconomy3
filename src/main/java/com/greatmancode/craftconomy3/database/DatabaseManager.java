@@ -24,6 +24,7 @@ import com.alta189.simplesave.Database;
 import com.alta189.simplesave.DatabaseFactory;
 import com.alta189.simplesave.exceptions.ConnectionException;
 import com.alta189.simplesave.exceptions.TableRegistrationException;
+import com.alta189.simplesave.h2.H2Configuration;
 import com.alta189.simplesave.mysql.MySQLConfiguration;
 import com.alta189.simplesave.sqlite.SQLiteConfiguration;
 
@@ -59,6 +60,10 @@ public class DatabaseManager {
 			config.setPort(Common.getInstance().getConfigurationManager().getConfig().getInt("System.Database.Port"));
 			db = DatabaseFactory.createNewDatabase(config);
 			Common.getInstance().getServerCaller().addMetricsGraph("Database Engine", "MySQL");
+		} else if (databasetype.equals("h2")) {
+			H2Configuration config = new H2Configuration();
+			db = DatabaseFactory.createNewDatabase(config);
+			Common.getInstance().getServerCaller().addMetricsGraph("Database Engine", "H2");
 		}
 
 		db.registerTable(AccountTable.class);
