@@ -70,7 +70,7 @@ public class MetricsBukkit {
     /**
      * The current revision number
      */
-    private final static int REVISION = 5;
+    private static final int REVISION = 5;
 
     /**
      * The base url of the metrics domain
@@ -564,7 +564,7 @@ public class MetricsBukkit {
     /**
      * Interface used to collect custom data for a plugin
      */
-    public static abstract class Plotter {
+    public abstract static class Plotter {
 
         /**
          * The plot's name
