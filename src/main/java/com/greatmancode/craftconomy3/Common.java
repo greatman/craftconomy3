@@ -23,6 +23,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -246,20 +248,22 @@ public class Common {
 
 		// We removes some cents if it's something like 20.20381 it would set it
 		// to 20.20
-		String[] theAmount = Double.toString(balance).split("\\.");
-		if (theAmount[1].length() > 2) {
-			theAmount[1] = theAmount[1].substring(0, 2);
-		}
 
+		String[] theAmount = BigDecimal.valueOf(balance).toPlainString().split("\\.");
 		String name = currency.getName();
 		if (Long.parseLong(theAmount[0]) > 1) {
 			name = currency.getPlural();
 		}
 		String coin;
-		if (theAmount[1].length() >= 2) {
-			coin = theAmount[1].substring(0, 1);
+		if (theAmount.length == 2) {
+			if (theAmount[1].length() >= 2) {
+				coin = theAmount[1].substring(0, 2);
+			}
+			else {
+				coin = theAmount[1] + "0";
+			}
 		} else {
-			coin = theAmount[1];
+			coin = "0";
 		}
 
 		// Do we seperate money and dollar or not?

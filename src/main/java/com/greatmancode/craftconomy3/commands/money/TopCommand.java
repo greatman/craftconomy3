@@ -76,7 +76,7 @@ class TopCommandThread implements Runnable {
 			if (usernameResult != null) {
 				username = usernameResult.name;
 			}
-			ret += "" + ((page - 1) * 50 + i + 1) + ": {{DARK_GREEN}}" + username + " {{WHITE}}" + r.balance + "\n";
+			ret += "" + ((page - 1) * 50 + i + 1) + ": {{DARK_GREEN}}" + username + " {{WHITE}}" + Common.getInstance().format(null, Common.getInstance().getCurrencyManager().getCurrency(currency), r.balance) + "\n";
 		}
 
 		Common.getInstance().getServerCaller().delay(new TopCommandThreadEnd(sender, ret), 0, false);
