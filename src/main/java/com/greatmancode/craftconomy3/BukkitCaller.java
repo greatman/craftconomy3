@@ -39,6 +39,7 @@ import com.greatmancode.craftconomy3.utils.MetricsBukkit.Graph;
  */
 public class BukkitCaller implements Caller {
 
+	private static final long TICK_LENGTH = 20L;
 	private BukkitLoader loader;
 	
 	public BukkitCaller(Loader loader) {
@@ -163,10 +164,11 @@ public class BukkitCaller implements Caller {
 
 	@Override
 	public int schedule(Runnable entry, long firstStart, long repeating, boolean async) {
-		if(!async)
-			return loader.getServer().getScheduler().scheduleSyncRepeatingTask(loader, entry, firstStart * 20L, repeating * 20L);
-		else
-			return loader.getServer().getScheduler().scheduleAsyncRepeatingTask(loader, entry, firstStart * 20L, repeating * 20L);
+		if(!async) {
+			return loader.getServer().getScheduler().scheduleSyncRepeatingTask(loader, entry, firstStart * TICK_LENGTH, repeating * TICK_LENGTH);
+		} else {
+			return loader.getServer().getScheduler().scheduleAsyncRepeatingTask(loader, entry, firstStart * TICK_LENGTH, repeating * TICK_LENGTH);
+		}
 	}
 
 	@Override
@@ -191,10 +193,11 @@ public class BukkitCaller implements Caller {
 
 	@Override
 	public int delay(Runnable entry, long start, boolean async) {
-		if(!async)
-			return loader.getServer().getScheduler().scheduleSyncDelayedTask(loader, entry, start * 20L);
-		else
-			return loader.getServer().getScheduler().scheduleAsyncDelayedTask(loader, entry, start * 20L);
+		if(!async) {
+			return loader.getServer().getScheduler().scheduleSyncDelayedTask(loader, entry, start * TICK_LENGTH);
+		} else {
+			return loader.getServer().getScheduler().scheduleAsyncDelayedTask(loader, entry, start * TICK_LENGTH);
+		}
 	}
 	
 	public FileConfiguration getConfig() {

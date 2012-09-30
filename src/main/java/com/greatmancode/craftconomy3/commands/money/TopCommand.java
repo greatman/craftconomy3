@@ -29,6 +29,7 @@ import com.greatmancode.craftconomy3.database.tables.AccountTable;
 import com.greatmancode.craftconomy3.database.tables.BalanceTable;
 
 class TopCommandThread implements Runnable {
+	public static final int NUMBER_ELEMENTS = 50;
 	class TopCommandThreadEnd implements Runnable {
 		private String sender;
 		private String ret;
@@ -62,7 +63,7 @@ class TopCommandThread implements Runnable {
 		SelectQuery<BalanceTable> balanceQuery = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class);
 		balanceQuery.where().equal("worldName", world).and().equal("currency_id", currency);
 		balanceQuery.order().getPairs().add(new OrderQuery.OrderPair("balance", OrderQuery.Order.DESC));
-		balanceQuery.limit().setLimit((page - 1) * 50, 50);
+		balanceQuery.limit().setLimit((page - 1) * NUMBER_ELEMENTS, NUMBER_ELEMENTS);
 		QueryResult<BalanceTable> balanceResult = balanceQuery.execute();
 		for (int i = 0; i < balanceResult.find().size(); i++) {
 			BalanceTable r = balanceResult.find().get(i);
@@ -76,7 +77,7 @@ class TopCommandThread implements Runnable {
 			if (usernameResult != null) {
 				username = usernameResult.name;
 			}
-			ret += "" + ((page - 1) * 50 + i + 1) + ": {{DARK_GREEN}}" + username + " {{WHITE}}" + Common.getInstance().format(null, Common.getInstance().getCurrencyManager().getCurrency(currency), r.balance) + "\n";
+			ret += "" + ((page - 1) * NUMBER_ELEMENTS + i + 1) + ": {{DARK_GREEN}}" + username + " {{WHITE}}" + Common.getInstance().format(null, Common.getInstance().getCurrencyManager().getCurrency(currency), r.balance) + "\n";
 		}
 
 		Common.getInstance().getServerCaller().delay(new TopCommandThreadEnd(sender, ret), 0, false);
@@ -99,8 +100,9 @@ public class TopCommand implements CraftconomyCommand {
 		if (args.length > 1) {
 			try {
 				page = Integer.parseInt(args[1]);
-				if (page < 1)
+				if (page < 1) {
 					page = 1;
+				}
 			} catch (NumberFormatException e) {
 				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Invalid page!");
 				return;

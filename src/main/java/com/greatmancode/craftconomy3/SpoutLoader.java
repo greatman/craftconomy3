@@ -20,6 +20,7 @@ package com.greatmancode.craftconomy3;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.logging.Level;
 
 import org.spout.api.plugin.CommonPlugin;
 import org.spout.api.plugin.ServiceManager.ServicePriority;
@@ -39,13 +40,14 @@ public class SpoutLoader extends CommonPlugin implements Loader{
 
 	@Override
 	public void onEnable() {
+		//TODO: Improve that
 		this.loadLibrary(new File("natives" + File.separator + "sqlite-jdbc-3.7.2.jar"));
 		this.loadLibrary(new File("natives" + File.separator + "mysql-connector-java-5.1.14.jar"));
 		try {
 			metrics = new MetricsSpout(this);
 
 		} catch (IOException e) {
-			e.printStackTrace();
+			this.getLogger().log(Level.SEVERE, "Unable to load Metrics!");
 		}
 		new Common(this, getLogger()).initialize();
 		getEngine().getServiceManager().register(EconomyService.class, new EconomyServiceHandler(), this, ServicePriority.High);

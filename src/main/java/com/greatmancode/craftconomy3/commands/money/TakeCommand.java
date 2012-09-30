@@ -61,8 +61,9 @@ public class TakeCommand implements CraftconomyCommand {
 
 				Common.getInstance().getAccountManager().getAccount(args[0]).withdraw(amount, worldName, currency.getName());
 				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Took {{WHITE}}" + Common.getInstance().format(worldName, currency, amount) + "{{DARK_GREEN}} to {{WHITE}}" + args[0]);
-				if(Common.getInstance().getServerCaller().isOnline(args[0]))
+				if (Common.getInstance().getServerCaller().isOnline(args[0])) {
 					Common.getInstance().getServerCaller().sendMessage(args[0], "{{DARK_GREEN}}Removed {{WHITE}}" + Common.getInstance().format(worldName, currency, amount) + "{{DARK_GREEN}} by {{WHITE}}" + sender);
+				}
 			} else {
 				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Excepted a positive number as Amount. Received something else!");
 			}

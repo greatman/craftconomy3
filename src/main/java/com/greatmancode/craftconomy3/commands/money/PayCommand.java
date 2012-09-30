@@ -48,8 +48,9 @@ public class PayCommand implements CraftconomyCommand {
 					Common.getInstance().getAccountManager().getAccount(sender).withdraw(amount, Common.getInstance().getAccountManager().getAccount(sender).getWorldPlayerCurrentlyIn(), currency.getName());
 					Common.getInstance().getAccountManager().getAccount(args[0]).deposit(amount, Common.getInstance().getAccountManager().getAccount(sender).getWorldPlayerCurrentlyIn(), currency.getName());
 					Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Sent {{WHITE}}" + Common.getInstance().format(null, currency, amount) + "{{DARK_GREEN}} to {{WHITE}}" + args[0]);
-					if(Common.getInstance().getServerCaller().isOnline(args[0]))
+					if (Common.getInstance().getServerCaller().isOnline(args[0])) {
 						Common.getInstance().getServerCaller().sendMessage(args[0], "{{DARK_GREEN}}Received {{WHITE}}" + Common.getInstance().format(null, currency, amount) + "{{DARK_GREEN}} from {{WHITE}}" + sender);
+					}
 				} else {
 					Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}} You don't have enough money!");
 				}

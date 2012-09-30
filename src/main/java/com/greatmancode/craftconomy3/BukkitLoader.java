@@ -19,6 +19,7 @@
 package com.greatmancode.craftconomy3;
 
 import java.io.IOException;
+import java.util.logging.Level;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -38,7 +39,7 @@ public class BukkitLoader extends JavaPlugin implements Loader{
 		try {
 			metrics = new MetricsBukkit(this);
 		} catch (IOException e) {
-			e.printStackTrace();
+			this.getLogger().log(Level.SEVERE, "Unable to load Metrics!");
 		}
 		new Common(this, getLogger()).initialize();
 		

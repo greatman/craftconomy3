@@ -119,7 +119,7 @@ public class Common {
 		try {
 			Common.getInstance().getDatabaseManager().getDatabase().close();
 		} catch (ConnectionException e) {
-			e.printStackTrace();
+			this.getLogger().severe("Unable to close the database connection!");
 		}
 	}
 
@@ -238,11 +238,9 @@ public class Common {
 	public String format(String worldName, Currency currency, double balance) {
 		StringBuilder string = new StringBuilder();
 
-		if (worldName != null) {
+		if (worldName != null && getConfigurationManager().isMultiWorld()) {
 			// We put the world name if the conf is true
-			if (getConfigurationManager().isMultiWorld()) {
-				string.append(worldName + ":").append(" ");
-			}
+			string.append(worldName + ":").append(" ");
 		}
 
 		// We removes some cents if it's something like 20.20381 it would set it
@@ -342,7 +340,7 @@ public class Common {
 				out.println(info.toString() + ": User: " + username + " Currency: " + currency.getName() + " World: " + worldName + " Amount:" + amount);
 				out.close();
 			} catch (IOException e) {
-				e.printStackTrace();
+				getLogger().severe("Error while writing the transaction logger!");
 			}
 		}
 	}
