@@ -25,6 +25,8 @@ import com.alta189.simplesave.Table;
 @Table("cc3_config")
 public class ConfigTable {
 
+	public static final String NAME_FIELD = "name";
+	
 	@Id
 	private int id; //To prevent possible bugs
 	

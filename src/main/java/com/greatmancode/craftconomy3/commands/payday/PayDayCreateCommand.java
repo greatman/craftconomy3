@@ -51,14 +51,12 @@ public class PayDayCreateCommand implements CraftconomyCommand {
 								return;
 							}
 						}
-						if (args.length == 7) {
-							if (Common.getInstance().getConfigurationManager().isMultiWorld()) {
-								if (Common.getInstance().getServerCaller().worldExist(args[6])) {
-									worldName = args[6];
-								} else {
-									Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}World not found!");
-									return;
-								}
+						if (args.length == 7 && Common.getInstance().getConfigurationManager().isMultiWorld()) {
+							if (Common.getInstance().getServerCaller().worldExist(args[6])) {
+								worldName = args[6];
+							} else {
+								Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}World not found!");
+								return;
 							}
 						}
 						int status = 0;

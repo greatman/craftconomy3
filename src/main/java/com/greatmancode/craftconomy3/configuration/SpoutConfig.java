@@ -39,14 +39,14 @@ public class SpoutConfig extends Config {
 			try {
 				FileUtils.copyURLToFile(inputURL, file);
 			} catch (IOException e) {
-				e.printStackTrace();
+				Common.getInstance().getLogger().severe("A error occured while trying to copy the default configuration file! Message: " + e.getMessage());
 			}
 		}
 		config = new YamlConfiguration(file);
 		try {
 			config.load();
 		} catch (ConfigurationException e) {
-			e.printStackTrace();
+			Common.getInstance().getLogger().severe("Unable to load the configuration file! Message:" + e.getMessage());
 		}
 	}
 
@@ -81,7 +81,7 @@ public class SpoutConfig extends Config {
 		try {
 			config.save();
 		} catch (ConfigurationException e) {
-			e.printStackTrace();
+			Common.getInstance().getLogger().severe("Unable to save the configuration! Message: " + e.getMessage());
 		}
 	}
 

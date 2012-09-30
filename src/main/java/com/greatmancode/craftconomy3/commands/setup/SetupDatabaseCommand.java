@@ -27,7 +27,7 @@ import com.greatmancode.craftconomy3.commands.CraftconomyCommand;
 public class SetupDatabaseCommand implements CraftconomyCommand {
 
 	private static final String ERROR_MESSAGE = "{{DARK_RED}}A error occured. The error is: {{WHITE}}%s";
-
+	private static final String CONFIG_NODE = "System.Database.Type";
 	@Override
 	public void execute(String sender, String[] args) {
 		if (SetupWizard.getState() == SetupWizard.DATABASE_SETUP) {
@@ -37,7 +37,7 @@ public class SetupDatabaseCommand implements CraftconomyCommand {
 			} else if (args.length == 2) {
 				if (args[0].equalsIgnoreCase("type")) {
 					if (args[1].equalsIgnoreCase("sqlite")) {
-						Common.getInstance().getConfigurationManager().getConfig().setValue("System.Database.Type", "sqlite");
+						Common.getInstance().getConfigurationManager().getConfig().setValue(CONFIG_NODE, "sqlite");
 						try {
 							Common.getInstance().initialiseDatabase();
 							SetupWizard.setState(SetupWizard.MULTIWORLD_SETUP);
@@ -48,10 +48,10 @@ public class SetupDatabaseCommand implements CraftconomyCommand {
 							Common.getInstance().getServerCaller().sendMessage(sender, String.format(ERROR_MESSAGE,e.getMessage()));
 						}
 					} else if (args[1].equalsIgnoreCase("mysql")) {
-						Common.getInstance().getConfigurationManager().getConfig().setValue("System.Database.Type", "mysql");
+						Common.getInstance().getConfigurationManager().getConfig().setValue(CONFIG_NODE, "mysql");
 						Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Alright! Please type {{WHITE}}/ccsetup database address <Your host> {{DARK_GREEN}}to set your MySQL address");
 					} else if (args[1].equalsIgnoreCase("h2")) {
-						Common.getInstance().getConfigurationManager().getConfig().setValue("System.Database.Type", "h2");
+						Common.getInstance().getConfigurationManager().getConfig().setValue(CONFIG_NODE, "h2");
 						try {
 							Common.getInstance().initialiseDatabase();
 							SetupWizard.setState(SetupWizard.MULTIWORLD_SETUP);
@@ -80,7 +80,7 @@ public class SetupDatabaseCommand implements CraftconomyCommand {
 					Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Done! Please type {{WHITE}}/ccsetup database test {{DARK_GREEN}}to test your settings!");
 				}
 			} else if (args.length == 1 && args[0].equals("test")) {
-				if (Common.getInstance().getConfigurationManager().getConfig().getString("System.Database.Type").equals("mysql")) {
+				if (Common.getInstance().getConfigurationManager().getConfig().getString(CONFIG_NODE).equals("mysql")) {
 					try {
 						Common.getInstance().initialiseDatabase();
 						SetupWizard.setState(SetupWizard.MULTIWORLD_SETUP);

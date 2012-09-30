@@ -125,7 +125,7 @@ public class Account {
 	 */
 	public List<Balance> getAllBalance() {
 		List<Balance> balanceList = new ArrayList<Balance>();
-		Iterator<BalanceTable> list = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal("username_id", account.getId()).execute().find().iterator();
+		Iterator<BalanceTable> list = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal(BalanceTable.USERNAME_ID_FIELD, account.getId()).execute().find().iterator();
 		while (list.hasNext()) {
 			BalanceTable table = list.next();
 			balanceList.add(new Balance(table.getWorldName(), Common.getInstance().getCurrencyManager().getCurrency(table.getCurrencyId()), table.getBalance()));
@@ -139,11 +139,12 @@ public class Account {
 	 * @return A list of Balance
 	 */
 	public List<Balance> getAllWorldBalance(String world) {
+		String newWorld = world;
 		if (!Common.getInstance().getConfigurationManager().isMultiWorld()) {
-			world = DEFAULT_WORLD;
+			newWorld = DEFAULT_WORLD;
 		}
 		List<Balance> balanceList = new ArrayList<Balance>();
-		Iterator<BalanceTable> list = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal("username_id", account.getId()).and().equal("worldName", world).execute().find().iterator();
+		Iterator<BalanceTable> list = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal(BalanceTable.USERNAME_ID_FIELD, account.getId()).and().equal(BalanceTable.WORLD_NAME_FIELD, newWorld).execute().find().iterator();
 		while (list.hasNext()) {
 			BalanceTable table = list.next();
 			balanceList.add(new Balance(table.getWorldName(), Common.getInstance().getCurrencyManager().getCurrency(table.getCurrencyId()), table.getBalance()));
@@ -159,12 +160,13 @@ public class Account {
 	 */
 	public double getBalance(String world, String currencyName) {
 		double balance = Double.MIN_NORMAL;
+		String newWorld = world;
 		if (!Common.getInstance().getConfigurationManager().isMultiWorld()) {
-			world = DEFAULT_WORLD;
+			newWorld = DEFAULT_WORLD;
 		}
 		Currency currency = Common.getInstance().getCurrencyManager().getCurrency(currencyName);
 		if (currency != null) {
-			BalanceTable balanceTable = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal("username_id", account.getId()).and().equal("currency_id", currency.getDatabaseID()).and().equal("worldName", world).execute().findOne();
+			BalanceTable balanceTable = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal(BalanceTable.USERNAME_ID_FIELD, account.getId()).and().equal(BalanceTable.CURRENCY_ID_FIELD, currency.getDatabaseID()).and().equal(BalanceTable.WORLD_NAME_FIELD, newWorld).execute().findOne();
 			if (balanceTable != null) {
 				balance = balanceTable.getBalance();
 			}
@@ -181,12 +183,13 @@ public class Account {
 	 */
 	public double deposit(double amount, String world, String currencyName) {
 		BalanceTable balanceTable = null;
+		String newWorld = world;
 		if (!Common.getInstance().getConfigurationManager().isMultiWorld()) {
-			world = DEFAULT_WORLD;
+			newWorld = DEFAULT_WORLD;
 		}
 		Currency currency = Common.getInstance().getCurrencyManager().getCurrency(currencyName);
 		if (currency != null) {
-			balanceTable = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal("username_id", account.getId()).and().equal("currency_id", currency.getDatabaseID()).and().equal("worldName", world).execute().findOne();
+			balanceTable = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal(BalanceTable.USERNAME_ID_FIELD, account.getId()).and().equal(BalanceTable.CURRENCY_ID_FIELD, currency.getDatabaseID()).and().equal(BalanceTable.WORLD_NAME_FIELD, newWorld).execute().findOne();
 			if (balanceTable != null) {
 				balanceTable.setBalance(balanceTable.getBalance() + amount);
 
@@ -194,11 +197,11 @@ public class Account {
 				balanceTable = new BalanceTable();
 				balanceTable.setCurrencyId(currency.getDatabaseID());
 				balanceTable.setUsernameId(account.getId());
-				balanceTable.setWorldName(world);
+				balanceTable.setWorldName(newWorld);
 				balanceTable.setBalance(amount);
 			}
 			Common.getInstance().getDatabaseManager().getDatabase().save(balanceTable);
-			Common.getInstance().writeLog(LogInfo.DEPOSIT, getAccountName(), amount, currency, world);
+			Common.getInstance().writeLog(LogInfo.DEPOSIT, getAccountName(), amount, currency, newWorld);
 		}
 		return balanceTable.getBalance();
 	}
@@ -212,12 +215,13 @@ public class Account {
 	 */
 	public double withdraw(double amount, String world, String currencyName) {
 		BalanceTable balanceTable = null;
+		String newWorld = world;
 		if (!Common.getInstance().getConfigurationManager().isMultiWorld()) {
-			world = DEFAULT_WORLD;
+			newWorld = DEFAULT_WORLD;
 		}
 		Currency currency = Common.getInstance().getCurrencyManager().getCurrency(currencyName);
 		if (currency != null) {
-			balanceTable = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal("username_id", account.getId()).and().equal("currency_id", currency.getDatabaseID()).and().equal("worldName", world).execute().findOne();
+			balanceTable = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal(BalanceTable.USERNAME_ID_FIELD, account.getId()).and().equal(BalanceTable.CURRENCY_ID_FIELD, currency.getDatabaseID()).and().equal(BalanceTable.WORLD_NAME_FIELD, newWorld).execute().findOne();
 			if (balanceTable != null) {
 				balanceTable.setBalance(balanceTable.getBalance() - amount);
 
@@ -225,11 +229,11 @@ public class Account {
 				balanceTable = new BalanceTable();
 				balanceTable.setCurrencyId(currency.getDatabaseID());
 				balanceTable.setUsernameId(account.getId());
-				balanceTable.setWorldName(world);
+				balanceTable.setWorldName(newWorld);
 				balanceTable.setBalance(amount);
 			}
 			Common.getInstance().getDatabaseManager().getDatabase().save(balanceTable);
-			Common.getInstance().writeLog(LogInfo.WITHDRAW, getAccountName(), amount, currency, world);
+			Common.getInstance().writeLog(LogInfo.WITHDRAW, getAccountName(), amount, currency, newWorld);
 		}
 		return balanceTable.getBalance();
 	}
@@ -243,12 +247,13 @@ public class Account {
 	 */
 	public double set(double amount, String world, String currencyName) {
 		BalanceTable balanceTable = null;
+		String newWorld = world;
 		if (!Common.getInstance().getConfigurationManager().isMultiWorld()) {
-			world = DEFAULT_WORLD;
+			newWorld = DEFAULT_WORLD;
 		}
 		Currency currency = Common.getInstance().getCurrencyManager().getCurrency(currencyName);
 		if (currency != null) {
-			balanceTable = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal("username_id", account.getId()).and().equal("currency_id", currency.getDatabaseID()).and().equal("worldName", world).execute().findOne();
+			balanceTable = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal(BalanceTable.USERNAME_ID_FIELD, account.getId()).and().equal(BalanceTable.CURRENCY_ID_FIELD, currency.getDatabaseID()).and().equal(BalanceTable.WORLD_NAME_FIELD, newWorld).execute().findOne();
 			if (balanceTable != null) {
 				balanceTable.setBalance(amount);
 
@@ -256,11 +261,11 @@ public class Account {
 				balanceTable = new BalanceTable();
 				balanceTable.setCurrencyId(currency.getDatabaseID());
 				balanceTable.setUsernameId(account.getId());
-				balanceTable.setWorldName(world);
+				balanceTable.setWorldName(newWorld);
 				balanceTable.setBalance(amount);
 			}
 			Common.getInstance().getDatabaseManager().getDatabase().save(balanceTable);
-			Common.getInstance().writeLog(LogInfo.SET, getAccountName(), amount, currency, world);
+			Common.getInstance().writeLog(LogInfo.SET, getAccountName(), amount, currency, newWorld);
 		}
 		return balanceTable.getBalance();
 	}
@@ -274,12 +279,12 @@ public class Account {
 	 */
 	public boolean hasEnough(double amount, String worldName, String currencyName) {
 		boolean result = false;
-		
+		String newWorldName = worldName;
 		if (!Common.getInstance().getConfigurationManager().isMultiWorld()) {
-			worldName = DEFAULT_WORLD;
+			newWorldName = DEFAULT_WORLD;
 		}
 		Currency currency = Common.getInstance().getCurrencyManager().getCurrency(currencyName);
-		if (currency != null && getBalance(worldName, currencyName) >= amount) {
+		if (currency != null && getBalance(newWorldName, currencyName) >= amount) {
 				result = true;
 		}
 		return result;

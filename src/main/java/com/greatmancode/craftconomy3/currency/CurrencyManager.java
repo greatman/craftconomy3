@@ -103,6 +103,7 @@ public class CurrencyManager {
 	 */
 	//TODO: A check if the currency already exist.
 	public void addCurrency(int databaseID, String name, String plural, String minor, String minorPlural, double hardCap, boolean save) {
+		int newDatabaseID = databaseID;
 		if (save) {
 			CurrencyTable entry = new CurrencyTable();
 			entry.setMinor(minor);
@@ -111,9 +112,9 @@ public class CurrencyManager {
 			entry.setPlural(plural);
 			entry.setHardCap(hardCap);
 			Common.getInstance().getDatabaseManager().getDatabase().save(entry);
-			databaseID = entry.getId();
+			newDatabaseID = entry.getId();
 		}
-		currencyList.put(databaseID, new Currency(databaseID, name, plural, minor, minorPlural, hardCap));
+		currencyList.put(newDatabaseID, new Currency(newDatabaseID, name, plural, minor, minorPlural, hardCap));
 	}
 	
 	public void setDefault(int currencyId) {
