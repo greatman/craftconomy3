@@ -72,7 +72,7 @@ class TopCommandThread implements Runnable {
 			// I choose the first solution. This is done async and will save lot
 			// of memory on large server with lots of players/account.
 
-			AccountTable usernameResult = Common.getInstance().getDatabaseManager().getDatabase().select(AccountTable.class).where().equal("id", r.getUsername_id()).execute().findOne();
+			AccountTable usernameResult = Common.getInstance().getDatabaseManager().getDatabase().select(AccountTable.class).where().equal("id", r.getUsernameId()).execute().findOne();
 			String username = "ERROR";
 			if (usernameResult != null) {
 				username = usernameResult.getName();

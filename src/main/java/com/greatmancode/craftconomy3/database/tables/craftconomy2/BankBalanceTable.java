@@ -48,12 +48,12 @@ public class BankBalanceTable {
 		this.id = id;
 	}
 
-	public int getBank_id() {
+	public int getBankId() {
 		return bank_id;
 	}
 
-	public void setBank_id(int bank_id) {
-		this.bank_id = bank_id;
+	public void setBankId(int bankId) {
+		this.bank_id = bankId;
 	}
 
 	public double getBalance() {
@@ -64,12 +64,12 @@ public class BankBalanceTable {
 		this.balance = balance;
 	}
 
-	public int getCurrency_id() {
+	public int getCurrencyId() {
 		return currency_id;
 	}
 
-	public void setCurrency_id(int currency_id) {
-		this.currency_id = currency_id;
+	public void setCurrencyId(int currencyId) {
+		this.currency_id = currencyId;
 	}
 
 	public String getWorldName() {

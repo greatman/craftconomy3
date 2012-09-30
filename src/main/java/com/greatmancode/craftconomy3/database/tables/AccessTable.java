@@ -56,12 +56,12 @@ public class AccessTable {
 		this.id = id;
 	}
 
-	public int getAccount_id() {
+	public int getAccountId() {
 		return account_id;
 	}
 
-	public void setAccount_id(int account_id) {
-		this.account_id = account_id;
+	public void setAccountId(int accountId) {
+		this.account_id = accountId;
 	}
 
 	public String getPlayerName() {

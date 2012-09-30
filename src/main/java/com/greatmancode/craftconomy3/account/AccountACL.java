@@ -180,7 +180,7 @@ public class AccountACL {
 			table = new AccessTable();
 		}
 
-		table.setAccount_id(getParent().getAccountID());
+		table.setAccountId(getParent().getAccountID());
 		table.setPlayerName(newName);
 		table.setDeposit(deposit);
 		table.setWithdraw(withdraw);

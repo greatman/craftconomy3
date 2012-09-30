@@ -107,12 +107,12 @@ public class PayDayTable {
 		this.status = status;
 	}
 
-	public int getCurrency_id() {
+	public int getCurrencyId() {
 		return currency_id;
 	}
 
-	public void setCurrency_id(int currency_id) {
-		this.currency_id = currency_id;
+	public void setCurrencyId(int currencyId) {
+		this.currency_id = currencyId;
 	}
 
 	public double getValue() {

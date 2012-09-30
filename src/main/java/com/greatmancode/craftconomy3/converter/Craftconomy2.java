@@ -146,7 +146,7 @@ public class Craftconomy2 extends Converter {
 							Iterator<BalanceTable> balanceIterator = balanceList.iterator();
 							while (balanceIterator.hasNext()) {
 								BalanceTable balanceEntry = balanceIterator.next();
-								CurrencyTable currency = db.select(CurrencyTable.class).where().equal("id", balanceEntry.getCurrency_id()).execute().findOne();
+								CurrencyTable currency = db.select(CurrencyTable.class).where().equal("id", balanceEntry.getCurrencyId()).execute().findOne();
 								if (currency != null) {
 									Common.getInstance().getAccountManager().getAccount(entry.getUsername()).set(balanceEntry.getBalance(), balanceEntry.getWorldName(), currency.getName());
 								}
@@ -174,7 +174,7 @@ public class Craftconomy2 extends Converter {
 							Iterator<BankBalanceTable> bankBalanceIterator = bankBalanceList.iterator();
 							while (bankBalanceIterator.hasNext()) {
 								BankBalanceTable balanceEntry = bankBalanceIterator.next();
-								CurrencyTable currency = db.select(CurrencyTable.class).where().equal("id", balanceEntry.getCurrency_id()).execute().findOne();
+								CurrencyTable currency = db.select(CurrencyTable.class).where().equal("id", balanceEntry.getCurrencyId()).execute().findOne();
 								if (currency != null) {
 									Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + entry.getName()).set(balanceEntry.getBalance(), balanceEntry.getWorldName(), currency.getName());
 								}

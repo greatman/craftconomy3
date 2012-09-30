@@ -36,14 +36,14 @@ public class PayDay implements Runnable {
 	private PayDayTable table = new PayDayTable();
 	private int delayedId = -1;
 
-	public PayDay(int dbId, String name, boolean disabled, int interval, String account, int status, int currency_id, double value, String worldName) {
+	public PayDay(int dbId, String name, boolean disabled, int interval, String account, int status, int currencyId, double value, String worldName) {
 		table.setId(dbId);
 		table.setName(name);
 		table.setDisabled(disabled);
 		table.setTime(interval);
 		table.setAccount(account);
 		table.setStatus(status);
-		table.setCurrency_id(currency_id);
+		table.setCurrencyId(currencyId);
 		table.setValue(value);
 		table.setWorldName(worldName);
 		if (!disabled) {
@@ -228,7 +228,7 @@ public class PayDay implements Runnable {
 	 * @return The currency ID.
 	 */
 	public int getCurrencyId() {
-		return table.getCurrency_id();
+		return table.getCurrencyId();
 	}
 
 	/**
@@ -236,7 +236,7 @@ public class PayDay implements Runnable {
 	 * @param currencyId The currency ID to set to.
 	 */
 	public void setCurrencyId(int currencyId) {
-		table.setCurrency_id(currencyId);
+		table.setCurrencyId(currencyId);
 		save();
 	}
 

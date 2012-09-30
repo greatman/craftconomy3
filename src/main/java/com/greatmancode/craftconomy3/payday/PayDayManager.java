@@ -38,7 +38,7 @@ public class PayDayManager {
 		Iterator<PayDayTable> iterator = Common.getInstance().getDatabaseManager().getDatabase().select(PayDayTable.class).execute().find().iterator();
 		while (iterator.hasNext()) {
 			PayDayTable entry = iterator.next();
-			addPayDay(entry.getId(), entry.getName(), entry.isDisabled(), entry.getTime(), entry.getAccount(), entry.getStatus(), entry.getCurrency_id(), entry.getValue(), entry.getWorldName(), false);
+			addPayDay(entry.getId(), entry.getName(), entry.isDisabled(), entry.getTime(), entry.getAccount(), entry.getStatus(), entry.getCurrencyId(), entry.getValue(), entry.getWorldName(), false);
 		}
 	}
 
@@ -77,13 +77,13 @@ public class PayDayManager {
 	 * @param interval At what interval (In seconds) the payday should run?
 	 * @param account Do we give/withdraw money from a account? (Empty if none)
 	 * @param status 0 = Wage 1 = Tax
-	 * @param currency_id The currency ID accociated with this payday
+	 * @param currencyId The currency ID accociated with this payday
 	 * @param value The amount of money we should give/take
 	 * @param worldName The world name we give/take money from. Will default to any if the multiworld system is not enabled.
 	 * @param save Do we add it to the database?
 	 */
-	public void addPayDay(String name, boolean disabled, int interval, String account, int status, int currency_id, double value, String worldName, boolean save) {
-		addPayDay(-1, name, disabled, interval, account, status, currency_id, value, worldName, save);
+	public void addPayDay(String name, boolean disabled, int interval, String account, int status, int currencyId, double value, String worldName, boolean save) {
+		addPayDay(-1, name, disabled, interval, account, status, currencyId, value, worldName, save);
 	}
 
 	/**
@@ -94,13 +94,14 @@ public class PayDayManager {
 	 * @param interval At what interval (In seconds) the payday should run?
 	 * @param account Do we give/withdraw money from a account? (Empty if none)
 	 * @param status 0 = Wage 1 = Tax
-	 * @param currency_id The currency ID accociated with this payday
+	 * @param currencyId The currency ID accociated with this payday
 	 * @param value The amount of money we should give/take
 	 * @param worldName The world name we give/take money from. Will default to any if the multiworld system is not enabled.
 	 * @param save Do we add it to the database?
 	 */
-	public void addPayDay(int dbId, String name, boolean disabled, int interval, String account, int status, int currency_id, double value, String worldName, boolean save) {
+	public void addPayDay(int dbId, String name, boolean disabled, int interval, String account, int status, int currencyId, double value, String worldName, boolean save) {
 		String newName = name.toLowerCase();
+		int newId = dbId;
 		if (save) {
 			PayDayTable table = new PayDayTable();
 			table.setName(newName);
@@ -108,13 +109,13 @@ public class PayDayManager {
 			table.setTime(interval);
 			table.setAccount(account);
 			table.setStatus(status);
-			table.setCurrency_id(currency_id);
+			table.setCurrencyId(currencyId);
 			table.setValue(value);
 			table.setWorldName(worldName);
 			Common.getInstance().getDatabaseManager().getDatabase().save(table);
-			dbId = table.getId();
+			newId = table.getId();
 		}
-		paydayList.put(dbId, new PayDay(dbId, newName, disabled, interval, account, status, currency_id, value, worldName));
+		paydayList.put(newId, new PayDay(newId, newName, disabled, interval, account, status, currencyId, value, worldName));
 
 	}
 	

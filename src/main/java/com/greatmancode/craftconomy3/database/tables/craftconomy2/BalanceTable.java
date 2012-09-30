@@ -56,12 +56,12 @@ public class BalanceTable {
 		this.balance = balance;
 	}
 
-	public int getCurrency_id() {
+	public int getCurrencyId() {
 		return currency_id;
 	}
 
-	public void setCurrency_id(int currency_id) {
-		this.currency_id = currency_id;
+	public void setCurrencyId(int currencyId) {
+		this.currency_id = currencyId;
 	}
 
 	public String getWorldName() {
@@ -72,11 +72,11 @@ public class BalanceTable {
 		this.worldName = worldName;
 	}
 
-	public int getUsername_id() {
+	public int getUsernameId() {
 		return username_id;
 	}
 
-	public void setUsername_id(int username_id) {
-		this.username_id = username_id;
+	public void setUsernameId(int usernameId) {
+		this.username_id = usernameId;
 	}
 }
