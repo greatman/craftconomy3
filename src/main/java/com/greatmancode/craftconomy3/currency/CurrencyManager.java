@@ -46,10 +46,10 @@ public class CurrencyManager {
 		Iterator<CurrencyTable> iterator = Common.getInstance().getDatabaseManager().getDatabase().select(CurrencyTable.class).execute().find().iterator();
 		while (iterator.hasNext()) {
 			CurrencyTable entry = iterator.next();
-			if (entry.status == true) {
-				defaultCurrencyID = entry.id;
+			if (entry.getStatus()) {
+				defaultCurrencyID = entry.getId();
 			}
-			addCurrency(entry.id, entry.name, entry.plural, entry.minor, entry.minorplural, entry.hardCap, false);
+			addCurrency(entry.getId(), entry.getName(), entry.getPlural(), entry.getMinor(), entry.getMinorplural(), entry.getHardCap(), false);
 		}
 	}
 
@@ -75,7 +75,7 @@ public class CurrencyManager {
 		Currency result = null;
 		CurrencyTable dbResult = Common.getInstance().getDatabaseManager().getDatabase().select(CurrencyTable.class).where().equal("name", name).execute().findOne();
 		if (dbResult != null) {
-			result = getCurrency(dbResult.id);
+			result = getCurrency(dbResult.getId());
 		}
 		return result;
 	}
@@ -105,13 +105,13 @@ public class CurrencyManager {
 	public void addCurrency(int databaseID, String name, String plural, String minor, String minorPlural, double hardCap, boolean save) {
 		if (save) {
 			CurrencyTable entry = new CurrencyTable();
-			entry.minor = minor;
-			entry.minorplural = minorPlural;
-			entry.name = name;
-			entry.plural = plural;
-			entry.hardCap = hardCap;
+			entry.setMinor(minor);
+			entry.setMinorplural(minorPlural);
+			entry.setName(name);
+			entry.setPlural(plural);
+			entry.setHardCap(hardCap);
 			Common.getInstance().getDatabaseManager().getDatabase().save(entry);
-			databaseID = entry.id;
+			databaseID = entry.getId();
 		}
 		currencyList.put(databaseID, new Currency(databaseID, name, plural, minor, minorPlural, hardCap));
 	}
@@ -120,7 +120,7 @@ public class CurrencyManager {
 		if (currencyList.containsKey(currencyId)) {
 			CurrencyTable entry = Common.getInstance().getDatabaseManager().getDatabase().select(CurrencyTable.class).where().equal("status", true).execute().findOne();
 			if (entry != null) {
-				entry.status = false;
+				entry.setStatus(false);
 				Common.getInstance().getDatabaseManager().getDatabase().save(entry);
 			}
 			currencyList.get(currencyId).setDefault();

@@ -50,27 +50,27 @@ public class Account {
 		boolean create = false;
 		if (result == null) {
 			result = new AccountTable();
-			result.name = name;
+			result.setName(name);
 			create = true;
 		}
 		account = result;
 		if (create) {
 			Common.getInstance().getDatabaseManager().getDatabase().save(result);
 			BalanceTable balance = new BalanceTable();
-			balance.username_id = result.id;
-			balance.currency_id = CurrencyManager.defaultCurrencyID;
-			balance.worldName = getWorldPlayerCurrentlyIn();
+			balance.setUsername_id(result.getId());
+			balance.setCurrency_id(CurrencyManager.defaultCurrencyID);
+			balance.setWorldName(getWorldPlayerCurrentlyIn());
 			if (!name.contains(Account.BANK_PREFIX)) {
-				balance.balance = Common.getInstance().getConfigurationManager().getHoldings();
+				balance.setBalance(Common.getInstance().getConfigurationManager().getHoldings());
 			} else {
-				balance.balance = 0.0;
+				balance.setBalance(0.0);
 			}
 
 			Common.getInstance().getDatabaseManager().getDatabase().save(balance);
 		}
 
 		if (name.contains(Account.BANK_PREFIX)) {
-			acl = new AccountACL(this, account.id);
+			acl = new AccountACL(this, account.getId());
 		}
 	}
 
@@ -79,7 +79,7 @@ public class Account {
 	 * @return the account database ID
 	 */
 	public int getAccountID() {
-		return account.id;
+		return account.getId();
 	}
 
 	/**
@@ -87,7 +87,7 @@ public class Account {
 	 * @return The account name
 	 */
 	public String getAccountName() {
-		return account.name;
+		return account.getName();
 	}
 
 	/**
@@ -95,7 +95,7 @@ public class Account {
 	 * @return True if this account is a bank account, else false
 	 */
 	public boolean isBankAccount() {
-		return account.name.contains(Account.BANK_PREFIX);
+		return account.getName().contains(Account.BANK_PREFIX);
 	}
 
 	/**
@@ -125,10 +125,10 @@ public class Account {
 	 */
 	public List<Balance> getAllBalance() {
 		List<Balance> balanceList = new ArrayList<Balance>();
-		Iterator<BalanceTable> list = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal("username_id", account.id).execute().find().iterator();
+		Iterator<BalanceTable> list = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal("username_id", account.getId()).execute().find().iterator();
 		while (list.hasNext()) {
 			BalanceTable table = list.next();
-			balanceList.add(new Balance(table.worldName, Common.getInstance().getCurrencyManager().getCurrency(table.currency_id), table.balance));
+			balanceList.add(new Balance(table.getWorldName(), Common.getInstance().getCurrencyManager().getCurrency(table.getCurrency_id()), table.getBalance()));
 		}
 		return balanceList;
 	}
@@ -143,10 +143,10 @@ public class Account {
 			world = DEFAULT_WORLD;
 		}
 		List<Balance> balanceList = new ArrayList<Balance>();
-		Iterator<BalanceTable> list = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal("username_id", account.id).and().equal("worldName", world).execute().find().iterator();
+		Iterator<BalanceTable> list = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal("username_id", account.getId()).and().equal("worldName", world).execute().find().iterator();
 		while (list.hasNext()) {
 			BalanceTable table = list.next();
-			balanceList.add(new Balance(table.worldName, Common.getInstance().getCurrencyManager().getCurrency(table.currency_id), table.balance));
+			balanceList.add(new Balance(table.getWorldName(), Common.getInstance().getCurrencyManager().getCurrency(table.getCurrency_id()), table.getBalance()));
 		}
 		return balanceList;
 	}
@@ -164,9 +164,9 @@ public class Account {
 		}
 		Currency currency = Common.getInstance().getCurrencyManager().getCurrency(currencyName);
 		if (currency != null) {
-			BalanceTable balanceTable = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal("username_id", account.id).and().equal("currency_id", currency.getDatabaseID()).and().equal("worldName", world).execute().findOne();
+			BalanceTable balanceTable = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal("username_id", account.getId()).and().equal("currency_id", currency.getDatabaseID()).and().equal("worldName", world).execute().findOne();
 			if (balanceTable != null) {
-				balance = balanceTable.balance;
+				balance = balanceTable.getBalance();
 			}
 		}
 		return balance;
@@ -186,21 +186,21 @@ public class Account {
 		}
 		Currency currency = Common.getInstance().getCurrencyManager().getCurrency(currencyName);
 		if (currency != null) {
-			balanceTable = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal("username_id", account.id).and().equal("currency_id", currency.getDatabaseID()).and().equal("worldName", world).execute().findOne();
+			balanceTable = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal("username_id", account.getId()).and().equal("currency_id", currency.getDatabaseID()).and().equal("worldName", world).execute().findOne();
 			if (balanceTable != null) {
-				balanceTable.balance += amount;
+				balanceTable.setBalance(balanceTable.getBalance() + amount);
 
 			} else {
 				balanceTable = new BalanceTable();
-				balanceTable.currency_id = currency.getDatabaseID();
-				balanceTable.username_id = account.id;
-				balanceTable.worldName = world;
-				balanceTable.balance = amount;
+				balanceTable.setCurrency_id(currency.getDatabaseID());
+				balanceTable.setUsername_id(account.getId());
+				balanceTable.setWorldName(world);
+				balanceTable.setBalance(amount);
 			}
 			Common.getInstance().getDatabaseManager().getDatabase().save(balanceTable);
 			Common.getInstance().writeLog(LogInfo.DEPOSIT, getAccountName(), amount, currency, world);
 		}
-		return balanceTable.balance;
+		return balanceTable.getBalance();
 	}
 
 	/**
@@ -217,21 +217,21 @@ public class Account {
 		}
 		Currency currency = Common.getInstance().getCurrencyManager().getCurrency(currencyName);
 		if (currency != null) {
-			balanceTable = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal("username_id", account.id).and().equal("currency_id", currency.getDatabaseID()).and().equal("worldName", world).execute().findOne();
+			balanceTable = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal("username_id", account.getId()).and().equal("currency_id", currency.getDatabaseID()).and().equal("worldName", world).execute().findOne();
 			if (balanceTable != null) {
-				balanceTable.balance -= amount;
+				balanceTable.setBalance(balanceTable.getBalance() - amount);
 
 			} else {
 				balanceTable = new BalanceTable();
-				balanceTable.currency_id = currency.getDatabaseID();
-				balanceTable.username_id = account.id;
-				balanceTable.worldName = world;
-				balanceTable.balance = amount;
+				balanceTable.setCurrency_id(currency.getDatabaseID());
+				balanceTable.setUsername_id(account.getId());
+				balanceTable.setWorldName(world);
+				balanceTable.setBalance(amount);
 			}
 			Common.getInstance().getDatabaseManager().getDatabase().save(balanceTable);
 			Common.getInstance().writeLog(LogInfo.WITHDRAW, getAccountName(), amount, currency, world);
 		}
-		return balanceTable.balance;
+		return balanceTable.getBalance();
 	}
 
 	/**
@@ -248,21 +248,21 @@ public class Account {
 		}
 		Currency currency = Common.getInstance().getCurrencyManager().getCurrency(currencyName);
 		if (currency != null) {
-			balanceTable = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal("username_id", account.id).and().equal("currency_id", currency.getDatabaseID()).and().equal("worldName", world).execute().findOne();
+			balanceTable = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal("username_id", account.getId()).and().equal("currency_id", currency.getDatabaseID()).and().equal("worldName", world).execute().findOne();
 			if (balanceTable != null) {
-				balanceTable.balance = amount;
+				balanceTable.setBalance(amount);
 
 			} else {
 				balanceTable = new BalanceTable();
-				balanceTable.currency_id = currency.getDatabaseID();
-				balanceTable.username_id = account.id;
-				balanceTable.worldName = world;
-				balanceTable.balance = amount;
+				balanceTable.setCurrency_id(currency.getDatabaseID());
+				balanceTable.setUsername_id(account.getId());
+				balanceTable.setWorldName(world);
+				balanceTable.setBalance(amount);
 			}
 			Common.getInstance().getDatabaseManager().getDatabase().save(balanceTable);
 			Common.getInstance().writeLog(LogInfo.SET, getAccountName(), amount, currency, world);
 		}
-		return balanceTable.balance;
+		return balanceTable.getBalance();
 	}
 
 	/**
@@ -291,8 +291,8 @@ public class Account {
 	 */
 	public String getWorldPlayerCurrentlyIn() {
 		String world = "any";
-		if (Common.getInstance().getServerCaller().isOnline(account.name) && Common.getInstance().getConfigurationManager().isMultiWorld()) {
-				world = Common.getInstance().getServerCaller().getPlayerWorld(account.name);
+		if (Common.getInstance().getServerCaller().isOnline(account.getName()) && Common.getInstance().getConfigurationManager().isMultiWorld()) {
+				world = Common.getInstance().getServerCaller().getPlayerWorld(account.getName());
 		}
 		return world;
 	}

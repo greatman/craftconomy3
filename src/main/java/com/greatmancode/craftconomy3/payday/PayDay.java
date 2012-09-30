@@ -37,15 +37,15 @@ public class PayDay implements Runnable {
 	private int delayedId = -1;
 
 	public PayDay(int dbId, String name, boolean disabled, int interval, String account, int status, int currency_id, double value, String worldName) {
-		table.id = dbId;
-		table.name = name;
-		table.disabled = disabled;
-		table.time = interval;
-		table.account = account;
-		table.status = status;
-		table.currency_id = currency_id;
-		table.value = value;
-		table.worldName = worldName;
+		table.setId(dbId);
+		table.setName(name);
+		table.setDisabled(disabled);
+		table.setTime(interval);
+		table.setAccount(account);
+		table.setStatus(status);
+		table.setCurrency_id(currency_id);
+		table.setValue(value);
+		table.setWorldName(worldName);
 		if (!disabled) {
 			startDelay();
 		}
@@ -57,7 +57,7 @@ public class PayDay implements Runnable {
 		List<String> list = new ArrayList<String>();
 		while (iterator.hasNext()) {
 			String player = iterator.next();
-			if (Common.getInstance().getServerCaller().checkPermission(player, "craftconomy.payday." + table.name)) {
+			if (Common.getInstance().getServerCaller().checkPermission(player, "craftconomy.payday." + table.getName())) {
 				list.add(player);
 			}
 		}
@@ -101,7 +101,7 @@ public class PayDay implements Runnable {
 	 * @return the database ID
 	 */
 	public int getDatabaseId() {
-		return table.id;
+		return table.getId();
 	}
 
 	/**
@@ -109,7 +109,7 @@ public class PayDay implements Runnable {
 	 * @return The payday name.
 	 */
 	public String getName() {
-		return table.name;
+		return table.getName();
 	}
 
 	/**
@@ -117,7 +117,7 @@ public class PayDay implements Runnable {
 	 * @param name The payday name.
 	 */
 	public void setName(String name) {
-		table.name = name;
+		table.setName(name);
 		save();
 	}
 
@@ -126,7 +126,7 @@ public class PayDay implements Runnable {
 	 * @return True if the project is disabled else false
 	 */
 	public boolean isDisabled() {
-		return table.disabled;
+		return table.isDisabled();
 	}
 
 	/**
@@ -134,7 +134,7 @@ public class PayDay implements Runnable {
 	 * @param disabled Disabled or not.
 	 */
 	public void setDisabled(boolean disabled) {
-		table.disabled = disabled;
+		table.setDisabled(disabled);
 		save();
 		if (!disabled) {
 			if (delayedId == -1) {
@@ -154,7 +154,7 @@ public class PayDay implements Runnable {
 	 * @return The interval in seconds.
 	 */
 	public int getInterval() {
-		return table.time;
+		return table.getTime();
 	}
 
 	/**
@@ -165,10 +165,10 @@ public class PayDay implements Runnable {
 	public boolean setInterval(int interval) {
 		boolean result = false;
 		if (interval > 0) {
-			table.time = interval;
+			table.setTime(interval);
 			save();
 			result = true;
-			if (!table.disabled) {
+			if (!table.isDisabled()) {
 				if (delayedId == -1) {
 					startDelay();
 				}
@@ -187,7 +187,7 @@ public class PayDay implements Runnable {
 	 * @return The account
 	 */
 	public String getAccount() {
-		return table.account;
+		return table.getAccount();
 	}
 
 	/**
@@ -195,7 +195,7 @@ public class PayDay implements Runnable {
 	 * @param account The account to accociate to.
 	 */
 	public void setAccount(String account) {
-		table.account = account;
+		table.setAccount(account);
 		save();
 	}
 
@@ -204,7 +204,7 @@ public class PayDay implements Runnable {
 	 * @return The status of the payday.
 	 */
 	public int getStatus() {
-		return table.status;
+		return table.getStatus();
 	}
 
 	/**
@@ -215,7 +215,7 @@ public class PayDay implements Runnable {
 	public boolean setStatus(int status) {
 		boolean result = false;
 		if (status == 0 || status == 1) {
-			table.status = status;
+			table.setStatus(status);
 			save();
 			result = true;
 		}
@@ -228,7 +228,7 @@ public class PayDay implements Runnable {
 	 * @return The currency ID.
 	 */
 	public int getCurrencyId() {
-		return table.currency_id;
+		return table.getCurrency_id();
 	}
 
 	/**
@@ -236,7 +236,7 @@ public class PayDay implements Runnable {
 	 * @param currencyId The currency ID to set to.
 	 */
 	public void setCurrencyId(int currencyId) {
-		table.currency_id = currencyId;
+		table.setCurrency_id(currencyId);
 		save();
 	}
 
@@ -245,7 +245,7 @@ public class PayDay implements Runnable {
 	 * @return The amount of money.
 	 */
 	public double getValue() {
-		return table.value;
+		return table.getValue();
 	}
 
 	/**
@@ -253,7 +253,7 @@ public class PayDay implements Runnable {
 	 * @param value The amount of money
 	 */
 	public void setValue(double value) {
-		table.value = value;
+		table.setValue(value);
 		save();
 	}
 
@@ -262,7 +262,7 @@ public class PayDay implements Runnable {
 	 * @return The world name.
 	 */
 	public String getWorldName() {
-		return table.worldName;
+		return table.getWorldName();
 	}
 
 	/**
@@ -270,7 +270,7 @@ public class PayDay implements Runnable {
 	 * @param worldName The world name.
 	 */
 	public void setWorldName(String worldName) {
-		table.worldName = worldName;
+		table.setWorldName(worldName);
 		save();
 	}
 
@@ -287,7 +287,7 @@ public class PayDay implements Runnable {
 	}
 
 	private void startDelay() {
-		delayedId = Common.getInstance().getServerCaller().schedule(this, table.time, table.time);
+		delayedId = Common.getInstance().getServerCaller().schedule(this, table.getTime(), table.getTime());
 	}
 
 	/**

@@ -43,12 +43,13 @@ public class SetupCurrencyCommand implements CraftconomyCommand {
 					
 				} else if (args[0].equals("confirm")) {
 					if (name != null && nameplural != null && minor != null && minorplural != null) {
+						//TODO: Use the real system.
 						CurrencyTable currencyEntry = new CurrencyTable();
-						currencyEntry.name = name;
-						currencyEntry.plural = nameplural;
-						currencyEntry.minor = minor;
-						currencyEntry.minorplural = minorplural;
-						currencyEntry.status = true;
+						currencyEntry.setName(name);
+						currencyEntry.setPlural(nameplural);
+						currencyEntry.setMinor(minor);
+						currencyEntry.setMinorplural(minorplural);
+						currencyEntry.setStatus(true);
 						Common.getInstance().getDatabaseManager().getDatabase().save(currencyEntry);
 						SetupWizard.setState(SetupWizard.BASIC_SETUP);
 						Common.getInstance().initializeCurrency();

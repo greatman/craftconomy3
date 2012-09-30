@@ -38,7 +38,7 @@ public class PayDayManager {
 		Iterator<PayDayTable> iterator = Common.getInstance().getDatabaseManager().getDatabase().select(PayDayTable.class).execute().find().iterator();
 		while (iterator.hasNext()) {
 			PayDayTable entry = iterator.next();
-			addPayDay(entry.id, entry.name, entry.disabled, entry.time, entry.account, entry.status, entry.currency_id, entry.value, entry.worldName, false);
+			addPayDay(entry.getId(), entry.getName(), entry.isDisabled(), entry.getTime(), entry.getAccount(), entry.getStatus(), entry.getCurrency_id(), entry.getValue(), entry.getWorldName(), false);
 		}
 	}
 
@@ -52,7 +52,7 @@ public class PayDayManager {
 		PayDay entry = null;
 		PayDayTable dbEntry = Common.getInstance().getDatabaseManager().getDatabase().select(PayDayTable.class).where().equal("name", newName).execute().findOne();
 		if (dbEntry != null) {
-			entry = getPayDay(dbEntry.id);
+			entry = getPayDay(dbEntry.getId());
 		}
 		return entry;
 	}
@@ -103,16 +103,16 @@ public class PayDayManager {
 		String newName = name.toLowerCase();
 		if (save) {
 			PayDayTable table = new PayDayTable();
-			table.name = newName;
-			table.disabled = disabled;
-			table.time = interval;
-			table.account = account;
-			table.status = status;
-			table.currency_id = currency_id;
-			table.value = value;
-			table.worldName = worldName;
+			table.setName(newName);
+			table.setDisabled(disabled);
+			table.setTime(interval);
+			table.setAccount(account);
+			table.setStatus(status);
+			table.setCurrency_id(currency_id);
+			table.setValue(value);
+			table.setWorldName(worldName);
 			Common.getInstance().getDatabaseManager().getDatabase().save(table);
-			dbId = table.id;
+			dbId = table.getId();
 		}
 		paydayList.put(dbId, new PayDay(dbId, newName, disabled, interval, account, status, currency_id, value, worldName));
 

@@ -76,13 +76,13 @@ public class ConfigurationManager {
 				Iterator<PayDayTable> iterator = payday.iterator();
 				while (iterator.hasNext()) {
 					PayDayTable entry = iterator.next();
-					entry.name = entry.name.toLowerCase();
+					entry.setName(entry.getName().toLowerCase());
 					Common.getInstance().getDatabaseManager().getDatabase().save(entry);
 				}
 			}
 			dbVersion = new ConfigTable();
-			dbVersion.name = "dbVersion";
-			dbVersion.value = "1";
+			dbVersion.setName("dbVersion");
+			dbVersion.setValue("");
 			Common.getInstance().getDatabaseManager().getDatabase().save(dbVersion);
 			Common.getInstance().getLogger().info("Updated to Revision 1!");
 		}
@@ -92,13 +92,13 @@ public class ConfigurationManager {
 	 */
 	public void loadDefaultSettings() {
 		dbUpdate();
-		holdings = Double.parseDouble(Common.getInstance().getDatabaseManager().getDatabase().select(ConfigTable.class).where().equal("name", "holdings").execute().findOne().value);
-		bankPrice = Double.parseDouble(Common.getInstance().getDatabaseManager().getDatabase().select(ConfigTable.class).where().equal("name", "bankprice").execute().findOne().value);
-		longmode = Boolean.parseBoolean(Common.getInstance().getDatabaseManager().getDatabase().select(ConfigTable.class).where().equal("name", "longmode").execute().findOne().value);
-		multiworld = Boolean.parseBoolean(Common.getInstance().getDatabaseManager().getDatabase().select(ConfigTable.class).where().equal("name", "multiworld").execute().findOne().value);
+		holdings = Double.parseDouble(Common.getInstance().getDatabaseManager().getDatabase().select(ConfigTable.class).where().equal("name", "holdings").execute().findOne().getValue());
+		bankPrice = Double.parseDouble(Common.getInstance().getDatabaseManager().getDatabase().select(ConfigTable.class).where().equal("name", "bankprice").execute().findOne().getValue());
+		longmode = Boolean.parseBoolean(Common.getInstance().getDatabaseManager().getDatabase().select(ConfigTable.class).where().equal("name", "longmode").execute().findOne().getValue());
+		multiworld = Boolean.parseBoolean(Common.getInstance().getDatabaseManager().getDatabase().select(ConfigTable.class).where().equal("name", "multiworld").execute().findOne().getValue());
 		ConfigTable currencyId = Common.getInstance().getDatabaseManager().getDatabase().select(ConfigTable.class).where().equal("name", "bankcurrency").execute().findOne();
 		if (currencyId != null) {
-			bankCurrencyId = Integer.parseInt(currencyId.value);
+			bankCurrencyId = Integer.parseInt(currencyId.getValue());
 		}
 		
 		//Test if the currency is good. Else we revert it to the default value.
@@ -138,7 +138,7 @@ public class ConfigurationManager {
 	public void setLongmode(boolean longmode) {
 		this.longmode = longmode;
 		ConfigTable table = Common.getInstance().getDatabaseManager().getDatabase().select(ConfigTable.class).where().equal("name", "longmode").execute().findOne();
-		table.value = String.valueOf(longmode);
+		table.setValue(String.valueOf(longmode));
 		Common.getInstance().getDatabaseManager().getDatabase().save(table);
 	}
 
@@ -157,7 +157,7 @@ public class ConfigurationManager {
 	public void setBankPrice(double bankPrice) {
 		this.bankPrice = bankPrice;
 		ConfigTable table = Common.getInstance().getDatabaseManager().getDatabase().select(ConfigTable.class).where().equal("name", "bankprice").execute().findOne();
-		table.value = String.valueOf(bankPrice);
+		table.setValue(String.valueOf(bankPrice));
 		Common.getInstance().getDatabaseManager().getDatabase().save(table);
 	}
 
@@ -176,7 +176,7 @@ public class ConfigurationManager {
 	public void setHoldings(double holdings) {
 		this.holdings = holdings;
 		ConfigTable table = Common.getInstance().getDatabaseManager().getDatabase().select(ConfigTable.class).where().equal("name", "holdings").execute().findOne();
-		table.value = String.valueOf(longmode);
+		table.setValue(String.valueOf(longmode));
 		Common.getInstance().getDatabaseManager().getDatabase().save(table);
 	}
 }

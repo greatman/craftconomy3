@@ -76,9 +76,9 @@ public class AccountManager {
 		if (exist(name)) {
 			Account account = getAccount(name);
 			AccountTable accountTable = Common.getInstance().getDatabaseManager().getDatabase().select(AccountTable.class).where().contains("name", name).execute().findOne();
-			Common.getInstance().getDatabaseManager().getDatabase().remove(Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal("username_id", accountTable.id).execute().find());
+			Common.getInstance().getDatabaseManager().getDatabase().remove(Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal("username_id", accountTable.getId()).execute().find());
 			if (account.isBankAccount()) {
-				Common.getInstance().getDatabaseManager().getDatabase().remove(Common.getInstance().getDatabaseManager().getDatabase().select(AccessTable.class).where().equal("account_id", accountTable.id).execute().find());
+				Common.getInstance().getDatabaseManager().getDatabase().remove(Common.getInstance().getDatabaseManager().getDatabase().select(AccessTable.class).where().equal("account_id", accountTable.getId()).execute().find());
 			}
 			Common.getInstance().getDatabaseManager().getDatabase().remove(accountTable);
 			accountList.remove(name);

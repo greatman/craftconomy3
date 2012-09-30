@@ -31,12 +31,12 @@ public class Currency {
 	private CurrencyTable entry = new CurrencyTable();
 
 	public Currency(int databaseID, String name, String plural, String minor, String minorPlural, double hardCap) {
-		entry.name = name;
-		entry.plural = plural;
-		entry.minor = minor;
-		entry.minorplural = minorPlural;
-		entry.id = databaseID;
-		entry.hardCap = hardCap;
+		entry.setName(name);
+		entry.setPlural(plural);
+		entry.setMinor(minor);
+		entry.setMinorplural(minorPlural);
+		entry.setId(databaseID);
+		entry.setHardCap(hardCap);
 	}
 
 	/**
@@ -44,7 +44,7 @@ public class Currency {
 	 * @return The currency Name
 	 */
 	public String getName() {
-		return entry.name;
+		return entry.getName();
 	}
 
 	/**
@@ -52,7 +52,7 @@ public class Currency {
 	 * @param name The currency name to set to.
 	 */
 	public void setName(String name) {
-		entry.name = name;
+		entry.setName(name);
 		save();
 	}
 
@@ -61,7 +61,7 @@ public class Currency {
 	 * @return The currency name in plural
 	 */
 	public String getPlural() {
-		return entry.plural;
+		return entry.getPlural();
 	}
 
 	/**
@@ -69,7 +69,7 @@ public class Currency {
 	 * @param plural The currency name in plural to set to.
 	 */
 	public void setPlural(String plural) {
-		entry.plural = plural;
+		entry.setPlural(plural);
 		save();
 	}
 
@@ -78,7 +78,7 @@ public class Currency {
 	 * @return The currency minor name
 	 */
 	public String getMinor() {
-		return entry.minor;
+		return entry.getMinor();
 	}
 
 	/**
@@ -86,7 +86,7 @@ public class Currency {
 	 * @param minor The currency minor name to set to
 	 */
 	public void setMinor(String minor) {
-		entry.minor = minor;
+		entry.setMinor(minor);
 		save();
 	}
 
@@ -95,7 +95,7 @@ public class Currency {
 	 * @return The currency minor name in plural
 	 */
 	public String getMinorPlural() {
-		return entry.minorplural;
+		return entry.getMinorplural();
 	}
 
 	/**
@@ -103,7 +103,7 @@ public class Currency {
 	 * @param minorPlural The currency minor name in plural to set to
 	 */
 	public void setMinorPlural(String minorPlural) {
-		entry.minorplural = minorPlural;
+		entry.setMinorplural(minorPlural);
 		save();
 	}
 
@@ -112,16 +112,16 @@ public class Currency {
 	 * @return The database ID
 	 */
 	public int getDatabaseID() {
-		return entry.id;
+		return entry.getId();
 	}
 	
 	public void setHardCap(double cap) {
-		entry.hardCap = cap;
+		entry.setHardCap(cap);
 		save();
 	}
 	
 	public double getHardCap() {
-		return entry.hardCap;
+		return entry.getHardCap();
 	}
 
 	/**
@@ -136,7 +136,7 @@ public class Currency {
 	}
 	
 	void setDefault() {
-		entry.status = true;
+		entry.setStatus(true);
 		save();
 	}
 

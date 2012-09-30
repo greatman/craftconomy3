@@ -26,8 +26,24 @@ import com.alta189.simplesave.Table;
 public class AccountTable {
 
 	@Id
-	public int id;
+	private int id;
 
 	@Field
-	public String name;
+	private String name;
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
 }

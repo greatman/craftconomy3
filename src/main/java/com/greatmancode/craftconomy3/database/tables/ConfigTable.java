@@ -26,11 +26,35 @@ import com.alta189.simplesave.Table;
 public class ConfigTable {
 
 	@Id
-	public int id; //To prevent possible bugs
+	private int id; //To prevent possible bugs
 	
 	@Field
-	public String name;
+	private String name;
 	
 	@Field
-	public String value;
+	private String value;
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getValue() {
+		return value;
+	}
+
+	public void setValue(String value) {
+		this.value = value;
+	}
 }

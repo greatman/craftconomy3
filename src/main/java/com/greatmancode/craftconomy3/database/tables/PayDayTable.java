@@ -26,36 +26,109 @@ import com.alta189.simplesave.Table;
 public class PayDayTable {
 
 	@Id
-	public int id;
+	private int id;
 	
 	@Field
-	public String name;
+	private String name;
 	
 	@Field
-	public boolean disabled;
+	private boolean disabled;
 	
 	/**
 	 * In seconds
 	 */
 	@Field
-	public int time;
+	private int time;
 	
 	@Field
-	public String account;
+	private String account;
 	
 	/**
 	 * 0 = wage
 	 * 1 = tax
 	 */
 	@Field
-	public int status;
+	private int status;
 	
 	@Field
-	public int currency_id;
+	private int currency_id;
 	
 	@Field
-	public double value;
+	private double value;
 	
 	@Field
-	public String worldName;
+	private String worldName;
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public boolean isDisabled() {
+		return disabled;
+	}
+
+	public void setDisabled(boolean disabled) {
+		this.disabled = disabled;
+	}
+
+	public int getTime() {
+		return time;
+	}
+
+	public void setTime(int time) {
+		this.time = time;
+	}
+
+	public String getAccount() {
+		return account;
+	}
+
+	public void setAccount(String account) {
+		this.account = account;
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
+	public int getCurrency_id() {
+		return currency_id;
+	}
+
+	public void setCurrency_id(int currency_id) {
+		this.currency_id = currency_id;
+	}
+
+	public double getValue() {
+		return value;
+	}
+
+	public void setValue(double value) {
+		this.value = value;
+	}
+
+	public String getWorldName() {
+		return worldName;
+	}
+
+	public void setWorldName(String worldName) {
+		this.worldName = worldName;
+	}
+	
 }

@@ -26,27 +26,83 @@ import com.alta189.simplesave.Table;
 public class CurrencyTable {
 
 	@Id
-	public int id;
+	private int id;
 
 	@Field
-	public String name;
+	private String name;
 
 	@Field
-	public String plural;
+	private String plural;
 
 	@Field
-	public String minor;
+	private String minor;
 
 	@Field
-	public String minorplural;
+	private String minorplural;
 	
 	/**
 	 * 1 = Default currency, 0 = Non Default
 	 */
 	@Field
-	public boolean status;
+	private boolean status;
 	
 	@Field
-	public double hardCap;
+	private double hardCap;
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getPlural() {
+		return plural;
+	}
+
+	public void setPlural(String plural) {
+		this.plural = plural;
+	}
+
+	public String getMinor() {
+		return minor;
+	}
+
+	public void setMinor(String minor) {
+		this.minor = minor;
+	}
+
+	public String getMinorplural() {
+		return minorplural;
+	}
+
+	public void setMinorplural(String minorplural) {
+		this.minorplural = minorplural;
+	}
+
+	public boolean getStatus() {
+		return status;
+	}
+
+	public void setStatus(boolean status) {
+		this.status = status;
+	}
+
+	public double getHardCap() {
+		return hardCap;
+	}
+
+	public void setHardCap(double hardCap) {
+		this.hardCap = hardCap;
+	}
 
 }

@@ -65,16 +65,16 @@ public class SetupBasicCommand implements CraftconomyCommand {
 			} else if (args[0].equals("confirm")) {
 				if (defaultAmount != null && bankprice != null && longmode != null) {
 					ConfigTable table = new ConfigTable();
-					table.name = "holdings";
-					table.value = defaultAmount;
+					table.setName("holdings");
+					table.setValue(defaultAmount);
 					Common.getInstance().getDatabaseManager().getDatabase().save(table);
 					table = new ConfigTable();
-					table.name = "bankprice";
-					table.value = bankprice;
+					table.setName("bankprice");
+					table.setValue(bankprice);
 					Common.getInstance().getDatabaseManager().getDatabase().save(table);
 					table = new ConfigTable();
-					table.name = "longmode";
-					table.value = longmode;
+					table.setName("longmode");
+					table.setValue(longmode);
 					Common.getInstance().getDatabaseManager().getDatabase().save(table);
 					SetupWizard.setState(SetupWizard.CONVERT_SETUP);
 					Common.getInstance().startUp();

@@ -26,26 +26,90 @@ import com.alta189.simplesave.Table;
 public class AccessTable {
 
 	@Id
-	public int id;
+	private int id;
 	@Field
-	public int account_id;
+	private int account_id;
 
 	@Field
-	public String playerName;
+	private String playerName;
 
 	@Field
-	public boolean deposit;
+	private boolean deposit;
 
 	@Field
-	public boolean withdraw;
+	private boolean withdraw;
 
 	@Field
-	public boolean acl;
+	private boolean acl;
 
 	@Field
-	public boolean balance;
+	private boolean balance;
 
 	@Field
-	public boolean owner;
+	private boolean owner;
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public int getAccount_id() {
+		return account_id;
+	}
+
+	public void setAccount_id(int account_id) {
+		this.account_id = account_id;
+	}
+
+	public String getPlayerName() {
+		return playerName;
+	}
+
+	public void setPlayerName(String playerName) {
+		this.playerName = playerName;
+	}
+
+	public boolean canDeposit() {
+		return deposit;
+	}
+
+	public void setDeposit(boolean deposit) {
+		this.deposit = deposit;
+	}
+
+	public boolean canWithdraw() {
+		return withdraw;
+	}
+
+	public void setWithdraw(boolean withdraw) {
+		this.withdraw = withdraw;
+	}
+
+	public boolean canAcl() {
+		return acl;
+	}
+
+	public void setAcl(boolean acl) {
+		this.acl = acl;
+	}
+
+	public boolean canBalance() {
+		return balance;
+	}
+
+	public void setBalance(boolean balance) {
+		this.balance = balance;
+	}
+
+	public boolean isOwner() {
+		return owner;
+	}
+
+	public void setOwner(boolean owner) {
+		this.owner = owner;
+	}
 
 }
