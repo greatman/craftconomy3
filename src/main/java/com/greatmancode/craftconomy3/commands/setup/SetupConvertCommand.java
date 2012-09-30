@@ -40,7 +40,7 @@ public class SetupConvertCommand implements CraftconomyCommand {
 		if (SetupWizard.getState() == SetupWizard.CONVERT_SETUP) {
 			if (args.length == 0 && status == 0) {
 				
-				Iterator<Entry<String, Converter>> iterator = ConverterList.converterList.entrySet().iterator();
+				Iterator<Entry<String, Converter>> iterator = importerList.getConverterList().entrySet().iterator();
 				while (iterator.hasNext()) {
 					importlist += iterator.next().getKey();
 					if (iterator.hasNext()) {
@@ -58,9 +58,9 @@ public class SetupConvertCommand implements CraftconomyCommand {
 					inProgress = true;
 					Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Okay! Please type {{WHITE}}/ccsetup convert <" + importlist + ">");
 				} else if (inProgress && status == 0) {
-					if (ConverterList.converterList.containsKey(args[0])) {
+					if (importerList.getConverterList().containsKey(args[0])) {
 						status = 1;
-						selectedConverter = ConverterList.converterList.get(args[0]);
+						selectedConverter = importerList.getConverterList().get(args[0]);
 						String list = "";
 						Iterator<String> dbTypesIterator = selectedConverter.getDbTypes().iterator();
 						while (dbTypesIterator.hasNext()) {

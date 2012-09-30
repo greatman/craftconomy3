@@ -485,7 +485,7 @@ public class MetricsSpout {
     /**
      * Represents a custom graph on the website
      */
-    public static class Graph {
+    public static final class Graph {
 
         /**
          * The graph's name, alphanumeric and spaces only :)

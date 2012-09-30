@@ -19,6 +19,7 @@
 package com.greatmancode.craftconomy3.converter;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Contains the list of loaded converters.
@@ -30,8 +31,12 @@ public class ConverterList {
 	/**
 	 * Contains the list of the loaded converters.
 	 */
-	public static HashMap<String,Converter> converterList = new HashMap<String,Converter>();
+	private Map<String,Converter> converterList = new HashMap<String,Converter>();
 	
+	public Map<String, Converter> getConverterList() {
+		return converterList;
+	}
+
 	/**
 	 * Load the converters.
 	 */
