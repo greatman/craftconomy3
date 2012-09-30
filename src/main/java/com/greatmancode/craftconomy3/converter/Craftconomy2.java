@@ -79,7 +79,7 @@ public class Craftconomy2 extends Converter {
 				config.setPort(Integer.parseInt(dbConnectInfo.get("port")));
 				db = DatabaseFactory.createNewDatabase(config);
 			} catch (NumberFormatException e) {
-				e.printStackTrace();
+				Common.getInstance().getLogger().severe("Illegal port!");
 			}
 		} else if (selectedDbType.equals("sqlite")) {
 			SQLiteConfiguration config = new SQLiteConfiguration(Common.getInstance().getServerCaller().getDataFolder() + File.separator + dbConnectInfo.get("filename"));
@@ -98,9 +98,9 @@ public class Craftconomy2 extends Converter {
 				db.connect();
 				result = true;
 			} catch (TableRegistrationException e) {
-				e.printStackTrace();
+				Common.getInstance().getLogger().severe("Unable to register Craftconomy2 tables. Reason: " + e.getMessage());
 			} catch (ConnectionException e) {
-				e.printStackTrace();
+				Common.getInstance().getLogger().severe("Unable to connect to craftconomy2 database. Reason: " + e.getMessage());
 			}
 
 		}
@@ -120,15 +120,15 @@ public class Craftconomy2 extends Converter {
 					CurrencyTable entry = currencyIterator.next();
 					// Check if the entry is valid
 					boolean first = true;
-					if (entry.minor != null && entry.minorplural != null && entry.name != null && entry.plural != null) {
-						Common.getInstance().getCurrencyManager().addCurrency(entry.name, entry.plural, entry.minor, entry.minorplural, 0.0, true);
+					if (entry.getMinor() != null && entry.getMinorplural() != null && entry.getName() != null && entry.getPlural() != null) {
+						Common.getInstance().getCurrencyManager().addCurrency(entry.getName(), entry.getPlural(), entry.getMinor(), entry.getMinorplural(), 0.0, true);
 						//TODO: Need better than that...
 						if (first) {
-							Common.getInstance().getCurrencyManager().setDefault(Common.getInstance().getCurrencyManager().getCurrency(entry.name).getDatabaseID());
+							Common.getInstance().getCurrencyManager().setDefault(Common.getInstance().getCurrencyManager().getCurrency(entry.getName()).getDatabaseID());
 							first = false;
 						}
 					} else {
-						Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}A invalid currency has been caught. Information: name: " + entry.name + " plural:" + entry.plural + " minor:" + entry.minor + " minorplural:" + entry.minorplural);
+						Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}A invalid currency has been caught. Information: name: " + entry.getName() + " plural:" + entry.getPlural() + " minor:" + entry.getMinor() + " minorplural:" + entry.getMinorplural());
 					}
 				}
 				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Currencies imported!");
@@ -140,20 +140,20 @@ public class Craftconomy2 extends Converter {
 					Iterator<AccountTable> accountIterator = accountList.iterator();
 					while (accountIterator.hasNext()) {
 						AccountTable entry = accountIterator.next();
-						Common.getInstance().getAccountManager().getAccount(entry.username);
-						List<BalanceTable> balanceList = db.select(BalanceTable.class).where().equal("username_id", entry.id).execute().find();
+						Common.getInstance().getAccountManager().getAccount(entry.getUsername());
+						List<BalanceTable> balanceList = db.select(BalanceTable.class).where().equal("username_id", entry.getId()).execute().find();
 						if (balanceList != null) {
 							Iterator<BalanceTable> balanceIterator = balanceList.iterator();
 							while (balanceIterator.hasNext()) {
 								BalanceTable balanceEntry = balanceIterator.next();
-								CurrencyTable currency = db.select(CurrencyTable.class).where().equal("id", balanceEntry.currency_id).execute().findOne();
+								CurrencyTable currency = db.select(CurrencyTable.class).where().equal("id", balanceEntry.getCurrency_id()).execute().findOne();
 								if (currency != null) {
-									Common.getInstance().getAccountManager().getAccount(entry.username).set(balanceEntry.balance, balanceEntry.worldName, currency.name);
+									Common.getInstance().getAccountManager().getAccount(entry.getUsername()).set(balanceEntry.getBalance(), balanceEntry.getWorldName(), currency.getName());
 								}
 							}
 						}
-						if (i % 10 == 0) {
-							Common.getInstance().getServerCaller().sendMessage(sender, i + " of  " + accountList.size() + "{{DARK_GREEN}} accounts imported.");
+						if (i % ALERT_EACH_X_ACCOUNT == 0) {
+							Common.getInstance().getServerCaller().sendMessage(sender, i + " of " + accountList.size() + "{{DARK_GREEN}} accounts imported.");
 						}
 						i++;
 					}
@@ -168,29 +168,29 @@ public class Craftconomy2 extends Converter {
 					Iterator<BankTable> bankIterator = bankList.iterator();
 					while (bankIterator.hasNext()) {
 						BankTable entry = bankIterator.next();
-						Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + entry.name).getAccountACL().set(entry.owner, true, true, true, true, true);
-						List<BankBalanceTable> bankBalanceList = db.select(BankBalanceTable.class).where().equal("bank_id", entry.id).execute().find();
+						Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + entry.getName()).getAccountACL().set(entry.getOwner(), true, true, true, true, true);
+						List<BankBalanceTable> bankBalanceList = db.select(BankBalanceTable.class).where().equal("bank_id", entry.getId()).execute().find();
 						if (bankBalanceList != null) {
 							Iterator<BankBalanceTable> bankBalanceIterator = bankBalanceList.iterator();
 							while (bankBalanceIterator.hasNext()) {
 								BankBalanceTable balanceEntry = bankBalanceIterator.next();
-								CurrencyTable currency = db.select(CurrencyTable.class).where().equal("id", balanceEntry.currency_id).execute().findOne();
+								CurrencyTable currency = db.select(CurrencyTable.class).where().equal("id", balanceEntry.getCurrency_id()).execute().findOne();
 								if (currency != null) {
-									Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + entry.name).set(balanceEntry.balance, balanceEntry.worldName, currency.name);
+									Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + entry.getName()).set(balanceEntry.getBalance(), balanceEntry.getWorldName(), currency.getName());
 								}
 							}
 						}
 
 						// Adding members
-						List<BankMemberTable> bankMemberList = db.select(BankMemberTable.class).where().equal("bank_id", entry.id).execute().find();
+						List<BankMemberTable> bankMemberList = db.select(BankMemberTable.class).where().equal("bank_id", entry.getId()).execute().find();
 						if (bankMemberList != null) {
 							Iterator<BankMemberTable> bankMemberIterator = bankMemberList.iterator();
 							while (bankMemberIterator.hasNext()) {
 								BankMemberTable memberEntry = bankMemberIterator.next();
-								Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + entry.name).getAccountACL().set(memberEntry.playerName, true, true, false, true, false);
+								Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + entry.getName()).getAccountACL().set(memberEntry.getPlayerName(), true, true, false, true, false);
 							}
 						}
-						if (i % 10 == 0) {
+						if (i % ALERT_EACH_X_ACCOUNT == 0) {
 							Common.getInstance().getServerCaller().sendMessage(sender, i + " of  " + bankList.size() + "{{DARK_GREEN}} bank accounts imported.");
 						}
 						i++;
@@ -205,7 +205,7 @@ public class Craftconomy2 extends Converter {
 			try {
 				db.close();
 			} catch (ConnectionException e) {
-				e.printStackTrace();
+				Common.getInstance().getLogger().severe("Error with Craftconomy2 database link. Message: " + e.getMessage());
 			}
 		}
 		return result;

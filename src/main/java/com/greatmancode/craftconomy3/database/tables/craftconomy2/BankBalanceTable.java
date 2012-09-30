@@ -26,17 +26,57 @@ import com.alta189.simplesave.Table;
 public class BankBalanceTable {
 
 	@Id
-	public int id;
+	private int id;
 	
 	@Field
-	public int bank_id;
+	private int bank_id;
 	
 	@Field
-	public double balance;
+	private double balance;
 	
 	@Field
-	public int currency_id;
+	private int currency_id;
 	
 	@Field
-	public String worldName;
+	private String worldName;
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public int getBank_id() {
+		return bank_id;
+	}
+
+	public void setBank_id(int bank_id) {
+		this.bank_id = bank_id;
+	}
+
+	public double getBalance() {
+		return balance;
+	}
+
+	public void setBalance(double balance) {
+		this.balance = balance;
+	}
+
+	public int getCurrency_id() {
+		return currency_id;
+	}
+
+	public void setCurrency_id(int currency_id) {
+		this.currency_id = currency_id;
+	}
+
+	public String getWorldName() {
+		return worldName;
+	}
+
+	public void setWorldName(String worldName) {
+		this.worldName = worldName;
+	}
 }

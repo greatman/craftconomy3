@@ -26,11 +26,35 @@ import com.alta189.simplesave.Table;
 public class BankMemberTable {
 
 	@Id
-	public int id;
+	private int id;
 	
 	@Field
-	public int bank_id;
+	private int bank_id;
 	
 	@Field
-	public String playerName;
+	private String playerName;
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public int getBank_id() {
+		return bank_id;
+	}
+
+	public void setBank_id(int bank_id) {
+		this.bank_id = bank_id;
+	}
+
+	public String getPlayerName() {
+		return playerName;
+	}
+
+	public void setPlayerName(String playerName) {
+		this.playerName = playerName;
+	}
 }

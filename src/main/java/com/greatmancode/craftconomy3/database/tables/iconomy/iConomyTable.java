@@ -23,17 +23,49 @@ import com.alta189.simplesave.Id;
 import com.alta189.simplesave.Table;
 
 @Table("iconomy")
-public class iConomyTable {
+public class IConomyTable {
 
 	@Id
-	public int id;
+	private int id;
 	
 	@Field
-	public String username;
+	private String username;
 
 	@Field
-	public double balance;
+	private double balance;
 	
 	@Field
-	public int status;
+	private int status;
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public double getBalance() {
+		return balance;
+	}
+
+	public void setBalance(double balance) {
+		this.balance = balance;
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
 }

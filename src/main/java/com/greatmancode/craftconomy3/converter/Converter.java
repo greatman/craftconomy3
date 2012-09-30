@@ -29,6 +29,7 @@ import java.util.List;
  */
 public abstract class Converter {
 
+	public static final int ALERT_EACH_X_ACCOUNT = 10;
 	/**
 	 * Contains the type of Database (flatfile, sqlite, etc.) supported by the originating plugin
 	 */
