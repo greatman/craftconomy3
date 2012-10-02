@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.currency.CurrencyManager;
@@ -49,10 +50,15 @@ public class BoseEconomy extends Converter {
 
 				if (!isInUser) {
 					line = flatFileReader.readLine();
-					if (line.matches("[a-zA-Z0-9][\\s][{]")) {
-						username = line.split(" ")[0];
+					if (line != null)
+					{
+						System.out.println("LINE FOUND:" + line);
+						if (Pattern.compile("[a-zA-Z0-9\\s{]+").matcher(line).matches()) {
+							username = line.split(" ")[0];
+							System.out.println("WE GOT A MATCH!: " + username);
+							isInUser = true;
+						}
 					}
-					
 				} else {
 					flatFileReader.readLine();
 					line = flatFileReader.readLine();
