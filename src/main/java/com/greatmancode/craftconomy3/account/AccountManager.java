@@ -19,6 +19,8 @@
 package com.greatmancode.craftconomy3.account;
 
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import com.greatmancode.craftconomy3.Common;
@@ -28,6 +30,7 @@ import com.greatmancode.craftconomy3.database.tables.BalanceTable;
 
 /**
  * Provides access to a account.
+ * 
  * @author greatman
  * 
  */
@@ -36,6 +39,7 @@ public class AccountManager {
 
 	/**
 	 * Retrieve a account. Accounts prefixed with bank: are bank accounts.
+	 * 
 	 * @param name The name of the account to retrieve
 	 * @return A economy account
 	 */
@@ -54,6 +58,7 @@ public class AccountManager {
 
 	/**
 	 * Check if a account exist in the database.
+	 * 
 	 * @param name The name to check
 	 */
 	public boolean exist(String name) {
@@ -68,6 +73,7 @@ public class AccountManager {
 
 	/**
 	 * Delete a account from the system
+	 * 
 	 * @param name The account name
 	 * @return True if the account has been deleted. Else false.
 	 */
@@ -76,9 +82,21 @@ public class AccountManager {
 		if (exist(name)) {
 			Account account = getAccount(name);
 			AccountTable accountTable = Common.getInstance().getDatabaseManager().getDatabase().select(AccountTable.class).where().contains("name", name).execute().findOne();
-			Common.getInstance().getDatabaseManager().getDatabase().remove(Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal("username_id", accountTable.getId()).execute().find());
+			List<BalanceTable> balanceTableList = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal("username_id", accountTable.getId()).execute().find();
+			if (balanceTableList != null) {
+				Iterator<BalanceTable> iterator = balanceTableList.iterator();
+				while (iterator.hasNext()) {
+					Common.getInstance().getDatabaseManager().getDatabase().remove(iterator.next());
+				}
+			}
 			if (account.isBankAccount()) {
-				Common.getInstance().getDatabaseManager().getDatabase().remove(Common.getInstance().getDatabaseManager().getDatabase().select(AccessTable.class).where().equal("account_id", accountTable.getId()).execute().find());
+				List<AccessTable> accessTableList = Common.getInstance().getDatabaseManager().getDatabase().select(AccessTable.class).where().equal("account_id", accountTable.getId()).execute().find();
+				if (accessTableList != null) {
+					Iterator<AccessTable> iterator = accessTableList.iterator();
+					while (iterator.hasNext()) {
+						Common.getInstance().getDatabaseManager().getDatabase().remove(iterator.next());
+					}
+				}
 			}
 			Common.getInstance().getDatabaseManager().getDatabase().remove(accountTable);
 			accountList.remove(name);

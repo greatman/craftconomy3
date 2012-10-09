@@ -29,7 +29,7 @@ import com.greatmancode.craftconomy3.database.tables.AccountTable;
 import com.greatmancode.craftconomy3.database.tables.BalanceTable;
 
 class TopCommandThread implements Runnable {
-	public static final int NUMBER_ELEMENTS = 50;
+	public static final int NUMBER_ELEMENTS = 10;
 	class TopCommandThreadEnd implements Runnable {
 		private String sender;
 		private String ret;
@@ -59,7 +59,7 @@ class TopCommandThread implements Runnable {
 
 	@Override
 	public void run() {
-		String ret = "{{DARK_GREEN}} money top | page {{WHITE}}" + page + "{{DARK_GREEN}} | world {{WHITE}}" + world + "\n";
+		String ret = "{{DARK_GREEN}} Money Top | Page {{WHITE}}" + page + "{{DARK_GREEN}} | World {{WHITE}}" + world + "\n";
 		SelectQuery<BalanceTable> balanceQuery = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class);
 		balanceQuery.where().equal("worldName", world).and().equal("currency_id", currency);
 		balanceQuery.order().getPairs().add(new OrderQuery.OrderPair("balance", OrderQuery.Order.DESC));
