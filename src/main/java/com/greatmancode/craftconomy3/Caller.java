@@ -155,7 +155,15 @@ public interface Caller {
 	 */
 	void addCommand(String name, String help, CommandManager manager);
 	
-	public String getServerVersion();
+	/**
+	 * Retrieve the server version.
+	 * @return The server version.
+	 */
+	String getServerVersion();
 	
-	public String getPluginVersion();
+	/**
+	 * Retrieve the plugin version.
+	 * @return The plugin version.
+	 */
+	String getPluginVersion();
 }

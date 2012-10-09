@@ -54,7 +54,7 @@ public class ConfigurationManager {
 		return file;
 	}
 	/**
-	 * Initialize the Configuration manager.
+	 * Initialize the Configuration manager. SHOULD NOT BE USED AT ALL. THIS IS RESERVED FOR THE CC3 CONFIG FILE.
 	 */
 	public void initialize(File folder, String fileName) {
 		config = loadFile(folder, fileName);

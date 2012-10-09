@@ -51,44 +51,42 @@ public class BoseEconomy extends Converter {
 					Common.getInstance().getServerCaller().sendMessage(sender, i + " {{DARK_GREEN}}accounts imported.");
 				}
 				line = flatFileReader.readLine();
-				if (line != null) {
-					if (Pattern.compile("[?a-zA-Z0-9\\s{_-]+").matcher(line).matches()) {
-						String username = line.split(" ")[0];
+				if (line != null && Pattern.compile("[?a-zA-Z0-9\\s{_-]+").matcher(line).matches()) {
+					String username = line.split(" ")[0];
+					line = flatFileReader.readLine();
+					// Line for account type
+					String type = line.split(" ")[1];
+					System.out.println("Adding " + username);
+					if (type.equalsIgnoreCase("player")) {
+						System.out.println("It's a player");
 						line = flatFileReader.readLine();
-						// Line for account type
-						String type = line.split(" ")[1];
-						System.out.println("Adding " + username);
-						if (type.equalsIgnoreCase("player")) {
-							System.out.println("It's a player");
+						double amount = Double.parseDouble(line.split(" ")[1]);
+						Common.getInstance().getAccountManager().getAccount(username).set(amount, Common.getInstance().getServerCaller().getDefaultWorld(), Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.defaultCurrencyID).getName());
+						i++;
+					} else if (type.equalsIgnoreCase("bank")) {
+						System.out.println("It's a bank");
+						line = flatFileReader.readLine();
+						double amount = Double.parseDouble(line.split(" ")[1]);
+						Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + username).set(amount, Common.getInstance().getServerCaller().getDefaultWorld(), Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.defaultCurrencyID).getName());
+						line = flatFileReader.readLine();
+						if (line.contains("members")) {
 							line = flatFileReader.readLine();
-							double amount = Double.parseDouble(line.split(" ")[1]);
-							Common.getInstance().getAccountManager().getAccount(username).set(amount, Common.getInstance().getServerCaller().getDefaultWorld(), Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.defaultCurrencyID).getName());
-							i++;
-						} else if (type.equalsIgnoreCase("bank")) {
-							System.out.println("It's a bank");
-							line = flatFileReader.readLine();
-							double amount = Double.parseDouble(line.split(" ")[1]);
-							Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + username).set(amount, Common.getInstance().getServerCaller().getDefaultWorld(), Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.defaultCurrencyID).getName());
-							line = flatFileReader.readLine();
-							if (line.contains("members")) {
+							line = line.replaceAll("\\t+", "");
+							while (!line.equals("}")) {
+								System.out.println("MEMBER: " + line);
+								Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + username).getAccountACL().set(line, true, true, false, true, false);
 								line = flatFileReader.readLine();
 								line = line.replaceAll("\\t+", "");
-								while (!line.equals("}")) {
-									System.out.println("MEMBER: " + line);
-									Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + username).getAccountACL().set(line, true, true, false, true, false);
-									line = flatFileReader.readLine();
-									line = line.replaceAll("\\t+", "");
-								}
 							}
+						}
+						line = flatFileReader.readLine();
+						if (line.contains("owners")) {
 							line = flatFileReader.readLine();
-							if (line.contains("owners")) {
+							line = line.replaceAll("\\t+", "");
+							while (!line.equals("}")) {
+								Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + username).getAccountACL().set(line, true, true, true, true, true);
 								line = flatFileReader.readLine();
 								line = line.replaceAll("\\t+", "");
-								while (!line.equals("}")) {
-									Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + username).getAccountACL().set(line, true, true, true, true, true);
-									line = flatFileReader.readLine();
-									line = line.replaceAll("\\t+", "");
-								}
 							}
 						}
 					}
