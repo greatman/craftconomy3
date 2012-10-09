@@ -32,12 +32,14 @@ public class SpoutConfig extends Config {
 
 	private YamlConfiguration config = null;
 
-	public SpoutConfig() {
-		File file = new File(Common.getInstance().getServerCaller().getDataFolder(), "config.yml");
+	public SpoutConfig(File folder, String fileName) {
+		File file = new File(folder, fileName);
 		if (!file.exists()) {
-			URL inputURL = getClass().getResource("/config.yml");
+			URL url = this.getClass().getResource("/" + fileName);
 			try {
-				FileUtils.copyURLToFile(inputURL, file);
+				if (url != null) {
+					FileUtils.copyURLToFile(url, file);
+				}
 			} catch (IOException e) {
 				Common.getInstance().getLogger().severe("A error occured while trying to copy the default configuration file! Message: " + e.getMessage());
 			}
@@ -81,8 +83,13 @@ public class SpoutConfig extends Config {
 		try {
 			config.save();
 		} catch (ConfigurationException e) {
-			Common.getInstance().getLogger().severe("Unable to save the configuration! Message: " + e.getMessage());
+			Common.getInstance().getLogger().severe("Unable to save the file " + config.getFile().getName() + "! Message: " + e.getMessage());
 		}
+	}
+
+	@Override
+	public boolean has(String path) {
+		return config.getNode(path).isAttached();
 	}
 
 }

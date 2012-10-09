@@ -28,11 +28,10 @@ import org.spout.api.chat.ChatArguments;
 import org.spout.api.entity.Player;
 import org.spout.api.scheduler.TaskPriority;
 import org.spout.api.Server;
+import org.spout.api.Spout;
 
 import com.greatmancode.craftconomy3.commands.CommandManager;
 import com.greatmancode.craftconomy3.commands.SpoutCommandManager;
-import com.greatmancode.craftconomy3.utils.MetricsSpout;
-import com.greatmancode.craftconomy3.utils.MetricsSpout.Graph;
 
 /**
  * Server caller for Spout
@@ -113,34 +112,6 @@ public class SpoutCaller implements Caller {
 		return loader.getDataFolder();
 	}
 
-	public void addMetricsGraph(String title, String value)
-	{
-		Graph graph = loader.getMetrics().createGraph(title);
-		graph.addPlotter(new MetricsSpout.Plotter(value) {
-
-			@Override
-			public int getValue() {
-				return 1;
-			}
-		});
-	}
-	
-	public void addMetricsGraph(String title, boolean value)
-	{
-		String stringEnabled = "No";
-		if (value) {
-			stringEnabled = "Yes";
-		}
-		addMetricsGraph(title, stringEnabled);
-	}
-
-
-
-	@Override
-	public void startMetrics() {
-		loader.getMetrics().start();
-	}
-
 	@Override
 	public int schedule(Runnable entry, long firstStart, long repeating) {
 		return schedule(entry, firstStart, repeating, false);
@@ -198,5 +169,15 @@ public class SpoutCaller implements Caller {
 			loader.getEngine().getRootCommand().addSubCommand(loader, name).setHelp(help).setExecutor((SpoutCommandManager) manager);
 		}
 
+	}
+	
+	@Override
+	public String getServerVersion() {
+		return "SpoutServer " + Spout.getAPIVersion();
+	}
+	
+	@Override
+	public String getPluginVersion() {
+		return loader.getDescription().getVersion();
 	}
 }

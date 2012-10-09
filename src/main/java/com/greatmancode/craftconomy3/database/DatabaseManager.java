@@ -50,7 +50,7 @@ public class DatabaseManager {
 		if (databasetype.equals("sqlite")) {
 			SQLiteConfiguration config = new SQLiteConfiguration(Common.getInstance().getServerCaller().getDataFolder() + File.separator + "database.db");
 			db = DatabaseFactory.createNewDatabase(config);
-			Common.getInstance().getServerCaller().addMetricsGraph("Database Engine","SQLite");
+			Common.getInstance().addMetricsGraph("Database Engine","SQLite");
 		} else if (databasetype.equals("mysql")) {
 			MySQLConfiguration config = new MySQLConfiguration();
 			config.setHost(Common.getInstance().getConfigurationManager().getConfig().getString("System.Database.Address"));
@@ -59,11 +59,11 @@ public class DatabaseManager {
 			config.setDatabase(Common.getInstance().getConfigurationManager().getConfig().getString("System.Database.Db"));
 			config.setPort(Common.getInstance().getConfigurationManager().getConfig().getInt("System.Database.Port"));
 			db = DatabaseFactory.createNewDatabase(config);
-			Common.getInstance().getServerCaller().addMetricsGraph("Database Engine", "MySQL");
+			Common.getInstance().addMetricsGraph("Database Engine", "MySQL");
 		} else if (databasetype.equals("h2")) {
 			H2Configuration config = new H2Configuration();
 			db = DatabaseFactory.createNewDatabase(config);
-			Common.getInstance().getServerCaller().addMetricsGraph("Database Engine", "H2");
+			Common.getInstance().addMetricsGraph("Database Engine", "H2");
 		}
 
 		db.registerTable(AccountTable.class);

@@ -19,15 +19,12 @@
 package com.greatmancode.craftconomy3;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.logging.Level;
 
 import org.spout.api.plugin.CommonPlugin;
 import org.spout.api.plugin.ServiceManager.ServicePriority;
 import org.spout.api.plugin.services.EconomyService;
 
 import com.greatmancode.craftconomy3.spout.EconomyServiceHandler;
-import com.greatmancode.craftconomy3.utils.MetricsSpout;
 
 /**
  * Class used when the plugin is loaded from Spout.
@@ -36,19 +33,11 @@ import com.greatmancode.craftconomy3.utils.MetricsSpout;
  */
 public class SpoutLoader extends CommonPlugin implements Loader{
 
-	private MetricsSpout metrics;
-
 	@Override
 	public void onEnable() {
 		//TODO: Improve that
 		this.loadLibrary(new File("natives" + File.separator + "sqlite-jdbc-3.7.2.jar"));
 		this.loadLibrary(new File("natives" + File.separator + "mysql-connector-java-5.1.14.jar"));
-		try {
-			metrics = new MetricsSpout(this);
-
-		} catch (IOException e) {
-			this.getLogger().log(Level.SEVERE, "Unable to load Metrics!");
-		}
 		new Common(this, getLogger()).initialize();
 		getEngine().getServiceManager().register(EconomyService.class, new EconomyServiceHandler(), this, ServicePriority.High);
 
@@ -59,11 +48,9 @@ public class SpoutLoader extends CommonPlugin implements Loader{
 		Common.getInstance().disable();
 	}
 
-	public MetricsSpout getMetrics() {
-		return metrics;
-	}
-
 	public boolean isBukkit() {
 		return false;
 	}
+	
+	
 }

@@ -18,6 +18,7 @@
  */
 package com.greatmancode.craftconomy3.configuration;
 
+import java.io.File;
 import java.util.Iterator;
 import java.util.List;
 
@@ -43,16 +44,20 @@ public class ConfigurationManager {
 
 	}
 
-	/**
-	 * Initialize the Configuration manager
-	 */
-	public void initialize() {
+	public Config loadFile(File folder, String fileName) {
+		Config file = null;
 		if (Common.getInstance().getServerCaller() instanceof BukkitCaller) {
-
-			config = new BukkitConfig();
+			file = new BukkitConfig(folder,fileName);
 		} else if (Common.getInstance().getServerCaller() instanceof SpoutCaller){
-			config = new SpoutConfig();
+			file = new SpoutConfig(folder, fileName);
 		}
+		return file;
+	}
+	/**
+	 * Initialize the Configuration manager.
+	 */
+	public void initialize(File folder, String fileName) {
+		config = loadFile(folder, fileName);
 	}
 
 	/**

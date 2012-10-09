@@ -91,21 +91,6 @@ public interface Caller {
 	 * @return The data folder
 	 */
 	File getDataFolder();
-
-	/**
-	 * Adds a metrics graph.
-	 * 
-	 * Each entry will have a getValue() of 1.
-	 * @param graphName The graph name
-	 * @param value The value.
-	 */
-	void addMetricsGraph(String graphName, String value);
-	void addMetricsGraph(String graphName, boolean value);
-
-	/**
-	 * Starts Metrics
-	 */
-	void startMetrics();
 	
 	/**
 	 * Schedule something to be run each X seconds.
@@ -169,4 +154,8 @@ public interface Caller {
 	 * @param manager The manager that manage the command.
 	 */
 	void addCommand(String name, String help, CommandManager manager);
+	
+	public String getServerVersion();
+	
+	public String getPluginVersion();
 }

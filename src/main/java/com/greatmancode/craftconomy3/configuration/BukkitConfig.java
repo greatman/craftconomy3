@@ -19,48 +19,94 @@
 package com.greatmancode.craftconomy3.configuration;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 
-import com.greatmancode.craftconomy3.BukkitCaller;
+import org.bukkit.configuration.file.YamlConfiguration;
+
 import com.greatmancode.craftconomy3.Common;
 
 public class BukkitConfig extends Config {
 
-	public BukkitConfig() {
-		File file = new File(Common.getInstance().getServerCaller().getDataFolder(), "config.yml");
+	private YamlConfiguration configFile;
+	private File file;
+	public BukkitConfig(File folder, String fileName) {
+		file = new File(folder, fileName);
+		
 		if (!file.exists()) {
-			((BukkitCaller) Common.getInstance().getServerCaller()).getConfig().options().copyDefaults(true);
-			((BukkitCaller) Common.getInstance().getServerCaller()).saveConfig();
+			try {
+				file.getParentFile().mkdirs();
+				file.createNewFile();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			configFile = YamlConfiguration.loadConfiguration(file);
+			URL url = this.getClass().getResource("/" + fileName);
+			
+			if (url != null) {
+				try {
+					InputStream defaultStream = url.openStream();
+					FileOutputStream fos = new FileOutputStream(file);
+					
+					byte[] buffer = new byte[1024 * 4];
+			        int n = 0;
+			        while (-1 != (n = defaultStream.read(buffer))) {
+			        	System.out.println(buffer);
+			            fos.write(buffer, 0, n);
+			        }
+			        fos.flush();
+			        fos.close();
+			        defaultStream.close();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
 		}
+		configFile = YamlConfiguration.loadConfiguration(file);
 	}
 
 	@Override
 	public int getInt(String path) {
-		return ((BukkitCaller) Common.getInstance().getServerCaller()).getConfig().getInt(path);
+		return configFile.getInt(path);
 	}
 
 	@Override
 	public long getLong(String path) {
-		return ((BukkitCaller) Common.getInstance().getServerCaller()).getConfig().getLong(path);
+		return configFile.getLong(path);
 	}
 
 	@Override
 	public double getDouble(String path) {
-		return ((BukkitCaller) Common.getInstance().getServerCaller()).getConfig().getDouble(path);
+		return configFile.getDouble(path);
 	}
 
 	@Override
 	public String getString(String path) {
-		return ((BukkitCaller) Common.getInstance().getServerCaller()).getConfig().getString(path);
+		return configFile.getString(path);
 	}
 
 	@Override
 	public boolean getBoolean(String path) {
-		return ((BukkitCaller) Common.getInstance().getServerCaller()).getConfig().getBoolean(path);
+		return configFile.getBoolean(path);
 	}
 
 	@Override
 	public void setValue(String path, Object value) {
-		((BukkitCaller) Common.getInstance().getServerCaller()).getConfig().set(path, value);
-		((BukkitCaller) Common.getInstance().getServerCaller()).saveConfig();
+		configFile.set(path, value);
+		try {
+			configFile.save(file);
+		} catch (IOException e) {
+			Common.getInstance().getLogger().severe("Error while saving + " + file.getName() + ". Error: " + e.getMessage());
+		}
+	}
+
+	@Override
+	public boolean has(String path) {
+		return configFile.contains(path);
+		
 	}
 }

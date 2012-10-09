@@ -66,4 +66,6 @@ public abstract class Config {
 	 * @param value The new value.
 	 */
 	public abstract void setValue(String path, Object value);
+	
+	public abstract boolean has(String path);
 }

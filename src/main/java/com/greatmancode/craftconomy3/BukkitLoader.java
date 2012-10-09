@@ -18,12 +18,7 @@
  */
 package com.greatmancode.craftconomy3;
 
-import java.io.IOException;
-import java.util.logging.Level;
-
 import org.bukkit.plugin.java.JavaPlugin;
-
-import com.greatmancode.craftconomy3.utils.MetricsBukkit;
 
 /**
  * Class used when the plugin is loaded from Craftbukkit
@@ -32,25 +27,13 @@ import com.greatmancode.craftconomy3.utils.MetricsBukkit;
  */
 public class BukkitLoader extends JavaPlugin implements Loader{
 
-	private MetricsBukkit metrics;
-
 	public void onEnable() {
-
-		try {
-			metrics = new MetricsBukkit(this);
-		} catch (IOException e) {
-			this.getLogger().log(Level.SEVERE, "Unable to load Metrics!");
-		}
 		new Common(this, getLogger()).initialize();
 		
 	}
 
 	public void onDisable() {
 		Common.getInstance().disable();
-	}
-
-	public MetricsBukkit getMetrics() {
-		return metrics;
 	}
 
 	@Override

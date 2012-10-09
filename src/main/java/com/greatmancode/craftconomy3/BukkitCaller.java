@@ -23,14 +23,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 import com.greatmancode.craftconomy3.commands.BukkitCommandManager;
 import com.greatmancode.craftconomy3.commands.CommandManager;
-import com.greatmancode.craftconomy3.utils.MetricsBukkit;
-import com.greatmancode.craftconomy3.utils.MetricsBukkit.Graph;
 
 /**
  * Server caller for Craftbukkit
@@ -130,33 +129,6 @@ public class BukkitCaller implements Caller {
 		return loader.getDataFolder();
 	}
 
-	@Override 
-	public void addMetricsGraph(String title, String value)
-	{
-		Graph graph = loader.getMetrics().createGraph(title);
-		graph.addPlotter(new MetricsBukkit.Plotter(value) {
-
-			@Override
-			public int getValue() {
-				return 1;
-			}
-		});
-	}
-	
-	public void addMetricsGraph(String title, boolean value)
-	{
-		String stringEnabled = "No";
-		if (value) {
-			stringEnabled = "Yes";
-		}
-		addMetricsGraph(title, stringEnabled);
-	}
-
-	@Override
-	public void startMetrics() {
-		loader.getMetrics().start();
-	}
-
 	@Override
 	public int schedule(Runnable entry, long firstStart, long repeating) {
 		return schedule(entry, firstStart, repeating, false);
@@ -214,6 +186,15 @@ public class BukkitCaller implements Caller {
 		if (manager instanceof BukkitCommandManager) {
 			loader.getCommand(name).setExecutor((BukkitCommandManager)manager);
 		}
+	}
+	@Override
+	public String getServerVersion() {
+		return Bukkit.getBukkitVersion();
+	}
+	
+	@Override
+	public String getPluginVersion() {
+		return loader.getDescription().getVersion();
 	}
 
 }

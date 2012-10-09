@@ -36,6 +36,8 @@ import com.greatmancode.craftconomy3.currency.Currency;
 import com.greatmancode.craftconomy3.currency.CurrencyManager;
 import com.greatmancode.craftconomy3.database.DatabaseManager;
 import com.greatmancode.craftconomy3.payday.PayDayManager;
+import com.greatmancode.craftconomy3.utils.Metrics;
+import com.greatmancode.craftconomy3.utils.Metrics.Graph;
 
 /**
  * The core of Craftconomy. Every requests pass through this class
@@ -60,7 +62,7 @@ public class Common {
 	private boolean databaseInitialized = false;
 	private boolean currencyInitialized;
 	private boolean initialized = false;
-
+	private Metrics metrics = null;
 	/**
 	 * Loads the Common core.
 	 * 
@@ -87,7 +89,12 @@ public class Common {
 			sendConsoleMessage(Level.INFO, "Starting up!");
 			sendConsoleMessage(Level.INFO, "Loading the Configuration");
 			config = new ConfigurationManager();
-			config.initialize();
+			config.initialize(Common.getInstance().getServerCaller().getDataFolder(), "config.yml");
+			try {
+				metrics = new Metrics("Craftconomy", this.getServerCaller().getPluginVersion());
+			} catch (IOException e) {
+				this.getLogger().log(Level.SEVERE, "Unable to load Metrics! The error is: " + e.getMessage());
+			}
 			sendConsoleMessage(Level.INFO, "Loading commands");
 			commandManager = new CommandLoader();
 			if (config.getConfig().getBoolean("System.Setup")) {
@@ -116,10 +123,14 @@ public class Common {
 	 * Disable the plugin.
 	 */
 	void disable() {
-		try {
-			Common.getInstance().getDatabaseManager().getDatabase().close();
-		} catch (ConnectionException e) {
-			this.getLogger().severe("Unable to close the database connection!");
+		if (Common.getInstance().getDatabaseManager() != null && Common.getInstance().getDatabaseManager().getDatabase() != null)
+		{
+			Common.getInstance().getLogger().info("Closing the connection to the database.");
+			try {
+				Common.getInstance().getDatabaseManager().getDatabase().close();
+			} catch (ConnectionException e) {
+				this.getLogger().severe("Unable to close the database connection!");
+			}
 		}
 	}
 
@@ -309,15 +320,50 @@ public class Common {
 	public void startUp() {
 		sendConsoleMessage(Level.INFO, "Loading the Account Manager");
 		accountManager = new AccountManager();
-		getServerCaller().addMetricsGraph("Multiworld",getConfigurationManager().isMultiWorld());
-		getServerCaller().startMetrics();
+		addMetricsGraph("Multiworld",getConfigurationManager().isMultiWorld());
+		startMetrics();
 		sendConsoleMessage(Level.INFO, "Account Manager Loaded!");
 		sendConsoleMessage(Level.INFO, "Loading the PayDay manager.");
 		paydayManager = new PayDayManager();
+		
 		sendConsoleMessage(Level.INFO, "PayDay Manager loaded!");
 
 	}
+	
+	/**
+	 * Add a graph to Metrics
+	 * @param title The title of the Graph
+	 * @param value The value of the entry
+	 */
+	public void addMetricsGraph(String title, String value)
+	{
+		Graph graph = metrics.createGraph(title);
+		graph.addPlotter(new Metrics.Plotter(value) {
 
+			@Override
+			public int getValue() {
+				return 1;
+			}
+		});
+	}
+
+	/**
+	 * Add a graph to Metrics
+	 * @param title The title of the Graph
+	 * @param value The value of the entry
+	 */
+	public void addMetricsGraph(String title, boolean value)
+	{
+		String stringEnabled = "No";
+		if (value) {
+			stringEnabled = "Yes";
+		}
+		addMetricsGraph(title, stringEnabled);
+	}
+	
+	public void startMetrics() {
+		metrics.start();
+	}
 	/**
 	 * Write a transaction to the Log.
 	 * 
