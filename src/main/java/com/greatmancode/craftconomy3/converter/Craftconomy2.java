@@ -121,7 +121,7 @@ public class Craftconomy2 extends Converter {
 					// Check if the entry is valid
 					boolean first = true;
 					if (entry.getMinor() != null && entry.getMinorplural() != null && entry.getName() != null && entry.getPlural() != null) {
-						Common.getInstance().getCurrencyManager().addCurrency(entry.getName(), entry.getPlural(), entry.getMinor(), entry.getMinorplural(), 0.0, true);
+						Common.getInstance().getCurrencyManager().addCurrency(entry.getName(), entry.getPlural(), entry.getMinor(), entry.getMinorplural(), 0.0, "", true);
 						//TODO: Need better than that...
 						if (first) {
 							Common.getInstance().getCurrencyManager().setDefault(Common.getInstance().getCurrencyManager().getCurrency(entry.getName()).getDatabaseID());

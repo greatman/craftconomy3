@@ -34,9 +34,9 @@ import com.greatmancode.craftconomy3.commands.bank.BankSetCommand;
 import com.greatmancode.craftconomy3.commands.bank.BankTakeCommand;
 import com.greatmancode.craftconomy3.commands.bank.BankWithdrawCommand;
 import com.greatmancode.craftconomy3.commands.config.ConfigBankPriceCommand;
+import com.greatmancode.craftconomy3.commands.config.ConfigFormatCommand;
 import com.greatmancode.craftconomy3.commands.config.ConfigHelpCommand;
 import com.greatmancode.craftconomy3.commands.config.ConfigHoldingsCommand;
-import com.greatmancode.craftconomy3.commands.config.ConfigLongModeCommand;
 import com.greatmancode.craftconomy3.commands.currency.CurrencyAddCommand;
 import com.greatmancode.craftconomy3.commands.currency.CurrencyDefaultCommand;
 import com.greatmancode.craftconomy3.commands.currency.CurrencyDeleteCommand;
@@ -119,8 +119,8 @@ public class CommandLoader {
 		currencyCmdList.put("default", new CurrencyDefaultCommand());
 		
 		configCmdList.put("holdings", new ConfigHoldingsCommand());
-		configCmdList.put("longmode", new ConfigLongModeCommand());
 		configCmdList.put("bankprice", new ConfigBankPriceCommand());
+		configCmdList.put("format",  new ConfigFormatCommand());
 		configCmdList.put("help", new ConfigHelpCommand());
 		
 		paydayCmdList.put("create", new PayDayCreateCommand());

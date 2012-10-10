@@ -275,14 +275,17 @@ public class Common {
 		}
 
 		// Do we seperate money and dollar or not?
-		if (getConfigurationManager().isLongmode()) {
+		String displayFormat = getConfigurationManager().getDisplayFormat();
+		if (displayFormat.equalsIgnoreCase("long")) {
 			String subName = currency.getMinor();
 			if (Long.parseLong(coin) > 1) {
 				subName = currency.getMinorPlural();
 			}
 			string.append(theAmount[0]).append(" ").append(name).append(" ").append(coin).append(" ").append(subName);
-		} else {
-			string.append(theAmount[0]).append(",").append(coin).append(" ").append(name);
+		} else if (displayFormat.equalsIgnoreCase("small")){
+			string.append(theAmount[0]).append(".").append(coin).append(" ").append(name);
+		} else if (displayFormat.equalsIgnoreCase("sign")) {
+			string.append(currency.getSign()).append(theAmount[0]).append(".").append(coin);
 		}
 		return string.toString();
 	}

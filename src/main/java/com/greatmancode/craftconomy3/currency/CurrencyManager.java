@@ -49,7 +49,7 @@ public class CurrencyManager {
 			if (entry.getStatus()) {
 				defaultCurrencyID = entry.getId();
 			}
-			addCurrency(entry.getId(), entry.getName(), entry.getPlural(), entry.getMinor(), entry.getMinorplural(), entry.getHardCap(), false);
+			addCurrency(entry.getId(), entry.getName(), entry.getPlural(), entry.getMinor(), entry.getMinorplural(), entry.getHardCap(), entry.getSign(), false);
 		}
 	}
 
@@ -89,8 +89,8 @@ public class CurrencyManager {
 	 * @param save Do we add it in the database?
 	 */
 	
-	public void addCurrency(String name, String plural, String minor, String minorPlural, double hardCap, boolean save) {
-		addCurrency(-1, name, plural, minor, minorPlural, hardCap, save);
+	public void addCurrency(String name, String plural, String minor, String minorPlural, double hardCap, String sign, boolean save) {
+		addCurrency(-1, name, plural, minor, minorPlural, hardCap, sign, save);
 	}
 
 	/**
@@ -102,7 +102,7 @@ public class CurrencyManager {
 	 * @param save Do we add it in the database? If True, generates a databaseID (Whole new entry)
 	 */
 	//TODO: A check if the currency already exist.
-	public void addCurrency(int databaseID, String name, String plural, String minor, String minorPlural, double hardCap, boolean save) {
+	public void addCurrency(int databaseID, String name, String plural, String minor, String minorPlural, double hardCap, String sign, boolean save) {
 		int newDatabaseID = databaseID;
 		if (save) {
 			CurrencyTable entry = new CurrencyTable();
@@ -111,10 +111,11 @@ public class CurrencyManager {
 			entry.setName(name);
 			entry.setPlural(plural);
 			entry.setHardCap(hardCap);
+			entry.setSign(sign);
 			Common.getInstance().getDatabaseManager().getDatabase().save(entry);
 			newDatabaseID = entry.getId();
 		}
-		currencyList.put(newDatabaseID, new Currency(newDatabaseID, name, plural, minor, minorPlural, hardCap));
+		currencyList.put(newDatabaseID, new Currency(newDatabaseID, name, plural, minor, minorPlural, hardCap, sign));
 	}
 	
 	public void setDefault(int currencyId) {

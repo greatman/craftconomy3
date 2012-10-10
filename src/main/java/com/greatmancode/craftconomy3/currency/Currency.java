@@ -30,13 +30,14 @@ public class Currency {
 
 	private CurrencyTable entry = new CurrencyTable();
 
-	public Currency(int databaseID, String name, String plural, String minor, String minorPlural, double hardCap) {
+	public Currency(int databaseID, String name, String plural, String minor, String minorPlural, double hardCap, String sign) {
 		entry.setName(name);
 		entry.setPlural(plural);
 		entry.setMinor(minor);
 		entry.setMinorplural(minorPlural);
 		entry.setId(databaseID);
 		entry.setHardCap(hardCap);
+		entry.setSign(sign);
 	}
 
 	/**
@@ -125,16 +126,39 @@ public class Currency {
 	}
 
 	/**
+	 * Sets the sign of the currency (Example $ for Dollars)
+	 * @param sign The Sign of the Currency.
+	 */
+	public void setSign(String sign) {
+		entry.setSign(sign);
+		save();
+	}
+	
+	/**
+	 * Retrieve the sign of the currency (Example $ for Dollars)
+	 * @return
+	 */
+	public String getSign() {
+		return entry.getSign();
+	}
+	
+	/**
 	 * Save the currency information.
 	 */
 	private void save() {
 		Common.getInstance().getDatabaseManager().getDatabase().save(entry);
 	}
 	
+	/**
+	 * Delete the currency from the database.
+	 */
 	void delete() {
 		Common.getInstance().getDatabaseManager().getDatabase().remove(entry);
 	}
 	
+	/**
+	 * Set the default flag to true.
+	 */
 	void setDefault() {
 		entry.setStatus(true);
 		save();

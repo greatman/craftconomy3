@@ -35,6 +35,8 @@ public class CurrencyEditCommand implements CraftconomyCommand {
 					Common.getInstance().getCurrencyManager().getCurrency(args[1]).setMinor(args[2]);
 				} else if (args[0].equals("minorplural")) {
 					Common.getInstance().getCurrencyManager().getCurrency(args[1]).setMinorPlural(args[2]);
+				} else if (args[0].equals("sign")) {
+					Common.getInstance().getCurrencyManager().getCurrency(args[1]).setSign(args[2]);
 				} else {
 					Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Invalid type!");
 					return;
@@ -57,7 +59,7 @@ public class CurrencyEditCommand implements CraftconomyCommand {
 
 	@Override
 	public String help() {
-		return "/currency edit <name/nameplural/minor/minorplural> <Currency Name> <new Value> - Modify a currency.";
+		return "/currency edit <name/nameplural/minor/minorplural/sign> <Currency Name> <new Value> - Modify a currency.";
 	}
 
 	@Override

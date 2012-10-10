@@ -20,14 +20,13 @@ package com.greatmancode.craftconomy3.commands.config;
 
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.commands.CraftconomyCommand;
-import com.greatmancode.craftconomy3.utils.Tools;
 
-public class ConfigLongModeCommand implements CraftconomyCommand {
+public class ConfigFormatCommand implements CraftconomyCommand {
 
 	@Override
 	public void execute(String sender, String[] args) {
-		if (Tools.isBoolean(args[0])) {
-			Common.getInstance().getConfigurationManager().setLongmode(Boolean.parseBoolean(args[0]));
+		if (args[0].equalsIgnoreCase("long") || args[0].equalsIgnoreCase("small") || args[0].equalsIgnoreCase("sign")) {
+			Common.getInstance().getConfigurationManager().setDisplayFormat(args[0]);
 			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}long balance format changed!");
 		} else {
 			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Invalid mode!");
@@ -42,7 +41,7 @@ public class ConfigLongModeCommand implements CraftconomyCommand {
 
 	@Override
 	public String help() {
-		return "/craftconomy longmode <true/false> - Enable/disable the long balance format.";
+		return "/craftconomy format <long/small/sign> - Set the display format.";
 	}
 
 	@Override
