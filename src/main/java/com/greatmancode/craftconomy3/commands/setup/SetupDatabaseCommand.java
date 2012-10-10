@@ -33,7 +33,7 @@ public class SetupDatabaseCommand implements CraftconomyCommand {
 		if (SetupWizard.getState() == SetupWizard.DATABASE_SETUP) {
 			if (args.length == 0) {
 				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Database setup step. Please select the database backend by using those following commands. (Use SQLite if unsure)");
-				Common.getInstance().getServerCaller().sendMessage(sender, "/ccsetup database type <sqlite/mysql>");
+				Common.getInstance().getServerCaller().sendMessage(sender, "/ccsetup database type <sqlite/mysql/h2>");
 			} else if (args.length == 2) {
 				if (args[0].equalsIgnoreCase("type")) {
 					if (args[1].equalsIgnoreCase("sqlite")) {
