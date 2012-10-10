@@ -36,7 +36,7 @@ public class ConfigFormatCommand implements CraftconomyCommand {
 
 	@Override
 	public boolean permission(String sender) {
-		return Common.getInstance().getServerCaller().checkPermission(sender, "craftconomy.config.longmode");
+		return Common.getInstance().getServerCaller().checkPermission(sender, "craftconomy.config.format");
 	}
 
 	@Override
