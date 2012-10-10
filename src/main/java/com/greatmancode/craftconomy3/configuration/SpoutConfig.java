@@ -19,10 +19,7 @@
 package com.greatmancode.craftconomy3.configuration;
 
 import java.io.File;
-import java.io.IOException;
-import java.net.URL;
 
-import org.apache.commons.io.FileUtils;
 import org.spout.api.exception.ConfigurationException;
 import org.spout.api.util.config.yaml.YamlConfiguration;
 
@@ -35,14 +32,7 @@ public class SpoutConfig extends Config {
 	public SpoutConfig(File folder, String fileName) {
 		File file = new File(folder, fileName);
 		if (!file.exists()) {
-			URL url = this.getClass().getResource("/" + fileName);
-			try {
-				if (url != null) {
-					FileUtils.copyURLToFile(url, file);
-				}
-			} catch (IOException e) {
-				Common.getInstance().getLogger().severe("A error occured while trying to copy the default configuration file! Message: " + e.getMessage());
-			}
+			initializeConfig(file, fileName);
 		}
 		config = new YamlConfiguration(file);
 		try {
@@ -76,7 +66,7 @@ public class SpoutConfig extends Config {
 	public boolean getBoolean(String path) {
 		return config.getNode(path).getBoolean();
 	}
-	
+
 	@Override
 	public void setValue(String path, Object value) {
 		config.getNode(path).setValue(value);

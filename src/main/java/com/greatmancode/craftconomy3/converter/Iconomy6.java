@@ -39,14 +39,15 @@ import com.greatmancode.craftconomy3.database.tables.iconomy.IConomyTable;
 
 /**
  * Converter for iConomy 6.
+ * 
  * @author greatman
- *
+ * 
  */
 public class Iconomy6 extends Converter {
 
 	private BufferedReader flatFileReader = null;
 	private Database db = null;
-	
+
 	public Iconomy6() {
 		dbTypes.add("flatfile");
 		dbTypes.add("minidb");
@@ -56,7 +57,7 @@ public class Iconomy6 extends Converter {
 
 	@Override
 	public List<String> getDbInfo() {
-		
+
 		if (selectedDbType.equals("flatfile") || selectedDbType.equals("minidb") || selectedDbType.equals("sqlite")) {
 			dbInfo.add("filename");
 		} else if (selectedDbType.equals("mysql")) {
@@ -68,42 +69,20 @@ public class Iconomy6 extends Converter {
 		}
 		return dbInfo;
 	}
-	
+
 	@Override
 	public boolean connect() {
 		boolean result = false;
 		if (selectedDbType.equals("flatfile") || selectedDbType.equals("minidb")) {
-			File dbFile = new File(Common.getInstance().getServerCaller().getDataFolder(),dbConnectInfo.get("filename"));
-			if (dbFile.exists()) {
-				try {
-					flatFileReader = new BufferedReader(new FileReader(dbFile));
-					result = true;
-				} catch (FileNotFoundException e) {
-					Common.getInstance().getLogger().severe("iConomy database file not found!");
-				}
-			}
-			
+			result = loadFile();
 		} else if (selectedDbType.equals("mysql")) {
-			
-			
-			try {
-				MySQLConfiguration config = new MySQLConfiguration();
-				config.setHost(dbConnectInfo.get("address"));
-				config.setUser(dbConnectInfo.get("username"));
-				config.setPassword(dbConnectInfo.get("password"));
-				config.setDatabase(dbConnectInfo.get("database"));
-				config.setPort(Integer.parseInt(dbConnectInfo.get("port")));
-				db = DatabaseFactory.createNewDatabase(config);
-			} catch (NumberFormatException e) {
-				Common.getInstance().getLogger().severe("Illegal Port!");
-			}
+			loadMySQL();
 		} else if (selectedDbType.equals("sqlite")) {
-			SQLiteConfiguration config = new SQLiteConfiguration(Common.getInstance().getServerCaller().getDataFolder() + File.separator + dbConnectInfo.get("filename"));
-			db = DatabaseFactory.createNewDatabase(config);
+			loadSQLite();
 		}
-		
+
 		if (db != null) {
-			
+
 			try {
 				db.registerTable(IConomyTable.class);
 				db.setCheckTableOnRegistration(false);
@@ -114,64 +93,106 @@ public class Iconomy6 extends Converter {
 			} catch (ConnectionException e) {
 				Common.getInstance().getLogger().severe("Unable to connect to iConomy database. Reason: " + e.getMessage());
 			}
-			
+
 		}
 		return result;
 	}
-	
+
+	private boolean loadFile() {
+		boolean result = false;
+		File dbFile = new File(Common.getInstance().getServerCaller().getDataFolder(), dbConnectInfo.get("filename"));
+		if (dbFile.exists()) {
+			try {
+				flatFileReader = new BufferedReader(new FileReader(dbFile));
+				result = true;
+			} catch (FileNotFoundException e) {
+				Common.getInstance().getLogger().severe("iConomy database file not found!");
+			}
+		}
+		return result;
+	}
+
+	private void loadMySQL() {
+		try {
+			MySQLConfiguration config = new MySQLConfiguration();
+			config.setHost(dbConnectInfo.get("address"));
+			config.setUser(dbConnectInfo.get("username"));
+			config.setPassword(dbConnectInfo.get("password"));
+			config.setDatabase(dbConnectInfo.get("database"));
+			config.setPort(Integer.parseInt(dbConnectInfo.get("port")));
+			db = DatabaseFactory.createNewDatabase(config);
+		} catch (NumberFormatException e) {
+			Common.getInstance().getLogger().severe("Illegal Port!");
+		}
+	}
+
+	private void loadSQLite() {
+		SQLiteConfiguration config = new SQLiteConfiguration(Common.getInstance().getServerCaller().getDataFolder() + File.separator + dbConnectInfo.get("filename"));
+		db = DatabaseFactory.createNewDatabase(config);
+	}
+
 	@Override
 	public boolean importData(String sender) {
 		boolean result = false;
 		if (flatFileReader != null) {
-			result = true;
-			String str;
-			try {
-				int i = 0;
-				while ((str = flatFileReader.readLine()) != null) {
-					if (i % ALERT_EACH_X_ACCOUNT == 0) {
-						Common.getInstance().getServerCaller().sendMessage(sender, i + " {{DARK_GREEN}}accounts imported.");
-					}
-					String[] info = str.split(" ");
-					if (info.length >= 2) {
-						String[] balance = info[1].split(":");
-						try {
-							Common.getInstance().getAccountManager().getAccount(info[0]).set(Double.parseDouble(balance[1]), Common.getInstance().getServerCaller().getDefaultWorld(), Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.defaultCurrencyID).getName());
-						} catch (NumberFormatException e) {
-							Common.getInstance().sendConsoleMessage(Level.SEVERE, "User " + info[0] + " have a invalid balance" + balance[1]);
-						}
-
-					}
-					i++;
-				}
-				flatFileReader.close();
-			} catch (IOException e) {
-				Common.getInstance().getLogger().severe("A error occured while reading the iConomy database file! Message: " + e.getMessage());
-			}
-			
+			result = importFlatFile(sender);
 		} else if (db != null) {
-			result = true;
-			List<IConomyTable> icoList = db.select(IConomyTable.class).execute().find();
-			if (icoList != null && icoList.size() > 0) {
-				Iterator<IConomyTable> icoListIterator = icoList.iterator();
-				int i = 0;
-				while (icoListIterator.hasNext()) {
-					if (i % ALERT_EACH_X_ACCOUNT == 0) {
-						Common.getInstance().getServerCaller().sendMessage(sender, i + " of  " + icoList.size() + "{{DARK_GREEN}}accounts imported.");
-						
-					}
-					IConomyTable entry = icoListIterator.next();
-					Common.getInstance().getAccountManager().getAccount(entry.getUsername()).set(entry.getBalance(), Common.getInstance().getServerCaller().getDefaultWorld(), Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.defaultCurrencyID).getName());
-					i++;
-				}
-				Common.getInstance().getServerCaller().sendMessage(sender, i + " of  " + icoList.size() + "{{DARK_GREEN}}accounts imported.");
-			}
-			try {
-				db.close();
-			} catch (ConnectionException e) {
-				Common.getInstance().getLogger().severe("Unable to disconnect from the iConomy database! Message: " + e.getMessage());
-			}
+			result = importDatabase(sender);
 		}
 		return result;
+	}
+	
+	private boolean importFlatFile(String sender) {
+		boolean result = false;
+		String str;
+		try {
+			int i = 0;
+			while ((str = flatFileReader.readLine()) != null) {
+				if (i % ALERT_EACH_X_ACCOUNT == 0) {
+					Common.getInstance().getServerCaller().sendMessage(sender, i + " {{DARK_GREEN}}accounts imported.");
+				}
+				String[] info = str.split(" ");
+				if (info.length >= 2) {
+					String[] balance = info[1].split(":");
+					try {
+						Common.getInstance().getAccountManager().getAccount(info[0]).set(Double.parseDouble(balance[1]), Common.getInstance().getServerCaller().getDefaultWorld(), Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.defaultCurrencyID).getName());
+					} catch (NumberFormatException e) {
+						Common.getInstance().sendConsoleMessage(Level.SEVERE, "User " + info[0] + " have a invalid balance" + balance[1]);
+					}
+
+				}
+				i++;
+			}
+			flatFileReader.close();
+			result = true;
+		} catch (IOException e) {
+			Common.getInstance().getLogger().severe("A error occured while reading the iConomy database file! Message: " + e.getMessage());
+		}
+		return result;
+	}
+	
+	private boolean importDatabase(String sender) {
+		List<IConomyTable> icoList = db.select(IConomyTable.class).execute().find();
+		if (icoList != null && icoList.size() > 0) {
+			Iterator<IConomyTable> icoListIterator = icoList.iterator();
+			int i = 0;
+			while (icoListIterator.hasNext()) {
+				if (i % ALERT_EACH_X_ACCOUNT == 0) {
+					Common.getInstance().getServerCaller().sendMessage(sender, i + " of  " + icoList.size() + "{{DARK_GREEN}}accounts imported.");
+
+				}
+				IConomyTable entry = icoListIterator.next();
+				Common.getInstance().getAccountManager().getAccount(entry.getUsername()).set(entry.getBalance(), Common.getInstance().getServerCaller().getDefaultWorld(), Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.defaultCurrencyID).getName());
+				i++;
+			}
+			Common.getInstance().getServerCaller().sendMessage(sender, i + " of  " + icoList.size() + "{{DARK_GREEN}}accounts imported.");
+		}
+		try {
+			db.close();
+		} catch (ConnectionException e) {
+			Common.getInstance().getLogger().severe("Unable to disconnect from the iConomy database! Message: " + e.getMessage());
+		}
+		return true;
 	}
 
 }

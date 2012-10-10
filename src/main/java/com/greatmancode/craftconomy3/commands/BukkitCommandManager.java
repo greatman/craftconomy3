@@ -124,9 +124,7 @@ public class BukkitCommandManager implements CommandExecutor, CommandManager {
 					newargs = new String[0];
 				} else {
 					newargs = new String[args.length - 1];
-					for (int i = 1; i <= newargs.length; i++) {
-						newargs[i - 1] = args[i];
-					}
+					System.arraycopy(args, 1, newargs, 0, args.length - 1);
 				}
 
 				if (newargs.length >= cmd.minArgs() && newargs.length <= cmd.maxArgs()) {

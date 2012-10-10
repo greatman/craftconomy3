@@ -19,10 +19,7 @@
 package com.greatmancode.craftconomy3.configuration;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -36,35 +33,7 @@ public class BukkitConfig extends Config {
 		file = new File(folder, fileName);
 		
 		if (!file.exists()) {
-			try {
-				file.getParentFile().mkdirs();
-				file.createNewFile();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			configFile = YamlConfiguration.loadConfiguration(file);
-			URL url = this.getClass().getResource("/" + fileName);
-			
-			if (url != null) {
-				try {
-					InputStream defaultStream = url.openStream();
-					FileOutputStream fos = new FileOutputStream(file);
-					
-					byte[] buffer = new byte[1024 * 4];
-			        int n = 0;
-			        while (-1 != (n = defaultStream.read(buffer))) {
-			        	System.out.println(buffer);
-			            fos.write(buffer, 0, n);
-			        }
-			        fos.flush();
-			        fos.close();
-			        defaultStream.close();
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			}
+			initializeConfig(file, fileName);
 		}
 		configFile = YamlConfiguration.loadConfiguration(file);
 	}

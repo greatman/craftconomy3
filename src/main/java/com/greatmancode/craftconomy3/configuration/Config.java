@@ -18,6 +18,14 @@
  */
 package com.greatmancode.craftconomy3.configuration;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+
+import com.greatmancode.craftconomy3.Common;
+
 /**
  * Represents a Configuration handler
  * @author greatman
@@ -25,6 +33,7 @@ package com.greatmancode.craftconomy3.configuration;
  */
 public abstract class Config {
 
+	private static final int DEFAULT_BUFFER_SIZE = 1024 * 4;
 	/**
 	 * Retrieve a integer from the configuration
 	 * @param path The path to the integer we want to retrieve
@@ -68,4 +77,32 @@ public abstract class Config {
 	public abstract void setValue(String path, Object value);
 	
 	public abstract boolean has(String path);
+	
+	protected void initializeConfig(File file, String fileName) {
+		try {
+			file.getParentFile().mkdirs();
+			file.createNewFile();
+		} catch (IOException e) {
+			Common.getInstance().getLogger().severe("Error while trying to create the file " + file.getName() + "! Error is: " + e.getMessage());
+		}
+		URL url = this.getClass().getResource("/" + fileName);
+		
+		if (url != null) {
+			try {
+				InputStream defaultStream = url.openStream();
+				FileOutputStream fos = new FileOutputStream(file);
+				
+				byte[] buffer = new byte[DEFAULT_BUFFER_SIZE];
+		        int n = 0;
+		        while (-1 != (n = defaultStream.read(buffer))) {
+		            fos.write(buffer, 0, n);
+		        }
+		        fos.flush();
+		        fos.close();
+		        defaultStream.close();
+			} catch (IOException e1) {
+				Common.getInstance().getLogger().severe("Error while trying to copy the default file + " +file.getName() + ". Error is: " + e1.getMessage());
+			}
+		}
+	}
 }

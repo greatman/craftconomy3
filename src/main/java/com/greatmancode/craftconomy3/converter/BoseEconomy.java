@@ -1,3 +1,21 @@
+/*
+ * This file is part of Craftconomy3.
+ *
+ * Copyright (c) 2011-2012, Greatman <http://github.com/greatman/>
+ *
+ * Craftconomy3 is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Craftconomy3 is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Craftconomy3.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package com.greatmancode.craftconomy3.converter;
 
 import java.io.BufferedReader;
@@ -14,6 +32,7 @@ import com.greatmancode.craftconomy3.currency.CurrencyManager;
 
 public class BoseEconomy extends Converter {
 
+	private static final String TAB_CHECK = "\\t+";
 	private BufferedReader flatFileReader = null;
 
 	public BoseEconomy() {
@@ -56,39 +75,12 @@ public class BoseEconomy extends Converter {
 					line = flatFileReader.readLine();
 					// Line for account type
 					String type = line.split(" ")[1];
-					System.out.println("Adding " + username);
 					if (type.equalsIgnoreCase("player")) {
-						System.out.println("It's a player");
-						line = flatFileReader.readLine();
-						double amount = Double.parseDouble(line.split(" ")[1]);
-						Common.getInstance().getAccountManager().getAccount(username).set(amount, Common.getInstance().getServerCaller().getDefaultWorld(), Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.defaultCurrencyID).getName());
+						accountImporter(username);
 						i++;
 					} else if (type.equalsIgnoreCase("bank")) {
-						System.out.println("It's a bank");
-						line = flatFileReader.readLine();
-						double amount = Double.parseDouble(line.split(" ")[1]);
-						Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + username).set(amount, Common.getInstance().getServerCaller().getDefaultWorld(), Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.defaultCurrencyID).getName());
-						line = flatFileReader.readLine();
-						if (line.contains("members")) {
-							line = flatFileReader.readLine();
-							line = line.replaceAll("\\t+", "");
-							while (!line.equals("}")) {
-								System.out.println("MEMBER: " + line);
-								Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + username).getAccountACL().set(line, true, true, false, true, false);
-								line = flatFileReader.readLine();
-								line = line.replaceAll("\\t+", "");
-							}
-						}
-						line = flatFileReader.readLine();
-						if (line.contains("owners")) {
-							line = flatFileReader.readLine();
-							line = line.replaceAll("\\t+", "");
-							while (!line.equals("}")) {
-								Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + username).getAccountACL().set(line, true, true, true, true, true);
-								line = flatFileReader.readLine();
-								line = line.replaceAll("\\t+", "");
-							}
-						}
+						bankImporter(username);
+						i++;
 					}
 				}
 
@@ -98,6 +90,40 @@ public class BoseEconomy extends Converter {
 			Common.getInstance().getLogger().severe("Error while reading bose file!" + e.getMessage());
 		}
 		return true;
+
+	}
+
+	private void bankImporter(String username) throws IOException {
+		String line = flatFileReader.readLine();
+		double amount = Double.parseDouble(line.split(" ")[1]);
+		Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + username).set(amount, Common.getInstance().getServerCaller().getDefaultWorld(), Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.defaultCurrencyID).getName());
+		line = flatFileReader.readLine();
+		if (line.contains("members")) {
+			line = flatFileReader.readLine();
+			line = line.replaceAll(TAB_CHECK, "");
+			while (!line.equals("}")) {
+				Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + username).getAccountACL().set(line, true, true, false, true, false);
+				line = flatFileReader.readLine();
+				line = line.replaceAll(TAB_CHECK, "");
+			}
+		}
+		line = flatFileReader.readLine();
+		if (line.contains("owners")) {
+			line = flatFileReader.readLine();
+			line = line.replaceAll(TAB_CHECK, "");
+			while (!line.equals("}")) {
+				Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + username).getAccountACL().set(line, true, true, true, true, true);
+				line = flatFileReader.readLine();
+				line = line.replaceAll(TAB_CHECK, "");
+			}
+		}
+		
+	}
+
+	private void accountImporter(String username) throws IOException {
+		String line = flatFileReader.readLine();
+		double amount = Double.parseDouble(line.split(" ")[1]);
+		Common.getInstance().getAccountManager().getAccount(username).set(amount, Common.getInstance().getServerCaller().getDefaultWorld(), Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.defaultCurrencyID).getName());
 
 	}
 

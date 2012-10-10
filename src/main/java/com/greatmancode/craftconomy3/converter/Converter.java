@@ -21,6 +21,7 @@ package com.greatmancode.craftconomy3.converter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Represents a Converter
@@ -48,7 +49,7 @@ public abstract class Converter {
 	/**
 	 * Contains all the information about the required fields entered by the user.
 	 */
-	protected HashMap<String,String> dbConnectInfo = new HashMap<String,String>();
+	protected Map<String,String> dbConnectInfo = new HashMap<String,String>();
 	
 	/**
 	 * Retrieve a list of all the database type.

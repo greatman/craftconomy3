@@ -180,8 +180,7 @@
 						<include>src/test/java/**</include>
 					</includes>
 					<excludes>
-						<exclude>src/main/java/com/greatmancode/craftconomy3/utils/MetricsBukkit.java</exclude>
-						<exclude>src/main/java/com/greatmancode/craftconomy3/utils/MetricsSpout.java</exclude>
+						<exclude>src/main/java/com/greatmancode/craftconomy3/utils/Metrics.java</exclude>
 					</excludes>
 				</configuration>
 			</plugin>
