@@ -29,7 +29,6 @@ public class BukkitLoader extends JavaPlugin implements Loader{
 
 	public void onEnable() {
 		new Common(this, getLogger()).initialize();
-		
 	}
 
 	public void onDisable() {
