@@ -19,6 +19,7 @@
 package com.greatmancode.craftconomy3.database;
 
 import java.io.File;
+import java.io.IOException;
 
 import com.alta189.simplesave.Database;
 import com.alta189.simplesave.DatabaseFactory;
@@ -62,8 +63,17 @@ public class DatabaseManager {
 			Common.getInstance().addMetricsGraph("Database Engine", "MySQL");
 		} else if (databasetype.equals("h2")) {
 			H2Configuration config = new H2Configuration();
-			db = DatabaseFactory.createNewDatabase(config);
-			Common.getInstance().addMetricsGraph("Database Engine", "H2");
+			try {
+				File file = new File(Common.getInstance().getServerCaller().getDataFolder(), "h2.database");
+				file.createNewFile();
+				config.setDatabase(file.getAbsolutePath());
+				db = DatabaseFactory.createNewDatabase(config);
+				Common.getInstance().addMetricsGraph("Database Engine", "H2");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 		}
 
 		db.registerTable(AccountTable.class);
