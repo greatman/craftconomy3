@@ -67,8 +67,16 @@ public class SetupDatabaseCommand implements CraftconomyCommand {
 					Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Alright! Please type {{WHITE}}/ccsetup database port <Your port> {{DARK_GREEN}}to set your MySQL port (Usually 3306)");
 					
 				} else if (args[0].equals("port")) {
-					Common.getInstance().getConfigurationManager().getConfig().setValue("System.Database.Port", args[1]);
-					Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Saved! Please type {{WHITE}}/ccsetup database username <Username> {{DARK_GREEN}}to set your MySQL username");
+					int port = 3306;
+					try
+					{
+						port = Integer.parseInt(args[1]);
+						Common.getInstance().getConfigurationManager().getConfig().setValue("System.Database.Port", port);
+						Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Saved! Please type {{WHITE}}/ccsetup database username <Username> {{DARK_GREEN}}to set your MySQL username");
+					}
+					catch(NumberFormatException e) {
+						Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Invalid port!");
+					}
 				} else if (args[0].equals("username")) {
 					Common.getInstance().getConfigurationManager().getConfig().setValue("System.Database.Username", args[1]);
 					Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Saved! Please type {{WHITE}}/ccsetup database password <Password> {{DARK_GREEN}}to set your MySQL password (enter \"\" for none)");
