@@ -25,7 +25,7 @@ public class EventManager {
 	public void playerJoinEvent(String playerName) {
 		if (Common.getInstance().getServerCaller().isOp(playerName)) {
 			if (Common.getInstance().getVersionChecker().isOld()) {
-				Common.getInstance().getServerCaller().sendMessage(playerName, "Craftconomy is out of date! New version is " + Common.getInstance().getVersionChecker().getNewVersion());
+				Common.getInstance().getServerCaller().sendMessage(playerName, "{{DARK_CYAN}}Craftconomy is out of date! New version is " + Common.getInstance().getVersionChecker().getNewVersion());
 			}
 		}
 	}
