@@ -19,5 +19,5 @@
 package com.greatmancode.craftconomy3;
 
 public interface Loader {
-	boolean isBukkit();
+	ServerType getServerType();
 }

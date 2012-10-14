@@ -77,9 +77,9 @@ public class Common {
 	public Common(Loader loader, Logger log) {
 		instance = this;
 		this.log = log;
-		if (loader.isBukkit()) {
+		if (loader.getServerType().equals(ServerType.BUKKIT)) {
 			serverCaller = new BukkitCaller(loader);
-		} else if (loader instanceof SpoutLoader) {
+		} else if (loader.getServerType().equals(ServerType.SPOUT)) {
 			serverCaller = new SpoutCaller(loader);
 		}
 	}

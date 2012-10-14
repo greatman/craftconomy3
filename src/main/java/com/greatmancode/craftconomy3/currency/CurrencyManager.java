@@ -123,6 +123,10 @@ public class CurrencyManager {
 		currencyList.put(newDatabaseID, new Currency(newDatabaseID, name, plural, minor, minorPlural, hardCap, sign));
 	}
 
+	/**
+	 * Set a currency as the default one.
+	 * @param currencyId The default currency ID.
+	 */
 	public void setDefault(int currencyId) {
 		if (currencyList.containsKey(currencyId)) {
 			CurrencyTable entry = Common.getInstance().getDatabaseManager().getDatabase().select(CurrencyTable.class).where().equal("status", true).execute().findOne();
@@ -135,6 +139,10 @@ public class CurrencyManager {
 		}
 	}
 
+	/**
+	 * Delete a currency.
+	 * @param currencyId The currency ID to delete.
+	 */
 	public void deleteCurrency(int currencyId) {
 		if (currencyList.containsKey(currencyId)) {
 			List<BalanceTable> balanceList = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal("currency_id", currencyId).execute().find();

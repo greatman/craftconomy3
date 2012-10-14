@@ -38,11 +38,6 @@ public class BukkitLoader extends JavaPlugin implements Loader{
 	public void onDisable() {
 		Common.getInstance().disable();
 	}
-
-	@Override
-	public boolean isBukkit() {
-		return true;
-	}
 	
 	/**
 	 * Retrieve the PluginClassLoader of Bukkit
@@ -50,5 +45,10 @@ public class BukkitLoader extends JavaPlugin implements Loader{
 	 */
 	public PluginClassLoader getPluginClassLoader() {
 		return (PluginClassLoader) this.getClassLoader();
+	}
+
+	@Override
+	public ServerType getServerType() {
+		return ServerType.BUKKIT;
 	}
 }

@@ -45,8 +45,9 @@ public class SpoutLoader extends CommonPlugin implements Loader {
 		Common.getInstance().disable();
 	}
 
-	public boolean isBukkit() {
-		return false;
+	@Override
+	public ServerType getServerType() {
+		return ServerType.SPOUT;
 	}
 
 }
