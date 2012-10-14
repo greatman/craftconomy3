@@ -38,6 +38,7 @@ import com.greatmancode.craftconomy3.database.DatabaseManager;
 import com.greatmancode.craftconomy3.payday.PayDayManager;
 import com.greatmancode.craftconomy3.utils.Metrics;
 import com.greatmancode.craftconomy3.utils.Metrics.Graph;
+import com.greatmancode.craftconomy3.utils.VersionChecker;
 
 /**
  * The core of Craftconomy. Every requests pass through this class
@@ -59,10 +60,12 @@ public class Common {
 
 	private CommandLoader commandManager;
 	private Caller serverCaller;
+	private VersionChecker versionChecker = null;
 	private boolean databaseInitialized = false;
 	private boolean currencyInitialized;
 	private boolean initialized = false;
 	private Metrics metrics = null;
+
 	/**
 	 * Loads the Common core.
 	 * 
@@ -87,23 +90,35 @@ public class Common {
 	public void initialize() {
 		if (!initialized) {
 			sendConsoleMessage(Level.INFO, "Starting up!");
+			versionChecker = new VersionChecker(Common.getInstance().getServerCaller().getPluginVersion());
+			if (versionChecker.isOld()) {
+				sendConsoleMessage(Level.WARNING, "Running a old version of Craftconomy! New version is: " + versionChecker.getNewVersion());
+			}
 			sendConsoleMessage(Level.INFO, "Loading the Configuration");
 			config = new ConfigurationManager();
-			config.initialize(Common.getInstance().getServerCaller().getDataFolder(), "config.yml");
+			config.initialize(Common.getInstance().getServerCaller()
+					.getDataFolder(), "config.yml");
 			try {
-				metrics = new Metrics("Craftconomy", this.getServerCaller().getPluginVersion());
+				metrics = new Metrics("Craftconomy", this.getServerCaller()
+						.getPluginVersion());
 			} catch (IOException e) {
-				this.getLogger().log(Level.SEVERE, "Unable to load Metrics! The error is: " + e.getMessage());
+				this.getLogger().log(
+						Level.SEVERE,
+						"Unable to load Metrics! The error is: "
+								+ e.getMessage());
 			}
 			sendConsoleMessage(Level.INFO, "Loading commands");
 			commandManager = new CommandLoader();
 			if (config.getConfig().getBoolean("System.Setup")) {
-				sendConsoleMessage(Level.WARNING, "Loading Craftconomy in setup mode. Please type /ccsetup to start the setup.");
+				sendConsoleMessage(Level.WARNING,
+						"Loading Craftconomy in setup mode. Please type /ccsetup to start the setup.");
 			} else {
 				try {
 					initialiseDatabase();
 				} catch (Exception e) {
-					sendConsoleMessage(Level.SEVERE, "A error occured while trying to connect to the database. Message received: " + e.getMessage());
+					sendConsoleMessage(Level.SEVERE,
+							"A error occured while trying to connect to the database. Message received: "
+									+ e.getMessage());
 					getServerCaller().disablePlugin();
 					return;
 				}
@@ -123,13 +138,15 @@ public class Common {
 	 * Disable the plugin.
 	 */
 	void disable() {
-		if (Common.getInstance().getDatabaseManager() != null && Common.getInstance().getDatabaseManager().getDatabase() != null)
-		{
-			Common.getInstance().getLogger().info("Closing the connection to the database.");
+		if (Common.getInstance().getDatabaseManager() != null
+				&& Common.getInstance().getDatabaseManager().getDatabase() != null) {
+			Common.getInstance().getLogger()
+					.info("Closing the connection to the database.");
 			try {
 				Common.getInstance().getDatabaseManager().getDatabase().close();
 			} catch (ConnectionException e) {
-				this.getLogger().severe("Unable to close the database connection!");
+				this.getLogger().severe(
+						"Unable to close the database connection!");
 			}
 		}
 	}
@@ -257,7 +274,8 @@ public class Common {
 		// We removes some cents if it's something like 20.20381 it would set it
 		// to 20.20
 
-		String[] theAmount = BigDecimal.valueOf(balance).toPlainString().split("\\.");
+		String[] theAmount = BigDecimal.valueOf(balance).toPlainString()
+				.split("\\.");
 		String name = currency.getName();
 		if (Long.parseLong(theAmount[0]) > 1) {
 			name = currency.getPlural();
@@ -266,8 +284,7 @@ public class Common {
 		if (theAmount.length == 2) {
 			if (theAmount[1].length() >= 2) {
 				coin = theAmount[1].substring(0, 2);
-			}
-			else {
+			} else {
 				coin = theAmount[1] + "0";
 			}
 		} else {
@@ -281,11 +298,14 @@ public class Common {
 			if (Long.parseLong(coin) > 1) {
 				subName = currency.getMinorPlural();
 			}
-			string.append(theAmount[0]).append(" ").append(name).append(" ").append(coin).append(" ").append(subName);
-		} else if (displayFormat.equalsIgnoreCase("small")){
-			string.append(theAmount[0]).append(".").append(coin).append(" ").append(name);
+			string.append(theAmount[0]).append(" ").append(name).append(" ")
+					.append(coin).append(" ").append(subName);
+		} else if (displayFormat.equalsIgnoreCase("small")) {
+			string.append(theAmount[0]).append(".").append(coin).append(" ")
+					.append(name);
 		} else if (displayFormat.equalsIgnoreCase("sign")) {
-			string.append(currency.getSign()).append(theAmount[0]).append(".").append(coin);
+			string.append(currency.getSign()).append(theAmount[0]).append(".")
+					.append(coin);
 		}
 		return string.toString();
 	}
@@ -296,7 +316,8 @@ public class Common {
 	 * @throws TableRegistrationException
 	 * @throws ConnectionException
 	 */
-	public void initialiseDatabase() throws TableRegistrationException, ConnectionException {
+	public void initialiseDatabase() throws TableRegistrationException,
+			ConnectionException {
 		if (!databaseInitialized) {
 			sendConsoleMessage(Level.INFO, "Loading the Database Manager");
 			dbManager = new DatabaseManager();
@@ -323,23 +344,25 @@ public class Common {
 	public void startUp() {
 		sendConsoleMessage(Level.INFO, "Loading the Account Manager");
 		accountManager = new AccountManager();
-		addMetricsGraph("Multiworld",getConfigurationManager().isMultiWorld());
+		addMetricsGraph("Multiworld", getConfigurationManager().isMultiWorld());
 		startMetrics();
 		sendConsoleMessage(Level.INFO, "Account Manager Loaded!");
 		sendConsoleMessage(Level.INFO, "Loading the PayDay manager.");
 		paydayManager = new PayDayManager();
-		
+
 		sendConsoleMessage(Level.INFO, "PayDay Manager loaded!");
 
 	}
-	
+
 	/**
 	 * Add a graph to Metrics
-	 * @param title The title of the Graph
-	 * @param value The value of the entry
+	 * 
+	 * @param title
+	 *            The title of the Graph
+	 * @param value
+	 *            The value of the entry
 	 */
-	public void addMetricsGraph(String title, String value)
-	{
+	public void addMetricsGraph(String title, String value) {
 		Graph graph = metrics.createGraph(title);
 		graph.addPlotter(new Metrics.Plotter(value) {
 
@@ -352,21 +375,24 @@ public class Common {
 
 	/**
 	 * Add a graph to Metrics
-	 * @param title The title of the Graph
-	 * @param value The value of the entry
+	 * 
+	 * @param title
+	 *            The title of the Graph
+	 * @param value
+	 *            The value of the entry
 	 */
-	public void addMetricsGraph(String title, boolean value)
-	{
+	public void addMetricsGraph(String title, boolean value) {
 		String stringEnabled = "No";
 		if (value) {
 			stringEnabled = "Yes";
 		}
 		addMetricsGraph(title, stringEnabled);
 	}
-	
+
 	public void startMetrics() {
 		metrics.start();
 	}
+
 	/**
 	 * Write a transaction to the Log.
 	 * 
@@ -381,15 +407,22 @@ public class Common {
 	 * @param worldName
 	 *            The world name associated with this transaction
 	 */
-	public void writeLog(LogInfo info, String username, double amount, Currency currency, String worldName) {
-		if (getConfigurationManager().getConfig().getBoolean("System.Logging.Enabled")) {
+	public void writeLog(LogInfo info, String username, double amount,
+			Currency currency, String worldName) {
+		if (getConfigurationManager().getConfig().getBoolean(
+				"System.Logging.Enabled")) {
 			try {
-				PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(new File(getServerCaller().getDataFolder(), "craftconomy.log"), true)));
+				PrintWriter out = new PrintWriter(new BufferedWriter(
+						new FileWriter(new File(getServerCaller()
+								.getDataFolder(), "craftconomy.log"), true)));
 
-				out.println(info.toString() + ": User: " + username + " Currency: " + currency.getName() + " World: " + worldName + " Amount:" + amount);
+				out.println(info.toString() + ": User: " + username
+						+ " Currency: " + currency.getName() + " World: "
+						+ worldName + " Amount:" + amount);
 				out.close();
 			} catch (IOException e) {
-				getLogger().severe("Error while writing the transaction logger!");
+				getLogger().severe(
+						"Error while writing the transaction logger!");
 			}
 		}
 	}
