@@ -16,30 +16,17 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Craftconomy3.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.greatmancode.craftconomy3;
+package com.greatmancode.craftconomy3.events;
 
-import org.bukkit.plugin.java.JavaPlugin;
+import com.greatmancode.craftconomy3.Common;
 
-import com.greatmancode.craftconomy3.events.BukkitListener;
+public class EventManager {
 
-/**
- * Class used when the plugin is loaded from Craftbukkit
- * @author greatman
- * 
- */
-public class BukkitLoader extends JavaPlugin implements Loader{
-
-	public void onEnable() {
-		new Common(this, getLogger()).initialize();
-		this.getServer().getPluginManager().registerEvents(new BukkitListener(), this);
-	}
-
-	public void onDisable() {
-		Common.getInstance().disable();
-	}
-
-	@Override
-	public boolean isBukkit() {
-		return true;
+	public void playerJoinEvent(String playerName) {
+		if (Common.getInstance().getServerCaller().isOp(playerName)) {
+			if (Common.getInstance().getVersionChecker().isOld()) {
+				Common.getInstance().getServerCaller().sendMessage(playerName, "Craftconomy is out of date! New version is " + Common.getInstance().getVersionChecker().getNewVersion());
+			}
+		}
 	}
 }

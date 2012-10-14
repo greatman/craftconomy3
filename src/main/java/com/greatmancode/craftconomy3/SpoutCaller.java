@@ -180,4 +180,10 @@ public class SpoutCaller implements Caller {
 	public String getPluginVersion() {
 		return loader.getDescription().getVersion();
 	}
+
+	@Override
+	public boolean isOp(String playerName) {
+		//TODO: Hmm... There's not really a OP in Spout. Maybe use a permission flag?
+		return false;
+	}
 }

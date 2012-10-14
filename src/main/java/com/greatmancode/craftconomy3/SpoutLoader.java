@@ -24,6 +24,7 @@ import org.spout.api.plugin.CommonPlugin;
 import org.spout.api.plugin.ServiceManager.ServicePriority;
 import org.spout.api.plugin.services.EconomyService;
 
+import com.greatmancode.craftconomy3.events.SpoutListener;
 import com.greatmancode.craftconomy3.spout.EconomyServiceHandler;
 
 /**
@@ -40,7 +41,7 @@ public class SpoutLoader extends CommonPlugin implements Loader{
 		this.loadLibrary(new File("natives" + File.separator + "mysql-connector-java-5.1.14.jar"));
 		new Common(this, getLogger()).initialize();
 		getEngine().getServiceManager().register(EconomyService.class, new EconomyServiceHandler(), this, ServicePriority.High);
-
+		this.getEngine().getEventManager().registerEvents(new SpoutListener(), this);
 	}
 
 	@Override

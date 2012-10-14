@@ -196,5 +196,9 @@ public class BukkitCaller implements Caller {
 	public String getPluginVersion() {
 		return loader.getDescription().getVersion();
 	}
+	@Override
+	public boolean isOp(String playerName) {
+		return loader.getServer().getOfflinePlayer(playerName).isOp();
+	}
 
 }

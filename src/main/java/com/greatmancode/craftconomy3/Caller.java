@@ -166,4 +166,6 @@ public interface Caller {
 	 * @return The plugin version.
 	 */
 	String getPluginVersion();
+	
+	boolean isOp(String playerName);
 }

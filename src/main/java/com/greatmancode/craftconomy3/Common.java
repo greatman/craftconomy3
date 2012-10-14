@@ -35,6 +35,7 @@ import com.greatmancode.craftconomy3.configuration.ConfigurationManager;
 import com.greatmancode.craftconomy3.currency.Currency;
 import com.greatmancode.craftconomy3.currency.CurrencyManager;
 import com.greatmancode.craftconomy3.database.DatabaseManager;
+import com.greatmancode.craftconomy3.events.EventManager;
 import com.greatmancode.craftconomy3.payday.PayDayManager;
 import com.greatmancode.craftconomy3.utils.Metrics;
 import com.greatmancode.craftconomy3.utils.Metrics.Graph;
@@ -57,7 +58,8 @@ public class Common {
 	private CurrencyManager currencyManager = null;
 	private DatabaseManager dbManager = null;
 	private PayDayManager paydayManager = null;
-
+	private EventManager eventManager = null;
+	
 	private CommandLoader commandManager;
 	private Caller serverCaller;
 	private VersionChecker versionChecker = null;
@@ -349,9 +351,8 @@ public class Common {
 		sendConsoleMessage(Level.INFO, "Account Manager Loaded!");
 		sendConsoleMessage(Level.INFO, "Loading the PayDay manager.");
 		paydayManager = new PayDayManager();
-
 		sendConsoleMessage(Level.INFO, "PayDay Manager loaded!");
-
+		eventManager = new EventManager();
 	}
 
 	/**
@@ -425,5 +426,13 @@ public class Common {
 						"Error while writing the transaction logger!");
 			}
 		}
+	}
+	
+	public VersionChecker getVersionChecker() {
+		return versionChecker;
+	}
+	
+	public EventManager getEventManager() {
+		return eventManager;
 	}
 }
