@@ -211,7 +211,7 @@ public class BukkitCaller implements Caller {
 			loader.getPluginClassLoader().addURL(new File(path).toURI().toURL());
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Common.getInstance().sendConsoleMessage(Level.SEVERE, "Invalid library URL for: " + path + ". Full error is: " + e.getMessage());
 		}
 
 	}

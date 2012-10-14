@@ -89,6 +89,8 @@ public class Metrics {
 	 */
 	private static final int PING_INTERVAL = 10;
 
+	private static final String OPT_OUT = "opt-out";
+	private static final String GUID = "guid";
 	/**
 	 * All of the custom graphs to submit to metrics
 	 */
@@ -127,15 +129,15 @@ public class Metrics {
 		// load the config
 		configuration = Common.getInstance().getConfigurationManager().loadFile(new File(Common.getInstance().getServerCaller().getDataFolder().getParentFile(), "PluginMetrics"), "config.yml");
 
-		if (!configuration.has("opt-out")) {
-			configuration.setValue("opt-out", false);
+		if (!configuration.has(OPT_OUT)) {
+			configuration.setValue(OPT_OUT, false);
 		}
-		if (!configuration.has("guid")) {
-			configuration.setValue("guid", UUID.randomUUID().toString());
+		if (!configuration.has(GUID)) {
+			configuration.setValue(GUID, UUID.randomUUID().toString());
 		}
 
 		// Load the guid then
-		guid = configuration.getString("guid");
+		guid = configuration.getString(GUID);
 	}
 
 	/**
@@ -251,7 +253,7 @@ public class Metrics {
 	 */
 	public boolean isOptOut() {
 		synchronized (optOutLock) {
-			return configuration.getBoolean("opt-out");
+			return configuration.getBoolean(OPT_OUT);
 		}
 	}
 
@@ -265,7 +267,7 @@ public class Metrics {
 		synchronized (optOutLock) {
 			// Check if the server owner has already set opt-out, if not, set it.
 			if (isOptOut()) {
-				configuration.setValue("opt-out", false);
+				configuration.setValue(OPT_OUT, false);
 			}
 
 			// Enable Task, if it is not running
@@ -285,7 +287,7 @@ public class Metrics {
 		synchronized (optOutLock) {
 			// Check if the server owner has already set opt-out, if not, set it.
 			if (!isOptOut()) {
-				configuration.setValue("opt-out", true);
+				configuration.setValue(OPT_OUT, true);
 			}
 
 			// Disable Task, if it is running

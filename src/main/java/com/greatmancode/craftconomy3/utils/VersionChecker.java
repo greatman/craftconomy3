@@ -21,6 +21,9 @@ package com.greatmancode.craftconomy3.utils;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Scanner;
+import java.util.logging.Level;
+
+import com.greatmancode.craftconomy3.Common;
 
 public class VersionChecker {
 
@@ -40,7 +43,7 @@ public class VersionChecker {
 			s.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Common.getInstance().sendConsoleMessage(Level.SEVERE, "Error while trying to check for the latest version. The error is: " + e.getMessage());
 		}
 
 	}
@@ -51,11 +54,5 @@ public class VersionChecker {
 
 	public String getNewVersion() {
 		return newVersion;
-	}
-
-	public static void main(String[] args) {
-		VersionChecker versionCheck = new VersionChecker("3.0.1");
-		System.out.println(versionCheck.isOld());
-		System.out.println(versionCheck.getNewVersion());
 	}
 }

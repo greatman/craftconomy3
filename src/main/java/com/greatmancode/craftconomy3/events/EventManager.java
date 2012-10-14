@@ -23,10 +23,8 @@ import com.greatmancode.craftconomy3.Common;
 public class EventManager {
 
 	public void playerJoinEvent(String playerName) {
-		if (Common.getInstance().getServerCaller().isOp(playerName)) {
-			if (Common.getInstance().getVersionChecker().isOld()) {
-				Common.getInstance().getServerCaller().sendMessage(playerName, "{{DARK_CYAN}}Craftconomy is out of date! New version is " + Common.getInstance().getVersionChecker().getNewVersion());
-			}
+		if (Common.getInstance().getServerCaller().isOp(playerName) && Common.getInstance().getVersionChecker().isOld()) {
+			Common.getInstance().getServerCaller().sendMessage(playerName, "{{DARK_CYAN}}Craftconomy is out of date! New version is " + Common.getInstance().getVersionChecker().getNewVersion());
 		}
 	}
 }
