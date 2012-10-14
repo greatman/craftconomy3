@@ -25,6 +25,7 @@ import com.greatmancode.craftconomy3.commands.CommandManager;
 
 /**
  * Represents a server Caller
+ * 
  * @author greatman
  * 
  */
@@ -39,6 +40,7 @@ public interface Caller {
 
 	/**
 	 * Check the permissions of a player
+	 * 
 	 * @param playerName The player name to check
 	 * @param perm The permission node to check
 	 * @return True if the player have the permission. Else false (Always true for the Console)
@@ -47,6 +49,7 @@ public interface Caller {
 
 	/**
 	 * Sends a message to a player
+	 * 
 	 * @param playerName The player name to send the message
 	 * @param message The message to send
 	 */
@@ -54,6 +57,7 @@ public interface Caller {
 
 	/**
 	 * Retrieve the world name that a player is currently in
+	 * 
 	 * @param playerName The player name to retrieve the world
 	 * @return The world name the player is currently in. Returns "" when the player is offline
 	 */
@@ -61,6 +65,7 @@ public interface Caller {
 
 	/**
 	 * Checks if a player is online
+	 * 
 	 * @param playerName The player name
 	 * @return True if the player is online. Else false.
 	 */
@@ -68,6 +73,7 @@ public interface Caller {
 
 	/**
 	 * Add color in a message
+	 * 
 	 * @param message The message to add color in
 	 * @return The message with colors.
 	 */
@@ -75,6 +81,7 @@ public interface Caller {
 
 	/**
 	 * Checks if a world exist.
+	 * 
 	 * @param worldName The world name to check
 	 * @return True if the world exist. Else false.
 	 */
@@ -82,25 +89,29 @@ public interface Caller {
 
 	/**
 	 * Retrieve the default world of the server
+	 * 
 	 * @return The default world name
 	 */
 	String getDefaultWorld();
 
 	/**
 	 * Get the data folder (Aka. the plugin folder)
+	 * 
 	 * @return The data folder
 	 */
 	File getDataFolder();
-	
+
 	/**
 	 * Schedule something to be run each X seconds.
+	 * 
 	 * @param entry the runnable class
 	 * @param firstStart When we should run this class first?
 	 * @param repeating What is the interval to be run at? (In seconds)
 	 */
-	
+
 	/**
 	 * Schedule a repeating task to be run in non-async mode.
+	 * 
 	 * @param entry The Runnable to be run.
 	 * @param firstStart When should the task be run (In seconds)
 	 * @param repeating How much seconds to be waiting bewtween each repeats? (0 to disable)
@@ -110,6 +121,7 @@ public interface Caller {
 
 	/**
 	 * Schedule a repeating task to be run.
+	 * 
 	 * @param entry The Runnable to be run.
 	 * @param firstStart When should the task be run (In seconds)
 	 * @param repeating How much seconds to be waiting bewtween each repeats? (0 to disable)
@@ -117,55 +129,75 @@ public interface Caller {
 	 * @return the task ID
 	 */
 	int schedule(Runnable entry, long firstStart, long repeating, boolean async);
-	
+
 	/**
 	 * Cancel a current scheduled task
+	 * 
 	 * @param id The task ID.
 	 */
 	void cancelSchedule(int id);
 
 	/**
 	 * Delay a task
+	 * 
 	 * @param entry The task to delay
 	 * @param start When should the task be started? (In seconds)
 	 * @return The task ID
 	 */
 	int delay(Runnable entry, long start);
-	
+
 	/**
 	 * Delay a task
+	 * 
 	 * @param entry The task to delay
 	 * @param start When should the task be started? (In seconds)
 	 * @param async Should the task be Async? (Threaded)
 	 * @return The task ID
 	 */
 	int delay(Runnable entry, long start, boolean async);
-	
+
 	/**
 	 * Retrieve a list of online players
+	 * 
 	 * @return A list of all players online.
 	 */
 	List<String> getOnlinePlayers();
-	
+
 	/**
 	 * Add a command in the server
+	 * 
 	 * @param name The name of the command
 	 * @param help The help line of the command
 	 * @param manager The manager that manage the command.
 	 */
 	void addCommand(String name, String help, CommandManager manager);
-	
+
 	/**
 	 * Retrieve the server version.
+	 * 
 	 * @return The server version.
 	 */
 	String getServerVersion();
-	
+
 	/**
 	 * Retrieve the plugin version.
+	 * 
 	 * @return The plugin version.
 	 */
 	String getPluginVersion();
-	
+
+	/**
+	 * Check if the user is a Operator.
+	 * 
+	 * @param playerName The player name to check
+	 * @return True if the player is a OP else false.
+	 */
 	boolean isOp(String playerName);
+
+	/**
+	 * Load a library.
+	 * 
+	 * @param path The path to the .jar of the library.
+	 */
+	void loadLibrary(String path);
 }

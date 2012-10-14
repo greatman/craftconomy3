@@ -115,8 +115,8 @@ public class BukkitCommandManager implements CommandExecutor, CommandManager {
 
 		if (cmd != null) {
 			if (cmd.playerOnly() && !(commandSender instanceof Player)) {
-					commandSender.sendMessage(Common.getInstance().getServerCaller().addColor(Caller.CHAT_PREFIX + "{{DARK_RED}}Only a player can use this command!"));
-					return true;
+				commandSender.sendMessage(Common.getInstance().getServerCaller().addColor(Caller.CHAT_PREFIX + "{{DARK_RED}}Only a player can use this command!"));
+				return true;
 			}
 			if (!(commandSender instanceof Player) || cmd.permission(commandSender.getName())) {
 				String[] newargs;

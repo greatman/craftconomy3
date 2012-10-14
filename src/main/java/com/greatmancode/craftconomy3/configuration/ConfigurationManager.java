@@ -122,7 +122,7 @@ public class ConfigurationManager {
 		}
 
 	}
-	
+
 	private void alertOldDbVersion(String currentVersion, int newVersion) {
 		Common.getInstance().getLogger().info("Your database is out of date! (Version " + currentVersion + "). Updating it to Revision " + newVersion + ".");
 

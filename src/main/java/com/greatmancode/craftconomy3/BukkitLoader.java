@@ -19,6 +19,7 @@
 package com.greatmancode.craftconomy3;
 
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.java.PluginClassLoader;
 
 import com.greatmancode.craftconomy3.events.BukkitListener;
 
@@ -41,5 +42,13 @@ public class BukkitLoader extends JavaPlugin implements Loader{
 	@Override
 	public boolean isBukkit() {
 		return true;
+	}
+	
+	/**
+	 * Retrieve the PluginClassLoader of Bukkit
+	 * @return The PluginClassLoader of Bukkit
+	 */
+	public PluginClassLoader getPluginClassLoader() {
+		return (PluginClassLoader) this.getClassLoader();
 	}
 }

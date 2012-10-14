@@ -28,6 +28,7 @@ import com.greatmancode.craftconomy3.database.tables.AccessTable;
 
 /**
  * Used with bank accounts. Takes care of the access control of a bank account.
+ * 
  * @author greatman
  * 
  */
@@ -49,6 +50,7 @@ public class AccountACL {
 
 	/**
 	 * Checks if a player can deposit money
+	 * 
 	 * @param name The player name
 	 * @return True if the player can deposit money, else false
 	 */
@@ -63,6 +65,7 @@ public class AccountACL {
 
 	/**
 	 * Checks if a player can withdraw money
+	 * 
 	 * @param name The player name
 	 * @return True if the player can withdraw money, else false.
 	 */
@@ -77,6 +80,7 @@ public class AccountACL {
 
 	/**
 	 * Checks if a player can modify the ACL
+	 * 
 	 * @param name The player name
 	 * @return True if the player can modify the ACL, else false.
 	 */
@@ -91,6 +95,7 @@ public class AccountACL {
 
 	/**
 	 * Checks if a player can show the balance of the account
+	 * 
 	 * @param name The player name
 	 * @return True if the player can show the balance of the account, else false.
 	 */
@@ -105,6 +110,7 @@ public class AccountACL {
 
 	/**
 	 * Set if a player can deposit money in the account
+	 * 
 	 * @param name The Player name
 	 * @param deposit Can deposit or not
 	 */
@@ -120,6 +126,7 @@ public class AccountACL {
 
 	/**
 	 * Set if a player can withdraw money in the account
+	 * 
 	 * @param name The Player name
 	 * @param withdraw Can withdraw or not
 	 */
@@ -135,6 +142,7 @@ public class AccountACL {
 
 	/**
 	 * Set if a player can modify the ACL list
+	 * 
 	 * @param name The player name
 	 * @param acl can modify the ACL or not
 	 */
@@ -150,6 +158,7 @@ public class AccountACL {
 
 	/**
 	 * Set if a player can show the bank balance.
+	 * 
 	 * @param name The player name
 	 * @param show can show the bank balance or not.
 	 */
@@ -165,6 +174,7 @@ public class AccountACL {
 
 	/**
 	 * Set a player in the ACL list
+	 * 
 	 * @param name The Player
 	 * @param deposit Can deposit or not
 	 * @param withdraw Can withdraw or not
@@ -193,6 +203,7 @@ public class AccountACL {
 
 	/**
 	 * Checks if the player is the bank owner.
+	 * 
 	 * @param name The player name to check
 	 * @return True if the player is the owner of the account. Else false.
 	 */
@@ -206,6 +217,7 @@ public class AccountACL {
 
 	/**
 	 * Returns the related account
+	 * 
 	 * @return The related account
 	 */
 	public Account getParent() {

@@ -32,7 +32,7 @@ public class CurrencyAddCommand implements CraftconomyCommand {
 			} else {
 				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}This currency already exists!");
 			}
-			
+
 		}
 	}
 

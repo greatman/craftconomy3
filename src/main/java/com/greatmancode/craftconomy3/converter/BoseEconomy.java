@@ -117,7 +117,7 @@ public class BoseEconomy extends Converter {
 				line = line.replaceAll(TAB_CHECK, "");
 			}
 		}
-		
+
 	}
 
 	private void accountImporter(String username) throws IOException {

@@ -27,8 +27,7 @@ import com.greatmancode.craftconomy3.Common;
 public class BukkitListener implements Listener {
 
 	@EventHandler
-	public void playerJoin(PlayerJoinEvent event)
-	{
+	public void playerJoin(PlayerJoinEvent event) {
 		Common.getInstance().getEventManager().playerJoinEvent(event.getPlayer().getName());
 	}
 }

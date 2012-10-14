@@ -120,17 +120,9 @@ public class SpoutCaller implements Caller {
 	@Override
 	public int schedule(Runnable entry, long firstStart, long repeating, boolean async) {
 		if (!async) {
-			return loader
-					.getEngine()
-					.getScheduler()
-					.scheduleSyncRepeatingTask(loader, entry, TimeUnit.MILLISECONDS.convert(firstStart, TimeUnit.SECONDS),
-							TimeUnit.MILLISECONDS.convert(repeating, TimeUnit.SECONDS), TaskPriority.NORMAL);
+			return loader.getEngine().getScheduler().scheduleSyncRepeatingTask(loader, entry, TimeUnit.MILLISECONDS.convert(firstStart, TimeUnit.SECONDS), TimeUnit.MILLISECONDS.convert(repeating, TimeUnit.SECONDS), TaskPriority.NORMAL);
 		} else {
-			return loader
-					.getEngine()
-					.getScheduler()
-					.scheduleAsyncRepeatingTask(loader, entry, TimeUnit.MILLISECONDS.convert(firstStart, TimeUnit.SECONDS),
-							TimeUnit.MILLISECONDS.convert(repeating, TimeUnit.SECONDS), TaskPriority.NORMAL);
+			return loader.getEngine().getScheduler().scheduleAsyncRepeatingTask(loader, entry, TimeUnit.MILLISECONDS.convert(firstStart, TimeUnit.SECONDS), TimeUnit.MILLISECONDS.convert(repeating, TimeUnit.SECONDS), TaskPriority.NORMAL);
 		}
 	}
 
@@ -170,12 +162,12 @@ public class SpoutCaller implements Caller {
 		}
 
 	}
-	
+
 	@Override
 	public String getServerVersion() {
 		return "SpoutServer " + Spout.getAPIVersion();
 	}
-	
+
 	@Override
 	public String getPluginVersion() {
 		return loader.getDescription().getVersion();
@@ -183,7 +175,13 @@ public class SpoutCaller implements Caller {
 
 	@Override
 	public boolean isOp(String playerName) {
-		//TODO: Hmm... There's not really a OP in Spout. Maybe use a permission flag?
+		// TODO: Hmm... There's not really a OP in Spout. Maybe use a permission flag?
 		return false;
+	}
+
+	@Override
+	public void loadLibrary(String path) {
+		// TODO Auto-generated method stub
+		loader.loadLibrary(new File(path));
 	}
 }

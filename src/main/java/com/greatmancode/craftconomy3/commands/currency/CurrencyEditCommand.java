@@ -42,7 +42,7 @@ public class CurrencyEditCommand implements CraftconomyCommand {
 					return;
 				}
 				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Currency modified!");
-				
+
 			} else {
 				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Can't change a currency value to empty (Aka \"\")");
 			}

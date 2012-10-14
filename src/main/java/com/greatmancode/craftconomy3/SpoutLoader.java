@@ -18,8 +18,6 @@
  */
 package com.greatmancode.craftconomy3;
 
-import java.io.File;
-
 import org.spout.api.plugin.CommonPlugin;
 import org.spout.api.plugin.ServiceManager.ServicePriority;
 import org.spout.api.plugin.services.EconomyService;
@@ -29,16 +27,14 @@ import com.greatmancode.craftconomy3.spout.EconomyServiceHandler;
 
 /**
  * Class used when the plugin is loaded from Spout.
+ * 
  * @author greatman
  * 
  */
-public class SpoutLoader extends CommonPlugin implements Loader{
+public class SpoutLoader extends CommonPlugin implements Loader {
 
 	@Override
 	public void onEnable() {
-		//TODO: Improve that
-		this.loadLibrary(new File("natives" + File.separator + "sqlite-jdbc-3.7.2.jar"));
-		this.loadLibrary(new File("natives" + File.separator + "mysql-connector-java-5.1.14.jar"));
 		new Common(this, getLogger()).initialize();
 		getEngine().getServiceManager().register(EconomyService.class, new EconomyServiceHandler(), this, ServicePriority.High);
 		this.getEngine().getEventManager().registerEvents(new SpoutListener(), this);
@@ -52,6 +48,5 @@ public class SpoutLoader extends CommonPlugin implements Loader{
 	public boolean isBukkit() {
 		return false;
 	}
-	
-	
+
 }

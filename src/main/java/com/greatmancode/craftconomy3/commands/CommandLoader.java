@@ -69,6 +69,7 @@ import com.greatmancode.craftconomy3.commands.setup.SetupMultiWorldCommand;
 
 /**
  * Generic CommandLoader. Loads all the sub-commands.
+ * 
  * @author greatman
  * 
  */
@@ -103,26 +104,26 @@ public class CommandLoader {
 		bankCmdList.put("give", new BankGiveCommand());
 		bankCmdList.put("take", new BankTakeCommand());
 		bankCmdList.put("perm", new BankPermCommand());
-		
+
 		setupCmdList.put("", new SetupMainCommand());
 		setupCmdList.put("database", new SetupDatabaseCommand());
 		setupCmdList.put("multiworld", new SetupMultiWorldCommand());
 		setupCmdList.put("currency", new SetupCurrencyCommand());
 		setupCmdList.put("basic", new SetupBasicCommand());
 		setupCmdList.put("convert", new SetupConvertCommand());
-		
+
 		currencyCmdList.put("add", new CurrencyAddCommand());
 		currencyCmdList.put("delete", new CurrencyDeleteCommand());
 		currencyCmdList.put("edit", new CurrencyEditCommand());
 		currencyCmdList.put("info", new CurrencyInfoCommand());
 		currencyCmdList.put("help", new CurrencyHelpCommand());
 		currencyCmdList.put("default", new CurrencyDefaultCommand());
-		
+
 		configCmdList.put("holdings", new ConfigHoldingsCommand());
 		configCmdList.put("bankprice", new ConfigBankPriceCommand());
-		configCmdList.put("format",  new ConfigFormatCommand());
+		configCmdList.put("format", new ConfigFormatCommand());
 		configCmdList.put("help", new ConfigHelpCommand());
-		
+
 		paydayCmdList.put("create", new PayDayCreateCommand());
 		paydayCmdList.put("delete", new PayDayDeleteCommand());
 		paydayCmdList.put("help", new PayDayHelpCommand());
@@ -132,14 +133,14 @@ public class CommandLoader {
 
 		if (Common.getInstance().getServerCaller() instanceof BukkitCaller) {
 			new BukkitCommandManager();
-		}
-		else if (Common.getInstance().getServerCaller() instanceof SpoutCaller) {
+		} else if (Common.getInstance().getServerCaller() instanceof SpoutCaller) {
 			new SpoutCommandManager();
 		}
 	}
 
 	/**
 	 * Get the list of sub-commands of the /money command.
+	 * 
 	 * @return A HashMap containing the sub-commands.
 	 */
 	public Map<String, CraftconomyCommand> getMoneyCmdList() {
@@ -148,21 +149,22 @@ public class CommandLoader {
 
 	/**
 	 * Get the list of sub-commands of the /bank command
+	 * 
 	 * @return A HashMap containing the sub-commands.
 	 */
 	public Map<String, CraftconomyCommand> getBankCmdList() {
 		return bankCmdList;
 	}
-	
-	public Map<String,CraftconomyCommand> getSetupCmdList() {
+
+	public Map<String, CraftconomyCommand> getSetupCmdList() {
 		return setupCmdList;
 	}
-	
-	public Map<String,CraftconomyCommand> getCurrencyCmdList() {
+
+	public Map<String, CraftconomyCommand> getCurrencyCmdList() {
 		return currencyCmdList;
 	}
-	
-	public Map<String,CraftconomyCommand> getConfigCmdList() {
+
+	public Map<String, CraftconomyCommand> getConfigCmdList() {
 		return configCmdList;
 	}
 

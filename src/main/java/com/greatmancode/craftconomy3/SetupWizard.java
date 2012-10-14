@@ -51,7 +51,7 @@ public enum SetupWizard {
 	public static void setState(SetupWizard newState) {
 		state = newState;
 	}
-	
+
 	/**
 	 * Retrieve the Wizard state.
 	 */

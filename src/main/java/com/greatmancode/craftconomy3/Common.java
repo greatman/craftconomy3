@@ -59,7 +59,7 @@ public class Common {
 	private DatabaseManager dbManager = null;
 	private PayDayManager paydayManager = null;
 	private EventManager eventManager = null;
-	
+
 	private CommandLoader commandManager;
 	private Caller serverCaller;
 	private VersionChecker versionChecker = null;
@@ -71,10 +71,8 @@ public class Common {
 	/**
 	 * Loads the Common core.
 	 * 
-	 * @param isBukkit
-	 *            If the server is Craftbukkit or not
-	 * @param log
-	 *            The Logger associated with this plugin.
+	 * @param isBukkit If the server is Craftbukkit or not
+	 * @param log The Logger associated with this plugin.
 	 */
 	public Common(Loader loader, Logger log) {
 		instance = this;
@@ -98,29 +96,21 @@ public class Common {
 			}
 			sendConsoleMessage(Level.INFO, "Loading the Configuration");
 			config = new ConfigurationManager();
-			config.initialize(Common.getInstance().getServerCaller()
-					.getDataFolder(), "config.yml");
+			config.initialize(Common.getInstance().getServerCaller().getDataFolder(), "config.yml");
 			try {
-				metrics = new Metrics("Craftconomy", this.getServerCaller()
-						.getPluginVersion());
+				metrics = new Metrics("Craftconomy", this.getServerCaller().getPluginVersion());
 			} catch (IOException e) {
-				this.getLogger().log(
-						Level.SEVERE,
-						"Unable to load Metrics! The error is: "
-								+ e.getMessage());
+				this.getLogger().log(Level.SEVERE, "Unable to load Metrics! The error is: " + e.getMessage());
 			}
 			sendConsoleMessage(Level.INFO, "Loading commands");
 			commandManager = new CommandLoader();
 			if (config.getConfig().getBoolean("System.Setup")) {
-				sendConsoleMessage(Level.WARNING,
-						"Loading Craftconomy in setup mode. Please type /ccsetup to start the setup.");
+				sendConsoleMessage(Level.WARNING, "Loading Craftconomy in setup mode. Please type /ccsetup to start the setup.");
 			} else {
 				try {
 					initialiseDatabase();
 				} catch (Exception e) {
-					sendConsoleMessage(Level.SEVERE,
-							"A error occured while trying to connect to the database. Message received: "
-									+ e.getMessage());
+					sendConsoleMessage(Level.SEVERE, "A error occured while trying to connect to the database. Message received: " + e.getMessage());
 					getServerCaller().disablePlugin();
 					return;
 				}
@@ -140,15 +130,12 @@ public class Common {
 	 * Disable the plugin.
 	 */
 	void disable() {
-		if (Common.getInstance().getDatabaseManager() != null
-				&& Common.getInstance().getDatabaseManager().getDatabase() != null) {
-			Common.getInstance().getLogger()
-					.info("Closing the connection to the database.");
+		if (Common.getInstance().getDatabaseManager() != null && Common.getInstance().getDatabaseManager().getDatabase() != null) {
+			Common.getInstance().getLogger().info("Closing the connection to the database.");
 			try {
 				Common.getInstance().getDatabaseManager().getDatabase().close();
 			} catch (ConnectionException e) {
-				this.getLogger().severe(
-						"Unable to close the database connection!");
+				this.getLogger().severe("Unable to close the database connection!");
 			}
 		}
 	}
@@ -165,18 +152,15 @@ public class Common {
 	/**
 	 * Sends a message to the console through the Logge.r
 	 * 
-	 * @param level
-	 *            The log level to show.
-	 * @param msg
-	 *            The message to send.
+	 * @param level The log level to show.
+	 * @param msg The message to send.
 	 */
 	public void sendConsoleMessage(Level level, String msg) {
 		getLogger().log(level, msg);
 	}
 
 	/**
-	 * Retrieve the instance of Common. Need to go through that to access any
-	 * managers.
+	 * Retrieve the instance of Common. Need to go through that to access any managers.
 	 * 
 	 * @return The Common instance.
 	 */
@@ -187,8 +171,7 @@ public class Common {
 	/**
 	 * Retrieve the Account Manager.
 	 * 
-	 * @return The Account Manager instance or null if the manager is not
-	 *         initialized.
+	 * @return The Account Manager instance or null if the manager is not initialized.
 	 */
 	public AccountManager getAccountManager() {
 		return accountManager;
@@ -197,8 +180,7 @@ public class Common {
 	/**
 	 * Retrieve the Configuration Manager.
 	 * 
-	 * @return The Configuration Manager instance or null if the manager is not
-	 *         initialized.
+	 * @return The Configuration Manager instance or null if the manager is not initialized.
 	 */
 	public ConfigurationManager getConfigurationManager() {
 		return config;
@@ -207,8 +189,7 @@ public class Common {
 	/**
 	 * Retrieve the Database Manager.
 	 * 
-	 * @return The Database Manager instance or null if the manager is not
-	 *         initialized.
+	 * @return The Database Manager instance or null if the manager is not initialized.
 	 */
 	public DatabaseManager getDatabaseManager() {
 		return dbManager;
@@ -217,8 +198,7 @@ public class Common {
 	/**
 	 * Retrieve the Currency Manager.
 	 * 
-	 * @return The Currency Manager instance or null if the manager is not
-	 *         initialized.
+	 * @return The Currency Manager instance or null if the manager is not initialized.
 	 */
 	public CurrencyManager getCurrencyManager() {
 		return currencyManager;
@@ -227,8 +207,7 @@ public class Common {
 	/**
 	 * Retrieve the Command Manager.
 	 * 
-	 * @return The Command Manager instance or null if the manager is not
-	 *         initialized.
+	 * @return The Command Manager instance or null if the manager is not initialized.
 	 */
 	public CommandLoader getCommandManager() {
 		return commandManager;
@@ -237,8 +216,7 @@ public class Common {
 	/**
 	 * Retrieve the Payday Manager
 	 * 
-	 * @return The Command Manager instance or null if the manager is not
-	 *         initialized.
+	 * @return The Command Manager instance or null if the manager is not initialized.
 	 */
 	public PayDayManager getPaydayManager() {
 		return paydayManager;
@@ -247,8 +225,7 @@ public class Common {
 	/**
 	 * Retrieve the Server Caller.
 	 * 
-	 * @return The Server Caller instance or null if the caller is not
-	 *         initialized.
+	 * @return The Server Caller instance or null if the caller is not initialized.
 	 */
 	public Caller getServerCaller() {
 		return serverCaller;
@@ -257,12 +234,9 @@ public class Common {
 	/**
 	 * Format a balance to a readable string.
 	 * 
-	 * @param worldName
-	 *            The world Name associated with this balance
-	 * @param currency
-	 *            The currency instance associated with this balance.
-	 * @param balance
-	 *            The balance.
+	 * @param worldName The world Name associated with this balance
+	 * @param currency The currency instance associated with this balance.
+	 * @param balance The balance.
 	 * @return A pretty String showing the balance.
 	 */
 	public String format(String worldName, Currency currency, double balance) {
@@ -276,8 +250,7 @@ public class Common {
 		// We removes some cents if it's something like 20.20381 it would set it
 		// to 20.20
 
-		String[] theAmount = BigDecimal.valueOf(balance).toPlainString()
-				.split("\\.");
+		String[] theAmount = BigDecimal.valueOf(balance).toPlainString().split("\\.");
 		String name = currency.getName();
 		if (Long.parseLong(theAmount[0]) > 1) {
 			name = currency.getPlural();
@@ -300,14 +273,11 @@ public class Common {
 			if (Long.parseLong(coin) > 1) {
 				subName = currency.getMinorPlural();
 			}
-			string.append(theAmount[0]).append(" ").append(name).append(" ")
-					.append(coin).append(" ").append(subName);
+			string.append(theAmount[0]).append(" ").append(name).append(" ").append(coin).append(" ").append(subName);
 		} else if (displayFormat.equalsIgnoreCase("small")) {
-			string.append(theAmount[0]).append(".").append(coin).append(" ")
-					.append(name);
+			string.append(theAmount[0]).append(".").append(coin).append(" ").append(name);
 		} else if (displayFormat.equalsIgnoreCase("sign")) {
-			string.append(currency.getSign()).append(theAmount[0]).append(".")
-					.append(coin);
+			string.append(currency.getSign()).append(theAmount[0]).append(".").append(coin);
 		}
 		return string.toString();
 	}
@@ -318,8 +288,7 @@ public class Common {
 	 * @throws TableRegistrationException
 	 * @throws ConnectionException
 	 */
-	public void initialiseDatabase() throws TableRegistrationException,
-			ConnectionException {
+	public void initialiseDatabase() throws TableRegistrationException, ConnectionException {
 		if (!databaseInitialized) {
 			sendConsoleMessage(Level.INFO, "Loading the Database Manager");
 			dbManager = new DatabaseManager();
@@ -358,10 +327,8 @@ public class Common {
 	/**
 	 * Add a graph to Metrics
 	 * 
-	 * @param title
-	 *            The title of the Graph
-	 * @param value
-	 *            The value of the entry
+	 * @param title The title of the Graph
+	 * @param value The value of the entry
 	 */
 	public void addMetricsGraph(String title, String value) {
 		Graph graph = metrics.createGraph(title);
@@ -377,10 +344,8 @@ public class Common {
 	/**
 	 * Add a graph to Metrics
 	 * 
-	 * @param title
-	 *            The title of the Graph
-	 * @param value
-	 *            The value of the entry
+	 * @param title The title of the Graph
+	 * @param value The value of the entry
 	 */
 	public void addMetricsGraph(String title, boolean value) {
 		String stringEnabled = "No";
@@ -397,41 +362,29 @@ public class Common {
 	/**
 	 * Write a transaction to the Log.
 	 * 
-	 * @param info
-	 *            The type of transaction to log.
-	 * @param username
-	 *            The username that did this transaction.
-	 * @param amount
-	 *            The amount of money in this transaction.
-	 * @param currency
-	 *            The currency associated with this transaction
-	 * @param worldName
-	 *            The world name associated with this transaction
+	 * @param info The type of transaction to log.
+	 * @param username The username that did this transaction.
+	 * @param amount The amount of money in this transaction.
+	 * @param currency The currency associated with this transaction
+	 * @param worldName The world name associated with this transaction
 	 */
-	public void writeLog(LogInfo info, String username, double amount,
-			Currency currency, String worldName) {
-		if (getConfigurationManager().getConfig().getBoolean(
-				"System.Logging.Enabled")) {
+	public void writeLog(LogInfo info, String username, double amount, Currency currency, String worldName) {
+		if (getConfigurationManager().getConfig().getBoolean("System.Logging.Enabled")) {
 			try {
-				PrintWriter out = new PrintWriter(new BufferedWriter(
-						new FileWriter(new File(getServerCaller()
-								.getDataFolder(), "craftconomy.log"), true)));
+				PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(new File(getServerCaller().getDataFolder(), "craftconomy.log"), true)));
 
-				out.println(info.toString() + ": User: " + username
-						+ " Currency: " + currency.getName() + " World: "
-						+ worldName + " Amount:" + amount);
+				out.println(info.toString() + ": User: " + username + " Currency: " + currency.getName() + " World: " + worldName + " Amount:" + amount);
 				out.close();
 			} catch (IOException e) {
-				getLogger().severe(
-						"Error while writing the transaction logger!");
+				getLogger().severe("Error while writing the transaction logger!");
 			}
 		}
 	}
-	
+
 	public VersionChecker getVersionChecker() {
 		return versionChecker;
 	}
-	
+
 	public EventManager getEventManager() {
 		return eventManager;
 	}

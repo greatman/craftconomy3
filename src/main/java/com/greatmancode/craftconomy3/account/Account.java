@@ -31,6 +31,7 @@ import com.greatmancode.craftconomy3.database.tables.BalanceTable;
 
 /**
  * Represents a economy account.
+ * 
  * @author greatman
  * 
  */
@@ -43,6 +44,7 @@ public class Account {
 
 	/**
 	 * Load a account. Creates one if it doesn't exist.
+	 * 
 	 * @param name The account name
 	 */
 	public Account(String name) {
@@ -76,6 +78,7 @@ public class Account {
 
 	/**
 	 * Returns the account database ID
+	 * 
 	 * @return the account database ID
 	 */
 	public int getAccountID() {
@@ -84,6 +87,7 @@ public class Account {
 
 	/**
 	 * Returns the account name.
+	 * 
 	 * @return The account name
 	 */
 	public String getAccountName() {
@@ -92,6 +96,7 @@ public class Account {
 
 	/**
 	 * Checks if this account is a bank account
+	 * 
 	 * @return True if this account is a bank account, else false
 	 */
 	public boolean isBankAccount() {
@@ -100,15 +105,17 @@ public class Account {
 
 	/**
 	 * Checks if this account is a bank account
+	 * 
 	 * @param accountName The account name
 	 * @return True if this account is a bank account, else false
 	 */
 	public static boolean isBankAccount(String accountName) {
 		return accountName.contains(Account.BANK_PREFIX);
 	}
-	
+
 	/**
 	 * Get the account ACL. Only used with a bank account
+	 * 
 	 * @return The account ACL if it's a bank account, else null
 	 */
 	public AccountACL getAccountACL() {
@@ -121,6 +128,7 @@ public class Account {
 
 	/**
 	 * Get the whole account balance
+	 * 
 	 * @return A list of all account balance
 	 */
 	public List<Balance> getAllBalance() {
@@ -135,6 +143,7 @@ public class Account {
 
 	/**
 	 * Get the whole account balance in a certain world
+	 * 
 	 * @param world The world to search in
 	 * @return A list of Balance
 	 */
@@ -154,6 +163,7 @@ public class Account {
 
 	/**
 	 * Get's the player balance. Sends double.MIN_NORMAL in case of a error
+	 * 
 	 * @param world The world to search in
 	 * @param currencyName The currency Name
 	 * @return The balance
@@ -176,6 +186,7 @@ public class Account {
 
 	/**
 	 * Adds a certain amount of money in the account
+	 * 
 	 * @param amount The amount of money to add
 	 * @param world The World we want to add money in
 	 * @param currencyName The currency we want to add money in
@@ -208,6 +219,7 @@ public class Account {
 
 	/**
 	 * withdraw a certain amount of money in the account
+	 * 
 	 * @param amount The amount of money to withdraw
 	 * @param world The World we want to withdraw money from
 	 * @param currencyName The currency we want to withdraw money from
@@ -240,6 +252,7 @@ public class Account {
 
 	/**
 	 * set a certain amount of money in the account
+	 * 
 	 * @param amount The amount of money to set
 	 * @param world The World we want to set money to
 	 * @param currencyName The currency we want to set money to
@@ -272,6 +285,7 @@ public class Account {
 
 	/**
 	 * Checks if we have enough money in a certain balance
+	 * 
 	 * @param amount The amount of money to check
 	 * @param worldName The World we want to check
 	 * @param currencyName The currency we want to check
@@ -285,19 +299,20 @@ public class Account {
 		}
 		Currency currency = Common.getInstance().getCurrencyManager().getCurrency(currencyName);
 		if (currency != null && getBalance(newWorldName, currencyName) >= amount) {
-				result = true;
+			result = true;
 		}
 		return result;
 	}
 
 	/**
 	 * Returns the world that the player is currently in
+	 * 
 	 * @return The world name that the player is currently in or any if he is not online/Multiworld system not enabled
 	 */
 	public String getWorldPlayerCurrentlyIn() {
 		String world = "any";
 		if (Common.getInstance().getServerCaller().isOnline(account.getName()) && Common.getInstance().getConfigurationManager().isMultiWorld()) {
-				world = Common.getInstance().getServerCaller().getPlayerWorld(account.getName());
+			world = Common.getInstance().getServerCaller().getPlayerWorld(account.getName());
 		}
 		return world;
 	}

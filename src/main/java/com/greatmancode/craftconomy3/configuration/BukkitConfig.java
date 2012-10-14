@@ -29,9 +29,10 @@ public class BukkitConfig extends Config {
 
 	private YamlConfiguration configFile;
 	private File file;
+
 	public BukkitConfig(File folder, String fileName) {
 		file = new File(folder, fileName);
-		
+
 		if (!file.exists()) {
 			initializeConfig(file, fileName);
 		}
@@ -76,6 +77,6 @@ public class BukkitConfig extends Config {
 	@Override
 	public boolean has(String path) {
 		return configFile.contains(path);
-		
+
 	}
 }

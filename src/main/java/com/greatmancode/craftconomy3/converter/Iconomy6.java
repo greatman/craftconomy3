@@ -141,7 +141,7 @@ public class Iconomy6 extends Converter {
 		}
 		return result;
 	}
-	
+
 	private boolean importFlatFile(String sender) {
 		boolean result = false;
 		String str;
@@ -170,7 +170,7 @@ public class Iconomy6 extends Converter {
 		}
 		return result;
 	}
-	
+
 	private boolean importDatabase(String sender) {
 		List<IConomyTable> icoList = db.select(IConomyTable.class).execute().find();
 		if (icoList != null && icoList.size() > 0) {

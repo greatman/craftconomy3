@@ -22,6 +22,7 @@ import com.greatmancode.craftconomy3.currency.Currency;
 
 /**
  * Represents a balance entry for easy formatting.
+ * 
  * @author greatman
  * 
  */

@@ -26,15 +26,14 @@ public class VersionChecker {
 
 	private boolean oldVersion = false;
 	private String newVersion = "";
+
 	public VersionChecker(String currentVersion) {
 		try {
-			URL url = new URL(
-					"https://dl.dropbox.com/s/p326su6cxs4tih1/versioncheck?dl=1");
+			URL url = new URL("https://dl.dropbox.com/s/p326su6cxs4tih1/versioncheck?dl=1");
 
 			Scanner s = new Scanner(url.openStream());
 			String value = s.next();
-			if (!currentVersion.contains(value))
-			{
+			if (!currentVersion.contains(value)) {
 				oldVersion = true;
 				newVersion = value;
 			}
@@ -45,17 +44,16 @@ public class VersionChecker {
 		}
 
 	}
-	
+
 	public boolean isOld() {
 		return oldVersion;
 	}
-	
+
 	public String getNewVersion() {
 		return newVersion;
 	}
-	
-	public static void main(String[] args)
-	{
+
+	public static void main(String[] args) {
 		VersionChecker versionCheck = new VersionChecker("3.0.1");
 		System.out.println(versionCheck.isOld());
 		System.out.println(versionCheck.getNewVersion());

@@ -28,14 +28,17 @@ import com.greatmancode.craftconomy3.Common;
 
 /**
  * Represents a Configuration handler
+ * 
  * @author greatman
  * 
  */
 public abstract class Config {
 
 	private static final int DEFAULT_BUFFER_SIZE = 1024 * 4;
+
 	/**
 	 * Retrieve a integer from the configuration
+	 * 
 	 * @param path The path to the integer we want to retrieve
 	 * @return A integer
 	 */
@@ -43,6 +46,7 @@ public abstract class Config {
 
 	/**
 	 * Retrieve a long from the configuration
+	 * 
 	 * @param path The path to the long we want to retrieve
 	 * @return A Long
 	 */
@@ -50,6 +54,7 @@ public abstract class Config {
 
 	/**
 	 * Retrieve a double from the configuration
+	 * 
 	 * @param path The path to the double we want to retrieve
 	 * @return A double
 	 */
@@ -57,6 +62,7 @@ public abstract class Config {
 
 	/**
 	 * Retrieve a String from the configuration
+	 * 
 	 * @param path The path to the String we want to retrieve
 	 * @return A String
 	 */
@@ -64,20 +70,35 @@ public abstract class Config {
 
 	/**
 	 * Retrieve a Boolean from the configuration
+	 * 
 	 * @param path The path to the Boolean we want to retrieve
 	 * @return A Boolean
 	 */
 	public abstract boolean getBoolean(String path);
-	
+
 	/**
 	 * Set a value in the configuration.
+	 * 
 	 * @param path The path to the value we want to modify
 	 * @param value The new value.
 	 */
 	public abstract void setValue(String path, Object value);
-	
+
+	/**
+	 * Checks if the file has the node
+	 * 
+	 * @param path The node path.
+	 * @return True if the node exist. Else false.
+	 */
 	public abstract boolean has(String path);
-	
+
+	/**
+	 * Initialize a configuration file with the default file located in the .jar. Only creates the file if the default file doesn't exist.
+	 * 
+	 * @param file The path to to the file.
+	 * @param fileName The fileName.
+	 */
+	// TODO: Maybe improve the 2nd parameter?
 	protected void initializeConfig(File file, String fileName) {
 		try {
 			file.getParentFile().mkdirs();
@@ -86,22 +107,22 @@ public abstract class Config {
 			Common.getInstance().getLogger().severe("Error while trying to create the file " + file.getName() + "! Error is: " + e.getMessage());
 		}
 		URL url = this.getClass().getResource("/" + fileName);
-		
+
 		if (url != null) {
 			try {
 				InputStream defaultStream = url.openStream();
 				FileOutputStream fos = new FileOutputStream(file);
-				
+
 				byte[] buffer = new byte[DEFAULT_BUFFER_SIZE];
-		        int n = 0;
-		        while (-1 != (n = defaultStream.read(buffer))) {
-		            fos.write(buffer, 0, n);
-		        }
-		        fos.flush();
-		        fos.close();
-		        defaultStream.close();
+				int n = 0;
+				while (-1 != (n = defaultStream.read(buffer))) {
+					fos.write(buffer, 0, n);
+				}
+				fos.flush();
+				fos.close();
+				defaultStream.close();
 			} catch (IOException e1) {
-				Common.getInstance().getLogger().severe("Error while trying to copy the default file + " +file.getName() + ". Error is: " + e1.getMessage());
+				Common.getInstance().getLogger().severe("Error while trying to copy the default file + " + file.getName() + ". Error is: " + e1.getMessage());
 			}
 		}
 	}

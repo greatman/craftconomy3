@@ -39,8 +39,9 @@ import com.greatmancode.craftconomy3.database.tables.craftconomy2.CurrencyTable;
 
 /**
  * Converter for Craftconomy 2.
+ * 
  * @author greatman
- *
+ * 
  */
 public class Craftconomy2 extends Converter {
 
@@ -128,7 +129,7 @@ public class Craftconomy2 extends Converter {
 		}
 		return result;
 	}
-	
+
 	private boolean importCurrency(String sender) {
 		boolean result = false;
 		List<CurrencyTable> currencyList = db.select(CurrencyTable.class).execute().find();
@@ -141,7 +142,7 @@ public class Craftconomy2 extends Converter {
 				boolean first = true;
 				if (entry.getMinor() != null && entry.getMinorplural() != null && entry.getName() != null && entry.getPlural() != null) {
 					Common.getInstance().getCurrencyManager().addCurrency(entry.getName(), entry.getPlural(), entry.getMinor(), entry.getMinorplural(), 0.0, "", true);
-					//TODO: Need better than that...
+					// TODO: Need better than that...
 					if (first) {
 						Common.getInstance().getCurrencyManager().setDefault(Common.getInstance().getCurrencyManager().getCurrency(entry.getName()).getDatabaseID());
 						first = false;
@@ -155,75 +156,75 @@ public class Craftconomy2 extends Converter {
 		}
 		return result;
 	}
-		
-		private void importAccounts(String sender) {
-			// Account importing
-			List<AccountTable> accountList = db.select(AccountTable.class).execute().find();
-			if (accountList != null) {
-				int i = 0;
-				Iterator<AccountTable> accountIterator = accountList.iterator();
-				while (accountIterator.hasNext()) {
-					AccountTable entry = accountIterator.next();
-					Common.getInstance().getAccountManager().getAccount(entry.getUsername());
-					List<BalanceTable> balanceList = db.select(BalanceTable.class).where().equal("username_id", entry.getId()).execute().find();
-					if (balanceList != null) {
-						Iterator<BalanceTable> balanceIterator = balanceList.iterator();
-						while (balanceIterator.hasNext()) {
-							BalanceTable balanceEntry = balanceIterator.next();
-							CurrencyTable currency = db.select(CurrencyTable.class).where().equal("id", balanceEntry.getCurrencyId()).execute().findOne();
-							if (currency != null) {
-								Common.getInstance().getAccountManager().getAccount(entry.getUsername()).set(balanceEntry.getBalance(), balanceEntry.getWorldName(), currency.getName());
-							}
-						}
-					}
-					if (i % ALERT_EACH_X_ACCOUNT == 0) {
-						Common.getInstance().getServerCaller().sendMessage(sender, i + " of " + accountList.size() + "{{DARK_GREEN}} accounts imported.");
-					}
-					i++;
-				}
-				Common.getInstance().getServerCaller().sendMessage(sender, i + " of  " + accountList.size() + "{{DARK_GREEN}}accounts imported.");
 
-			}
-		}
-		
-		private void importBanks(String sender) {
-			// Bank importing
-			List<BankTable> bankList = db.select(BankTable.class).execute().find();
-			if (bankList != null) {
-				int i = 0;
-				Iterator<BankTable> bankIterator = bankList.iterator();
-				while (bankIterator.hasNext()) {
-					BankTable entry = bankIterator.next();
-					Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + entry.getName()).getAccountACL().set(entry.getOwner(), true, true, true, true, true);
-					List<BankBalanceTable> bankBalanceList = db.select(BankBalanceTable.class).where().equal("bank_id", entry.getId()).execute().find();
-					if (bankBalanceList != null) {
-						Iterator<BankBalanceTable> bankBalanceIterator = bankBalanceList.iterator();
-						while (bankBalanceIterator.hasNext()) {
-							BankBalanceTable balanceEntry = bankBalanceIterator.next();
-							CurrencyTable currency = db.select(CurrencyTable.class).where().equal("id", balanceEntry.getCurrencyId()).execute().findOne();
-							if (currency != null) {
-								Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + entry.getName()).set(balanceEntry.getBalance(), balanceEntry.getWorldName(), currency.getName());
-							}
+	private void importAccounts(String sender) {
+		// Account importing
+		List<AccountTable> accountList = db.select(AccountTable.class).execute().find();
+		if (accountList != null) {
+			int i = 0;
+			Iterator<AccountTable> accountIterator = accountList.iterator();
+			while (accountIterator.hasNext()) {
+				AccountTable entry = accountIterator.next();
+				Common.getInstance().getAccountManager().getAccount(entry.getUsername());
+				List<BalanceTable> balanceList = db.select(BalanceTable.class).where().equal("username_id", entry.getId()).execute().find();
+				if (balanceList != null) {
+					Iterator<BalanceTable> balanceIterator = balanceList.iterator();
+					while (balanceIterator.hasNext()) {
+						BalanceTable balanceEntry = balanceIterator.next();
+						CurrencyTable currency = db.select(CurrencyTable.class).where().equal("id", balanceEntry.getCurrencyId()).execute().findOne();
+						if (currency != null) {
+							Common.getInstance().getAccountManager().getAccount(entry.getUsername()).set(balanceEntry.getBalance(), balanceEntry.getWorldName(), currency.getName());
 						}
 					}
-
-					// Adding members
-					List<BankMemberTable> bankMemberList = db.select(BankMemberTable.class).where().equal("bank_id", entry.getId()).execute().find();
-					if (bankMemberList != null) {
-						Iterator<BankMemberTable> bankMemberIterator = bankMemberList.iterator();
-						while (bankMemberIterator.hasNext()) {
-							BankMemberTable memberEntry = bankMemberIterator.next();
-							Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + entry.getName()).getAccountACL().set(memberEntry.getPlayerName(), true, true, false, true, false);
-						}
-					}
-					if (i % ALERT_EACH_X_ACCOUNT == 0) {
-						Common.getInstance().getServerCaller().sendMessage(sender, i + " of  " + bankList.size() + "{{DARK_GREEN}} bank accounts imported.");
-					}
-					i++;
 				}
-				Common.getInstance().getServerCaller().sendMessage(sender, i + " of  " + bankList.size() + "{{DARK_GREEN}} bank accounts imported.");
-				
+				if (i % ALERT_EACH_X_ACCOUNT == 0) {
+					Common.getInstance().getServerCaller().sendMessage(sender, i + " of " + accountList.size() + "{{DARK_GREEN}} accounts imported.");
+				}
+				i++;
 			}
+			Common.getInstance().getServerCaller().sendMessage(sender, i + " of  " + accountList.size() + "{{DARK_GREEN}}accounts imported.");
+
 		}
+	}
+
+	private void importBanks(String sender) {
+		// Bank importing
+		List<BankTable> bankList = db.select(BankTable.class).execute().find();
+		if (bankList != null) {
+			int i = 0;
+			Iterator<BankTable> bankIterator = bankList.iterator();
+			while (bankIterator.hasNext()) {
+				BankTable entry = bankIterator.next();
+				Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + entry.getName()).getAccountACL().set(entry.getOwner(), true, true, true, true, true);
+				List<BankBalanceTable> bankBalanceList = db.select(BankBalanceTable.class).where().equal("bank_id", entry.getId()).execute().find();
+				if (bankBalanceList != null) {
+					Iterator<BankBalanceTable> bankBalanceIterator = bankBalanceList.iterator();
+					while (bankBalanceIterator.hasNext()) {
+						BankBalanceTable balanceEntry = bankBalanceIterator.next();
+						CurrencyTable currency = db.select(CurrencyTable.class).where().equal("id", balanceEntry.getCurrencyId()).execute().findOne();
+						if (currency != null) {
+							Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + entry.getName()).set(balanceEntry.getBalance(), balanceEntry.getWorldName(), currency.getName());
+						}
+					}
+				}
+
+				// Adding members
+				List<BankMemberTable> bankMemberList = db.select(BankMemberTable.class).where().equal("bank_id", entry.getId()).execute().find();
+				if (bankMemberList != null) {
+					Iterator<BankMemberTable> bankMemberIterator = bankMemberList.iterator();
+					while (bankMemberIterator.hasNext()) {
+						BankMemberTable memberEntry = bankMemberIterator.next();
+						Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + entry.getName()).getAccountACL().set(memberEntry.getPlayerName(), true, true, false, true, false);
+					}
+				}
+				if (i % ALERT_EACH_X_ACCOUNT == 0) {
+					Common.getInstance().getServerCaller().sendMessage(sender, i + " of  " + bankList.size() + "{{DARK_GREEN}} bank accounts imported.");
+				}
+				i++;
+			}
+			Common.getInstance().getServerCaller().sendMessage(sender, i + " of  " + bankList.size() + "{{DARK_GREEN}} bank accounts imported.");
+
+		}
+	}
 
 }

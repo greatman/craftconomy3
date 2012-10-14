@@ -23,6 +23,7 @@ import com.greatmancode.craftconomy3.database.tables.CurrencyTable;
 
 /**
  * Represents a currency
+ * 
  * @author greatman
  * 
  */
@@ -42,6 +43,7 @@ public class Currency {
 
 	/**
 	 * Get the currency name
+	 * 
 	 * @return The currency Name
 	 */
 	public String getName() {
@@ -50,6 +52,7 @@ public class Currency {
 
 	/**
 	 * Set the currency name
+	 * 
 	 * @param name The currency name to set to.
 	 */
 	public void setName(String name) {
@@ -59,6 +62,7 @@ public class Currency {
 
 	/**
 	 * Get the currency name in plural
+	 * 
 	 * @return The currency name in plural
 	 */
 	public String getPlural() {
@@ -67,6 +71,7 @@ public class Currency {
 
 	/**
 	 * Set the currency name in plural
+	 * 
 	 * @param plural The currency name in plural to set to.
 	 */
 	public void setPlural(String plural) {
@@ -76,6 +81,7 @@ public class Currency {
 
 	/**
 	 * Get the currency minor name
+	 * 
 	 * @return The currency minor name
 	 */
 	public String getMinor() {
@@ -84,6 +90,7 @@ public class Currency {
 
 	/**
 	 * Set the currency minor name
+	 * 
 	 * @param minor The currency minor name to set to
 	 */
 	public void setMinor(String minor) {
@@ -93,6 +100,7 @@ public class Currency {
 
 	/**
 	 * Get the currency minor name in plural
+	 * 
 	 * @return The currency minor name in plural
 	 */
 	public String getMinorPlural() {
@@ -101,6 +109,7 @@ public class Currency {
 
 	/**
 	 * Set the currency minor name in plural
+	 * 
 	 * @param minorPlural The currency minor name in plural to set to
 	 */
 	public void setMinorPlural(String minorPlural) {
@@ -110,52 +119,55 @@ public class Currency {
 
 	/**
 	 * Retrieve the database ID of this currency
+	 * 
 	 * @return The database ID
 	 */
 	public int getDatabaseID() {
 		return entry.getId();
 	}
-	
+
 	public void setHardCap(double cap) {
 		entry.setHardCap(cap);
 		save();
 	}
-	
+
 	public double getHardCap() {
 		return entry.getHardCap();
 	}
 
 	/**
 	 * Sets the sign of the currency (Example $ for Dollars)
+	 * 
 	 * @param sign The Sign of the Currency.
 	 */
 	public void setSign(String sign) {
 		entry.setSign(sign);
 		save();
 	}
-	
+
 	/**
 	 * Retrieve the sign of the currency (Example $ for Dollars)
+	 * 
 	 * @return
 	 */
 	public String getSign() {
 		return entry.getSign();
 	}
-	
+
 	/**
 	 * Save the currency information.
 	 */
 	private void save() {
 		Common.getInstance().getDatabaseManager().getDatabase().save(entry);
 	}
-	
+
 	/**
 	 * Delete the currency from the database.
 	 */
 	void delete() {
 		Common.getInstance().getDatabaseManager().getDatabase().remove(entry);
 	}
-	
+
 	/**
 	 * Set the default flag to true.
 	 */

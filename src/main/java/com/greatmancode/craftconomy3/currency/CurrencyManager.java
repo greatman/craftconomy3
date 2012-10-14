@@ -29,6 +29,7 @@ import com.greatmancode.craftconomy3.database.tables.CurrencyTable;
 
 /**
  * Currency Handler
+ * 
  * @author greatman
  * 
  */
@@ -55,6 +56,7 @@ public class CurrencyManager {
 
 	/**
 	 * Get a currency
+	 * 
 	 * @param id The Database ID
 	 * @return A Currency instance if the currency is found else null
 	 */
@@ -68,6 +70,7 @@ public class CurrencyManager {
 
 	/**
 	 * Get a currency
+	 * 
 	 * @param name The name of the currency
 	 * @return A currency instance if the currency is found else null
 	 */
@@ -82,26 +85,28 @@ public class CurrencyManager {
 
 	/**
 	 * Add a currency in the system
+	 * 
 	 * @param name The main currency name
 	 * @param plural The main currency name in plural
 	 * @param minor The minor (cents) part of the currency
 	 * @param minorPlural The minor (cents) part of the currency in plural
 	 * @param save Do we add it in the database?
 	 */
-	
+
 	public void addCurrency(String name, String plural, String minor, String minorPlural, double hardCap, String sign, boolean save) {
 		addCurrency(-1, name, plural, minor, minorPlural, hardCap, sign, save);
 	}
 
 	/**
 	 * Add a currency in the system
+	 * 
 	 * @param name The main currency name
 	 * @param plural The main currency name in plural
 	 * @param minor The minor (cents) part of the currency
 	 * @param minorPlural The minor (cents) part of the currency in plural
 	 * @param save Do we add it in the database? If True, generates a databaseID (Whole new entry)
 	 */
-	//TODO: A check if the currency already exist.
+	// TODO: A check if the currency already exist.
 	public void addCurrency(int databaseID, String name, String plural, String minor, String minorPlural, double hardCap, String sign, boolean save) {
 		int newDatabaseID = databaseID;
 		if (save) {
@@ -117,7 +122,7 @@ public class CurrencyManager {
 		}
 		currencyList.put(newDatabaseID, new Currency(newDatabaseID, name, plural, minor, minorPlural, hardCap, sign));
 	}
-	
+
 	public void setDefault(int currencyId) {
 		if (currencyList.containsKey(currencyId)) {
 			CurrencyTable entry = Common.getInstance().getDatabaseManager().getDatabase().select(CurrencyTable.class).where().equal("status", true).execute().findOne();
@@ -129,7 +134,7 @@ public class CurrencyManager {
 			defaultCurrencyID = currencyId;
 		}
 	}
-	
+
 	public void deleteCurrency(int currencyId) {
 		if (currencyList.containsKey(currencyId)) {
 			List<BalanceTable> balanceList = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal("currency_id", currencyId).execute().find();

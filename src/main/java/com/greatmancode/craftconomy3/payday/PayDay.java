@@ -28,8 +28,9 @@ import com.greatmancode.craftconomy3.database.tables.PayDayTable;
 
 /**
  * Represents a PayDay
+ * 
  * @author greatman
- *
+ * 
  */
 public class PayDay implements Runnable {
 
@@ -66,7 +67,7 @@ public class PayDay implements Runnable {
 		if (getStatus() == 0) {
 			if (!getAccount().equals("")) {
 				if (!Common.getInstance().getAccountManager().getAccount(getAccount()).hasEnough(getValue() * list.size(), getWorldName(), Common.getInstance().getCurrencyManager().getCurrency(getCurrencyId()).getName())) {
-					Common.getInstance().sendConsoleMessage(Level.INFO, "{{DARK_RED}}Impossible to give a wage for the payday {{WHITE}}" + getName() +"{{DARK_RED}}. The account doesn't have enough money!");
+					Common.getInstance().sendConsoleMessage(Level.INFO, "{{DARK_RED}}Impossible to give a wage for the payday {{WHITE}}" + getName() + "{{DARK_RED}}. The account doesn't have enough money!");
 					return;
 				}
 				Common.getInstance().getAccountManager().getAccount(getAccount()).withdraw(getValue() * list.size(), getWorldName(), Common.getInstance().getCurrencyManager().getCurrency(getCurrencyId()).getName());
@@ -81,7 +82,7 @@ public class PayDay implements Runnable {
 		// Tax
 		else if (getStatus() == 1) {
 			Iterator<String> listIterator = list.iterator();
-			while(listIterator.hasNext()) {
+			while (listIterator.hasNext()) {
 				String p = listIterator.next();
 				if (Common.getInstance().getAccountManager().getAccount(p).hasEnough(getValue(), getWorldName(), Common.getInstance().getCurrencyManager().getCurrency(getCurrencyId()).getName())) {
 					Common.getInstance().getAccountManager().getAccount(p).withdraw(getValue(), getWorldName(), Common.getInstance().getCurrencyManager().getCurrency(getCurrencyId()).getName());
@@ -98,6 +99,7 @@ public class PayDay implements Runnable {
 
 	/**
 	 * Retrieve the database ID
+	 * 
 	 * @return the database ID
 	 */
 	public int getDatabaseId() {
@@ -106,6 +108,7 @@ public class PayDay implements Runnable {
 
 	/**
 	 * Retrieve the name of the payday
+	 * 
 	 * @return The payday name.
 	 */
 	public String getName() {
@@ -114,6 +117,7 @@ public class PayDay implements Runnable {
 
 	/**
 	 * Sets the payday name.
+	 * 
 	 * @param name The payday name.
 	 */
 	public void setName(String name) {
@@ -123,6 +127,7 @@ public class PayDay implements Runnable {
 
 	/**
 	 * Check if the payday is disabled or not.
+	 * 
 	 * @return True if the project is disabled else false
 	 */
 	public boolean isDisabled() {
@@ -131,6 +136,7 @@ public class PayDay implements Runnable {
 
 	/**
 	 * Sets the project as disabled or not
+	 * 
 	 * @param disabled Disabled or not.
 	 */
 	public void setDisabled(boolean disabled) {
@@ -151,6 +157,7 @@ public class PayDay implements Runnable {
 
 	/**
 	 * Retrieve the interval (in seconds) that the payday will run.
+	 * 
 	 * @return The interval in seconds.
 	 */
 	public int getInterval() {
@@ -159,6 +166,7 @@ public class PayDay implements Runnable {
 
 	/**
 	 * Sets the interval of when the payday will run
+	 * 
 	 * @param interval The interval
 	 * @return True if the value has been changed else false if the value is lower or equal than 0.
 	 */
@@ -184,6 +192,7 @@ public class PayDay implements Runnable {
 
 	/**
 	 * Retrieve the account that this payday is associated with
+	 * 
 	 * @return The account
 	 */
 	public String getAccount() {
@@ -192,6 +201,7 @@ public class PayDay implements Runnable {
 
 	/**
 	 * Set the account that this payday is associated with
+	 * 
 	 * @param account The account to accociate to.
 	 */
 	public void setAccount(String account) {
@@ -201,6 +211,7 @@ public class PayDay implements Runnable {
 
 	/**
 	 * Retrieve the status of the payday (0 = wage, 1 = tax)
+	 * 
 	 * @return The status of the payday.
 	 */
 	public int getStatus() {
@@ -209,7 +220,8 @@ public class PayDay implements Runnable {
 
 	/**
 	 * Sets the status of the payday
-	 * @param status The status  (0 = wage, 1 = tax)
+	 * 
+	 * @param status The status (0 = wage, 1 = tax)
 	 * @return True if the value has been modified else false.
 	 */
 	public boolean setStatus(int status) {
@@ -225,6 +237,7 @@ public class PayDay implements Runnable {
 
 	/**
 	 * Get the currency ID associated with this payday
+	 * 
 	 * @return The currency ID.
 	 */
 	public int getCurrencyId() {
@@ -233,6 +246,7 @@ public class PayDay implements Runnable {
 
 	/**
 	 * Set the currency ID associated with this payday
+	 * 
 	 * @param currencyId The currency ID to set to.
 	 */
 	public void setCurrencyId(int currencyId) {
@@ -242,6 +256,7 @@ public class PayDay implements Runnable {
 
 	/**
 	 * Retrieve the value (The amount of money) associated with this payday
+	 * 
 	 * @return The amount of money.
 	 */
 	public double getValue() {
@@ -250,6 +265,7 @@ public class PayDay implements Runnable {
 
 	/**
 	 * Sets the value (The amount of money).
+	 * 
 	 * @param value The amount of money
 	 */
 	public void setValue(double value) {
@@ -259,6 +275,7 @@ public class PayDay implements Runnable {
 
 	/**
 	 * Retrieve the world name associated with this payday.
+	 * 
 	 * @return The world name.
 	 */
 	public String getWorldName() {
@@ -267,6 +284,7 @@ public class PayDay implements Runnable {
 
 	/**
 	 * Sets the world name
+	 * 
 	 * @param worldName The world name.
 	 */
 	public void setWorldName(String worldName) {
@@ -276,6 +294,7 @@ public class PayDay implements Runnable {
 
 	/**
 	 * Retrieve the delayed Id
+	 * 
 	 * @return The delayed Id
 	 */
 	public int getDelayedId() {

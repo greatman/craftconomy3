@@ -19,7 +19,6 @@
 package com.greatmancode.craftconomy3.database;
 
 import java.io.File;
-import java.io.IOException;
 
 import com.alta189.simplesave.Database;
 import com.alta189.simplesave.DatabaseFactory;
@@ -30,6 +29,7 @@ import com.alta189.simplesave.mysql.MySQLConfiguration;
 import com.alta189.simplesave.sqlite.SQLiteConfiguration;
 
 import com.greatmancode.craftconomy3.Common;
+import com.greatmancode.craftconomy3.SpoutCaller;
 import com.greatmancode.craftconomy3.database.tables.AccessTable;
 import com.greatmancode.craftconomy3.database.tables.AccountTable;
 import com.greatmancode.craftconomy3.database.tables.BalanceTable;
@@ -39,6 +39,7 @@ import com.greatmancode.craftconomy3.database.tables.PayDayTable;
 
 /**
  * Handle the database link.
+ * 
  * @author greatman
  * 
  */
@@ -49,10 +50,17 @@ public class DatabaseManager {
 	public DatabaseManager() throws TableRegistrationException, ConnectionException {
 		String databasetype = Common.getInstance().getConfigurationManager().getConfig().getString("System.Database.Type");
 		if (databasetype.equals("sqlite")) {
+			if (Common.getInstance().getServerCaller() instanceof SpoutCaller) {
+				// TODO: Improve that
+				Common.getInstance().getServerCaller().loadLibrary("lib" + File.separator + "sqlite.jar");
+			}
 			SQLiteConfiguration config = new SQLiteConfiguration(Common.getInstance().getServerCaller().getDataFolder() + File.separator + "database.db");
 			db = DatabaseFactory.createNewDatabase(config);
-			Common.getInstance().addMetricsGraph("Database Engine","SQLite");
+			Common.getInstance().addMetricsGraph("Database Engine", "SQLite");
 		} else if (databasetype.equals("mysql")) {
+			if (Common.getInstance().getServerCaller() instanceof SpoutCaller) {
+				Common.getInstance().getServerCaller().loadLibrary("lib" + File.separator + "mysql.jar");
+			}
 			MySQLConfiguration config = new MySQLConfiguration();
 			config.setHost(Common.getInstance().getConfigurationManager().getConfig().getString("System.Database.Address"));
 			config.setUser(Common.getInstance().getConfigurationManager().getConfig().getString("System.Database.Username"));
@@ -63,17 +71,11 @@ public class DatabaseManager {
 			Common.getInstance().addMetricsGraph("Database Engine", "MySQL");
 		} else if (databasetype.equals("h2")) {
 			H2Configuration config = new H2Configuration();
-			try {
-				File file = new File(Common.getInstance().getServerCaller().getDataFolder(), "h2.database");
-				file.createNewFile();
-				config.setDatabase(file.getAbsolutePath());
-				db = DatabaseFactory.createNewDatabase(config);
-				Common.getInstance().addMetricsGraph("Database Engine", "H2");
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
+			Common.getInstance().getServerCaller().loadLibrary("lib" + File.separator + "h2.jar");
+			File file = new File(Common.getInstance().getServerCaller().getDataFolder(), "craftconomy");
+			config.setDatabase(file.getAbsolutePath());
+			db = DatabaseFactory.createNewDatabase(config);
+			Common.getInstance().addMetricsGraph("Database Engine", "H2");
 		}
 
 		db.registerTable(AccountTable.class);
@@ -87,6 +89,7 @@ public class DatabaseManager {
 
 	/**
 	 * Retrieve the database
+	 * 
 	 * @return The Database link.
 	 */
 	public Database getDatabase() {

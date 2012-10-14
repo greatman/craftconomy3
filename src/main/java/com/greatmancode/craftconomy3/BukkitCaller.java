@@ -19,6 +19,7 @@
 package com.greatmancode.craftconomy3;
 
 import java.io.File;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -33,6 +34,7 @@ import com.greatmancode.craftconomy3.commands.CommandManager;
 
 /**
  * Server caller for Craftbukkit
+ * 
  * @author greatman
  * 
  */
@@ -40,10 +42,11 @@ public class BukkitCaller implements Caller {
 
 	private static final long TICK_LENGTH = 20L;
 	private BukkitLoader loader;
-	
+
 	public BukkitCaller(Loader loader) {
 		this.loader = (BukkitLoader) loader;
 	}
+
 	@Override
 	public void disablePlugin() {
 		loader.getPluginLoader().disablePlugin(loader);
@@ -59,7 +62,7 @@ public class BukkitCaller implements Caller {
 			} else {
 				result = p.hasPermission(perm);
 			}
-			
+
 		} else {
 			// It's the console
 			result = true;
@@ -136,7 +139,7 @@ public class BukkitCaller implements Caller {
 
 	@Override
 	public int schedule(Runnable entry, long firstStart, long repeating, boolean async) {
-		if(!async) {
+		if (!async) {
 			return loader.getServer().getScheduler().scheduleSyncRepeatingTask(loader, entry, firstStart * TICK_LENGTH, repeating * TICK_LENGTH);
 		} else {
 			return loader.getServer().getScheduler().scheduleAsyncRepeatingTask(loader, entry, firstStart * TICK_LENGTH, repeating * TICK_LENGTH);
@@ -147,7 +150,7 @@ public class BukkitCaller implements Caller {
 	public List<String> getOnlinePlayers() {
 		List<String> list = new ArrayList<String>();
 		Player[] pList = loader.getServer().getOnlinePlayers();
-		for (Player p: pList) {
+		for (Player p : pList) {
 			list.add(p.getName());
 		}
 		return list;
@@ -165,40 +168,52 @@ public class BukkitCaller implements Caller {
 
 	@Override
 	public int delay(Runnable entry, long start, boolean async) {
-		if(!async) {
+		if (!async) {
 			return loader.getServer().getScheduler().scheduleSyncDelayedTask(loader, entry, start * TICK_LENGTH);
 		} else {
 			return loader.getServer().getScheduler().scheduleAsyncDelayedTask(loader, entry, start * TICK_LENGTH);
 		}
 	}
-	
+
 	public FileConfiguration getConfig() {
 		return loader.getConfig();
 	}
-	
+
 	public void saveConfig() {
 		loader.saveConfig();
 	}
-	
+
 	@Override
 	public void addCommand(String name, String help, CommandManager manager) {
-		// TODO Auto-generated method stub
 		if (manager instanceof BukkitCommandManager) {
-			loader.getCommand(name).setExecutor((BukkitCommandManager)manager);
+			loader.getCommand(name).setExecutor((BukkitCommandManager) manager);
 		}
 	}
+
 	@Override
 	public String getServerVersion() {
 		return Bukkit.getBukkitVersion();
 	}
-	
+
 	@Override
 	public String getPluginVersion() {
 		return loader.getDescription().getVersion();
 	}
+
 	@Override
 	public boolean isOp(String playerName) {
 		return loader.getServer().getOfflinePlayer(playerName).isOp();
+	}
+
+	@Override
+	public void loadLibrary(String path) {
+		try {
+			loader.getPluginClassLoader().addURL(new File(path).toURI().toURL());
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 
 }

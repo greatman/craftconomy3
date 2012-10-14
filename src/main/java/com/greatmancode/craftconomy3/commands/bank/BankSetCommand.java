@@ -64,8 +64,7 @@ public class BankSetCommand implements CraftconomyCommand {
 				} else {
 					Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}The bank account doesn't have enough money!");
 				}
-				
-				
+
 			} else {
 				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Invalid amount!");
 			}
