@@ -40,13 +40,18 @@ public class SpoutCommandManager implements CommandExecutor, CommandManager {
 			String[] newargs;
 			if (args.length() == 0) {
 				newargs = new String[0];
+				
 			} else {
 				newargs = new String[args.length() - 1];
 				for (int i = 1; i <= newargs.length; i++) {
 					newargs[i - 1] = args.getString(i);
 				}
 			}
-			Common.getInstance().getCommandManager().getCommandHandler(command.getPreferredName()).execute(source.getName(), args.getString(0), newargs);
+			if (args.length() == 0) {
+				Common.getInstance().getCommandManager().getCommandHandler(command.getPreferredName()).execute(source.getName(), "", newargs);
+			} else {
+				Common.getInstance().getCommandManager().getCommandHandler(command.getPreferredName()).execute(source.getName(), args.getString(0), newargs);
+			}
 		}
 	}
 
