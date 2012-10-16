@@ -109,6 +109,7 @@ public class Common {
 			eventManager = new EventManager();
 			sendConsoleMessage(Level.INFO, "Loading commands");
 			commandManager = new CommandLoader();
+			commandManager.initialize();
 			if (config.getConfig().getBoolean("System.Setup")) {
 				sendConsoleMessage(Level.WARNING, "Loading Craftconomy in setup mode. Please type /ccsetup to start the setup.");
 			} else {

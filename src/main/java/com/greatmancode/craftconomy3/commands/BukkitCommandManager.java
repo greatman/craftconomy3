@@ -38,6 +38,8 @@ public class BukkitCommandManager implements CommandExecutor, CommandManager {
 			String[] newargs;
 			if (args.length == 0) {
 				newargs = new String[0];
+				args = new String[1];
+				args[0] = "";
 			} else {
 				newargs = new String[args.length - 1];
 				System.arraycopy(args, 1, newargs, 0, args.length - 1);

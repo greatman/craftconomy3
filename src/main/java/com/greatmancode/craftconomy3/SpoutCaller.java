@@ -72,7 +72,7 @@ public class SpoutCaller implements Caller {
 		if (p != null) {
 			p.sendMessage(ChatArguments.fromFormatString(CHAT_PREFIX + message));
 		} else {
-			Common.getInstance().getLogger().log(Level.INFO, CHAT_PREFIX + message);
+			loader.getEngine().getCommandSource().sendMessage(ChatArguments.fromFormatString(CHAT_PREFIX + message));
 		}
 	}
 

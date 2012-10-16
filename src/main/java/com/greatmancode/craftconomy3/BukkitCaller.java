@@ -77,7 +77,7 @@ public class BukkitCaller implements Caller {
 		if (p != null) {
 			p.sendMessage(addColor(CHAT_PREFIX + message));
 		} else {
-			Common.getInstance().getLogger().log(Level.INFO, addColor(CHAT_PREFIX + message));
+			loader.getServer().getConsoleSender().sendMessage(addColor(CHAT_PREFIX + message));
 		}
 	}
 
@@ -219,8 +219,12 @@ public class BukkitCaller implements Caller {
 
 	@Override
 	public void registerPermission(String permissionNode) {
-		loader.getServer().getPluginManager().addPermission(new Permission(permissionNode));
-		
+		if (permissionNode != null) {
+			try {
+				loader.getServer().getPluginManager().addPermission(new Permission(permissionNode));
+			} catch(IllegalArgumentException e) {
+			}
+		}
 	}
 
 }

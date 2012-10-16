@@ -43,7 +43,11 @@ public abstract class CraftconomyCommand {
 	 * @return True if the sender have permission else False
 	 */
 	public boolean permission(String sender) {
-		return Common.getInstance().getServerCaller().checkPermission(sender, getPermissionNode());
+		boolean result = true;
+		if (getPermissionNode() != null) {
+			result = Common.getInstance().getServerCaller().checkPermission(sender, getPermissionNode());
+		}
+		return result;
 	}
 
 	/**

@@ -74,89 +74,92 @@ import com.greatmancode.craftconomy3.commands.setup.SetupMultiWorldCommand;
  * 
  */
 public class CommandLoader {
-	
+
 	private Map<String, CommandHandler> commandList = new HashMap<String, CommandHandler>();
 	private CommandManager manager;
+	private boolean initialized = false;
 
 	public CommandLoader() {
-		
 		if (Common.getInstance().getServerCaller() instanceof BukkitCaller) {
 			manager = new BukkitCommandManager();
 		} else if (Common.getInstance().getServerCaller() instanceof SpoutCaller) {
 			manager = new SpoutCommandManager();
 		}
-		
-		CommandHandler moneyCommand = new CommandHandler("money", "Main money command.", false);
-		moneyCommand.registerCommand("", new MainCommand());
-		moneyCommand.registerCommand("all", new AllCommand());
-		moneyCommand.registerCommand("pay", new PayCommand());
-		moneyCommand.registerCommand("give", new GiveCommand());
-		moneyCommand.registerCommand("take", new TakeCommand());
-		moneyCommand.registerCommand("set", new SetCommand());
-		moneyCommand.registerCommand("delete", new DeleteCommand());
-		moneyCommand.registerCommand("create", new CreateCommand());
-		moneyCommand.registerCommand("help", new HelpCommand());
-		moneyCommand.registerCommand("balance", new BalanceCommand());
-		moneyCommand.registerCommand("top", new TopCommand());
-		commandList.put("money", moneyCommand);
-
-		CommandHandler bankCommand = new CommandHandler("bank", "Bank related commands.", false);
-		bankCommand.registerCommand("create", new BankCreateCommand());
-		bankCommand.registerCommand("balance", new BankBalanceCommand());
-		bankCommand.registerCommand("deposit", new BankDepositCommand());
-		bankCommand.registerCommand("withdraw", new BankWithdrawCommand());
-		bankCommand.registerCommand("set", new BankSetCommand());
-		bankCommand.registerCommand("help", new BankHelpCommand());
-		bankCommand.registerCommand("give", new BankGiveCommand());
-		bankCommand.registerCommand("take", new BankTakeCommand());
-		bankCommand.registerCommand("perm", new BankPermCommand());
-		commandList.put("bank", bankCommand);
-		
-		CommandHandler setupCommand = new CommandHandler("setup", "Setup related commands", true);
-		setupCommand.registerCommand("", new SetupMainCommand());
-		setupCommand.registerCommand("database", new SetupDatabaseCommand());
-		setupCommand.registerCommand("multiworld", new SetupMultiWorldCommand());
-		setupCommand.registerCommand("currency", new SetupCurrencyCommand());
-		setupCommand.registerCommand("basic", new SetupBasicCommand());
-		setupCommand.registerCommand("convert", new SetupConvertCommand());
-		commandList.put("setup", setupCommand);
-		
-		CommandHandler currencyCommand = new CommandHandler("currency", "Currency related commands", false);
-		currencyCommand.registerCommand("add", new CurrencyAddCommand());
-		currencyCommand.registerCommand("delete", new CurrencyDeleteCommand());
-		currencyCommand.registerCommand("edit", new CurrencyEditCommand());
-		currencyCommand.registerCommand("info", new CurrencyInfoCommand());
-		currencyCommand.registerCommand("help", new CurrencyHelpCommand());
-		currencyCommand.registerCommand("default", new CurrencyDefaultCommand());
-		commandList.put("currency", currencyCommand);
-
-		CommandHandler configCommand = new CommandHandler("craftconomy", "config related commands", false);
-		configCommand.registerCommand("holdings", new ConfigHoldingsCommand());
-		configCommand.registerCommand("bankprice", new ConfigBankPriceCommand());
-		configCommand.registerCommand("format", new ConfigFormatCommand());
-		configCommand.registerCommand("help", new ConfigHelpCommand());
-		commandList.put("craftconomy", configCommand);
-		
-		CommandHandler paydayCommand = new CommandHandler("payday", "Payday related commands", false);
-		paydayCommand.registerCommand("create", new PayDayCreateCommand());
-		paydayCommand.registerCommand("delete", new PayDayDeleteCommand());
-		paydayCommand.registerCommand("help", new PayDayHelpCommand());
-		paydayCommand.registerCommand("modify", new PayDayModifyCommand());
-		paydayCommand.registerCommand("list", new PayDayListCommand());
-		paydayCommand.registerCommand("info", new PayDayInfoCommand());
-		commandList.put("payday", paydayCommand);
-
-		
 	}
-	
+
+	public void initialize() {
+		if (!initialized) {
+			CommandHandler moneyCommand = new CommandHandler("money", "Main money command.", false);
+			moneyCommand.registerCommand("", new MainCommand());
+			moneyCommand.registerCommand("all", new AllCommand());
+			moneyCommand.registerCommand("pay", new PayCommand());
+			moneyCommand.registerCommand("give", new GiveCommand());
+			moneyCommand.registerCommand("take", new TakeCommand());
+			moneyCommand.registerCommand("set", new SetCommand());
+			moneyCommand.registerCommand("delete", new DeleteCommand());
+			moneyCommand.registerCommand("create", new CreateCommand());
+			moneyCommand.registerCommand("help", new HelpCommand());
+			moneyCommand.registerCommand("balance", new BalanceCommand());
+			moneyCommand.registerCommand("top", new TopCommand());
+			commandList.put("money", moneyCommand);
+
+			CommandHandler bankCommand = new CommandHandler("bank", "Bank related commands.", false);
+			bankCommand.registerCommand("create", new BankCreateCommand());
+			bankCommand.registerCommand("balance", new BankBalanceCommand());
+			bankCommand.registerCommand("deposit", new BankDepositCommand());
+			bankCommand.registerCommand("withdraw", new BankWithdrawCommand());
+			bankCommand.registerCommand("set", new BankSetCommand());
+			bankCommand.registerCommand("help", new BankHelpCommand());
+			bankCommand.registerCommand("give", new BankGiveCommand());
+			bankCommand.registerCommand("take", new BankTakeCommand());
+			bankCommand.registerCommand("perm", new BankPermCommand());
+			commandList.put("bank", bankCommand);
+
+			CommandHandler setupCommand = new CommandHandler("ccsetup", "Setup related commands", true);
+			setupCommand.registerCommand("", new SetupMainCommand());
+			setupCommand.registerCommand("database", new SetupDatabaseCommand());
+			setupCommand.registerCommand("multiworld", new SetupMultiWorldCommand());
+			setupCommand.registerCommand("currency", new SetupCurrencyCommand());
+			setupCommand.registerCommand("basic", new SetupBasicCommand());
+			setupCommand.registerCommand("convert", new SetupConvertCommand());
+			commandList.put("ccsetup", setupCommand);
+
+			CommandHandler currencyCommand = new CommandHandler("currency", "Currency related commands", false);
+			currencyCommand.registerCommand("add", new CurrencyAddCommand());
+			currencyCommand.registerCommand("delete", new CurrencyDeleteCommand());
+			currencyCommand.registerCommand("edit", new CurrencyEditCommand());
+			currencyCommand.registerCommand("info", new CurrencyInfoCommand());
+			currencyCommand.registerCommand("help", new CurrencyHelpCommand());
+			currencyCommand.registerCommand("default", new CurrencyDefaultCommand());
+			commandList.put("currency", currencyCommand);
+
+			CommandHandler configCommand = new CommandHandler("craftconomy", "config related commands", false);
+			configCommand.registerCommand("holdings", new ConfigHoldingsCommand());
+			configCommand.registerCommand("bankprice", new ConfigBankPriceCommand());
+			configCommand.registerCommand("format", new ConfigFormatCommand());
+			configCommand.registerCommand("help", new ConfigHelpCommand());
+			commandList.put("craftconomy", configCommand);
+
+			CommandHandler paydayCommand = new CommandHandler("payday", "Payday related commands", false);
+			paydayCommand.registerCommand("create", new PayDayCreateCommand());
+			paydayCommand.registerCommand("delete", new PayDayDeleteCommand());
+			paydayCommand.registerCommand("help", new PayDayHelpCommand());
+			paydayCommand.registerCommand("modify", new PayDayModifyCommand());
+			paydayCommand.registerCommand("list", new PayDayListCommand());
+			paydayCommand.registerCommand("info", new PayDayInfoCommand());
+			commandList.put("payday", paydayCommand);
+			initialized = true;
+		}
+	}
+
 	public boolean commandExist(String commandName) {
 		return commandList.containsKey(commandName);
 	}
-	
+
 	public CommandHandler getCommandHandler(String commandName) {
 		return commandList.get(commandName);
 	}
-	
+
 	public CommandManager getCommandManager() {
 		return manager;
 	}
