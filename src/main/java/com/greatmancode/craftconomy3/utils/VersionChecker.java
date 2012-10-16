@@ -18,10 +18,15 @@
  */
 package com.greatmancode.craftconomy3.utils;
 
-import java.io.IOException;
 import java.net.URL;
-import java.util.Scanner;
 import java.util.logging.Level;
+
+import javax.xml.parsers.DocumentBuilderFactory;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import com.greatmancode.craftconomy3.Common;
 
@@ -31,21 +36,27 @@ public class VersionChecker {
 	private String newVersion = "";
 
 	public VersionChecker(String currentVersion) {
+		String pluginUrlString = "http://dev.bukkit.org/server-mods/craftconomy/files.rss";
 		try {
-			URL url = new URL("https://dl.dropbox.com/s/p326su6cxs4tih1/versioncheck?dl=1");
+			URL url = new URL(pluginUrlString);
+			Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(url.openConnection().getInputStream());
+			doc.getDocumentElement().normalize();
+			NodeList nodes = doc.getElementsByTagName("item");
+			Node firstNode = nodes.item(0);
+			if (firstNode.getNodeType() == 1) {
+				Element firstElement = (Element) firstNode;
+				NodeList firstElementTagName = firstElement.getElementsByTagName("title");
+				Element firstNameElement = (Element) firstElementTagName.item(0);
+				NodeList firstNodes = firstNameElement.getChildNodes();
+				if (!currentVersion.contains(firstNodes.item(0).getNodeValue())) {
+					oldVersion = true;
+					newVersion = firstNodes.item(0).getNodeValue();
+				}
 
-			Scanner s = new Scanner(url.openStream());
-			String value = s.next();
-			if (!currentVersion.contains(value)) {
-				oldVersion = true;
-				newVersion = value;
 			}
-			s.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+		} catch (Exception e) {
 			Common.getInstance().sendConsoleMessage(Level.SEVERE, "Error while trying to check for the latest version. The error is: " + e.getMessage());
 		}
-
 	}
 
 	public boolean isOld() {

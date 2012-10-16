@@ -1,7 +1,7 @@
 System:
   Setup: true
-    
-  # Logs all monetary transactions passed through CraftConomy (NOT WORKING)
+  CheckNewVersion: true
+  # Logs all monetary transactions passed through CraftConomy
   Logging:
     Enabled: false
     

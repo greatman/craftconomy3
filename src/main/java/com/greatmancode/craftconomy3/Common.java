@@ -90,10 +90,6 @@ public class Common {
 	public void initialize() {
 		if (!initialized) {
 			sendConsoleMessage(Level.INFO, "Starting up!");
-			versionChecker = new VersionChecker(Common.getInstance().getServerCaller().getPluginVersion());
-			if (versionChecker.isOld()) {
-				sendConsoleMessage(Level.WARNING, "Running a old version of Craftconomy! New version is: " + versionChecker.getNewVersion());
-			}
 			sendConsoleMessage(Level.INFO, "Loading the Configuration");
 			config = new ConfigurationManager();
 			config.initialize(Common.getInstance().getServerCaller().getDataFolder(), "config.yml");
@@ -102,6 +98,15 @@ public class Common {
 			} catch (IOException e) {
 				this.getLogger().log(Level.SEVERE, "Unable to load Metrics! The error is: " + e.getMessage());
 			}
+			if (getConfigurationManager().getConfig().getBoolean("System.CheckNewVersion")) {
+				sendConsoleMessage(Level.INFO, "Checking if there's a new version.");
+				versionChecker = new VersionChecker(Common.getInstance().getServerCaller().getPluginVersion());
+				if (versionChecker.isOld()) {
+					sendConsoleMessage(Level.WARNING, "Running a old version of Craftconomy! New version is: " + versionChecker.getNewVersion());
+				}
+			}
+			sendConsoleMessage(Level.INFO, "Loading listeners.");
+			eventManager = new EventManager();
 			sendConsoleMessage(Level.INFO, "Loading commands");
 			commandManager = new CommandLoader();
 			if (config.getConfig().getBoolean("System.Setup")) {
@@ -381,10 +386,18 @@ public class Common {
 		}
 	}
 
+	/**
+	 * Get the version Checker.
+	 * @return The version checker. May return null if the system is disabled in the config.yml
+	 */
 	public VersionChecker getVersionChecker() {
 		return versionChecker;
 	}
 
+	/**
+	 * Retrieve the Event manager.
+	 * @return
+	 */
 	public EventManager getEventManager() {
 		return eventManager;
 	}
