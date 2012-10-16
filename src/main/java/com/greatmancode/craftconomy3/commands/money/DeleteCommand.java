@@ -21,7 +21,7 @@ package com.greatmancode.craftconomy3.commands.money;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.commands.CraftconomyCommand;
 
-public class DeleteCommand implements CraftconomyCommand {
+public class DeleteCommand extends CraftconomyCommand {
 
 	@Override
 	public void execute(String sender, String[] args) {
@@ -30,11 +30,6 @@ public class DeleteCommand implements CraftconomyCommand {
 		} else {
 			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}This account doesn't exist!");
 		}
-	}
-
-	@Override
-	public boolean permission(String sender) {
-		return Common.getInstance().getServerCaller().checkPermission(sender, "craftconomy.account.delete");
 	}
 
 	@Override
@@ -55,6 +50,11 @@ public class DeleteCommand implements CraftconomyCommand {
 	@Override
 	public boolean playerOnly() {
 		return false;
+	}
+
+	@Override
+	public String getPermissionNode() {
+		return "craftconomy.account.delete";
 	}
 
 }

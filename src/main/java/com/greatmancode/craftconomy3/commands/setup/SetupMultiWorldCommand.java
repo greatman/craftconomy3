@@ -23,7 +23,7 @@ import com.greatmancode.craftconomy3.SetupWizard;
 import com.greatmancode.craftconomy3.commands.CraftconomyCommand;
 import com.greatmancode.craftconomy3.database.tables.ConfigTable;
 
-public class SetupMultiWorldCommand implements CraftconomyCommand {
+public class SetupMultiWorldCommand extends CraftconomyCommand {
 
 	private static ConfigTable oldValue = null;
 	@Override
@@ -58,11 +58,6 @@ public class SetupMultiWorldCommand implements CraftconomyCommand {
 	}
 
 	@Override
-	public boolean permission(String sender) {
-		return Common.getInstance().getServerCaller().checkPermission(sender, "craftconomy.setup");
-	}
-
-	@Override
 	public String help() {
 		return "/ccsetup - Start the setup";
 	}
@@ -80,6 +75,11 @@ public class SetupMultiWorldCommand implements CraftconomyCommand {
 	@Override
 	public boolean playerOnly() {
 		return false;
+	}
+
+	@Override
+	public String getPermissionNode() {
+		return "craftconomy.setup";
 	}
 
 }

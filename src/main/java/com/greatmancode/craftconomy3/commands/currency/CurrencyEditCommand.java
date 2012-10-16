@@ -21,7 +21,7 @@ package com.greatmancode.craftconomy3.commands.currency;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.commands.CraftconomyCommand;
 
-public class CurrencyEditCommand implements CraftconomyCommand {
+public class CurrencyEditCommand extends CraftconomyCommand {
 
 	@Override
 	public void execute(String sender, String[] args) {
@@ -75,6 +75,11 @@ public class CurrencyEditCommand implements CraftconomyCommand {
 	@Override
 	public boolean playerOnly() {
 		return false;
+	}
+
+	@Override
+	public String getPermissionNode() {
+		return "craftconomy.currency.edit";
 	}
 
 }

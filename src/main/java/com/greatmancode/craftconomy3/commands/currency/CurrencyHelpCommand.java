@@ -25,12 +25,12 @@ import java.util.Map.Entry;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.commands.CraftconomyCommand;
 
-public class CurrencyHelpCommand implements CraftconomyCommand {
+public class CurrencyHelpCommand extends CraftconomyCommand {
 
 	@Override
 	public void execute(String sender, String[] args) {
 		Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}} ======== Currency Commands ========");
-		Map<String, CraftconomyCommand> cmdList = Common.getInstance().getCommandManager().getCurrencyCmdList();
+		Map<String, CraftconomyCommand> cmdList = Common.getInstance().getCommandManager().getCommandHandler("currency").getCommandList();
 		Iterator<Entry<String, CraftconomyCommand>> iterator = cmdList.entrySet().iterator();
 		while (iterator.hasNext()) {
 			Entry<String, CraftconomyCommand> entry = iterator.next();
@@ -38,11 +38,6 @@ public class CurrencyHelpCommand implements CraftconomyCommand {
 				Common.getInstance().getServerCaller().sendMessage(sender, entry.getValue().help());
 			}
 		}
-	}
-
-	@Override
-	public boolean permission(String sender) {
-		return true;
 	}
 
 	@Override
@@ -63,6 +58,11 @@ public class CurrencyHelpCommand implements CraftconomyCommand {
 	@Override
 	public boolean playerOnly() {
 		return false;
+	}
+
+	@Override
+	public String getPermissionNode() {
+		return null;
 	}
 
 }

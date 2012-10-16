@@ -25,7 +25,7 @@ import com.greatmancode.craftconomy3.currency.Currency;
 import com.greatmancode.craftconomy3.currency.CurrencyManager;
 import com.greatmancode.craftconomy3.utils.Tools;
 
-public class GiveCommand implements CraftconomyCommand {
+public class GiveCommand extends CraftconomyCommand {
 
 	@Override
 	public void execute(String sender, String[] args) {
@@ -72,11 +72,6 @@ public class GiveCommand implements CraftconomyCommand {
 	}
 
 	@Override
-	public boolean permission(String sender) {
-		return Common.getInstance().getServerCaller().checkPermission(sender, "craftconomy.money.give");
-	}
-
-	@Override
 	public String help() {
 		return "/money give <Player Name> <Amount> [Currency] [World] - Give money to someone";
 	}
@@ -94,6 +89,11 @@ public class GiveCommand implements CraftconomyCommand {
 	@Override
 	public boolean playerOnly() {
 		return false;
+	}
+
+	@Override
+	public String getPermissionNode() {
+		return "craftconomy.money.give";
 	}
 
 }

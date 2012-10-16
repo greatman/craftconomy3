@@ -22,7 +22,7 @@ import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.SetupWizard;
 import com.greatmancode.craftconomy3.commands.CraftconomyCommand;
 
-public class SetupMainCommand implements CraftconomyCommand {
+public class SetupMainCommand extends CraftconomyCommand {
 
 	@Override
 	public void execute(String sender, String[] args) {
@@ -30,11 +30,6 @@ public class SetupMainCommand implements CraftconomyCommand {
 		Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}This setup will help you configure Craftconomy like you want.");
 		Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}To continue, type {{WHITE}} /ccsetup database");
 		SetupWizard.setState(SetupWizard.DATABASE_SETUP);
-	}
-
-	@Override
-	public boolean permission(String sender) {
-		return Common.getInstance().getServerCaller().checkPermission(sender, "craftconomy.setup");
 	}
 
 	@Override
@@ -55,6 +50,11 @@ public class SetupMainCommand implements CraftconomyCommand {
 	@Override
 	public boolean playerOnly() {
 		return false;
+	}
+
+	@Override
+	public String getPermissionNode() {
+		return "craftconomy.setup";
 	}
 
 }

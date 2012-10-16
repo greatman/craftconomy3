@@ -21,7 +21,7 @@ package com.greatmancode.craftconomy3.commands.currency;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.commands.CraftconomyCommand;
 
-public class CurrencyDeleteCommand implements CraftconomyCommand {
+public class CurrencyDeleteCommand extends CraftconomyCommand {
 
 	@Override
 	public void execute(String sender, String[] args) {
@@ -31,11 +31,6 @@ public class CurrencyDeleteCommand implements CraftconomyCommand {
 		} else {
 			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Currency not found!");
 		}
-	}
-
-	@Override
-	public boolean permission(String sender) {
-		return Common.getInstance().getServerCaller().checkPermission(sender, "craftconomy.currency.delete");
 	}
 
 	@Override
@@ -56,6 +51,11 @@ public class CurrencyDeleteCommand implements CraftconomyCommand {
 	@Override
 	public boolean playerOnly() {
 		return false;
+	}
+
+	@Override
+	public String getPermissionNode() {
+		return "craftconomy.currency.delete";
 	}
 
 }

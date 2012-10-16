@@ -25,7 +25,7 @@ import com.greatmancode.craftconomy3.account.Account;
 import com.greatmancode.craftconomy3.account.Balance;
 import com.greatmancode.craftconomy3.commands.CraftconomyCommand;
 
-public class BalanceCommand implements CraftconomyCommand {
+public class BalanceCommand extends CraftconomyCommand {
 
 	@Override
 	public void execute(String sender, String[] args) {
@@ -42,11 +42,6 @@ public class BalanceCommand implements CraftconomyCommand {
 			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Account not found!");
 		}
 
-	}
-
-	@Override
-	public boolean permission(String sender) {
-		return Common.getInstance().getServerCaller().checkPermission(sender, "craftconomy.money.balance.others");
 	}
 
 	@Override
@@ -67,6 +62,11 @@ public class BalanceCommand implements CraftconomyCommand {
 	@Override
 	public boolean playerOnly() {
 		return false;
+	}
+
+	@Override
+	public String getPermissionNode() {
+		return "craftconomy.money.balance.others";
 	}
 
 }

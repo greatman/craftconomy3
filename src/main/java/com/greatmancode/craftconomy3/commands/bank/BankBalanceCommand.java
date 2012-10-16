@@ -25,7 +25,7 @@ import com.greatmancode.craftconomy3.account.Account;
 import com.greatmancode.craftconomy3.account.Balance;
 import com.greatmancode.craftconomy3.commands.CraftconomyCommand;
 
-public class BankBalanceCommand implements CraftconomyCommand {
+public class BankBalanceCommand extends CraftconomyCommand {
 
 	@Override
 	public void execute(String sender, String[] args) {
@@ -46,11 +46,7 @@ public class BankBalanceCommand implements CraftconomyCommand {
 			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}This account doesn't exist!");
 		}
 	}
-
-	@Override
-	public boolean permission(String sender) {
-		return Common.getInstance().getServerCaller().checkPermission(sender, "craftconomy.bank.balance");
-	}
+	
 
 	@Override
 	public String help() {
@@ -70,6 +66,12 @@ public class BankBalanceCommand implements CraftconomyCommand {
 	@Override
 	public boolean playerOnly() {
 		return false;
+	}
+
+
+	@Override
+	public String getPermissionNode() {
+		return "craftconomy.bank.balance";
 	}
 
 }

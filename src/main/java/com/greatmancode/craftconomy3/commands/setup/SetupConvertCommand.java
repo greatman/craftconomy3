@@ -27,7 +27,7 @@ import com.greatmancode.craftconomy3.commands.CraftconomyCommand;
 import com.greatmancode.craftconomy3.converter.Converter;
 import com.greatmancode.craftconomy3.converter.ConverterList;
 
-public class SetupConvertCommand implements CraftconomyCommand {
+public class SetupConvertCommand extends CraftconomyCommand {
 
 	private static ConverterList importerList = new ConverterList();
 	private boolean inProgress = false;
@@ -127,11 +127,6 @@ public class SetupConvertCommand implements CraftconomyCommand {
 	}
 
 	@Override
-	public boolean permission(String sender) {
-		return Common.getInstance().getServerCaller().checkPermission(sender, "craftconomy.setup");
-	}
-
-	@Override
 	public String help() {
 		return "/ccsetup basic - Basic configuration";
 	}
@@ -149,6 +144,11 @@ public class SetupConvertCommand implements CraftconomyCommand {
 	@Override
 	public boolean playerOnly() {
 		return false;
+	}
+
+	@Override
+	public String getPermissionNode() {
+		return "craftconomy.setup";
 	}
 
 }

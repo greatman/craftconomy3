@@ -200,4 +200,6 @@ public interface Caller {
 	 * @param path The path to the .jar of the library.
 	 */
 	void loadLibrary(String path);
+	
+	void registerPermission(String permissionNode);
 }

@@ -28,6 +28,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.permissions.Permission;
 
 import com.greatmancode.craftconomy3.commands.BukkitCommandManager;
 import com.greatmancode.craftconomy3.commands.CommandManager;
@@ -214,6 +215,12 @@ public class BukkitCaller implements Caller {
 			Common.getInstance().sendConsoleMessage(Level.SEVERE, "Invalid library URL for: " + path + ". Full error is: " + e.getMessage());
 		}
 
+	}
+
+	@Override
+	public void registerPermission(String permissionNode) {
+		loader.getServer().getPluginManager().addPermission(new Permission(permissionNode));
+		
 	}
 
 }

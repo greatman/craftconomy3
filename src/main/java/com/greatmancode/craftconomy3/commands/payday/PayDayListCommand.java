@@ -25,7 +25,7 @@ import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.commands.CraftconomyCommand;
 import com.greatmancode.craftconomy3.payday.PayDay;
 
-public class PayDayListCommand implements CraftconomyCommand {
+public class PayDayListCommand extends CraftconomyCommand {
 
 	@Override
 	public void execute(String sender, String[] args) {
@@ -60,6 +60,11 @@ public class PayDayListCommand implements CraftconomyCommand {
 	@Override
 	public boolean playerOnly() {
 		return false;
+	}
+
+	@Override
+	public String getPermissionNode() {
+		return "craftconomy.payday.command.list";
 	}
 
 }

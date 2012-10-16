@@ -22,7 +22,7 @@ import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.commands.CraftconomyCommand;
 import com.greatmancode.craftconomy3.payday.PayDay;
 
-public class PayDayInfoCommand implements CraftconomyCommand {
+public class PayDayInfoCommand extends CraftconomyCommand {
 
 	@Override
 	public void execute(String sender, String[] args) {
@@ -44,11 +44,6 @@ public class PayDayInfoCommand implements CraftconomyCommand {
 	}
 
 	@Override
-	public boolean permission(String sender) {
-		return Common.getInstance().getServerCaller().checkPermission(sender, "craftconomy.payday.command.info");
-	}
-
-	@Override
 	public String help() {
 		return "/payday info <Payday Name> - Show information about a payday.";
 	}
@@ -66,6 +61,11 @@ public class PayDayInfoCommand implements CraftconomyCommand {
 	@Override
 	public boolean playerOnly() {
 		return false;
+	}
+
+	@Override
+	public String getPermissionNode() {
+		return "craftconomy.payday.command.info";
 	}
 
 }

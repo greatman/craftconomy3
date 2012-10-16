@@ -25,7 +25,7 @@ import com.greatmancode.craftconomy3.currency.Currency;
 import com.greatmancode.craftconomy3.currency.CurrencyManager;
 import com.greatmancode.craftconomy3.utils.Tools;
 
-public class BankDepositCommand implements CraftconomyCommand {
+public class BankDepositCommand extends CraftconomyCommand {
 
 	@Override
 	public void execute(String sender, String[] args) {
@@ -66,11 +66,6 @@ public class BankDepositCommand implements CraftconomyCommand {
 	}
 
 	@Override
-	public boolean permission(String sender) {
-		return Common.getInstance().getServerCaller().checkPermission(sender, "craftconomy.bank.deposit");
-	}
-
-	@Override
 	public String help() {
 		return "/bank deposit <Account Name> <Amount> [Currency] - Deposit money in a account.";
 	}
@@ -88,6 +83,11 @@ public class BankDepositCommand implements CraftconomyCommand {
 	@Override
 	public boolean playerOnly() {
 		return true;
+	}
+
+	@Override
+	public String getPermissionNode() {
+		return "craftconomy.bank.deposit";
 	}
 
 }

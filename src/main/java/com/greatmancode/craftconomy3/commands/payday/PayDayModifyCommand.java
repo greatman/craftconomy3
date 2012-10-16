@@ -22,7 +22,7 @@ import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.commands.CraftconomyCommand;
 import com.greatmancode.craftconomy3.utils.Tools;
 
-public class PayDayModifyCommand implements CraftconomyCommand {
+public class PayDayModifyCommand extends CraftconomyCommand {
 
 	@Override
 	public void execute(String sender, String[] args) {
@@ -97,11 +97,6 @@ public class PayDayModifyCommand implements CraftconomyCommand {
 	}
 
 	@Override
-	public boolean permission(String sender) {
-		return Common.getInstance().getServerCaller().checkPermission(sender, "craftconomy.payday.command.modify");
-	}
-
-	@Override
 	public String help() {
 		return "/payday modify <Name> <Name/status/disabled/interval/amount/account/currency/World> <Value> - Modify a payday setting.";
 	}
@@ -119,6 +114,11 @@ public class PayDayModifyCommand implements CraftconomyCommand {
 	@Override
 	public boolean playerOnly() {
 		return false;
+	}
+
+	@Override
+	public String getPermissionNode() {
+		return "craftconomy.payday.command.modify";
 	}
 
 }

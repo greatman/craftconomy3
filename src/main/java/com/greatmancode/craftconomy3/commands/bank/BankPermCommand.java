@@ -22,7 +22,7 @@ import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.account.Account;
 import com.greatmancode.craftconomy3.commands.CraftconomyCommand;
 
-public class BankPermCommand implements CraftconomyCommand {
+public class BankPermCommand extends CraftconomyCommand {
 
 	@Override
 	public void execute(String sender, String[] args) {
@@ -53,11 +53,6 @@ public class BankPermCommand implements CraftconomyCommand {
 	}
 
 	@Override
-	public boolean permission(String sender) {
-		return Common.getInstance().getServerCaller().checkPermission(sender, "craftconomy.bank.perm");
-	}
-
-	@Override
 	public String help() {
 		return "/bank perm <Account Name> <deposit/withdraw/acl/show> <Player Name> <true/false> - Modify the permission of a player";
 	}
@@ -75,6 +70,11 @@ public class BankPermCommand implements CraftconomyCommand {
 	@Override
 	public boolean playerOnly() {
 		return false;
+	}
+
+	@Override
+	public String getPermissionNode() {
+		return "craftconomy.bank.perm";
 	}
 
 }

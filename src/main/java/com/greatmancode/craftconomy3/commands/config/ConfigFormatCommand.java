@@ -21,7 +21,7 @@ package com.greatmancode.craftconomy3.commands.config;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.commands.CraftconomyCommand;
 
-public class ConfigFormatCommand implements CraftconomyCommand {
+public class ConfigFormatCommand extends CraftconomyCommand {
 
 	@Override
 	public void execute(String sender, String[] args) {
@@ -32,11 +32,6 @@ public class ConfigFormatCommand implements CraftconomyCommand {
 			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Invalid mode!");
 		}
 
-	}
-
-	@Override
-	public boolean permission(String sender) {
-		return Common.getInstance().getServerCaller().checkPermission(sender, "craftconomy.config.format");
 	}
 
 	@Override
@@ -57,6 +52,11 @@ public class ConfigFormatCommand implements CraftconomyCommand {
 	@Override
 	public boolean playerOnly() {
 		return false;
+	}
+
+	@Override
+	public String getPermissionNode() {
+		return "craftconomy.config.format";
 	}
 
 }

@@ -18,15 +18,12 @@
  */
 package com.greatmancode.craftconomy3.commands;
 
-import org.spout.api.chat.ChatArguments;
 import org.spout.api.command.Command;
 import org.spout.api.command.CommandContext;
 import org.spout.api.command.CommandExecutor;
 import org.spout.api.command.CommandSource;
-import org.spout.api.entity.Player;
 import org.spout.api.exception.CommandException;
 
-import com.greatmancode.craftconomy3.Caller;
 import com.greatmancode.craftconomy3.Common;
 
 /**
@@ -37,112 +34,19 @@ import com.greatmancode.craftconomy3.Common;
  */
 public class SpoutCommandManager implements CommandExecutor, CommandManager {
 
-	public SpoutCommandManager() {
-		Common.getInstance().getServerCaller().addCommand("money", "Money Related Commands", this);
-		Common.getInstance().getServerCaller().addCommand("bank", "Bank related Commands", this);
-		Common.getInstance().getServerCaller().addCommand("ccsetup", "Craftconomy setup command.", this);
-		Common.getInstance().getServerCaller().addCommand("currency", "Currency related commands", this);
-		Common.getInstance().getServerCaller().addCommand("craftconomy", "Craftconomy config command", this);
-		Common.getInstance().getServerCaller().addCommand("payday", "Payday config command", this);
-	}
-
 	@Override
 	public void processCommand(CommandSource source, Command command, CommandContext args) throws CommandException {
-		CraftconomyCommand cmd = null;
-		if (command.getPreferredName().equals("money")) {
-			if (SETUP_ACTIVE) {
-				source.sendMessage(ChatArguments.fromFormatString(SETUP_MODE));
-				return;
-			}
+		if (Common.getInstance().getCommandManager().commandExist(command.getPreferredName())) {
+			String[] newargs;
 			if (args.length() == 0) {
-				cmd = Common.getInstance().getCommandManager().getMoneyCmdList().get("");
+				newargs = new String[0];
 			} else {
-				cmd = Common.getInstance().getCommandManager().getMoneyCmdList().get(args.getString(0));
-			}
-		} else if (command.getPreferredName().equals("bank")) {
-			if (SETUP_ACTIVE) {
-				source.sendMessage(ChatArguments.fromFormatString(SETUP_MODE));
-				return;
-			}
-			if (args.length() == 0) {
-				cmd = Common.getInstance().getCommandManager().getBankCmdList().get("help");
-			} else {
-				cmd = Common.getInstance().getCommandManager().getBankCmdList().get(args.getString(0));
-			}
-		} else if (command.getPreferredName().equals("ccsetup")) {
-			if (SETUP_ACTIVE) {
-				if (args.length() == 0) {
-					cmd = Common.getInstance().getCommandManager().getSetupCmdList().get("");
-				} else {
-					cmd = Common.getInstance().getCommandManager().getSetupCmdList().get(args.getString(0));
+				newargs = new String[args.length() - 1];
+				for (int i = 1; i <= newargs.length; i++) {
+					newargs[i - 1] = args.getString(i);
 				}
 			}
-
-		} else if (command.getPreferredName().equals("currency")) {
-			if (SETUP_ACTIVE) {
-				source.sendMessage(ChatArguments.fromFormatString(SETUP_MODE));
-				return;
-			}
-			if (args.length() == 0) {
-				cmd = Common.getInstance().getCommandManager().getCurrencyCmdList().get("help");
-			} else {
-				cmd = Common.getInstance().getCommandManager().getCurrencyCmdList().get(args.getString(0));
-			}
-
-		} else if (command.getPreferredName().equals("craftconomy")) {
-			if (SETUP_ACTIVE) {
-				source.sendMessage(ChatArguments.fromFormatString(SETUP_MODE));
-				return;
-			}
-			if (args.length() == 0) {
-				cmd = Common.getInstance().getCommandManager().getConfigCmdList().get("help");
-			} else {
-				cmd = Common.getInstance().getCommandManager().getConfigCmdList().get(args.getString(0));
-			}
-
-		} else if (command.getPreferredName().equals("payday")) {
-			if (SETUP_ACTIVE) {
-				source.sendMessage(ChatArguments.fromFormatString(SETUP_MODE));
-				return;
-			}
-			if (args.length() == 0) {
-				cmd = Common.getInstance().getCommandManager().getPaydayCmdList().get("help");
-			} else {
-				cmd = Common.getInstance().getCommandManager().getPaydayCmdList().get(args.getString(0));
-			}
-
-		} else {
-			return;
-		}
-		if (cmd != null) {
-			if (cmd.playerOnly() && !(source instanceof Player)) {
-				source.sendMessage(ChatArguments.fromFormatString(Caller.CHAT_PREFIX + "{{DARK_RED}}Only a player can use this command!"));
-				return;
-			}
-
-			if (!(source instanceof Player) || cmd.permission(source.getName())) {
-				String[] newargs;
-				if (args.length() == 0) {
-					newargs = new String[0];
-				} else {
-					newargs = new String[args.length() - 1];
-					for (int i = 1; i <= newargs.length; i++) {
-						newargs[i - 1] = args.getString(i);
-					}
-				}
-				if (newargs.length >= cmd.minArgs() && newargs.length <= cmd.maxArgs()) {
-					cmd.execute(source.getName(), newargs);
-					return;
-				}
-				source.sendMessage(ChatArguments.fromFormatString(Caller.CHAT_PREFIX + cmd.help()));
-				return;
-			} else {
-				source.sendMessage(ChatArguments.fromFormatString(Caller.CHAT_PREFIX + "{{DARK_RED}}Not enough permissions!"));
-				return;
-			}
-		} else {
-			source.sendMessage(ChatArguments.fromFormatString(Caller.CHAT_PREFIX + "{{DARK_RED}} Sub-Command not found! Use {{WHITE}} /" + command.getPreferredName() + " help {{DARK_RED}} for help."));
-			return;
+			Common.getInstance().getCommandManager().getCommandHandler(command.getPreferredName()).execute(source.getName(), args.getString(0), newargs);
 		}
 	}
 

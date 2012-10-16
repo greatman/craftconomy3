@@ -18,13 +18,15 @@
  */
 package com.greatmancode.craftconomy3.commands;
 
+import com.greatmancode.craftconomy3.Common;
+
 /**
  * Represents a command
  * 
  * @author greatman
  * 
  */
-public interface CraftconomyCommand {
+public abstract class CraftconomyCommand {
 
 	/**
 	 * The execution of the command
@@ -32,7 +34,7 @@ public interface CraftconomyCommand {
 	 * @param sender The sender of the command
 	 * @param args A String array of all the arguments
 	 */
-	void execute(String sender, String[] args);
+	public abstract void execute(String sender, String[] args);
 
 	/**
 	 * Checks if the command sender can execute this command.
@@ -40,33 +42,37 @@ public interface CraftconomyCommand {
 	 * @param sender The sender to check
 	 * @return True if the sender have permission else False
 	 */
-	boolean permission(String sender);
+	public boolean permission(String sender) {
+		return Common.getInstance().getServerCaller().checkPermission(sender, getPermissionNode());
+	}
 
 	/**
 	 * Returns a usage/help line about the command
 	 * 
 	 * @return A string containing the usage/help about the command.
 	 */
-	String help();
+	public abstract String help();
 
 	/**
 	 * The maximum number of arguments that this command take
 	 * 
 	 * @return The maximum number of arguments
 	 */
-	int maxArgs();
+	public abstract int maxArgs();
 
 	/**
 	 * The minimum number of arguments this command take
 	 * 
 	 * @return The minimum number of arguments
 	 */
-	int minArgs();
+	public abstract int minArgs();
 
 	/**
 	 * State if this command is for Players only
 	 * 
 	 * @return True if the command is for player only else false.
 	 */
-	boolean playerOnly();
+	public abstract boolean playerOnly();
+	
+	public abstract String getPermissionNode();
 }

@@ -24,7 +24,7 @@ import com.greatmancode.craftconomy3.commands.CraftconomyCommand;
 import com.greatmancode.craftconomy3.database.tables.ConfigTable;
 import com.greatmancode.craftconomy3.utils.Tools;
 
-public class SetupBasicCommand implements CraftconomyCommand {
+public class SetupBasicCommand extends CraftconomyCommand {
 
 	private static String defaultAmount = null, bankprice = null, longmode = null;
 
@@ -90,11 +90,6 @@ public class SetupBasicCommand implements CraftconomyCommand {
 	}
 
 	@Override
-	public boolean permission(String sender) {
-		return Common.getInstance().getServerCaller().checkPermission(sender, "craftconomy.setup");
-	}
-
-	@Override
 	public String help() {
 		return "/ccsetup basic - Basic configuration";
 	}
@@ -112,6 +107,11 @@ public class SetupBasicCommand implements CraftconomyCommand {
 	@Override
 	public boolean playerOnly() {
 		return false;
+	}
+
+	@Override
+	public String getPermissionNode() {
+		return "craftconomy.setup";
 	}
 
 }

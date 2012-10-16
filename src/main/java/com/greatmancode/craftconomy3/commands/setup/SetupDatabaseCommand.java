@@ -24,7 +24,7 @@ import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.SetupWizard;
 import com.greatmancode.craftconomy3.commands.CraftconomyCommand;
 
-public class SetupDatabaseCommand implements CraftconomyCommand {
+public class SetupDatabaseCommand extends CraftconomyCommand {
 
 	private static final String ERROR_MESSAGE = "{{DARK_RED}}A error occured. The error is: {{WHITE}}%s";
 	private static final String CONFIG_NODE = "System.Database.Type";
@@ -115,11 +115,6 @@ public class SetupDatabaseCommand implements CraftconomyCommand {
 	}
 
 	@Override
-	public boolean permission(String sender) {
-		return Common.getInstance().getServerCaller().checkPermission(sender, "craftconomy.setup");
-	}
-
-	@Override
 	public String help() {
 		return "/ccsetup - Start the setup";
 	}
@@ -137,5 +132,10 @@ public class SetupDatabaseCommand implements CraftconomyCommand {
 	@Override
 	public boolean playerOnly() {
 		return false;
+	}
+
+	@Override
+	public String getPermissionNode() {
+		return "craftconomy.setup";
 	}
 }

@@ -21,7 +21,7 @@ package com.greatmancode.craftconomy3.commands.money;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.commands.CraftconomyCommand;
 
-public class CreateCommand implements CraftconomyCommand {
+public class CreateCommand extends CraftconomyCommand {
 
 	@Override
 	public void execute(String sender, String[] args) {
@@ -32,11 +32,6 @@ public class CreateCommand implements CraftconomyCommand {
 			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}} This account already exist!");
 		}
 
-	}
-
-	@Override
-	public boolean permission(String sender) {
-		return Common.getInstance().getServerCaller().checkPermission(sender, "craftconomy.account.create");
 	}
 
 	@Override
@@ -57,6 +52,11 @@ public class CreateCommand implements CraftconomyCommand {
 	@Override
 	public boolean playerOnly() {
 		return false;
+	}
+
+	@Override
+	public String getPermissionNode() {
+		return "craftconomy.account.create";
 	}
 
 }

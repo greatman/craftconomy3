@@ -84,7 +84,7 @@ class TopCommandThread implements Runnable {
 	}
 }
 
-public class TopCommand implements CraftconomyCommand {
+public class TopCommand extends CraftconomyCommand {
 
 	@Override
 	public void execute(String sender, String[] args) {
@@ -118,11 +118,6 @@ public class TopCommand implements CraftconomyCommand {
 	}
 
 	@Override
-	public boolean permission(String sender) {
-		return Common.getInstance().getServerCaller().checkPermission(sender, "craftconomy.money.top");
-	}
-
-	@Override
 	public String help() {
 		return "/money top <Currency> [Page] [World] - Shows the top list";
 	}
@@ -140,6 +135,11 @@ public class TopCommand implements CraftconomyCommand {
 	@Override
 	public boolean playerOnly() {
 		return false;
+	}
+
+	@Override
+	public String getPermissionNode() {
+		return "craftconomy.money.top";
 	}
 
 }

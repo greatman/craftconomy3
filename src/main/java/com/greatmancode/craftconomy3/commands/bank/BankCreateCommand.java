@@ -23,7 +23,7 @@ import com.greatmancode.craftconomy3.account.Account;
 import com.greatmancode.craftconomy3.commands.CraftconomyCommand;
 import com.greatmancode.craftconomy3.currency.CurrencyManager;
 
-public class BankCreateCommand implements CraftconomyCommand {
+public class BankCreateCommand extends CraftconomyCommand {
 
 	@Override
 	public void execute(String sender, String[] args) {
@@ -40,11 +40,6 @@ public class BankCreateCommand implements CraftconomyCommand {
 		} else {
 			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}This account already exists!");
 		}
-	}
-
-	@Override
-	public boolean permission(String sender) {
-		return Common.getInstance().getServerCaller().checkPermission(sender, "craftconomy.bank.create");
 	}
 
 	@Override
@@ -65,6 +60,11 @@ public class BankCreateCommand implements CraftconomyCommand {
 	@Override
 	public boolean playerOnly() {
 		return true;
+	}
+
+	@Override
+	public String getPermissionNode() {
+		return "craftconomy.bank.create";
 	}
 
 }

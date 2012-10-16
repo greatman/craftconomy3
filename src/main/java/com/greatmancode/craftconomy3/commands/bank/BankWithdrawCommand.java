@@ -25,7 +25,7 @@ import com.greatmancode.craftconomy3.currency.Currency;
 import com.greatmancode.craftconomy3.currency.CurrencyManager;
 import com.greatmancode.craftconomy3.utils.Tools;
 
-public class BankWithdrawCommand implements CraftconomyCommand {
+public class BankWithdrawCommand extends CraftconomyCommand {
 
 	@Override
 	public void execute(String sender, String[] args) {
@@ -65,11 +65,6 @@ public class BankWithdrawCommand implements CraftconomyCommand {
 	}
 
 	@Override
-	public boolean permission(String sender) {
-		return Common.getInstance().getServerCaller().checkPermission(sender, "craftconomy.bank.withdraw");
-	}
-
-	@Override
 	public String help() {
 		return "/bank withdraw <Account Name> <Amount> [Currency] - Withdraw money in a account.";
 	}
@@ -87,6 +82,11 @@ public class BankWithdrawCommand implements CraftconomyCommand {
 	@Override
 	public boolean playerOnly() {
 		return true;
+	}
+
+	@Override
+	public String getPermissionNode() {
+		return "craftconomy.bank.withdraw";
 	}
 
 }

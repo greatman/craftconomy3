@@ -181,7 +181,11 @@ public class SpoutCaller implements Caller {
 
 	@Override
 	public void loadLibrary(String path) {
-		// TODO Auto-generated method stub
 		loader.loadLibrary(new File(path));
+	}
+
+	@Override
+	public void registerPermission(String permissionNode) {
+		//TODO: Not needed on spout?
 	}
 }

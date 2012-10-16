@@ -21,7 +21,7 @@ package com.greatmancode.craftconomy3.commands.currency;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.commands.CraftconomyCommand;
 
-public class CurrencyDefaultCommand implements CraftconomyCommand {
+public class CurrencyDefaultCommand extends CraftconomyCommand {
 
 	@Override
 	public void execute(String sender, String[] args) {
@@ -32,11 +32,6 @@ public class CurrencyDefaultCommand implements CraftconomyCommand {
 			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Currency not found!");
 		}
 
-	}
-
-	@Override
-	public boolean permission(String sender) {
-		return Common.getInstance().getServerCaller().checkPermission(sender, "craftconomy.payday.default");
 	}
 
 	@Override
@@ -57,6 +52,11 @@ public class CurrencyDefaultCommand implements CraftconomyCommand {
 	@Override
 	public boolean playerOnly() {
 		return false;
+	}
+
+	@Override
+	public String getPermissionNode() {
+		return "craftconomy.payday.default";
 	}
 
 }
