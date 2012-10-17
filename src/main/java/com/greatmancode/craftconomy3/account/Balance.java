@@ -59,6 +59,7 @@ public class Balance {
 	}
 
 	public void setBalance(double balance) {
+		//TODO: Don't allow negatives.
 		this.balance = balance;
 	}
 }
