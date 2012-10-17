@@ -166,7 +166,9 @@ public class Currency {
 	 * Save the currency information.
 	 */
 	private void save() {
-		Common.getInstance().getDatabaseManager().getDatabase().save(entry);
+		if (Common.getInstance() != null && Common.getInstance().getDatabaseManager() != null) {
+			Common.getInstance().getDatabaseManager().getDatabase().save(entry);
+		}
 	}
 
 	/**
