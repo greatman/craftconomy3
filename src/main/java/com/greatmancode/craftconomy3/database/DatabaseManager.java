@@ -50,32 +50,11 @@ public class DatabaseManager {
 	public DatabaseManager() throws TableRegistrationException, ConnectionException {
 		String databasetype = Common.getInstance().getConfigurationManager().getConfig().getString("System.Database.Type");
 		if (databasetype.equals("sqlite")) {
-			if (Common.getInstance().getServerCaller() instanceof SpoutCaller) {
-				// TODO: Improve that
-				Common.getInstance().getServerCaller().loadLibrary("lib" + File.separator + "sqlite.jar");
-			}
-			SQLiteConfiguration config = new SQLiteConfiguration(Common.getInstance().getServerCaller().getDataFolder() + File.separator + "database.db");
-			db = DatabaseFactory.createNewDatabase(config);
-			Common.getInstance().addMetricsGraph("Database Engine", "SQLite");
+			loadSQLite();
 		} else if (databasetype.equals("mysql")) {
-			if (Common.getInstance().getServerCaller() instanceof SpoutCaller) {
-				Common.getInstance().getServerCaller().loadLibrary("lib" + File.separator + "mysql.jar");
-			}
-			MySQLConfiguration config = new MySQLConfiguration();
-			config.setHost(Common.getInstance().getConfigurationManager().getConfig().getString("System.Database.Address"));
-			config.setUser(Common.getInstance().getConfigurationManager().getConfig().getString("System.Database.Username"));
-			config.setPassword(Common.getInstance().getConfigurationManager().getConfig().getString("System.Database.Password"));
-			config.setDatabase(Common.getInstance().getConfigurationManager().getConfig().getString("System.Database.Db"));
-			config.setPort(Common.getInstance().getConfigurationManager().getConfig().getInt("System.Database.Port"));
-			db = DatabaseFactory.createNewDatabase(config);
-			Common.getInstance().addMetricsGraph("Database Engine", "MySQL");
+			loadMySQL();
 		} else if (databasetype.equals("h2")) {
-			H2Configuration config = new H2Configuration();
-			Common.getInstance().getServerCaller().loadLibrary("lib" + File.separator + "h2.jar");
-			File file = new File(Common.getInstance().getServerCaller().getDataFolder(), "craftconomy");
-			config.setDatabase(file.getAbsolutePath());
-			db = DatabaseFactory.createNewDatabase(config);
-			Common.getInstance().addMetricsGraph("Database Engine", "H2");
+			loadH2();
 		}
 
 		db.registerTable(AccountTable.class);
@@ -87,6 +66,47 @@ public class DatabaseManager {
 		db.connect();
 	}
 
+	/**
+	 * Load the SQLite database.
+	 */
+	private void loadSQLite() {
+		if (Common.getInstance().getServerCaller() instanceof SpoutCaller) {
+			// TODO: Improve that
+			Common.getInstance().getServerCaller().loadLibrary("lib" + File.separator + "sqlite.jar");
+		}
+		SQLiteConfiguration config = new SQLiteConfiguration(Common.getInstance().getServerCaller().getDataFolder() + File.separator + "database.db");
+		db = DatabaseFactory.createNewDatabase(config);
+		Common.getInstance().addMetricsGraph("Database Engine", "SQLite");
+	}
+	
+	/**
+	 * Load the MySQL database.
+	 */
+	private void loadMySQL() {
+		if (Common.getInstance().getServerCaller() instanceof SpoutCaller) {
+			Common.getInstance().getServerCaller().loadLibrary("lib" + File.separator + "mysql.jar");
+		}
+		MySQLConfiguration config = new MySQLConfiguration();
+		config.setHost(Common.getInstance().getConfigurationManager().getConfig().getString("System.Database.Address"));
+		config.setUser(Common.getInstance().getConfigurationManager().getConfig().getString("System.Database.Username"));
+		config.setPassword(Common.getInstance().getConfigurationManager().getConfig().getString("System.Database.Password"));
+		config.setDatabase(Common.getInstance().getConfigurationManager().getConfig().getString("System.Database.Db"));
+		config.setPort(Common.getInstance().getConfigurationManager().getConfig().getInt("System.Database.Port"));
+		db = DatabaseFactory.createNewDatabase(config);
+		Common.getInstance().addMetricsGraph("Database Engine", "MySQL");
+	}
+	
+	/**
+	 * Load the H2 database.
+	 */
+	private void loadH2() {
+		H2Configuration config = new H2Configuration();
+		Common.getInstance().getServerCaller().loadLibrary("lib" + File.separator + "h2.jar");
+		File file = new File(Common.getInstance().getServerCaller().getDataFolder(), "craftconomy");
+		config.setDatabase(file.getAbsolutePath());
+		db = DatabaseFactory.createNewDatabase(config);
+		Common.getInstance().addMetricsGraph("Database Engine", "H2");
+	}
 	/**
 	 * Retrieve the database
 	 * 

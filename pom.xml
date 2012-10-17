@@ -77,6 +77,12 @@
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
+		<dependency>
+         <groupId>org.reflections</groupId>
+         <artifactId>reflections</artifactId>
+         <version>0.9.8</version>
+         <scope>test</scope>
+     </dependency>
 	</dependencies>
 
 	<build>

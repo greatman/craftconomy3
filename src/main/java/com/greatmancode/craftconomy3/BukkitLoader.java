@@ -30,11 +30,17 @@ import com.greatmancode.craftconomy3.events.BukkitListener;
  */
 public class BukkitLoader extends JavaPlugin implements Loader{
 
+	/**
+	 * Called when the plugin is loaded.
+	 */
 	public void onEnable() {
 		new Common(this, getLogger()).initialize();
 		this.getServer().getPluginManager().registerEvents(new BukkitListener(), this);
 	}
 
+	/**
+	 * Called when the plugin is unloaded.
+	 */
 	public void onDisable() {
 		Common.getInstance().disable();
 	}
