@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Craftconomy3.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.greatmancode.craftconomy3.converter;
+package com.greatmancode.craftconomy3.converter.converters;
 
 import java.io.File;
 import java.util.Iterator;
@@ -30,6 +30,7 @@ import com.alta189.simplesave.mysql.MySQLConfiguration;
 import com.alta189.simplesave.sqlite.SQLiteConfiguration;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.account.Account;
+import com.greatmancode.craftconomy3.converter.Converter;
 import com.greatmancode.craftconomy3.database.tables.craftconomy2.AccountTable;
 import com.greatmancode.craftconomy3.database.tables.craftconomy2.BalanceTable;
 import com.greatmancode.craftconomy3.database.tables.craftconomy2.BankBalanceTable;

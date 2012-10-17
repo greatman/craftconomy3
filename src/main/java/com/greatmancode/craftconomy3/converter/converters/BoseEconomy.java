@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Craftconomy3.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.greatmancode.craftconomy3.converter;
+package com.greatmancode.craftconomy3.converter.converters;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -28,6 +28,7 @@ import java.util.regex.Pattern;
 
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.account.Account;
+import com.greatmancode.craftconomy3.converter.Converter;
 import com.greatmancode.craftconomy3.currency.CurrencyManager;
 
 public class BoseEconomy extends Converter {

@@ -121,7 +121,7 @@
 					</execution>
 				</executions>
 				<configuration>
-					<excludePackageNames>com.greatmancode.craftconomy3.commands:com.greatmancode.craftconomy3.spout</excludePackageNames>
+					<excludePackageNames>com.greatmancode.craftconomy3.commands:com.greatmancode.craftconomy3.spout:com.greatmancode.craftconomy3.converter</excludePackageNames>
 				</configuration>
 			</plugin>
 			<plugin>

@@ -87,6 +87,9 @@ public class CommandLoader {
 		}
 	}
 
+	/**
+	 * Initialize the Commands.
+	 */
 	public void initialize() {
 		if (!initialized) {
 			CommandHandler moneyCommand = new CommandHandler("money", "Main money command.", false);
@@ -152,14 +155,32 @@ public class CommandLoader {
 		}
 	}
 
+	/**
+	 * Checks if a command exist.
+	 * @param commandName The command name to check
+	 * @return True if the command exist else False.
+	 */
 	public boolean commandExist(String commandName) {
 		return commandList.containsKey(commandName);
 	}
 
+	/**
+	 * Get the Handler of a command.
+	 * @param commandName The command name.
+	 * @return The handler of that command. Null if the command doesn't exist.
+	 */
 	public CommandHandler getCommandHandler(String commandName) {
-		return commandList.get(commandName);
+		CommandHandler handler = null;
+		if (commandExist(commandName)) {
+			handler = commandList.get(commandName);
+		}
+		return handler;
 	}
 
+	/**
+	 * Retrieve the server command Manager.
+	 * @return The server command Manager.
+	 */
 	public CommandManager getCommandManager() {
 		return manager;
 	}

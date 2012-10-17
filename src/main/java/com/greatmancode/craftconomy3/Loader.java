@@ -18,6 +18,16 @@
  */
 package com.greatmancode.craftconomy3;
 
+/**
+ * A loader is called when the plugin is launched on the server.
+ * @author greatman
+ *
+ */
 public interface Loader {
+	
+	/**
+	 * Give the current server backend.
+	 * @return The current server backend.
+	 */
 	ServerType getServerType();
 }

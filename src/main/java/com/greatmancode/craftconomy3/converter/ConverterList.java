@@ -21,6 +21,10 @@ package com.greatmancode.craftconomy3.converter;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.greatmancode.craftconomy3.converter.converters.BoseEconomy;
+import com.greatmancode.craftconomy3.converter.converters.Craftconomy2;
+import com.greatmancode.craftconomy3.converter.converters.Iconomy6;
+
 /**
  * Contains the list of loaded converters.
  * 

@@ -201,5 +201,9 @@ public interface Caller {
 	 */
 	void loadLibrary(String path);
 	
+	/**
+	 * Register a permission on the server.
+	 * @param permissionNode The permission node to register.
+	 */
 	void registerPermission(String permissionNode);
 }

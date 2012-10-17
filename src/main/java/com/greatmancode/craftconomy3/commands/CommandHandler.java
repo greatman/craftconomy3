@@ -15,12 +15,23 @@ public class CommandHandler {
 		this.setupEnabled = setupEnabled;
 	}
 	
+	/**
+	 * Register a sub-command.
+	 * @param commandName The sub-command name
+	 * @param command The sub-command handler.
+	 */
 	public void registerCommand(String commandName, CraftconomyCommand command) {
 		//Common.getInstance().getServerCaller().addCommand(commandName, help, Common.getInstance().getCommandManager().getCommandManager());
 		commandList.put(commandName, command);
 		Common.getInstance().getServerCaller().registerPermission(command.getPermissionNode());
 	}
 	
+	/**
+	 * Execute a certain command
+	 * @param sender The sender name ("console" for the console)
+	 * @param commandName The sub-command name.
+	 * @param args The arguments.
+	 */
 	public void execute(String sender, String commandName, String[] args) {
 		if (Common.getInstance().getConfigurationManager().getConfig().getBoolean("System.Setup") && !setupEnabled) {
 			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}This command is disabled while Craftconomy is under setup mode! Type /ccsetup to configure the plugin.");
@@ -46,7 +57,10 @@ public class CommandHandler {
 		}
 	}
 	
-	
+	/**
+	 * Retrieve the list of the sub-commands.
+	 * @return The list of sub-commands.
+	 */
 	public Map<String,CraftconomyCommand> getCommandList() {
 		return commandList;
 	}

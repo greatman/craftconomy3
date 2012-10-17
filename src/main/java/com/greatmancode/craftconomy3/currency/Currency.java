@@ -126,11 +126,19 @@ public class Currency {
 		return entry.getId();
 	}
 
+	/**
+	 * Set the hard cap of the currency (NOT IMPLEMENTED)
+	 * @param cap the hard cap.
+	 */
 	public void setHardCap(double cap) {
 		entry.setHardCap(cap);
 		save();
 	}
 
+	/**
+	 * Retrieve the hard cap of the currency.
+	 * @return The hard cap
+	 */
 	public double getHardCap() {
 		return entry.getHardCap();
 	}

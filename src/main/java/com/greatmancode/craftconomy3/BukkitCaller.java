@@ -176,14 +176,6 @@ public class BukkitCaller implements Caller {
 		}
 	}
 
-	public FileConfiguration getConfig() {
-		return loader.getConfig();
-	}
-
-	public void saveConfig() {
-		loader.saveConfig();
-	}
-
 	@Override
 	public void addCommand(String name, String help, CommandManager manager) {
 		if (manager instanceof BukkitCommandManager) {
