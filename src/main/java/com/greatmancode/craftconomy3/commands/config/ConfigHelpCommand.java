@@ -23,7 +23,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import com.greatmancode.craftconomy3.Common;
-import com.greatmancode.craftconomy3.commands.CraftconomyCommand;
+import com.greatmancode.craftconomy3.commands.interfaces.CraftconomyCommand;
 
 public class ConfigHelpCommand extends CraftconomyCommand {
 

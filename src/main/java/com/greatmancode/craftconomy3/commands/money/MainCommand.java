@@ -23,7 +23,7 @@ import java.util.Iterator;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.account.Account;
 import com.greatmancode.craftconomy3.account.Balance;
-import com.greatmancode.craftconomy3.commands.CraftconomyCommand;
+import com.greatmancode.craftconomy3.commands.interfaces.CraftconomyCommand;
 
 public class MainCommand extends CraftconomyCommand {
 

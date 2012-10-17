@@ -4,6 +4,8 @@ import java.util.Iterator;
 
 import org.reflections.Reflections;
 
+import com.greatmancode.craftconomy3.commands.interfaces.CraftconomyCommand;
+
 import junit.framework.TestCase;
 
 public class TestCommands extends TestCase {

@@ -19,7 +19,7 @@
 package com.greatmancode.craftconomy3.commands.config;
 
 import com.greatmancode.craftconomy3.Common;
-import com.greatmancode.craftconomy3.commands.CraftconomyCommand;
+import com.greatmancode.craftconomy3.commands.interfaces.CraftconomyCommand;
 import com.greatmancode.craftconomy3.utils.Tools;
 
 public class ConfigHoldingsCommand extends CraftconomyCommand {

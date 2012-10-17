@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.greatmancode.craftconomy3.Common;
+import com.greatmancode.craftconomy3.commands.interfaces.CraftconomyCommand;
 
 public class CommandHandler {
 
