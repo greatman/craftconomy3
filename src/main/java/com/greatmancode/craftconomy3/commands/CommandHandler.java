@@ -28,6 +28,10 @@ public class CommandHandler {
 		}
 		if (commandList.containsKey(commandName)) {
 			CraftconomyCommand command = commandList.get(commandName);
+			if (command.playerOnly() && sender.equalsIgnoreCase("console")) {
+				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}This command should only be used by players!");
+				return;
+			}
 			if (command.permission(sender)) {
 				if (args.length >= command.minArgs() && args.length <= command.maxArgs()) {
 					command.execute(sender, args);

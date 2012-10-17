@@ -95,32 +95,30 @@ public class ConfigurationManager {
 			dbVersion.setValue(1 + "");
 			Common.getInstance().getDatabaseManager().getDatabase().save(dbVersion);
 			Common.getInstance().getLogger().info("Updated to Revision 1!");
-		} else {
-			if (dbVersion.getValue().equalsIgnoreCase("")) {
-				alertOldDbVersion(dbVersion.getValue(), 1);
-				dbVersion.setValue(1 + "");
-				Common.getInstance().getDatabaseManager().getDatabase().save(dbVersion);
-				Common.getInstance().getLogger().info("Really updated to Revision 1.");
-			}
-			if (dbVersion.getValue().equalsIgnoreCase("1")) {
-				alertOldDbVersion(dbVersion.getValue(), 2);
-				// Testing to see if in the config we have true or false as the display value
-				ConfigTable display = Common.getInstance().getDatabaseManager().getDatabase().select(ConfigTable.class).where().equal(ConfigTable.NAME_FIELD, "longmode").execute().findOne();
-				if (display.getValue().equals("true") || display.getValue().equalsIgnoreCase("false")) {
-					if (display.getValue().equals("true")) {
-						display.setValue("long");
-					}
-					if (display.getValue().equals("false")) {
-						display.setValue("short");
-					}
-					Common.getInstance().getDatabaseManager().getDatabase().save(display);
-					dbVersion.setValue(2 + "");
-					Common.getInstance().getDatabaseManager().getDatabase().save(dbVersion);
-					Common.getInstance().getLogger().info("Updated to Revision 2!");
+		}
+		if (dbVersion.getValue().equalsIgnoreCase("")) {
+			alertOldDbVersion(dbVersion.getValue(), 1);
+			dbVersion.setValue(1 + "");
+			Common.getInstance().getDatabaseManager().getDatabase().save(dbVersion);
+			Common.getInstance().getLogger().info("Really updated to Revision 1.");
+		}
+		if (dbVersion.getValue().equalsIgnoreCase("1")) {
+			alertOldDbVersion(dbVersion.getValue(), 2);
+			// Testing to see if in the config we have true or false as the display value
+			ConfigTable display = Common.getInstance().getDatabaseManager().getDatabase().select(ConfigTable.class).where().equal(ConfigTable.NAME_FIELD, "longmode").execute().findOne();
+			if (display.getValue().equals("true") || display.getValue().equalsIgnoreCase("false")) {
+				if (display.getValue().equals("true")) {
+					display.setValue("long");
 				}
+				if (display.getValue().equals("false")) {
+					display.setValue("short");
+				}
+				Common.getInstance().getDatabaseManager().getDatabase().save(display);
+				dbVersion.setValue(2 + "");
+				Common.getInstance().getDatabaseManager().getDatabase().save(dbVersion);
+				Common.getInstance().getLogger().info("Updated to Revision 2!");
 			}
 		}
-
 	}
 
 	private void alertOldDbVersion(String currentVersion, int newVersion) {

@@ -109,7 +109,7 @@ public class CommandLoader {
 			bankCommand.registerCommand("deposit", new BankDepositCommand());
 			bankCommand.registerCommand("withdraw", new BankWithdrawCommand());
 			bankCommand.registerCommand("set", new BankSetCommand());
-			bankCommand.registerCommand("help", new BankHelpCommand());
+			bankCommand.registerCommand("", new BankHelpCommand());
 			bankCommand.registerCommand("give", new BankGiveCommand());
 			bankCommand.registerCommand("take", new BankTakeCommand());
 			bankCommand.registerCommand("perm", new BankPermCommand());
@@ -129,7 +129,7 @@ public class CommandLoader {
 			currencyCommand.registerCommand("delete", new CurrencyDeleteCommand());
 			currencyCommand.registerCommand("edit", new CurrencyEditCommand());
 			currencyCommand.registerCommand("info", new CurrencyInfoCommand());
-			currencyCommand.registerCommand("help", new CurrencyHelpCommand());
+			currencyCommand.registerCommand("", new CurrencyHelpCommand());
 			currencyCommand.registerCommand("default", new CurrencyDefaultCommand());
 			commandList.put("currency", currencyCommand);
 
@@ -137,13 +137,13 @@ public class CommandLoader {
 			configCommand.registerCommand("holdings", new ConfigHoldingsCommand());
 			configCommand.registerCommand("bankprice", new ConfigBankPriceCommand());
 			configCommand.registerCommand("format", new ConfigFormatCommand());
-			configCommand.registerCommand("help", new ConfigHelpCommand());
+			configCommand.registerCommand("", new ConfigHelpCommand());
 			commandList.put("craftconomy", configCommand);
 
 			CommandHandler paydayCommand = new CommandHandler("payday", "Payday related commands", false);
 			paydayCommand.registerCommand("create", new PayDayCreateCommand());
 			paydayCommand.registerCommand("delete", new PayDayDeleteCommand());
-			paydayCommand.registerCommand("help", new PayDayHelpCommand());
+			paydayCommand.registerCommand("", new PayDayHelpCommand());
 			paydayCommand.registerCommand("modify", new PayDayModifyCommand());
 			paydayCommand.registerCommand("list", new PayDayListCommand());
 			paydayCommand.registerCommand("info", new PayDayInfoCommand());
