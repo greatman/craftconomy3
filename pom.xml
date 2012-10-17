@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.greatmancode</groupId>
 	<artifactId>craftconomy3</artifactId>
-	<version>3.0.3</version>
+	<version>3.0.4-SNAPSHOT</version>
 	<inceptionYear>2011</inceptionYear>
 	<name>Craftconomy3</name>
 	<url>https://github.com/greatman/Craftconomy3</url>
@@ -121,7 +121,7 @@
 					</execution>
 				</executions>
 				<configuration>
-					<excludePackageNames>com.greatmancode.craftconomy3.commands:com.greatmancode.craftconomy3.spout:com.greatmancode.craftconomy3.converter</excludePackageNames>
+					<excludePackageNames>com.greatmancode.craftconomy3.commands:com.greatmancode.craftconomy3.spout:com.greatmancode.craftconomy3.converter.converters</excludePackageNames>
 				</configuration>
 			</plugin>
 			<plugin>
