@@ -50,6 +50,7 @@ public class PayDay implements Runnable {
 		if (!disabled) {
 			startDelay();
 		}
+		Common.getInstance().getServerCaller().registerPermission("craftconomy.payday." + getName());
 	}
 
 	@Override
@@ -121,6 +122,7 @@ public class PayDay implements Runnable {
 	 * @param name The payday name.
 	 */
 	public void setName(String name) {
+		Common.getInstance().getServerCaller().registerPermission("craftconomy.payday." + name);
 		table.setName(name);
 		save();
 	}
