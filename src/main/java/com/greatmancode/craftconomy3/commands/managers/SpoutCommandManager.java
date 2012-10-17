@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Craftconomy3.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.greatmancode.craftconomy3.commands;
+package com.greatmancode.craftconomy3.commands.managers;
 
 import org.spout.api.command.Command;
 import org.spout.api.command.CommandContext;
@@ -25,6 +25,7 @@ import org.spout.api.command.CommandSource;
 import org.spout.api.exception.CommandException;
 
 import com.greatmancode.craftconomy3.Common;
+import com.greatmancode.craftconomy3.commands.interfaces.CommandManager;
 
 /**
  * Handle the commands for the Spout server.

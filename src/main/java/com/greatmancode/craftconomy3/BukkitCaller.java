@@ -29,8 +29,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
 
-import com.greatmancode.craftconomy3.commands.BukkitCommandManager;
-import com.greatmancode.craftconomy3.commands.CommandManager;
+import com.greatmancode.craftconomy3.commands.interfaces.CommandManager;
+import com.greatmancode.craftconomy3.commands.managers.BukkitCommandManager;
 
 /**
  * Server caller for Craftbukkit

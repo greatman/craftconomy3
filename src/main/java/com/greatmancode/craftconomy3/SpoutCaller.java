@@ -29,8 +29,8 @@ import org.spout.api.scheduler.TaskPriority;
 import org.spout.api.Server;
 import org.spout.api.Spout;
 
-import com.greatmancode.craftconomy3.commands.CommandManager;
-import com.greatmancode.craftconomy3.commands.SpoutCommandManager;
+import com.greatmancode.craftconomy3.commands.interfaces.CommandManager;
+import com.greatmancode.craftconomy3.commands.managers.SpoutCommandManager;
 
 /**
  * Server caller for Spout

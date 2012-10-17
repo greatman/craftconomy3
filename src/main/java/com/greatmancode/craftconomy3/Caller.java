@@ -21,7 +21,7 @@ package com.greatmancode.craftconomy3;
 import java.io.File;
 import java.util.List;
 
-import com.greatmancode.craftconomy3.commands.CommandManager;
+import com.greatmancode.craftconomy3.commands.interfaces.CommandManager;
 
 /**
  * Represents a server Caller

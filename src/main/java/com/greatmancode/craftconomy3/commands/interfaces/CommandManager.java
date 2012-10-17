@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Craftconomy3.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.greatmancode.craftconomy3.commands;
+package com.greatmancode.craftconomy3.commands.interfaces;
 
 /**
  * Represents a Command Manager
