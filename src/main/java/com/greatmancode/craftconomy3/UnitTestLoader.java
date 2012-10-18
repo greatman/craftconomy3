@@ -18,17 +18,17 @@
  */
 package com.greatmancode.craftconomy3;
 
-public enum ServerType {
-	/**
-	 * Represents the Bukkit/Craftbukkit server
-	 */
-	BUKKIT,
-	/**
-	 * Represents the Spout Server
-	 */
-	SPOUT,
-	/**
-	 * Represents the Unit test server (Used for Unit tests)
-	 */
-	UNIT_TEST;
+import java.util.logging.Logger;
+
+public class UnitTestLoader implements Loader {
+
+	public void onEnable() {
+		new Common(this, Logger.getLogger("UnitTest")).initialize();
+	}
+	
+	@Override
+	public ServerType getServerType() {
+		return ServerType.UNIT_TEST;
+	}
+
 }

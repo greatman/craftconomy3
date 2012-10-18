@@ -81,6 +81,8 @@ public class Common {
 			serverCaller = new BukkitCaller(loader);
 		} else if (loader.getServerType().equals(ServerType.SPOUT)) {
 			serverCaller = new SpoutCaller(loader);
+		} else if (loader.getServerType().equals(ServerType.UNIT_TEST)) {
+			serverCaller = new UnitTestCaller();
 		}
 	}
 

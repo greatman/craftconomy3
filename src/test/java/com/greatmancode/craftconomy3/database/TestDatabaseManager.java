@@ -16,19 +16,34 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Craftconomy3.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.greatmancode.craftconomy3;
+package com.greatmancode.craftconomy3.database;
 
-public enum ServerType {
-	/**
-	 * Represents the Bukkit/Craftbukkit server
-	 */
-	BUKKIT,
-	/**
-	 * Represents the Spout Server
-	 */
-	SPOUT,
-	/**
-	 * Represents the Unit test server (Used for Unit tests)
-	 */
-	UNIT_TEST;
+import static org.junit.Assert.*;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import com.greatmancode.craftconomy3.Common;
+import com.greatmancode.craftconomy3.TestInitializator;
+import com.greatmancode.craftconomy3.UnitTestLoader;
+
+public class TestDatabaseManager {
+
+	
+	@Before
+	public void setUp() {
+		new TestInitializator();
+	}
+	@Test
+	public void testDatabaseManager() {
+		if (Common.getInstance().getDatabaseManager() == null) {
+			fail("DatabaseManager not loaded.");
+		}
+	}
+
+	@Test
+	public void testGetDatabase() {
+		//fail("Not yet implemented");
+	}
+
 }

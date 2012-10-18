@@ -25,6 +25,7 @@ import java.util.List;
 import com.greatmancode.craftconomy3.BukkitCaller;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.SpoutCaller;
+import com.greatmancode.craftconomy3.UnitTestCaller;
 import com.greatmancode.craftconomy3.currency.CurrencyManager;
 import com.greatmancode.craftconomy3.database.tables.ConfigTable;
 import com.greatmancode.craftconomy3.database.tables.PayDayTable;
@@ -49,7 +50,7 @@ public class ConfigurationManager {
 
 	public Config loadFile(File folder, String fileName) {
 		Config file = null;
-		if (Common.getInstance().getServerCaller() instanceof BukkitCaller) {
+		if (Common.getInstance().getServerCaller() instanceof BukkitCaller || Common.getInstance().getServerCaller() instanceof UnitTestCaller) {
 			file = new BukkitConfig(folder, fileName);
 		} else if (Common.getInstance().getServerCaller() instanceof SpoutCaller) {
 			file = new SpoutConfig(folder, fileName);
