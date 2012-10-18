@@ -54,8 +54,6 @@ public class TestInitializator{
 			table.setName("multiworld");
 			table.setValue("false");
 			Common.getInstance().getDatabaseManager().getDatabase().save(table);
-			
-			SetupWizard.setState(SetupWizard.CONVERT_SETUP);
 			Common.getInstance().startUp();
 			initialized = true;
 		}

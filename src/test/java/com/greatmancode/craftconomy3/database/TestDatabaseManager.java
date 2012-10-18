@@ -25,7 +25,6 @@ import org.junit.Test;
 
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.TestInitializator;
-import com.greatmancode.craftconomy3.UnitTestLoader;
 
 public class TestDatabaseManager {
 
