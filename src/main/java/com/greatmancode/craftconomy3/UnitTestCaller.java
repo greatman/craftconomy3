@@ -54,11 +54,7 @@ public class UnitTestCaller implements Caller {
 
 	@Override
 	public boolean isOnline(String playerName) {
-		if (playerName.equals("console")) {
-			return false;
-		} else {
-			return true;
-		}
+		return playerName.equals("console");
 	}
 
 	@Override
@@ -69,12 +65,7 @@ public class UnitTestCaller implements Caller {
 
 	@Override
 	public boolean worldExist(String worldName) {
-		if (worldName.equals("UnitTestWorld")) {
-			return true;
-		}
-		else {
-			return false;
-		}
+		return worldName.equals("UnitTestWorld");
 	}
 
 	@Override
@@ -142,12 +133,7 @@ public class UnitTestCaller implements Caller {
 
 	@Override
 	public boolean isOp(String playerName) {
-		if (playerName.equals("UnitTestPlayer")) {
-			return true;
-		}
-		else {
-			return false;
-		}
+		return playerName.equals("UnitTestPlayer");
 		
 	}
 

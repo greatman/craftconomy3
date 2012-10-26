@@ -40,7 +40,6 @@ public class CommandHandler {
 	 * @param command The sub-command handler.
 	 */
 	public void registerCommand(String commandName, CraftconomyCommand command) {
-		//Common.getInstance().getServerCaller().addCommand(commandName, help, Common.getInstance().getCommandManager().getCommandManager());
 		commandList.put(commandName, command);
 		Common.getInstance().getServerCaller().registerPermission(command.getPermissionNode());
 	}
