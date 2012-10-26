@@ -128,7 +128,7 @@ public class SetupConvertCommand extends CraftconomyCommand {
 
 	@Override
 	public String help() {
-		return "/ccsetup basic - Basic configuration";
+		return "/ccsetup convert - Basic configuration";
 	}
 
 	@Override

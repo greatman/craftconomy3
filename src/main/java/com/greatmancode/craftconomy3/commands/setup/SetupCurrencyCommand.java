@@ -43,17 +43,7 @@ public class SetupCurrencyCommand extends CraftconomyCommand {
 					
 				} else if (args[0].equals("confirm")) {
 					if (name != null && nameplural != null && minor != null && minorplural != null) {
-						//TODO: Use the real system.
-						CurrencyTable currencyEntry = new CurrencyTable();
-						currencyEntry.setName(name);
-						currencyEntry.setPlural(nameplural);
-						currencyEntry.setMinor(minor);
-						currencyEntry.setMinorplural(minorplural);
-						currencyEntry.setStatus(true);
-						Common.getInstance().getDatabaseManager().getDatabase().save(currencyEntry);
-						SetupWizard.setState(SetupWizard.BASIC_SETUP);
-						Common.getInstance().initializeCurrency();
-						Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Way to go! Only 2 steps left! (Basics settings & Conversion from another system if needed). Type {{WHITE}}/ccsetup basic {{DARK_GREEN}}to continue");
+						setUpCurrency(sender);
 					} else if (name == null) {
 						Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Your currency name is empty! Type {{WHITE}}/ccsetup currency name <Name>");
 					} else if (nameplural == null) {
@@ -87,6 +77,21 @@ public class SetupCurrencyCommand extends CraftconomyCommand {
 			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Wrong setup status for this cmd. If you didin't start the setup yet, use /ccsetup");
 		}
 
+	}
+
+	private void setUpCurrency(String sender) {
+		//TODO: Use the real system.
+		CurrencyTable currencyEntry = new CurrencyTable();
+		currencyEntry.setName(name);
+		currencyEntry.setPlural(nameplural);
+		currencyEntry.setMinor(minor);
+		currencyEntry.setMinorplural(minorplural);
+		currencyEntry.setStatus(true);
+		Common.getInstance().getDatabaseManager().getDatabase().save(currencyEntry);
+		SetupWizard.setState(SetupWizard.BASIC_SETUP);
+		Common.getInstance().initializeCurrency();
+		Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Way to go! Only 2 steps left! (Basics settings & Conversion from another system if needed). Type {{WHITE}}/ccsetup basic {{DARK_GREEN}}to continue");
+		
 	}
 
 	@Override
