@@ -35,22 +35,22 @@ public abstract class Converter {
 	/**
 	 * Contains the type of Database (flatfile, sqlite, etc.) supported by the originating plugin
 	 */
-	protected List<String> dbTypes = new ArrayList<String>();
+	private final List<String> dbTypes = new ArrayList<String>();
 
 	/**
 	 * Contains the selected Db Type.
 	 */
-	protected String selectedDbType;
+	private String selectedDbType;
 
 	/**
 	 * Contains all the required fields about the selected database type
 	 */
-	protected List<String> dbInfo = new ArrayList<String>();
+	private final List<String> dbInfo = new ArrayList<String>();
 
 	/**
 	 * Contains all the information about the required fields entered by the user.
 	 */
-	protected Map<String, String> dbConnectInfo = new HashMap<String, String>();
+	private final Map<String, String> dbConnectInfo = new HashMap<String, String>();
 
 	/**
 	 * Retrieve a list of all the database type.
@@ -61,6 +61,10 @@ public abstract class Converter {
 		return dbTypes;
 	}
 
+	protected List<String> getDbInfoList() {
+		return dbInfo;
+	}
+	
 	/**
 	 * Sets the selected database type.
 	 * 
@@ -70,7 +74,7 @@ public abstract class Converter {
 	public boolean setDbType(String dbType) {
 		boolean result = false;
 		if (dbTypes.contains(dbType)) {
-			selectedDbType = dbType;
+			setSelectedDbType(dbType);
 			result = true;
 		}
 		return result;
@@ -99,6 +103,10 @@ public abstract class Converter {
 		return result;
 	}
 
+	public Map<String, String> getDbConnectInfo() {
+		return dbConnectInfo;
+	}
+
 	/**
 	 * Checks if we filled all the required fields
 	 * 
@@ -122,4 +130,12 @@ public abstract class Converter {
 	 * @return True if everything went well else false.
 	 */
 	public abstract boolean importData(String sender);
+
+	public String getSelectedDbType() {
+		return selectedDbType;
+	}
+
+	public void setSelectedDbType(String selectedDbType) {
+		this.selectedDbType = selectedDbType;
+	}
 }

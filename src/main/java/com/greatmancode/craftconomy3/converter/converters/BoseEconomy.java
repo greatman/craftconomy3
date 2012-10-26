@@ -37,19 +37,19 @@ public class BoseEconomy extends Converter {
 	private BufferedReader flatFileReader = null;
 
 	public BoseEconomy() {
-		dbTypes.add("flatfile");
+		getDbTypes().add("flatfile");
 	}
 
 	@Override
 	public List<String> getDbInfo() {
-		dbInfo.add("filename");
-		return dbInfo;
+		getDbInfoList().add("filename");
+		return getDbInfoList();
 	}
 
 	@Override
 	public boolean connect() {
 		boolean result = false;
-		File dbFile = new File(Common.getInstance().getServerCaller().getDataFolder(), dbConnectInfo.get("filename"));
+		File dbFile = new File(Common.getInstance().getServerCaller().getDataFolder(), this.getDbConnectInfo().get("filename"));
 		if (dbFile.exists()) {
 			try {
 				flatFileReader = new BufferedReader(new FileReader(dbFile));

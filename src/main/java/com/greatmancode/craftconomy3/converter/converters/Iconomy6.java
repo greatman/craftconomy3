@@ -50,35 +50,35 @@ public class Iconomy6 extends Converter {
 	private Database db = null;
 
 	public Iconomy6() {
-		dbTypes.add("flatfile");
-		dbTypes.add("minidb");
-		dbTypes.add("sqlite");
-		dbTypes.add("mysql");
+		getDbTypes().add("flatfile");
+		getDbTypes().add("minidb");
+		getDbTypes().add("sqlite");
+		getDbTypes().add("mysql");
 	}
 
 	@Override
 	public List<String> getDbInfo() {
 
-		if (selectedDbType.equals("flatfile") || selectedDbType.equals("minidb") || selectedDbType.equals("sqlite")) {
-			dbInfo.add("filename");
-		} else if (selectedDbType.equals("mysql")) {
-			dbInfo.add("address");
-			dbInfo.add("port");
-			dbInfo.add("username");
-			dbInfo.add("password");
-			dbInfo.add("database");
+		if (getSelectedDbType().equals("flatfile") || getSelectedDbType().equals("minidb") || getSelectedDbType().equals("sqlite")) {
+			getDbInfoList().add("filename");
+		} else if (getSelectedDbType().equals("mysql")) {
+			getDbInfoList().add("address");
+			getDbInfoList().add("port");
+			getDbInfoList().add("username");
+			getDbInfoList().add("password");
+			getDbInfoList().add("database");
 		}
-		return dbInfo;
+		return getDbInfoList();
 	}
 
 	@Override
 	public boolean connect() {
 		boolean result = false;
-		if (selectedDbType.equals("flatfile") || selectedDbType.equals("minidb")) {
+		if (getSelectedDbType().equals("flatfile") || getSelectedDbType().equals("minidb")) {
 			result = loadFile();
-		} else if (selectedDbType.equals("mysql")) {
+		} else if (getSelectedDbType().equals("mysql")) {
 			loadMySQL();
-		} else if (selectedDbType.equals("sqlite")) {
+		} else if (getSelectedDbType().equals("sqlite")) {
 			loadSQLite();
 		}
 
@@ -101,7 +101,7 @@ public class Iconomy6 extends Converter {
 
 	private boolean loadFile() {
 		boolean result = false;
-		File dbFile = new File(Common.getInstance().getServerCaller().getDataFolder(), dbConnectInfo.get("filename"));
+		File dbFile = new File(Common.getInstance().getServerCaller().getDataFolder(), getDbConnectInfo().get("filename"));
 		if (dbFile.exists()) {
 			try {
 				flatFileReader = new BufferedReader(new FileReader(dbFile));
@@ -116,11 +116,11 @@ public class Iconomy6 extends Converter {
 	private void loadMySQL() {
 		try {
 			MySQLConfiguration config = new MySQLConfiguration();
-			config.setHost(dbConnectInfo.get("address"));
-			config.setUser(dbConnectInfo.get("username"));
-			config.setPassword(dbConnectInfo.get("password"));
-			config.setDatabase(dbConnectInfo.get("database"));
-			config.setPort(Integer.parseInt(dbConnectInfo.get("port")));
+			config.setHost(getDbConnectInfo().get("address"));
+			config.setUser(getDbConnectInfo().get("username"));
+			config.setPassword(getDbConnectInfo().get("password"));
+			config.setDatabase(getDbConnectInfo().get("database"));
+			config.setPort(Integer.parseInt(getDbConnectInfo().get("port")));
 			db = DatabaseFactory.createNewDatabase(config);
 		} catch (NumberFormatException e) {
 			Common.getInstance().getLogger().severe("Illegal Port!");
@@ -128,7 +128,7 @@ public class Iconomy6 extends Converter {
 	}
 
 	private void loadSQLite() {
-		SQLiteConfiguration config = new SQLiteConfiguration(Common.getInstance().getServerCaller().getDataFolder() + File.separator + dbConnectInfo.get("filename"));
+		SQLiteConfiguration config = new SQLiteConfiguration(Common.getInstance().getServerCaller().getDataFolder() + File.separator + getDbConnectInfo().get("filename"));
 		db = DatabaseFactory.createNewDatabase(config);
 	}
 

@@ -49,42 +49,42 @@ public class Craftconomy2 extends Converter {
 	private Database db = null;
 
 	public Craftconomy2() {
-		dbTypes.add("sqlite");
-		dbTypes.add("mysql");
+		getDbTypes().add("sqlite");
+		getDbTypes().add("mysql");
 	}
 
 	@Override
 	public List<String> getDbInfo() {
-		if (selectedDbType.equals("sqlite")) {
-			dbInfo.add("filename");
-		} else if (selectedDbType.equals("mysql")) {
-			dbInfo.add("address");
-			dbInfo.add("port");
-			dbInfo.add("username");
-			dbInfo.add("password");
-			dbInfo.add("database");
+		if (getSelectedDbType().equals("sqlite")) {
+			getDbInfoList().add("filename");
+		} else if (getSelectedDbType().equals("mysql")) {
+			getDbInfoList().add("address");
+			getDbInfoList().add("port");
+			getDbInfoList().add("username");
+			getDbInfoList().add("password");
+			getDbInfoList().add("database");
 		}
-		return dbInfo;
+		return getDbInfoList();
 	}
 
 	@Override
 	public boolean connect() {
 		boolean result = false;
-		if (selectedDbType.equals("mysql")) {
+		if (getSelectedDbType().equals("mysql")) {
 
 			try {
 				MySQLConfiguration config = new MySQLConfiguration();
-				config.setHost(dbConnectInfo.get("address"));
-				config.setUser(dbConnectInfo.get("username"));
-				config.setPassword(dbConnectInfo.get("password"));
-				config.setDatabase(dbConnectInfo.get("database"));
-				config.setPort(Integer.parseInt(dbConnectInfo.get("port")));
+				config.setHost(getDbConnectInfo().get("address"));
+				config.setUser(getDbConnectInfo().get("username"));
+				config.setPassword(getDbConnectInfo().get("password"));
+				config.setDatabase(getDbConnectInfo().get("database"));
+				config.setPort(Integer.parseInt(getDbConnectInfo().get("port")));
 				db = DatabaseFactory.createNewDatabase(config);
 			} catch (NumberFormatException e) {
 				Common.getInstance().getLogger().severe("Illegal port!");
 			}
-		} else if (selectedDbType.equals("sqlite")) {
-			SQLiteConfiguration config = new SQLiteConfiguration(Common.getInstance().getServerCaller().getDataFolder() + File.separator + dbConnectInfo.get("filename"));
+		} else if (getSelectedDbType().equals("sqlite")) {
+			SQLiteConfiguration config = new SQLiteConfiguration(Common.getInstance().getServerCaller().getDataFolder() + File.separator + getDbConnectInfo().get("filename"));
 			db = DatabaseFactory.createNewDatabase(config);
 		}
 
