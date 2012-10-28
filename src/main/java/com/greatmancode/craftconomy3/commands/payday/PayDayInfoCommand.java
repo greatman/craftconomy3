@@ -37,6 +37,7 @@ public class PayDayInfoCommand extends CraftconomyCommand {
 				
 			}
 			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Account: {{WHITE}}" + payday.getAccount());
+			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Interval: {{WHITE}}" + payday.getInterval());
 		} else {
 			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Payday not found!");
 		}
