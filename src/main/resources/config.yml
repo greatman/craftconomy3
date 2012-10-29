@@ -1,5 +1,8 @@
 System:
   Setup: true
+  #Setting to skip setup steps. More info here: https://github.com/greatman/craftconomy3/blob/master/src/main/java/com/greatmancode/craftconomy3/SetupWizard.java#L37
+  #Possible options: NOT_STARTED / DATABASE_SETUP / MULTIWORLD_SETUP / CURRENCY_SETUP / BASIC_SETUP / CONVERT_SETUP
+  #Don't touch if you are not sure.
   SetupStep: 'NOT_STARTED'
   CheckNewVersion: true
   # Logs all monetary transactions passed through CraftConomy
