@@ -85,14 +85,14 @@ public class SetupConvertCommand extends CraftconomyCommand {
 						while (dbTypesIterator.hasNext()) {
 							list += dbTypesIterator.next();
 							if (dbTypesIterator.hasNext()) {
-								list += ", ";
+								list += " ";
 							}
 							
 						}
 						Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}You selected {{WHITE}}" + args[0]);
 						Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Now, you need to insert the database information.");
 						Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}If you used a flatfile file or a flatfile database, that file need to be in the Craftconomy3 folder.");
-						Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Please type {{WHITE}}/ccsetup convert " + list + " <value>");
+						Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Please type {{WHITE}}/ccsetup convert <" + list + "> <value>");
 					} else {
 						Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Unknown database type.");
 					}
