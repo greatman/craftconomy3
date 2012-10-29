@@ -113,6 +113,24 @@ public class Common {
 			commandManager = new CommandLoader();
 			commandManager.initialize();
 			if (config.getConfig().getBoolean("System.Setup")) {
+				SetupWizard.setState(SetupWizard.valueOf(config.getConfig().getString("System.SetupStep")));
+				if (SetupWizard.getState().equals(SetupWizard.DATABASE_SETUP)) {
+					try {
+						initialiseDatabase();
+					} catch (Exception e) {
+						sendConsoleMessage(Level.SEVERE, "A error occured while trying to connect to the database. Message received: " + e.getMessage());
+						getServerCaller().disablePlugin();
+						return;
+					}
+				}
+				if (SetupWizard.getState().equals(SetupWizard.BASIC_SETUP)) {
+					initializeCurrency();
+					sendConsoleMessage(Level.INFO, "Default settings loaded!");
+				}
+				if(SetupWizard.getState().equals(SetupWizard.CONVERT_SETUP)) {
+					getConfigurationManager().loadDefaultSettings();
+					startUp();
+				}
 				sendConsoleMessage(Level.WARNING, "Loading Craftconomy in setup mode. Please type /ccsetup to start the setup.");
 			} else {
 				try {

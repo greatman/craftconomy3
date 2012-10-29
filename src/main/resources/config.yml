@@ -1,5 +1,6 @@
 System:
   Setup: true
+  SetupStep: 'NOT_STARTED'
   CheckNewVersion: true
   # Logs all monetary transactions passed through CraftConomy
   Logging:
