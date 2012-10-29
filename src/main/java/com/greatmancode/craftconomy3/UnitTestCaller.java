@@ -75,7 +75,10 @@ public class UnitTestCaller implements Caller {
 
 	@Override
 	public File getDataFolder() {
-		return new File(UnitTestCaller.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+		File file = new File(UnitTestCaller.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+		file = new File(file, "unittests");
+		file.mkdir();
+		return file;
 	}
 
 	@Override
