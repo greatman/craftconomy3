@@ -90,11 +90,16 @@ public class TopCommand extends CraftconomyCommand {
 	public void execute(String sender, String[] args) {
 		int page = 1;
 		Currency currency = Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.defaultCurrencyID);
-		if (Common.getInstance().getCurrencyManager().getCurrency(args[0]) != null) {
-			currency = Common.getInstance().getCurrencyManager().getCurrency(args[0]);
-		} else {
-			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}That currency doesn't exist!");
-			return;
+		if (args.length == 0) {
+			currency = Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.defaultCurrencyID);
+		}
+		else {
+			if (Common.getInstance().getCurrencyManager().getCurrency(args[0]) != null) {
+				currency = Common.getInstance().getCurrencyManager().getCurrency(args[0]);
+			} else {
+				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}That currency doesn't exist!");
+				return;
+			}
 		}
 
 		if (args.length > 1) {
@@ -129,7 +134,7 @@ public class TopCommand extends CraftconomyCommand {
 
 	@Override
 	public int minArgs() {
-		return 1;
+		return 0;
 	}
 
 	@Override
