@@ -70,12 +70,12 @@ public class Tools {
 	 */
 	public static boolean isDouble(String number) {
 		boolean result = false;
-		try {
-			Double.parseDouble(number);
-			result = true;
-		} catch (NumberFormatException e) {
-		} catch (NullPointerException e) {
-			
+		if (number != null) {
+			try {
+				Double.parseDouble(number);
+				result = true;
+			} catch (NumberFormatException e) {
+			}
 		}
 		return result;
 	}

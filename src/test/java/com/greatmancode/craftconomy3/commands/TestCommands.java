@@ -50,6 +50,9 @@ public class TestCommands extends TestCase {
 						fail("Fail permissionNode for class: " + clazz.getName());
 					}
 				}
+				if (!instance.playerOnly() == false && !instance.playerOnly() == true) {
+					fail("Fail playerOnly. Should never get this..");
+				}
 			} catch (InstantiationException e) {
 				fail(e.getMessage());
 			} catch (IllegalAccessException e) {
