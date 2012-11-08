@@ -156,7 +156,7 @@ public class Currency {
 	/**
 	 * Retrieve the sign of the currency (Example $ for Dollars)
 	 * 
-	 * @return
+	 * @return The sign.
 	 */
 	public String getSign() {
 		return entry.getSign();

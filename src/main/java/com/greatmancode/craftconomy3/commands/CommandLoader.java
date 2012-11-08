@@ -18,7 +18,10 @@
  */
 package com.greatmancode.craftconomy3.commands;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import com.greatmancode.craftconomy3.BukkitCaller;
@@ -186,5 +189,18 @@ public class CommandLoader {
 	 */
 	public CommandManager getCommandManager() {
 		return manager;
+	}
+	
+	/**
+	 * Retrieve a list of all the main command names.
+	 * @return A list of all command names.
+	 */
+	public List<String> getCommandList() {
+		List<String> list = new ArrayList<String>();
+		Iterator<String> iterator = commandList.keySet().iterator();
+		while (iterator.hasNext()) {
+			list.add(iterator.next());
+		}
+		return list;
 	}
 }

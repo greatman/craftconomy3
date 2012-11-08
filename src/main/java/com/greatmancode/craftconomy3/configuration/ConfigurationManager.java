@@ -177,7 +177,7 @@ public class ConfigurationManager {
 	/**
 	 * Modify the longMode setting.
 	 * 
-	 * @param longmode True if we want long format else false.
+	 * @param displayFormat the display format we want to use.
 	 */
 	public void setDisplayFormat(String displayFormat) {
 		this.displayFormat = displayFormat;

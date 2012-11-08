@@ -71,7 +71,7 @@ public class Common {
 	/**
 	 * Loads the Common core.
 	 * 
-	 * @param isBukkit If the server is Craftbukkit or not
+	 * @param loader The plugin Loader.
 	 * @param log The Logger associated with this plugin.
 	 */
 	public Common(Loader loader, Logger log) {
@@ -417,7 +417,7 @@ public class Common {
 
 	/**
 	 * Retrieve the Event manager.
-	 * @return
+	 * @return The Event manager.
 	 */
 	public EventManager getEventManager() {
 		return eventManager;
