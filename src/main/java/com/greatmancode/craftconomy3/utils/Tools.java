@@ -74,6 +74,8 @@ public class Tools {
 			Double.parseDouble(number);
 			result = true;
 		} catch (NumberFormatException e) {
+		} catch (NullPointerException e) {
+			
 		}
 		return result;
 	}
@@ -86,7 +88,7 @@ public class Tools {
 	 */
 	public static boolean isBoolean(String number) {
 		boolean result = false;
-		if (number != null && number.equalsIgnoreCase("true") || number.equalsIgnoreCase("false")) {
+		if (number != null && (number.equalsIgnoreCase("true") || number.equalsIgnoreCase("false"))) {
 			result = true;
 		}
 		return result;

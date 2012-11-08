@@ -18,6 +18,8 @@
  */
 package com.greatmancode.craftconomy3.utils;
 
+import java.math.BigDecimal;
+
 import junit.framework.TestCase;
 
 public class TestTools extends TestCase {
@@ -80,6 +82,7 @@ public class TestTools extends TestCase {
 		assertTrue(Tools.isDouble(Double.MAX_VALUE + ""));
 		assertTrue(Tools.isDouble(Double.MIN_VALUE + ""));
 		assertFalse(Tools.isDouble("test"));
+		assertFalse(Tools.isDouble(null));
 	}
 
 	public void testIsBoolean() {
@@ -99,6 +102,7 @@ public class TestTools extends TestCase {
 		assertFalse(Tools.isBoolean("test"));
 		assertTrue(Tools.isBoolean("true"));
 		assertTrue(Tools.isBoolean("false"));
+		assertFalse(Tools.isBoolean(null));
 	}
 
 	public void testIsValidDouble() {
@@ -112,14 +116,11 @@ public class TestTools extends TestCase {
 		assertTrue(Tools.isValidDouble(Long.MAX_VALUE + ""));
 		assertFalse(Tools.isValidDouble(Long.MIN_VALUE + ""));
 		assertTrue(Tools.isValidDouble(Float.MAX_VALUE + ""));
-		//assertFalse(Tools.isValidDouble(Float.MIN_VALUE + ""));
+		assertTrue(Tools.isValidDouble(Float.MIN_VALUE + ""));
 		assertTrue(Tools.isValidDouble(Double.MAX_VALUE + ""));
-		//assertFalse(Tools.isValidDouble(Double.MIN_VALUE + ""));
+		assertTrue(Tools.isValidDouble(Double.MIN_VALUE + ""));
 		assertFalse(Tools.isValidDouble("test"));
-	}
-
-	public void testIsPositive() {
-		//fail("Not yet implemented");
+		assertFalse(Tools.isValidDouble(null));
 	}
 
 }
