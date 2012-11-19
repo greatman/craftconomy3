@@ -52,26 +52,26 @@ public class CommandHandler {
 	 */
 	public void execute(String sender, String commandName, String[] args) {
 		if (Common.getInstance().getConfigurationManager().getConfig().getBoolean("System.Setup") && !setupEnabled) {
-			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}This command is disabled while Craftconomy is under setup mode! Type /ccsetup to configure the plugin.");
+			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("command_disabled_setup_mode"));
 			return;
 		}
 		if (commandList.containsKey(commandName)) {
 			CraftconomyCommand command = commandList.get(commandName);
 			if (command.playerOnly() && sender.equalsIgnoreCase("console")) {
-				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}This command should only be used by players!");
+				Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("user_only_command"));
 				return;
 			}
 			if (command.permission(sender)) {
 				if (args.length >= command.minArgs() && args.length <= command.maxArgs()) {
 					command.execute(sender, args);
 				} else {
-					Common.getInstance().getServerCaller().sendMessage(sender, "Usage: " + command.help());
+					Common.getInstance().getServerCaller().sendMessage(sender,  String.format(Common.getInstance().getLanguageManager().getString("command_usage"), command.help()));
 				}
 			} else {
-				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}You don't have permissions!");
+				Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("no_permission"));
 			}
 		} else {
-			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}This subcommand doesn't exist!");
+			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("subcommand_not_exist"));
 		}
 	}
 	

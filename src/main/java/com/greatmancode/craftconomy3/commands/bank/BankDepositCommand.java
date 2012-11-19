@@ -39,7 +39,7 @@ public class BankDepositCommand extends CraftconomyCommand {
 						if (Common.getInstance().getCurrencyManager().getCurrency(args[2]) != null) {
 							currency = Common.getInstance().getCurrencyManager().getCurrency(args[2]);
 						} else {
-							Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}That currency doesn't exist!");
+							Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("currency_not_exist"));
 							return;
 						}
 					}
@@ -47,20 +47,20 @@ public class BankDepositCommand extends CraftconomyCommand {
 					if (playerAccount.hasEnough(amount, playerAccount.getWorldPlayerCurrentlyIn(), currency.getName())) {
 						playerAccount.withdraw(amount, playerAccount.getWorldPlayerCurrentlyIn(), currency.getName());
 						bankAccount.deposit(amount, playerAccount.getWorldPlayerCurrentlyIn(), currency.getName());
-						Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Deposited {{WHITE}}" + Common.getInstance().format(null, currency, amount) + "{{DARK_GREEN}} in the {{WHITE}}" + args[0] + "{{DARK_GREEN}} bank Account.");
+						Common.getInstance().getServerCaller().sendMessage(sender,  String.format(Common.getInstance().getLanguageManager().getString("deposited"), Common.getInstance().format(null, currency, amount), args[0]));
 					} else {
-						Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Not enough money!");
+						Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("not_enough_money"));
 					}
 
 				} else {
-					Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Invalid amount!");
+					Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("invalid_amount"));
 				}
 			} else {
-				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}You can't deposit in this account!");
+				Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("bank_cant_deposit"));
 			}
 
 		} else {
-			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}This account doesn't exist!");
+			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("account_not_exist"));
 		}
 
 	}

@@ -32,7 +32,7 @@ public class BankBalanceCommand extends CraftconomyCommand {
 		if (Common.getInstance().getAccountManager().exist(Account.BANK_PREFIX + args[0])) {
 			Account account = Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + args[0]);
 			if (account.getAccountACL().canShow(sender) || Common.getInstance().getServerCaller().checkPermission(sender, "craftconomy.bank.balance.others")) {
-				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Bank Statement:");
+				Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("bank_statement"));
 				Iterator<Balance> balanceList = account.getAllBalance().iterator();
 				while (balanceList.hasNext()) {
 					Balance bl = balanceList.next();
@@ -40,16 +40,17 @@ public class BankBalanceCommand extends CraftconomyCommand {
 
 				}
 			} else {
-				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}You can't check this account statement");
+				Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("cant_check_bank_statement"));
 			}
 		} else {
-			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}This account doesn't exist!");
+			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("account_not_exist"));
 		}
 	}
 	
 
 	@Override
 	public String help() {
+		//TODO: This for multi-language. Need to be done in every classes.
 		return "/bank balance <Account Name> - Check the balance of a account.";
 	}
 
