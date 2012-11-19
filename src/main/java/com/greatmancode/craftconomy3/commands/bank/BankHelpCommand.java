@@ -29,7 +29,7 @@ public class BankHelpCommand extends CraftconomyCommand {
 
 	@Override
 	public void execute(String sender, String[] args) {
-		Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}} ======== Bank Commands ========");
+		Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("bank_help_title"));
 		Map<String, CraftconomyCommand> cmdList = Common.getInstance().getCommandManager().getCommandHandler("bank").getCommandList();
 		Iterator<Entry<String, CraftconomyCommand>> iterator = cmdList.entrySet().iterator();
 		while (iterator.hasNext()) {
