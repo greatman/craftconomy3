@@ -36,6 +36,7 @@ import com.greatmancode.craftconomy3.currency.Currency;
 import com.greatmancode.craftconomy3.currency.CurrencyManager;
 import com.greatmancode.craftconomy3.database.DatabaseManager;
 import com.greatmancode.craftconomy3.events.EventManager;
+import com.greatmancode.craftconomy3.language.LanguageManager;
 import com.greatmancode.craftconomy3.payday.PayDayManager;
 import com.greatmancode.craftconomy3.utils.Metrics;
 import com.greatmancode.craftconomy3.utils.Metrics.Graph;
@@ -59,7 +60,8 @@ public class Common {
 	private DatabaseManager dbManager = null;
 	private PayDayManager paydayManager = null;
 	private EventManager eventManager = null;
-
+	private LanguageManager languageManager = null;
+	
 	private CommandLoader commandManager;
 	private Caller serverCaller;
 	private VersionChecker versionChecker = null;
@@ -95,16 +97,17 @@ public class Common {
 			sendConsoleMessage(Level.INFO, "Loading the Configuration");
 			config = new ConfigurationManager();
 			config.initialize(Common.getInstance().getServerCaller().getDataFolder(), "config.yml");
+			languageManager = new LanguageManager();
 			try {
 				metrics = new Metrics("Craftconomy", this.getServerCaller().getPluginVersion());
 			} catch (IOException e) {
-				this.getLogger().log(Level.SEVERE, "Unable to load Metrics! The error is: " + e.getMessage());
+				this.getLogger().log(Level.SEVERE, String.format(getLanguageManager().getString("metric_start_error"), e.getMessage()));
 			}
 			if (getConfigurationManager().getConfig().getBoolean("System.CheckNewVersion")) {
-				sendConsoleMessage(Level.INFO, "Checking if there's a new version.");
+				sendConsoleMessage(Level.INFO, getLanguageManager().getString("checking_new_version"));
 				versionChecker = new VersionChecker(Common.getInstance().getServerCaller().getPluginVersion());
 				if (versionChecker.isOld()) {
-					sendConsoleMessage(Level.WARNING, "Running a old version of Craftconomy! New version is: " + versionChecker.getNewVersion());
+					sendConsoleMessage(Level.WARNING, String.format(getLanguageManager().getString("running_old_version"), versionChecker.getNewVersion()));
 				}
 			}
 			sendConsoleMessage(Level.INFO, "Loading listeners.");
@@ -118,50 +121,52 @@ public class Common {
 					try {
 						initialiseDatabase();
 					} catch (Exception e) {
-						sendConsoleMessage(Level.SEVERE, "A error occured while trying to connect to the database. Message received: " + e.getMessage());
+						sendConsoleMessage(Level.SEVERE, String.format(getLanguageManager().getString("database_connect_error"), e.getMessage()));
 						getServerCaller().disablePlugin();
 						return;
 					}
 				}
 				if (SetupWizard.getState().equals(SetupWizard.BASIC_SETUP)) {
 					initializeCurrency();
-					sendConsoleMessage(Level.INFO, "Default settings loaded!");
+					sendConsoleMessage(Level.INFO, getLanguageManager().getString("default_settings_loaded"));
 				}
 				if(SetupWizard.getState().equals(SetupWizard.CONVERT_SETUP)) {
 					getConfigurationManager().loadDefaultSettings();
 					startUp();
 				}
-				sendConsoleMessage(Level.WARNING, "Loading Craftconomy in setup mode. Please type /ccsetup to start the setup.");
+				sendConsoleMessage(Level.WARNING, getLanguageManager().getString("loaded_setup_mode"));
 			} else {
 				try {
 					initialiseDatabase();
 				} catch (Exception e) {
-					sendConsoleMessage(Level.SEVERE, "A error occured while trying to connect to the database. Message received: " + e.getMessage());
+					sendConsoleMessage(Level.SEVERE, String.format(getLanguageManager().getString("database_connect_error"), e.getMessage()));
 					getServerCaller().disablePlugin();
 					return;
 				}
 				initializeCurrency();
-				sendConsoleMessage(Level.INFO, "Loading default settings.");
+				sendConsoleMessage(Level.INFO, getLanguageManager().getString("loading_default_settings"));
 				getConfigurationManager().loadDefaultSettings();
-				sendConsoleMessage(Level.INFO, "Default settings loaded!");
+				sendConsoleMessage(Level.INFO, getLanguageManager().getString("default_settings_loaded"));
 				startUp();
-				sendConsoleMessage(Level.INFO, "Ready!");
+				sendConsoleMessage(Level.INFO, getLanguageManager().getString("ready"));
 			}
 			initialized = true;
 		}
 
 	}
 
+	
+
 	/**
 	 * Disable the plugin.
 	 */
 	void disable() {
-		if (Common.getInstance().getDatabaseManager() != null && Common.getInstance().getDatabaseManager().getDatabase() != null) {
-			Common.getInstance().getLogger().info("Closing the connection to the database.");
+		if (getDatabaseManager() != null && getDatabaseManager().getDatabase() != null) {
+			getLogger().info(getLanguageManager().getString("closing_db_link"));
 			try {
-				Common.getInstance().getDatabaseManager().getDatabase().close();
+				getDatabaseManager().getDatabase().close();
 			} catch (ConnectionException e) {
-				this.getLogger().severe("Unable to close the database connection!");
+				this.getLogger().severe(String.format(getLanguageManager().getString("unable_close_db_link"), e.getMessage()));
 			}
 		}
 	}
@@ -316,10 +321,10 @@ public class Common {
 	 */
 	public void initialiseDatabase() throws TableRegistrationException, ConnectionException {
 		if (!databaseInitialized) {
-			sendConsoleMessage(Level.INFO, "Loading the Database Manager");
+			sendConsoleMessage(Level.INFO, getLanguageManager().getString("loading_database_manager"));
 			dbManager = new DatabaseManager();
 			databaseInitialized = true;
-			sendConsoleMessage(Level.INFO, "Database Manager Loaded!");
+			sendConsoleMessage(Level.INFO, getLanguageManager().getString("database_manager_loaded"));
 		}
 	}
 
@@ -328,10 +333,10 @@ public class Common {
 	 */
 	public void initializeCurrency() {
 		if (!currencyInitialized) {
-			sendConsoleMessage(Level.INFO, "Loading the Currency Manager");
+			sendConsoleMessage(Level.INFO, getLanguageManager().getString("loading_currency_manager"));
 			currencyManager = new CurrencyManager();
 			currencyInitialized = true;
-			sendConsoleMessage(Level.INFO, "Currency Manager Loaded!");
+			sendConsoleMessage(Level.INFO, getLanguageManager().getString("currency_manager_loaded"));
 		}
 	}
 
@@ -339,14 +344,14 @@ public class Common {
 	 * Initialize the Account & PayDay Manager
 	 */
 	public void startUp() {
-		sendConsoleMessage(Level.INFO, "Loading the Account Manager");
+		sendConsoleMessage(Level.INFO, getLanguageManager().getString("loading_account_manager"));
 		accountManager = new AccountManager();
 		addMetricsGraph("Multiworld", getConfigurationManager().isMultiWorld());
 		startMetrics();
-		sendConsoleMessage(Level.INFO, "Account Manager Loaded!");
-		sendConsoleMessage(Level.INFO, "Loading the PayDay manager.");
+		sendConsoleMessage(Level.INFO, getLanguageManager().getString("account_manager_loaded"));
+		sendConsoleMessage(Level.INFO, getLanguageManager().getString("loading_payday_manager"));
 		paydayManager = new PayDayManager();
-		sendConsoleMessage(Level.INFO, "PayDay Manager loaded!");
+		sendConsoleMessage(Level.INFO, getLanguageManager().getString("payday_manager_loaded"));
 		eventManager = new EventManager();
 	}
 
@@ -402,7 +407,7 @@ public class Common {
 				out.println(info.toString() + ": User: " + username + " Currency: " + currency.getName() + " World: " + worldName + " Amount:" + amount);
 				out.close();
 			} catch (IOException e) {
-				getLogger().severe("Error while writing the transaction logger!");
+				getLogger().severe(String.format(getLanguageManager().getString("error_write_log"), e.getMessage()));
 			}
 		}
 	}
@@ -421,5 +426,9 @@ public class Common {
 	 */
 	public EventManager getEventManager() {
 		return eventManager;
+	}
+	
+	public LanguageManager getLanguageManager() {
+		return languageManager;
 	}
 }
