@@ -123,6 +123,7 @@ public class Common {
 					} catch (Exception e) {
 						sendConsoleMessage(Level.SEVERE, String.format(getLanguageManager().getString("database_connect_error"), e.getMessage()));
 						getServerCaller().disablePlugin();
+						e.printStackTrace();
 						return;
 					}
 				}

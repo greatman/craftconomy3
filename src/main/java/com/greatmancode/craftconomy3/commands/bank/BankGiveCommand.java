@@ -38,7 +38,7 @@ public class BankGiveCommand extends CraftconomyCommand {
 					if (Common.getInstance().getCurrencyManager().getCurrency(args[2]) != null) {
 						currency = Common.getInstance().getCurrencyManager().getCurrency(args[2]);
 					} else {
-						Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}That currency doesn't exist!");
+						Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("currency_not_exist"));
 						return;
 					}
 				}
@@ -46,7 +46,7 @@ public class BankGiveCommand extends CraftconomyCommand {
 				if (args.length > 3) {
 					if (Common.getInstance().getConfigurationManager().isMultiWorld()) {
 						if (!Common.getInstance().getServerCaller().worldExist(args[3])) {
-							Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}This world doesn't exist!");
+							Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("world_not_exist"));
 							return;
 						}
 						worldName = args[3];
@@ -59,19 +59,19 @@ public class BankGiveCommand extends CraftconomyCommand {
 					}
 				}
 				bankAccount.deposit(amount, worldName, currency.getName());
-				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Deposited {{WHITE}}" + Common.getInstance().format(worldName, currency, amount) + "{{DARK_GREEN}} from the {{WHITE}}" + args[0] + "{{DARK_GREEN}} bank Account.");
+				Common.getInstance().getServerCaller().sendMessage(sender, String.format(Common.getInstance().getLanguageManager().getString("bank_give_success"), Common.getInstance().format(worldName, currency, amount) ,args[0]));
 
 			} else {
-				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Invalid amount!");
+				Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("invalid_amount"));
 			}
 		} else {
-			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}This account doesn't exist!");
+			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("account_not_exist"));
 		}
 	}
 
 	@Override
 	public String help() {
-		return "/bank give <Account Name> <Amount> [Currency] [World] - Give money in a account.";
+		return Common.getInstance().getLanguageManager().getString("bank_give_cmd_help");
 	}
 
 	@Override

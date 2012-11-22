@@ -44,7 +44,7 @@ public class BankCreateCommand extends CraftconomyCommand {
 
 	@Override
 	public String help() {
-		return "/bank create <Account Name> - Create a bank account";
+		return Common.getInstance().getLanguageManager().getString("bank_create_cmd_help");
 	}
 
 	@Override

@@ -67,7 +67,7 @@ public class BankDepositCommand extends CraftconomyCommand {
 
 	@Override
 	public String help() {
-		return "/bank deposit <Account Name> <Amount> [Currency] - Deposit money in a account.";
+		return Common.getInstance().getLanguageManager().getString("bank_deposit_cmd_help");
 	}
 
 	@Override

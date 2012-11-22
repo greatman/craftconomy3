@@ -50,8 +50,7 @@ public class BankBalanceCommand extends CraftconomyCommand {
 
 	@Override
 	public String help() {
-		//TODO: This for multi-language. Need to be done in every classes.
-		return "/bank balance <Account Name> - Check the balance of a account.";
+		return Common.getInstance().getLanguageManager().getString("bank_balance_cmd_help");
 	}
 
 	@Override
