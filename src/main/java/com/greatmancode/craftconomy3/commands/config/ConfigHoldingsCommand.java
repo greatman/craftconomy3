@@ -28,15 +28,15 @@ public class ConfigHoldingsCommand extends CraftconomyCommand {
 	public void execute(String sender, String[] args) {
 		if (Tools.isValidDouble(args[0])) {
 			Common.getInstance().getConfigurationManager().setHoldings(Double.parseDouble(args[0]));
-			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Default holdings modified!");
+			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("default_holding_modified"));
 		} else {
-			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Invalid amount!");
+			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("invalid_amount"));
 		}
 	}
 
 	@Override
 	public String help() {
-		return "/craftconomy holdings <Amount> - Set the default amount of money of a user account.";
+		return Common.getInstance().getLanguageManager().getString("config_holdings_cmd_help");
 	}
 
 	@Override

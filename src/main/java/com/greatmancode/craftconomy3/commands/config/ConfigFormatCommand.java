@@ -27,16 +27,16 @@ public class ConfigFormatCommand extends CraftconomyCommand {
 	public void execute(String sender, String[] args) {
 		if (args[0].equalsIgnoreCase("long") || args[0].equalsIgnoreCase("small") || args[0].equalsIgnoreCase("sign")) {
 			Common.getInstance().getConfigurationManager().setDisplayFormat(args[0]);
-			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}long balance format changed!");
+			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("format_modified"));
 		} else {
-			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Invalid mode!");
+			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("invalid_mode"));
 		}
 
 	}
 
 	@Override
 	public String help() {
-		return "/craftconomy format <long/small/sign> - Set the display format.";
+		return Common.getInstance().getLanguageManager().getString("config_format_cmd_help");
 	}
 
 	@Override

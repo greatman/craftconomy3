@@ -28,16 +28,16 @@ public class ConfigBankPriceCommand extends CraftconomyCommand {
 	public void execute(String sender, String[] args) {
 		if (Tools.isValidDouble(args[0])) {
 			Common.getInstance().getConfigurationManager().setBankPrice(Double.parseDouble(args[0]));
-			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Bank price modified!");
+			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("bank_price_modified"));
 		} else {
-			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Invalid amount!");
+			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("invalid_amount"));
 		}
 
 	}
 
 	@Override
 	public String help() {
-		return "/craftconomy bankprice <Amount> - Change the price to create a bank account.";
+		return Common.getInstance().getLanguageManager().getString("config_bankprice_cmd_help");
 	}
 
 	@Override
