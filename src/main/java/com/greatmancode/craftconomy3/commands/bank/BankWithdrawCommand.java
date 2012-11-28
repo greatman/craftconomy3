@@ -39,7 +39,7 @@ public class BankWithdrawCommand extends CraftconomyCommand {
 						if (Common.getInstance().getCurrencyManager().getCurrency(args[2]) != null) {
 							currency = Common.getInstance().getCurrencyManager().getCurrency(args[2]);
 						} else {
-							Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}That currency doesn't exist!");
+							Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("currency_not_exist"));
 							return;
 						}
 					}
@@ -49,24 +49,24 @@ public class BankWithdrawCommand extends CraftconomyCommand {
 						playerAccount.deposit(amount, playerAccount.getWorldPlayerCurrentlyIn(), currency.getName());
 						Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Withdrawed {{WHITE}}" + Common.getInstance().format(null, currency, amount) + "{{DARK_GREEN}} from the {{WHITE}}" + args[0] + "{{DARK_GREEN}} bank Account.");
 					} else {
-						Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Not enough money!");
+						Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("bank_not_enough_money"));
 					}
 
 				} else {
-					Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Invalid amount!");
+					Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("invalid_amount"));
 				}
 			} else {
-				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}You can't withdraw in this account!");
+				Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("cant_withdraw_bank"));
 			}
 
 		} else {
-			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}This account doesn't exist!");
+			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("account_not_exist"));
 		}
 	}
 
 	@Override
 	public String help() {
-		return "/bank withdraw <Account Name> <Amount> [Currency] - Withdraw money in a account.";
+		return Common.getInstance().getLanguageManager().getString(Common.getInstance().getLanguageManager().getString("bank_withdraw_cmd_help"));
 	}
 
 	@Override

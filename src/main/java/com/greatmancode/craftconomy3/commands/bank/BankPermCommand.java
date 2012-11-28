@@ -39,22 +39,22 @@ public class BankPermCommand extends CraftconomyCommand {
 				} else if (args[1].equalsIgnoreCase("show")) {
 					account.getAccountACL().setShow(args[2], Boolean.parseBoolean(args[3]));
 				} else {
-					Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Invalid flag!");
+					Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("invalid_flag"));
 					return;
 				}
-				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}The flag {{WHITE}}" + args[1] + "{{DARK_GREEN}} for the player {{WHITE}}" + args[2] + "{{DARK_GREEN}} has been set to {{WHITE}}" + args[3]);
+				Common.getInstance().getServerCaller().sendMessage(sender, String.format(Common.getInstance().getLanguageManager().getString("bank_flag_set"), args[1], args[2], args[3]));
 			} else {
-				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}You can't modify the ACL of this account!");
+				Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("cant_modify_acl"));
 			}
 		} else {
-			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}This account doesn't exist!");
+			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("account_not_exist!"));
 		}
 
 	}
 
 	@Override
 	public String help() {
-		return "/bank perm <Account Name> <deposit/withdraw/acl/show> <Player Name> <true/false> - Modify the permission of a player";
+		return Common.getInstance().getLanguageManager().getString("bank_perm_cmd_help");
 	}
 
 	@Override

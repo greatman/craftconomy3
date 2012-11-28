@@ -38,7 +38,7 @@ public class BankTakeCommand extends CraftconomyCommand {
 					if (Common.getInstance().getCurrencyManager().getCurrency(args[2]) != null) {
 						currency = Common.getInstance().getCurrencyManager().getCurrency(args[2]);
 					} else {
-						Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}That currency doesn't exist!");
+						Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("currency_not_exist"));
 						return;
 					}
 				}
@@ -46,7 +46,7 @@ public class BankTakeCommand extends CraftconomyCommand {
 				if (args.length > 3) {
 					if (Common.getInstance().getConfigurationManager().isMultiWorld()) {
 						if (!Common.getInstance().getServerCaller().worldExist(args[3])) {
-							Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}This world doesn't exist!");
+							Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("world_not_exist"));
 							return;
 						}
 						worldName = args[3];
@@ -60,22 +60,22 @@ public class BankTakeCommand extends CraftconomyCommand {
 				}
 				if (bankAccount.hasEnough(amount, worldName, currency.getName())) {
 					bankAccount.withdraw(amount, worldName, currency.getName());
-					Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Taken {{WHITE}}" + Common.getInstance().format(worldName, currency, amount) + "{{DARK_GREEN}} from the {{WHITE}}" + args[0] + "{{DARK_GREEN}} bank Account.");
+					Common.getInstance().getServerCaller().sendMessage(sender, String.format(Common.getInstance().getLanguageManager().getString("bank_take_success"), Common.getInstance().format(worldName, currency, amount), args[0]));
 				} else {
-					Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}The bank account doesn't have enough money!");
+					Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("bank_not_enough_money"));
 				}
 
 			} else {
-				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Invalid amount!");
+				Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("invalid_amount"));
 			}
 		} else {
-			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}This account doesn't exist!");
+			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("account_not_exist"));
 		}
 	}
 
 	@Override
 	public String help() {
-		return "/bank take <Account Name> <Amount> [Currency] [World]- Take money from a account.";
+		return Common.getInstance().getLanguageManager().getString("bank_take_cmd_help");
 	}
 
 	@Override

@@ -42,7 +42,7 @@ public class BankHelpCommand extends CraftconomyCommand {
 
 	@Override
 	public String help() {
-		return "/bank - Shows bank help";
+		return Common.getInstance().getLanguageManager().getString("bank_help_cmd_help");
 	}
 
 	@Override
