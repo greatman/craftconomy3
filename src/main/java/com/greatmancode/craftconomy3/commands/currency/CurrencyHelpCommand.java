@@ -29,7 +29,7 @@ public class CurrencyHelpCommand extends CraftconomyCommand {
 
 	@Override
 	public void execute(String sender, String[] args) {
-		Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}} ======== Currency Commands ========");
+		Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("currency_help_title"));
 		Map<String, CraftconomyCommand> cmdList = Common.getInstance().getCommandManager().getCommandHandler("currency").getCommandList();
 		Iterator<Entry<String, CraftconomyCommand>> iterator = cmdList.entrySet().iterator();
 		while (iterator.hasNext()) {
@@ -42,7 +42,7 @@ public class CurrencyHelpCommand extends CraftconomyCommand {
 
 	@Override
 	public String help() {
-		return "/currency - shows currency command help";
+		return Common.getInstance().getLanguageManager().getString("currency_help_cmd_help");
 	}
 
 	@Override

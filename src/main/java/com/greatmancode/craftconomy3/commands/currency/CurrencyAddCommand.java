@@ -28,9 +28,9 @@ public class CurrencyAddCommand extends CraftconomyCommand {
 		if (args[0] != null && args[1] != null && args[2] != null && args[3] != null && args[4] != null) {
 			if (Common.getInstance().getCurrencyManager().getCurrency(args[0]) == null) {
 				Common.getInstance().getCurrencyManager().addCurrency(args[0], args[1], args[2], args[3], 0.0, args[4], true);
-				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Currency added!");
+				Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("currency_added"));
 			} else {
-				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}This currency already exists!");
+				Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("currency_already_exists"));
 			}
 
 		}
@@ -38,7 +38,7 @@ public class CurrencyAddCommand extends CraftconomyCommand {
 
 	@Override
 	public String help() {
-		return "/currency add <Name> <Name Plural> <Minor> <Minor Plural> <Sign> - Add a currency.";
+		return Common.getInstance().getLanguageManager().getString("currency_add_cmd_help");
 	}
 
 	@Override

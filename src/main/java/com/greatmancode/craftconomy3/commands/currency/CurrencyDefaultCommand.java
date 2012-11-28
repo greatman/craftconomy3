@@ -27,16 +27,16 @@ public class CurrencyDefaultCommand extends CraftconomyCommand {
 	public void execute(String sender, String[] args) {
 		if (Common.getInstance().getCurrencyManager().getCurrency(args[0]) != null) {
 			Common.getInstance().getCurrencyManager().setDefault(Common.getInstance().getCurrencyManager().getCurrency(args[0]).getDatabaseID());
-			Common.getInstance().getServerCaller().sendMessage(sender, args[0] + " {{DARK_GREEN}}has been set as the default currency!");
+			Common.getInstance().getServerCaller().sendMessage(sender, String.format(Common.getInstance().getLanguageManager().getString("default_currency_set"), args[0]));
 		} else {
-			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Currency not found!");
+			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("currency_not_exist"));
 		}
 
 	}
 
 	@Override
 	public String help() {
-		return "/currency default <Name> - Set a currency as the default one.";
+		return Common.getInstance().getLanguageManager().getString("currency_default_cmd_help");
 	}
 
 	@Override

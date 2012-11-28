@@ -27,15 +27,15 @@ public class CurrencyDeleteCommand extends CraftconomyCommand {
 	public void execute(String sender, String[] args) {
 		if (Common.getInstance().getCurrencyManager().getCurrency(args[0]) != null) {
 			Common.getInstance().getCurrencyManager().deleteCurrency(Common.getInstance().getCurrencyManager().getCurrency(args[0]).getDatabaseID());
-			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Currency deleted!");
+			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("currency_deleted"));
 		} else {
-			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Currency not found!");
+			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("currency_not_exists"));
 		}
 	}
 
 	@Override
 	public String help() {
-		return "/currency delete <Name> - Delete a currency {{DARK_RED}}It also deletes all balance with this currency.";
+		return Common.getInstance().getLanguageManager().getString("currency_delete_cmd_help");
 	}
 
 	@Override

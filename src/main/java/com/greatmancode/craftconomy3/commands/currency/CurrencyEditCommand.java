@@ -38,28 +38,23 @@ public class CurrencyEditCommand extends CraftconomyCommand {
 				} else if (args[0].equals("sign")) {
 					Common.getInstance().getCurrencyManager().getCurrency(args[1]).setSign(args[2]);
 				} else {
-					Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Invalid type!");
+					Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("invalid_type"));
 					return;
 				}
-				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Currency modified!");
+				Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("currency_modified"));
 
 			} else {
-				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Can't change a currency value to empty (Aka \"\")");
+				Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("currency_empty_value"));
 			}
 		} else {
-			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Currency not found!");
+			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("currency_not_exist"));
 		}
 
 	}
 
 	@Override
-	public boolean permission(String sender) {
-		return Common.getInstance().getServerCaller().checkPermission(sender, "craftconomy.currency.edit");
-	}
-
-	@Override
 	public String help() {
-		return "/currency edit <name/nameplural/minor/minorplural/sign> <Currency Name> <new Value> - Modify a currency.";
+		return Common.getInstance().getLanguageManager().getString("currency_edit_cmd_help");
 	}
 
 	@Override

@@ -29,19 +29,19 @@ public class CurrencyInfoCommand extends CraftconomyCommand {
 		Currency currency = Common.getInstance().getCurrencyManager().getCurrency(args[0]);
 		if (currency != null) {
 			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}======== {{WHITE}}" + currency.getName() + " {{DARK_GREEN}}========");
-			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Name: {{WHITE}}" + currency.getName());
-			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Name Plural: {{WHITE}}" + currency.getPlural());
-			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Minor: {{WHITE}}" + currency.getMinor());
-			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Minor plural: {{WHITE}}" + currency.getMinorPlural());
+			Common.getInstance().getServerCaller().sendMessage(sender, String.format(Common.getInstance().getLanguageManager().getString("currency_info_name"),currency.getName()));
+			Common.getInstance().getServerCaller().sendMessage(sender, String.format(Common.getInstance().getLanguageManager().getString("currency_info_name_plural"), currency.getPlural()));
+			Common.getInstance().getServerCaller().sendMessage(sender, String.format(Common.getInstance().getLanguageManager().getString("currency_info_minor"), currency.getMinor()));
+			Common.getInstance().getServerCaller().sendMessage(sender, String.format(Common.getInstance().getLanguageManager().getString("currency_info_minor_plural"), currency.getMinorPlural()));
 		} else {
-			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Currency not found!");
+			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("currency_not_exist"));
 		}
 
 	}
 
 	@Override
 	public String help() {
-		return "/currency info <Name> - Display the information about a currency.";
+		return Common.getInstance().getLanguageManager().getString("currency_info_cmd_help");
 	}
 
 	@Override
