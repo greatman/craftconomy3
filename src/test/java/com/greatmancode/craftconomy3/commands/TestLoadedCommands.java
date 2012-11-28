@@ -20,13 +20,16 @@ package com.greatmancode.craftconomy3.commands;
 
 import static org.junit.Assert.*;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.reflections.Reflections;
 
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.TestInitializator;
+import com.greatmancode.craftconomy3.commands.interfaces.CraftconomyCommand;
 
 public class TestLoadedCommands {
 
@@ -34,7 +37,40 @@ public class TestLoadedCommands {
 	public void setUp() {
 		new TestInitializator();
 	}
-	
+
+	public void testCommands() {
+
+		Reflections reflections = new Reflections("com.greatmancode.craftconomy3.commands");
+		Iterator<Class<? extends CraftconomyCommand>> allClasses = reflections.getSubTypesOf(CraftconomyCommand.class).iterator();
+		while (allClasses.hasNext()) {
+			Class<? extends CraftconomyCommand> clazz = allClasses.next();
+			try {
+				CraftconomyCommand instance = clazz.newInstance();
+				if (!(instance.help() instanceof String)) {
+					fail("Help is null for: " + clazz.getName());
+				}
+				if (instance.maxArgs() < 0) {
+					fail("Fail maxArgs for class: " + clazz.getName());
+				}
+				if (instance.minArgs() < 0) {
+					fail("Fail minArgs for class: " + clazz.getName());
+				}
+				if (instance.getPermissionNode() != null) {
+					if (!instance.getPermissionNode().contains("craftconomy")) {
+						fail("Fail permissionNode for class: " + clazz.getName());
+					}
+				}
+				if (!instance.playerOnly() == false && !instance.playerOnly() == true) {
+					fail("Fail playerOnly. Should never get this..");
+				}
+			} catch (InstantiationException e) {
+				fail(e.getMessage());
+			} catch (IllegalAccessException e) {
+				fail(e.getMessage());
+			}
+		}
+	}
+
 	@Test
 	public void testBankBalanceCommand() {
 		Common.getInstance().getCommandManager().getCommandHandler("bank").execute("console", "balance", null);
