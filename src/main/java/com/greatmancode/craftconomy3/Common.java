@@ -113,6 +113,7 @@ public class Common {
 			sendConsoleMessage(Level.INFO, "Loading listeners.");
 			eventManager = new EventManager();
 			sendConsoleMessage(Level.INFO, "Loading commands");
+			Common.getInstance().getServerCaller().registerPermission("craftconomy.*");
 			commandManager = new CommandLoader();
 			commandManager.initialize();
 			if (config.getConfig().getBoolean("System.Setup")) {

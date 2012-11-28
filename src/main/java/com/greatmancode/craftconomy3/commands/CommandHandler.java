@@ -61,7 +61,7 @@ public class CommandHandler {
 				Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("user_only_command"));
 				return;
 			}
-			if (command.permission(sender)) {
+			if (command.permission(sender) || Common.getInstance().getServerCaller().checkPermission(sender, "craftconomy.*")) {
 				if (args.length >= command.minArgs() && args.length <= command.maxArgs()) {
 					command.execute(sender, args);
 				} else {
