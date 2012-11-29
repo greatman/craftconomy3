@@ -27,16 +27,16 @@ public class CreateCommand extends CraftconomyCommand {
 	public void execute(String sender, String[] args) {
 		if (!Common.getInstance().getAccountManager().exist(args[0])) {
 			Common.getInstance().getAccountManager().getAccount(args[0]);
-			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}} Account created!");
+			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("money_create_success"));
 		} else {
-			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}} This account already exist!");
+			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("account_already_exist"));
 		}
 
 	}
 
 	@Override
 	public String help() {
-		return "/money create <Name> - Create a account";
+		return Common.getInstance().getLanguageManager().getString("money_create_cmd_help");
 	}
 
 	@Override

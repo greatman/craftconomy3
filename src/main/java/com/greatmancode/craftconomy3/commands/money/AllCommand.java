@@ -29,7 +29,7 @@ public class AllCommand extends CraftconomyCommand {
 
 	@Override
 	public void execute(String sender, String[] args) {
-		Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Balance: ");
+		Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("money_all_title"));
 		Account account = Common.getInstance().getAccountManager().getAccount(sender);
 		Iterator<Balance> balanceList = account.getAllBalance().iterator();
 		while (balanceList.hasNext()) {
@@ -41,7 +41,7 @@ public class AllCommand extends CraftconomyCommand {
 
 	@Override
 	public String help() {
-		return "/money all - Display your balance on all the worlds";
+		return Common.getInstance().getLanguageManager().getString("money_all_cmd_help");
 	}
 
 	@Override

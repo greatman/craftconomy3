@@ -26,15 +26,15 @@ public class DeleteCommand extends CraftconomyCommand {
 	@Override
 	public void execute(String sender, String[] args) {
 		if (Common.getInstance().getAccountManager().delete(args[0])) {
-			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}The account {{WHITE}}" + args[0] + " {{DARK_GREEN}}has been deleted!");
+			Common.getInstance().getServerCaller().sendMessage(sender, String.format(Common.getInstance().getLanguageManager().getString("money_delete_success"), args[0]));
 		} else {
-			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}This account doesn't exist!");
+			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("account_not_exist"));
 		}
 	}
 
 	@Override
 	public String help() {
-		return "/money delete <Name> - Delete a account";
+		return Common.getInstance().getLanguageManager().getString("money_delete_cmd_help");
 	}
 
 	@Override

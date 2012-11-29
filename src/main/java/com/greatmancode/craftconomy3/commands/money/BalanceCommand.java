@@ -30,7 +30,7 @@ public class BalanceCommand extends CraftconomyCommand {
 	@Override
 	public void execute(String sender, String[] args) {
 		if (Common.getInstance().getAccountManager().exist(args[0])) {
-			Common.getInstance().getServerCaller().sendMessage(sender, "{{WHITE}} " + args[0] + " {{DARK_GREEN}}Balance: ");
+			Common.getInstance().getServerCaller().sendMessage(sender, "{{WHITE}} " + args[0] + " " + Common.getInstance().getLanguageManager().getString("money_all_title"));
 			Account account = Common.getInstance().getAccountManager().getAccount(args[0]);
 			Iterator<Balance> balanceList = account.getAllBalance().iterator();
 			while (balanceList.hasNext()) {
@@ -39,14 +39,14 @@ public class BalanceCommand extends CraftconomyCommand {
 
 			}
 		} else {
-			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Account not found!");
+			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("account_not_exist"));
 		}
 
 	}
 
 	@Override
 	public String help() {
-		return "/money balance <Player Name> - Display the balance of a player";
+		return Common.getInstance().getLanguageManager().getString("money_balance_cmd_help");
 	}
 
 	@Override
