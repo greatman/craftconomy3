@@ -55,7 +55,7 @@ bank_take_success: "{{DARK_GREEN}}Taken {{WHITE}}%s {{DARK_GREEN}}from the {{WHI
 cant_withdraw_bank: "{{DARK_RED}}You can't withdraw in this account!"
 bank_price_modified: "{{DARK_GREEN}}Bank price modified!"
 config_bankprice_cmd_help: "/craftconomy bankprice <Amount> - Change the price to create a bank account."
-config_format_cmd_help: "/craftconomy format <long/small/sign> - Set the display format."
+config_format_cmd_help: "/craftconomy format <long/small/sign/majoronly> - Set the display format."
 config_cmd_help: "/craftconomy - shows config command help"
 config_holdings_cmd_help: "/craftconomy holdings <Amount> - Set the default amount of money of a user account."
 config_help_title: "{{DARK_GREEN}} ======== Craftconomy Commands ========"

@@ -25,7 +25,7 @@ public class ConfigFormatCommand extends CraftconomyCommand {
 
 	@Override
 	public void execute(String sender, String[] args) {
-		if (args[0].equalsIgnoreCase("long") || args[0].equalsIgnoreCase("small") || args[0].equalsIgnoreCase("sign")) {
+		if (args[0].equalsIgnoreCase("long") || args[0].equalsIgnoreCase("small") || args[0].equalsIgnoreCase("sign") || args[0].equalsIgnoreCase("majoronly")) {
 			Common.getInstance().getConfigurationManager().setDisplayFormat(args[0]);
 			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("format_modified"));
 		} else {

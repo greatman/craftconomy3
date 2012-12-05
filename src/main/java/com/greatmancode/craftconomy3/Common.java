@@ -311,6 +311,8 @@ public class Common {
 			string.append(theAmount[0]).append(".").append(coin).append(" ").append(name);
 		} else if (displayFormat.equalsIgnoreCase("sign")) {
 			string.append(currency.getSign()).append(theAmount[0]).append(".").append(coin);
+		} else if (displayFormat.equalsIgnoreCase("majoronly")) {
+			string.append(theAmount[0]).append(name);
 		}
 		return string.toString();
 	}
