@@ -312,7 +312,7 @@ public class Common {
 		} else if (displayFormat.equalsIgnoreCase("sign")) {
 			string.append(currency.getSign()).append(theAmount[0]).append(".").append(coin);
 		} else if (displayFormat.equalsIgnoreCase("majoronly")) {
-			string.append(theAmount[0]).append(name);
+			string.append(theAmount[0]).append(" ").append(name);
 		}
 		return string.toString();
 	}
