@@ -38,7 +38,7 @@ public class TakeCommand extends CraftconomyCommand {
 					if (Common.getInstance().getCurrencyManager().getCurrency(args[2]) != null) {
 						currency = Common.getInstance().getCurrencyManager().getCurrency(args[2]);
 					} else {
-						Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}That currency doesn't exist!");
+						Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("currency_not_exist"));
 						return;
 					}
 				}
@@ -46,7 +46,7 @@ public class TakeCommand extends CraftconomyCommand {
 				if (args.length > 3) {
 					if (Common.getInstance().getConfigurationManager().isMultiWorld()) {
 						if (!Common.getInstance().getServerCaller().worldExist(args[3])) {
-							Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}This world doesn't exist!");
+							Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("world_not_exist"));
 							return;
 						}
 						worldName = args[3];
@@ -60,21 +60,21 @@ public class TakeCommand extends CraftconomyCommand {
 				}
 
 				Common.getInstance().getAccountManager().getAccount(args[0]).withdraw(amount, worldName, currency.getName());
-				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Took {{WHITE}}" + Common.getInstance().format(worldName, currency, amount) + "{{DARK_GREEN}} to {{WHITE}}" + args[0]);
+				Common.getInstance().getServerCaller().sendMessage(sender, String.format(Common.getInstance().getLanguageManager().getString("money_take"), Common.getInstance().format(worldName, currency, amount), args[0]));
 				if (Common.getInstance().getServerCaller().isOnline(args[0])) {
-					Common.getInstance().getServerCaller().sendMessage(args[0], "{{DARK_GREEN}}Removed {{WHITE}}" + Common.getInstance().format(worldName, currency, amount) + "{{DARK_GREEN}} by {{WHITE}}" + sender);
+					Common.getInstance().getServerCaller().sendMessage(args[0], String.format(Common.getInstance().getLanguageManager().getString("money_take_other"), Common.getInstance().format(worldName, currency, amount), sender));
 				}
 			} else {
-				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Excepted a positive number as Amount. Received something else!");
+				Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("invalid_amount"));
 			}
 		} else {
-			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}The player doesn't exist!");
+			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("player_not_exist"));
 		}
 	}
 
 	@Override
 	public String help() {
-		return "/money take <Player Name> <Amount> [Currency] [World] - take money from someone";
+		return Common.getInstance().getLanguageManager().getString("money_take_cmd_help");
 	}
 
 	@Override

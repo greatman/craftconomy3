@@ -59,7 +59,7 @@ class TopCommandThread implements Runnable {
 
 	@Override
 	public void run() {
-		String ret = "{{DARK_GREEN}} Money Top | Page {{WHITE}}" + page + "{{DARK_GREEN}} | World {{WHITE}}" + world + "\n";
+		String ret = String.format(Common.getInstance().getLanguageManager().getString("money_top_header"), page, world) + "\n";
 		SelectQuery<BalanceTable> balanceQuery = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class);
 		balanceQuery.where().equal("worldName", world).and().equal("currency_id", currency);
 		balanceQuery.order().getPairs().add(new OrderQuery.OrderPair("balance", OrderQuery.Order.DESC));
@@ -97,7 +97,7 @@ public class TopCommand extends CraftconomyCommand {
 			if (Common.getInstance().getCurrencyManager().getCurrency(args[0]) != null) {
 				currency = Common.getInstance().getCurrencyManager().getCurrency(args[0]);
 			} else {
-				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}That currency doesn't exist!");
+				Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("currency_not_exist"));
 				return;
 			}
 		}
@@ -109,7 +109,7 @@ public class TopCommand extends CraftconomyCommand {
 					page = 1;
 				}
 			} catch (NumberFormatException e) {
-				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Invalid page!");
+				Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("invalid_page"));
 				return;
 			}
 		}
@@ -124,7 +124,7 @@ public class TopCommand extends CraftconomyCommand {
 
 	@Override
 	public String help() {
-		return "/money top <Currency> [Page] [World] - Shows the top list";
+		return Common.getInstance().getLanguageManager().getString("money_top_cmd_help");
 	}
 
 	@Override
