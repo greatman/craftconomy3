@@ -29,20 +29,20 @@ public class PayDayDeleteCommand extends CraftconomyCommand {
 		PayDay payday = Common.getInstance().getPaydayManager().getPayDay(args[0]);
 		if (payday != null) {
 			if (Common.getInstance().getPaydayManager().deletePayDay(payday.getDatabaseId())) {
-				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Payday removed!");
+				Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("payday_removed"));
 			} else {
-				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}A error occured. Check the console for any errors!");
+				Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("error_occured"));
 			}
 			
 		} else {
-			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}PayDay not found!");
+			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("payday_not_found"));
 		}
 
 	}
 
 	@Override
 	public String help() {
-		return "/payday delete <Name> - Delete a PayDay.";
+		return Common.getInstance().getLanguageManager().getString("payday_delete_cmd_help");
 	}
 
 	@Override

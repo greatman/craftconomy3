@@ -30,7 +30,7 @@ public class PayDayListCommand extends CraftconomyCommand {
 	@Override
 	public void execute(String sender, String[] args) {
 		Iterator<Entry<Integer, PayDay>> paydayList = Common.getInstance().getPaydayManager().getPayDayList().entrySet().iterator();
-		Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}} ========= {{WHITE}}Payday list {{DARK_GREEN}}=========");
+		Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("payday_list_title"));
 		while(paydayList.hasNext()) {
 			Entry<Integer,PayDay> entry = paydayList.next();
 			Common.getInstance().getServerCaller().sendMessage(sender, entry.getValue().getName());
@@ -44,7 +44,7 @@ public class PayDayListCommand extends CraftconomyCommand {
 
 	@Override
 	public String help() {
-		return "/payday list - List all payday";
+		return Common.getInstance().getLanguageManager().getString("payday_list_cmd_help");
 	}
 
 	@Override

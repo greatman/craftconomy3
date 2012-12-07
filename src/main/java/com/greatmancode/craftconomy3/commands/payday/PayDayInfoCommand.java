@@ -28,25 +28,25 @@ public class PayDayInfoCommand extends CraftconomyCommand {
 	public void execute(String sender, String[] args) {
 		PayDay payday = Common.getInstance().getPaydayManager().getPayDay(args[0]);
 		if (payday != null) {
-			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}} ======== {{WHITE}}" + payday.getName() + " information {{DARK_GREEN}}========");
-			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Amount: {{WHITE}}" + Common.getInstance().format(payday.getWorldName(), Common.getInstance().getCurrencyManager().getCurrency(payday.getCurrencyId()), payday.getValue()));
+			Common.getInstance().getServerCaller().sendMessage(sender, String.format(Common.getInstance().getLanguageManager().getString("payday_info_title"), payday.getName()));
+			Common.getInstance().getServerCaller().sendMessage(sender, String.format(Common.getInstance().getLanguageManager().getString("payday_info_amount"), Common.getInstance().format(payday.getWorldName(), Common.getInstance().getCurrencyManager().getCurrency(payday.getCurrencyId()), payday.getValue())));
 			if (payday.getStatus() == 0) {
-				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Type: {{WHITE}}Wage");
+				Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("payday_info_type_wage"));
 			} else {
-				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Type: {{WHITE}}Tax");
+				Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("payday_info_type_tax"));
 				
 			}
-			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Account: {{WHITE}}" + payday.getAccount());
-			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Interval: {{WHITE}}" + payday.getInterval());
+			Common.getInstance().getServerCaller().sendMessage(sender, String.format(Common.getInstance().getLanguageManager().getString("payday_info_account"), payday.getAccount()));
+			Common.getInstance().getServerCaller().sendMessage(sender, String.format(Common.getInstance().getLanguageManager().getString("payday_info_interval"), payday.getInterval()));
 		} else {
-			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Payday not found!");
+			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("payday_not_found"));
 		}
 
 	}
 
 	@Override
 	public String help() {
-		return "/payday info <Payday Name> - Show information about a payday.";
+		return Common.getInstance().getLanguageManager().getString("payday_info_cmd_help");
 	}
 
 	@Override

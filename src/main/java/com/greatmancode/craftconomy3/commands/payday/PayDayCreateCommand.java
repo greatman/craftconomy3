@@ -38,7 +38,7 @@ public class PayDayCreateCommand extends CraftconomyCommand {
 							if (Common.getInstance().getAccountManager().exist(args[4])) {
 								accountName = args[4];
 							} else {
-								Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Account not found!");
+								Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("account_not_exist"));
 								return;
 							}
 						}
@@ -47,7 +47,7 @@ public class PayDayCreateCommand extends CraftconomyCommand {
 							if (currency != null) {
 								currencyId = currency.getDatabaseID();
 							} else {
-								Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Currency not found!");
+								Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("currency_not_exist"));
 								return;
 							}
 						}
@@ -55,7 +55,7 @@ public class PayDayCreateCommand extends CraftconomyCommand {
 							if (Common.getInstance().getServerCaller().worldExist(args[6])) {
 								worldName = args[6];
 							} else {
-								Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}World not found!");
+								Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("world_not_exist"));
 								return;
 							}
 						}
@@ -64,24 +64,24 @@ public class PayDayCreateCommand extends CraftconomyCommand {
 							status = 1;
 						}
 						Common.getInstance().getPaydayManager().addPayDay(args[0], false, Integer.parseInt(args[1]), accountName, status, currencyId, Double.parseDouble(args[3]), worldName, true);
-						Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Payday added! Add the permission node {{WHITE}}craftconomy.payday." + args[0].toLowerCase() + " {{DARK_GREEN}}to the players you want to add this payday!");
+						Common.getInstance().getServerCaller().sendMessage(sender, String.format(Common.getInstance().getLanguageManager().getString("payday_create_success"), "craftconomy.payday." + args[0].toLowerCase()));
 					} else {
-						Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Invalid Amount!");
+						Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("invalid_amount"));
 					}
 				} else {
-					Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Invalid mode. only wage or tax is supported!");
+					Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("payday_invalid_mode"));
 				}
 			} else {
-				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Invalid interval!");
+				Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("invalid_interval"));
 			}
 		} else {
-			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}There's already a payday named like that!");
+			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("payday_already_exist"));
 		}
 	}
 
 	@Override
 	public String help() {
-		return "/payday create <Name> <Interval> <wage/tax> <Amount> [Account] [Currency Name] [World Name] - Create a new payday";
+		return Common.getInstance().getLanguageManager().getString("payday_create_cmd_help");
 	}
 
 	@Override

@@ -29,7 +29,7 @@ public class PayDayHelpCommand extends CraftconomyCommand {
 
 	@Override
 	public void execute(String sender, String[] args) {
-		Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}} ======== PayDay Commands ========");
+		Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("payday_help_title"));
 		Map<String, CraftconomyCommand> cmdList = Common.getInstance().getCommandManager().getCommandHandler("payday").getCommandList();
 		Iterator<Entry<String, CraftconomyCommand>> iterator = cmdList.entrySet().iterator();
 		while (iterator.hasNext()) {
@@ -42,7 +42,7 @@ public class PayDayHelpCommand extends CraftconomyCommand {
 
 	@Override
 	public String help() {
-		return "/payday - shows payday command help";
+		return Common.getInstance().getLanguageManager().getString("payday_help_cmd_help");
 	}
 
 	@Override
