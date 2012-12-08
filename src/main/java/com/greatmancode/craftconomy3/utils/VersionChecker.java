@@ -36,6 +36,10 @@ public class VersionChecker {
 	private String newVersion = "";
 
 	public VersionChecker(String currentVersion) {
+		if (Common.getInstance().getServerCaller().getPluginVersion().contains("SNAPSHOT")) {
+			Common.getInstance().sendConsoleMessage(Level.WARNING, "You are running a dev-build! Be sure that you check on the website if there's a new version!");
+			return;
+		}
 		String pluginUrlString = "http://dev.bukkit.org/server-mods/craftconomy/files.rss";
 		try {
 			URL url = new URL(pluginUrlString);
