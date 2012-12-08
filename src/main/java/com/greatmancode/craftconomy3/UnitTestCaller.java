@@ -152,4 +152,9 @@ public class UnitTestCaller implements Caller {
 
 	}
 
+	@Override
+	public boolean isOnlineMode() {
+		return true;
+	}
+
 }

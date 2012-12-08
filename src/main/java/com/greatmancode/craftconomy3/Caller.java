@@ -206,4 +206,10 @@ public interface Caller {
 	 * @param permissionNode The permission node to register.
 	 */
 	void registerPermission(String permissionNode);
+	
+	/**
+	 * Gives if the server is in online mode or not.
+	 * @return True if the server is in online mode. Else false.
+	 */
+	boolean isOnlineMode();
 }

@@ -188,4 +188,9 @@ public class SpoutCaller implements Caller {
 	public void registerPermission(String permissionNode) {
 		//TODO: Not needed on spout?
 	}
+
+	@Override
+	public boolean isOnlineMode() {
+		return true;
+	}
 }

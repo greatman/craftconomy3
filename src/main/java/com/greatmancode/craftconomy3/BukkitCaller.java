@@ -218,4 +218,9 @@ public class BukkitCaller implements Caller {
 		}
 	}
 
+	@Override
+	public boolean isOnlineMode() {
+		return Bukkit.getServer().getOnlineMode();
+	}
+
 }
