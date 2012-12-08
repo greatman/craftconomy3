@@ -30,9 +30,9 @@ public class PayDayModifyCommand extends CraftconomyCommand {
 			if (args[1].equalsIgnoreCase("name")) {
 				if (Common.getInstance().getPaydayManager().getPayDay(args[2]) == null) {
 					Common.getInstance().getPaydayManager().getPayDay(args[0]).setName(args[2]);
-					Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Name changed!");
+					Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("name_changed"));
 				} else {
-					Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}There's already a payday with this name!");
+					Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("payday_with_name_already_exist"));
 				}
 			} else if (args[1].equalsIgnoreCase("status")) {
 				if (args[2].equalsIgnoreCase("wage") || args[2].equalsIgnoreCase("tax")) {
@@ -41,64 +41,64 @@ public class PayDayModifyCommand extends CraftconomyCommand {
 					} else {
 						Common.getInstance().getPaydayManager().getPayDay(args[0]).setStatus(1);
 					}
-					Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Status changed!");
+					Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("status_changed"));
 				} else {
-					Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Invalid status! Valid values are: wage/tax");
+					Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("invalid_status"));
 				}
 			} else if (args[1].equalsIgnoreCase("disabled")) {
 				if (args[2].equalsIgnoreCase("true") || args[2].equalsIgnoreCase("false")) {
 					Common.getInstance().getPaydayManager().getPayDay(args[0]).setDisabled(Boolean.parseBoolean(args[2]));
-					Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Disabled changed!");
+					Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("disabled_changed"));
 				} else {
-					Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Invalid disabled mode! Valid values are: true/false");
+					Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("invalid_disabled"));
 				}
 			} else if (args[1].equalsIgnoreCase("interval")) {
 				if (Tools.isInteger(args[2])) {
 					Common.getInstance().getPaydayManager().getPayDay(args[0]).setInterval(Integer.parseInt(args[2]));
-					Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Interval changed!");
+					Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("interval_changed"));
 				} else {
-					Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Invalid interval! I need a number of seconds!");
+					Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("invalid_interval"));
 				}
 			} else if (args[1].equalsIgnoreCase("amount")) {
 				if (Tools.isValidDouble(args[2])) {
 					Common.getInstance().getPaydayManager().getPayDay(args[0]).setValue(Double.parseDouble(args[2]));
-					Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Amount changed!");
+					Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("amount_changed"));
 				} else {
-					Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Invalid amount!");
+					Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("invalid_amount"));
 				}
 				
 			} else if (args[1].equalsIgnoreCase("account")) {
 				if (Common.getInstance().getAccountManager().exist(args[2])) {
 					Common.getInstance().getPaydayManager().getPayDay(args[0]).setAccount(args[2]);
-					Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Account changed!");
+					Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("account_changed"));
 				} else {
-					Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}This account doesn't exist!");
+					Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("account_not_exist"));
 				}
 			} else if (args[1].equalsIgnoreCase("currency")) {
 				if (Common.getInstance().getCurrencyManager().getCurrency(args[2]) != null) {
 					Common.getInstance().getPaydayManager().getPayDay(args[0]).setCurrencyId(Common.getInstance().getCurrencyManager().getCurrency(args[2]).getDatabaseID());
-					Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Currency changed!");
+					Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("currency_changed"));
 				} else {
-					Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Currency doesn't exist!");
+					Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("currency_not_exist"));
 				}
 			} else if (args[1].equalsIgnoreCase("world")) {
 				if (Common.getInstance().getServerCaller().worldExist(args[2])) {
 					Common.getInstance().getPaydayManager().getPayDay(args[0]).setWorldName(args[2]);
-					Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}World changed!");
+					Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("world_changed"));
 				} else {
-					Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}World doesn't exist!");
+					Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("world_not_exist"));
 				}
 			} else {
-				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Invalid Edit mode.");
+				Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("invalid_edit_mode"));
 			}
 		} else {
-			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}This payday doesn't exist!");
+			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("payday_not_found"));
 		}
 	}
 
 	@Override
 	public String help() {
-		return "/payday modify <Name> <Name/status/disabled/interval/amount/account/currency/World> <Value> - Modify a payday setting.";
+		return Common.getInstance().getLanguageManager().getString("payday_modify_cmd_help");
 	}
 
 	@Override
