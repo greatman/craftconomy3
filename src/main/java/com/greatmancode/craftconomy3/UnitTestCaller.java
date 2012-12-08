@@ -27,7 +27,7 @@ import com.greatmancode.craftconomy3.commands.interfaces.CommandManager;
 /**
  * Special caller for unit tests.
  * 
- * @author William
+ * @author Greatman
  * 
  */
 public class UnitTestCaller implements Caller {

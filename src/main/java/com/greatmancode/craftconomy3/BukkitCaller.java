@@ -142,7 +142,7 @@ public class BukkitCaller implements Caller {
 		if (!async) {
 			return loader.getServer().getScheduler().scheduleSyncRepeatingTask(loader, entry, firstStart * TICK_LENGTH, repeating * TICK_LENGTH);
 		} else {
-			return loader.getServer().getScheduler().scheduleAsyncRepeatingTask(loader, entry, firstStart * TICK_LENGTH, repeating * TICK_LENGTH);
+			return loader.getServer().getScheduler().runTaskTimerAsynchronously(loader, entry, firstStart * TICK_LENGTH, repeating * TICK_LENGTH).getTaskId();
 		}
 	}
 
@@ -171,7 +171,7 @@ public class BukkitCaller implements Caller {
 		if (!async) {
 			return loader.getServer().getScheduler().scheduleSyncDelayedTask(loader, entry, start * TICK_LENGTH);
 		} else {
-			return loader.getServer().getScheduler().scheduleAsyncDelayedTask(loader, entry, start * TICK_LENGTH);
+			return loader.getServer().getScheduler().runTaskLaterAsynchronously(loader, entry, start * TICK_LENGTH).getTaskId();
 		}
 	}
 
