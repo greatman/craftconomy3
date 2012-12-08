@@ -120,6 +120,19 @@ public class ConfigurationManager {
 				Common.getInstance().getLogger().info("Updated to Revision 2!");
 			}
 		}
+		if (dbVersion.getValue().equalsIgnoreCase("2")) {
+			alertOldDbVersion(dbVersion.getValue(), 3);
+			Common.getInstance().getLogger().info("Checking if the display format is valid.");
+			ConfigTable display = Common.getInstance().getDatabaseManager().getDatabase().select(ConfigTable.class).where().equal(ConfigTable.NAME_FIELD, "longmode").execute().findOne();
+			if (!display.getValue().equalsIgnoreCase("long") && !display.getValue().equalsIgnoreCase("small") && !display.getValue().equalsIgnoreCase("sign") && !display.getValue().equalsIgnoreCase("majoronly")) {
+				Common.getInstance().getLogger().info("Display format is invalid. Saving a valid one.");
+				display.setValue("long");
+				Common.getInstance().getDatabaseManager().getDatabase().save(display);
+				dbVersion.setValue(3 + "");
+				Common.getInstance().getDatabaseManager().getDatabase().save(dbVersion);
+			}
+			Common.getInstance().getLogger().info("Updated to Revision 3!");
+		}
 	}
 
 	private void alertOldDbVersion(String currentVersion, int newVersion) {
