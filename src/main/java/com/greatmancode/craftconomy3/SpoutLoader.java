@@ -36,8 +36,10 @@ public class SpoutLoader extends CommonPlugin implements Loader {
 	@Override
 	public void onEnable() {
 		new Common(this, getLogger()).initialize();
-		getEngine().getServiceManager().register(EconomyService.class, new EconomyServiceHandler(), this, ServicePriority.High);
-		this.getEngine().getEventManager().registerEvents(new SpoutListener(), this);
+		if (Common.isInitialized()) {
+			getEngine().getServiceManager().register(EconomyService.class, new EconomyServiceHandler(), this, ServicePriority.High);
+			this.getEngine().getEventManager().registerEvents(new SpoutListener(), this);
+		}
 	}
 
 	@Override

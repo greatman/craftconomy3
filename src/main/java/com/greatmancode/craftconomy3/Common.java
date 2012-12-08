@@ -67,7 +67,7 @@ public class Common {
 	private VersionChecker versionChecker = null;
 	private boolean databaseInitialized = false;
 	private boolean currencyInitialized;
-	private boolean initialized = false;
+	private static boolean initialized = false;
 	private Metrics metrics = null;
 
 	/**
@@ -434,5 +434,9 @@ public class Common {
 	
 	public LanguageManager getLanguageManager() {
 		return languageManager;
+	}
+	
+	public static boolean isInitialized() {
+		return initialized;
 	}
 }
