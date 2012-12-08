@@ -46,7 +46,7 @@ public class CurrencyDefaultCommand extends CraftconomyCommand {
 
 	@Override
 	public int minArgs() {
-		return 0;
+		return 1;
 	}
 
 	@Override
