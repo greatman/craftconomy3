@@ -68,7 +68,7 @@ public class Metrics {
     /**
      * The current revision number
      */
-    private final static int REVISION = 6;
+    private static final int REVISION = 6;
 
     /**
      * The base url of the metrics domain
@@ -96,8 +96,7 @@ public class Metrics {
      */
     private final Set<Graph> graphs = Collections.synchronizedSet(new HashSet<Graph>());
 
-    private static final String OPT_OUT = "opt-out";
-	private static final String GUID = "guid";
+
     /**
      * The default graph, used for addCustomData when you don't want a specific graph
      */
@@ -116,7 +115,7 @@ public class Metrics {
     /**
      * Debug mode
      */
-    private final boolean debug = false;
+    private static final boolean debug = false;
 
     /**
      * Lock for synchronization
@@ -141,15 +140,15 @@ public class Metrics {
         	// load the config
      		configuration = Common.getInstance().getConfigurationManager().loadFile(new File(Common.getInstance().getServerCaller().getDataFolder().getParentFile(), "PluginMetrics"), "config.yml");
 
-     		if (!configuration.has(OPT_OUT)) {
-     			configuration.setValue(OPT_OUT, false);
+     		if (!configuration.has("opt-out")) {
+     			configuration.setValue("opt-out", false);
      		}
-     		if (!configuration.has(GUID)) {
-     			configuration.setValue(GUID, UUID.randomUUID().toString());
+     		if (!configuration.has("guid")) {
+     			configuration.setValue("guid", UUID.randomUUID().toString());
      		}
 
      		// Load the guid then
-     		guid = configuration.getString(GUID);
+     		guid = configuration.getString("guid");
     }
 
     /**
@@ -320,7 +319,6 @@ public class Metrics {
      */
     private void postPlugin(final boolean isPing) throws IOException {
         // Server software specific section
-        String pluginName = this.pluginName;
         boolean onlineMode = Common.getInstance().getServerCaller().isOnlineMode(); // TRUE if online mode is enabled
         String pluginVersion = this.version;
         String serverVersion = Common.getInstance().getServerCaller().getServerVersion();
@@ -342,7 +340,7 @@ public class Metrics {
         String osname = System.getProperty("os.name");
         String osarch = System.getProperty("os.arch");
         String osversion = System.getProperty("os.version");
-        String java_version = System.getProperty("java.version");
+        String javaVersion = System.getProperty("java.version");
         int coreCount = Runtime.getRuntime().availableProcessors();
 
         // normalize os arch .. amd64 -> x86_64
@@ -355,7 +353,7 @@ public class Metrics {
         encodeDataPair(data, "osversion", osversion);
         encodeDataPair(data, "cores", Integer.toString(coreCount));
         encodeDataPair(data, "online-mode", Boolean.toString(onlineMode));
-        encodeDataPair(data, "java_version", java_version);
+        encodeDataPair(data, "java_version", javaVersion);
 
         // If we're pinging, append it
         if (isPing) {
@@ -479,7 +477,7 @@ public class Metrics {
     /**
      * Represents a custom graph on the website
      */
-    public static class Graph {
+    public static final class Graph {
 
         /**
          * The graph's name, alphanumeric and spaces only :)
@@ -558,7 +556,7 @@ public class Metrics {
     /**
      * Interface used to collect custom data for a plugin
      */
-    public static abstract class Plotter {
+    public abstract static class Plotter {
 
         /**
          * The plot's name
