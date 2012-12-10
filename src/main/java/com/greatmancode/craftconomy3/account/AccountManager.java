@@ -44,7 +44,10 @@ public class AccountManager {
 	 * @return A economy account
 	 */
 	public Account getAccount(String name) {
-		String newName = name.toLowerCase();
+		String newName = name;
+		if (!Common.getInstance().getConfigurationManager().getConfig().getBoolean("System.Case-sentitive")) {
+			newName = name.toLowerCase();
+		}
 		Account account = null;
 		if (accountList.containsKey(newName)) {
 			account = accountList.get(newName);
@@ -62,11 +65,15 @@ public class AccountManager {
 	 * @param name The name to check
 	 */
 	public boolean exist(String name) {
+		String newName = name;
+		if (!Common.getInstance().getConfigurationManager().getConfig().getBoolean("System.Case-sentitive")) {
+			newName = name.toLowerCase();
+		}
 		boolean result = false;
-		if (accountList.containsKey(name)) {
+		if (accountList.containsKey(newName)) {
 			result = true;
 		} else {
-			result = Common.getInstance().getDatabaseManager().getDatabase().select(AccountTable.class).where().equal("name", name.toLowerCase()).execute().findOne() != null;
+			result = Common.getInstance().getDatabaseManager().getDatabase().select(AccountTable.class).where().equal("name", newName).execute().findOne() != null;
 		}
 		return result;
 	}
