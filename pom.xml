@@ -31,7 +31,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<spoutVersion>dev-SNAPSHOT</spoutVersion>
-		<bukkitVersion>1.4.5-R0.3-SNAPSHOT</bukkitVersion>
+		<bukkitVersion>1.4.5-R1.0</bukkitVersion>
 	</properties>
 
 	<repositories>
