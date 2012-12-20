@@ -24,6 +24,7 @@ import java.util.List;
 
 import com.greatmancode.craftconomy3.BukkitCaller;
 import com.greatmancode.craftconomy3.Common;
+import com.greatmancode.craftconomy3.DisplayFormat;
 import com.greatmancode.craftconomy3.SpoutCaller;
 import com.greatmancode.craftconomy3.UnitTestCaller;
 import com.greatmancode.craftconomy3.currency.CurrencyManager;
@@ -179,12 +180,12 @@ public class ConfigurationManager {
 	}
 
 	/**
-	 * Check if we should use the long format mode or the small one.
+	 * Get the display format for balance.
 	 * 
 	 * @return True or false.
 	 */
-	public String getDisplayFormat() {
-		return displayFormat;
+	public DisplayFormat getDisplayFormat() {
+		return DisplayFormat.valueOf(displayFormat);
 	}
 
 	/**

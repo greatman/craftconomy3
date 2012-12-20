@@ -18,9 +18,13 @@
  */
 package com.greatmancode.craftconomy3.spout;
 
+import java.util.List;
+
 import org.spout.api.plugin.services.EconomyService;
 
 import com.greatmancode.craftconomy3.Common;
+import com.greatmancode.craftconomy3.DisplayFormat;
+import com.greatmancode.craftconomy3.currency.Currency;
 import com.greatmancode.craftconomy3.currency.CurrencyManager;
 
 public class EconomyServiceHandler extends EconomyService {
@@ -32,28 +36,22 @@ public class EconomyServiceHandler extends EconomyService {
 
 	@Override
 	public double get(String name) {
-		return Common.getInstance().getAccountManager().getAccount(name).getBalance(Common.getInstance().getAccountManager().getAccount(name).getWorldPlayerCurrentlyIn(), Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.defaultCurrencyID).getName());
+		return get(name, Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.defaultCurrencyID).getName());
 	}
 
 	@Override
 	public boolean withdraw(String name, double amount) {
-		boolean result = false;
-		if (Common.getInstance().getAccountManager().getAccount(name).hasEnough(amount, Common.getInstance().getAccountManager().getAccount(name).getWorldPlayerCurrentlyIn(), Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.defaultCurrencyID).getName())) {
-			Common.getInstance().getAccountManager().getAccount(name).withdraw(amount, Common.getInstance().getAccountManager().getAccount(name).getWorldPlayerCurrentlyIn(), Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.defaultCurrencyID).getName());
-		}
-
-		return result;
+		return withdraw(name, amount, Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.defaultCurrencyID).getName());
 	}
 
 	@Override
 	public boolean deposit(String name, double amount) {
-		Common.getInstance().getAccountManager().getAccount(name).deposit(amount, Common.getInstance().getAccountManager().getAccount(name).getWorldPlayerCurrentlyIn(), Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.defaultCurrencyID).getName());
-		return true;
+		return deposit(name, amount, Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.defaultCurrencyID).getName());
 	}
 
 	@Override
 	public boolean exists(String name) {
-		// If the account doesn't exist, it's created automaticly anyway.
+		// If the account doesn't exist, it's created automatically anyway.
 		return true;
 	}
 
@@ -74,7 +72,7 @@ public class EconomyServiceHandler extends EconomyService {
 
 	@Override
 	public String getCurrencySymbol() {
-		return null;
+		return Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.defaultCurrencyID).getSign();
 	}
 
 	@Override
@@ -85,6 +83,93 @@ public class EconomyServiceHandler extends EconomyService {
 	@Override
 	public String formatShort(double amount) {
 		return format(amount);
+	}
+
+	@Override
+	public boolean hasMulticurrencySupport() {
+		return true;
+	}
+
+	@Override
+	public List<String> getCurrencyNames() {
+		return Common.getInstance().getCurrencyManager().getCurrencyNames();
+	}
+
+	@Override
+	public String getCurrencyNamePlural(String name) {
+		String plural = null;
+		Currency currency = Common.getInstance().getCurrencyManager().getCurrency(name);
+		if (currency != null) {
+			plural = currency.getPlural();
+		}
+		return plural;
+	}
+
+	@Override
+	public String getCurrencySymbol(String name) {
+		String sign = null;
+		Currency currency = Common.getInstance().getCurrencyManager().getCurrency(name);
+		if (currency != null) {
+			sign = currency.getSign();
+		}
+		return sign;
+	}
+
+	@Override
+	public String format(String name, double amount) {
+		return Common.getInstance().format(null, Common.getInstance().getCurrencyManager().getCurrency(name), amount);
+	}
+
+	@Override
+	public String formatShort(String name, double amount) {
+		return Common.getInstance().format(null, Common.getInstance().getCurrencyManager().getCurrency(name), amount, DisplayFormat.SIGN);
+	}
+
+	@Override
+	public boolean withdraw(String name, double amount, String currency) {
+		boolean result = false;
+		Currency currencyEntry = Common.getInstance().getCurrencyManager().getCurrency(currency);
+		if (currency != null) {
+			if (Common.getInstance().getAccountManager().getAccount(name).hasEnough(amount, Common.getInstance().getAccountManager().getAccount(name).getWorldPlayerCurrentlyIn(), currencyEntry.getName())) {
+				Common.getInstance().getAccountManager().getAccount(name).withdraw(amount, Common.getInstance().getAccountManager().getAccount(name).getWorldPlayerCurrentlyIn(), currencyEntry.getName());
+				result = true;
+			}
+		}
+
+		return result;
+	}
+
+	@Override
+	public boolean deposit(String name, double amount, String currency) {
+		boolean result = false;
+		Currency currencyEntry = Common.getInstance().getCurrencyManager().getCurrency(currency);
+		if (currency != null) {
+			Common.getInstance().getAccountManager().getAccount(name).deposit(amount, Common.getInstance().getAccountManager().getAccount(name).getWorldPlayerCurrentlyIn(), currencyEntry.getName());
+			result = true;
+		}
+		return result;
+	}
+
+	@Override
+	public boolean has(String name, double amount, String currency) {
+		boolean result = false;
+		Currency currencyEntry = Common.getInstance().getCurrencyManager().getCurrency(currency);
+		if (currency != null) {
+			if (Common.getInstance().getAccountManager().getAccount(name).hasEnough(amount, Common.getInstance().getAccountManager().getAccount(name).getWorldPlayerCurrentlyIn(), currencyEntry.getName())) {
+				result = true;
+			}
+		}
+		return result;
+	}
+
+	@Override
+	public double get(String name, String currency) {
+		double result = 0.0;
+		Currency currencyEntry = Common.getInstance().getCurrencyManager().getCurrency(currency);
+		if (currency != null) {
+			result = Common.getInstance().getAccountManager().getAccount(name).getBalance(Common.getInstance().getAccountManager().getAccount(name).getWorldPlayerCurrentlyIn(), currencyEntry.getName());
+		}
+		return result;
 	}
 
 }

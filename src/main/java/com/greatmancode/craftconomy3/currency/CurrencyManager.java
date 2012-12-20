@@ -18,6 +18,7 @@
  */
 package com.greatmancode.craftconomy3.currency;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -84,6 +85,19 @@ public class CurrencyManager {
 	}
 
 	/**
+	 * Get the list of currency in the system
+	 * 
+	 * @return A list of all the currency in the system
+	 */
+	public List<String> getCurrencyNames() {
+		List<String> list = new ArrayList<String>();
+		for (CurrencyTable currency : Common.getInstance().getDatabaseManager().getDatabase().select(CurrencyTable.class).execute().find()) {
+			list.add(currency.getName());
+		}
+		return list;
+	}
+
+	/**
 	 * Add a currency in the system
 	 * 
 	 * @param name The main currency name
@@ -125,6 +139,7 @@ public class CurrencyManager {
 
 	/**
 	 * Set a currency as the default one.
+	 * 
 	 * @param currencyId The default currency ID.
 	 */
 	public void setDefault(int currencyId) {
@@ -141,6 +156,7 @@ public class CurrencyManager {
 
 	/**
 	 * Delete a currency.
+	 * 
 	 * @param currencyId The currency ID to delete.
 	 */
 	public void deleteCurrency(int currencyId) {

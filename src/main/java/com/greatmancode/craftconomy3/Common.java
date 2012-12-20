@@ -61,7 +61,7 @@ public class Common {
 	private PayDayManager paydayManager = null;
 	private EventManager eventManager = null;
 	private LanguageManager languageManager = null;
-	
+
 	private CommandLoader commandManager;
 	private Caller serverCaller;
 	private VersionChecker versionChecker = null;
@@ -132,7 +132,7 @@ public class Common {
 					initializeCurrency();
 					sendConsoleMessage(Level.INFO, getLanguageManager().getString("default_settings_loaded"));
 				}
-				if(SetupWizard.getState().equals(SetupWizard.CONVERT_SETUP)) {
+				if (SetupWizard.getState().equals(SetupWizard.CONVERT_SETUP)) {
 					getConfigurationManager().loadDefaultSettings();
 					startUp();
 				}
@@ -156,8 +156,6 @@ public class Common {
 		}
 
 	}
-
-	
 
 	/**
 	 * Disable the plugin.
@@ -270,51 +268,63 @@ public class Common {
 	 * @param worldName The world Name associated with this balance
 	 * @param currency The currency instance associated with this balance.
 	 * @param balance The balance.
-	 * @return A pretty String showing the balance.
+	 * @param DisplayFormat the display format to use
+	 * @return A pretty String showing the balance. Returns a empty string if currency is invalid.
 	 */
-	public String format(String worldName, Currency currency, double balance) {
+	public String format(String worldName, Currency currency, double balance, DisplayFormat format) {
 		StringBuilder string = new StringBuilder();
 
 		if (worldName != null && getConfigurationManager().isMultiWorld()) {
 			// We put the world name if the conf is true
 			string.append(worldName + ":").append(" ");
 		}
+		if (currency != null) {
+			// We removes some cents if it's something like 20.20381 it would set it
+			// to 20.20
 
-		// We removes some cents if it's something like 20.20381 it would set it
-		// to 20.20
-
-		String[] theAmount = BigDecimal.valueOf(balance).toPlainString().split("\\.");
-		String name = currency.getName();
-		if (Long.parseLong(theAmount[0]) > 1) {
-			name = currency.getPlural();
-		}
-		String coin;
-		if (theAmount.length == 2) {
-			if (theAmount[1].length() >= 2) {
-				coin = theAmount[1].substring(0, 2);
+			String[] theAmount = BigDecimal.valueOf(balance).toPlainString().split("\\.");
+			String name = currency.getName();
+			if (Long.parseLong(theAmount[0]) > 1) {
+				name = currency.getPlural();
+			}
+			String coin;
+			if (theAmount.length == 2) {
+				if (theAmount[1].length() >= 2) {
+					coin = theAmount[1].substring(0, 2);
+				} else {
+					coin = theAmount[1] + "0";
+				}
 			} else {
-				coin = theAmount[1] + "0";
+				coin = "0";
 			}
-		} else {
-			coin = "0";
-		}
-
-		// Do we seperate money and dollar or not?
-		String displayFormat = getConfigurationManager().getDisplayFormat();
-		if (displayFormat.equalsIgnoreCase("long")) {
-			String subName = currency.getMinor();
-			if (Long.parseLong(coin) > 1) {
-				subName = currency.getMinorPlural();
+			// Do we seperate money and dollar or not?
+			if (format == DisplayFormat.LONG) {
+				String subName = currency.getMinor();
+				if (Long.parseLong(coin) > 1) {
+					subName = currency.getMinorPlural();
+				}
+				string.append(theAmount[0]).append(" ").append(name).append(" ").append(coin).append(" ").append(subName);
+			} else if (format == DisplayFormat.SMALL) {
+				string.append(theAmount[0]).append(".").append(coin).append(" ").append(name);
+			} else if (format == DisplayFormat.SIGN) {
+				string.append(currency.getSign()).append(theAmount[0]).append(".").append(coin);
+			} else if (format == DisplayFormat.MAJOR_ONLY) {
+				string.append(theAmount[0]).append(" ").append(name);
 			}
-			string.append(theAmount[0]).append(" ").append(name).append(" ").append(coin).append(" ").append(subName);
-		} else if (displayFormat.equalsIgnoreCase("small")) {
-			string.append(theAmount[0]).append(".").append(coin).append(" ").append(name);
-		} else if (displayFormat.equalsIgnoreCase("sign")) {
-			string.append(currency.getSign()).append(theAmount[0]).append(".").append(coin);
-		} else if (displayFormat.equalsIgnoreCase("majoronly")) {
-			string.append(theAmount[0]).append(" ").append(name);
 		}
 		return string.toString();
+	}
+
+	/**
+	 * Format a balance to a readable string with the default formatting.
+	 * 
+	 * @param worldName The world Name associated with this balance
+	 * @param currency The currency instance associated with this balance.
+	 * @param balance The balance.
+	 * @return A pretty String showing the balance. Returns a empty string if currency is invalid.
+	 */
+	public String format(String worldName, Currency currency, double balance) {
+		return format(worldName, currency, balance, getConfigurationManager().getDisplayFormat());
 	}
 
 	/**
@@ -418,6 +428,7 @@ public class Common {
 
 	/**
 	 * Get the version Checker.
+	 * 
 	 * @return The version checker. May return null if the system is disabled in the config.yml
 	 */
 	public VersionChecker getVersionChecker() {
@@ -426,16 +437,17 @@ public class Common {
 
 	/**
 	 * Retrieve the Event manager.
+	 * 
 	 * @return The Event manager.
 	 */
 	public EventManager getEventManager() {
 		return eventManager;
 	}
-	
+
 	public LanguageManager getLanguageManager() {
 		return languageManager;
 	}
-	
+
 	public static boolean isInitialized() {
 		return initialized;
 	}
