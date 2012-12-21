@@ -51,8 +51,7 @@ public class EconomyServiceHandler extends EconomyService {
 
 	@Override
 	public boolean exists(String name) {
-		// If the account doesn't exist, it's created automatically anyway.
-		return true;
+		return Common.getInstance().getAccountManager().exist(name);
 	}
 
 	@Override
@@ -170,6 +169,29 @@ public class EconomyServiceHandler extends EconomyService {
 			result = Common.getInstance().getAccountManager().getAccount(name).getBalance(Common.getInstance().getAccountManager().getAccount(name).getWorldPlayerCurrentlyIn(), currencyEntry.getName());
 		}
 		return result;
+	}
+
+	@Override
+	public boolean create(String name) {
+		Common.getInstance().getAccountManager().getAccount(name);
+		return true;
+	}
+
+	@Override
+	public List<String> getTopAccounts(int start, int end, boolean playersOnly) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<String> getTopAccounts(int start, int end, String currency, boolean playersOnly) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public double getExchangeRate(String currencyFrom, String currencyTo) {
+		return 0;
 	}
 
 }
