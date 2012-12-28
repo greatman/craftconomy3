@@ -185,7 +185,7 @@ public class ConfigurationManager {
 	 * @return True or false.
 	 */
 	public DisplayFormat getDisplayFormat() {
-		return DisplayFormat.valueOf(displayFormat);
+		return DisplayFormat.valueOf(displayFormat.toUpperCase());
 	}
 
 	/**
