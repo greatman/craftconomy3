@@ -87,7 +87,7 @@ public class PayDay implements Runnable {
 		while (listIterator.hasNext()) {
 			String p = listIterator.next();
 			Common.getInstance().getAccountManager().getAccount(p).deposit(getValue() * list.size(), getWorldName(), Common.getInstance().getCurrencyManager().getCurrency(getCurrencyId()).getName());
-			Common.getInstance().getServerCaller().sendMessage(p, "{{DARK_GREEN}}Payday! You received " + Common.getInstance().format(getWorldName(), Common.getInstance().getCurrencyManager().getCurrency(getCurrencyId()), getValue() * list.size()));
+			Common.getInstance().getServerCaller().sendMessage(p, "{{DARK_GREEN}}Payday! You received " + Common.getInstance().format(getWorldName(), Common.getInstance().getCurrencyManager().getCurrency(getCurrencyId()), getValue()));
 		}
 
 	}
