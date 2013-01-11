@@ -36,17 +36,29 @@ public class EconomyServiceHandler extends EconomyService {
 
 	@Override
 	public double get(String name) {
-		return get(name, Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.defaultCurrencyID).getName());
+		try {
+			return get(name, Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.defaultCurrencyID).getName());
+		} catch (UnknownCurrencyException e) {
+			return 0;
+		}
 	}
 
 	@Override
 	public boolean withdraw(String name, double amount) {
-		return withdraw(name, amount, Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.defaultCurrencyID).getName());
+		try {
+			return withdraw(name, amount, Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.defaultCurrencyID).getName());
+		} catch (UnknownCurrencyException e) {
+			return false;
+		}
 	}
 
 	@Override
 	public boolean deposit(String name, double amount) {
-		return deposit(name, amount, Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.defaultCurrencyID).getName());
+		try {
+			return deposit(name, amount, Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.defaultCurrencyID).getName());
+		} catch (UnknownCurrencyException e) {
+			return false;
+		}
 	}
 
 	@Override
@@ -105,12 +117,13 @@ public class EconomyServiceHandler extends EconomyService {
 	}
 
 	@Override
-	public String getCurrencySymbol(String name) {
+	public String getCurrencySymbol(String name) throws UnknownCurrencyException {
 		String sign = null;
 		Currency currency = Common.getInstance().getCurrencyManager().getCurrency(name);
-		if (currency != null) {
-			sign = currency.getSign();
+		if (currency == null) {
+			throw new UnknownCurrencyException();
 		}
+		sign = currency.getSign();
 		return sign;
 	}
 
@@ -125,46 +138,50 @@ public class EconomyServiceHandler extends EconomyService {
 	}
 
 	@Override
-	public boolean withdraw(String name, double amount, String currency) {
+	public boolean withdraw(String name, double amount, String currency) throws UnknownCurrencyException {
 		boolean result = false;
 		Currency currencyEntry = Common.getInstance().getCurrencyManager().getCurrency(currency);
-		if (currency != null) {
-			if (Common.getInstance().getAccountManager().getAccount(name).hasEnough(amount, Common.getInstance().getAccountManager().getAccount(name).getWorldPlayerCurrentlyIn(), currencyEntry.getName())) {
-				Common.getInstance().getAccountManager().getAccount(name).withdraw(amount, Common.getInstance().getAccountManager().getAccount(name).getWorldPlayerCurrentlyIn(), currencyEntry.getName());
-				result = true;
-			}
+		if (currencyEntry == null) {
+			throw new UnknownCurrencyException();
+		}
+		if (Common.getInstance().getAccountManager().getAccount(name).hasEnough(amount, Common.getInstance().getAccountManager().getAccount(name).getWorldPlayerCurrentlyIn(), currencyEntry.getName())) {
+			Common.getInstance().getAccountManager().getAccount(name).withdraw(amount, Common.getInstance().getAccountManager().getAccount(name).getWorldPlayerCurrentlyIn(), currencyEntry.getName());
+			result = true;
 		}
 
 		return result;
 	}
 
 	@Override
-	public boolean deposit(String name, double amount, String currency) {
+	public boolean deposit(String name, double amount, String currency) throws UnknownCurrencyException{
+		Currency currencyEntry = Common.getInstance().getCurrencyManager().getCurrency(currency);
+		if (currencyEntry == null) {
+			throw new UnknownCurrencyException();
+		}
+		Common.getInstance().getAccountManager().getAccount(name).deposit(amount, Common.getInstance().getAccountManager().getAccount(name).getWorldPlayerCurrentlyIn(), currencyEntry.getName());
+		return true;
+	}
+
+	@Override
+	public boolean has(String name, double amount, String currency) throws UnknownCurrencyException {
 		boolean result = false;
 		Currency currencyEntry = Common.getInstance().getCurrencyManager().getCurrency(currency);
-		if (currency != null) {
-			Common.getInstance().getAccountManager().getAccount(name).deposit(amount, Common.getInstance().getAccountManager().getAccount(name).getWorldPlayerCurrentlyIn(), currencyEntry.getName());
+		if (currencyEntry == null) {
+			throw new UnknownCurrencyException();
+		}
+		if (Common.getInstance().getAccountManager().getAccount(name).hasEnough(amount, Common.getInstance().getAccountManager().getAccount(name).getWorldPlayerCurrentlyIn(), currencyEntry.getName())) {
 			result = true;
 		}
 		return result;
 	}
 
 	@Override
-	public boolean has(String name, double amount, String currency) {
-		boolean result = false;
-		Currency currencyEntry = Common.getInstance().getCurrencyManager().getCurrency(currency);
-		if (currency != null) {
-			if (Common.getInstance().getAccountManager().getAccount(name).hasEnough(amount, Common.getInstance().getAccountManager().getAccount(name).getWorldPlayerCurrentlyIn(), currencyEntry.getName())) {
-				result = true;
-			}
-		}
-		return result;
-	}
-
-	@Override
-	public double get(String name, String currency) {
+	public double get(String name, String currency) throws UnknownCurrencyException {
 		double result = 0.0;
 		Currency currencyEntry = Common.getInstance().getCurrencyManager().getCurrency(currency);
+		if (currencyEntry == null) {
+			throw new UnknownCurrencyException();
+		}
 		if (currency != null) {
 			result = Common.getInstance().getAccountManager().getAccount(name).getBalance(Common.getInstance().getAccountManager().getAccount(name).getWorldPlayerCurrentlyIn(), currencyEntry.getName());
 		}
@@ -184,14 +201,36 @@ public class EconomyServiceHandler extends EconomyService {
 	}
 
 	@Override
-	public List<String> getTopAccounts(int start, int end, String currency, boolean playersOnly) {
+	public List<String> getTopAccounts(int start, int end, String currency, boolean playersOnly) throws UnknownCurrencyException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public double getExchangeRate(String currencyFrom, String currencyTo) {
-		return 0;
+		return 1;
+	}
+
+	@Override
+	public boolean canWithdraw(String name, double amount) {
+		return has(name,amount);
+	}
+
+	@Override
+	public boolean canWithdraw(String name, double amount, String currency) throws UnknownCurrencyException {
+		return has(name,amount,currency);
+	}
+
+	@Override
+	public boolean canHold(String name, double amount) {
+		// Can't fail atm. There's no limit.
+		return true;
+	}
+
+	@Override
+	public boolean canHold(String name, double amount, String currency) throws UnknownCurrencyException {
+		// TODO Auto-generated method stub
+		return true;
 	}
 
 }
