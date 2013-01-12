@@ -149,18 +149,22 @@ public class Iconomy6 extends Converter {
 		try {
 			int i = 0;
 			while ((str = flatFileReader.readLine()) != null) {
-				if (i % ALERT_EACH_X_ACCOUNT == 0) {
-					Common.getInstance().getServerCaller().sendMessage(sender, i + " {{DARK_GREEN}}accounts imported.");
-				}
-				String[] info = str.split(" ");
-				if (info.length >= 2) {
-					String[] balance = info[1].split(":");
-					try {
-						Common.getInstance().getAccountManager().getAccount(info[0]).set(Double.parseDouble(balance[1]), Common.getInstance().getServerCaller().getDefaultWorld(), Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.defaultCurrencyID).getName());
-					} catch (NumberFormatException e) {
-						Common.getInstance().sendConsoleMessage(Level.SEVERE, "User " + info[0] + " have a invalid balance" + balance[1]);
+				try {
+					if (i % ALERT_EACH_X_ACCOUNT == 0) {
+						Common.getInstance().getServerCaller().sendMessage(sender, i + " {{DARK_GREEN}}accounts imported.");
 					}
+					String[] info = str.split(" ");
+					if (info.length >= 2) {
+						String[] balance = info[1].split(":");
+						try {
+							Common.getInstance().getAccountManager().getAccount(info[0]).set(Double.parseDouble(balance[1]), Common.getInstance().getServerCaller().getDefaultWorld(), Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.defaultCurrencyID).getName());
+						} catch (NumberFormatException e) {
+							Common.getInstance().sendConsoleMessage(Level.SEVERE, "User " + info[0] + " have a invalid balance" + balance[1]);
+						}
 
+					}
+				} catch (ArrayIndexOutOfBoundsException e) {
+					Common.getInstance().sendConsoleMessage(Level.WARNING, "Line not formatted correctly. I read:" + str);
 				}
 				i++;
 			}
