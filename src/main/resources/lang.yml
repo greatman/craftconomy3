@@ -140,3 +140,4 @@ invalid_interval: "{{DARK_RED}}Invalid interval! I need a amount of seconds! (Ex
 invalid_disabled: "{{DARK_RED}}Invalid disabled mode! Valid values are: true/false"
 invalid_status: "{{DARK_RED}}Invalid status! Valid values are: wage/tax"
 payday_with_name_already_exist: "{{DARK_RED}}There's already a payday with this name!"
+money_exchange_cmd_help: /money exchange <Amount> <Current Currency> <New Currency> -Exchange a currency"

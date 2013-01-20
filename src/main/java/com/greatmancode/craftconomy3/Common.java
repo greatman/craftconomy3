@@ -85,6 +85,8 @@ public class Common {
 			serverCaller = new SpoutCaller(loader);
 		} else if (loader.getServerType().equals(ServerType.UNIT_TEST)) {
 			serverCaller = new UnitTestCaller();
+		} else if (loader.getServerType().equals(ServerType.FORGE)) {
+			serverCaller = new ForgeCaller(loader);
 		}
 	}
 

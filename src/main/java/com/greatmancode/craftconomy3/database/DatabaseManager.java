@@ -35,6 +35,7 @@ import com.greatmancode.craftconomy3.database.tables.AccountTable;
 import com.greatmancode.craftconomy3.database.tables.BalanceTable;
 import com.greatmancode.craftconomy3.database.tables.ConfigTable;
 import com.greatmancode.craftconomy3.database.tables.CurrencyTable;
+import com.greatmancode.craftconomy3.database.tables.ExchangeTable;
 import com.greatmancode.craftconomy3.database.tables.PayDayTable;
 
 /**
@@ -63,6 +64,7 @@ public class DatabaseManager {
 		db.registerTable(CurrencyTable.class);
 		db.registerTable(ConfigTable.class);
 		db.registerTable(PayDayTable.class);
+		db.registerTable(ExchangeTable.class);
 		db.connect();
 	}
 

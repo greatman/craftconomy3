@@ -20,6 +20,7 @@ package com.greatmancode.craftconomy3.currency;
 
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.database.tables.CurrencyTable;
+import com.greatmancode.craftconomy3.database.tables.ExchangeTable;
 
 /**
  * Represents a currency
@@ -162,6 +163,21 @@ public class Currency {
 		return entry.getSign();
 	}
 
+	/**
+	 * Returns the exchange rate between 2 currency.
+	 * @param otherCurrency The other currency to exchange to
+	 * @return The exchange rate or Double.MIN_VALUE if no exchange information are found.
+	 */
+	/*public double getExchangeRate(Currency otherCurrency) {
+		ExchangeTable exchangeTable = Common.getInstance().getDatabaseManager().getDatabase().select(ExchangeTable.class).where().equal("from_currency_id", this.getDatabaseID()).and().equal("to_currency_id", otherCurrency.getDatabaseID()).execute().findOne();
+		if (exchangeTable == null) {
+			exchangeTable = Common.getInstance().getDatabaseManager().getDatabase().select(ExchangeTable.class).where().equal("to_currency_id", this.getDatabaseID()).and().equal("from_currency_id", otherCurrency.getDatabaseID()).execute().findOne();
+			if (exchangeTable == null) {
+				return Double.MIN_VALUE;
+			}
+		}
+		return exchangeTable.amount;
+	}*/
 	/**
 	 * Save the currency information.
 	 */
