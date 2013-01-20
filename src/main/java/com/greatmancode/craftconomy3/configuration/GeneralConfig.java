@@ -23,12 +23,12 @@ import java.io.IOException;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.configuration.configurationFile.file.YamlConfiguration;
 
-public class ForgeConfig extends Config {
+public class GeneralConfig extends Config {
 
 	private YamlConfiguration configFile;
 	private File file;
 
-	public ForgeConfig(File folder, String fileName) {
+	public GeneralConfig(File folder, String fileName) {
 		file = new File(folder, fileName);
 
 		if (!file.exists()) {

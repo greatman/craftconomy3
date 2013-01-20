@@ -25,7 +25,6 @@ import java.util.List;
 import com.greatmancode.craftconomy3.BukkitCaller;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.DisplayFormat;
-import com.greatmancode.craftconomy3.ForgeCaller;
 import com.greatmancode.craftconomy3.SpoutCaller;
 import com.greatmancode.craftconomy3.UnitTestCaller;
 import com.greatmancode.craftconomy3.currency.CurrencyManager;
@@ -56,8 +55,6 @@ public class ConfigurationManager {
 			file = new BukkitConfig(folder, fileName);
 		} else if (Common.getInstance().getServerCaller() instanceof SpoutCaller) {
 			file = new SpoutConfig(folder, fileName);
-		} else if (Common.getInstance().getServerCaller() instanceof ForgeCaller) {
-			file = new ForgeConfig(folder, fileName);
 		}
 		return file;
 	}
