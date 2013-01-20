@@ -36,7 +36,7 @@ public class SetupConvertCommand extends CraftconomyCommand {
 	private String importlist = "";
 	private int status = 0;
 	@Override
-	public void execute(String sender, String[] args) {
+	public void execute(final String sender, String[] args) {
 		if (SetupWizard.getState() == SetupWizard.CONVERT_SETUP) {
 			if (args.length == 0 && status == 0) {
 				
@@ -105,13 +105,22 @@ public class SetupConvertCommand extends CraftconomyCommand {
 							if (selectedConverter.connect()) {
 								Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}All values are ok! Let's start this conversion!");
 								//TODO: Should probably Thread that...
-								if (selectedConverter.importData(sender)) {
-									Common.getInstance().getConfigurationManager().getConfig().setValue("System.Setup", false);
-									Common.getInstance().getConfigurationManager().loadDefaultSettings();
-									Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Conversion complete! Enjoy Craftconomy!");
-								} else {
-									Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Better report that to the dev. Your totally not supposed to be here.");
-								}
+								Common.getInstance().getServerCaller().schedule(new Runnable() {
+
+									@Override
+									public void run() {
+										// TODO Auto-generated method stub
+										Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}NOTICE: {{WHITE}}The conversion is made in another thread so it doesn't hang the server. Craftconomy will be unlocked when it is done.");
+										selectedConverter.importData(sender);
+										Common.getInstance().getConfigurationManager().getConfig().setValue("System.Setup", false);
+										Common.getInstance().getConfigurationManager().loadDefaultSettings();
+										Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Conversion complete! Enjoy Craftconomy!");
+									}
+									
+								}, 0,0, true);
+								
+								
+
 							} else {
 								Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Some settings are wrong. Be sure that every settings are ok! Check the console log for more information.");
 							}

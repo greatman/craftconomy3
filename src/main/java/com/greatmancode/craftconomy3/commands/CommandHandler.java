@@ -22,7 +22,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.greatmancode.craftconomy3.Common;
+import com.greatmancode.craftconomy3.ForgeCaller;
 import com.greatmancode.craftconomy3.commands.interfaces.CraftconomyCommand;
+import com.greatmancode.craftconomy3.commands.managers.ForgeCommandManager;
 
 public class CommandHandler {
 
@@ -30,7 +32,11 @@ public class CommandHandler {
 	private Map<String, CraftconomyCommand> commandList = new HashMap<String, CraftconomyCommand>();
 	
 	public CommandHandler(String commandName, String help, boolean setupEnabled) {
-		Common.getInstance().getServerCaller().addCommand(commandName, help, Common.getInstance().getCommandManager().getCommandManager());
+		if (Common.getInstance().getServerCaller() instanceof ForgeCaller) {
+			Common.getInstance().getServerCaller().addCommand(commandName, help, new ForgeCommandManager(commandName));
+		} else {
+			Common.getInstance().getServerCaller().addCommand(commandName, help, Common.getInstance().getCommandManager().getCommandManager());
+		}
 		this.setupEnabled = setupEnabled;
 	}
 	
