@@ -98,13 +98,6 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>com.canarymod</groupId>
-			<artifactId>crow</artifactId>
-			<version>5.6.11</version>
-			<type>jar</type>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
             <groupId>org.yaml</groupId>
             <artifactId>snakeyaml</artifactId>
             <version>1.9</version>
@@ -180,7 +173,8 @@
 									<exclude>junit:junit</exclude>
 									<exclude>org.bukkit:bukkit</exclude>
 									<exclude>org.spout:spoutapi</exclude>
-									<exclude>org.minecraftforge:minecraft_deobfuscated</exclude>
+									<exclude>commons-lang:commons-lang</exclude>
+									<exclude>org.yaml:snakeyaml</exclude>
 								</excludes>
 							</artifactSet>
 						</configuration>
