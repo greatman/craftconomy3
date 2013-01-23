@@ -26,7 +26,6 @@ import com.greatmancode.craftconomy3.currency.CurrencyManager;
 import com.greatmancode.craftconomy3.utils.Tools;
 
 public class BankDepositCommand extends CraftconomyCommand {
-
 	@Override
 	public void execute(String sender, String[] args) {
 		if (Common.getInstance().getAccountManager().exist(Account.BANK_PREFIX + args[0])) {
@@ -47,22 +46,19 @@ public class BankDepositCommand extends CraftconomyCommand {
 					if (playerAccount.hasEnough(amount, playerAccount.getWorldPlayerCurrentlyIn(), currency.getName())) {
 						playerAccount.withdraw(amount, playerAccount.getWorldPlayerCurrentlyIn(), currency.getName());
 						bankAccount.deposit(amount, playerAccount.getWorldPlayerCurrentlyIn(), currency.getName());
-						Common.getInstance().getServerCaller().sendMessage(sender,  String.format(Common.getInstance().getLanguageManager().getString("deposited"), Common.getInstance().format(null, currency, amount), args[0]));
+						Common.getInstance().getServerCaller().sendMessage(sender, String.format(Common.getInstance().getLanguageManager().getString("deposited"), Common.getInstance().format(null, currency, amount), args[0]));
 					} else {
 						Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("not_enough_money"));
 					}
-
 				} else {
 					Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("invalid_amount"));
 				}
 			} else {
 				Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("bank_cant_deposit"));
 			}
-
 		} else {
 			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("account_not_exist"));
 		}
-
 	}
 
 	@Override
@@ -89,5 +85,4 @@ public class BankDepositCommand extends CraftconomyCommand {
 	public String getPermissionNode() {
 		return "craftconomy.bank.deposit";
 	}
-
 }

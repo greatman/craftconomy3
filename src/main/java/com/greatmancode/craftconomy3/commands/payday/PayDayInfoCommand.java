@@ -23,7 +23,6 @@ import com.greatmancode.craftconomy3.commands.interfaces.CraftconomyCommand;
 import com.greatmancode.craftconomy3.payday.PayDay;
 
 public class PayDayInfoCommand extends CraftconomyCommand {
-
 	@Override
 	public void execute(String sender, String[] args) {
 		PayDay payday = Common.getInstance().getPaydayManager().getPayDay(args[0]);
@@ -34,14 +33,12 @@ public class PayDayInfoCommand extends CraftconomyCommand {
 				Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("payday_info_type_wage"));
 			} else {
 				Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("payday_info_type_tax"));
-				
 			}
 			Common.getInstance().getServerCaller().sendMessage(sender, String.format(Common.getInstance().getLanguageManager().getString("payday_info_account"), payday.getAccount()));
 			Common.getInstance().getServerCaller().sendMessage(sender, String.format(Common.getInstance().getLanguageManager().getString("payday_info_interval"), payday.getInterval()));
 		} else {
 			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("payday_not_found"));
 		}
-
 	}
 
 	@Override
@@ -68,5 +65,4 @@ public class PayDayInfoCommand extends CraftconomyCommand {
 	public String getPermissionNode() {
 		return "craftconomy.payday.command.info";
 	}
-
 }

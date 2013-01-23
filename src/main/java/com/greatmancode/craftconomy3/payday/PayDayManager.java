@@ -27,12 +27,9 @@ import com.greatmancode.craftconomy3.database.tables.PayDayTable;
 
 /**
  * The PayDay Manager.
- * 
  * @author greatman
- * 
  */
 public class PayDayManager {
-
 	private Map<Integer, PayDay> paydayList = new HashMap<Integer, PayDay>();
 
 	public PayDayManager() {
@@ -45,7 +42,6 @@ public class PayDayManager {
 
 	/**
 	 * Retrieve a PayDay entry.
-	 * 
 	 * @param name The name of the PayDay entry
 	 * @return A PayDay instance or null if not found.
 	 */
@@ -61,7 +57,6 @@ public class PayDayManager {
 
 	/**
 	 * Retrieve a PayDay entry.
-	 * 
 	 * @param dbId The database ID.
 	 * @return A PayDay instance or null if not found
 	 */
@@ -75,7 +70,6 @@ public class PayDayManager {
 
 	/**
 	 * Add a PayDay in the system
-	 * 
 	 * @param name The name of the payday
 	 * @param disabled Is it disabled or not?
 	 * @param interval At what interval (In seconds) the payday should run?
@@ -92,7 +86,6 @@ public class PayDayManager {
 
 	/**
 	 * Add a PayDay in the system
-	 * 
 	 * @param dbId The database ID.
 	 * @param name The name of the payday
 	 * @param disabled Is it disabled or not?
@@ -121,12 +114,10 @@ public class PayDayManager {
 			newId = table.getId();
 		}
 		paydayList.put(newId, new PayDay(newId, newName, disabled, interval, account, status, currencyId, value, worldName));
-
 	}
 
 	/**
 	 * Delete a PayDay from the system
-	 * 
 	 * @param dbId the database ID to remove
 	 * @return True if the entry has been removed else false.
 	 */
@@ -144,12 +135,10 @@ public class PayDayManager {
 
 	/**
 	 * Receive a COPY of the payday List to keep internal sane list.
-	 * 
 	 * @return A copy of the payday List.
 	 */
 	@SuppressWarnings("unchecked")
 	public Map<Integer, PayDay> getPayDayList() {
 		return (Map<Integer, PayDay>) ((HashMap<Integer, PayDay>) paydayList).clone();
 	}
-
 }

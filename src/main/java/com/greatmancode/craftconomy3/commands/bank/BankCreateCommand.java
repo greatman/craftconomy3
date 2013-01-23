@@ -24,7 +24,6 @@ import com.greatmancode.craftconomy3.commands.interfaces.CraftconomyCommand;
 import com.greatmancode.craftconomy3.currency.CurrencyManager;
 
 public class BankCreateCommand extends CraftconomyCommand {
-
 	@Override
 	public void execute(String sender, String[] args) {
 		if (!Common.getInstance().getAccountManager().exist(Account.BANK_PREFIX + args[0])) {
@@ -36,7 +35,6 @@ public class BankCreateCommand extends CraftconomyCommand {
 			} else {
 				Common.getInstance().getServerCaller().sendMessage(sender, String.format(Common.getInstance().getLanguageManager().getString("bank_account_not_enough_money_create"), Common.getInstance().format(null, Common.getInstance().getCurrencyManager().getCurrency(Common.getInstance().getConfigurationManager().getBankCurrencyId()), Common.getInstance().getConfigurationManager().getBankPrice())));
 			}
-
 		} else {
 			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("account_already_exists"));
 		}
@@ -66,5 +64,4 @@ public class BankCreateCommand extends CraftconomyCommand {
 	public String getPermissionNode() {
 		return "craftconomy.bank.create";
 	}
-
 }

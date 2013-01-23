@@ -24,10 +24,8 @@ import com.alta189.simplesave.Table;
 
 @Table("cc3_account")
 public class AccountTable {
-
 	@Id
 	private int id;
-
 	@Field
 	private String name;
 

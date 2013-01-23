@@ -30,16 +30,13 @@ import com.greatmancode.craftconomy3.database.tables.BalanceTable;
 
 /**
  * Provides access to a account.
- * 
  * @author greatman
- * 
  */
 public class AccountManager {
 	private Map<String, Account> accountList = new HashMap<String, Account>();
 
 	/**
 	 * Retrieve a account. Accounts prefixed with bank: are bank accounts.
-	 * 
 	 * @param name The name of the account to retrieve
 	 * @return A economy account
 	 */
@@ -54,14 +51,12 @@ public class AccountManager {
 		} else {
 			account = new Account(newName);
 			accountList.put(newName, account);
-
 		}
 		return account;
 	}
 
 	/**
 	 * Check if a account exist in the database.
-	 * 
 	 * @param name The name to check
 	 */
 	public boolean exist(String name) {
@@ -80,7 +75,6 @@ public class AccountManager {
 
 	/**
 	 * Delete a account from the system
-	 * 
 	 * @param name The account name
 	 * @return True if the account has been deleted. Else false.
 	 */
@@ -110,7 +104,5 @@ public class AccountManager {
 			result = true;
 		}
 		return result;
-
 	}
-
 }

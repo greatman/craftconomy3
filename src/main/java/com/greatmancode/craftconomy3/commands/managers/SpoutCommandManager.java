@@ -18,30 +18,26 @@
  */
 package com.greatmancode.craftconomy3.commands.managers;
 
+import com.greatmancode.craftconomy3.Common;
+import com.greatmancode.craftconomy3.commands.interfaces.CommandManager;
+
 import org.spout.api.command.Command;
 import org.spout.api.command.CommandContext;
 import org.spout.api.command.CommandExecutor;
 import org.spout.api.command.CommandSource;
 import org.spout.api.exception.CommandException;
 
-import com.greatmancode.craftconomy3.Common;
-import com.greatmancode.craftconomy3.commands.interfaces.CommandManager;
-
 /**
  * Handle the commands for the Spout server.
- * 
  * @author greatman
- * 
  */
 public class SpoutCommandManager implements CommandExecutor, CommandManager {
-
 	@Override
 	public void processCommand(CommandSource source, Command command, CommandContext args) throws CommandException {
 		if (Common.getInstance().getCommandManager().commandExist(command.getPreferredName())) {
 			String[] newargs;
 			if (args.length() == 0) {
 				newargs = new String[0];
-				
 			} else {
 				newargs = new String[args.length() - 1];
 				for (int i = 1; i <= newargs.length; i++) {
@@ -55,5 +51,4 @@ public class SpoutCommandManager implements CommandExecutor, CommandManager {
 			}
 		}
 	}
-
 }

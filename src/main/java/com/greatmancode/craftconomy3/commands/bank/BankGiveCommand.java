@@ -26,7 +26,6 @@ import com.greatmancode.craftconomy3.currency.CurrencyManager;
 import com.greatmancode.craftconomy3.utils.Tools;
 
 public class BankGiveCommand extends CraftconomyCommand {
-
 	@Override
 	public void execute(String sender, String[] args) {
 		if (Common.getInstance().getAccountManager().exist(Account.BANK_PREFIX + args[0])) {
@@ -59,8 +58,7 @@ public class BankGiveCommand extends CraftconomyCommand {
 					}
 				}
 				bankAccount.deposit(amount, worldName, currency.getName());
-				Common.getInstance().getServerCaller().sendMessage(sender, String.format(Common.getInstance().getLanguageManager().getString("bank_give_success"), Common.getInstance().format(worldName, currency, amount) ,args[0]));
-
+				Common.getInstance().getServerCaller().sendMessage(sender, String.format(Common.getInstance().getLanguageManager().getString("bank_give_success"), Common.getInstance().format(worldName, currency, amount), args[0]));
 			} else {
 				Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("invalid_amount"));
 			}
@@ -93,5 +91,4 @@ public class BankGiveCommand extends CraftconomyCommand {
 	public String getPermissionNode() {
 		return "craftconomy.bank.give";
 	}
-
 }

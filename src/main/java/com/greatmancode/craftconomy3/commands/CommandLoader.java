@@ -75,12 +75,9 @@ import com.greatmancode.craftconomy3.commands.setup.SetupMultiWorldCommand;
 
 /**
  * Generic CommandLoader. Loads all the sub-commands.
- * 
  * @author greatman
- * 
  */
 public class CommandLoader {
-
 	private Map<String, CommandHandler> commandList = new HashMap<String, CommandHandler>();
 	private CommandManager manager;
 	private boolean initialized = false;
@@ -190,7 +187,7 @@ public class CommandLoader {
 	public CommandManager getCommandManager() {
 		return manager;
 	}
-	
+
 	/**
 	 * Retrieve a list of all the main command names.
 	 * @return A list of all command names.

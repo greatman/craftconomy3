@@ -32,7 +32,6 @@ import com.greatmancode.craftconomy3.converter.Converter;
 import com.greatmancode.craftconomy3.currency.CurrencyManager;
 
 public class BoseEconomy extends Converter {
-
 	private static final String TAB_CHECK = "\\t+";
 	private BufferedReader flatFileReader = null;
 
@@ -84,14 +83,12 @@ public class BoseEconomy extends Converter {
 						i++;
 					}
 				}
-
 			}
 			flatFileReader.close();
 		} catch (IOException e) {
 			Common.getInstance().getLogger().severe("Error while reading bose file!" + e.getMessage());
 		}
 		return true;
-
 	}
 
 	private void bankImporter(String username) throws IOException {
@@ -118,14 +115,11 @@ public class BoseEconomy extends Converter {
 				line = line.replaceAll(TAB_CHECK, "");
 			}
 		}
-
 	}
 
 	private void accountImporter(String username) throws IOException {
 		String line = flatFileReader.readLine();
 		double amount = Double.parseDouble(line.split(" ")[1]);
 		Common.getInstance().getAccountManager().getAccount(username).set(amount, Common.getInstance().getServerCaller().getDefaultWorld(), Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.defaultCurrencyID).getName());
-
 	}
-
 }

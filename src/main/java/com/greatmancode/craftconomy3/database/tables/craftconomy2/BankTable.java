@@ -24,13 +24,10 @@ import com.alta189.simplesave.Table;
 
 @Table("Bank")
 public class BankTable {
-
 	@Id
 	private int id;
-	
 	@Field
 	private String name;
-	
 	@Field
 	private String owner;
 

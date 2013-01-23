@@ -26,7 +26,6 @@ import com.greatmancode.craftconomy3.currency.CurrencyManager;
 import com.greatmancode.craftconomy3.utils.Tools;
 
 public class BankWithdrawCommand extends CraftconomyCommand {
-
 	@Override
 	public void execute(String sender, String[] args) {
 		if (Common.getInstance().getAccountManager().exist(Account.BANK_PREFIX + args[0])) {
@@ -51,14 +50,12 @@ public class BankWithdrawCommand extends CraftconomyCommand {
 					} else {
 						Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("bank_not_enough_money"));
 					}
-
 				} else {
 					Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("invalid_amount"));
 				}
 			} else {
 				Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("cant_withdraw_bank"));
 			}
-
 		} else {
 			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("account_not_exist"));
 		}
@@ -88,5 +85,4 @@ public class BankWithdrawCommand extends CraftconomyCommand {
 	public String getPermissionNode() {
 		return "craftconomy.bank.withdraw";
 	}
-
 }

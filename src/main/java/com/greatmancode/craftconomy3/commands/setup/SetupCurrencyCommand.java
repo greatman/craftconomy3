@@ -24,8 +24,8 @@ import com.greatmancode.craftconomy3.commands.interfaces.CraftconomyCommand;
 import com.greatmancode.craftconomy3.database.tables.CurrencyTable;
 
 public class SetupCurrencyCommand extends CraftconomyCommand {
-
 	private static String name = null, nameplural = null, minor = null, minorplural = null;
+
 	@Override
 	public void execute(String sender, String[] args) {
 		if (SetupWizard.getState() == SetupWizard.CURRENCY_SETUP) {
@@ -36,11 +36,9 @@ public class SetupCurrencyCommand extends CraftconomyCommand {
 					SetupWizard.setState(SetupWizard.BASIC_SETUP);
 					Common.getInstance().initializeCurrency();
 					Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Okay! Type /ccsetup basic to configure the basic settings of Craftconomy!");
-
 				} else if (args[0].equals("no")) {
 					Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Alright! Welcome to Craftconomy! We use a Multi-Currency system. I need you to write the settings for the default currency.");
 					Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}First, let's configure the main currency name (Ex. Dollar). Type {{WHITE}}/ccsetup currency name <Name>");
-					
 				} else if (args[0].equals("confirm")) {
 					if (name != null && nameplural != null && minor != null && minorplural != null) {
 						setUpCurrency(sender);
@@ -76,7 +74,6 @@ public class SetupCurrencyCommand extends CraftconomyCommand {
 		} else {
 			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Wrong setup status for this cmd. If you didin't start the setup yet, use /ccsetup");
 		}
-
 	}
 
 	private void setUpCurrency(String sender) {
@@ -91,7 +88,6 @@ public class SetupCurrencyCommand extends CraftconomyCommand {
 		SetupWizard.setState(SetupWizard.BASIC_SETUP);
 		Common.getInstance().initializeCurrency();
 		Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Way to go! Only 2 steps left! (Basics settings & Conversion from another system if needed). Type {{WHITE}}/ccsetup basic {{DARK_GREEN}}to continue");
-		
 	}
 
 	@Override
@@ -118,5 +114,4 @@ public class SetupCurrencyCommand extends CraftconomyCommand {
 	public String getPermissionNode() {
 		return "craftconomy.setup";
 	}
-
 }

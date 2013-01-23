@@ -26,7 +26,6 @@ import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.commands.interfaces.CraftconomyCommand;
 
 public class CurrencyHelpCommand extends CraftconomyCommand {
-
 	@Override
 	public void execute(String sender, String[] args) {
 		Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("currency_help_title"));
@@ -64,5 +63,4 @@ public class CurrencyHelpCommand extends CraftconomyCommand {
 	public String getPermissionNode() {
 		return null;
 	}
-
 }

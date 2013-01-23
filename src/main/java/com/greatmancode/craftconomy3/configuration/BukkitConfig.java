@@ -21,12 +21,11 @@ package com.greatmancode.craftconomy3.configuration;
 import java.io.File;
 import java.io.IOException;
 
-import org.bukkit.configuration.file.YamlConfiguration;
-
 import com.greatmancode.craftconomy3.Common;
 
-public class BukkitConfig extends Config {
+import org.bukkit.configuration.file.YamlConfiguration;
 
+public class BukkitConfig extends Config {
 	private YamlConfiguration configFile;
 	private File file;
 
@@ -77,6 +76,5 @@ public class BukkitConfig extends Config {
 	@Override
 	public boolean has(String path) {
 		return configFile.contains(path);
-
 	}
 }

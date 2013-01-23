@@ -24,19 +24,14 @@ import com.alta189.simplesave.Table;
 
 @Table("BankBalance")
 public class BankBalanceTable {
-
 	@Id
 	private int id;
-	
 	@Field
 	private int bank_id;
-	
 	@Field
 	private double balance;
-	
 	@Field
 	private int currency_id;
-	
 	@Field
 	private String worldName;
 

@@ -33,12 +33,9 @@ import com.greatmancode.craftconomy3.database.tables.PayDayTable;
 
 /**
  * Configuration Loader. Load the configuration with the Server configuration manager.
- * 
  * @author greatman
- * 
  */
 public class ConfigurationManager {
-
 	private Config config = null;
 	private int bankCurrencyId;
 	private boolean multiworld;
@@ -68,12 +65,10 @@ public class ConfigurationManager {
 
 	/**
 	 * Retrieve the configuration handler
-	 * 
 	 * @return The configuration handler.
 	 */
 	public Config getConfig() {
 		return config;
-
 	}
 
 	/**
@@ -138,7 +133,6 @@ public class ConfigurationManager {
 
 	private void alertOldDbVersion(String currentVersion, int newVersion) {
 		Common.getInstance().getLogger().info("Your database is out of date! (Version " + currentVersion + "). Updating it to Revision " + newVersion + ".");
-
 	}
 
 	/**
@@ -163,7 +157,6 @@ public class ConfigurationManager {
 
 	/**
 	 * Retrieve the Bank creation currency ID. Currently unused.
-	 * 
 	 * @return The bank creation currency ID.
 	 */
 	public int getBankCurrencyId() {
@@ -172,7 +165,6 @@ public class ConfigurationManager {
 
 	/**
 	 * Check if the plugin is set in MultiWorld mode or not.
-	 * 
 	 * @return True if the system is set to be MultiWorld else false.
 	 */
 	public boolean isMultiWorld() {
@@ -181,7 +173,6 @@ public class ConfigurationManager {
 
 	/**
 	 * Get the display format for balance.
-	 * 
 	 * @return True or false.
 	 */
 	public DisplayFormat getDisplayFormat() {
@@ -190,7 +181,6 @@ public class ConfigurationManager {
 
 	/**
 	 * Modify the longMode setting.
-	 * 
 	 * @param displayFormat the display format we want to use.
 	 */
 	public void setDisplayFormat(String displayFormat) {
@@ -202,7 +192,6 @@ public class ConfigurationManager {
 
 	/**
 	 * Retrieve the price to create a bank account.
-	 * 
 	 * @return The price to create a bank acocunt.
 	 */
 	public double getBankPrice() {
@@ -211,7 +200,6 @@ public class ConfigurationManager {
 
 	/**
 	 * Sets the price to create a bank account.
-	 * 
 	 * @param bankPrice The new Bank creation price.
 	 */
 	public void setBankPrice(double bankPrice) {
@@ -223,7 +211,6 @@ public class ConfigurationManager {
 
 	/**
 	 * Retrieve the initial holdings in a account.
-	 * 
 	 * @return The initial holdings.
 	 */
 	public double getHoldings() {
@@ -232,7 +219,6 @@ public class ConfigurationManager {
 
 	/**
 	 * Sets the initial holdings in a account.
-	 * 
 	 * @param holdings The initials holdings to set to.
 	 */
 	public void setHoldings(double holdings) {

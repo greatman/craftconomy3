@@ -23,7 +23,6 @@ import com.greatmancode.craftconomy3.account.Account;
 import com.greatmancode.craftconomy3.commands.interfaces.CraftconomyCommand;
 
 public class BankPermCommand extends CraftconomyCommand {
-
 	@Override
 	public void execute(String sender, String[] args) {
 		if (Common.getInstance().getAccountManager().exist(Account.BANK_PREFIX + args[0])) {
@@ -49,7 +48,6 @@ public class BankPermCommand extends CraftconomyCommand {
 		} else {
 			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("account_not_exist!"));
 		}
-
 	}
 
 	@Override
@@ -76,5 +74,4 @@ public class BankPermCommand extends CraftconomyCommand {
 	public String getPermissionNode() {
 		return "craftconomy.bank.perm";
 	}
-
 }

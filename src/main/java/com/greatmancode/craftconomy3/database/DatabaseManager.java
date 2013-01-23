@@ -27,7 +27,6 @@ import com.alta189.simplesave.exceptions.TableRegistrationException;
 import com.alta189.simplesave.h2.H2Configuration;
 import com.alta189.simplesave.mysql.MySQLConfiguration;
 import com.alta189.simplesave.sqlite.SQLiteConfiguration;
-
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.SpoutCaller;
 import com.greatmancode.craftconomy3.database.tables.AccessTable;
@@ -40,12 +39,9 @@ import com.greatmancode.craftconomy3.database.tables.PayDayTable;
 
 /**
  * Handle the database link.
- * 
  * @author greatman
- * 
  */
 public class DatabaseManager {
-
 	private Database db = null;
 
 	public DatabaseManager() throws TableRegistrationException, ConnectionException {
@@ -80,7 +76,7 @@ public class DatabaseManager {
 		db = DatabaseFactory.createNewDatabase(config);
 		Common.getInstance().addMetricsGraph("Database Engine", "SQLite");
 	}
-	
+
 	/**
 	 * Load the MySQL database.
 	 */
@@ -97,7 +93,7 @@ public class DatabaseManager {
 		db = DatabaseFactory.createNewDatabase(config);
 		Common.getInstance().addMetricsGraph("Database Engine", "MySQL");
 	}
-	
+
 	/**
 	 * Load the H2 database.
 	 */
@@ -109,9 +105,9 @@ public class DatabaseManager {
 		db = DatabaseFactory.createNewDatabase(config);
 		Common.getInstance().addMetricsGraph("Database Engine", "H2");
 	}
+
 	/**
 	 * Retrieve the database
-	 * 
 	 * @return The Database link.
 	 */
 	public Database getDatabase() {

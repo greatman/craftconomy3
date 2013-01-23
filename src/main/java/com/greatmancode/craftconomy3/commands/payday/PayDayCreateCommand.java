@@ -25,7 +25,6 @@ import com.greatmancode.craftconomy3.currency.CurrencyManager;
 import com.greatmancode.craftconomy3.utils.Tools;
 
 public class PayDayCreateCommand extends CraftconomyCommand {
-
 	@Override
 	public void execute(String sender, String[] args) {
 		if (Common.getInstance().getPaydayManager().getPayDay(args[0]) == null) {
@@ -103,5 +102,4 @@ public class PayDayCreateCommand extends CraftconomyCommand {
 	public String getPermissionNode() {
 		return "craftconomy.payday.command.create";
 	}
-
 }

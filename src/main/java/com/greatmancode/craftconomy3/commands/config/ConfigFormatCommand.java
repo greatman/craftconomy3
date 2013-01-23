@@ -22,7 +22,6 @@ import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.commands.interfaces.CraftconomyCommand;
 
 public class ConfigFormatCommand extends CraftconomyCommand {
-
 	@Override
 	public void execute(String sender, String[] args) {
 		if (args[0].equalsIgnoreCase("long") || args[0].equalsIgnoreCase("small") || args[0].equalsIgnoreCase("sign") || args[0].equalsIgnoreCase("majoronly")) {
@@ -31,7 +30,6 @@ public class ConfigFormatCommand extends CraftconomyCommand {
 		} else {
 			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("invalid_mode"));
 		}
-
 	}
 
 	@Override
@@ -58,5 +56,4 @@ public class ConfigFormatCommand extends CraftconomyCommand {
 	public String getPermissionNode() {
 		return "craftconomy.config.format";
 	}
-
 }

@@ -22,15 +22,11 @@ import com.greatmancode.craftconomy3.Common;
 
 /**
  * Represents a command
- * 
  * @author greatman
- * 
  */
 public abstract class CraftconomyCommand {
-
 	/**
 	 * The execution of the command
-	 * 
 	 * @param sender The sender of the command
 	 * @param args A String array of all the arguments
 	 */
@@ -38,7 +34,6 @@ public abstract class CraftconomyCommand {
 
 	/**
 	 * Checks if the command sender can execute this command.
-	 * 
 	 * @param sender The sender to check
 	 * @return True if the sender have permission else False
 	 */
@@ -52,31 +47,27 @@ public abstract class CraftconomyCommand {
 
 	/**
 	 * Returns a usage/help line about the command
-	 * 
 	 * @return A string containing the usage/help about the command.
 	 */
 	public abstract String help();
 
 	/**
 	 * The maximum number of arguments that this command take
-	 * 
 	 * @return The maximum number of arguments
 	 */
 	public abstract int maxArgs();
 
 	/**
 	 * The minimum number of arguments this command take
-	 * 
 	 * @return The minimum number of arguments
 	 */
 	public abstract int minArgs();
 
 	/**
 	 * State if this command is for Players only
-	 * 
 	 * @return True if the command is for player only else false.
 	 */
 	public abstract boolean playerOnly();
-	
+
 	public abstract String getPermissionNode();
 }

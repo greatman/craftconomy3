@@ -26,7 +26,6 @@ import com.greatmancode.craftconomy3.currency.CurrencyManager;
 import com.greatmancode.craftconomy3.utils.Tools;
 
 public class TakeCommand extends CraftconomyCommand {
-
 	@Override
 	public void execute(String sender, String[] args) {
 		if (!Account.isBankAccount(args[0]) && Common.getInstance().getAccountManager().exist(args[0])) {
@@ -96,5 +95,4 @@ public class TakeCommand extends CraftconomyCommand {
 	public String getPermissionNode() {
 		return "craftconomy.money.take";
 	}
-
 }

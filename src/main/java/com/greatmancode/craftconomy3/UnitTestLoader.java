@@ -21,14 +21,12 @@ package com.greatmancode.craftconomy3;
 import java.util.logging.Logger;
 
 public class UnitTestLoader implements Loader {
-
 	public void onEnable() {
 		new Common(this, Logger.getLogger("UnitTest")).initialize();
 	}
-	
+
 	@Override
 	public ServerType getServerType() {
 		return ServerType.UNIT_TEST;
 	}
-
 }

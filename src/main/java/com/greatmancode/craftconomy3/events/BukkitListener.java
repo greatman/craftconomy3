@@ -18,14 +18,13 @@
  */
 package com.greatmancode.craftconomy3.events;
 
+import com.greatmancode.craftconomy3.Common;
+
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
-import com.greatmancode.craftconomy3.Common;
-
 public class BukkitListener implements Listener {
-
 	@EventHandler
 	public void playerJoin(PlayerJoinEvent event) {
 		Common.getInstance().getEventManager().playerJoinEvent(event.getPlayer().getName());

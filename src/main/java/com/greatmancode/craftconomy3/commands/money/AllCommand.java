@@ -26,7 +26,6 @@ import com.greatmancode.craftconomy3.account.Balance;
 import com.greatmancode.craftconomy3.commands.interfaces.CraftconomyCommand;
 
 public class AllCommand extends CraftconomyCommand {
-
 	@Override
 	public void execute(String sender, String[] args) {
 		Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("money_all_title"));
@@ -35,7 +34,6 @@ public class AllCommand extends CraftconomyCommand {
 		while (balanceList.hasNext()) {
 			Balance bl = balanceList.next();
 			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().format(bl.getWorld(), bl.getCurrency(), bl.getBalance()));
-
 		}
 	}
 
@@ -63,5 +61,4 @@ public class AllCommand extends CraftconomyCommand {
 	public String getPermissionNode() {
 		return "craftconomy.money.balance";
 	}
-
 }

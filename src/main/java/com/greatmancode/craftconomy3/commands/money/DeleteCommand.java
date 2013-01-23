@@ -22,7 +22,6 @@ import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.commands.interfaces.CraftconomyCommand;
 
 public class DeleteCommand extends CraftconomyCommand {
-
 	@Override
 	public void execute(String sender, String[] args) {
 		if (Common.getInstance().getAccountManager().delete(args[0])) {
@@ -56,5 +55,4 @@ public class DeleteCommand extends CraftconomyCommand {
 	public String getPermissionNode() {
 		return "craftconomy.account.delete";
 	}
-
 }

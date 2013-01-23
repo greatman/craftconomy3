@@ -26,13 +26,12 @@ import com.greatmancode.craftconomy3.commands.interfaces.CraftconomyCommand;
 import com.greatmancode.craftconomy3.payday.PayDay;
 
 public class PayDayListCommand extends CraftconomyCommand {
-
 	@Override
 	public void execute(String sender, String[] args) {
 		Iterator<Entry<Integer, PayDay>> paydayList = Common.getInstance().getPaydayManager().getPayDayList().entrySet().iterator();
 		Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("payday_list_title"));
-		while(paydayList.hasNext()) {
-			Entry<Integer,PayDay> entry = paydayList.next();
+		while (paydayList.hasNext()) {
+			Entry<Integer, PayDay> entry = paydayList.next();
 			Common.getInstance().getServerCaller().sendMessage(sender, entry.getValue().getName());
 		}
 	}
@@ -66,5 +65,4 @@ public class PayDayListCommand extends CraftconomyCommand {
 	public String getPermissionNode() {
 		return "craftconomy.payday.command.list";
 	}
-
 }

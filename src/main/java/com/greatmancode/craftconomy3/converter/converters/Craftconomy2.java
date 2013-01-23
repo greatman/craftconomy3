@@ -40,12 +40,9 @@ import com.greatmancode.craftconomy3.database.tables.craftconomy2.CurrencyTable;
 
 /**
  * Converter for Craftconomy 2.
- * 
  * @author greatman
- * 
  */
 public class Craftconomy2 extends Converter {
-
 	private Database db = null;
 
 	public Craftconomy2() {
@@ -104,7 +101,6 @@ public class Craftconomy2 extends Converter {
 			} catch (ConnectionException e) {
 				Common.getInstance().getLogger().severe("Unable to connect to craftconomy2 database. Reason: " + e.getMessage());
 			}
-
 		}
 		return result;
 	}
@@ -184,7 +180,6 @@ public class Craftconomy2 extends Converter {
 				i++;
 			}
 			Common.getInstance().getServerCaller().sendMessage(sender, i + " of  " + accountList.size() + "{{DARK_GREEN}}accounts imported.");
-
 		}
 	}
 
@@ -224,8 +219,6 @@ public class Craftconomy2 extends Converter {
 				i++;
 			}
 			Common.getInstance().getServerCaller().sendMessage(sender, i + " of  " + bankList.size() + "{{DARK_GREEN}} bank accounts imported.");
-
 		}
 	}
-
 }

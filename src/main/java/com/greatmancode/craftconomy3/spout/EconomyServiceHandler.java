@@ -20,15 +20,14 @@ package com.greatmancode.craftconomy3.spout;
 
 import java.util.List;
 
-import org.spout.api.plugin.services.EconomyService;
-
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.DisplayFormat;
 import com.greatmancode.craftconomy3.currency.Currency;
 import com.greatmancode.craftconomy3.currency.CurrencyManager;
 
-public class EconomyServiceHandler extends EconomyService {
+import org.spout.api.plugin.services.EconomyService;
 
+public class EconomyServiceHandler extends EconomyService {
 	@Override
 	public boolean has(String name, double amount) {
 		return Common.getInstance().getAccountManager().getAccount(name).hasEnough(amount, Common.getInstance().getAccountManager().getAccount(name).getWorldPlayerCurrentlyIn(), Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.defaultCurrencyID).getName());
@@ -153,7 +152,7 @@ public class EconomyServiceHandler extends EconomyService {
 	}
 
 	@Override
-	public boolean deposit(String name, double amount, String currency) throws UnknownCurrencyException{
+	public boolean deposit(String name, double amount, String currency) throws UnknownCurrencyException {
 		Currency currencyEntry = Common.getInstance().getCurrencyManager().getCurrency(currency);
 		if (currencyEntry == null) {
 			throw new UnknownCurrencyException();
@@ -213,12 +212,12 @@ public class EconomyServiceHandler extends EconomyService {
 
 	@Override
 	public boolean canWithdraw(String name, double amount) {
-		return has(name,amount);
+		return has(name, amount);
 	}
 
 	@Override
 	public boolean canWithdraw(String name, double amount, String currency) throws UnknownCurrencyException {
-		return has(name,amount,currency);
+		return has(name, amount, currency);
 	}
 
 	@Override
@@ -232,5 +231,4 @@ public class EconomyServiceHandler extends EconomyService {
 		// TODO Auto-generated method stub
 		return true;
 	}
-
 }

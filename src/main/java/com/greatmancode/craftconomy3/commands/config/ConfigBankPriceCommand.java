@@ -23,7 +23,6 @@ import com.greatmancode.craftconomy3.commands.interfaces.CraftconomyCommand;
 import com.greatmancode.craftconomy3.utils.Tools;
 
 public class ConfigBankPriceCommand extends CraftconomyCommand {
-
 	@Override
 	public void execute(String sender, String[] args) {
 		if (Tools.isValidDouble(args[0])) {
@@ -32,7 +31,6 @@ public class ConfigBankPriceCommand extends CraftconomyCommand {
 		} else {
 			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("invalid_amount"));
 		}
-
 	}
 
 	@Override
@@ -59,5 +57,4 @@ public class ConfigBankPriceCommand extends CraftconomyCommand {
 	public String getPermissionNode() {
 		return "craftconomy.config.bankprice";
 	}
-
 }

@@ -24,27 +24,20 @@ import com.alta189.simplesave.Table;
 
 @Table("cc3_acl")
 public class AccessTable {
-
 	@Id
 	private int id;
 	@Field
 	private int account_id;
-
 	@Field
 	private String playerName;
-
 	@Field
 	private boolean deposit;
-
 	@Field
 	private boolean withdraw;
-
 	@Field
 	private boolean acl;
-
 	@Field
 	private boolean balance;
-
 	@Field
 	private boolean owner;
 
@@ -111,5 +104,4 @@ public class AccessTable {
 	public void setOwner(boolean owner) {
 		this.owner = owner;
 	}
-
 }

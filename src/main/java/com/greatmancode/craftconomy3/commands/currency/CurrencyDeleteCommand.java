@@ -22,7 +22,6 @@ import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.commands.interfaces.CraftconomyCommand;
 
 public class CurrencyDeleteCommand extends CraftconomyCommand {
-
 	@Override
 	public void execute(String sender, String[] args) {
 		if (Common.getInstance().getCurrencyManager().getCurrency(args[0]) != null) {
@@ -57,5 +56,4 @@ public class CurrencyDeleteCommand extends CraftconomyCommand {
 	public String getPermissionNode() {
 		return "craftconomy.currency.delete";
 	}
-
 }

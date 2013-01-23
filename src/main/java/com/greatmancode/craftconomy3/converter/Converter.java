@@ -25,28 +25,22 @@ import java.util.Map;
 
 /**
  * Represents a Converter
- * 
  * @author greatman
- * 
  */
 public abstract class Converter {
-
 	public static final int ALERT_EACH_X_ACCOUNT = 10;
 	/**
 	 * Contains the type of Database (flatfile, sqlite, etc.) supported by the originating plugin
 	 */
 	private final List<String> dbTypes = new ArrayList<String>();
-
 	/**
 	 * Contains the selected Db Type.
 	 */
 	private String selectedDbType;
-
 	/**
 	 * Contains all the required fields about the selected database type
 	 */
 	private final List<String> dbInfo = new ArrayList<String>();
-
 	/**
 	 * Contains all the information about the required fields entered by the user.
 	 */
@@ -54,7 +48,6 @@ public abstract class Converter {
 
 	/**
 	 * Retrieve a list of all the database type.
-	 * 
 	 * @return A list of database type.
 	 */
 	public List<String> getDbTypes() {
@@ -64,10 +57,9 @@ public abstract class Converter {
 	protected List<String> getDbInfoList() {
 		return dbInfo;
 	}
-	
+
 	/**
 	 * Sets the selected database type.
-	 * 
 	 * @param dbType The database type selected
 	 * @return True if the database type has been saved else false (A invalid type)
 	 */
@@ -82,14 +74,12 @@ public abstract class Converter {
 
 	/**
 	 * Retrieve the list of required fields about the selected database type
-	 * 
 	 * @return A list of required fields to connect to the selected database type
 	 */
 	public abstract List<String> getDbInfo();
 
 	/**
 	 * Sets a field information for the selected database type
-	 * 
 	 * @param field The field name.
 	 * @param value The value of the field.
 	 * @return True if the field has been saved else false (A invalid field)
@@ -109,7 +99,6 @@ public abstract class Converter {
 
 	/**
 	 * Checks if we filled all the required fields
-	 * 
 	 * @return True if all fields has been filled else false.
 	 */
 	public boolean allSet() {
@@ -118,14 +107,12 @@ public abstract class Converter {
 
 	/**
 	 * Connects to the database
-	 * 
 	 * @return True if the connection is successful else false.
 	 */
 	public abstract boolean connect();
 
 	/**
 	 * Import all the data into Craftconomy
-	 * 
 	 * @param sender The name of the sender so we can send status update.
 	 * @return True if everything went well else false.
 	 */

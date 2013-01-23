@@ -24,19 +24,14 @@ import com.alta189.simplesave.Table;
 
 @Table("Currency")
 public class CurrencyTable {
-
 	@Id
 	private int id;
-	
 	@Field
 	private String name;
-	
 	@Field
 	private String plural;
-	
 	@Field
 	private String minor;
-	
 	@Field
 	private String minorplural;
 

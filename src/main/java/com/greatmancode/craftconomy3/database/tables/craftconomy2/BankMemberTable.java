@@ -24,13 +24,10 @@ import com.alta189.simplesave.Table;
 
 @Table("BankMember")
 public class BankMemberTable {
-
 	@Id
 	private int id;
-	
 	@Field
 	private int bank_id;
-	
 	@Field
 	private String playerName;
 

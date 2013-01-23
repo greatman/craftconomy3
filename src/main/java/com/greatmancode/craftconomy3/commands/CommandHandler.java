@@ -25,15 +25,14 @@ import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.commands.interfaces.CraftconomyCommand;
 
 public class CommandHandler {
-
 	private boolean setupEnabled = false;
 	private Map<String, CraftconomyCommand> commandList = new HashMap<String, CraftconomyCommand>();
-	
+
 	public CommandHandler(String commandName, String help, boolean setupEnabled) {
 		Common.getInstance().getServerCaller().addCommand(commandName, help, Common.getInstance().getCommandManager().getCommandManager());
 		this.setupEnabled = setupEnabled;
 	}
-	
+
 	/**
 	 * Register a sub-command.
 	 * @param commandName The sub-command name
@@ -43,7 +42,7 @@ public class CommandHandler {
 		commandList.put(commandName, command);
 		Common.getInstance().getServerCaller().registerPermission(command.getPermissionNode());
 	}
-	
+
 	/**
 	 * Execute a certain command
 	 * @param sender The sender name ("console" for the console)
@@ -65,7 +64,7 @@ public class CommandHandler {
 				if (args.length >= command.minArgs() && args.length <= command.maxArgs()) {
 					command.execute(sender, args);
 				} else {
-					Common.getInstance().getServerCaller().sendMessage(sender,  String.format(Common.getInstance().getLanguageManager().getString("command_usage"), command.help()));
+					Common.getInstance().getServerCaller().sendMessage(sender, String.format(Common.getInstance().getLanguageManager().getString("command_usage"), command.help()));
 				}
 			} else {
 				Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("no_permission"));
@@ -74,12 +73,12 @@ public class CommandHandler {
 			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("subcommand_not_exist"));
 		}
 	}
-	
+
 	/**
 	 * Retrieve the list of the sub-commands.
 	 * @return The list of sub-commands.
 	 */
-	public Map<String,CraftconomyCommand> getCommandList() {
+	public Map<String, CraftconomyCommand> getCommandList() {
 		return commandList;
 	}
 }

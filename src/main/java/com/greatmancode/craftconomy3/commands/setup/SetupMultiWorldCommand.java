@@ -24,8 +24,8 @@ import com.greatmancode.craftconomy3.commands.interfaces.CraftconomyCommand;
 import com.greatmancode.craftconomy3.database.tables.ConfigTable;
 
 public class SetupMultiWorldCommand extends CraftconomyCommand {
-
 	private static ConfigTable oldValue = null;
+
 	@Override
 	public void execute(String sender, String[] args) {
 		if (SetupWizard.getState() == SetupWizard.MULTIWORLD_SETUP) {
@@ -36,25 +36,22 @@ public class SetupMultiWorldCommand extends CraftconomyCommand {
 					if (oldValue != null) {
 						Common.getInstance().getDatabaseManager().getDatabase().remove(oldValue);
 					}
-					
+
 					oldValue = new ConfigTable();
 					oldValue.setName("multiworld");
 					oldValue.setValue(args[0]);
 					Common.getInstance().getDatabaseManager().getDatabase().save(oldValue);
-					Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}You set Multiworld to " + args[0] +". If you accept this setting, type {{WHITE}}/ccsetup multiworld confirm {{DARK_GREEN}}Else, just type {{WHITE}}/ccsetup multiworld <true/false>");
+					Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}You set Multiworld to " + args[0] + ". If you accept this setting, type {{WHITE}}/ccsetup multiworld confirm {{DARK_GREEN}}Else, just type {{WHITE}}/ccsetup multiworld <true/false>");
 				} else if (args[0].equals("confirm")) {
 					SetupWizard.setState(SetupWizard.CURRENCY_SETUP);
 					Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Step done! Type {{WHITE}}/ccsetup currency {{DARK_GREEN}}to continue!");
 				} else {
 					Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Invalid value. Accepted value are {{WHITE}}true {{DARK_RED}}or {{WHITE}}false");
 				}
-				
 			}
 		} else {
 			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Wrong setup status for this cmd. If you didin't start the setup yet, use /ccsetup");
 		}
-		
-
 	}
 
 	@Override
@@ -81,5 +78,4 @@ public class SetupMultiWorldCommand extends CraftconomyCommand {
 	public String getPermissionNode() {
 		return "craftconomy.setup";
 	}
-
 }

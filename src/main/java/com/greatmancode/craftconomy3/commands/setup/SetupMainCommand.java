@@ -23,7 +23,6 @@ import com.greatmancode.craftconomy3.SetupWizard;
 import com.greatmancode.craftconomy3.commands.interfaces.CraftconomyCommand;
 
 public class SetupMainCommand extends CraftconomyCommand {
-
 	@Override
 	public void execute(String sender, String[] args) {
 		Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Welcome to the Craftconomy setup wizard.");
@@ -56,5 +55,4 @@ public class SetupMainCommand extends CraftconomyCommand {
 	public String getPermissionNode() {
 		return "craftconomy.setup";
 	}
-
 }

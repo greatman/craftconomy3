@@ -18,11 +18,9 @@
  */
 package com.greatmancode.craftconomy3;
 
-
 /**
  * Global class to keep a global variable for the Setup Wizard.
  * @author greatman
- *
  */
 public enum SetupWizard {
 

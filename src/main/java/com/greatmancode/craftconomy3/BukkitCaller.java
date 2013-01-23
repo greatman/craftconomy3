@@ -24,22 +24,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 
+import com.greatmancode.craftconomy3.commands.interfaces.CommandManager;
+import com.greatmancode.craftconomy3.commands.managers.BukkitCommandManager;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
 
-import com.greatmancode.craftconomy3.commands.interfaces.CommandManager;
-import com.greatmancode.craftconomy3.commands.managers.BukkitCommandManager;
-
 /**
  * Server caller for Craftbukkit
- * 
  * @author greatman
- * 
  */
 public class BukkitCaller implements Caller {
-
 	private static final long TICK_LENGTH = 20L;
 	private BukkitLoader loader;
 
@@ -62,7 +59,6 @@ public class BukkitCaller implements Caller {
 			} else {
 				result = p.hasPermission(perm);
 			}
-
 		} else {
 			// It's the console
 			result = true;
@@ -205,7 +201,6 @@ public class BukkitCaller implements Caller {
 			// TODO Auto-generated catch block
 			Common.getInstance().sendConsoleMessage(Level.SEVERE, String.format(Common.getInstance().getLanguageManager().getString("invalid_library"), path, e.getMessage()));
 		}
-
 	}
 
 	@Override
@@ -213,7 +208,7 @@ public class BukkitCaller implements Caller {
 		if (permissionNode != null) {
 			try {
 				loader.getServer().getPluginManager().addPermission(new Permission(permissionNode));
-			} catch(IllegalArgumentException e) {
+			} catch (IllegalArgumentException e) {
 			}
 		}
 	}
@@ -222,5 +217,4 @@ public class BukkitCaller implements Caller {
 	public boolean isOnlineMode() {
 		return Bukkit.getServer().getOnlineMode();
 	}
-
 }

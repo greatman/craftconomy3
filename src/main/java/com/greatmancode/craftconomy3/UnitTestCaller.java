@@ -26,12 +26,9 @@ import com.greatmancode.craftconomy3.commands.interfaces.CommandManager;
 
 /**
  * Special caller for unit tests.
- * 
  * @author Greatman
- * 
  */
 public class UnitTestCaller implements Caller {
-
 	@Override
 	public void disablePlugin() {
 	}
@@ -137,7 +134,6 @@ public class UnitTestCaller implements Caller {
 	@Override
 	public boolean isOp(String playerName) {
 		return playerName.equals("UnitTestPlayer");
-		
 	}
 
 	@Override
@@ -156,5 +152,4 @@ public class UnitTestCaller implements Caller {
 	public boolean isOnlineMode() {
 		return true;
 	}
-
 }

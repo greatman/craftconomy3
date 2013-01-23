@@ -20,13 +20,12 @@ package com.greatmancode.craftconomy3.configuration;
 
 import java.io.File;
 
+import com.greatmancode.craftconomy3.Common;
+
 import org.spout.api.exception.ConfigurationException;
 import org.spout.api.util.config.yaml.YamlConfiguration;
 
-import com.greatmancode.craftconomy3.Common;
-
 public class SpoutConfig extends Config {
-
 	private YamlConfiguration config = null;
 
 	public SpoutConfig(File folder, String fileName) {
@@ -81,5 +80,4 @@ public class SpoutConfig extends Config {
 	public boolean has(String path) {
 		return config.getNode(path).isAttached();
 	}
-
 }

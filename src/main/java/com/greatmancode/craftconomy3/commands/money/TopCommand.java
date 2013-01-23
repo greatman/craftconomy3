@@ -30,6 +30,7 @@ import com.greatmancode.craftconomy3.database.tables.BalanceTable;
 
 class TopCommandThread implements Runnable {
 	public static final int NUMBER_ELEMENTS = 10;
+
 	class TopCommandThreadEnd implements Runnable {
 		private String sender;
 		private String ret;
@@ -85,15 +86,13 @@ class TopCommandThread implements Runnable {
 }
 
 public class TopCommand extends CraftconomyCommand {
-
 	@Override
 	public void execute(String sender, String[] args) {
 		int page = 1;
 		Currency currency = Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.defaultCurrencyID);
 		if (args.length == 0) {
 			currency = Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.defaultCurrencyID);
-		}
-		else {
+		} else {
 			if (Common.getInstance().getCurrencyManager().getCurrency(args[0]) != null) {
 				currency = Common.getInstance().getCurrencyManager().getCurrency(args[0]);
 			} else {
@@ -146,5 +145,4 @@ public class TopCommand extends CraftconomyCommand {
 	public String getPermissionNode() {
 		return "craftconomy.money.top";
 	}
-
 }

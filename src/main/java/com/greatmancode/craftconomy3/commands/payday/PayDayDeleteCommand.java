@@ -23,7 +23,6 @@ import com.greatmancode.craftconomy3.commands.interfaces.CraftconomyCommand;
 import com.greatmancode.craftconomy3.payday.PayDay;
 
 public class PayDayDeleteCommand extends CraftconomyCommand {
-
 	@Override
 	public void execute(String sender, String[] args) {
 		PayDay payday = Common.getInstance().getPaydayManager().getPayDay(args[0]);
@@ -33,11 +32,9 @@ public class PayDayDeleteCommand extends CraftconomyCommand {
 			} else {
 				Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("error_occured"));
 			}
-			
 		} else {
 			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("payday_not_found"));
 		}
-
 	}
 
 	@Override
@@ -64,5 +61,4 @@ public class PayDayDeleteCommand extends CraftconomyCommand {
 	public String getPermissionNode() {
 		return "craftconomy.payday.command.delete";
 	}
-
 }

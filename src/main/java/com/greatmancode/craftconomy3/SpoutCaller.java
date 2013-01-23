@@ -23,23 +23,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import org.spout.api.chat.ChatArguments;
-import org.spout.api.entity.Player;
-import org.spout.api.scheduler.TaskPriority;
-import org.spout.api.Server;
-import org.spout.api.Spout;
-
 import com.greatmancode.craftconomy3.commands.interfaces.CommandManager;
 import com.greatmancode.craftconomy3.commands.managers.SpoutCommandManager;
 
+import org.spout.api.Server;
+import org.spout.api.Spout;
+import org.spout.api.chat.ChatArguments;
+import org.spout.api.entity.Player;
+import org.spout.api.scheduler.TaskPriority;
+
 /**
  * Server caller for Spout
- * 
  * @author greatman
- * 
  */
 public class SpoutCaller implements Caller {
-
 	private SpoutLoader loader;
 
 	public SpoutCaller(Loader loader) {
@@ -62,7 +59,6 @@ public class SpoutCaller implements Caller {
 			result = true;
 		}
 		return result;
-
 	}
 
 	@Override
@@ -120,9 +116,9 @@ public class SpoutCaller implements Caller {
 	public int schedule(Runnable entry, long firstStart, long repeating, boolean async) {
 		//TODO: Spout don't have the Async anymore for some reasons..
 		//if (!async) {
-			return loader.getEngine().getScheduler().scheduleSyncRepeatingTask(loader, entry, TimeUnit.MILLISECONDS.convert(firstStart, TimeUnit.SECONDS), TimeUnit.MILLISECONDS.convert(repeating, TimeUnit.SECONDS), TaskPriority.NORMAL).getTaskId();
+		return loader.getEngine().getScheduler().scheduleSyncRepeatingTask(loader, entry, TimeUnit.MILLISECONDS.convert(firstStart, TimeUnit.SECONDS), TimeUnit.MILLISECONDS.convert(repeating, TimeUnit.SECONDS), TaskPriority.NORMAL).getTaskId();
 		//} else {
-			//return loader.getEngine().getScheduler().scheduleAsyncRepeatingTask(loader, entry, TimeUnit.MILLISECONDS.convert(firstStart, TimeUnit.SECONDS), TimeUnit.MILLISECONDS.convert(repeating, TimeUnit.SECONDS), TaskPriority.NORMAL);
+		//return loader.getEngine().getScheduler().scheduleAsyncRepeatingTask(loader, entry, TimeUnit.MILLISECONDS.convert(firstStart, TimeUnit.SECONDS), TimeUnit.MILLISECONDS.convert(repeating, TimeUnit.SECONDS), TaskPriority.NORMAL);
 		//}
 	}
 
@@ -160,7 +156,6 @@ public class SpoutCaller implements Caller {
 		if (manager instanceof SpoutCommandManager) {
 			loader.getEngine().getRootCommand().addSubCommand(loader, name).setHelp(help).setExecutor((SpoutCommandManager) manager);
 		}
-
 	}
 
 	@Override

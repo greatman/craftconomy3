@@ -24,16 +24,12 @@ import com.alta189.simplesave.Table;
 
 @Table("iConomy")
 public class IConomyTable {
-
 	@Id
 	private int id;
-	
 	@Field
 	private String username;
-
 	@Field
 	private double balance;
-	
 	@Field
 	private int status;
 

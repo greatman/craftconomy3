@@ -20,16 +20,12 @@ package com.greatmancode.craftconomy3.currency;
 
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.database.tables.CurrencyTable;
-import com.greatmancode.craftconomy3.database.tables.ExchangeTable;
 
 /**
  * Represents a currency
- * 
  * @author greatman
- * 
  */
 public class Currency {
-
 	private CurrencyTable entry = new CurrencyTable();
 
 	public Currency(int databaseID, String name, String plural, String minor, String minorPlural, double hardCap, String sign) {
@@ -44,7 +40,6 @@ public class Currency {
 
 	/**
 	 * Get the currency name
-	 * 
 	 * @return The currency Name
 	 */
 	public String getName() {
@@ -53,7 +48,6 @@ public class Currency {
 
 	/**
 	 * Set the currency name
-	 * 
 	 * @param name The currency name to set to.
 	 */
 	public void setName(String name) {
@@ -63,7 +57,6 @@ public class Currency {
 
 	/**
 	 * Get the currency name in plural
-	 * 
 	 * @return The currency name in plural
 	 */
 	public String getPlural() {
@@ -72,7 +65,6 @@ public class Currency {
 
 	/**
 	 * Set the currency name in plural
-	 * 
 	 * @param plural The currency name in plural to set to.
 	 */
 	public void setPlural(String plural) {
@@ -82,7 +74,6 @@ public class Currency {
 
 	/**
 	 * Get the currency minor name
-	 * 
 	 * @return The currency minor name
 	 */
 	public String getMinor() {
@@ -91,7 +82,6 @@ public class Currency {
 
 	/**
 	 * Set the currency minor name
-	 * 
 	 * @param minor The currency minor name to set to
 	 */
 	public void setMinor(String minor) {
@@ -101,7 +91,6 @@ public class Currency {
 
 	/**
 	 * Get the currency minor name in plural
-	 * 
 	 * @return The currency minor name in plural
 	 */
 	public String getMinorPlural() {
@@ -110,7 +99,6 @@ public class Currency {
 
 	/**
 	 * Set the currency minor name in plural
-	 * 
 	 * @param minorPlural The currency minor name in plural to set to
 	 */
 	public void setMinorPlural(String minorPlural) {
@@ -120,7 +108,6 @@ public class Currency {
 
 	/**
 	 * Retrieve the database ID of this currency
-	 * 
 	 * @return The database ID
 	 */
 	public int getDatabaseID() {
@@ -146,7 +133,6 @@ public class Currency {
 
 	/**
 	 * Sets the sign of the currency (Example $ for Dollars)
-	 * 
 	 * @param sign The Sign of the Currency.
 	 */
 	public void setSign(String sign) {
@@ -156,7 +142,6 @@ public class Currency {
 
 	/**
 	 * Retrieve the sign of the currency (Example $ for Dollars)
-	 * 
 	 * @return The sign.
 	 */
 	public String getSign() {
@@ -178,6 +163,7 @@ public class Currency {
 		}
 		return exchangeTable.amount;
 	}*/
+
 	/**
 	 * Save the currency information.
 	 */
@@ -201,5 +187,4 @@ public class Currency {
 		entry.setStatus(true);
 		save();
 	}
-
 }

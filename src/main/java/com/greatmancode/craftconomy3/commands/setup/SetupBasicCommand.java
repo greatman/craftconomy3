@@ -25,7 +25,6 @@ import com.greatmancode.craftconomy3.database.tables.ConfigTable;
 import com.greatmancode.craftconomy3.utils.Tools;
 
 public class SetupBasicCommand extends CraftconomyCommand {
-
 	private static String defaultAmount = null, bankprice = null, longmode = null;
 
 	@Override
@@ -42,7 +41,6 @@ public class SetupBasicCommand extends CraftconomyCommand {
 					} else {
 						Common.getInstance().getServerCaller().sendMessage(sender, args[1] + "{{DARK_RED}} Is not a valid number! Something valid is something like 30.0");
 					}
-
 				} else if (args[0].equals("bank")) {
 					if (Tools.isValidDouble(args[1])) {
 						bankprice = args[1];
@@ -86,7 +84,6 @@ public class SetupBasicCommand extends CraftconomyCommand {
 		} else {
 			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Wrong setup status for this cmd. If you didin't start the setup yet, use /ccsetup");
 		}
-
 	}
 
 	@Override
@@ -113,5 +110,4 @@ public class SetupBasicCommand extends CraftconomyCommand {
 	public String getPermissionNode() {
 		return "craftconomy.setup";
 	}
-
 }

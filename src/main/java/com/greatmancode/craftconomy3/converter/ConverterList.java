@@ -27,12 +27,9 @@ import com.greatmancode.craftconomy3.converter.converters.Iconomy6;
 
 /**
  * Contains the list of loaded converters.
- * 
  * @author greatman
- * 
  */
 public class ConverterList {
-
 	/**
 	 * Contains the list of the loaded converters.
 	 */

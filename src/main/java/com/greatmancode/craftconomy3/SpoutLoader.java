@@ -18,21 +18,18 @@
  */
 package com.greatmancode.craftconomy3;
 
+import com.greatmancode.craftconomy3.events.SpoutListener;
+import com.greatmancode.craftconomy3.spout.EconomyServiceHandler;
+
 import org.spout.api.plugin.CommonPlugin;
 import org.spout.api.plugin.ServiceManager.ServicePriority;
 import org.spout.api.plugin.services.EconomyService;
 
-import com.greatmancode.craftconomy3.events.SpoutListener;
-import com.greatmancode.craftconomy3.spout.EconomyServiceHandler;
-
 /**
  * Class used when the plugin is loaded from Spout.
- * 
  * @author greatman
- * 
  */
 public class SpoutLoader extends CommonPlugin implements Loader {
-
 	@Override
 	public void onEnable() {
 		new Common(this, getLogger()).initialize();
@@ -51,5 +48,4 @@ public class SpoutLoader extends CommonPlugin implements Loader {
 	public ServerType getServerType() {
 		return ServerType.SPOUT;
 	}
-
 }

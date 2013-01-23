@@ -18,14 +18,13 @@
  */
 package com.greatmancode.craftconomy3.events;
 
+import com.greatmancode.craftconomy3.Common;
+
 import org.spout.api.event.EventHandler;
 import org.spout.api.event.Listener;
 import org.spout.api.event.player.PlayerJoinEvent;
 
-import com.greatmancode.craftconomy3.Common;
-
 public class SpoutListener implements Listener {
-
 	@EventHandler
 	public void playerJoin(PlayerJoinEvent event) {
 		Common.getInstance().getEventManager().playerJoinEvent(event.getPlayer().getName());

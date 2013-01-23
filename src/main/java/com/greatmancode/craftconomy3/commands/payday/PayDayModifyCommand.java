@@ -23,7 +23,6 @@ import com.greatmancode.craftconomy3.commands.interfaces.CraftconomyCommand;
 import com.greatmancode.craftconomy3.utils.Tools;
 
 public class PayDayModifyCommand extends CraftconomyCommand {
-
 	@Override
 	public void execute(String sender, String[] args) {
 		if (Common.getInstance().getPaydayManager().getPayDay(args[0]) != null) {
@@ -66,7 +65,6 @@ public class PayDayModifyCommand extends CraftconomyCommand {
 				} else {
 					Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("invalid_amount"));
 				}
-				
 			} else if (args[1].equalsIgnoreCase("account")) {
 				if (Common.getInstance().getAccountManager().exist(args[2])) {
 					Common.getInstance().getPaydayManager().getPayDay(args[0]).setAccount(args[2]);
@@ -120,5 +118,4 @@ public class PayDayModifyCommand extends CraftconomyCommand {
 	public String getPermissionNode() {
 		return "craftconomy.payday.command.modify";
 	}
-
 }

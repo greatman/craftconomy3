@@ -40,12 +40,9 @@ import com.greatmancode.craftconomy3.database.tables.iconomy.IConomyTable;
 
 /**
  * Converter for iConomy 6.
- * 
  * @author greatman
- * 
  */
 public class Iconomy6 extends Converter {
-
 	private BufferedReader flatFileReader = null;
 	private Database db = null;
 
@@ -94,7 +91,6 @@ public class Iconomy6 extends Converter {
 			} catch (ConnectionException e) {
 				Common.getInstance().getLogger().severe("Unable to connect to iConomy database. Reason: " + e.getMessage());
 			}
-
 		}
 		return result;
 	}
@@ -161,7 +157,6 @@ public class Iconomy6 extends Converter {
 						} catch (NumberFormatException e) {
 							Common.getInstance().sendConsoleMessage(Level.SEVERE, "User " + info[0] + " have a invalid balance" + balance[1]);
 						}
-
 					}
 				} catch (ArrayIndexOutOfBoundsException e) {
 					Common.getInstance().sendConsoleMessage(Level.WARNING, "Line not formatted correctly. I read:" + str);
@@ -184,7 +179,6 @@ public class Iconomy6 extends Converter {
 			while (icoListIterator.hasNext()) {
 				if (i % ALERT_EACH_X_ACCOUNT == 0) {
 					Common.getInstance().getServerCaller().sendMessage(sender, i + " of  " + icoList.size() + "{{DARK_GREEN}}accounts imported.");
-
 				}
 				IConomyTable entry = icoListIterator.next();
 				Common.getInstance().getAccountManager().getAccount(entry.getUsername()).set(entry.getBalance(), Common.getInstance().getServerCaller().getDefaultWorld(), Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.defaultCurrencyID).getName());
@@ -199,5 +193,4 @@ public class Iconomy6 extends Converter {
 		}
 		return true;
 	}
-
 }

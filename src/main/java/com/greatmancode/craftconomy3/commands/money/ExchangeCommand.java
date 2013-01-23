@@ -20,11 +20,8 @@ package com.greatmancode.craftconomy3.commands.money;
 
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.commands.interfaces.CraftconomyCommand;
-import com.greatmancode.craftconomy3.currency.Currency;
-import com.greatmancode.craftconomy3.utils.Tools;
 
 public class ExchangeCommand extends CraftconomyCommand {
-
 	@Override
 	public void execute(String sender, String[] args) {
 		/*if (Tools.isValidDouble(args[0]) && Tools.isValidDouble(args[2])) {
@@ -65,5 +62,4 @@ public class ExchangeCommand extends CraftconomyCommand {
 	public String getPermissionNode() {
 		return "craftconomy.money.exchange";
 	}
-
 }

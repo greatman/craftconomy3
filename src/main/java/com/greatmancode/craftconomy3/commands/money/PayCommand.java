@@ -26,7 +26,6 @@ import com.greatmancode.craftconomy3.currency.CurrencyManager;
 import com.greatmancode.craftconomy3.utils.Tools;
 
 public class PayCommand extends CraftconomyCommand {
-
 	@Override
 	public void execute(String sender, String[] args) {
 		if (!Account.isBankAccount(args[0]) && Common.getInstance().getAccountManager().exist(args[0])) {
@@ -47,9 +46,9 @@ public class PayCommand extends CraftconomyCommand {
 				if (hasEnough) {
 					Common.getInstance().getAccountManager().getAccount(sender).withdraw(amount, Common.getInstance().getAccountManager().getAccount(sender).getWorldPlayerCurrentlyIn(), currency.getName());
 					Common.getInstance().getAccountManager().getAccount(args[0]).deposit(amount, Common.getInstance().getAccountManager().getAccount(sender).getWorldPlayerCurrentlyIn(), currency.getName());
-					Common.getInstance().getServerCaller().sendMessage(sender, String.format(Common.getInstance().getLanguageManager().getString("money_pay_sent"), Common.getInstance().format(null, currency, amount) ,args[0]));
+					Common.getInstance().getServerCaller().sendMessage(sender, String.format(Common.getInstance().getLanguageManager().getString("money_pay_sent"), Common.getInstance().format(null, currency, amount), args[0]));
 					if (Common.getInstance().getServerCaller().isOnline(args[0])) {
-						Common.getInstance().getServerCaller().sendMessage(args[0],  String.format(Common.getInstance().getLanguageManager().getString("money_pay_received"), Common.getInstance().format(null, currency, amount), sender));
+						Common.getInstance().getServerCaller().sendMessage(args[0], String.format(Common.getInstance().getLanguageManager().getString("money_pay_received"), Common.getInstance().format(null, currency, amount), sender));
 					}
 				} else {
 					Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("not_enough_money"));
@@ -86,5 +85,4 @@ public class PayCommand extends CraftconomyCommand {
 	public String getPermissionNode() {
 		return "craftconomy.money.pay";
 	}
-
 }

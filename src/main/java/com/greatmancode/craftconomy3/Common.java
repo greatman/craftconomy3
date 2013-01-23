@@ -44,15 +44,11 @@ import com.greatmancode.craftconomy3.utils.VersionChecker;
 
 /**
  * The core of Craftconomy. Every requests pass through this class
- * 
  * @author greatman
- * 
  */
 public class Common {
-
 	private Logger log = null;
 	private static Common instance = null;
-
 	// Managers
 	private AccountManager accountManager = null;
 	private ConfigurationManager config = null;
@@ -61,7 +57,6 @@ public class Common {
 	private PayDayManager paydayManager = null;
 	private EventManager eventManager = null;
 	private LanguageManager languageManager = null;
-
 	private CommandLoader commandManager;
 	private Caller serverCaller;
 	private VersionChecker versionChecker = null;
@@ -72,7 +67,6 @@ public class Common {
 
 	/**
 	 * Loads the Common core.
-	 * 
 	 * @param loader The plugin Loader.
 	 * @param log The Logger associated with this plugin.
 	 */
@@ -154,7 +148,6 @@ public class Common {
 			}
 			initialized = true;
 		}
-
 	}
 
 	/**
@@ -173,7 +166,6 @@ public class Common {
 
 	/**
 	 * Retrieve the logger associated with this plugin.
-	 * 
 	 * @return The logger instance.
 	 */
 	public Logger getLogger() {
@@ -182,7 +174,6 @@ public class Common {
 
 	/**
 	 * Sends a message to the console through the Logge.r
-	 * 
 	 * @param level The log level to show.
 	 * @param msg The message to send.
 	 */
@@ -192,7 +183,6 @@ public class Common {
 
 	/**
 	 * Retrieve the instance of Common. Need to go through that to access any managers.
-	 * 
 	 * @return The Common instance.
 	 */
 	public static Common getInstance() {
@@ -201,7 +191,6 @@ public class Common {
 
 	/**
 	 * Retrieve the Account Manager.
-	 * 
 	 * @return The Account Manager instance or null if the manager is not initialized.
 	 */
 	public AccountManager getAccountManager() {
@@ -210,7 +199,6 @@ public class Common {
 
 	/**
 	 * Retrieve the Configuration Manager.
-	 * 
 	 * @return The Configuration Manager instance or null if the manager is not initialized.
 	 */
 	public ConfigurationManager getConfigurationManager() {
@@ -219,7 +207,6 @@ public class Common {
 
 	/**
 	 * Retrieve the Database Manager.
-	 * 
 	 * @return The Database Manager instance or null if the manager is not initialized.
 	 */
 	public DatabaseManager getDatabaseManager() {
@@ -228,7 +215,6 @@ public class Common {
 
 	/**
 	 * Retrieve the Currency Manager.
-	 * 
 	 * @return The Currency Manager instance or null if the manager is not initialized.
 	 */
 	public CurrencyManager getCurrencyManager() {
@@ -237,7 +223,6 @@ public class Common {
 
 	/**
 	 * Retrieve the Command Manager.
-	 * 
 	 * @return The Command Manager instance or null if the manager is not initialized.
 	 */
 	public CommandLoader getCommandManager() {
@@ -246,7 +231,6 @@ public class Common {
 
 	/**
 	 * Retrieve the Payday Manager
-	 * 
 	 * @return The Command Manager instance or null if the manager is not initialized.
 	 */
 	public PayDayManager getPaydayManager() {
@@ -255,7 +239,6 @@ public class Common {
 
 	/**
 	 * Retrieve the Server Caller.
-	 * 
 	 * @return The Server Caller instance or null if the caller is not initialized.
 	 */
 	public Caller getServerCaller() {
@@ -264,7 +247,6 @@ public class Common {
 
 	/**
 	 * Format a balance to a readable string.
-	 * 
 	 * @param worldName The world Name associated with this balance
 	 * @param currency The currency instance associated with this balance.
 	 * @param balance The balance.
@@ -317,7 +299,6 @@ public class Common {
 
 	/**
 	 * Format a balance to a readable string with the default formatting.
-	 * 
 	 * @param worldName The world Name associated with this balance
 	 * @param currency The currency instance associated with this balance.
 	 * @param balance The balance.
@@ -329,7 +310,6 @@ public class Common {
 
 	/**
 	 * Initialize the database Manager
-	 * 
 	 * @throws TableRegistrationException
 	 * @throws ConnectionException
 	 */
@@ -371,14 +351,12 @@ public class Common {
 
 	/**
 	 * Add a graph to Metrics
-	 * 
 	 * @param title The title of the Graph
 	 * @param value The value of the entry
 	 */
 	public void addMetricsGraph(String title, String value) {
 		Graph graph = metrics.createGraph(title);
 		graph.addPlotter(new Metrics.Plotter(value) {
-
 			@Override
 			public int getValue() {
 				return 1;
@@ -388,7 +366,6 @@ public class Common {
 
 	/**
 	 * Add a graph to Metrics
-	 * 
 	 * @param title The title of the Graph
 	 * @param value The value of the entry
 	 */
@@ -406,7 +383,6 @@ public class Common {
 
 	/**
 	 * Write a transaction to the Log.
-	 * 
 	 * @param info The type of transaction to log.
 	 * @param username The username that did this transaction.
 	 * @param amount The amount of money in this transaction.
@@ -428,7 +404,6 @@ public class Common {
 
 	/**
 	 * Get the version Checker.
-	 * 
 	 * @return The version checker. May return null if the system is disabled in the config.yml
 	 */
 	public VersionChecker getVersionChecker() {
@@ -437,7 +412,6 @@ public class Common {
 
 	/**
 	 * Retrieve the Event manager.
-	 * 
 	 * @return The Event manager.
 	 */
 	public EventManager getEventManager() {

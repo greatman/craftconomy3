@@ -30,17 +30,13 @@ import com.greatmancode.craftconomy3.database.tables.CurrencyTable;
 
 /**
  * Currency Handler
- * 
  * @author greatman
- * 
  */
 public class CurrencyManager {
-
 	/**
 	 * The default currency database ID
 	 */
 	public static int defaultCurrencyID;
-
 	private Map<Integer, Currency> currencyList = new HashMap<Integer, Currency>();
 
 	public CurrencyManager() {
@@ -57,7 +53,6 @@ public class CurrencyManager {
 
 	/**
 	 * Get a currency
-	 * 
 	 * @param id The Database ID
 	 * @return A Currency instance if the currency is found else null
 	 */
@@ -71,7 +66,6 @@ public class CurrencyManager {
 
 	/**
 	 * Get a currency
-	 * 
 	 * @param name The name of the currency
 	 * @return A currency instance if the currency is found else null
 	 */
@@ -86,7 +80,6 @@ public class CurrencyManager {
 
 	/**
 	 * Get the list of currency in the system
-	 * 
 	 * @return A list of all the currency in the system
 	 */
 	public List<String> getCurrencyNames() {
@@ -99,21 +92,18 @@ public class CurrencyManager {
 
 	/**
 	 * Add a currency in the system
-	 * 
 	 * @param name The main currency name
 	 * @param plural The main currency name in plural
 	 * @param minor The minor (cents) part of the currency
 	 * @param minorPlural The minor (cents) part of the currency in plural
 	 * @param save Do we add it in the database?
 	 */
-
 	public void addCurrency(String name, String plural, String minor, String minorPlural, double hardCap, String sign, boolean save) {
 		addCurrency(-1, name, plural, minor, minorPlural, hardCap, sign, save);
 	}
 
 	/**
 	 * Add a currency in the system
-	 * 
 	 * @param name The main currency name
 	 * @param plural The main currency name in plural
 	 * @param minor The minor (cents) part of the currency
@@ -139,7 +129,6 @@ public class CurrencyManager {
 
 	/**
 	 * Set a currency as the default one.
-	 * 
 	 * @param currencyId The default currency ID.
 	 */
 	public void setDefault(int currencyId) {
@@ -156,7 +145,6 @@ public class CurrencyManager {
 
 	/**
 	 * Delete a currency.
-	 * 
 	 * @param currencyId The currency ID to delete.
 	 */
 	public void deleteCurrency(int currencyId) {

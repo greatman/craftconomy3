@@ -21,7 +21,6 @@ package com.greatmancode.craftconomy3.account;
 import com.greatmancode.craftconomy3.database.tables.AccessTable;
 
 public class AccountACLValue {
-
 	private AccessTable table;
 
 	public AccountACLValue(AccessTable entry) {
@@ -30,7 +29,6 @@ public class AccountACLValue {
 
 	/**
 	 * Represents a database entry of the ACL entry.
-	 * 
 	 * @return a AccessTable instance
 	 */
 	public AccessTable getTable() {

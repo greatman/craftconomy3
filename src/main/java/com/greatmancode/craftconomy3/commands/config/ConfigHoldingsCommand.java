@@ -23,7 +23,6 @@ import com.greatmancode.craftconomy3.commands.interfaces.CraftconomyCommand;
 import com.greatmancode.craftconomy3.utils.Tools;
 
 public class ConfigHoldingsCommand extends CraftconomyCommand {
-
 	@Override
 	public void execute(String sender, String[] args) {
 		if (Tools.isValidDouble(args[0])) {
@@ -58,5 +57,4 @@ public class ConfigHoldingsCommand extends CraftconomyCommand {
 	public String getPermissionNode() {
 		return "craftconomy.config.holdings";
 	}
-
 }

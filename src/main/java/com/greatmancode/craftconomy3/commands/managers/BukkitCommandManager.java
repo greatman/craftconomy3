@@ -18,21 +18,18 @@
  */
 package com.greatmancode.craftconomy3.commands.managers;
 
+import com.greatmancode.craftconomy3.Common;
+import com.greatmancode.craftconomy3.commands.interfaces.CommandManager;
+
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
-import com.greatmancode.craftconomy3.Common;
-import com.greatmancode.craftconomy3.commands.interfaces.CommandManager;
-
 /**
  * Handles the commands for the Bukkit server
- * 
  * @author greatman
- * 
  */
 public class BukkitCommandManager implements CommandExecutor, CommandManager {
-
 	@Override
 	public boolean onCommand(CommandSender commandSender, Command command, String commandLabel, String[] args) {
 		if (Common.getInstance().getCommandManager().commandExist(command.getName())) {
@@ -50,5 +47,4 @@ public class BukkitCommandManager implements CommandExecutor, CommandManager {
 		}
 		return false;
 	}
-
 }

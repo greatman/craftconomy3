@@ -26,7 +26,6 @@ import com.greatmancode.craftconomy3.currency.CurrencyManager;
 import com.greatmancode.craftconomy3.utils.Tools;
 
 public class SetCommand extends CraftconomyCommand {
-
 	@Override
 	public void execute(String sender, String[] args) {
 		if (!Account.isBankAccount(args[0]) && Common.getInstance().getAccountManager().exist(args[0])) {
@@ -60,7 +59,7 @@ public class SetCommand extends CraftconomyCommand {
 				}
 
 				Common.getInstance().getAccountManager().getAccount(args[0]).set(amount, worldName, currency.getName());
-				Common.getInstance().getServerCaller().sendMessage(sender, String.format(Common.getInstance().getLanguageManager().getString("money_set"), args[0] , Common.getInstance().format(worldName, currency, amount)));
+				Common.getInstance().getServerCaller().sendMessage(sender, String.format(Common.getInstance().getLanguageManager().getString("money_set"), args[0], Common.getInstance().format(worldName, currency, amount)));
 				if (Common.getInstance().getServerCaller().isOnline(args[0])) {
 					Common.getInstance().getServerCaller().sendMessage(args[0], String.format(Common.getInstance().getLanguageManager().getString("money_set_other"), Common.getInstance().format(worldName, currency, amount), sender));
 				}
@@ -96,5 +95,4 @@ public class SetCommand extends CraftconomyCommand {
 	public String getPermissionNode() {
 		return "craftconomy.money.set";
 	}
-
 }

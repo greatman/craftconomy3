@@ -20,11 +20,11 @@ package com.greatmancode.craftconomy3.configuration;
 
 import java.io.File;
 import java.io.IOException;
+
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.configuration.configurationFile.file.YamlConfiguration;
 
 public class GeneralConfig extends Config {
-
 	private YamlConfiguration configFile;
 	private File file;
 
@@ -75,6 +75,5 @@ public class GeneralConfig extends Config {
 	@Override
 	public boolean has(String path) {
 		return configFile.contains(path);
-
 	}
 }

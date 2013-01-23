@@ -28,17 +28,13 @@ import com.greatmancode.craftconomy3.Common;
 
 /**
  * Represents a Configuration handler
- * 
  * @author greatman
- * 
  */
 public abstract class Config {
-
 	private static final int DEFAULT_BUFFER_SIZE = 1024 * 4;
 
 	/**
 	 * Retrieve a integer from the configuration
-	 * 
 	 * @param path The path to the integer we want to retrieve
 	 * @return A integer
 	 */
@@ -46,7 +42,6 @@ public abstract class Config {
 
 	/**
 	 * Retrieve a long from the configuration
-	 * 
 	 * @param path The path to the long we want to retrieve
 	 * @return A Long
 	 */
@@ -54,7 +49,6 @@ public abstract class Config {
 
 	/**
 	 * Retrieve a double from the configuration
-	 * 
 	 * @param path The path to the double we want to retrieve
 	 * @return A double
 	 */
@@ -62,7 +56,6 @@ public abstract class Config {
 
 	/**
 	 * Retrieve a String from the configuration
-	 * 
 	 * @param path The path to the String we want to retrieve
 	 * @return A String
 	 */
@@ -70,7 +63,6 @@ public abstract class Config {
 
 	/**
 	 * Retrieve a Boolean from the configuration
-	 * 
 	 * @param path The path to the Boolean we want to retrieve
 	 * @return A Boolean
 	 */
@@ -78,7 +70,6 @@ public abstract class Config {
 
 	/**
 	 * Set a value in the configuration.
-	 * 
 	 * @param path The path to the value we want to modify
 	 * @param value The new value.
 	 */
@@ -86,7 +77,6 @@ public abstract class Config {
 
 	/**
 	 * Checks if the file has the node
-	 * 
 	 * @param path The node path.
 	 * @return True if the node exist. Else false.
 	 */
@@ -94,7 +84,6 @@ public abstract class Config {
 
 	/**
 	 * Initialize a configuration file with the default file located in the .jar. Only creates the file if the default file doesn't exist.
-	 * 
 	 * @param file The path to to the file.
 	 * @param fileName The fileName.
 	 */

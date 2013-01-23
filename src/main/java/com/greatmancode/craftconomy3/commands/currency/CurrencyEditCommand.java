@@ -22,7 +22,6 @@ import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.commands.interfaces.CraftconomyCommand;
 
 public class CurrencyEditCommand extends CraftconomyCommand {
-
 	@Override
 	public void execute(String sender, String[] args) {
 		if (Common.getInstance().getCurrencyManager().getCurrency(args[1]) != null) {
@@ -42,14 +41,12 @@ public class CurrencyEditCommand extends CraftconomyCommand {
 					return;
 				}
 				Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("currency_modified"));
-
 			} else {
 				Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("currency_empty_value"));
 			}
 		} else {
 			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("currency_not_exist"));
 		}
-
 	}
 
 	@Override
@@ -76,5 +73,4 @@ public class CurrencyEditCommand extends CraftconomyCommand {
 	public String getPermissionNode() {
 		return "craftconomy.currency.edit";
 	}
-
 }

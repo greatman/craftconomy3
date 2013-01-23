@@ -26,7 +26,6 @@ import com.greatmancode.craftconomy3.account.Balance;
 import com.greatmancode.craftconomy3.commands.interfaces.CraftconomyCommand;
 
 public class BalanceCommand extends CraftconomyCommand {
-
 	@Override
 	public void execute(String sender, String[] args) {
 		if (Common.getInstance().getAccountManager().exist(args[0])) {
@@ -36,12 +35,10 @@ public class BalanceCommand extends CraftconomyCommand {
 			while (balanceList.hasNext()) {
 				Balance bl = balanceList.next();
 				Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().format(bl.getWorld(), bl.getCurrency(), bl.getBalance()));
-
 			}
 		} else {
 			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("account_not_exist"));
 		}
-
 	}
 
 	@Override
@@ -68,5 +65,4 @@ public class BalanceCommand extends CraftconomyCommand {
 	public String getPermissionNode() {
 		return "craftconomy.money.balance.others";
 	}
-
 }

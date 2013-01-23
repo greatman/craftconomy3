@@ -26,7 +26,6 @@ import com.greatmancode.craftconomy3.commands.interfaces.CraftconomyCommand;
 import com.greatmancode.craftconomy3.utils.Tools;
 
 public class SetupDatabaseCommand extends CraftconomyCommand {
-
 	private static final String ERROR_MESSAGE = "{{DARK_RED}}A error occured. The error is: {{WHITE}}%s";
 	private static final String CONFIG_NODE = "System.Database.Type";
 
@@ -62,7 +61,6 @@ public class SetupDatabaseCommand extends CraftconomyCommand {
 		} else {
 			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Wrong setup status for this cmd. If you didin't start the setup yet, use /ccsetup");
 		}
-
 	}
 
 	private void testMySQL(String sender) {
@@ -81,7 +79,6 @@ public class SetupDatabaseCommand extends CraftconomyCommand {
 		} else {
 			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Must be in MySQL mode for this command.");
 		}
-
 	}
 
 	private void setPort(String sender, String stringPort) {
@@ -92,7 +89,6 @@ public class SetupDatabaseCommand extends CraftconomyCommand {
 		} else {
 			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Invalid port!");
 		}
-
 	}
 
 	private void typeHandler(String sender, String type) {
@@ -122,7 +118,6 @@ public class SetupDatabaseCommand extends CraftconomyCommand {
 				Common.getInstance().getServerCaller().sendMessage(sender, String.format(ERROR_MESSAGE, e.getMessage()));
 			}
 		}
-
 	}
 
 	@Override

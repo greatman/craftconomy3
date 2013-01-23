@@ -28,18 +28,17 @@ import com.greatmancode.craftconomy3.converter.Converter;
 import com.greatmancode.craftconomy3.converter.ConverterList;
 
 public class SetupConvertCommand extends CraftconomyCommand {
-
 	private static ConverterList importerList = new ConverterList();
 	private boolean inProgress = false;
-	
 	private Converter selectedConverter = null;
 	private String importlist = "";
 	private int status = 0;
+
 	@Override
 	public void execute(final String sender, String[] args) {
 		if (SetupWizard.getState() == SetupWizard.CONVERT_SETUP) {
 			if (args.length == 0 && status == 0) {
-				
+
 				Iterator<Entry<String, Converter>> iterator = importerList.getConverterList().entrySet().iterator();
 				while (iterator.hasNext()) {
 					importlist += iterator.next().getKey();
@@ -68,16 +67,13 @@ public class SetupConvertCommand extends CraftconomyCommand {
 							if (dbTypesIterator.hasNext()) {
 								list += ", ";
 							}
-							
 						}
 						Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}You selected {{WHITE}}" + args[0] + "{{DARK_GREEN}}.");
-						Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}You now need to select the database type you are using. Please type {{WHITE}}/ccsetup convert <" + list +" >");
-						
+						Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}You now need to select the database type you are using. Please type {{WHITE}}/ccsetup convert <" + list + " >");
 					} else {
 						Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Unknown converter. Be sure to have written the name correctly!");
 					}
-					
-				} else if (inProgress && status == 1)  {
+				} else if (inProgress && status == 1) {
 					if (selectedConverter.setDbType(args[0])) {
 						status = 2;
 						String list = "";
@@ -87,7 +83,6 @@ public class SetupConvertCommand extends CraftconomyCommand {
 							if (dbTypesIterator.hasNext()) {
 								list += " ";
 							}
-							
 						}
 						Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}You selected {{WHITE}}" + args[0]);
 						Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Now, you need to insert the database information.");
@@ -98,41 +93,33 @@ public class SetupConvertCommand extends CraftconomyCommand {
 					}
 				}
 			} else if (args.length == 2 && inProgress && status == 2) {
-					if (selectedConverter.setDbInfo(args[0], args[1])) {
-						if (!selectedConverter.allSet()) {
-							Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Value saved. Please continue");
-						} else {
-							if (selectedConverter.connect()) {
-								Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}All values are ok! Let's start this conversion!");
-								//TODO: Should probably Thread that...
-								Common.getInstance().getServerCaller().schedule(new Runnable() {
-
-									@Override
-									public void run() {
-										// TODO Auto-generated method stub
-										Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}NOTICE: {{WHITE}}The conversion is made in another thread so it doesn't hang the server. Craftconomy will be unlocked when it is done.");
-										selectedConverter.importData(sender);
-										Common.getInstance().getConfigurationManager().getConfig().setValue("System.Setup", false);
-										Common.getInstance().getConfigurationManager().loadDefaultSettings();
-										Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Conversion complete! Enjoy Craftconomy!");
-									}
-									
-								}, 0,0, true);
-								
-								
-
-							} else {
-								Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Some settings are wrong. Be sure that every settings are ok! Check the console log for more information.");
-							}
-							
-						}
-						
+				if (selectedConverter.setDbInfo(args[0], args[1])) {
+					if (!selectedConverter.allSet()) {
+						Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Value saved. Please continue");
 					} else {
-						Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Unknown field.");
+						if (selectedConverter.connect()) {
+							Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}All values are ok! Let's start this conversion!");
+							//TODO: Should probably Thread that...
+							Common.getInstance().getServerCaller().schedule(new Runnable() {
+								@Override
+								public void run() {
+									// TODO Auto-generated method stub
+									Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}NOTICE: {{WHITE}}The conversion is made in another thread so it doesn't hang the server. Craftconomy will be unlocked when it is done.");
+									selectedConverter.importData(sender);
+									Common.getInstance().getConfigurationManager().getConfig().setValue("System.Setup", false);
+									Common.getInstance().getConfigurationManager().loadDefaultSettings();
+									Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Conversion complete! Enjoy Craftconomy!");
+								}
+							}, 0, 0, true);
+						} else {
+							Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Some settings are wrong. Be sure that every settings are ok! Check the console log for more information.");
+						}
 					}
+				} else {
+					Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Unknown field.");
+				}
 			}
 		}
-		
 	}
 
 	@Override
@@ -159,5 +146,4 @@ public class SetupConvertCommand extends CraftconomyCommand {
 	public String getPermissionNode() {
 		return "craftconomy.setup";
 	}
-
 }

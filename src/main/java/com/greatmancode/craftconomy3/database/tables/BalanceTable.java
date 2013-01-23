@@ -24,22 +24,17 @@ import com.alta189.simplesave.Table;
 
 @Table("cc3_balance")
 public class BalanceTable {
-
 	public static final String USERNAME_ID_FIELD = "username_id";
 	public static final String CURRENCY_ID_FIELD = "currency_id";
 	public static final String WORLD_NAME_FIELD = "worldName";
 	@Id
 	private int id;
-
 	@Field
 	private int username_id;
-
 	@Field
 	private int currency_id;
-
 	@Field
 	private String worldName;
-
 	@Field
 	private double balance;
 

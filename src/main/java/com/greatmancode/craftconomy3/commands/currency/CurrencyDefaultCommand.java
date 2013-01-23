@@ -22,7 +22,6 @@ import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.commands.interfaces.CraftconomyCommand;
 
 public class CurrencyDefaultCommand extends CraftconomyCommand {
-
 	@Override
 	public void execute(String sender, String[] args) {
 		if (Common.getInstance().getCurrencyManager().getCurrency(args[0]) != null) {
@@ -31,7 +30,6 @@ public class CurrencyDefaultCommand extends CraftconomyCommand {
 		} else {
 			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("currency_not_exist"));
 		}
-
 	}
 
 	@Override
@@ -58,5 +56,4 @@ public class CurrencyDefaultCommand extends CraftconomyCommand {
 	public String getPermissionNode() {
 		return "craftconomy.payday.default";
 	}
-
 }
