@@ -37,7 +37,7 @@ import org.spout.api.scheduler.TaskPriority;
  * @author greatman
  */
 public class SpoutCaller implements Caller {
-	private SpoutLoader loader;
+	private final SpoutLoader loader;
 
 	public SpoutCaller(Loader loader) {
 		this.loader = (SpoutLoader) loader;
@@ -51,7 +51,7 @@ public class SpoutCaller implements Caller {
 	@Override
 	public boolean checkPermission(String playerName, String perm) {
 		boolean result = false;
-		Player p = ((Server) loader.getEngine()).getPlayer(playerName, true);
+		Player p = loader.getEngine().getPlayer(playerName, true);
 		if (p != null) {
 			result = p.hasPermission(perm);
 		} else {
@@ -63,7 +63,7 @@ public class SpoutCaller implements Caller {
 
 	@Override
 	public void sendMessage(String playerName, String message) {
-		Player p = ((Server) loader.getEngine()).getPlayer(playerName, true);
+		Player p = loader.getEngine().getPlayer(playerName, true);
 		if (p != null) {
 			p.sendMessage(ChatArguments.fromFormatString(CHAT_PREFIX + message));
 		} else {
@@ -74,7 +74,7 @@ public class SpoutCaller implements Caller {
 	@Override
 	public String getPlayerWorld(String playerName) {
 		String worldName = "";
-		Player p = ((Server) loader.getEngine()).getPlayer(playerName, true);
+		Player p = loader.getEngine().getPlayer(playerName, true);
 		if (p != null) {
 			worldName = p.getWorld().getName();
 		}
@@ -83,7 +83,7 @@ public class SpoutCaller implements Caller {
 
 	@Override
 	public boolean isOnline(String playerName) {
-		return ((Server) loader.getEngine()).getPlayer(playerName, true) != null;
+		return loader.getEngine().getPlayer(playerName, true) != null;
 	}
 
 	@Override

@@ -25,8 +25,8 @@ import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.configuration.configurationFile.file.YamlConfiguration;
 
 public class GeneralConfig extends Config {
-	private YamlConfiguration configFile;
-	private File file;
+	private final YamlConfiguration configFile;
+	private final File file;
 
 	public GeneralConfig(File folder, String fileName) {
 		file = new File(folder, fileName);

@@ -36,7 +36,7 @@ import com.greatmancode.craftconomy3.database.tables.BalanceTable;
 public class Account {
 	public static final String BANK_PREFIX = "bank:";
 	private static final String DEFAULT_WORLD = "any";
-	private AccountTable account;
+	private final AccountTable account;
 	private AccountACL acl;
 
 	/**
@@ -181,6 +181,7 @@ public class Account {
 	 */
 	public double deposit(double amount, String world, String currencyName) {
 		BalanceTable balanceTable = null;
+		double result = 0;
 		String newWorld = world;
 		if (!Common.getInstance().getConfigurationManager().isMultiWorld()) {
 			newWorld = DEFAULT_WORLD;
@@ -199,8 +200,10 @@ public class Account {
 			}
 			Common.getInstance().getDatabaseManager().getDatabase().save(balanceTable);
 			Common.getInstance().writeLog(LogInfo.DEPOSIT, getAccountName(), amount, currency, newWorld);
+			result = balanceTable.getBalance();
 		}
-		return balanceTable.getBalance();
+
+		return result;
 	}
 
 	/**
@@ -212,6 +215,7 @@ public class Account {
 	 */
 	public double withdraw(double amount, String world, String currencyName) {
 		BalanceTable balanceTable = null;
+		double result = 0;
 		String newWorld = world;
 		if (!Common.getInstance().getConfigurationManager().isMultiWorld()) {
 			newWorld = DEFAULT_WORLD;
@@ -230,8 +234,9 @@ public class Account {
 			}
 			Common.getInstance().getDatabaseManager().getDatabase().save(balanceTable);
 			Common.getInstance().writeLog(LogInfo.WITHDRAW, getAccountName(), amount, currency, newWorld);
+			result = balanceTable.getBalance();
 		}
-		return balanceTable.getBalance();
+		return result;
 	}
 
 	/**
@@ -243,6 +248,7 @@ public class Account {
 	 */
 	public double set(double amount, String world, String currencyName) {
 		BalanceTable balanceTable = null;
+		double result = 0;
 		String newWorld = world;
 		if (!Common.getInstance().getConfigurationManager().isMultiWorld()) {
 			newWorld = DEFAULT_WORLD;
@@ -261,8 +267,9 @@ public class Account {
 			}
 			Common.getInstance().getDatabaseManager().getDatabase().save(balanceTable);
 			Common.getInstance().writeLog(LogInfo.SET, getAccountName(), amount, currency, newWorld);
+			result = balanceTable.getBalance();
 		}
-		return balanceTable.getBalance();
+		return result;
 	}
 
 	/**

@@ -20,13 +20,15 @@ package com.greatmancode.craftconomy3.currency;
 
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.database.tables.CurrencyTable;
+import com.greatmancode.craftconomy3.database.tables.ExchangeTable;
+import com.greatmancode.craftconomy3.utils.NoExchangeRate;
 
 /**
  * Represents a currency
  * @author greatman
  */
 public class Currency {
-	private CurrencyTable entry = new CurrencyTable();
+	private final CurrencyTable entry = new CurrencyTable();
 
 	public Currency(int databaseID, String name, String plural, String minor, String minorPlural, double hardCap, String sign) {
 		entry.setName(name);
@@ -153,16 +155,13 @@ public class Currency {
 	 * @param otherCurrency The other currency to exchange to
 	 * @return The exchange rate or Double.MIN_VALUE if no exchange information are found.
 	 */
-	/*public double getExchangeRate(Currency otherCurrency) {
+	public double getExchangeRate(Currency otherCurrency) throws NoExchangeRate {
 		ExchangeTable exchangeTable = Common.getInstance().getDatabaseManager().getDatabase().select(ExchangeTable.class).where().equal("from_currency_id", this.getDatabaseID()).and().equal("to_currency_id", otherCurrency.getDatabaseID()).execute().findOne();
 		if (exchangeTable == null) {
-			exchangeTable = Common.getInstance().getDatabaseManager().getDatabase().select(ExchangeTable.class).where().equal("to_currency_id", this.getDatabaseID()).and().equal("from_currency_id", otherCurrency.getDatabaseID()).execute().findOne();
-			if (exchangeTable == null) {
-				return Double.MIN_VALUE;
-			}
+				throw new NoExchangeRate();
 		}
 		return exchangeTable.amount;
-	}*/
+	}
 
 	/**
 	 * Save the currency information.

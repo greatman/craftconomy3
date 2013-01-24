@@ -34,5 +34,5 @@ public enum ServerType {
 	/**
 	 * Represents the Forge Server
 	 */
-	FORGE;
+	FORGE
 }

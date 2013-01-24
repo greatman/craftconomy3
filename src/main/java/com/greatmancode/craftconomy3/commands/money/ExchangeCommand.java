@@ -19,23 +19,38 @@
 package com.greatmancode.craftconomy3.commands.money;
 
 import com.greatmancode.craftconomy3.Common;
+import com.greatmancode.craftconomy3.account.Account;
 import com.greatmancode.craftconomy3.commands.interfaces.CraftconomyCommand;
+import com.greatmancode.craftconomy3.currency.Currency;
+import com.greatmancode.craftconomy3.utils.NoExchangeRate;
+import com.greatmancode.craftconomy3.utils.Tools;
 
 public class ExchangeCommand extends CraftconomyCommand {
 	@Override
 	public void execute(String sender, String[] args) {
-		/*if (Tools.isValidDouble(args[0]) && Tools.isValidDouble(args[2])) {
-		 	Currency currency1 = Common.getInstance().getCurrencyManager().getCurrency(args[1]);
-		 	Currency currency2 = Common.getInstance().getCurrencyManager().getCurrency(args[3]);
-		 	if (currency1 != null && currency2 != null) {
-		 		
-		 	} else {
-		 		Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("currency_not_exist"));
-		 	}
+		if (Tools.isValidDouble(args[0])) {
+			double amount = Double.parseDouble(args[0]);
+			Currency currency1 = Common.getInstance().getCurrencyManager().getCurrency(args[1]);
+			Currency currency2 = Common.getInstance().getCurrencyManager().getCurrency(args[2]);
+			if (currency1 != null && currency2 != null) {
+				try {
+					double exchangeRate = currency1.getExchangeRate(currency2);
+					Account account = Common.getInstance().getAccountManager().getAccount(sender);
+					if (account.hasEnough(amount, Common.getInstance().getServerCaller().getPlayerWorld(sender),currency1.getName())) {
+						double value = amount * exchangeRate;
+						account.withdraw(amount, Common.getInstance().getServerCaller().getPlayerWorld(sender), currency1.getName());
+						account.deposit(amount, Common.getInstance().getServerCaller().getPlayerWorld(sender), currency2.getName());
+						Common.getInstance().getServerCaller().sendMessage(sender, String.format(Common.getInstance().getLanguageManager().getString("exchange_done"), amount, currency1.getName(), currency2.getName()));
+					}
+				} catch (NoExchangeRate noExchangeRate) {
+					Common.getInstance().getServerCaller().sendMessage(sender, String.format(Common.getInstance().getLanguageManager().getString("no_exchange_rate"), currency1.getName(), currency2.getName()));
+				}
+			} else {
+				Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("currency_not_exist"));
+			}
 		} else {
 			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("invalid_amount"));
-		}*/
-
+		}
 	}
 
 	@Override
@@ -45,12 +60,12 @@ public class ExchangeCommand extends CraftconomyCommand {
 
 	@Override
 	public int maxArgs() {
-		return 4;
+		return 3;
 	}
 
 	@Override
 	public int minArgs() {
-		return 4;
+		return 3;
 	}
 
 	@Override

@@ -26,7 +26,7 @@ import com.greatmancode.craftconomy3.commands.interfaces.CraftconomyCommand;
 
 public class CommandHandler {
 	private boolean setupEnabled = false;
-	private Map<String, CraftconomyCommand> commandList = new HashMap<String, CraftconomyCommand>();
+	private final Map<String, CraftconomyCommand> commandList = new HashMap<String, CraftconomyCommand>();
 
 	public CommandHandler(String commandName, String help, boolean setupEnabled) {
 		Common.getInstance().getServerCaller().addCommand(commandName, help, Common.getInstance().getCommandManager().getCommandManager());

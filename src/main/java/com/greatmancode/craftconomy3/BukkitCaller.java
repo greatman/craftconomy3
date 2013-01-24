@@ -38,7 +38,7 @@ import org.bukkit.permissions.Permission;
  */
 public class BukkitCaller implements Caller {
 	private static final long TICK_LENGTH = 20L;
-	private BukkitLoader loader;
+	private final BukkitLoader loader;
 
 	public BukkitCaller(Loader loader) {
 		this.loader = (BukkitLoader) loader;
@@ -209,6 +209,7 @@ public class BukkitCaller implements Caller {
 			try {
 				loader.getServer().getPluginManager().addPermission(new Permission(permissionNode));
 			} catch (IllegalArgumentException e) {
+				Common.getInstance().sendConsoleMessage(Level.SEVERE, e.getMessage());
 			}
 		}
 	}

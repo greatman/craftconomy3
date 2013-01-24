@@ -31,7 +31,7 @@ import com.greatmancode.craftconomy3.database.tables.PayDayTable;
  * @author greatman
  */
 public class PayDay implements Runnable {
-	private PayDayTable table = new PayDayTable();
+	private final PayDayTable table = new PayDayTable();
 	private int delayedId = -1;
 
 	public PayDay(int dbId, String name, boolean disabled, int interval, String account, int status, int currencyId, double value, String worldName) {

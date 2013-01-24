@@ -250,7 +250,7 @@ public class Common {
 	 * @param worldName The world Name associated with this balance
 	 * @param currency The currency instance associated with this balance.
 	 * @param balance The balance.
-	 * @param DisplayFormat the display format to use
+	 * @param format the display format to use
 	 * @return A pretty String showing the balance. Returns a empty string if currency is invalid.
 	 */
 	public String format(String worldName, Currency currency, double balance, DisplayFormat format) {

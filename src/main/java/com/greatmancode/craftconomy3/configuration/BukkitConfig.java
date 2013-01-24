@@ -26,8 +26,8 @@ import com.greatmancode.craftconomy3.Common;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 public class BukkitConfig extends Config {
-	private YamlConfiguration configFile;
-	private File file;
+	private final YamlConfiguration configFile;
+	private final File file;
 
 	public BukkitConfig(File folder, String fileName) {
 		file = new File(folder, fileName);

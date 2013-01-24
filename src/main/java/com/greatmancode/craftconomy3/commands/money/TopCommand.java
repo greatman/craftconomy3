@@ -32,8 +32,8 @@ class TopCommandThread implements Runnable {
 	public static final int NUMBER_ELEMENTS = 10;
 
 	class TopCommandThreadEnd implements Runnable {
-		private String sender;
-		private String ret;
+		private final String sender;
+		private final String ret;
 
 		public TopCommandThreadEnd(String sender, String ret) {
 			this.sender = sender;
@@ -46,10 +46,10 @@ class TopCommandThread implements Runnable {
 		}
 	}
 
-	private String sender;
-	private int page;
-	private String world;
-	private int currency;
+	private final String sender;
+	private final int page;
+	private final String world;
+	private final int currency;
 
 	public TopCommandThread(String sender, int page, String world, int currency) {
 		this.sender = sender;

@@ -28,7 +28,7 @@ import com.greatmancode.craftconomy3.converter.Converter;
 import com.greatmancode.craftconomy3.converter.ConverterList;
 
 public class SetupConvertCommand extends CraftconomyCommand {
-	private static ConverterList importerList = new ConverterList();
+	private static final ConverterList importerList = new ConverterList();
 	private boolean inProgress = false;
 	private Converter selectedConverter = null;
 	private String importlist = "";

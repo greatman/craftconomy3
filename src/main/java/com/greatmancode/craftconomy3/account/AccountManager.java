@@ -33,7 +33,7 @@ import com.greatmancode.craftconomy3.database.tables.BalanceTable;
  * @author greatman
  */
 public class AccountManager {
-	private Map<String, Account> accountList = new HashMap<String, Account>();
+	private final Map<String, Account> accountList = new HashMap<String, Account>();
 
 	/**
 	 * Retrieve a account. Accounts prefixed with bank: are bank accounts.
@@ -45,7 +45,7 @@ public class AccountManager {
 		if (!Common.getInstance().getConfigurationManager().getConfig().getBoolean("System.Case-sentitive")) {
 			newName = name.toLowerCase();
 		}
-		Account account = null;
+		Account account;
 		if (accountList.containsKey(newName)) {
 			account = accountList.get(newName);
 		} else {
@@ -64,7 +64,7 @@ public class AccountManager {
 		if (!Common.getInstance().getConfigurationManager().getConfig().getBoolean("System.Case-sentitive")) {
 			newName = name.toLowerCase();
 		}
-		boolean result = false;
+		boolean result;
 		if (accountList.containsKey(newName)) {
 			result = true;
 		} else {

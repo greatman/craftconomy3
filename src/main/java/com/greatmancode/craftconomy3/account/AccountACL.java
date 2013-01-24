@@ -31,8 +31,8 @@ import com.greatmancode.craftconomy3.database.tables.AccessTable;
  * @author greatman
  */
 public class AccountACL {
-	private Map<String, AccountACLValue> aclList = new HashMap<String, AccountACLValue>();
-	private Account account;
+	private final Map<String, AccountACLValue> aclList = new HashMap<String, AccountACLValue>();
+	private final Account account;
 
 	public AccountACL(Account account, int accountID) {
 		this.account = account;
@@ -169,7 +169,7 @@ public class AccountACL {
 	 * @param show Can show the balance
 	 */
 	public void set(String name, boolean deposit, boolean withdraw, boolean acl, boolean show, boolean owner) {
-		AccessTable table = null;
+		AccessTable table;
 		String newName = name.toLowerCase();
 		if (aclList.containsKey(newName)) {
 			table = Common.getInstance().getDatabaseManager().getDatabase().select(AccessTable.class).where().equal("id", aclList.get(newName).getTable().getId()).execute().findOne();

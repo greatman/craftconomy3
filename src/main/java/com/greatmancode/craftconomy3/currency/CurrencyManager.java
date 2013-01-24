@@ -37,7 +37,7 @@ public class CurrencyManager {
 	 * The default currency database ID
 	 */
 	public static int defaultCurrencyID;
-	private Map<Integer, Currency> currencyList = new HashMap<Integer, Currency>();
+	private final Map<Integer, Currency> currencyList = new HashMap<Integer, Currency>();
 
 	public CurrencyManager() {
 		// Let's load all currency in the database

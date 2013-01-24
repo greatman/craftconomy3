@@ -40,9 +40,4 @@ public class TestDatabaseManager {
 		}
 	}
 
-	@Test
-	public void testGetDatabase() {
-		//fail("Not yet implemented");
-	}
-
 }

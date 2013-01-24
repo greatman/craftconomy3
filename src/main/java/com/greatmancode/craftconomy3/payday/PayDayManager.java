@@ -30,7 +30,7 @@ import com.greatmancode.craftconomy3.database.tables.PayDayTable;
  * @author greatman
  */
 public class PayDayManager {
-	private Map<Integer, PayDay> paydayList = new HashMap<Integer, PayDay>();
+	private final Map<Integer, PayDay> paydayList = new HashMap<Integer, PayDay>();
 
 	public PayDayManager() {
 		Iterator<PayDayTable> iterator = Common.getInstance().getDatabaseManager().getDatabase().select(PayDayTable.class).execute().find().iterator();

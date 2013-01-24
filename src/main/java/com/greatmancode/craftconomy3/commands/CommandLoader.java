@@ -78,7 +78,7 @@ import com.greatmancode.craftconomy3.commands.setup.SetupMultiWorldCommand;
  * @author greatman
  */
 public class CommandLoader {
-	private Map<String, CommandHandler> commandList = new HashMap<String, CommandHandler>();
+	private final Map<String, CommandHandler> commandList = new HashMap<String, CommandHandler>();
 	private CommandManager manager;
 	private boolean initialized = false;
 

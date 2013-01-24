@@ -60,7 +60,7 @@ public class TestLoadedCommands {
 						fail("Fail permissionNode for class: " + clazz.getName());
 					}
 				}
-				if (!instance.playerOnly() == false && !instance.playerOnly() == true) {
+				if (!instance.playerOnly() && !instance.playerOnly()) {
 					fail("Fail playerOnly. Should never get this..");
 				}
 			} catch (InstantiationException e) {
