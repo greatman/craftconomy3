@@ -20,8 +20,14 @@ package com.greatmancode.craftconomy3.converter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
+import com.alta189.simplesave.sqlite.SQLiteDatabase;
+import com.greatmancode.craftconomy3.Common;
+import com.greatmancode.craftconomy3.currency.CurrencyManager;
+import com.greatmancode.craftconomy3.database.tables.AccountTable;
 
 /**
  * Represents a Converter
@@ -29,6 +35,8 @@ import java.util.Map;
  */
 public abstract class Converter {
 	public static final int ALERT_EACH_X_ACCOUNT = 10;
+	private StringBuilder stringBuilder = new StringBuilder();
+
 	/**
 	 * Contains the type of Database (flatfile, sqlite, etc.) supported by the originating plugin
 	 */
@@ -124,5 +132,74 @@ public abstract class Converter {
 
 	public void setSelectedDbType(String selectedDbType) {
 		this.selectedDbType = selectedDbType;
+	}
+
+	//Should be used in INSERT TO cc3_account
+	protected void addAccountToString(List<User> userList) {
+		stringBuilder = new StringBuilder();
+		stringBuilder.append("INSERT INTO cc3_account(name) VALUES ");
+		Iterator<User> iterator = userList.iterator();
+		boolean first = true, isSQLite = Common.getInstance().getDatabaseManager().getDatabase() instanceof SQLiteDatabase;
+		while(iterator.hasNext()) {
+			if (isSQLite && !first) {
+				stringBuilder = new StringBuilder();
+				stringBuilder.append("INSERT INTO cc3_account(name) VALUES ");
+			}
+			User user = iterator.next();
+			stringBuilder.append("('" + user.user + "')");
+			if (!isSQLite && iterator.hasNext()) {
+				stringBuilder.append(",");
+			} else {
+				Common.getInstance().getDatabaseManager().getDatabase().directQuery(stringBuilder.toString());
+				first = false;
+			}
+		}
+		if (!isSQLite) {
+			Common.getInstance().getDatabaseManager().getDatabase().directQuery(stringBuilder.toString());
+		}
+	}
+
+	protected void addBalance(String sender, List<User> userList) {
+		int i = 0;
+		stringBuilder = new StringBuilder();
+		String worldName = Common.getInstance().getServerCaller().getDefaultWorld();
+		String currencyName = Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.defaultCurrencyID).getName();
+		stringBuilder.append("INSERT INTO cc3_balance(username_id, currency_id, worldName,balance) VALUES ");
+		Iterator<User> iterator = userList.iterator();
+		boolean first = true, isSQLite = Common.getInstance().getDatabaseManager().getDatabase() instanceof SQLiteDatabase;
+		while (iterator.hasNext()) {
+			if (i % ALERT_EACH_X_ACCOUNT == 0) {
+				Common.getInstance().getServerCaller().sendMessage(sender, i + " {{DARK_GREEN}}of {{WHITE}} " + userList.size() + " {{DARK_GREEN}}accounts ready to be imported.");
+			}
+			if (isSQLite && !first) {
+				stringBuilder = new StringBuilder();
+				stringBuilder.append("INSERT INTO cc3_balance(username_id, currency_id, worldName,balance) VALUES ");
+			}
+			User user = iterator.next();
+			AccountTable account = Common.getInstance().getDatabaseManager().getDatabase().select(AccountTable.class).where().equal("name",user.user).execute().findOne();
+			stringBuilder.append("(" + account.getId() + "," + CurrencyManager.defaultCurrencyID + ",'" + worldName + "'," + user.balance + ")");
+			if (!isSQLite && iterator.hasNext()) {
+				stringBuilder.append(",");
+			} else {
+				Common.getInstance().getDatabaseManager().getDatabase().directQuery(stringBuilder.toString());
+				first = false;
+			}
+			i++;
+		}
+		if (!isSQLite) {
+			Common.getInstance().getDatabaseManager().getDatabase().directQuery(stringBuilder.toString());
+		}
+
+		Common.getInstance().getServerCaller().sendMessage(sender, userList.size() + " {{DARK_GREEN}}accounts converted! Enjoy!" );
+	}
+
+	protected class User {
+		public String user;
+		public double balance;
+
+		public User(String user, double balance) {
+			this.user = user;
+			this.balance = balance;
+		}
 	}
 }

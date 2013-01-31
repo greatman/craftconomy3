@@ -23,6 +23,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -34,7 +35,7 @@ import com.greatmancode.craftconomy3.currency.CurrencyManager;
 public class BoseEconomy extends Converter {
 	private static final String TAB_CHECK = "\\t+";
 	private BufferedReader flatFileReader = null;
-
+	private List<User> userList = new ArrayList<User>();
 	public BoseEconomy() {
 		getDbTypes().add("flatfile");
 	}
@@ -76,7 +77,7 @@ public class BoseEconomy extends Converter {
 					// Line for account type
 					String type = line.split(" ")[1];
 					if (type.equalsIgnoreCase("player")) {
-						accountImporter(username);
+						accountImporter(sender, username);
 						i++;
 					} else if (type.equalsIgnoreCase("bank")) {
 						bankImporter(username);
@@ -85,6 +86,8 @@ public class BoseEconomy extends Converter {
 				}
 			}
 			flatFileReader.close();
+			addAccountToString(userList);
+			addBalance(sender, userList);
 		} catch (IOException e) {
 			Common.getInstance().getLogger().severe("Error while reading bose file!" + e.getMessage());
 		}
@@ -117,9 +120,10 @@ public class BoseEconomy extends Converter {
 		}
 	}
 
-	private void accountImporter(String username) throws IOException {
+	private void accountImporter(String sender, String username) throws IOException {
 		String line = flatFileReader.readLine();
 		double amount = Double.parseDouble(line.split(" ")[1]);
-		Common.getInstance().getAccountManager().getAccount(username).set(amount, Common.getInstance().getServerCaller().getDefaultWorld(), Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.defaultCurrencyID).getName());
+		userList.add(new User(username,amount));
+		//Common.getInstance().getAccountManager().getAccount(username).set(amount, Common.getInstance().getServerCaller().getDefaultWorld(), Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.defaultCurrencyID).getName());
 	}
 }

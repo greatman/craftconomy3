@@ -136,9 +136,17 @@ public class BukkitCaller implements Caller {
 	@Override
 	public int schedule(Runnable entry, long firstStart, long repeating, boolean async) {
 		if (!async) {
-			return loader.getServer().getScheduler().scheduleSyncRepeatingTask(loader, entry, firstStart * TICK_LENGTH, repeating * TICK_LENGTH);
+			if (repeating == 0) {
+				return loader.getServer().getScheduler().runTaskLater(loader,entry,firstStart * TICK_LENGTH).getTaskId();
+			} else {
+				return loader.getServer().getScheduler().scheduleSyncRepeatingTask(loader, entry, firstStart * TICK_LENGTH, repeating * TICK_LENGTH);
+			}
 		} else {
-			return loader.getServer().getScheduler().runTaskTimerAsynchronously(loader, entry, firstStart * TICK_LENGTH, repeating * TICK_LENGTH).getTaskId();
+			if (repeating == 0) {
+				return loader.getServer().getScheduler().runTaskLaterAsynchronously(loader,entry,firstStart * TICK_LENGTH).getTaskId();
+			} else {
+				return loader.getServer().getScheduler().runTaskTimerAsynchronously(loader, entry, firstStart * TICK_LENGTH, repeating * TICK_LENGTH).getTaskId();
+			}
 		}
 	}
 

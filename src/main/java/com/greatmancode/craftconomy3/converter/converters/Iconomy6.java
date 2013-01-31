@@ -23,6 +23,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
@@ -36,6 +38,7 @@ import com.alta189.simplesave.sqlite.SQLiteConfiguration;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.converter.Converter;
 import com.greatmancode.craftconomy3.currency.CurrencyManager;
+import com.greatmancode.craftconomy3.database.tables.AccountTable;
 import com.greatmancode.craftconomy3.database.tables.iconomy.IConomyTable;
 
 /**
@@ -141,29 +144,30 @@ public class Iconomy6 extends Converter {
 
 	private boolean importFlatFile(String sender) {
 		boolean result = false;
-		String str;
+
 		try {
 			int i = 0;
+			List<String> file = new ArrayList<String>();
+			String str;
 			while ((str = flatFileReader.readLine()) != null) {
-				try {
-					if (i % ALERT_EACH_X_ACCOUNT == 0) {
-						Common.getInstance().getServerCaller().sendMessage(sender, i + " {{DARK_GREEN}}accounts imported.");
-					}
-					String[] info = str.split(" ");
-					if (info.length >= 2) {
-						String[] balance = info[1].split(":");
-						try {
-							Common.getInstance().getAccountManager().getAccount(info[0]).set(Double.parseDouble(balance[1]), Common.getInstance().getServerCaller().getDefaultWorld(), Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.defaultCurrencyID).getName());
-						} catch (NumberFormatException e) {
-							Common.getInstance().sendConsoleMessage(Level.SEVERE, "User " + info[0] + " have a invalid balance" + balance[1]);
-						}
-					}
-				} catch (ArrayIndexOutOfBoundsException e) {
-					Common.getInstance().sendConsoleMessage(Level.WARNING, "Line not formatted correctly. I read:" + str);
-				}
-				i++;
+				file.add(str);
 			}
 			flatFileReader.close();
+			List<User> userList = new ArrayList<User>();
+			Iterator<String> iterator = file.iterator();
+			while (iterator.hasNext()) {
+				String[] info = iterator.next().split(" ");
+				try {
+					double balance = Double.parseDouble(info[1].split(":")[1]);
+					userList.add(new User(info[0], balance));
+				} catch (NumberFormatException e) {
+					Common.getInstance().sendConsoleMessage(Level.SEVERE, "User " + info[0] + " have a invalid balance" + info[1]);
+				} catch (ArrayIndexOutOfBoundsException e) {
+					Common.getInstance().sendConsoleMessage(Level.WARNING, "Line not formatted correctly. I read:" + Arrays.toString(info));
+				}
+			}
+			addAccountToString(userList);
+			addBalance(sender, userList);
 			result = true;
 		} catch (IOException e) {
 			Common.getInstance().getLogger().severe("A error occured while reading the iConomy database file! Message: " + e.getMessage());
@@ -176,15 +180,13 @@ public class Iconomy6 extends Converter {
 		if (icoList != null && icoList.size() > 0) {
 			Iterator<IConomyTable> icoListIterator = icoList.iterator();
 			int i = 0;
+			List<User> userList = new ArrayList<User>();
 			while (icoListIterator.hasNext()) {
-				if (i % ALERT_EACH_X_ACCOUNT == 0) {
-					Common.getInstance().getServerCaller().sendMessage(sender, i + " of  " + icoList.size() + "{{DARK_GREEN}}accounts imported.");
-				}
 				IConomyTable entry = icoListIterator.next();
-				Common.getInstance().getAccountManager().getAccount(entry.getUsername()).set(entry.getBalance(), Common.getInstance().getServerCaller().getDefaultWorld(), Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.defaultCurrencyID).getName());
-				i++;
+				userList.add(new User(entry.getUsername(), entry.getBalance()));
 			}
-			Common.getInstance().getServerCaller().sendMessage(sender, i + " of  " + icoList.size() + "{{DARK_GREEN}}accounts imported.");
+			addAccountToString(userList);
+			addBalance(sender, userList);
 		}
 		try {
 			db.close();
