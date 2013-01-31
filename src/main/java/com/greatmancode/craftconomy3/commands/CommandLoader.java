@@ -44,6 +44,7 @@ import com.greatmancode.craftconomy3.commands.currency.CurrencyAddCommand;
 import com.greatmancode.craftconomy3.commands.currency.CurrencyDefaultCommand;
 import com.greatmancode.craftconomy3.commands.currency.CurrencyDeleteCommand;
 import com.greatmancode.craftconomy3.commands.currency.CurrencyEditCommand;
+import com.greatmancode.craftconomy3.commands.currency.CurrencyExchangeCommand;
 import com.greatmancode.craftconomy3.commands.currency.CurrencyHelpCommand;
 import com.greatmancode.craftconomy3.commands.currency.CurrencyInfoCommand;
 import com.greatmancode.craftconomy3.commands.interfaces.CommandManager;
@@ -53,6 +54,7 @@ import com.greatmancode.craftconomy3.commands.money.AllCommand;
 import com.greatmancode.craftconomy3.commands.money.BalanceCommand;
 import com.greatmancode.craftconomy3.commands.money.CreateCommand;
 import com.greatmancode.craftconomy3.commands.money.DeleteCommand;
+import com.greatmancode.craftconomy3.commands.money.ExchangeCommand;
 import com.greatmancode.craftconomy3.commands.money.GiveCommand;
 import com.greatmancode.craftconomy3.commands.money.HelpCommand;
 import com.greatmancode.craftconomy3.commands.money.MainCommand;
@@ -107,6 +109,7 @@ public class CommandLoader {
 			moneyCommand.registerCommand("help", new HelpCommand());
 			moneyCommand.registerCommand("balance", new BalanceCommand());
 			moneyCommand.registerCommand("top", new TopCommand());
+			moneyCommand.registerCommand("exchange", new ExchangeCommand());
 			commandList.put("money", moneyCommand);
 
 			CommandHandler bankCommand = new CommandHandler("bank", "Bank related commands.", false);
@@ -137,6 +140,7 @@ public class CommandLoader {
 			currencyCommand.registerCommand("info", new CurrencyInfoCommand());
 			currencyCommand.registerCommand("", new CurrencyHelpCommand());
 			currencyCommand.registerCommand("default", new CurrencyDefaultCommand());
+			currencyCommand.registerCommand("exchange", new CurrencyExchangeCommand());
 			commandList.put("currency", currencyCommand);
 
 			CommandHandler configCommand = new CommandHandler("craftconomy", "config related commands", false);

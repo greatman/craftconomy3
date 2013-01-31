@@ -164,6 +164,24 @@ public class Currency {
 	}
 
 	/**
+	 * Set the exchange rate between 2 currency
+	 * @param otherCurrency The other currency
+	 * @param amount THe exchange rate.
+	 */
+	public void setExchangeRate(Currency otherCurrency, double amount) {
+		ExchangeTable exchangeTable = Common.getInstance().getDatabaseManager().getDatabase().select(ExchangeTable.class).where().equal("from_currency_id", this.getDatabaseID()).and().equal("to_currency_id", otherCurrency.getDatabaseID()).execute().findOne();
+		if (exchangeTable != null) {
+			exchangeTable.amount = amount;
+		} else {
+			exchangeTable = new ExchangeTable();
+			exchangeTable.from_currency_id = this.getDatabaseID();
+			exchangeTable.to_currency_id = otherCurrency.getDatabaseID();
+			exchangeTable.amount = amount;
+		}
+		Common.getInstance().getDatabaseManager().getDatabase().save(exchangeTable);
+	}
+
+	/**
 	 * Save the currency information.
 	 */
 	private void save() {
