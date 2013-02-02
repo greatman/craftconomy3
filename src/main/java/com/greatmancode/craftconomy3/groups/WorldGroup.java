@@ -19,16 +19,18 @@
 package com.greatmancode.craftconomy3.groups;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import com.greatmancode.craftconomy3.Common;
+import com.greatmancode.craftconomy3.database.tables.WorldGroupTable;
 
 /**
  * Contains information about a world group.
  */
 public class WorldGroup {
 
-	private String name;
+	private WorldGroupTable table = null;
 	private List<String> worldList = new ArrayList<String>();
 
 	/**
@@ -36,7 +38,16 @@ public class WorldGroup {
 	 * @param name The group name.
 	 */
 	public WorldGroup(String name) {
-		this.name = name;
+		table = Common.getInstance().getDatabaseManager().getDatabase().select(WorldGroupTable.class).where().equal("groupName", name).execute().findOne();
+		if (table == null) {
+			table = new WorldGroupTable();
+			table.groupName = name;
+			save();
+		} else {
+			for (String entry : table.worldList.split(",")) {
+				worldList.add(entry);
+			}
+		}
 	}
 
 	/**
@@ -46,11 +57,29 @@ public class WorldGroup {
 	public void addWorld(String name) {
 		if (name != null && Common.getInstance().getServerCaller().worldExist(name)) {
 			worldList.add(name);
+			save();
 		}
-
 	}
 
+	/**
+	 * Checks if a certain world is in this group.
+	 * @param worldName The world name.
+	 * @return True if the world is in this world. Else false.
+	 */
 	public boolean worldExist(String worldName) {
 		return worldList.contains(worldName);
+	}
+
+	private void save() {
+		String save = "";
+		Iterator<String> iterator = worldList.iterator();
+		while (iterator.hasNext()) {
+			save += iterator.next();
+			if (iterator.hasNext()) {
+				save += ",";
+			}
+		}
+		table.worldList = save;
+		Common.getInstance().getDatabaseManager().getDatabase().save(table);
 	}
 }

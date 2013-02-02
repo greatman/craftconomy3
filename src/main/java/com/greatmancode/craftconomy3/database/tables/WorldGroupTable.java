@@ -32,5 +32,5 @@ public class WorldGroupTable {
 	public String groupName;
 
 	@Field
-	public String worldName;
+	public String worldList;
 }

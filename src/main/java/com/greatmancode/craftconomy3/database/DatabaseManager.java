@@ -36,6 +36,7 @@ import com.greatmancode.craftconomy3.database.tables.ConfigTable;
 import com.greatmancode.craftconomy3.database.tables.CurrencyTable;
 import com.greatmancode.craftconomy3.database.tables.ExchangeTable;
 import com.greatmancode.craftconomy3.database.tables.PayDayTable;
+import com.greatmancode.craftconomy3.database.tables.WorldGroupTable;
 
 /**
  * Handle the database link.
@@ -66,6 +67,7 @@ public class DatabaseManager {
 		db.registerTable(ConfigTable.class);
 		db.registerTable(PayDayTable.class);
 		db.registerTable(ExchangeTable.class);
+		db.registerTable(WorldGroupTable.class);
 		db.connect();
 	}
 
