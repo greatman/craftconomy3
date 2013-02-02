@@ -259,7 +259,7 @@ public class Common {
 	public String format(String worldName, Currency currency, double balance, DisplayFormat format) {
 		StringBuilder string = new StringBuilder();
 
-		if (worldName != null && getConfigurationManager().isMultiWorld()) {
+		if (worldName != null) {
 			// We put the world name if the conf is true
 			string.append(worldName + ":").append(" ");
 		}
@@ -343,7 +343,7 @@ public class Common {
 	public void startUp() {
 		sendConsoleMessage(Level.INFO, getLanguageManager().getString("loading_account_manager"));
 		accountManager = new AccountManager();
-		addMetricsGraph("Multiworld", getConfigurationManager().isMultiWorld());
+		//addMetricsGraph("Multiworld", getConfigurationManager().isMultiWorld());
 		startMetrics();
 		sendConsoleMessage(Level.INFO, getLanguageManager().getString("account_manager_loaded"));
 		sendConsoleMessage(Level.INFO, getLanguageManager().getString("loading_payday_manager"));

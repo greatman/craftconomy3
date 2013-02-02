@@ -23,6 +23,7 @@ import com.greatmancode.craftconomy3.account.Account;
 import com.greatmancode.craftconomy3.commands.interfaces.CraftconomyCommand;
 import com.greatmancode.craftconomy3.currency.Currency;
 import com.greatmancode.craftconomy3.currency.CurrencyManager;
+import com.greatmancode.craftconomy3.groups.WorldGroupsManager;
 import com.greatmancode.craftconomy3.utils.Tools;
 
 public class BankGiveCommand extends CraftconomyCommand {
@@ -41,21 +42,15 @@ public class BankGiveCommand extends CraftconomyCommand {
 						return;
 					}
 				}
-				String worldName = "any";
+				String worldName = WorldGroupsManager.DEFAULT_GROUP_NAME;
 				if (args.length > 3) {
-					if (Common.getInstance().getConfigurationManager().isMultiWorld()) {
-						if (!Common.getInstance().getServerCaller().worldExist(args[3])) {
-							Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("world_not_exist"));
-							return;
-						}
-						worldName = args[3];
+					if (!Common.getInstance().getWorldGroupManager().worldGroupExist(args[3])) {
+						Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("world_not_exist"));
+						return;
 					}
-				} else {
-					if (!Common.getInstance().getServerCaller().isOnline(sender)) {
-						worldName = Common.getInstance().getServerCaller().getDefaultWorld();
-					} else {
-						worldName = Common.getInstance().getAccountManager().getAccount(sender).getWorldPlayerCurrentlyIn();
-					}
+					worldName = args[3];
+				} else if (Common.getInstance().getServerCaller().isOnline(sender)) {
+					worldName = Common.getInstance().getAccountManager().getAccount(sender).getWorldPlayerCurrentlyIn();
 				}
 				bankAccount.deposit(amount, worldName, currency.getName());
 				Common.getInstance().getServerCaller().sendMessage(sender, String.format(Common.getInstance().getLanguageManager().getString("bank_give_success"), Common.getInstance().format(worldName, currency, amount), args[0]));
