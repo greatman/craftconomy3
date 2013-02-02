@@ -21,13 +21,24 @@ package com.greatmancode.craftconomy3.language;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.configuration.Config;
 
+/**
+ * This class handles the multi-language support of Craftconomy.
+ */
 public class LanguageManager {
 	private final Config file;
 
+	/**
+	 * Load the language file.
+	 */
 	public LanguageManager() {
 		file = Common.getInstance().getConfigurationManager().loadFile(Common.getInstance().getServerCaller().getDataFolder(), "lang.yml");
 	}
 
+	/**
+	 * Get a string from the language file
+	 * @param name The key of the string.
+	 * @return The language string.
+	 */
 	public String getString(String name) {
 		return file.getString(name);
 	}

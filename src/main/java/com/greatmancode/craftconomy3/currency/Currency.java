@@ -30,6 +30,16 @@ import com.greatmancode.craftconomy3.utils.NoExchangeRate;
 public class Currency {
 	private final CurrencyTable entry = new CurrencyTable();
 
+	/**
+	 * Initialize a currency
+	 * @param databaseID The database ID
+	 * @param name The name of the currency
+	 * @param plural The plural name of the currency
+	 * @param minor The minor name of the currency
+	 * @param minorPlural The plural minor name of the currency.
+	 * @param hardCap The hard cap of this currency !!!(NOT USED ATM)!!!
+	 * @param sign The sign of the currency. (Example: $)
+	 */
 	public Currency(int databaseID, String name, String plural, String minor, String minorPlural, double hardCap, String sign) {
 		entry.setName(name);
 		entry.setPlural(plural);
@@ -158,7 +168,7 @@ public class Currency {
 	public double getExchangeRate(Currency otherCurrency) throws NoExchangeRate {
 		ExchangeTable exchangeTable = Common.getInstance().getDatabaseManager().getDatabase().select(ExchangeTable.class).where().equal("from_currency_id", this.getDatabaseID()).and().equal("to_currency_id", otherCurrency.getDatabaseID()).execute().findOne();
 		if (exchangeTable == null) {
-				throw new NoExchangeRate();
+			throw new NoExchangeRate();
 		}
 		return exchangeTable.amount;
 	}

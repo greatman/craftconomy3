@@ -84,6 +84,9 @@ public class CommandLoader {
 	private CommandManager manager;
 	private boolean initialized = false;
 
+	/**
+	 * Load the appropriate command handler.
+	 */
 	public CommandLoader() {
 		if (Common.getInstance().getServerCaller() instanceof BukkitCaller) {
 			manager = new BukkitCommandManager();

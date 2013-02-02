@@ -25,8 +25,7 @@ import com.greatmancode.craftconomy3.commands.interfaces.CraftconomyCommand;
 import com.greatmancode.craftconomy3.database.tables.ConfigTable;
 import com.greatmancode.craftconomy3.utils.Tools;
 
-public class NewSetupBasicCommand extends CraftconomyCommand{
-
+public class NewSetupBasicCommand extends CraftconomyCommand {
 	private enum INTERNALSTEP {
 		DEFAULT_MONEY,
 		BANK_PRICE,
@@ -35,17 +34,18 @@ public class NewSetupBasicCommand extends CraftconomyCommand{
 	}
 
 	private INTERNALSTEP step = INTERNALSTEP.START;
+
 	@Override
 	public void execute(String sender, String[] args) {
 		if (NewSetupWizard.getState().equals(NewSetupWizard.BASIC_STEP)) {
 			if (step.equals(INTERNALSTEP.START)) {
 				start(sender);
 			} else if (step.equals(INTERNALSTEP.DEFAULT_MONEY)) {
-				defaultMoney(sender,args);
+				defaultMoney(sender, args);
 			} else if (step.equals(INTERNALSTEP.BANK_PRICE)) {
-				bankMoney(sender,args);
+				bankMoney(sender, args);
 			} else if (step.equals(INTERNALSTEP.FORMAT)) {
-				format(sender,args);
+				format(sender, args);
 			}
 		}
 	}
@@ -85,11 +85,12 @@ public class NewSetupBasicCommand extends CraftconomyCommand{
 				Common.getInstance().getDatabaseManager().getDatabase().save(table);
 				NewSetupWizard.setState(NewSetupWizard.CONVERT_STEP);
 				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Only 1 step left! Do you want to convert from another system? Type {{WHITE}} /ccsetup convert yes {{DARK_GREEN}}or {{WHITE}}/ccsetup convert no");
-			}catch (IllegalArgumentException e) {
+			} catch (IllegalArgumentException e) {
 				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}This display format doesn't exist! Please type {{WHITE}}/ccsetup basic <format>");
 			}
 		}
 	}
+
 	private void bankMoney(String sender, String[] args) {
 		if (args.length == 1) {
 			if (Tools.isValidDouble(args[0])) {

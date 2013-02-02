@@ -27,6 +27,9 @@ import com.greatmancode.craftconomy3.currency.CurrencyManager;
 
 import org.spout.api.plugin.services.EconomyService;
 
+/**
+ * The Economy service hook for the Spout Server.
+ */
 public class EconomyServiceHandler extends EconomyService {
 	@Override
 	public boolean has(String name, double amount) {

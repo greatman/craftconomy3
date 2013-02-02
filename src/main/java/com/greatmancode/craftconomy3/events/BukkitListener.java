@@ -24,7 +24,14 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
+/**
+ * This class handles events from Bukkit
+ */
 public class BukkitListener implements Listener {
+	/**
+	 * Called when a player join the server.
+	 * @param event The Join Event.
+	 */
 	@EventHandler
 	public void playerJoin(PlayerJoinEvent event) {
 		Common.getInstance().getEventManager().playerJoinEvent(event.getPlayer().getName());

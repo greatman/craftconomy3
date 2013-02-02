@@ -36,7 +36,6 @@ import com.greatmancode.craftconomy3.database.tables.AccountTable;
 public abstract class Converter {
 	public static final int ALERT_EACH_X_ACCOUNT = 10;
 	private StringBuilder stringBuilder = new StringBuilder();
-
 	/**
 	 * Contains the type of Database (flatfile, sqlite, etc.) supported by the originating plugin
 	 */
@@ -140,7 +139,7 @@ public abstract class Converter {
 		stringBuilder.append("INSERT INTO cc3_account(name) VALUES ");
 		Iterator<User> iterator = userList.iterator();
 		boolean first = true, isSQLite = Common.getInstance().getDatabaseManager().getDatabase() instanceof SQLiteDatabase;
-		while(iterator.hasNext()) {
+		while (iterator.hasNext()) {
 			if (isSQLite && !first) {
 				stringBuilder = new StringBuilder();
 				stringBuilder.append("INSERT INTO cc3_account(name) VALUES ");
@@ -176,7 +175,7 @@ public abstract class Converter {
 				stringBuilder.append("INSERT INTO cc3_balance(username_id, currency_id, worldName,balance) VALUES ");
 			}
 			User user = iterator.next();
-			AccountTable account = Common.getInstance().getDatabaseManager().getDatabase().select(AccountTable.class).where().equal("name",user.user).execute().findOne();
+			AccountTable account = Common.getInstance().getDatabaseManager().getDatabase().select(AccountTable.class).where().equal("name", user.user).execute().findOne();
 			stringBuilder.append("(" + account.getId() + "," + CurrencyManager.defaultCurrencyID + ",'" + worldName + "'," + user.balance + ")");
 			if (!isSQLite && iterator.hasNext()) {
 				stringBuilder.append(",");
@@ -190,7 +189,7 @@ public abstract class Converter {
 			Common.getInstance().getDatabaseManager().getDatabase().directQuery(stringBuilder.toString());
 		}
 
-		Common.getInstance().getServerCaller().sendMessage(sender, userList.size() + " {{DARK_GREEN}}accounts converted! Enjoy!" );
+		Common.getInstance().getServerCaller().sendMessage(sender, userList.size() + " {{DARK_GREEN}}accounts converted! Enjoy!");
 	}
 
 	protected class User {

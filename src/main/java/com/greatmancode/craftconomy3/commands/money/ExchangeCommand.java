@@ -36,7 +36,7 @@ public class ExchangeCommand extends CraftconomyCommand {
 				try {
 					double exchangeRate = currency1.getExchangeRate(currency2);
 					Account account = Common.getInstance().getAccountManager().getAccount(sender);
-					if (account.hasEnough(amount, Common.getInstance().getServerCaller().getPlayerWorld(sender),currency1.getName())) {
+					if (account.hasEnough(amount, Common.getInstance().getServerCaller().getPlayerWorld(sender), currency1.getName())) {
 						double value = amount * exchangeRate;
 						account.withdraw(amount, Common.getInstance().getServerCaller().getPlayerWorld(sender), currency1.getName());
 						account.deposit(value, Common.getInstance().getServerCaller().getPlayerWorld(sender), currency2.getName());

@@ -29,14 +29,14 @@ import com.greatmancode.craftconomy3.SetupWizard;
 import com.greatmancode.craftconomy3.commands.interfaces.CraftconomyCommand;
 import com.greatmancode.craftconomy3.utils.Tools;
 
-public class NewSetupDatabaseCommand extends CraftconomyCommand{
-
+public class NewSetupDatabaseCommand extends CraftconomyCommand {
 	private enum INTERNALSTEP {
 		START,
 		SQLITE,
 		MYSQL,
 		H2;
 	}
+
 	private static final Map<String, String> values = new HashMap<String, String>();
 	private static final String ERROR_MESSAGE = "{{DARK_RED}}A error occured. The error is: {{WHITE}}%s";
 	private static final String CONFIG_NODE = "System.Database.Type";
@@ -46,9 +46,9 @@ public class NewSetupDatabaseCommand extends CraftconomyCommand{
 	public void execute(String sender, String[] args) {
 		if (NewSetupWizard.getState().equals(NewSetupWizard.DATABASE_STEP)) {
 			if (step.equals(INTERNALSTEP.START)) {
-				start(sender,args);
+				start(sender, args);
 			} else if (step.equals(INTERNALSTEP.MYSQL)) {
-				mysql(sender,args);
+				mysql(sender, args);
 			}
 		}
 	}
@@ -82,7 +82,7 @@ public class NewSetupDatabaseCommand extends CraftconomyCommand{
 		if (args.length == 1) {
 			if (args[0].equalsIgnoreCase("sqlite")) {
 				step = INTERNALSTEP.SQLITE;
-				sqliteOrH2(sender,true);
+				sqliteOrH2(sender, true);
 			} else if (args[0].equalsIgnoreCase("mysql")) {
 				step = INTERNALSTEP.MYSQL;
 				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}You selected {{WHITE}}MySQL{{DARK_GREEN}}. Please type {{WHITE}}/ccsetup database address <Your host>");

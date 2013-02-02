@@ -20,7 +20,6 @@ package com.greatmancode.craftconomy3.commands.setup;
 
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
 
 import com.greatmancode.craftconomy3.Common;
@@ -29,8 +28,7 @@ import com.greatmancode.craftconomy3.commands.interfaces.CraftconomyCommand;
 import com.greatmancode.craftconomy3.converter.Converter;
 import com.greatmancode.craftconomy3.converter.ConverterList;
 
-public class NewSetupConvertCommand extends CraftconomyCommand{
-
+public class NewSetupConvertCommand extends CraftconomyCommand {
 	private enum INTERNALSTEP {
 		START,
 		SELECT_CONVERT,
@@ -38,9 +36,9 @@ public class NewSetupConvertCommand extends CraftconomyCommand{
 		INSERT_VALUES,
 		CONVERT;
 	}
+
 	private static final ConverterList importerList = new ConverterList();
 	private static Converter selectedConverter = null;
-
 	private INTERNALSTEP step = INTERNALSTEP.START;
 
 	@Override
@@ -53,7 +51,7 @@ public class NewSetupConvertCommand extends CraftconomyCommand{
 			} else if (step.equals(INTERNALSTEP.SELECT_DB)) {
 				selectDb(sender, args);
 			} else if (step.equals(INTERNALSTEP.INSERT_VALUES)) {
-				selectValues(sender,args);
+				selectValues(sender, args);
 			}
 		}
 	}
@@ -106,7 +104,7 @@ public class NewSetupConvertCommand extends CraftconomyCommand{
 			Common.getInstance().getServerCaller().sendMessage(sender, "{{WHITE}}" + args[0] + " {DARK_GREEN}}importer selected.");
 			if (selectedConverter.getDbTypes().size() == 1) {
 				step = INTERNALSTEP.SELECT_DB;
-				selectDb(sender, new String[] { selectedConverter.getDbTypes().get(0) });
+				selectDb(sender, new String[]{selectedConverter.getDbTypes().get(0)});
 			} else {
 				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}This converter support those database types. Please select one");
 				Common.getInstance().getServerCaller().sendMessage(sender, "{{WHITE}}/ccsetup convert <" + formatListString(selectedConverter.getDbTypes()) + ">");
@@ -130,7 +128,7 @@ public class NewSetupConvertCommand extends CraftconomyCommand{
 
 	private String getConverterListFormatted() {
 		String result = "";
-		Iterator<Entry<String,Converter>> iterator = importerList.getConverterList().entrySet().iterator();
+		Iterator<Entry<String, Converter>> iterator = importerList.getConverterList().entrySet().iterator();
 		while (iterator.hasNext()) {
 			result += iterator.next().getKey();
 			if (iterator.hasNext()) {

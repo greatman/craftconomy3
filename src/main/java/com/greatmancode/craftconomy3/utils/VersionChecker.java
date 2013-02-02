@@ -29,10 +29,17 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+/**
+ * Class that allow to check if the plugin is on the latest version.
+ */
 public class VersionChecker {
 	private boolean oldVersion = false;
 	private String newVersion = "";
 
+	/**
+	 * Initialize the VersionChecker by checking if the plugin is outdated.
+	 * @param currentVersion The current plugin version.
+	 */
 	public VersionChecker(String currentVersion) {
 		if (Common.getInstance().getServerCaller().getPluginVersion().contains("SNAPSHOT")) {
 			Common.getInstance().sendConsoleMessage(Level.WARNING, "You are running a dev-build! Be sure that you check on the website if there's a new version!");
@@ -60,10 +67,18 @@ public class VersionChecker {
 		}
 	}
 
+	/**
+	 * Check if the current version is a old one.
+	 * @return True if the current plugin version is old. Else false.
+	 */
 	public boolean isOld() {
 		return oldVersion;
 	}
 
+	/**
+	 * Returns the new version of the plugin.
+	 * @return The new version of the plugin.
+	 */
 	public String getNewVersion() {
 		return newVersion;
 	}

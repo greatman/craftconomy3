@@ -37,8 +37,6 @@ import com.alta189.simplesave.mysql.MySQLConfiguration;
 import com.alta189.simplesave.sqlite.SQLiteConfiguration;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.converter.Converter;
-import com.greatmancode.craftconomy3.currency.CurrencyManager;
-import com.greatmancode.craftconomy3.database.tables.AccountTable;
 import com.greatmancode.craftconomy3.database.tables.iconomy.IConomyTable;
 
 /**
@@ -98,6 +96,10 @@ public class Iconomy6 extends Converter {
 		return result;
 	}
 
+	/**
+	 * Allow to load a flatfile database.
+	 * @return True if the file is open. Else false.
+	 */
 	private boolean loadFile() {
 		boolean result = false;
 		File dbFile = new File(Common.getInstance().getServerCaller().getDataFolder(), getDbConnectInfo().get("filename"));
@@ -112,6 +114,9 @@ public class Iconomy6 extends Converter {
 		return result;
 	}
 
+	/**
+	 * Allow to load a MySQL database.
+	 */
 	private void loadMySQL() {
 		try {
 			MySQLConfiguration config = new MySQLConfiguration();
@@ -126,6 +131,9 @@ public class Iconomy6 extends Converter {
 		}
 	}
 
+	/**
+	 * Allow to load a SQLite database.
+	 */
 	private void loadSQLite() {
 		SQLiteConfiguration config = new SQLiteConfiguration(Common.getInstance().getServerCaller().getDataFolder() + File.separator + getDbConnectInfo().get("filename"));
 		db = DatabaseFactory.createNewDatabase(config);
@@ -142,6 +150,11 @@ public class Iconomy6 extends Converter {
 		return result;
 	}
 
+	/**
+	 * Import accounts from a flatfile.
+	 * @param sender The command sender so we can send back messages.
+	 * @return True if the convert is done. Else false.
+	 */
 	private boolean importFlatFile(String sender) {
 		boolean result = false;
 
@@ -175,6 +188,11 @@ public class Iconomy6 extends Converter {
 		return result;
 	}
 
+	/**
+	 * Import accounts from the database.
+	 * @param sender The command sender so we can send back messages.
+	 * @return True if the convert is done. Else false.
+	 */
 	private boolean importDatabase(String sender) {
 		List<IConomyTable> icoList = db.select(IConomyTable.class).execute().find();
 		if (icoList != null && icoList.size() > 0) {

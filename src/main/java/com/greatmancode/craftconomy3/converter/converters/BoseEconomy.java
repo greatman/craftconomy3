@@ -36,6 +36,7 @@ public class BoseEconomy extends Converter {
 	private static final String TAB_CHECK = "\\t+";
 	private BufferedReader flatFileReader = null;
 	private List<User> userList = new ArrayList<User>();
+
 	public BoseEconomy() {
 		getDbTypes().add("flatfile");
 	}
@@ -123,7 +124,7 @@ public class BoseEconomy extends Converter {
 	private void accountImporter(String sender, String username) throws IOException {
 		String line = flatFileReader.readLine();
 		double amount = Double.parseDouble(line.split(" ")[1]);
-		userList.add(new User(username,amount));
+		userList.add(new User(username, amount));
 		//Common.getInstance().getAccountManager().getAccount(username).set(amount, Common.getInstance().getServerCaller().getDefaultWorld(), Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.defaultCurrencyID).getName());
 	}
 }

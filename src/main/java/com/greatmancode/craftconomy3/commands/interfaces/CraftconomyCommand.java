@@ -69,5 +69,9 @@ public abstract class CraftconomyCommand {
 	 */
 	public abstract boolean playerOnly();
 
+	/**
+	 * Returns the permission node of this command.
+	 * @return The permission node of this command.
+	 */
 	public abstract String getPermissionNode();
 }

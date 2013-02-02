@@ -32,6 +32,9 @@ import com.greatmancode.craftconomy3.database.tables.PayDayTable;
 public class PayDayManager {
 	private final Map<Integer, PayDay> paydayList = new HashMap<Integer, PayDay>();
 
+	/**
+	 * Initialize the payday manager by loading all the entries in the database.
+	 */
 	public PayDayManager() {
 		Iterator<PayDayTable> iterator = Common.getInstance().getDatabaseManager().getDatabase().select(PayDayTable.class).execute().find().iterator();
 		while (iterator.hasNext()) {

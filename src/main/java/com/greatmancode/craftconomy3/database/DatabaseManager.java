@@ -44,6 +44,11 @@ import com.greatmancode.craftconomy3.database.tables.PayDayTable;
 public class DatabaseManager {
 	private Database db = null;
 
+	/**
+	 * Initialize the database manager.
+	 * @throws TableRegistrationException
+	 * @throws ConnectionException
+	 */
 	public DatabaseManager() throws TableRegistrationException, ConnectionException {
 		String databasetype = Common.getInstance().getConfigurationManager().getConfig().getString("System.Database.Type");
 		if (databasetype.equals("sqlite")) {

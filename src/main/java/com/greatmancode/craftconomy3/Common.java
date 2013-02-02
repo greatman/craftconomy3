@@ -418,10 +418,18 @@ public class Common {
 		return eventManager;
 	}
 
+	/**
+	 * Retrieve the {@link LanguageManager}
+	 * @return The {@link LanguageManager}
+	 */
 	public LanguageManager getLanguageManager() {
 		return languageManager;
 	}
 
+	/**
+	 * Check if the system has been initialized.
+	 * @return True if the system has been initialized else false.
+	 */
 	public static boolean isInitialized() {
 		return initialized;
 	}

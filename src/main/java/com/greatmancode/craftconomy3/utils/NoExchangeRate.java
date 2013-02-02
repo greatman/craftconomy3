@@ -18,5 +18,8 @@
  */
 package com.greatmancode.craftconomy3.utils;
 
-public class NoExchangeRate extends Throwable{
+/**
+ * Exception for when a currency doesn't have a exchange rate.
+ */
+public class NoExchangeRate extends Throwable {
 }

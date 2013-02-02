@@ -24,7 +24,14 @@ import org.spout.api.event.EventHandler;
 import org.spout.api.event.Listener;
 import org.spout.api.event.player.PlayerJoinEvent;
 
+/**
+ * This class handles events from Spout Engine.
+ */
 public class SpoutListener implements Listener {
+	/**
+	 * Called when a player join the server.
+	 * @param event The Join Event.
+	 */
 	@EventHandler
 	public void playerJoin(PlayerJoinEvent event) {
 		Common.getInstance().getEventManager().playerJoinEvent(event.getPlayer().getName());

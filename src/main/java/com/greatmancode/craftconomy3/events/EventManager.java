@@ -20,6 +20,9 @@ package com.greatmancode.craftconomy3.events;
 
 import com.greatmancode.craftconomy3.Common;
 
+/**
+ * This class contains code shared for events.
+ */
 public class EventManager {
 	/**
 	 * Event handler for when a player is connecting to the server.

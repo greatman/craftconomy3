@@ -39,6 +39,10 @@ import org.spout.api.scheduler.TaskPriority;
 public class SpoutCaller implements Caller {
 	private final SpoutLoader loader;
 
+	/**
+	 * Load the Spout Caller
+	 * @param loader The {@link SpoutLoader}
+	 */
 	public SpoutCaller(Loader loader) {
 		this.loader = (SpoutLoader) loader;
 	}

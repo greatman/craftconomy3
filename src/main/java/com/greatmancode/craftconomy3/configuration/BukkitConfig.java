@@ -25,6 +25,9 @@ import com.greatmancode.craftconomy3.Common;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 
+/**
+ * This class handles YAML files with the Bukkit imports.
+ */
 public class BukkitConfig extends Config {
 	private final YamlConfiguration configFile;
 	private final File file;

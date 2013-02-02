@@ -25,6 +25,9 @@ import com.greatmancode.craftconomy3.Common;
 import org.spout.api.exception.ConfigurationException;
 import org.spout.api.util.config.yaml.YamlConfiguration;
 
+/**
+ * This class handles YAML from Spout imports.
+ */
 public class SpoutConfig extends Config {
 	private YamlConfiguration config = null;
 

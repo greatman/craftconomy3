@@ -40,6 +40,10 @@ public class BukkitCaller implements Caller {
 	private static final long TICK_LENGTH = 20L;
 	private final BukkitLoader loader;
 
+	/**
+	 * Load the Bukkit caller.
+	 * @param loader The {@link BukkitCaller}
+	 */
 	public BukkitCaller(Loader loader) {
 		this.loader = (BukkitLoader) loader;
 	}
@@ -137,13 +141,13 @@ public class BukkitCaller implements Caller {
 	public int schedule(Runnable entry, long firstStart, long repeating, boolean async) {
 		if (!async) {
 			if (repeating == 0) {
-				return loader.getServer().getScheduler().runTaskLater(loader,entry,firstStart * TICK_LENGTH).getTaskId();
+				return loader.getServer().getScheduler().runTaskLater(loader, entry, firstStart * TICK_LENGTH).getTaskId();
 			} else {
 				return loader.getServer().getScheduler().scheduleSyncRepeatingTask(loader, entry, firstStart * TICK_LENGTH, repeating * TICK_LENGTH);
 			}
 		} else {
 			if (repeating == 0) {
-				return loader.getServer().getScheduler().runTaskLaterAsynchronously(loader,entry,firstStart * TICK_LENGTH).getTaskId();
+				return loader.getServer().getScheduler().runTaskLaterAsynchronously(loader, entry, firstStart * TICK_LENGTH).getTaskId();
 			} else {
 				return loader.getServer().getScheduler().runTaskTimerAsynchronously(loader, entry, firstStart * TICK_LENGTH, repeating * TICK_LENGTH).getTaskId();
 			}
