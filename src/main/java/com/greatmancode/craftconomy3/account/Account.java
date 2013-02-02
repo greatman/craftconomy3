@@ -138,6 +138,8 @@ public class Account {
 	 */
 	public List<Balance> getAllWorldBalance(String world) {
 		String newWorld = world;
+		String groupName = Common.getInstance().getWorldGroupManager().getWorldGroupName(world);
+		if ()
 		if (!Common.getInstance().getConfigurationManager().isMultiWorld()) {
 			newWorld = DEFAULT_WORLD;
 		}

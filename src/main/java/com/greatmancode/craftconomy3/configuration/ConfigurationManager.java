@@ -164,14 +164,6 @@ public class ConfigurationManager {
 	}
 
 	/**
-	 * Check if the plugin is set in MultiWorld mode or not.
-	 * @return True if the system is set to be MultiWorld else false.
-	 */
-	public boolean isMultiWorld() {
-		return multiworld;
-	}
-
-	/**
 	 * Get the display format for balance.
 	 * @return True or false.
 	 */

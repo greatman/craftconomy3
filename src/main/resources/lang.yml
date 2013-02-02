@@ -145,3 +145,4 @@ no_exchange_rate: "{{DARK_RED}}No exchange rate from {{WHITE}}%s {{DARK_RED}}to 
 exchange_done: "{{WHITE}}%s %s {{DARK_GREEN}}has been converted to {{WHITE}}%s %s"
 money_exchange_cmd_help: "/currency exchange <Currency from> <Currency to> <amount> - set a currency exchange rate"
 currency_exchange_set: "Currency exchange set!"
+world_group_manager_loaded: "World Group Manager loaded!"

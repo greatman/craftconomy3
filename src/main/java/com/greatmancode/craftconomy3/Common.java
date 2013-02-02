@@ -36,6 +36,7 @@ import com.greatmancode.craftconomy3.currency.Currency;
 import com.greatmancode.craftconomy3.currency.CurrencyManager;
 import com.greatmancode.craftconomy3.database.DatabaseManager;
 import com.greatmancode.craftconomy3.events.EventManager;
+import com.greatmancode.craftconomy3.groups.WorldGroupsManager;
 import com.greatmancode.craftconomy3.language.LanguageManager;
 import com.greatmancode.craftconomy3.payday.PayDayManager;
 import com.greatmancode.craftconomy3.utils.Metrics;
@@ -57,7 +58,9 @@ public class Common {
 	private PayDayManager paydayManager = null;
 	private EventManager eventManager = null;
 	private LanguageManager languageManager = null;
+	private WorldGroupsManager worldGroupManager = null;
 	private CommandLoader commandManager;
+
 	private Caller serverCaller;
 	private VersionChecker versionChecker = null;
 	private boolean databaseInitialized = false;
@@ -347,6 +350,8 @@ public class Common {
 		paydayManager = new PayDayManager();
 		sendConsoleMessage(Level.INFO, getLanguageManager().getString("payday_manager_loaded"));
 		eventManager = new EventManager();
+		worldGroupManager = new WorldGroupsManager();
+		sendConsoleMessage(Level.INFO, getLanguageManager().getString("world_group_manager_loaded"));
 	}
 
 	/**
@@ -426,6 +431,9 @@ public class Common {
 		return languageManager;
 	}
 
+	public WorldGroupsManager getWorldGroupManager() {
+		return worldGroupManager;
+	}
 	/**
 	 * Check if the system has been initialized.
 	 * @return True if the system has been initialized else false.
