@@ -23,18 +23,11 @@ import com.greatmancode.craftconomy3.NewSetupWizard;
 import com.greatmancode.craftconomy3.commands.interfaces.CraftconomyCommand;
 
 public class NewSetupMainCommand extends CraftconomyCommand {
-	private enum INTERNALSTEP {
-		START
-	}
-
-	private INTERNALSTEP step = INTERNALSTEP.START;
 
 	@Override
 	public void execute(String sender, String[] args) {
 		if (NewSetupWizard.getState().equals(NewSetupWizard.BASIC_STEP)) {
-			if (step == INTERNALSTEP.START) {
-				start(sender);
-			}
+			start(sender);
 		}
 	}
 

@@ -37,7 +37,7 @@ public class NewSetupDatabaseCommand extends CraftconomyCommand {
 		H2;
 	}
 
-	private static final Map<String, String> values = new HashMap<String, String>();
+	private static final Map<String, String> VALUES = new HashMap<String, String>();
 	private static final String ERROR_MESSAGE = "{{DARK_RED}}A error occured. The error is: {{WHITE}}%s";
 	private static final String CONFIG_NODE = "System.Database.Type";
 	private INTERNALSTEP step = INTERNALSTEP.START;
@@ -116,34 +116,34 @@ public class NewSetupDatabaseCommand extends CraftconomyCommand {
 	private void mysql(String sender, String[] args) {
 		if (args.length == 2) {
 			if (args[0].equalsIgnoreCase("address")) {
-				values.put("address", args[1]);
+				VALUES.put("address", args[1]);
 				Common.getInstance().getConfigurationManager().getConfig().setValue("System.Database.Address", args[1]);
 				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Alright! Please type {{WHITE}}/ccsetup database port <Your port> {{DARK_GREEN}}to set your MySQL port (Usually 3306)");
 			} else if (args[0].equalsIgnoreCase("port")) {
 				if (Tools.isInteger(args[1])) {
 					int port = Integer.parseInt(args[1]);
-					values.put("port", args[1]);
+					VALUES.put("port", args[1]);
 					Common.getInstance().getConfigurationManager().getConfig().setValue("System.Database.Port", port);
 					Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Saved! Please type {{WHITE}}/ccsetup database username <Username> {{DARK_GREEN}}to set your MySQL username");
 				} else {
 					Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Invalid port!");
 				}
 			} else if (args[0].equalsIgnoreCase("username")) {
-				values.put("username", args[1]);
+				VALUES.put("username", args[1]);
 				Common.getInstance().getConfigurationManager().getConfig().setValue("System.Database.Username", args[1]);
 				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Saved! Please type {{WHITE}}/ccsetup database password <Password> {{DARK_GREEN}}to set your MySQL password (enter \"\" for none)");
 			} else if (args[0].equalsIgnoreCase("password")) {
-				values.put("password", args[1]);
+				VALUES.put("password", args[1]);
 				Common.getInstance().getConfigurationManager().getConfig().setValue("System.Database.Password", args[1]);
 				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Last step for database! Please type {{WHITE}}/ccsetup database db <Database Name> {{DARK_GREEN}}to set your MySQL database.");
 			} else if (args[0].equalsIgnoreCase("db")) {
-				values.put("db", args[1]);
+				VALUES.put("db", args[1]);
 				Common.getInstance().getConfigurationManager().getConfig().setValue("System.Database.Db", args[1]);
 				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Done! Please wait while the database is initializing.");
 			}
 		}
 
-		if (values.size() == 5) {
+		if (VALUES.size() == 5) {
 			try {
 				Common.getInstance().initialiseDatabase();
 				done(sender);

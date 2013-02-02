@@ -162,7 +162,7 @@ public abstract class Converter {
 		int i = 0;
 		stringBuilder = new StringBuilder();
 		String worldName = Common.getInstance().getServerCaller().getDefaultWorld();
-		String currencyName = Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.defaultCurrencyID).getName();
+
 		stringBuilder.append("INSERT INTO cc3_balance(username_id, currency_id, worldName,balance) VALUES ");
 		Iterator<User> iterator = userList.iterator();
 		boolean first = true, isSQLite = Common.getInstance().getDatabaseManager().getDatabase() instanceof SQLiteDatabase;

@@ -159,7 +159,6 @@ public class Iconomy6 extends Converter {
 		boolean result = false;
 
 		try {
-			int i = 0;
 			List<String> file = new ArrayList<String>();
 			String str;
 			while ((str = flatFileReader.readLine()) != null) {
@@ -197,7 +196,6 @@ public class Iconomy6 extends Converter {
 		List<IConomyTable> icoList = db.select(IConomyTable.class).execute().find();
 		if (icoList != null && icoList.size() > 0) {
 			Iterator<IConomyTable> icoListIterator = icoList.iterator();
-			int i = 0;
 			List<User> userList = new ArrayList<User>();
 			while (icoListIterator.hasNext()) {
 				IConomyTable entry = icoListIterator.next();

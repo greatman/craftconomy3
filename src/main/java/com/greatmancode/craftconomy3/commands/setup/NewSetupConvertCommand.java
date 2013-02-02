@@ -37,7 +37,7 @@ public class NewSetupConvertCommand extends CraftconomyCommand {
 		CONVERT;
 	}
 
-	private static final ConverterList importerList = new ConverterList();
+	private static final ConverterList IMPORTER_LIST = new ConverterList();
 	private static Converter selectedConverter = null;
 	private INTERNALSTEP step = INTERNALSTEP.START;
 
@@ -99,8 +99,8 @@ public class NewSetupConvertCommand extends CraftconomyCommand {
 	}
 
 	private void selectConvert(String sender, String[] args) {
-		if (importerList.getConverterList().containsKey(args[0])) {
-			selectedConverter = importerList.getConverterList().get(args[0]);
+		if (IMPORTER_LIST.getConverterList().containsKey(args[0])) {
+			selectedConverter = IMPORTER_LIST.getConverterList().get(args[0]);
 			Common.getInstance().getServerCaller().sendMessage(sender, "{{WHITE}}" + args[0] + " {DARK_GREEN}}importer selected.");
 			if (selectedConverter.getDbTypes().size() == 1) {
 				step = INTERNALSTEP.SELECT_DB;
@@ -128,7 +128,7 @@ public class NewSetupConvertCommand extends CraftconomyCommand {
 
 	private String getConverterListFormatted() {
 		String result = "";
-		Iterator<Entry<String, Converter>> iterator = importerList.getConverterList().entrySet().iterator();
+		Iterator<Entry<String, Converter>> iterator = IMPORTER_LIST.getConverterList().entrySet().iterator();
 		while (iterator.hasNext()) {
 			result += iterator.next().getKey();
 			if (iterator.hasNext()) {
