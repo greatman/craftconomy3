@@ -38,6 +38,7 @@ public class WorldGroupsManager {
 		}
 
 	}
+
 	public void addWorldToGroup(String groupName, String world) {
 		if (!groupName.equalsIgnoreCase(DEFAULT_GROUP_NAME)) {
 			if (list.containsKey(groupName)) {

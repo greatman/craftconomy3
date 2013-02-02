@@ -47,6 +47,7 @@ import com.greatmancode.craftconomy3.commands.currency.CurrencyEditCommand;
 import com.greatmancode.craftconomy3.commands.currency.CurrencyExchangeCommand;
 import com.greatmancode.craftconomy3.commands.currency.CurrencyHelpCommand;
 import com.greatmancode.craftconomy3.commands.currency.CurrencyInfoCommand;
+import com.greatmancode.craftconomy3.commands.group.GroupAddWorldCommand;
 import com.greatmancode.craftconomy3.commands.group.GroupCreateCommand;
 import com.greatmancode.craftconomy3.commands.interfaces.CommandManager;
 import com.greatmancode.craftconomy3.commands.managers.BukkitCommandManager;
@@ -165,8 +166,8 @@ public class CommandLoader {
 
 			CommandHandler ccgroupCommand = new CommandHandler("ccgroup", "World group related commands", false);
 			ccgroupCommand.registerCommand("create", new GroupCreateCommand());
+			ccgroupCommand.registerCommand("addworld", new GroupAddWorldCommand());
 			commandList.put("ccgroup", ccgroupCommand);
-
 			initialized = true;
 		}
 	}

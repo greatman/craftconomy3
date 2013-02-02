@@ -55,7 +55,7 @@ public class WorldGroup {
 	 * @param name The world name.
 	 */
 	public void addWorld(String name) {
-		if (name != null && Common.getInstance().getServerCaller().worldExist(name)) {
+		if (name != null && Common.getInstance().getServerCaller().worldExist(name) && !worldExist(name)) {
 			worldList.add(name);
 			save();
 		}
