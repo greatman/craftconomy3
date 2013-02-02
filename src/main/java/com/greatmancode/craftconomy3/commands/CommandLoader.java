@@ -1,7 +1,7 @@
 /*
  * This file is part of Craftconomy3.
  *
- * Copyright (c) 2011-2012, Greatman <http://github.com/greatman/>
+ * Copyright (c) 2011-2013, Greatman <http://github.com/greatman/>
  *
  * Craftconomy3 is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -47,6 +47,7 @@ import com.greatmancode.craftconomy3.commands.currency.CurrencyEditCommand;
 import com.greatmancode.craftconomy3.commands.currency.CurrencyExchangeCommand;
 import com.greatmancode.craftconomy3.commands.currency.CurrencyHelpCommand;
 import com.greatmancode.craftconomy3.commands.currency.CurrencyInfoCommand;
+import com.greatmancode.craftconomy3.commands.group.GroupCreateCommand;
 import com.greatmancode.craftconomy3.commands.interfaces.CommandManager;
 import com.greatmancode.craftconomy3.commands.managers.BukkitCommandManager;
 import com.greatmancode.craftconomy3.commands.managers.SpoutCommandManager;
@@ -161,6 +162,11 @@ public class CommandLoader {
 			paydayCommand.registerCommand("list", new PayDayListCommand());
 			paydayCommand.registerCommand("info", new PayDayInfoCommand());
 			commandList.put("payday", paydayCommand);
+
+			CommandHandler ccgroupCommand = new CommandHandler("ccgroup", "World group related commands", false);
+			ccgroupCommand.registerCommand("create", new GroupCreateCommand());
+			commandList.put("ccgroup", ccgroupCommand);
+
 			initialized = true;
 		}
 	}

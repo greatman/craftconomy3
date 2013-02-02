@@ -16,26 +16,25 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Craftconomy3.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.greatmancode.craftconomy3.commands.config;
+package com.greatmancode.craftconomy3.commands.group;
 
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.commands.interfaces.CraftconomyCommand;
-import com.greatmancode.craftconomy3.utils.Tools;
 
-public class ConfigBankPriceCommand extends CraftconomyCommand {
+public class GroupCreateCommand extends CraftconomyCommand{
 	@Override
 	public void execute(String sender, String[] args) {
-		if (Tools.isValidDouble(args[0])) {
-			Common.getInstance().getConfigurationManager().setBankPrice(Double.parseDouble(args[0]));
-			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("bank_price_modified"));
+		if(!Common.getInstance().getWorldGroupManager().worldGroupExist(args[0])) {
+			Common.getInstance().getWorldGroupManager().addWorldGroup(args[0]);
+			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("group_created"));
 		} else {
-			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("invalid_amount"));
+			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("group_already_exist"));
 		}
 	}
 
 	@Override
 	public String help() {
-		return Common.getInstance().getLanguageManager().getString("config_bankprice_cmd_help");
+		return Common.getInstance().getLanguageManager().getString("group_create_cmd_help");
 	}
 
 	@Override
@@ -55,6 +54,6 @@ public class ConfigBankPriceCommand extends CraftconomyCommand {
 
 	@Override
 	public String getPermissionNode() {
-		return "craftconomy.config.bankprice";
+		return "craftconony.group.create";
 	}
 }

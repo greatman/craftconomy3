@@ -146,3 +146,6 @@ exchange_done: "{{WHITE}}%s %s {{DARK_GREEN}}has been converted to {{WHITE}}%s %
 money_exchange_cmd_help: "/currency exchange <Currency from> <Currency to> <amount> - set a currency exchange rate"
 currency_exchange_set: "Currency exchange set!"
 world_group_manager_loaded: "World Group Manager loaded!"
+group_create_cmd_help: "/ccgroup create <Name> - Create a world group."
+group_already_exist: "This world group already exist!"
+group_created: "World group created!"
