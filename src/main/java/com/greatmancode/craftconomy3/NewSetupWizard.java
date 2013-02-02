@@ -21,7 +21,8 @@ package com.greatmancode.craftconomy3;
 public enum NewSetupWizard {
 	DATABASE_STEP,
 	MULTIWORLD_STEP,
-	BASIC_STEP;
+	BASIC_STEP,
+	CONVERT_STEP;
 
 	private static NewSetupWizard state = BASIC_STEP;
 

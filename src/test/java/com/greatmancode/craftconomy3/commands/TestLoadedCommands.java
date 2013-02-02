@@ -55,6 +55,9 @@ public class TestLoadedCommands {
 				if (instance.minArgs() < 0) {
 					fail("Fail minArgs for class: " + clazz.getName());
 				}
+				if (instance.maxArgs() < instance.minArgs()) {
+					fail("Fail maxArgs less than minArgs for class:" + clazz.getName());
+				}
 				if (instance.getPermissionNode() != null) {
 					if (!instance.getPermissionNode().contains("craftconomy")) {
 						fail("Fail permissionNode for class: " + clazz.getName());
