@@ -1,7 +1,7 @@
 /*
  * This file is part of Craftconomy3.
  *
- * Copyright (c) 2011-2012, Greatman <http://github.com/greatman/>
+ * Copyright (c) 2011-2013, Greatman <http://github.com/greatman/>
  *
  * Craftconomy3 is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -33,7 +33,7 @@ import org.spout.api.plugin.services.EconomyService;
 public class EconomyServiceHandler extends EconomyService {
 	@Override
 	public boolean has(String name, double amount) {
-		return Common.getInstance().getAccountManager().getAccount(name).hasEnough(amount, Common.getInstance().getAccountManager().getAccount(name).getWorldPlayerCurrentlyIn(), Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.defaultCurrencyID).getName());
+		return Common.getInstance().getAccountManager().getAccount(name).hasEnough(amount, Common.getInstance().getAccountManager().getAccount(name).getWorldGroupOfPlayerCurrentlyIn(), Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.defaultCurrencyID).getName());
 	}
 
 	@Override
@@ -146,8 +146,8 @@ public class EconomyServiceHandler extends EconomyService {
 		if (currencyEntry == null) {
 			throw new UnknownCurrencyException();
 		}
-		if (Common.getInstance().getAccountManager().getAccount(name).hasEnough(amount, Common.getInstance().getAccountManager().getAccount(name).getWorldPlayerCurrentlyIn(), currencyEntry.getName())) {
-			Common.getInstance().getAccountManager().getAccount(name).withdraw(amount, Common.getInstance().getAccountManager().getAccount(name).getWorldPlayerCurrentlyIn(), currencyEntry.getName());
+		if (Common.getInstance().getAccountManager().getAccount(name).hasEnough(amount, Common.getInstance().getAccountManager().getAccount(name).getWorldGroupOfPlayerCurrentlyIn(), currencyEntry.getName())) {
+			Common.getInstance().getAccountManager().getAccount(name).withdraw(amount, Common.getInstance().getAccountManager().getAccount(name).getWorldGroupOfPlayerCurrentlyIn(), currencyEntry.getName());
 			result = true;
 		}
 
@@ -160,7 +160,7 @@ public class EconomyServiceHandler extends EconomyService {
 		if (currencyEntry == null) {
 			throw new UnknownCurrencyException();
 		}
-		Common.getInstance().getAccountManager().getAccount(name).deposit(amount, Common.getInstance().getAccountManager().getAccount(name).getWorldPlayerCurrentlyIn(), currencyEntry.getName());
+		Common.getInstance().getAccountManager().getAccount(name).deposit(amount, Common.getInstance().getAccountManager().getAccount(name).getWorldGroupOfPlayerCurrentlyIn(), currencyEntry.getName());
 		return true;
 	}
 
@@ -171,7 +171,7 @@ public class EconomyServiceHandler extends EconomyService {
 		if (currencyEntry == null) {
 			throw new UnknownCurrencyException();
 		}
-		if (Common.getInstance().getAccountManager().getAccount(name).hasEnough(amount, Common.getInstance().getAccountManager().getAccount(name).getWorldPlayerCurrentlyIn(), currencyEntry.getName())) {
+		if (Common.getInstance().getAccountManager().getAccount(name).hasEnough(amount, Common.getInstance().getAccountManager().getAccount(name).getWorldGroupOfPlayerCurrentlyIn(), currencyEntry.getName())) {
 			result = true;
 		}
 		return result;
@@ -185,7 +185,7 @@ public class EconomyServiceHandler extends EconomyService {
 			throw new UnknownCurrencyException();
 		}
 		if (currency != null) {
-			result = Common.getInstance().getAccountManager().getAccount(name).getBalance(Common.getInstance().getAccountManager().getAccount(name).getWorldPlayerCurrentlyIn(), currencyEntry.getName());
+			result = Common.getInstance().getAccountManager().getAccount(name).getBalance(Common.getInstance().getAccountManager().getAccount(name).getWorldGroupOfPlayerCurrentlyIn(), currencyEntry.getName());
 		}
 		return result;
 	}

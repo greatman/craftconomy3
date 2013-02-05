@@ -1,7 +1,7 @@
 /*
  * This file is part of Craftconomy3.
  *
- * Copyright (c) 2011-2012, Greatman <http://github.com/greatman/>
+ * Copyright (c) 2011-2013, Greatman <http://github.com/greatman/>
  *
  * Craftconomy3 is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -43,9 +43,9 @@ public class BankDepositCommand extends CraftconomyCommand {
 						}
 					}
 					Account playerAccount = Common.getInstance().getAccountManager().getAccount(sender);
-					if (playerAccount.hasEnough(amount, playerAccount.getWorldPlayerCurrentlyIn(), currency.getName())) {
-						playerAccount.withdraw(amount, playerAccount.getWorldPlayerCurrentlyIn(), currency.getName());
-						bankAccount.deposit(amount, playerAccount.getWorldPlayerCurrentlyIn(), currency.getName());
+					if (playerAccount.hasEnough(amount, playerAccount.getWorldGroupOfPlayerCurrentlyIn(), currency.getName())) {
+						playerAccount.withdraw(amount, playerAccount.getWorldGroupOfPlayerCurrentlyIn(), currency.getName());
+						bankAccount.deposit(amount, playerAccount.getWorldGroupOfPlayerCurrentlyIn(), currency.getName());
 						Common.getInstance().getServerCaller().sendMessage(sender, String.format(Common.getInstance().getLanguageManager().getString("deposited"), Common.getInstance().format(null, currency, amount), args[0]));
 					} else {
 						Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("not_enough_money"));

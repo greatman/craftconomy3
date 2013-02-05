@@ -1,7 +1,7 @@
 /*
  * This file is part of Craftconomy3.
  *
- * Copyright (c) 2011-2012, Greatman <http://github.com/greatman/>
+ * Copyright (c) 2011-2013, Greatman <http://github.com/greatman/>
  *
  * Craftconomy3 is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -30,7 +30,7 @@ public class MainCommand extends CraftconomyCommand {
 	public void execute(String sender, String[] args) {
 		Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("money_all_title"));
 		Account account = Common.getInstance().getAccountManager().getAccount(sender);
-		Iterator<Balance> balanceList = account.getAllWorldBalance(account.getWorldPlayerCurrentlyIn()).iterator();
+		Iterator<Balance> balanceList = account.getAllWorldBalance(account.getWorldGroupOfPlayerCurrentlyIn()).iterator();
 		while (balanceList.hasNext()) {
 			Balance bl = balanceList.next();
 			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().format(bl.getWorld(), bl.getCurrency(), bl.getBalance()));

@@ -1,7 +1,7 @@
 /*
  * This file is part of Craftconomy3.
  *
- * Copyright (c) 2011-2012, Greatman <http://github.com/greatman/>
+ * Copyright (c) 2011-2013, Greatman <http://github.com/greatman/>
  *
  * Craftconomy3 is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -52,7 +52,7 @@ public class NewSetupBasicCommand extends CraftconomyCommand {
 
 	@Override
 	public String help() {
-		return null;
+		return "/ccsetup basic - Basic command of the setup wizard.";
 	}
 
 	@Override
@@ -78,12 +78,19 @@ public class NewSetupBasicCommand extends CraftconomyCommand {
 	private void format(String sender, String[] args) {
 		if (args.length == 1) {
 			try {
-				DisplayFormat format = DisplayFormat.valueOf(args[0]);
+				DisplayFormat format = DisplayFormat.valueOf(args[0].toUpperCase());
 				ConfigTable table = new ConfigTable();
-				table.setName("format");
+				table.setName("longmode");
 				table.setValue(format.name());
 				Common.getInstance().getDatabaseManager().getDatabase().save(table);
+				//The setup is made for the V4 database.
+				table = new ConfigTable();
+				table.setName("dbVersion");
+				table.setValue("4");
+				Common.getInstance().getDatabaseManager().getDatabase().save(table);
 				NewSetupWizard.setState(NewSetupWizard.CONVERT_STEP);
+				Common.getInstance().getConfigurationManager().loadDefaultSettings();
+				Common.getInstance().startUp();
 				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Only 1 step left! Do you want to convert from another system? Type {{WHITE}} /ccsetup convert yes {{DARK_GREEN}}or {{WHITE}}/ccsetup convert no");
 			} catch (IllegalArgumentException e) {
 				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}This display format doesn't exist! Please type {{WHITE}}/ccsetup basic <format>");

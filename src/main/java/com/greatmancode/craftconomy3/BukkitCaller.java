@@ -1,7 +1,7 @@
 /*
  * This file is part of Craftconomy3.
  *
- * Copyright (c) 2011-2012, Greatman <http://github.com/greatman/>
+ * Copyright (c) 2011-2013, Greatman <http://github.com/greatman/>
  *
  * Craftconomy3 is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -221,7 +221,7 @@ public class BukkitCaller implements Caller {
 			try {
 				loader.getServer().getPluginManager().addPermission(new Permission(permissionNode));
 			} catch (IllegalArgumentException e) {
-				Common.getInstance().sendConsoleMessage(Level.SEVERE, e.getMessage());
+				//Do nothing. We don't care if the permission was already registered.
 			}
 		}
 	}

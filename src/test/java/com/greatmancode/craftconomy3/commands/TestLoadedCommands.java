@@ -1,7 +1,7 @@
 /*
  * This file is part of Craftconomy3.
  *
- * Copyright (c) 2011-2012, Greatman <http://github.com/greatman/>
+ * Copyright (c) 2011-2013, Greatman <http://github.com/greatman/>
  *
  * Craftconomy3 is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -38,6 +38,7 @@ public class TestLoadedCommands {
 		new TestInitializator();
 	}
 
+	@Test
 	public void testCommands() {
 
 		Reflections reflections = new Reflections("com.greatmancode.craftconomy3.commands");
@@ -46,7 +47,7 @@ public class TestLoadedCommands {
 			Class<? extends CraftconomyCommand> clazz = allClasses.next();
 			try {
 				CraftconomyCommand instance = clazz.newInstance();
-				if (!(instance.help() instanceof String)) {
+				if (!(instance.help() instanceof String)  || instance.help() == null) {
 					fail("Help is null for: " + clazz.getName());
 				}
 				if (instance.maxArgs() < 0) {
@@ -63,7 +64,7 @@ public class TestLoadedCommands {
 						fail("Fail permissionNode for class: " + clazz.getName());
 					}
 				}
-				if (!instance.playerOnly() && !instance.playerOnly()) {
+				if (!instance.playerOnly() && instance.playerOnly()) {
 					fail("Fail playerOnly. Should never get this..");
 				}
 			} catch (InstantiationException e) {

@@ -1,7 +1,7 @@
 /*
  * This file is part of Craftconomy3.
  *
- * Copyright (c) 2011-2012, Greatman <http://github.com/greatman/>
+ * Copyright (c) 2011-2013, Greatman <http://github.com/greatman/>
  *
  * Craftconomy3 is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -47,6 +47,9 @@ import com.greatmancode.craftconomy3.commands.currency.CurrencyEditCommand;
 import com.greatmancode.craftconomy3.commands.currency.CurrencyExchangeCommand;
 import com.greatmancode.craftconomy3.commands.currency.CurrencyHelpCommand;
 import com.greatmancode.craftconomy3.commands.currency.CurrencyInfoCommand;
+import com.greatmancode.craftconomy3.commands.group.GroupAddWorldCommand;
+import com.greatmancode.craftconomy3.commands.group.GroupCreateCommand;
+import com.greatmancode.craftconomy3.commands.group.GroupDelWorldCommand;
 import com.greatmancode.craftconomy3.commands.interfaces.CommandManager;
 import com.greatmancode.craftconomy3.commands.managers.BukkitCommandManager;
 import com.greatmancode.craftconomy3.commands.managers.SpoutCommandManager;
@@ -68,6 +71,11 @@ import com.greatmancode.craftconomy3.commands.payday.PayDayHelpCommand;
 import com.greatmancode.craftconomy3.commands.payday.PayDayInfoCommand;
 import com.greatmancode.craftconomy3.commands.payday.PayDayListCommand;
 import com.greatmancode.craftconomy3.commands.payday.PayDayModifyCommand;
+import com.greatmancode.craftconomy3.commands.setup.NewSetupBasicCommand;
+import com.greatmancode.craftconomy3.commands.setup.NewSetupConvertCommand;
+import com.greatmancode.craftconomy3.commands.setup.NewSetupCurrencyCommand;
+import com.greatmancode.craftconomy3.commands.setup.NewSetupDatabaseCommand;
+import com.greatmancode.craftconomy3.commands.setup.NewSetupMainCommand;
 import com.greatmancode.craftconomy3.commands.setup.SetupBasicCommand;
 import com.greatmancode.craftconomy3.commands.setup.SetupConvertCommand;
 import com.greatmancode.craftconomy3.commands.setup.SetupCurrencyCommand;
@@ -128,12 +136,12 @@ public class CommandLoader {
 			commandList.put("bank", bankCommand);
 
 			CommandHandler setupCommand = new CommandHandler("ccsetup", "Setup related commands", true);
-			setupCommand.registerCommand("", new SetupMainCommand());
-			setupCommand.registerCommand("database", new SetupDatabaseCommand());
-			setupCommand.registerCommand("multiworld", new SetupMultiWorldCommand());
-			setupCommand.registerCommand("currency", new SetupCurrencyCommand());
-			setupCommand.registerCommand("basic", new SetupBasicCommand());
-			setupCommand.registerCommand("convert", new SetupConvertCommand());
+			setupCommand.registerCommand("", new NewSetupMainCommand());
+			setupCommand.registerCommand("database", new NewSetupDatabaseCommand());
+			//setupCommand.registerCommand("multiworld", new SetupMultiWorldCommand());
+			setupCommand.registerCommand("currency", new NewSetupCurrencyCommand());
+			setupCommand.registerCommand("basic", new NewSetupBasicCommand());
+			setupCommand.registerCommand("convert", new NewSetupConvertCommand());
 			commandList.put("ccsetup", setupCommand);
 
 			CommandHandler currencyCommand = new CommandHandler("currency", "Currency related commands", false);
@@ -161,6 +169,12 @@ public class CommandLoader {
 			paydayCommand.registerCommand("list", new PayDayListCommand());
 			paydayCommand.registerCommand("info", new PayDayInfoCommand());
 			commandList.put("payday", paydayCommand);
+
+			CommandHandler ccgroupCommand = new CommandHandler("ccgroup", "World group related commands", false);
+			ccgroupCommand.registerCommand("create", new GroupCreateCommand());
+			ccgroupCommand.registerCommand("addworld", new GroupAddWorldCommand());
+			ccgroupCommand.registerCommand("delworld", new GroupDelWorldCommand());
+			commandList.put("ccgroup", ccgroupCommand);
 			initialized = true;
 		}
 	}

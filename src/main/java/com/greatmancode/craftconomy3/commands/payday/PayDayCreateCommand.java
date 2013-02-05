@@ -1,7 +1,7 @@
 /*
  * This file is part of Craftconomy3.
  *
- * Copyright (c) 2011-2012, Greatman <http://github.com/greatman/>
+ * Copyright (c) 2011-2013, Greatman <http://github.com/greatman/>
  *
  * Craftconomy3 is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -50,8 +50,8 @@ public class PayDayCreateCommand extends CraftconomyCommand {
 								return;
 							}
 						}
-						if (args.length == 7 && Common.getInstance().getConfigurationManager().isMultiWorld()) {
-							if (Common.getInstance().getServerCaller().worldExist(args[6])) {
+						if (args.length == 7) {
+							if (Common.getInstance().getWorldGroupManager().worldGroupExist(args[6])) {
 								worldName = args[6];
 							} else {
 								Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("world_not_exist"));

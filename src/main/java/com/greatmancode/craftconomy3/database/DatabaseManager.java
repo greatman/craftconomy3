@@ -1,7 +1,7 @@
 /*
  * This file is part of Craftconomy3.
  *
- * Copyright (c) 2011-2012, Greatman <http://github.com/greatman/>
+ * Copyright (c) 2011-2013, Greatman <http://github.com/greatman/>
  *
  * Craftconomy3 is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -36,6 +36,7 @@ import com.greatmancode.craftconomy3.database.tables.ConfigTable;
 import com.greatmancode.craftconomy3.database.tables.CurrencyTable;
 import com.greatmancode.craftconomy3.database.tables.ExchangeTable;
 import com.greatmancode.craftconomy3.database.tables.PayDayTable;
+import com.greatmancode.craftconomy3.database.tables.WorldGroupTable;
 
 /**
  * Handle the database link.
@@ -66,6 +67,7 @@ public class DatabaseManager {
 		db.registerTable(ConfigTable.class);
 		db.registerTable(PayDayTable.class);
 		db.registerTable(ExchangeTable.class);
+		db.registerTable(WorldGroupTable.class);
 		db.connect();
 	}
 

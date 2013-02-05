@@ -1,7 +1,7 @@
 /*
  * This file is part of Craftconomy3.
  *
- * Copyright (c) 2011-2012, Greatman <http://github.com/greatman/>
+ * Copyright (c) 2011-2013, Greatman <http://github.com/greatman/>
  *
  * Craftconomy3 is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -23,6 +23,7 @@ import com.greatmancode.craftconomy3.account.Account;
 import com.greatmancode.craftconomy3.commands.interfaces.CraftconomyCommand;
 import com.greatmancode.craftconomy3.currency.Currency;
 import com.greatmancode.craftconomy3.currency.CurrencyManager;
+import com.greatmancode.craftconomy3.groups.WorldGroupsManager;
 import com.greatmancode.craftconomy3.utils.Tools;
 
 public class TakeCommand extends CraftconomyCommand {
@@ -41,21 +42,14 @@ public class TakeCommand extends CraftconomyCommand {
 						return;
 					}
 				}
-				String worldName = "any";
+
+				String worldName = Common.getInstance().getAccountManager().getAccount(sender).getWorldGroupOfPlayerCurrentlyIn();
 				if (args.length > 3) {
-					if (Common.getInstance().getConfigurationManager().isMultiWorld()) {
-						if (!Common.getInstance().getServerCaller().worldExist(args[3])) {
-							Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("world_not_exist"));
-							return;
-						}
-						worldName = args[3];
+					if (!Common.getInstance().getServerCaller().worldExist(args[3])) {
+						Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("world_not_exist"));
+						return;
 					}
-				} else {
-					if (!Common.getInstance().getServerCaller().isOnline(sender)) {
-						worldName = Common.getInstance().getServerCaller().getDefaultWorld();
-					} else {
-						worldName = Common.getInstance().getAccountManager().getAccount(sender).getWorldPlayerCurrentlyIn();
-					}
+					worldName = Common.getInstance().getWorldGroupManager().getWorldGroupName(args[3]);
 				}
 
 				Common.getInstance().getAccountManager().getAccount(args[0]).withdraw(amount, worldName, currency.getName());

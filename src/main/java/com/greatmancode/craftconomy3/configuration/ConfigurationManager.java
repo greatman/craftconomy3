@@ -1,7 +1,7 @@
 /*
  * This file is part of Craftconomy3.
  *
- * Copyright (c) 2011-2012, Greatman <http://github.com/greatman/>
+ * Copyright (c) 2011-2013, Greatman <http://github.com/greatman/>
  *
  * Craftconomy3 is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -124,9 +124,10 @@ public class ConfigurationManager {
 				Common.getInstance().getLogger().info("Display format is invalid. Saving a valid one.");
 				display.setValue("long");
 				Common.getInstance().getDatabaseManager().getDatabase().save(display);
-				dbVersion.setValue(3 + "");
-				Common.getInstance().getDatabaseManager().getDatabase().save(dbVersion);
+
 			}
+			dbVersion.setValue(3 + "");
+			Common.getInstance().getDatabaseManager().getDatabase().save(dbVersion);
 			Common.getInstance().getLogger().info("Updated to Revision 3!");
 		}
 	}
@@ -143,7 +144,6 @@ public class ConfigurationManager {
 		holdings = Double.parseDouble(Common.getInstance().getDatabaseManager().getDatabase().select(ConfigTable.class).where().equal(ConfigTable.NAME_FIELD, "holdings").execute().findOne().getValue());
 		bankPrice = Double.parseDouble(Common.getInstance().getDatabaseManager().getDatabase().select(ConfigTable.class).where().equal(ConfigTable.NAME_FIELD, "bankprice").execute().findOne().getValue());
 		displayFormat = Common.getInstance().getDatabaseManager().getDatabase().select(ConfigTable.class).where().equal(ConfigTable.NAME_FIELD, "longmode").execute().findOne().getValue();
-		multiworld = Boolean.parseBoolean(Common.getInstance().getDatabaseManager().getDatabase().select(ConfigTable.class).where().equal(ConfigTable.NAME_FIELD, "multiworld").execute().findOne().getValue());
 		ConfigTable currencyId = Common.getInstance().getDatabaseManager().getDatabase().select(ConfigTable.class).where().equal(ConfigTable.NAME_FIELD, "bankcurrency").execute().findOne();
 		if (currencyId != null) {
 			bankCurrencyId = Integer.parseInt(currencyId.getValue());
@@ -161,14 +161,6 @@ public class ConfigurationManager {
 	 */
 	public int getBankCurrencyId() {
 		return bankCurrencyId;
-	}
-
-	/**
-	 * Check if the plugin is set in MultiWorld mode or not.
-	 * @return True if the system is set to be MultiWorld else false.
-	 */
-	public boolean isMultiWorld() {
-		return multiworld;
 	}
 
 	/**

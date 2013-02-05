@@ -1,7 +1,7 @@
 /*
  * This file is part of Craftconomy3.
  *
- * Copyright (c) 2011-2012, Greatman <http://github.com/greatman/>
+ * Copyright (c) 2011-2013, Greatman <http://github.com/greatman/>
  *
  * Craftconomy3 is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -36,6 +36,7 @@ import com.greatmancode.craftconomy3.currency.Currency;
 import com.greatmancode.craftconomy3.currency.CurrencyManager;
 import com.greatmancode.craftconomy3.database.DatabaseManager;
 import com.greatmancode.craftconomy3.events.EventManager;
+import com.greatmancode.craftconomy3.groups.WorldGroupsManager;
 import com.greatmancode.craftconomy3.language.LanguageManager;
 import com.greatmancode.craftconomy3.payday.PayDayManager;
 import com.greatmancode.craftconomy3.utils.Metrics;
@@ -57,7 +58,9 @@ public class Common {
 	private PayDayManager paydayManager = null;
 	private EventManager eventManager = null;
 	private LanguageManager languageManager = null;
+	private WorldGroupsManager worldGroupManager = null;
 	private CommandLoader commandManager;
+
 	private Caller serverCaller;
 	private VersionChecker versionChecker = null;
 	private boolean databaseInitialized = false;
@@ -256,7 +259,7 @@ public class Common {
 	public String format(String worldName, Currency currency, double balance, DisplayFormat format) {
 		StringBuilder string = new StringBuilder();
 
-		if (worldName != null && getConfigurationManager().isMultiWorld()) {
+		if (worldName != null) {
 			// We put the world name if the conf is true
 			string.append(worldName + ":").append(" ");
 		}
@@ -340,13 +343,15 @@ public class Common {
 	public void startUp() {
 		sendConsoleMessage(Level.INFO, getLanguageManager().getString("loading_account_manager"));
 		accountManager = new AccountManager();
-		addMetricsGraph("Multiworld", getConfigurationManager().isMultiWorld());
+		//addMetricsGraph("Multiworld", getConfigurationManager().isMultiWorld());
 		startMetrics();
 		sendConsoleMessage(Level.INFO, getLanguageManager().getString("account_manager_loaded"));
 		sendConsoleMessage(Level.INFO, getLanguageManager().getString("loading_payday_manager"));
 		paydayManager = new PayDayManager();
 		sendConsoleMessage(Level.INFO, getLanguageManager().getString("payday_manager_loaded"));
 		eventManager = new EventManager();
+		worldGroupManager = new WorldGroupsManager();
+		sendConsoleMessage(Level.INFO, getLanguageManager().getString("world_group_manager_loaded"));
 	}
 
 	/**
@@ -426,6 +431,9 @@ public class Common {
 		return languageManager;
 	}
 
+	public WorldGroupsManager getWorldGroupManager() {
+		return worldGroupManager;
+	}
 	/**
 	 * Check if the system has been initialized.
 	 * @return True if the system has been initialized else false.

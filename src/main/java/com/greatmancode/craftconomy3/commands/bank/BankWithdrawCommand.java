@@ -1,7 +1,7 @@
 /*
  * This file is part of Craftconomy3.
  *
- * Copyright (c) 2011-2012, Greatman <http://github.com/greatman/>
+ * Copyright (c) 2011-2013, Greatman <http://github.com/greatman/>
  *
  * Craftconomy3 is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -43,9 +43,9 @@ public class BankWithdrawCommand extends CraftconomyCommand {
 						}
 					}
 					Account playerAccount = Common.getInstance().getAccountManager().getAccount(sender);
-					if (bankAccount.hasEnough(amount, playerAccount.getWorldPlayerCurrentlyIn(), currency.getName())) {
-						bankAccount.withdraw(amount, playerAccount.getWorldPlayerCurrentlyIn(), currency.getName());
-						playerAccount.deposit(amount, playerAccount.getWorldPlayerCurrentlyIn(), currency.getName());
+					if (bankAccount.hasEnough(amount, playerAccount.getWorldGroupOfPlayerCurrentlyIn(), currency.getName())) {
+						bankAccount.withdraw(amount, playerAccount.getWorldGroupOfPlayerCurrentlyIn(), currency.getName());
+						playerAccount.deposit(amount, playerAccount.getWorldGroupOfPlayerCurrentlyIn(), currency.getName());
 						Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Withdrawed {{WHITE}}" + Common.getInstance().format(null, currency, amount) + "{{DARK_GREEN}} from the {{WHITE}}" + args[0] + "{{DARK_GREEN}} bank Account.");
 					} else {
 						Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("bank_not_enough_money"));
@@ -63,7 +63,7 @@ public class BankWithdrawCommand extends CraftconomyCommand {
 
 	@Override
 	public String help() {
-		return Common.getInstance().getLanguageManager().getString(Common.getInstance().getLanguageManager().getString("bank_withdraw_cmd_help"));
+		return Common.getInstance().getLanguageManager().getString("bank_withdraw_cmd_help");
 	}
 
 	@Override

@@ -1,8 +1,7 @@
 name: Craftconomy3
 main: com.greatmancode.craftconomy3.BukkitLoader
-version: ${version} b${BUILD_NUMBER}
+version: ${version} b${bamboo.buildNumber}-${bamboo.repository.revision.number}-${bamboo.repository.branch.name}
 author: Greatman
-softdepend: [Spout]
 commands:
     money:
       description: Check / Distribute currency.
@@ -16,3 +15,5 @@ commands:
       description: Currency management command
     payday:
       description: Payday management command
+    ccgroup:
+      description: world group management command.
