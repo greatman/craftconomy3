@@ -63,6 +63,12 @@ public class WorldGroupsManager {
 		return result;
 	}
 
+	public void removeWorldFromGroup(String world) {
+		String groupName = getWorldGroupName(world);
+		if (!groupName.equals(DEFAULT_GROUP_NAME)) {
+			list.get(groupName).removeWorld(world);
+		}
+	}
 	public boolean worldGroupExist(String name) {
 		return list.containsKey(name);
 	}

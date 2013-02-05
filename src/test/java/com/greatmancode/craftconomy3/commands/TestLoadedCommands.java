@@ -38,6 +38,7 @@ public class TestLoadedCommands {
 		new TestInitializator();
 	}
 
+	@Test
 	public void testCommands() {
 
 		Reflections reflections = new Reflections("com.greatmancode.craftconomy3.commands");
@@ -46,7 +47,7 @@ public class TestLoadedCommands {
 			Class<? extends CraftconomyCommand> clazz = allClasses.next();
 			try {
 				CraftconomyCommand instance = clazz.newInstance();
-				if (!(instance.help() instanceof String)) {
+				if (!(instance.help() instanceof String) && instance.help() != null) {
 					fail("Help is null for: " + clazz.getName());
 				}
 				if (instance.maxArgs() < 0) {
@@ -63,7 +64,7 @@ public class TestLoadedCommands {
 						fail("Fail permissionNode for class: " + clazz.getName());
 					}
 				}
-				if (!instance.playerOnly() && !instance.playerOnly()) {
+				if (!instance.playerOnly() && instance.playerOnly()) {
 					fail("Fail playerOnly. Should never get this..");
 				}
 			} catch (InstantiationException e) {

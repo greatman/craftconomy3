@@ -35,7 +35,6 @@ import com.greatmancode.craftconomy3.database.tables.BalanceTable;
  */
 public class Account {
 	public static final String BANK_PREFIX = "bank:";
-	private static final String DEFAULT_WORLD = "any";
 	private final AccountTable account;
 	private AccountACL acl;
 

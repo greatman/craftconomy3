@@ -221,7 +221,7 @@ public class BukkitCaller implements Caller {
 			try {
 				loader.getServer().getPluginManager().addPermission(new Permission(permissionNode));
 			} catch (IllegalArgumentException e) {
-				Common.getInstance().sendConsoleMessage(Level.SEVERE, e.getMessage());
+				//Do nothing. We don't care if the permission was already registered.
 			}
 		}
 	}

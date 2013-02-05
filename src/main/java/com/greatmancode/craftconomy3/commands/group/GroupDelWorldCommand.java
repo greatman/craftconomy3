@@ -21,20 +21,21 @@ package com.greatmancode.craftconomy3.commands.group;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.commands.interfaces.CraftconomyCommand;
 
-public class GroupCreateCommand extends CraftconomyCommand{
+public class GroupDelWorldCommand extends CraftconomyCommand{
 	@Override
 	public void execute(String sender, String[] args) {
-		if(!Common.getInstance().getWorldGroupManager().worldGroupExist(args[0])) {
-			Common.getInstance().getWorldGroupManager().addWorldGroup(args[0]);
-			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("group_created"));
+		if (!Common.getInstance().getWorldGroupManager().getWorldGroupName(args[0]).equals("default")) {
+			Common.getInstance().getWorldGroupManager().removeWorldFromGroup(args[0]);
+			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("world_removed_from_group"));
 		} else {
-			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("group_already_exist"));
+			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("world_not_in_group"));
+
 		}
 	}
 
 	@Override
 	public String help() {
-		return Common.getInstance().getLanguageManager().getString("group_create_cmd_help");
+		return Common.getInstance().getLanguageManager().getString("group_delworld_cmd_help");
 	}
 
 	@Override
@@ -54,6 +55,6 @@ public class GroupCreateCommand extends CraftconomyCommand{
 
 	@Override
 	public String getPermissionNode() {
-		return "craftconomy.group.create";
+		return "craftconomy.group.delworld";
 	}
 }

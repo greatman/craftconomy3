@@ -62,6 +62,16 @@ public class WorldGroup {
 	}
 
 	/**
+	 * Remove a world from the group if it exists.
+	 * @param world The world name
+	 */
+	public void removeWorld(String world) {
+		if (worldList.contains(world)) {
+			worldList.remove(world);
+			save();
+		}
+	}
+	/**
 	 * Checks if a certain world is in this group.
 	 * @param worldName The world name.
 	 * @return True if the world is in this world. Else false.
