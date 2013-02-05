@@ -1,8 +1,7 @@
 name: Craftconomy3
 main: com.greatmancode.craftconomy3.BukkitLoader
-version: ${version} b-${bamboo.repository.branch.name}-${bamboo.buildNumber}
+version: ${version} b${bamboo.buildNumber}-${bamboo.repository.revision.number}-${bamboo.repository.branch.name}
 author: Greatman
-softdepend: [Spout]
 commands:
     money:
       description: Check / Distribute currency.
