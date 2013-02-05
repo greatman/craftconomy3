@@ -110,7 +110,7 @@ public class NewSetupDatabaseCommand extends CraftconomyCommand {
 		} catch (ConnectionException e) {
 			Common.getInstance().getServerCaller().sendMessage(sender, String.format(ERROR_MESSAGE, e.getMessage()));
 		}
-		SetupWizard.setState(SetupWizard.MULTIWORLD_SETUP);
+
 	}
 
 	private void mysql(String sender, String[] args) {
@@ -158,7 +158,9 @@ public class NewSetupDatabaseCommand extends CraftconomyCommand {
 	}
 
 	private void done(String sender) {
-		Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Awesome! You can type {{WHITE}}/ccsetup multiworld {{DARK_GREEN}}to continue the setup!");
-		NewSetupWizard.setState(NewSetupWizard.MULTIWORLD_STEP);
+		Common.getInstance().initializeCurrency();
+		Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Awesome! Now, I want to know if you want to convert from Craftconomy V2?");
+		Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Please type {{WHITE}}/ccsetup currency cc2 yes {{DARK_GREEN}}or {{WHITE}}/ccsetup currency cc2 no");
+		NewSetupWizard.setState(NewSetupWizard.CURRENCY_STEP);
 	}
 }

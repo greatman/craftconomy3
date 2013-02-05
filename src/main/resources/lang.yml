@@ -156,3 +156,4 @@ world_already_in_group: "This world is already in a group! Please remove it with
 group_delworld_cmd_help: "/ccgroup delworld <World Name> - Remove a world from his group. Reverting it to the default group."
 world_not_in_group: "This world isin't in a group!"
 world_removed_from_group: "The world has been removed from the group! It has been set to the default group."
+loading_currency_manager: "Loading the Currency manager."

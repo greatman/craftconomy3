@@ -71,6 +71,11 @@ import com.greatmancode.craftconomy3.commands.payday.PayDayHelpCommand;
 import com.greatmancode.craftconomy3.commands.payday.PayDayInfoCommand;
 import com.greatmancode.craftconomy3.commands.payday.PayDayListCommand;
 import com.greatmancode.craftconomy3.commands.payday.PayDayModifyCommand;
+import com.greatmancode.craftconomy3.commands.setup.NewSetupBasicCommand;
+import com.greatmancode.craftconomy3.commands.setup.NewSetupConvertCommand;
+import com.greatmancode.craftconomy3.commands.setup.NewSetupCurrencyCommand;
+import com.greatmancode.craftconomy3.commands.setup.NewSetupDatabaseCommand;
+import com.greatmancode.craftconomy3.commands.setup.NewSetupMainCommand;
 import com.greatmancode.craftconomy3.commands.setup.SetupBasicCommand;
 import com.greatmancode.craftconomy3.commands.setup.SetupConvertCommand;
 import com.greatmancode.craftconomy3.commands.setup.SetupCurrencyCommand;
@@ -131,12 +136,12 @@ public class CommandLoader {
 			commandList.put("bank", bankCommand);
 
 			CommandHandler setupCommand = new CommandHandler("ccsetup", "Setup related commands", true);
-			setupCommand.registerCommand("", new SetupMainCommand());
-			setupCommand.registerCommand("database", new SetupDatabaseCommand());
-			setupCommand.registerCommand("multiworld", new SetupMultiWorldCommand());
-			setupCommand.registerCommand("currency", new SetupCurrencyCommand());
-			setupCommand.registerCommand("basic", new SetupBasicCommand());
-			setupCommand.registerCommand("convert", new SetupConvertCommand());
+			setupCommand.registerCommand("", new NewSetupMainCommand());
+			setupCommand.registerCommand("database", new NewSetupDatabaseCommand());
+			//setupCommand.registerCommand("multiworld", new SetupMultiWorldCommand());
+			setupCommand.registerCommand("currency", new NewSetupCurrencyCommand());
+			setupCommand.registerCommand("basic", new NewSetupBasicCommand());
+			setupCommand.registerCommand("convert", new NewSetupConvertCommand());
 			commandList.put("ccsetup", setupCommand);
 
 			CommandHandler currencyCommand = new CommandHandler("currency", "Currency related commands", false);
