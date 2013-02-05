@@ -337,6 +337,13 @@ public class Common {
 		}
 	}
 
+	public void initializeWorldGroup() {
+		if (worldGroupManager == null) {
+			worldGroupManager = new WorldGroupsManager();
+			sendConsoleMessage(Level.INFO, getLanguageManager().getString("world_group_manager_loaded"));
+		}
+	}
+	
 	/**
 	 * Initialize the Account & PayDay Manager
 	 */
@@ -350,8 +357,7 @@ public class Common {
 		paydayManager = new PayDayManager();
 		sendConsoleMessage(Level.INFO, getLanguageManager().getString("payday_manager_loaded"));
 		eventManager = new EventManager();
-		worldGroupManager = new WorldGroupsManager();
-		sendConsoleMessage(Level.INFO, getLanguageManager().getString("world_group_manager_loaded"));
+		initializeWorldGroup();
 	}
 
 	/**

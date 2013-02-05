@@ -19,6 +19,8 @@
 package com.greatmancode.craftconomy3.configuration;
 
 import java.io.File;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.List;
 
@@ -129,6 +131,25 @@ public class ConfigurationManager {
 			dbVersion.setValue(3 + "");
 			Common.getInstance().getDatabaseManager().getDatabase().save(dbVersion);
 			Common.getInstance().getLogger().info("Updated to Revision 3!");
+		}
+		if (dbVersion.getValue().equalsIgnoreCase("3")) {
+			alertOldDbVersion(dbVersion.getValue(), 4);
+			Common.getInstance().getLogger().info("Converting worlds to the new format.");
+			Common.getInstance().initializeWorldGroup();
+			ResultSet result = Common.getInstance().getDatabaseManager().getDatabase().directQueryWithResult("SELECT DISTINCT worldName FROM cc3_balance");
+			try {
+				while(result.next()) {
+					String entry = result.getString("worldName");
+					Common.getInstance().getWorldGroupManager().addWorldGroup(entry);
+					Common.getInstance().getWorldGroupManager().addWorldToGroup(entry, entry);
+				}
+				result.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			dbVersion.setValue(4 + "");
+			Common.getInstance().getDatabaseManager().getDatabase().save(dbVersion);
+			Common.getInstance().getLogger().info("Updated to Revision 4!");
 		}
 	}
 
