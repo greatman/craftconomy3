@@ -157,19 +157,27 @@
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>2.8</version>
+				<artifactId>maven-source-plugin</artifactId>
 				<executions>
 					<execution>
-						<phase>install</phase>
+						<id>attach-sources</id>
 						<goals>
-							<goal>javadoc</goal>
+							<goal>jar</goal>
 						</goals>
 					</execution>
 				</executions>
-				<configuration>
-					<excludePackageNames>com.greatmancode.craftconomy3.commands:com.greatmancode.craftconomy3.spout:com.greatmancode.craftconomy3.converter.converters</excludePackageNames>
-				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>attach-javadocs</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -232,25 +240,6 @@
 						<exclude>src/main/java/com/greatmancode/craftconomy3/utils/Metrics.java</exclude>
 					</excludes>
 				</configuration>
-			</plugin>
-			<plugin>
-				<artifactId>maven-assembly-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>docs-assembly</id>
-						<phase>install</phase>
-						<configuration>
-							<finalName>javadoc</finalName>
-							<appendAssemblyId>false</appendAssemblyId>
-							<descriptors>
-								<descriptor>src/main/assembly/assemble.xml</descriptor>
-							</descriptors>
-						</configuration>
-						<goals>
-							<goal>single</goal>
-						</goals>
-					</execution>
-				</executions>
 			</plugin>
 		</plugins>
 	</build>
