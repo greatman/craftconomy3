@@ -55,7 +55,7 @@ public class NewSetupDatabaseCommand extends CraftconomyCommand {
 
 	@Override
 	public String help() {
-		return null;
+		return "/ccsetup database - Database step for setup wizard.";
 	}
 
 	@Override

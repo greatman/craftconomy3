@@ -69,6 +69,17 @@ public class WorldGroupsManager {
 			list.get(groupName).removeWorld(world);
 		}
 	}
+
+	/**
+	 * Remove a world group. Reverting all the world into this group to the default one.
+	 * @param group The group to remove.
+	 */
+	public void removeGroup(String group) {
+		if (worldGroupExist(group)) {
+			Common.getInstance().getDatabaseManager().getDatabase().remove(list.get(group).table);
+			list.remove(group);
+		}
+	}
 	public boolean worldGroupExist(String name) {
 		return list.containsKey(name);
 	}

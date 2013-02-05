@@ -47,7 +47,7 @@ public class TestLoadedCommands {
 			Class<? extends CraftconomyCommand> clazz = allClasses.next();
 			try {
 				CraftconomyCommand instance = clazz.newInstance();
-				if (!(instance.help() instanceof String) && instance.help() != null) {
+				if (!(instance.help() instanceof String)  || instance.help() == null) {
 					fail("Help is null for: " + clazz.getName());
 				}
 				if (instance.maxArgs() < 0) {

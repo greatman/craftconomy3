@@ -52,7 +52,7 @@ public class NewSetupBasicCommand extends CraftconomyCommand {
 
 	@Override
 	public String help() {
-		return null;
+		return "/ccsetup basic - Basic command of the setup wizard.";
 	}
 
 	@Override

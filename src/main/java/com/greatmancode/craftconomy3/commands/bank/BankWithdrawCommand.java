@@ -63,7 +63,7 @@ public class BankWithdrawCommand extends CraftconomyCommand {
 
 	@Override
 	public String help() {
-		return Common.getInstance().getLanguageManager().getString(Common.getInstance().getLanguageManager().getString("bank_withdraw_cmd_help"));
+		return Common.getInstance().getLanguageManager().getString("bank_withdraw_cmd_help");
 	}
 
 	@Override

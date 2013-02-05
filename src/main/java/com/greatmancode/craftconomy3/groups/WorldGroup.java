@@ -30,7 +30,7 @@ import com.greatmancode.craftconomy3.database.tables.WorldGroupTable;
  */
 public class WorldGroup {
 
-	private WorldGroupTable table = null;
+	WorldGroupTable table = null;
 	private List<String> worldList = new ArrayList<String>();
 
 	/**
