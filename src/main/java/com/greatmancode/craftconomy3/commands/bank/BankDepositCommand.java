@@ -43,9 +43,9 @@ public class BankDepositCommand extends CraftconomyCommand {
 						}
 					}
 					Account playerAccount = Common.getInstance().getAccountManager().getAccount(sender);
-					if (playerAccount.hasEnough(amount, playerAccount.getWorldPlayerCurrentlyIn(), currency.getName())) {
-						playerAccount.withdraw(amount, playerAccount.getWorldPlayerCurrentlyIn(), currency.getName());
-						bankAccount.deposit(amount, playerAccount.getWorldPlayerCurrentlyIn(), currency.getName());
+					if (playerAccount.hasEnough(amount, playerAccount.getWorldGroupOfPlayerCurrentlyIn(), currency.getName())) {
+						playerAccount.withdraw(amount, playerAccount.getWorldGroupOfPlayerCurrentlyIn(), currency.getName());
+						bankAccount.deposit(amount, playerAccount.getWorldGroupOfPlayerCurrentlyIn(), currency.getName());
 						Common.getInstance().getServerCaller().sendMessage(sender, String.format(Common.getInstance().getLanguageManager().getString("deposited"), Common.getInstance().format(null, currency, amount), args[0]));
 					} else {
 						Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("not_enough_money"));

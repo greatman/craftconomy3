@@ -41,11 +41,11 @@ public class PayCommand extends CraftconomyCommand {
 						return;
 					}
 				}
-				hasEnough = Common.getInstance().getAccountManager().getAccount(sender).hasEnough(amount, Common.getInstance().getAccountManager().getAccount(sender).getWorldPlayerCurrentlyIn(), currency.getName());
+				hasEnough = Common.getInstance().getAccountManager().getAccount(sender).hasEnough(amount, Common.getInstance().getAccountManager().getAccount(sender).getWorldGroupOfPlayerCurrentlyIn(), currency.getName());
 
 				if (hasEnough) {
-					Common.getInstance().getAccountManager().getAccount(sender).withdraw(amount, Common.getInstance().getAccountManager().getAccount(sender).getWorldPlayerCurrentlyIn(), currency.getName());
-					Common.getInstance().getAccountManager().getAccount(args[0]).deposit(amount, Common.getInstance().getAccountManager().getAccount(sender).getWorldPlayerCurrentlyIn(), currency.getName());
+					Common.getInstance().getAccountManager().getAccount(sender).withdraw(amount, Common.getInstance().getAccountManager().getAccount(sender).getWorldGroupOfPlayerCurrentlyIn(), currency.getName());
+					Common.getInstance().getAccountManager().getAccount(args[0]).deposit(amount, Common.getInstance().getAccountManager().getAccount(sender).getWorldGroupOfPlayerCurrentlyIn(), currency.getName());
 					Common.getInstance().getServerCaller().sendMessage(sender, String.format(Common.getInstance().getLanguageManager().getString("money_pay_sent"), Common.getInstance().format(null, currency, amount), args[0]));
 					if (Common.getInstance().getServerCaller().isOnline(args[0])) {
 						Common.getInstance().getServerCaller().sendMessage(args[0], String.format(Common.getInstance().getLanguageManager().getString("money_pay_received"), Common.getInstance().format(null, currency, amount), sender));

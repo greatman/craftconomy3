@@ -42,15 +42,13 @@ public class SetCommand extends CraftconomyCommand {
 						return;
 					}
 				}
-				String worldName = WorldGroupsManager.DEFAULT_GROUP_NAME;
+				String worldName = Common.getInstance().getAccountManager().getAccount(sender).getWorldGroupOfPlayerCurrentlyIn();
 				if (args.length > 3) {
-					if (!Common.getInstance().getWorldGroupManager().worldGroupExist(args[3])) {
+					if (!Common.getInstance().getServerCaller().worldExist(args[3])) {
 						Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("world_not_exist"));
 						return;
 					}
-					worldName = args[3];
-				} else if (Common.getInstance().getServerCaller().isOnline(sender)) {
-					worldName = Common.getInstance().getAccountManager().getAccount(sender).getWorldPlayerCurrentlyIn();
+					worldName = Common.getInstance().getWorldGroupManager().getWorldGroupName(args[3]);
 				}
 
 				Common.getInstance().getAccountManager().getAccount(args[0]).set(amount, worldName, currency.getName());

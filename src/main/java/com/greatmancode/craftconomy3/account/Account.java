@@ -131,14 +131,16 @@ public class Account {
 	}
 
 	/**
-	 * Get the whole account balance in a certain world
-	 * @param world The world to search in
+	 * Get the whole account balance in a certain world / world group
+	 * @param world The world / world group to search in
 	 * @return A list of Balance
 	 */
 	public List<Balance> getAllWorldBalance(String world) {
-		String newWorld = Common.getInstance().getWorldGroupManager().getWorldGroupName(world);
+		if (!Common.getInstance().getWorldGroupManager().worldGroupExist(world)) {
+			world = Common.getInstance().getWorldGroupManager().getWorldGroupName(world);
+		}
 		List<Balance> balanceList = new ArrayList<Balance>();
-		Iterator<BalanceTable> list = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal(BalanceTable.USERNAME_ID_FIELD, account.getId()).and().equal(BalanceTable.WORLD_NAME_FIELD, newWorld).execute().find().iterator();
+		Iterator<BalanceTable> list = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal(BalanceTable.USERNAME_ID_FIELD, account.getId()).and().equal(BalanceTable.WORLD_NAME_FIELD, world).execute().find().iterator();
 		while (list.hasNext()) {
 			BalanceTable table = list.next();
 			balanceList.add(new Balance(table.getWorldName(), Common.getInstance().getCurrencyManager().getCurrency(table.getCurrencyId()), table.getBalance()));
@@ -148,16 +150,18 @@ public class Account {
 
 	/**
 	 * Get's the player balance. Sends double.MIN_NORMAL in case of a error
-	 * @param world The world to search in
+	 * @param world The world / world group to search in
 	 * @param currencyName The currency Name
 	 * @return The balance
 	 */
 	public double getBalance(String world, String currencyName) {
 		double balance = Double.MIN_NORMAL;
-		String newWorld = Common.getInstance().getWorldGroupManager().getWorldGroupName(world);
+		if (!Common.getInstance().getWorldGroupManager().worldGroupExist(world)) {
+			world = Common.getInstance().getWorldGroupManager().getWorldGroupName(world);
+		}
 		Currency currency = Common.getInstance().getCurrencyManager().getCurrency(currencyName);
 		if (currency != null) {
-			BalanceTable balanceTable = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal(BalanceTable.USERNAME_ID_FIELD, account.getId()).and().equal(BalanceTable.CURRENCY_ID_FIELD, currency.getDatabaseID()).and().equal(BalanceTable.WORLD_NAME_FIELD, newWorld).execute().findOne();
+			BalanceTable balanceTable = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal(BalanceTable.USERNAME_ID_FIELD, account.getId()).and().equal(BalanceTable.CURRENCY_ID_FIELD, currency.getDatabaseID()).and().equal(BalanceTable.WORLD_NAME_FIELD, world).execute().findOne();
 			if (balanceTable != null) {
 				balance = balanceTable.getBalance();
 			}
@@ -168,28 +172,30 @@ public class Account {
 	/**
 	 * Adds a certain amount of money in the account
 	 * @param amount The amount of money to add
-	 * @param world The World we want to add money in
+	 * @param world The World / World group we want to add money in
 	 * @param currencyName The currency we want to add money in
 	 * @return The new balance
 	 */
 	public double deposit(double amount, String world, String currencyName) {
 		BalanceTable balanceTable = null;
 		double result = 0;
-		String newWorld = Common.getInstance().getWorldGroupManager().getWorldGroupName(world);
+		if (!Common.getInstance().getWorldGroupManager().worldGroupExist(world)) {
+			world = Common.getInstance().getWorldGroupManager().getWorldGroupName(world);
+		}
 		Currency currency = Common.getInstance().getCurrencyManager().getCurrency(currencyName);
 		if (currency != null) {
-			balanceTable = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal(BalanceTable.USERNAME_ID_FIELD, account.getId()).and().equal(BalanceTable.CURRENCY_ID_FIELD, currency.getDatabaseID()).and().equal(BalanceTable.WORLD_NAME_FIELD, newWorld).execute().findOne();
+			balanceTable = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal(BalanceTable.USERNAME_ID_FIELD, account.getId()).and().equal(BalanceTable.CURRENCY_ID_FIELD, currency.getDatabaseID()).and().equal(BalanceTable.WORLD_NAME_FIELD, world).execute().findOne();
 			if (balanceTable != null) {
 				balanceTable.setBalance(balanceTable.getBalance() + amount);
 			} else {
 				balanceTable = new BalanceTable();
 				balanceTable.setCurrencyId(currency.getDatabaseID());
 				balanceTable.setUsernameId(account.getId());
-				balanceTable.setWorldName(newWorld);
+				balanceTable.setWorldName(world);
 				balanceTable.setBalance(amount);
 			}
 			Common.getInstance().getDatabaseManager().getDatabase().save(balanceTable);
-			Common.getInstance().writeLog(LogInfo.DEPOSIT, getAccountName(), amount, currency, newWorld);
+			Common.getInstance().writeLog(LogInfo.DEPOSIT, getAccountName(), amount, currency, world);
 			result = balanceTable.getBalance();
 		}
 
@@ -199,28 +205,30 @@ public class Account {
 	/**
 	 * withdraw a certain amount of money in the account
 	 * @param amount The amount of money to withdraw
-	 * @param world The World we want to withdraw money from
+	 * @param world The World / World group we want to withdraw money from
 	 * @param currencyName The currency we want to withdraw money from
 	 * @return The new balance
 	 */
 	public double withdraw(double amount, String world, String currencyName) {
 		BalanceTable balanceTable = null;
 		double result = 0;
-		String newWorld = Common.getInstance().getWorldGroupManager().getWorldGroupName(world);
+		if (!Common.getInstance().getWorldGroupManager().worldGroupExist(world)) {
+			world = Common.getInstance().getWorldGroupManager().getWorldGroupName(world);
+		}
 		Currency currency = Common.getInstance().getCurrencyManager().getCurrency(currencyName);
 		if (currency != null) {
-			balanceTable = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal(BalanceTable.USERNAME_ID_FIELD, account.getId()).and().equal(BalanceTable.CURRENCY_ID_FIELD, currency.getDatabaseID()).and().equal(BalanceTable.WORLD_NAME_FIELD, newWorld).execute().findOne();
+			balanceTable = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal(BalanceTable.USERNAME_ID_FIELD, account.getId()).and().equal(BalanceTable.CURRENCY_ID_FIELD, currency.getDatabaseID()).and().equal(BalanceTable.WORLD_NAME_FIELD, world).execute().findOne();
 			if (balanceTable != null) {
 				balanceTable.setBalance(balanceTable.getBalance() - amount);
 			} else {
 				balanceTable = new BalanceTable();
 				balanceTable.setCurrencyId(currency.getDatabaseID());
 				balanceTable.setUsernameId(account.getId());
-				balanceTable.setWorldName(newWorld);
+				balanceTable.setWorldName(world);
 				balanceTable.setBalance(amount);
 			}
 			Common.getInstance().getDatabaseManager().getDatabase().save(balanceTable);
-			Common.getInstance().writeLog(LogInfo.WITHDRAW, getAccountName(), amount, currency, newWorld);
+			Common.getInstance().writeLog(LogInfo.WITHDRAW, getAccountName(), amount, currency, world);
 			result = balanceTable.getBalance();
 		}
 		return result;
@@ -229,7 +237,7 @@ public class Account {
 	/**
 	 * set a certain amount of money in the account
 	 * @param amount The amount of money to set
-	 * @param world The World we want to set money to
+	 * @param world The World / World group we want to set money to
 	 * @param currencyName The currency we want to set money to
 	 * @return The new balance
 	 */
@@ -259,15 +267,17 @@ public class Account {
 	/**
 	 * Checks if we have enough money in a certain balance
 	 * @param amount The amount of money to check
-	 * @param worldName The World we want to check
+	 * @param worldName The World / World group we want to check
 	 * @param currencyName The currency we want to check
 	 * @return True if there's enough money. Else false
 	 */
 	public boolean hasEnough(double amount, String worldName, String currencyName) {
 		boolean result = false;
-		String newWorldName = Common.getInstance().getWorldGroupManager().getWorldGroupName(worldName);
+		if (!Common.getInstance().getWorldGroupManager().worldGroupExist(worldName)) {
+			worldName = Common.getInstance().getWorldGroupManager().getWorldGroupName(worldName);
+		}
 		Currency currency = Common.getInstance().getCurrencyManager().getCurrency(currencyName);
-		if (currency != null && getBalance(newWorldName, currencyName) >= amount) {
+		if (currency != null && getBalance(worldName, currencyName) >= amount) {
 			result = true;
 		}
 		return result;
@@ -276,8 +286,17 @@ public class Account {
 	/**
 	 * Returns the world that the player is currently in
 	 * @return The world name that the player is currently in or any if he is not online/Multiworld system not enabled
+	 * @deprecated Please use {@link com.greatmancode.craftconomy3.account.Account#getWorldGroupOfPlayerCurrentlyIn()}
 	 */
-	public String getWorldPlayerCurrentlyIn() {
-		return Common.getInstance().getWorldGroupManager().getWorldGroupName(Common.getInstance().getServerCaller().getPlayerWorld(account.getName()));
+	private String getWorldPlayerCurrentlyIn() {
+		return Common.getInstance().getServerCaller().getPlayerWorld(account.getName());
+	}
+
+	/**
+	 * Retrieve the world group of the player
+	 * @return The worldGroup of the player.
+	 */
+	public String getWorldGroupOfPlayerCurrentlyIn() {
+		return Common.getInstance().getWorldGroupManager().getWorldGroupName(getWorldPlayerCurrentlyIn());
 	}
 }
