@@ -23,7 +23,6 @@ public enum NewSetupWizard {
 	BASIC_STEP,
 	CURRENCY_STEP,
 	CONVERT_STEP;
-
 	private static NewSetupWizard state = BASIC_STEP;
 
 	/**

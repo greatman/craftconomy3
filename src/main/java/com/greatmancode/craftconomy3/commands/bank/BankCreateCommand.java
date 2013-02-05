@@ -21,7 +21,6 @@ package com.greatmancode.craftconomy3.commands.bank;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.account.Account;
 import com.greatmancode.craftconomy3.commands.interfaces.CraftconomyCommand;
-import com.greatmancode.craftconomy3.currency.CurrencyManager;
 
 public class BankCreateCommand extends CraftconomyCommand {
 	@Override

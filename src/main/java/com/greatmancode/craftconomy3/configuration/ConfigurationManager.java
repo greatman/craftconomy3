@@ -29,7 +29,6 @@ import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.DisplayFormat;
 import com.greatmancode.craftconomy3.SpoutCaller;
 import com.greatmancode.craftconomy3.UnitTestCaller;
-import com.greatmancode.craftconomy3.currency.CurrencyManager;
 import com.greatmancode.craftconomy3.database.tables.ConfigTable;
 import com.greatmancode.craftconomy3.database.tables.PayDayTable;
 
@@ -126,7 +125,6 @@ public class ConfigurationManager {
 				Common.getInstance().getLogger().info("Display format is invalid. Saving a valid one.");
 				display.setValue("long");
 				Common.getInstance().getDatabaseManager().getDatabase().save(display);
-
 			}
 			dbVersion.setValue(3 + "");
 			Common.getInstance().getDatabaseManager().getDatabase().save(dbVersion);
@@ -138,7 +136,7 @@ public class ConfigurationManager {
 			Common.getInstance().initializeWorldGroup();
 			ResultSet result = Common.getInstance().getDatabaseManager().getDatabase().directQueryWithResult("SELECT DISTINCT worldName FROM cc3_balance");
 			try {
-				while(result.next()) {
+				while (result.next()) {
 					String entry = result.getString("worldName");
 					Common.getInstance().getWorldGroupManager().addWorldGroup(entry);
 					Common.getInstance().getWorldGroupManager().addWorldToGroup(entry, entry);

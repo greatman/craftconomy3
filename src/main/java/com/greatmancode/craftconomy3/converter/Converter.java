@@ -26,7 +26,6 @@ import java.util.Map;
 
 import com.alta189.simplesave.sqlite.SQLiteDatabase;
 import com.greatmancode.craftconomy3.Common;
-import com.greatmancode.craftconomy3.currency.CurrencyManager;
 import com.greatmancode.craftconomy3.database.tables.AccountTable;
 
 /**

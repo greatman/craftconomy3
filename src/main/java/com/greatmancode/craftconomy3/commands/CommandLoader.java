@@ -76,12 +76,6 @@ import com.greatmancode.craftconomy3.commands.setup.NewSetupConvertCommand;
 import com.greatmancode.craftconomy3.commands.setup.NewSetupCurrencyCommand;
 import com.greatmancode.craftconomy3.commands.setup.NewSetupDatabaseCommand;
 import com.greatmancode.craftconomy3.commands.setup.NewSetupMainCommand;
-import com.greatmancode.craftconomy3.commands.setup.SetupBasicCommand;
-import com.greatmancode.craftconomy3.commands.setup.SetupConvertCommand;
-import com.greatmancode.craftconomy3.commands.setup.SetupCurrencyCommand;
-import com.greatmancode.craftconomy3.commands.setup.SetupDatabaseCommand;
-import com.greatmancode.craftconomy3.commands.setup.SetupMainCommand;
-import com.greatmancode.craftconomy3.commands.setup.SetupMultiWorldCommand;
 
 /**
  * Generic CommandLoader. Loads all the sub-commands.
@@ -138,7 +132,6 @@ public class CommandLoader {
 			CommandHandler setupCommand = new CommandHandler("ccsetup", "Setup related commands", true);
 			setupCommand.registerCommand("", new NewSetupMainCommand());
 			setupCommand.registerCommand("database", new NewSetupDatabaseCommand());
-			//setupCommand.registerCommand("multiworld", new SetupMultiWorldCommand());
 			setupCommand.registerCommand("currency", new NewSetupCurrencyCommand());
 			setupCommand.registerCommand("basic", new NewSetupBasicCommand());
 			setupCommand.registerCommand("convert", new NewSetupConvertCommand());

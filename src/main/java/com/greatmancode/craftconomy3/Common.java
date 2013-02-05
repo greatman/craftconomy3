@@ -60,7 +60,6 @@ public class Common {
 	private LanguageManager languageManager = null;
 	private WorldGroupsManager worldGroupManager = null;
 	private CommandLoader commandManager;
-
 	private Caller serverCaller;
 	private VersionChecker versionChecker = null;
 	private boolean databaseInitialized = false;
@@ -343,7 +342,7 @@ public class Common {
 			sendConsoleMessage(Level.INFO, getLanguageManager().getString("world_group_manager_loaded"));
 		}
 	}
-	
+
 	/**
 	 * Initialize the Account & PayDay Manager
 	 */
@@ -440,6 +439,7 @@ public class Common {
 	public WorldGroupsManager getWorldGroupManager() {
 		return worldGroupManager;
 	}
+
 	/**
 	 * Check if the system has been initialized.
 	 * @return True if the system has been initialized else false.

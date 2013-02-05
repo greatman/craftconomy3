@@ -25,7 +25,6 @@ import com.alta189.simplesave.exceptions.ConnectionException;
 import com.alta189.simplesave.exceptions.TableRegistrationException;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.NewSetupWizard;
-import com.greatmancode.craftconomy3.SetupWizard;
 import com.greatmancode.craftconomy3.commands.interfaces.CraftconomyCommand;
 import com.greatmancode.craftconomy3.utils.Tools;
 
@@ -110,7 +109,6 @@ public class NewSetupDatabaseCommand extends CraftconomyCommand {
 		} catch (ConnectionException e) {
 			Common.getInstance().getServerCaller().sendMessage(sender, String.format(ERROR_MESSAGE, e.getMessage()));
 		}
-
 	}
 
 	private void mysql(String sender, String[] args) {

@@ -21,7 +21,7 @@ package com.greatmancode.craftconomy3.commands.group;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.commands.interfaces.CraftconomyCommand;
 
-public class GroupAddWorldCommand extends CraftconomyCommand{
+public class GroupAddWorldCommand extends CraftconomyCommand {
 	@Override
 	public void execute(String sender, String[] args) {
 		if (Common.getInstance().getWorldGroupManager().worldGroupExist(args[0])) {

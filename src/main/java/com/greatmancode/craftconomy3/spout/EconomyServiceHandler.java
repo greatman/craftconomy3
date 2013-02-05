@@ -23,7 +23,6 @@ import java.util.List;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.DisplayFormat;
 import com.greatmancode.craftconomy3.currency.Currency;
-import com.greatmancode.craftconomy3.currency.CurrencyManager;
 
 import org.spout.api.plugin.services.EconomyService;
 

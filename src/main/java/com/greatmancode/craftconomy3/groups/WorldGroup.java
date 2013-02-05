@@ -29,7 +29,6 @@ import com.greatmancode.craftconomy3.database.tables.WorldGroupTable;
  * Contains information about a world group.
  */
 public class WorldGroup {
-
 	WorldGroupTable table = null;
 	private List<String> worldList = new ArrayList<String>();
 
@@ -71,6 +70,7 @@ public class WorldGroup {
 			save();
 		}
 	}
+
 	/**
 	 * Checks if a certain world is in this group.
 	 * @param worldName The world name.

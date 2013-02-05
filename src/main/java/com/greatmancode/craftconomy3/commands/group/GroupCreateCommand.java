@@ -21,10 +21,10 @@ package com.greatmancode.craftconomy3.commands.group;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.commands.interfaces.CraftconomyCommand;
 
-public class GroupCreateCommand extends CraftconomyCommand{
+public class GroupCreateCommand extends CraftconomyCommand {
 	@Override
 	public void execute(String sender, String[] args) {
-		if(!Common.getInstance().getWorldGroupManager().worldGroupExist(args[0])) {
+		if (!Common.getInstance().getWorldGroupManager().worldGroupExist(args[0])) {
 			Common.getInstance().getWorldGroupManager().addWorldGroup(args[0]);
 			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("group_created"));
 		} else {

@@ -27,7 +27,6 @@ import com.greatmancode.craftconomy3.commands.interfaces.CraftconomyCommand;
 import com.greatmancode.craftconomy3.database.tables.ConfigTable;
 
 public class NewSetupCurrencyCommand extends CraftconomyCommand {
-
 	private enum INTERNALSTEP {
 		NAME,
 		NAMEPLURAL,
@@ -36,11 +35,13 @@ public class NewSetupCurrencyCommand extends CraftconomyCommand {
 		SIGN,
 		CC2;
 	}
+
 	private Map<String, String> map = new HashMap<String, String>();
+
 	@Override
 	public void execute(String sender, String[] args) {
 
-		try  {
+		try {
 			INTERNALSTEP step = INTERNALSTEP.valueOf(args[0].toUpperCase());
 
 			if (step.equals(INTERNALSTEP.CC2)) {

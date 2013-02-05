@@ -30,7 +30,6 @@ import java.util.regex.Pattern;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.account.Account;
 import com.greatmancode.craftconomy3.converter.Converter;
-import com.greatmancode.craftconomy3.currency.CurrencyManager;
 
 public class BoseEconomy extends Converter {
 	private static final String TAB_CHECK = "\\t+";
