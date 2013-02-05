@@ -1,6 +1,6 @@
 name: Craftconomy3
 main: com.greatmancode.craftconomy3.BukkitLoader
-version: ${version} b${BUILD_NUMBER}
+version: ${version} b-${bamboo.repository.branch.name}-${bamboo.buildNumber}
 author: Greatman
 softdepend: [Spout]
 commands:

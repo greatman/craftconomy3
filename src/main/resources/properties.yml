@@ -1,5 +1,5 @@
 name: Craftconomy3
-version: ${version} b${BUILD_NUMBER}
+version: ${version} b-${bamboo.repository.branch.name}-${bamboo.buildNumber}
 description: ${project.description}
 author: [ Greatman ]
 website: ${project.url}
