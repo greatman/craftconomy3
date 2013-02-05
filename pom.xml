@@ -49,6 +49,20 @@
 		</repository>
 	</repositories>
 
+	<distributionManagement>
+		<repository>
+			<id>upstream</id>
+			<name>greatmancode-releases</name>
+			<url>http://build.greatmancode.com:8081/artifactory/repo-public</url>
+		</repository>
+		<snapshotRepository>
+			<id>upstream</id>
+			<name>greatmancode-snapshots</name>
+			<url>http://repo.greatmancode.com/content/repositories/snapshots</url>
+		</snapshotRepository>
+	</distributionManagement>
+
+
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
