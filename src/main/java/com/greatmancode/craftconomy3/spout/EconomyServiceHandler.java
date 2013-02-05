@@ -45,24 +45,6 @@ public class EconomyServiceHandler extends EconomyService {
 	}
 
 	@Override
-	public boolean withdraw(String name, double amount) {
-		try {
-			return withdraw(name, amount, Common.getInstance().getCurrencyManager().getDefaultCurrency().getName());
-		} catch (UnknownCurrencyException e) {
-			return false;
-		}
-	}
-
-	@Override
-	public boolean deposit(String name, double amount) {
-		try {
-			return deposit(name, amount, Common.getInstance().getCurrencyManager().getDefaultCurrency().getName());
-		} catch (UnknownCurrencyException e) {
-			return false;
-		}
-	}
-
-	@Override
 	public boolean exists(String name) {
 		return Common.getInstance().getAccountManager().exist(name);
 	}
@@ -139,9 +121,13 @@ public class EconomyServiceHandler extends EconomyService {
 	}
 
 	@Override
-	public boolean withdraw(String name, double amount, String currency) throws UnknownCurrencyException {
+	protected boolean onWithdraw(String name, double amount, String currency) throws UnknownCurrencyException {
 		boolean result = false;
-		Currency currencyEntry = Common.getInstance().getCurrencyManager().getCurrency(currency);
+		Currency currencyEntry = Common.getInstance().getCurrencyManager().getDefaultCurrency();
+		if (currency != null) {
+			currencyEntry = Common.getInstance().getCurrencyManager().getCurrency(currency);
+		}
+
 		if (currencyEntry == null) {
 			throw new UnknownCurrencyException();
 		}
@@ -154,8 +140,11 @@ public class EconomyServiceHandler extends EconomyService {
 	}
 
 	@Override
-	public boolean deposit(String name, double amount, String currency) throws UnknownCurrencyException {
-		Currency currencyEntry = Common.getInstance().getCurrencyManager().getCurrency(currency);
+	protected boolean onDeposit(String name, double amount, String currency) throws UnknownCurrencyException {
+		Currency currencyEntry = Common.getInstance().getCurrencyManager().getDefaultCurrency();
+		if (currency != null) {
+			currencyEntry = Common.getInstance().getCurrencyManager().getCurrency(currency);
+		}
 		if (currencyEntry == null) {
 			throw new UnknownCurrencyException();
 		}
