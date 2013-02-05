@@ -30,9 +30,5 @@ public enum ServerType {
 	/**
 	 * Represents the Unit test server (Used for Unit tests)
 	 */
-	UNIT_TEST,
-	/**
-	 * Represents the Forge Server
-	 */
-	FORGE
+	UNIT_TEST
 }
