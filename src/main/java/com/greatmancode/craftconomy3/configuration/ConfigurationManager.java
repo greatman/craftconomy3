@@ -124,9 +124,10 @@ public class ConfigurationManager {
 				Common.getInstance().getLogger().info("Display format is invalid. Saving a valid one.");
 				display.setValue("long");
 				Common.getInstance().getDatabaseManager().getDatabase().save(display);
-				dbVersion.setValue(3 + "");
-				Common.getInstance().getDatabaseManager().getDatabase().save(dbVersion);
+
 			}
+			dbVersion.setValue(3 + "");
+			Common.getInstance().getDatabaseManager().getDatabase().save(dbVersion);
 			Common.getInstance().getLogger().info("Updated to Revision 3!");
 		}
 	}
