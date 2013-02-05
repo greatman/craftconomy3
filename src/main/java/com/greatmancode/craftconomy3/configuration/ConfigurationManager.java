@@ -172,7 +172,7 @@ public class ConfigurationManager {
 
 		// Test if the currency is good. Else we revert it to the default value.
 		if (Common.getInstance().getCurrencyManager().getCurrency(bankCurrencyId) == null) {
-			bankCurrencyId = CurrencyManager.defaultCurrencyID;
+			bankCurrencyId = Common.getInstance().getCurrencyManager().getDefaultCurrency().getDatabaseID();
 		}
 	}
 

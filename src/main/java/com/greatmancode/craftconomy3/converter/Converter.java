@@ -176,7 +176,7 @@ public abstract class Converter {
 			}
 			User user = iterator.next();
 			AccountTable account = Common.getInstance().getDatabaseManager().getDatabase().select(AccountTable.class).where().equal("name", user.user).execute().findOne();
-			stringBuilder.append("(" + account.getId() + "," + CurrencyManager.defaultCurrencyID + ",'" + worldName + "'," + user.balance + ")");
+			stringBuilder.append("(" + account.getId() + "," + Common.getInstance().getCurrencyManager().getDefaultCurrency().getDatabaseID() + ",'" + worldName + "'," + user.balance + ")");
 			if (!isSQLite && iterator.hasNext()) {
 				stringBuilder.append(",");
 			} else {

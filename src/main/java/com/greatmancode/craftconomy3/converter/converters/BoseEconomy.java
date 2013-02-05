@@ -98,7 +98,7 @@ public class BoseEconomy extends Converter {
 	private void bankImporter(String username) throws IOException {
 		String line = flatFileReader.readLine();
 		double amount = Double.parseDouble(line.split(" ")[1]);
-		Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + username).set(amount, Common.getInstance().getServerCaller().getDefaultWorld(), Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.defaultCurrencyID).getName());
+		Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + username).set(amount, Common.getInstance().getServerCaller().getDefaultWorld(), Common.getInstance().getCurrencyManager().getDefaultCurrency().getName());
 		line = flatFileReader.readLine();
 		if (line.contains("members")) {
 			line = flatFileReader.readLine();

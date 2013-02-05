@@ -33,13 +33,13 @@ import org.spout.api.plugin.services.EconomyService;
 public class EconomyServiceHandler extends EconomyService {
 	@Override
 	public boolean has(String name, double amount) {
-		return Common.getInstance().getAccountManager().getAccount(name).hasEnough(amount, Common.getInstance().getAccountManager().getAccount(name).getWorldGroupOfPlayerCurrentlyIn(), Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.defaultCurrencyID).getName());
+		return Common.getInstance().getAccountManager().getAccount(name).hasEnough(amount, Common.getInstance().getAccountManager().getAccount(name).getWorldGroupOfPlayerCurrentlyIn(), Common.getInstance().getCurrencyManager().getDefaultCurrency().getName());
 	}
 
 	@Override
 	public double get(String name) {
 		try {
-			return get(name, Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.defaultCurrencyID).getName());
+			return get(name, Common.getInstance().getCurrencyManager().getDefaultCurrency().getName());
 		} catch (UnknownCurrencyException e) {
 			return 0;
 		}
@@ -48,7 +48,7 @@ public class EconomyServiceHandler extends EconomyService {
 	@Override
 	public boolean withdraw(String name, double amount) {
 		try {
-			return withdraw(name, amount, Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.defaultCurrencyID).getName());
+			return withdraw(name, amount, Common.getInstance().getCurrencyManager().getDefaultCurrency().getName());
 		} catch (UnknownCurrencyException e) {
 			return false;
 		}
@@ -57,7 +57,7 @@ public class EconomyServiceHandler extends EconomyService {
 	@Override
 	public boolean deposit(String name, double amount) {
 		try {
-			return deposit(name, amount, Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.defaultCurrencyID).getName());
+			return deposit(name, amount, Common.getInstance().getCurrencyManager().getDefaultCurrency().getName());
 		} catch (UnknownCurrencyException e) {
 			return false;
 		}
@@ -70,12 +70,12 @@ public class EconomyServiceHandler extends EconomyService {
 
 	@Override
 	public String getCurrencyNameSingular() {
-		return Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.defaultCurrencyID).getName();
+		return Common.getInstance().getCurrencyManager().getDefaultCurrency().getName();
 	}
 
 	@Override
 	public String getCurrencyNamePlural() {
-		return Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.defaultCurrencyID).getPlural();
+		return Common.getInstance().getCurrencyManager().getDefaultCurrency().getPlural();
 	}
 
 	@Override
@@ -85,12 +85,12 @@ public class EconomyServiceHandler extends EconomyService {
 
 	@Override
 	public String getCurrencySymbol() {
-		return Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.defaultCurrencyID).getSign();
+		return Common.getInstance().getCurrencyManager().getDefaultCurrency().getSign();
 	}
 
 	@Override
 	public String format(double amount) {
-		return Common.getInstance().format(Common.getInstance().getServerCaller().getDefaultWorld(), Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.defaultCurrencyID), amount);
+		return Common.getInstance().format(Common.getInstance().getServerCaller().getDefaultWorld(), Common.getInstance().getCurrencyManager().getDefaultCurrency(), amount);
 	}
 
 	@Override

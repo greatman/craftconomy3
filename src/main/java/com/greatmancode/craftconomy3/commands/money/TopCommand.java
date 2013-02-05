@@ -89,9 +89,9 @@ public class TopCommand extends CraftconomyCommand {
 	@Override
 	public void execute(String sender, String[] args) {
 		int page = 1;
-		Currency currency = Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.defaultCurrencyID);
+		Currency currency = Common.getInstance().getCurrencyManager().getDefaultCurrency();
 		if (args.length == 0) {
-			currency = Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.defaultCurrencyID);
+			currency = Common.getInstance().getCurrencyManager().getDefaultCurrency();
 		} else {
 			if (Common.getInstance().getCurrencyManager().getCurrency(args[0]) != null) {
 				currency = Common.getInstance().getCurrencyManager().getCurrency(args[0]);

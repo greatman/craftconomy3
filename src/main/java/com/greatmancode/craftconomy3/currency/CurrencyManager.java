@@ -36,7 +36,7 @@ public class CurrencyManager {
 	/**
 	 * The default currency database ID
 	 */
-	public static int defaultCurrencyID;
+	private static int defaultCurrencyID;
 	private final Map<Integer, Currency> currencyList = new HashMap<Integer, Currency>();
 
 	public CurrencyManager() {
@@ -159,5 +159,13 @@ public class CurrencyManager {
 			currencyList.get(currencyId).delete();
 			currencyList.remove(currencyId);
 		}
+	}
+
+	public Currency getDefaultCurrency() {
+		return getCurrency(defaultCurrencyID);
+	}
+
+	public void setDefaultCurrency(Currency currency) {
+		defaultCurrencyID = currency.getDatabaseID();
 	}
 }

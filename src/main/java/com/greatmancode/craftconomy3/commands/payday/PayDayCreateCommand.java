@@ -32,7 +32,7 @@ public class PayDayCreateCommand extends CraftconomyCommand {
 				if (args[2].equalsIgnoreCase("wage") || args[2].equalsIgnoreCase("tax")) {
 					if (Tools.isValidDouble(args[3])) {
 						String accountName = "", worldName = "any";
-						int currencyId = Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.defaultCurrencyID).getDatabaseID();
+						int currencyId = Common.getInstance().getCurrencyManager().getDefaultCurrency().getDatabaseID();
 						if (args.length >= 5) {
 							if (Common.getInstance().getAccountManager().exist(args[4])) {
 								accountName = args[4];

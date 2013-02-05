@@ -33,7 +33,7 @@ public class BankWithdrawCommand extends CraftconomyCommand {
 			if (bankAccount.getAccountACL().canWithdraw(sender) || Common.getInstance().getServerCaller().checkPermission(sender, "craftconomy.bank.withdraw.others")) {
 				if (Tools.isValidDouble(args[1])) {
 					double amount = Double.parseDouble(args[1]);
-					Currency currency = Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.defaultCurrencyID);
+					Currency currency = Common.getInstance().getCurrencyManager().getDefaultCurrency();
 					if (args.length > 2) {
 						if (Common.getInstance().getCurrencyManager().getCurrency(args[2]) != null) {
 							currency = Common.getInstance().getCurrencyManager().getCurrency(args[2]);
