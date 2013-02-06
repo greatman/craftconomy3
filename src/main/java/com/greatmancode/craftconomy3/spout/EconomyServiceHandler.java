@@ -185,6 +185,11 @@ public class EconomyServiceHandler extends EconomyService {
 	}
 
 	@Override
+	public boolean remove(String account) {
+		return Common.getInstance().getAccountManager().delete(account);
+	}
+
+	@Override
 	public List<String> getTopAccounts(int start, int end, boolean playersOnly) {
 		// TODO Auto-generated method stub
 		return null;
