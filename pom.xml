@@ -53,7 +53,7 @@
 		<repository>
 			<id>upstream</id>
 			<name>greatmancode-releases</name>
-			<url>http://build.greatmancode.com:8081/artifactory/repo-public</url>
+			<url>http://repo.greatmancode.com/content/repositories/releases</url>
 		</repository>
 		<snapshotRepository>
 			<id>upstream</id>
