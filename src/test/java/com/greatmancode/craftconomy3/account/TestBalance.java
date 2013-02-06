@@ -23,7 +23,6 @@ import com.greatmancode.craftconomy3.currency.Currency;
 import junit.framework.TestCase;
 
 public class TestBalance extends TestCase {
-
 	public void testBalance() {
 		Balance balance = new Balance(null, null, 0.0);
 	}
@@ -53,7 +52,6 @@ public class TestBalance extends TestCase {
 		if (!balance.getCurrency().equals(currency)) {
 			fail("Fail getCurrency");
 		}
-			
 	}
 
 	public void testSetCurrency() {
@@ -79,5 +77,4 @@ public class TestBalance extends TestCase {
 			fail("Fail setBalance");
 		}
 	}
-
 }

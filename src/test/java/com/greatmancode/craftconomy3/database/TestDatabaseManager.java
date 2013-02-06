@@ -18,26 +18,24 @@
  */
 package com.greatmancode.craftconomy3.database;
 
-import static org.junit.Assert.*;
+import com.greatmancode.craftconomy3.Common;
+import com.greatmancode.craftconomy3.TestInitializator;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import com.greatmancode.craftconomy3.Common;
-import com.greatmancode.craftconomy3.TestInitializator;
+import static org.junit.Assert.fail;
 
 public class TestDatabaseManager {
-
-	
 	@Before
 	public void setUp() {
 		new TestInitializator();
 	}
+
 	@Test
 	public void testDatabaseManager() {
 		if (Common.getInstance().getDatabaseManager() == null) {
 			fail("DatabaseManager not loaded.");
 		}
 	}
-
 }

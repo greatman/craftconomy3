@@ -18,44 +18,41 @@
  */
 package com.greatmancode.craftconomy3.configuration;
 
-import static org.junit.Assert.*;
+import com.greatmancode.craftconomy3.Common;
+import com.greatmancode.craftconomy3.TestInitializator;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import com.greatmancode.craftconomy3.Common;
-import com.greatmancode.craftconomy3.TestInitializator;
+import static org.junit.Assert.fail;
 
 public class TestConfigurationManager {
-
 	@Before
 	public void setUp() {
 		new TestInitializator();
 	}
+
 	@Test
 	public void test() {
 		if (Common.getInstance().getConfigurationManager() == null) {
 			fail("ConfigurationManager didin't load!");
 		}
-		
-		if(Common.getInstance().getConfigurationManager().getConfig() == null) {
+
+		if (Common.getInstance().getConfigurationManager().getConfig() == null) {
 			fail("getConfig() is null!");
 		}
-		
+
 		Common.getInstance().getConfigurationManager().getConfig().setValue("System.Setup", false);
 		if (Common.getInstance().getConfigurationManager().getConfig().getBoolean("System.Setup")) {
 			fail("Craftconomy in setup mode. Should be false! setValue fail!");
 		}
-		
-		if(!Common.getInstance().getConfigurationManager().getConfig().getString("System.Database.Type").equals("sqlite")) {
+
+		if (!Common.getInstance().getConfigurationManager().getConfig().getString("System.Database.Type").equals("sqlite")) {
 			fail("Database isin't SQLITE! Error with getString()");
 		}
-		
+
 		if (Common.getInstance().getConfigurationManager().getConfig().getInt("System.Database.Port") != 3306) {
 			fail("Port isin't 3306! Error with getInt()");
 		}
-		
-		
 	}
-
 }

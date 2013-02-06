@@ -18,21 +18,17 @@
  */
 package com.greatmancode.craftconomy3.utils;
 
-import java.math.BigDecimal;
-
 import junit.framework.TestCase;
 
 public class TestTools extends TestCase {
-
 	public void testConstructor() {
-		try
-		{
+		try {
 			new Tools();
 			fail("Tools instancied!");
-		}
-		catch(UnsupportedOperationException e) {
+		} catch (UnsupportedOperationException e) {
 		}
 	}
+
 	public void testIsInteger() {
 		assertTrue(Tools.isInteger(Integer.MAX_VALUE + ""));
 		assertTrue(Tools.isInteger(Integer.MIN_VALUE + ""));
@@ -122,5 +118,4 @@ public class TestTools extends TestCase {
 		assertFalse(Tools.isValidDouble("test"));
 		assertFalse(Tools.isValidDouble(null));
 	}
-
 }

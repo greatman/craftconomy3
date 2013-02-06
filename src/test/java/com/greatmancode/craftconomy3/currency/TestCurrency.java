@@ -21,7 +21,7 @@ package com.greatmancode.craftconomy3.currency;
 import junit.framework.TestCase;
 
 public class TestCurrency extends TestCase {
-//TODO: Null tests
+	//TODO: Null tests
 	public void testGetName() {
 		Currency currency = new Currency(1, "test", "plural", "minor", "minorplural", 0.0, "$");
 		if (!currency.getName().equals("test")) {
@@ -118,5 +118,4 @@ public class TestCurrency extends TestCase {
 			fail("getSign fail");
 		}
 	}
-
 }

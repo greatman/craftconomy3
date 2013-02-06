@@ -18,32 +18,32 @@
  */
 package com.greatmancode.craftconomy3.commands;
 
-import static org.junit.Assert.*;
+import com.greatmancode.craftconomy3.Common;
+import com.greatmancode.craftconomy3.TestInitializator;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import com.greatmancode.craftconomy3.Common;
-import com.greatmancode.craftconomy3.TestInitializator;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
-public class TestCommandLoader
-{
-
+public class TestCommandLoader {
 	@Before
 	public void setUp() {
 		new TestInitializator();
 	}
-	
+
 	@Test
-	public void testCommandExist(){
+	public void testCommandExist() {
 		assertFalse(Common.getInstance().getCommandManager().commandExist("oaishfoisdhfosidhfosdf"));
 		assertTrue(Common.getInstance().getCommandManager().commandExist("money"));
 	}
-	
+
 	@Test
 	public void testgetCommandHandler() {
 		assertNotNull(Common.getInstance().getCommandManager().getCommandHandler("money"));
 		assertNull(Common.getInstance().getCommandManager().getCommandHandler("oahfoiahfoisdhfoisdhf"));
 	}
-
 }

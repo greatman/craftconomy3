@@ -24,6 +24,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -267,8 +269,11 @@ public class Common {
 			// to 20.20
 
 			String[] theAmount = BigDecimal.valueOf(balance).toPlainString().split("\\.");
+			DecimalFormatSymbols unusualSymbols = new DecimalFormatSymbols();
+			unusualSymbols.setGroupingSeparator(',');
+			DecimalFormat decimalFormat = new DecimalFormat("###,###", unusualSymbols);
 			String name = currency.getName();
-			if (Long.parseLong(theAmount[0]) > 1) {
+			if (balance > 2.0) {
 				name = currency.getPlural();
 			}
 			String coin;
@@ -281,19 +286,26 @@ public class Common {
 			} else {
 				coin = "0";
 			}
+			String amount = theAmount[0];
+			try {
+				amount = decimalFormat.format(Double.parseDouble(theAmount[0]));
+			} catch(NumberFormatException e) {
+
+			}
+
 			// Do we seperate money and dollar or not?
 			if (format == DisplayFormat.LONG) {
 				String subName = currency.getMinor();
 				if (Long.parseLong(coin) > 1) {
 					subName = currency.getMinorPlural();
 				}
-				string.append(theAmount[0]).append(" ").append(name).append(" ").append(coin).append(" ").append(subName);
+				string.append(amount).append(" ").append(name).append(" ").append(coin).append(" ").append(subName);
 			} else if (format == DisplayFormat.SMALL) {
-				string.append(theAmount[0]).append(".").append(coin).append(" ").append(name);
+				string.append(amount).append(".").append(coin).append(" ").append(name);
 			} else if (format == DisplayFormat.SIGN) {
-				string.append(currency.getSign()).append(theAmount[0]).append(".").append(coin);
+				string.append(currency.getSign()).append(amount).append(".").append(coin);
 			} else if (format == DisplayFormat.MAJOR_ONLY) {
-				string.append(theAmount[0]).append(" ").append(name);
+				string.append(amount).append(" ").append(name);
 			}
 		}
 		return string.toString();
