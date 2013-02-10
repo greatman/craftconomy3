@@ -260,7 +260,7 @@ public class Common {
 	public String format(String worldName, Currency currency, double balance, DisplayFormat format) {
 		StringBuilder string = new StringBuilder();
 
-		if (worldName != null) {
+		if (worldName != null && !worldName.equals(WorldGroupsManager.DEFAULT_GROUP_NAME)) {
 			// We put the world name if the conf is true
 			string.append(worldName + ":").append(" ");
 		}
@@ -304,7 +304,7 @@ public class Common {
 				string.append(amount).append(".").append(coin).append(" ").append(name);
 			} else if (format == DisplayFormat.SIGN) {
 				string.append(currency.getSign()).append(amount).append(".").append(coin);
-			} else if (format == DisplayFormat.MAJOR_ONLY) {
+			} else if (format == DisplayFormat.MAJORONLY) {
 				string.append(amount).append(" ").append(name);
 			}
 		}

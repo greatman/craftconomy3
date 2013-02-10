@@ -23,5 +23,5 @@ public enum DisplayFormat {
 	LONG,
 	SIGN,
 	SMALL,
-	MAJOR_ONLY
+	MAJORONLY
 }
