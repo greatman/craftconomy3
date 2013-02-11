@@ -170,7 +170,14 @@ public class ConfigurationManager {
 		dbUpdate();
 		holdings = Double.parseDouble(Common.getInstance().getDatabaseManager().getDatabase().select(ConfigTable.class).where().equal(ConfigTable.NAME_FIELD, "holdings").execute().findOne().getValue());
 		bankPrice = Double.parseDouble(Common.getInstance().getDatabaseManager().getDatabase().select(ConfigTable.class).where().equal(ConfigTable.NAME_FIELD, "bankprice").execute().findOne().getValue());
-		displayFormat = Common.getInstance().getDatabaseManager().getDatabase().select(ConfigTable.class).where().equal(ConfigTable.NAME_FIELD, "longmode").execute().findOne().getValue();
+		ConfigTable displayFormatTable = Common.getInstance().getDatabaseManager().getDatabase().select(ConfigTable.class).where().equal(ConfigTable.NAME_FIELD, "longmode").execute().findOne();
+		if (displayFormatTable == null) {
+			displayFormatTable = new ConfigTable();
+			displayFormatTable.setName("longmode");
+			displayFormatTable.setValue(DisplayFormat.LONG.name());
+			Common.getInstance().getDatabaseManager().getDatabase().save(displayFormatTable);
+		}
+		displayFormat = displayFormatTable.getValue();
 		ConfigTable currencyId = Common.getInstance().getDatabaseManager().getDatabase().select(ConfigTable.class).where().equal(ConfigTable.NAME_FIELD, "bankcurrency").execute().findOne();
 		if (currencyId != null) {
 			bankCurrencyId = Integer.parseInt(currencyId.getValue());
