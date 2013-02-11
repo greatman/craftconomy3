@@ -151,7 +151,7 @@ public class ConfigurationManager {
 		}
 		if (dbVersion.getValue().equalsIgnoreCase("4")) {
 			alertOldDbVersion(dbVersion.getValue(), 4);
-			Common.getInstance().getDatabaseManager().getDatabase().directQuery("UPDATE cc3_balance SET worldName='default' WHERE worldName='any';")
+			Common.getInstance().getDatabaseManager().getDatabase().directQuery("UPDATE cc3_balance SET worldName='default' WHERE worldName='any';");
 			dbVersion.setValue(5 + "");
 			Common.getInstance().getDatabaseManager().getDatabase().save(dbVersion);
 			Common.getInstance().getLogger().info("Updated to Revision 5!");
