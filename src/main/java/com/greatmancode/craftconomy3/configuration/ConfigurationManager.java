@@ -149,6 +149,14 @@ public class ConfigurationManager {
 			Common.getInstance().getDatabaseManager().getDatabase().save(dbVersion);
 			Common.getInstance().getLogger().info("Updated to Revision 4!");
 		}
+		if (dbVersion.getValue().equalsIgnoreCase("4")) {
+			alertOldDbVersion(dbVersion.getValue(), 4);
+			Common.getInstance().getDatabaseManager().getDatabase().directQuery("UPDATE cc3_balance SET worldName='default' WHERE worldName='any';")
+			dbVersion.setValue(5 + "");
+			Common.getInstance().getDatabaseManager().getDatabase().save(dbVersion);
+			Common.getInstance().getLogger().info("Updated to Revision 5!");
+
+		}
 	}
 
 	private void alertOldDbVersion(String currentVersion, int newVersion) {
