@@ -130,7 +130,7 @@ public class NewSetupCurrencyCommand extends CraftconomyCommand {
 
 	private void done(String sender) {
 		if (map.size() == 5) {
-			Common.getInstance().getCurrencyManager().addCurrency(map.get("name"), map.get("plural"), map.get("minor"), map.get("minorplural"), 0.0, map.get("sign"), true);
+			Common.getInstance().getCurrencyManager().addCurrency(map.get("name"), map.get("nameplural"), map.get("minor"), map.get("minorplural"), 0.0, map.get("sign"), true);
 			int dbId = Common.getInstance().getCurrencyManager().getCurrency(map.get("name")).getDatabaseID();
 			Common.getInstance().getCurrencyManager().setDefault(dbId);
 			ConfigTable table = new ConfigTable();
