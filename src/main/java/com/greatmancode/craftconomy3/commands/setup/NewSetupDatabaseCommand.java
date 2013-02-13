@@ -84,6 +84,7 @@ public class NewSetupDatabaseCommand extends CraftconomyCommand {
 				sqliteOrH2(sender, true);
 			} else if (args[0].equalsIgnoreCase("mysql")) {
 				step = INTERNALSTEP.MYSQL;
+				Common.getInstance().getConfigurationManager().getConfig().setValue(CONFIG_NODE, "mysql");
 				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}You selected {{WHITE}}MySQL{{DARK_GREEN}}. Please type {{WHITE}}/ccsetup database address <Your host>");
 			} else if (args[0].equalsIgnoreCase("h2")) {
 				step = INTERNALSTEP.H2;
