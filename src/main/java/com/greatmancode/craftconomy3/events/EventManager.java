@@ -32,5 +32,9 @@ public class EventManager {
 		if (Common.getInstance().getConfigurationManager().getConfig().getBoolean("System.CheckNewVersion") && Common.getInstance().getServerCaller().isOp(playerName) && Common.getInstance().getVersionChecker().isOld()) {
 			Common.getInstance().getServerCaller().sendMessage(playerName, "{{DARK_CYAN}}Craftconomy is out of date! New version is " + Common.getInstance().getVersionChecker().getNewVersion());
 		}
+
+		if (Common.getInstance().getConfigurationManager().getConfig().getBoolean("System.CreateOnLogin")) {
+			Common.getInstance().getAccountManager().getAccount(playerName);
+		}
 	}
 }

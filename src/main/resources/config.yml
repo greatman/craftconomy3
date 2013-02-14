@@ -6,6 +6,7 @@ System:
   SetupStep: 'NOT_STARTED'
   CheckNewVersion: true
   Case-sentitive: false
+  CreateOnLogin: false
   # Logs all monetary transactions passed through CraftConomy
   Logging:
     Enabled: false
