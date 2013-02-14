@@ -28,7 +28,6 @@ import com.greatmancode.craftconomy3.commands.interfaces.CommandManager;
  * @author greatman
  */
 public interface Caller {
-	String CHAT_PREFIX = "{{DARK_GREEN}}[{{WHITE}}Money{{DARK_GREEN}}]{{WHITE}} ";
 
 	/**
 	 * Disable the plugin

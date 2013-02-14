@@ -74,9 +74,9 @@ public class BukkitCaller implements Caller {
 	public void sendMessage(String playerName, String message) {
 		Player p = loader.getServer().getPlayerExact(playerName);
 		if (p != null) {
-			p.sendMessage(addColor(CHAT_PREFIX + message));
+			p.sendMessage(addColor(Common.getInstance().getLanguageManager().getString("command_prefix") + message));
 		} else {
-			loader.getServer().getConsoleSender().sendMessage(addColor(CHAT_PREFIX + message));
+			loader.getServer().getConsoleSender().sendMessage(addColor(Common.getInstance().getLanguageManager().getString("command_prefix") + message));
 		}
 	}
 

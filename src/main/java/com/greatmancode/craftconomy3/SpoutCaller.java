@@ -69,9 +69,9 @@ public class SpoutCaller implements Caller {
 	public void sendMessage(String playerName, String message) {
 		Player p = loader.getEngine().getPlayer(playerName, true);
 		if (p != null) {
-			p.sendMessage(ChatArguments.fromFormatString(CHAT_PREFIX + message));
+			p.sendMessage(ChatArguments.fromFormatString(Common.getInstance().getLanguageManager().getString("command_prefix") + message));
 		} else {
-			loader.getEngine().getCommandSource().sendMessage(ChatArguments.fromFormatString(CHAT_PREFIX + message));
+			loader.getEngine().getCommandSource().sendMessage(ChatArguments.fromFormatString(Common.getInstance().getLanguageManager().getString("command_prefix") + message));
 		}
 	}
 
