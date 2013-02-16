@@ -51,13 +51,23 @@ public class DatabaseManager {
 	 * @throws ConnectionException
 	 */
 	public DatabaseManager() throws TableRegistrationException, ConnectionException {
-		String databasetype = Common.getInstance().getConfigurationManager().getConfig().getString("System.Database.Type");
-		if (databasetype.equals("sqlite")) {
-			loadSQLite();
-		} else if (databasetype.equals("mysql")) {
-			loadMySQL();
-		} else if (databasetype.equals("h2")) {
-			loadH2();
+		try {
+			DatabaseType databaseType = DatabaseType.valueOf(Common.getInstance().getConfigurationManager().getConfig().getString("System.Database.Type").toUpperCase());
+			switch (databaseType) {
+				case SQLITE:
+					loadSQLite();
+					break;
+				case MYSQL:
+					loadMySQL();
+					break;
+				case H2:
+					loadH2();
+					break;
+			}
+		} catch(IllegalArgumentException e) {
+			e.printStackTrace();
+			Common.getInstance().getServerCaller().disablePlugin();
+			return;
 		}
 
 		db.registerTable(AccountTable.class);

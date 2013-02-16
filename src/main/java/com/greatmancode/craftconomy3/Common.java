@@ -116,29 +116,12 @@ public class Common {
 			commandManager.initialize();
 			if (config.getConfig().getBoolean("System.Setup")) {
 				SetupWizard.setState(SetupWizard.valueOf(config.getConfig().getString("System.SetupStep")));
-				if (SetupWizard.getState().equals(SetupWizard.DATABASE_SETUP)) {
-					try {
-						initialiseDatabase();
-					} catch (Exception e) {
-						sendConsoleMessage(Level.SEVERE, String.format(getLanguageManager().getString("database_connect_error"), e.getMessage()));
-						getServerCaller().disablePlugin();
-						e.printStackTrace();
-						return;
-					}
-				}
-				if (SetupWizard.getState().equals(SetupWizard.BASIC_SETUP)) {
-					initializeCurrency();
-					sendConsoleMessage(Level.INFO, getLanguageManager().getString("default_settings_loaded"));
-				}
-				if (SetupWizard.getState().equals(SetupWizard.CONVERT_SETUP)) {
-					getConfigurationManager().loadDefaultSettings();
-					startUp();
-				}
 				sendConsoleMessage(Level.WARNING, getLanguageManager().getString("loaded_setup_mode"));
 			} else {
 				try {
 					initialiseDatabase();
 				} catch (Exception e) {
+					e.printStackTrace();
 					sendConsoleMessage(Level.SEVERE, String.format(getLanguageManager().getString("database_connect_error"), e.getMessage()));
 					getServerCaller().disablePlugin();
 					return;
