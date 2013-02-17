@@ -48,7 +48,7 @@ public class TestInitializator {
 			Common.getInstance().getDatabaseManager().getDatabase().save(table);
 			table = new ConfigTable();
 			table.setName("longmode");
-			table.setValue("true");
+			table.setValue("long");
 			Common.getInstance().getDatabaseManager().getDatabase().save(table);
 			table = new ConfigTable();
 			table.setName("multiworld");

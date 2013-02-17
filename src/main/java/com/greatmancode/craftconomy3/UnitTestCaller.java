@@ -29,6 +29,9 @@ import com.greatmancode.craftconomy3.commands.interfaces.CommandManager;
  * @author Greatman
  */
 public class UnitTestCaller implements Caller {
+
+	public static final String worldName = "UnitTestWorld";
+	public static final String worldName2 = "UnitTestWorld2";
 	@Override
 	public void disablePlugin() {
 	}
@@ -62,7 +65,7 @@ public class UnitTestCaller implements Caller {
 
 	@Override
 	public boolean worldExist(String worldName) {
-		return worldName.equals("UnitTestWorld");
+		return worldName.equalsIgnoreCase(this.worldName) || worldName.equalsIgnoreCase(worldName2);
 	}
 
 	@Override
