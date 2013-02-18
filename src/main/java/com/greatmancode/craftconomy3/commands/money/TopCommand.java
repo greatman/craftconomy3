@@ -26,6 +26,7 @@ import com.greatmancode.craftconomy3.commands.interfaces.CraftconomyCommand;
 import com.greatmancode.craftconomy3.currency.Currency;
 import com.greatmancode.craftconomy3.database.tables.AccountTable;
 import com.greatmancode.craftconomy3.database.tables.BalanceTable;
+import com.greatmancode.craftconomy3.groups.WorldGroupsManager;
 
 class TopCommandThread implements Runnable {
 	public static final int NUMBER_ELEMENTS = 10;
@@ -112,7 +113,7 @@ public class TopCommand extends CraftconomyCommand {
 			}
 		}
 
-		String world = "any";
+		String world = WorldGroupsManager.DEFAULT_GROUP_NAME;
 		if (args.length > 2) {
 			world = args[2];
 		}
