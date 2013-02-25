@@ -147,7 +147,7 @@ currency_exchange_cmd_help: "/currency exchange <Currency from> <Currency to> <a
 currency_exchange_set: "Currency exchange set!"
 world_group_manager_loaded: "World Group Manager loaded!"
 group_create_cmd_help: "/ccgroup create <Name> - Create a world group."
-group_addworld_cmd_help: "/ccgroup addworld <Group Name> <World Name>"
+group_addworld_cmd_help: "/ccgroup addworld <Group Name> <World Name> - Add a world to a world group."
 group_already_exist: "{{DARK_RED}}This world group already exist!"
 group_created: "World group created!"
 group_not_exist: "This world group doesn't exist!"
