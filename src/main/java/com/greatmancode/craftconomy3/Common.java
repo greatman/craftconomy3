@@ -272,7 +272,7 @@ public class Common {
 			String amount = theAmount[0];
 			try {
 				amount = decimalFormat.format(Double.parseDouble(theAmount[0]));
-			} catch(NumberFormatException e) {
+			} catch (NumberFormatException e) {
 
 			}
 

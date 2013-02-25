@@ -64,7 +64,7 @@ public class DatabaseManager {
 					loadH2();
 					break;
 			}
-		} catch(IllegalArgumentException e) {
+		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
 			Common.getInstance().getServerCaller().disablePlugin();
 			return;

@@ -28,7 +28,6 @@ import com.greatmancode.craftconomy3.commands.interfaces.CommandManager;
  * @author greatman
  */
 public interface Caller {
-
 	/**
 	 * Disable the plugin
 	 */

@@ -155,7 +155,6 @@ public class ConfigurationManager {
 			dbVersion.setValue(5 + "");
 			Common.getInstance().getDatabaseManager().getDatabase().save(dbVersion);
 			Common.getInstance().getLogger().info("Updated to Revision 5!");
-
 		}
 	}
 

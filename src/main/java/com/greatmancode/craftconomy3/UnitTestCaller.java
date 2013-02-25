@@ -29,9 +29,9 @@ import com.greatmancode.craftconomy3.commands.interfaces.CommandManager;
  * @author Greatman
  */
 public class UnitTestCaller implements Caller {
-
 	public static final String worldName = "UnitTestWorld";
 	public static final String worldName2 = "UnitTestWorld2";
+
 	@Override
 	public void disablePlugin() {
 	}
