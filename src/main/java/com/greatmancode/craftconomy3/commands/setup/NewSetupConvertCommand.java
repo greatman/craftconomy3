@@ -125,7 +125,7 @@ public class NewSetupConvertCommand extends CraftconomyCommand {
 	private void selectConvert(String sender, String[] args) {
 		if (IMPORTER_LIST.getConverterList().containsKey(args[0])) {
 			selectedConverter = IMPORTER_LIST.getConverterList().get(args[0]);
-			Common.getInstance().getServerCaller().sendMessage(sender, "{{WHITE}}" + args[0] + " {DARK_GREEN}}importer selected.");
+			Common.getInstance().getServerCaller().sendMessage(sender, "{{WHITE}}" + args[0] + " {{DARK_GREEN}}importer selected.");
 			if (selectedConverter.getDbTypes().size() == 1) {
 				step = INTERNALSTEP.SELECT_DB;
 				selectDb(sender, new String[]{selectedConverter.getDbTypes().get(0)});
