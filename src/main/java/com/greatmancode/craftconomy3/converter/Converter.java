@@ -27,6 +27,7 @@ import java.util.Map;
 import com.alta189.simplesave.sqlite.SQLiteDatabase;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.database.tables.AccountTable;
+import com.greatmancode.craftconomy3.groups.WorldGroupsManager;
 
 /**
  * Represents a Converter
@@ -160,7 +161,6 @@ public abstract class Converter {
 	protected void addBalance(String sender, List<User> userList) {
 		int i = 0;
 		stringBuilder = new StringBuilder();
-		String worldName = Common.getInstance().getServerCaller().getDefaultWorld();
 
 		stringBuilder.append("INSERT INTO cc3_balance(username_id, currency_id, worldName,balance) VALUES ");
 		Iterator<User> iterator = userList.iterator();
@@ -175,7 +175,7 @@ public abstract class Converter {
 			}
 			User user = iterator.next();
 			AccountTable account = Common.getInstance().getDatabaseManager().getDatabase().select(AccountTable.class).where().equal("name", user.user).execute().findOne();
-			stringBuilder.append("(" + account.getId() + "," + Common.getInstance().getCurrencyManager().getDefaultCurrency().getDatabaseID() + ",'" + worldName + "'," + user.balance + ")");
+			stringBuilder.append("(" + account.getId() + "," + Common.getInstance().getCurrencyManager().getDefaultCurrency().getDatabaseID() + ",'" + WorldGroupsManager.DEFAULT_GROUP_NAME + "'," + user.balance + ")");
 			if (!isSQLite && iterator.hasNext()) {
 				stringBuilder.append(",");
 			} else {
