@@ -134,8 +134,9 @@ public abstract class Converter {
 	}
 
 	//Should be used in INSERT TO cc3_account
-	protected void addAccountToString(List<User> userList) {
+	protected void addAccountToString(List<User> userList2) {
 		stringBuilder = new StringBuilder();
+		List<User> userList = new ArrayList<User>(userList2);
 		stringBuilder.append("INSERT INTO cc3_account(name) VALUES ");
 		Iterator<User> iterator = userList.iterator();
 		boolean first = true, isSQLite = Common.getInstance().getDatabaseManager().getDatabase() instanceof SQLiteDatabase;
