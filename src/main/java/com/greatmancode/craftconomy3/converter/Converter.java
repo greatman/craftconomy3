@@ -139,14 +139,19 @@ public abstract class Converter {
 		List<User> userList = new ArrayList<User>(userList2);
 		stringBuilder.append("INSERT INTO cc3_account(name) VALUES ");
 		Iterator<User> iterator = userList.iterator();
-		boolean first = true, isSQLite = Common.getInstance().getDatabaseManager().getDatabase() instanceof SQLiteDatabase;
+		boolean first = true, isCaseSentitive = Common.getInstance().getConfigurationManager().getConfig().getBoolean("System.Case-sentitive"), isSQLite = Common.getInstance().getDatabaseManager().getDatabase() instanceof SQLiteDatabase;
 		while (iterator.hasNext()) {
 			if (isSQLite && !first) {
 				stringBuilder = new StringBuilder();
 				stringBuilder.append("INSERT INTO cc3_account(name) VALUES ");
 			}
 			User user = iterator.next();
-			stringBuilder.append("('" + user.user + "')");
+			if (isCaseSentitive) {
+				stringBuilder.append("('" + user.user + "')");
+			} else {
+				stringBuilder.append("('" + user.user.toLowerCase() + "')");
+			}
+
 			if (!isSQLite && iterator.hasNext()) {
 				stringBuilder.append(",");
 			} else {
