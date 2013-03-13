@@ -178,6 +178,7 @@ public class Account {
 	public double deposit(double amount, String world, String currencyName) {
 		BalanceTable balanceTable = null;
 		double result = 0;
+		amount = format(amount);
 		if (!Common.getInstance().getWorldGroupManager().worldGroupExist(world)) {
 			world = Common.getInstance().getWorldGroupManager().getWorldGroupName(world);
 		}
@@ -211,6 +212,7 @@ public class Account {
 	public double withdraw(double amount, String world, String currencyName) {
 		BalanceTable balanceTable = null;
 		double result = 0;
+		amount = format(amount);
 		if (!Common.getInstance().getWorldGroupManager().worldGroupExist(world)) {
 			world = Common.getInstance().getWorldGroupManager().getWorldGroupName(world);
 		}
@@ -243,6 +245,7 @@ public class Account {
 	public double set(double amount, String world, String currencyName) {
 		BalanceTable balanceTable = null;
 		double result = 0;
+		amount = format(amount);
 		String newWorld = Common.getInstance().getWorldGroupManager().getWorldGroupName(world);
 		Currency currency = Common.getInstance().getCurrencyManager().getCurrency(currencyName);
 		if (currency != null) {
@@ -272,6 +275,7 @@ public class Account {
 	 */
 	public boolean hasEnough(double amount, String worldName, String currencyName) {
 		boolean result = false;
+		amount = format(amount);
 		if (!Common.getInstance().getWorldGroupManager().worldGroupExist(worldName)) {
 			worldName = Common.getInstance().getWorldGroupManager().getWorldGroupName(worldName);
 		}
@@ -297,5 +301,18 @@ public class Account {
 	 */
 	public String getWorldGroupOfPlayerCurrentlyIn() {
 		return Common.getInstance().getWorldGroupManager().getWorldGroupName(getWorldPlayerCurrentlyIn());
+	}
+
+	/**
+	 * Format the value to be something less problematic.
+	 * Example: 50.00999999995 will become 50.00
+	 * @param value The double to format
+	 * @return The formatted double
+	 */
+	public static double format(double value) {
+		long factor = (long) Math.pow(10, 2);
+		value = value * factor;
+		double tmp = Math.floor(value);
+		return (double)tmp / factor;
 	}
 }
