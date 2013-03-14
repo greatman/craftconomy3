@@ -23,12 +23,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
 
 import com.greatmancode.craftconomy3.BukkitCaller;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.DisplayFormat;
 import com.greatmancode.craftconomy3.SpoutCaller;
 import com.greatmancode.craftconomy3.UnitTestCaller;
+import com.greatmancode.craftconomy3.account.Account;
+import com.greatmancode.craftconomy3.database.tables.BalanceTable;
 import com.greatmancode.craftconomy3.database.tables.ConfigTable;
 import com.greatmancode.craftconomy3.database.tables.PayDayTable;
 
@@ -155,6 +158,23 @@ public class ConfigurationManager {
 			dbVersion.setValue(5 + "");
 			Common.getInstance().getDatabaseManager().getDatabase().save(dbVersion);
 			Common.getInstance().getLogger().info("Updated to Revision 5!");
+		}
+		if (dbVersion.getValue().equalsIgnoreCase("5")) {
+			alertOldDbVersion(dbVersion.getValue(), 6);
+			Common.getInstance().sendConsoleMessage(Level.INFO, "Notice: This may take some time.");
+			List<BalanceTable> entryList = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).execute().find();
+			int amount = 0;
+			for (BalanceTable entry: entryList) {
+				entry.setBalance(Account.format(entry.getBalance()));
+				Common.getInstance().getDatabaseManager().getDatabase().save(entry);
+				if (amount % 100 == 0) {
+					Common.getInstance().sendConsoleMessage(Level.INFO, amount + " of " + entryList.size() + " updated!");
+				}
+				amount++;
+			}
+			dbVersion.setValue(6 + "");
+			Common.getInstance().getDatabaseManager().getDatabase().save(dbVersion);
+			Common.getInstance().getLogger().info("Updated to Revision 6!");
 		}
 	}
 
