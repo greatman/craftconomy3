@@ -152,8 +152,11 @@ public abstract class Converter {
 				stringBuilder.append("('" + user.user.toLowerCase() + "')");
 			}
 
-			if (!isSQLite && iterator.hasNext()) {
-				stringBuilder.append(",");
+			if (!isSQLite) {
+				if (iterator.hasNext()) {
+					stringBuilder.append(",");
+				}
+
 			} else {
 				Common.getInstance().getDatabaseManager().getDatabase().directQuery(stringBuilder.toString());
 				first = false;
@@ -182,8 +185,10 @@ public abstract class Converter {
 			User user = iterator.next();
 			AccountTable account = Common.getInstance().getDatabaseManager().getDatabase().select(AccountTable.class).where().equal("name", user.user).execute().findOne();
 			stringBuilder.append("(" + account.getId() + "," + Common.getInstance().getCurrencyManager().getDefaultCurrency().getDatabaseID() + ",'" + WorldGroupsManager.DEFAULT_GROUP_NAME + "'," + user.balance + ")");
-			if (!isSQLite && iterator.hasNext()) {
-				stringBuilder.append(",");
+			if (!isSQLite) {
+				if (iterator.hasNext()) {
+					stringBuilder.append(",");
+				}
 			} else {
 				Common.getInstance().getDatabaseManager().getDatabase().directQuery(stringBuilder.toString());
 				first = false;
@@ -193,7 +198,6 @@ public abstract class Converter {
 		if (!isSQLite) {
 			Common.getInstance().getDatabaseManager().getDatabase().directQuery(stringBuilder.toString());
 		}
-
 		Common.getInstance().getServerCaller().sendMessage(sender, userList.size() + " {{DARK_GREEN}}accounts converted! Enjoy!");
 	}
 
