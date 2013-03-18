@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import com.greatmancode.craftconomy3.Cause;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.LogInfo;
 import com.greatmancode.craftconomy3.currency.Currency;
@@ -176,6 +177,18 @@ public class Account {
 	 * @return The new balance
 	 */
 	public double deposit(double amount, String world, String currencyName) {
+		return deposit(amount, world, currencyName, Cause.UNKNOWN);
+	}
+
+	/**
+	 * Adds a certain amount of money in the account
+	 * @param amount The amount of money to add
+	 * @param world The World / World group we want to add money in
+	 * @param currencyName The currency we want to add money in
+	 * @param cause The cause of the change.
+	 * @return The new balance
+	 */
+	public double deposit(double amount, String world, String currencyName, Cause cause) {
 		BalanceTable balanceTable = null;
 		double result = 0;
 		amount = format(amount);
@@ -195,7 +208,8 @@ public class Account {
 				balanceTable.setBalance(amount);
 			}
 			Common.getInstance().getDatabaseManager().getDatabase().save(balanceTable);
-			Common.getInstance().writeLog(LogInfo.DEPOSIT, getAccountName(), amount, currency, world);
+
+			Common.getInstance().writeLog(LogInfo.DEPOSIT, cause, this, amount, currency, world);
 			result = balanceTable.getBalance();
 		}
 
@@ -210,6 +224,18 @@ public class Account {
 	 * @return The new balance
 	 */
 	public double withdraw(double amount, String world, String currencyName) {
+		return withdraw(amount, world, currencyName, Cause.UNKNOWN);
+	}
+
+	/**
+	 * withdraw a certain amount of money in the account
+	 * @param amount The amount of money to withdraw
+	 * @param world The World / World group we want to withdraw money from
+	 * @param currencyName The currency we want to withdraw money from
+	 * @param cause The cause of the change.
+	 * @return The new balance
+	 */
+	public double withdraw(double amount, String world, String currencyName, Cause cause) {
 		BalanceTable balanceTable = null;
 		double result = 0;
 		amount = format(amount);
@@ -229,7 +255,7 @@ public class Account {
 				balanceTable.setBalance(amount);
 			}
 			Common.getInstance().getDatabaseManager().getDatabase().save(balanceTable);
-			Common.getInstance().writeLog(LogInfo.WITHDRAW, getAccountName(), amount, currency, world);
+			Common.getInstance().writeLog(LogInfo.WITHDRAW, cause, this, amount, currency, world);
 			result = balanceTable.getBalance();
 		}
 		return result;
@@ -243,6 +269,18 @@ public class Account {
 	 * @return The new balance
 	 */
 	public double set(double amount, String world, String currencyName) {
+		return set(amount,world,currencyName, Cause.UNKNOWN);
+	}
+
+	/**
+	 * set a certain amount of money in the account
+	 * @param amount The amount of money to set
+	 * @param world The World / World group we want to set money to
+	 * @param currencyName The currency we want to set money to
+	 * @param cause The cause of the change.
+	 * @return The new balance
+	 */
+	public double set(double amount, String world, String currencyName, Cause cause) {
 		BalanceTable balanceTable = null;
 		double result = 0;
 		amount = format(amount);
@@ -260,7 +298,7 @@ public class Account {
 				balanceTable.setBalance(amount);
 			}
 			Common.getInstance().getDatabaseManager().getDatabase().save(balanceTable);
-			Common.getInstance().writeLog(LogInfo.SET, getAccountName(), amount, currency, newWorld);
+			Common.getInstance().writeLog(LogInfo.SET, cause, this, amount, currency, newWorld);
 			result = balanceTable.getBalance();
 		}
 		return result;

@@ -7,7 +7,7 @@ System:
   CheckNewVersion: true
   Case-sentitive: false
   CreateOnLogin: false
-  # Logs all monetary transactions passed through CraftConomy
+  # Logs all monetary transactions passed through CraftConomy in a table.
   Logging:
     Enabled: false
     

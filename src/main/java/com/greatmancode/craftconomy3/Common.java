@@ -31,12 +31,14 @@ import java.util.logging.Logger;
 
 import com.alta189.simplesave.exceptions.ConnectionException;
 import com.alta189.simplesave.exceptions.TableRegistrationException;
+import com.greatmancode.craftconomy3.account.Account;
 import com.greatmancode.craftconomy3.account.AccountManager;
 import com.greatmancode.craftconomy3.commands.CommandLoader;
 import com.greatmancode.craftconomy3.configuration.ConfigurationManager;
 import com.greatmancode.craftconomy3.currency.Currency;
 import com.greatmancode.craftconomy3.currency.CurrencyManager;
 import com.greatmancode.craftconomy3.database.DatabaseManager;
+import com.greatmancode.craftconomy3.database.tables.LogTable;
 import com.greatmancode.craftconomy3.events.EventManager;
 import com.greatmancode.craftconomy3.groups.WorldGroupsManager;
 import com.greatmancode.craftconomy3.language.LanguageManager;
@@ -394,16 +396,16 @@ public class Common {
 	 * @param currency The currency associated with this transaction
 	 * @param worldName The world name associated with this transaction
 	 */
-	public void writeLog(LogInfo info, String username, double amount, Currency currency, String worldName) {
+	public void writeLog(LogInfo info, Cause cause, Account account, double amount, Currency currency, String worldName) {
 		if (getConfigurationManager().getConfig().getBoolean("System.Logging.Enabled")) {
-			try {
-				PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(new File(getServerCaller().getDataFolder(), "craftconomy.log"), true)));
-
-				out.println(info.toString() + ": User: " + username + " Currency: " + currency.getName() + " World: " + worldName + " Amount:" + amount);
-				out.close();
-			} catch (IOException e) {
-				getLogger().severe(String.format(getLanguageManager().getString("error_write_log"), e.getMessage()));
-			}
+			LogTable log = new LogTable();
+			log.username_id = account.getAccountID();
+			log.amount = amount;
+			log.type = info;
+			log.cause = cause;
+			log.currencyName = currency.getName();
+			log.worldName = worldName;
+			getDatabaseManager().getDatabase().save(log);
 		}
 	}
 
