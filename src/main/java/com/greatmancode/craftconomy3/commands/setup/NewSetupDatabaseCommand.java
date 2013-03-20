@@ -134,15 +134,20 @@ public class NewSetupDatabaseCommand extends CraftconomyCommand {
 			} else if (args[0].equalsIgnoreCase("password")) {
 				VALUES.put("password", args[1]);
 				Common.getInstance().getConfigurationManager().getConfig().setValue("System.Database.Password", args[1]);
-				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Last step for database! Please type {{WHITE}}/ccsetup database db <Database Name> {{DARK_GREEN}}to set your MySQL database.");
+				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Saved! Please type {{WHITE}}/ccsetup database db <Database Name> {{DARK_GREEN}}to set your MySQL database.");
 			} else if (args[0].equalsIgnoreCase("db")) {
 				VALUES.put("db", args[1]);
 				Common.getInstance().getConfigurationManager().getConfig().setValue("System.Database.Db", args[1]);
+				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Saved! Please type {{WHITE}}/ccsetup database prefix <Prefix> {{DARK_GREEN}}to set your table prefix (If not sure, put cc3_).");
+			} else if (args[0].equalsIgnoreCase("prefix")) {
+				VALUES.put("prefix", args[1]);
+				Common.getInstance().getConfigurationManager().getConfig().setValue("System.Database.Prefix", args[1]);
 				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Done! Please wait while the database is initializing.");
+
 			}
 		}
 
-		if (VALUES.size() == 5) {
+		if (VALUES.size() == 6) {
 			try {
 				Common.getInstance().initialiseDatabase();
 				done(sender);

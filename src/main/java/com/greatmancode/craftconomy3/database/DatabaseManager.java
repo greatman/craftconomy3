@@ -92,6 +92,7 @@ public class DatabaseManager {
 			Common.getInstance().getServerCaller().loadLibrary("lib" + File.separator + "sqlite.jar");
 		}
 		SQLiteConfiguration config = new SQLiteConfiguration(Common.getInstance().getServerCaller().getDataFolder() + File.separator + "database.db");
+		config.setPrefix(Common.getInstance().getConfigurationManager().getConfig().getString("System.Database.Prefix"));
 		db = DatabaseFactory.createNewDatabase(config);
 		Common.getInstance().addMetricsGraph("Database Engine", "SQLite");
 	}
@@ -109,6 +110,7 @@ public class DatabaseManager {
 		config.setPassword(Common.getInstance().getConfigurationManager().getConfig().getString("System.Database.Password"));
 		config.setDatabase(Common.getInstance().getConfigurationManager().getConfig().getString("System.Database.Db"));
 		config.setPort(Common.getInstance().getConfigurationManager().getConfig().getInt("System.Database.Port"));
+		config.setPrefix(Common.getInstance().getConfigurationManager().getConfig().getString("System.Database.Prefix"));
 		db = DatabaseFactory.createNewDatabase(config);
 		Common.getInstance().addMetricsGraph("Database Engine", "MySQL");
 	}

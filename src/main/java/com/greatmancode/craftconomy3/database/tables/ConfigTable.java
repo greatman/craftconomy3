@@ -22,7 +22,7 @@ import com.alta189.simplesave.Field;
 import com.alta189.simplesave.Id;
 import com.alta189.simplesave.Table;
 
-@Table("cc3_config")
+@Table("config")
 public class ConfigTable {
 	public static final String NAME_FIELD = "name";
 	@Id

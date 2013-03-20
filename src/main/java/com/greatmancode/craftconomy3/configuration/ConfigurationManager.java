@@ -136,7 +136,7 @@ public class ConfigurationManager {
 			alertOldDbVersion(dbVersion.getValue(), 4);
 			Common.getInstance().getLogger().info("Converting worlds to the new format.");
 			Common.getInstance().initializeWorldGroup();
-			ResultSet result = Common.getInstance().getDatabaseManager().getDatabase().directQueryWithResult("SELECT DISTINCT worldName FROM cc3_balance");
+			ResultSet result = Common.getInstance().getDatabaseManager().getDatabase().directQueryWithResult("SELECT DISTINCT worldName FROM "+ Common.getInstance().getConfigurationManager().getConfig().getString("System.Database.Prefix") + "balance");
 			try {
 				while (result.next()) {
 					String entry = result.getString("worldName");
@@ -153,7 +153,7 @@ public class ConfigurationManager {
 		}
 		if (dbVersion.getValue().equalsIgnoreCase("4")) {
 			alertOldDbVersion(dbVersion.getValue(), 5);
-			Common.getInstance().getDatabaseManager().getDatabase().directQuery("UPDATE cc3_balance SET worldName='default' WHERE worldName='any';");
+			Common.getInstance().getDatabaseManager().getDatabase().directQuery("UPDATE " + Common.getInstance().getConfigurationManager().getConfig().getString("System.Database.Prefix") + "balance SET worldName='default' WHERE worldName='any';");
 			dbVersion.setValue(5 + "");
 			Common.getInstance().getDatabaseManager().getDatabase().save(dbVersion);
 			Common.getInstance().getLogger().info("Updated to Revision 5!");

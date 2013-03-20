@@ -22,7 +22,7 @@ import com.alta189.simplesave.Field;
 import com.alta189.simplesave.Id;
 import com.alta189.simplesave.Table;
 
-@Table("cc3_payday")
+@Table("payday")
 public class PayDayTable {
 	@Id
 	private int id;

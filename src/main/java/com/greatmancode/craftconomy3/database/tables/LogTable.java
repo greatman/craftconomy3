@@ -24,7 +24,7 @@ import com.alta189.simplesave.Table;
 import com.greatmancode.craftconomy3.Cause;
 import com.greatmancode.craftconomy3.LogInfo;
 
-@Table("cc3_log")
+@Table("log")
 public class LogTable {
 
 	@Id

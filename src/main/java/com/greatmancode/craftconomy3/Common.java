@@ -97,6 +97,10 @@ public class Common {
 			sendConsoleMessage(Level.INFO, "Loading the Configuration");
 			config = new ConfigurationManager();
 			config.initialize(Common.getInstance().getServerCaller().getDataFolder(), "config.yml");
+			if (!config.getConfig().has("System.Database.Prefix")) {
+				config.getConfig().setValue("System.Database.Prefix", "cc3_");
+			}
+			
 			languageManager = new LanguageManager();
 			try {
 				metrics = new Metrics("Craftconomy", this.getServerCaller().getPluginVersion());

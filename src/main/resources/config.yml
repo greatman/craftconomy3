@@ -27,3 +27,4 @@ System:
     Username: 'root'
     Password: ''
     Db: 'Craftconomy'
+    Prefix: 'cc3_'

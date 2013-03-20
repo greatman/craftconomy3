@@ -137,13 +137,13 @@ public abstract class Converter {
 	protected void addAccountToString(List<User> userList2) {
 		stringBuilder = new StringBuilder();
 		List<User> userList = new ArrayList<User>(userList2);
-		stringBuilder.append("INSERT INTO cc3_account(name) VALUES ");
+		stringBuilder.append("INSERT INTO " + Common.getInstance().getConfigurationManager().getConfig().getString("System.Database.Prefix") + "account(name) VALUES ");
 		Iterator<User> iterator = userList.iterator();
 		boolean first = true, isCaseSentitive = Common.getInstance().getConfigurationManager().getConfig().getBoolean("System.Case-sentitive"), isSQLite = Common.getInstance().getDatabaseManager().getDatabase() instanceof SQLiteDatabase;
 		while (iterator.hasNext()) {
 			if (isSQLite && !first) {
 				stringBuilder = new StringBuilder();
-				stringBuilder.append("INSERT INTO cc3_account(name) VALUES ");
+				stringBuilder.append("INSERT INTO " + Common.getInstance().getConfigurationManager().getConfig().getString("System.Database.Prefix") + "account(name) VALUES ");
 			}
 			User user = iterator.next();
 			if (isCaseSentitive) {
@@ -171,7 +171,7 @@ public abstract class Converter {
 		int i = 0;
 		stringBuilder = new StringBuilder();
 
-		stringBuilder.append("INSERT INTO cc3_balance(username_id, currency_id, worldName,balance) VALUES ");
+		stringBuilder.append("INSERT INTO " + Common.getInstance().getConfigurationManager().getConfig().getString("System.Database.Prefix") + "balance(username_id, currency_id, worldName,balance) VALUES ");
 		Iterator<User> iterator = userList.iterator();
 		boolean first = true, isSQLite = Common.getInstance().getDatabaseManager().getDatabase() instanceof SQLiteDatabase;
 		while (iterator.hasNext()) {
@@ -180,7 +180,7 @@ public abstract class Converter {
 			}
 			if (isSQLite && !first) {
 				stringBuilder = new StringBuilder();
-				stringBuilder.append("INSERT INTO cc3_balance(username_id, currency_id, worldName,balance) VALUES ");
+				stringBuilder.append("INSERT INTO " + Common.getInstance().getConfigurationManager().getConfig().getString("System.Database.Prefix") + "balance(username_id, currency_id, worldName,balance) VALUES ");
 			}
 			User user = iterator.next();
 			AccountTable account = Common.getInstance().getDatabaseManager().getDatabase().select(AccountTable.class).where().equal("name", user.user).execute().findOne();
