@@ -18,6 +18,7 @@
  */
 package com.greatmancode.craftconomy3.commands.money;
 
+import com.greatmancode.craftconomy3.Cause;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.account.Account;
 import com.greatmancode.craftconomy3.commands.interfaces.CraftconomyCommand;
@@ -38,8 +39,8 @@ public class ExchangeCommand extends CraftconomyCommand {
 					Account account = Common.getInstance().getAccountManager().getAccount(sender);
 					if (account.hasEnough(amount, Common.getInstance().getServerCaller().getPlayerWorld(sender), currency1.getName())) {
 						double value = amount * exchangeRate;
-						account.withdraw(amount, Common.getInstance().getServerCaller().getPlayerWorld(sender), currency1.getName());
-						account.deposit(value, Common.getInstance().getServerCaller().getPlayerWorld(sender), currency2.getName());
+						account.withdraw(amount, Common.getInstance().getServerCaller().getPlayerWorld(sender), currency1.getName(), Cause.EXCHANGE, currency2.getName());
+						account.deposit(value, Common.getInstance().getServerCaller().getPlayerWorld(sender), currency2.getName(), Cause.EXCHANGE, currency1.getName());
 						Common.getInstance().getServerCaller().sendMessage(sender, String.format(Common.getInstance().getLanguageManager().getString("exchange_done"), amount, currency1.getName(), value, currency2.getName()));
 					}
 				} catch (NoExchangeRate noExchangeRate) {

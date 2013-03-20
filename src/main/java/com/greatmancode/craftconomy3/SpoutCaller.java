@@ -164,7 +164,7 @@ public class SpoutCaller implements Caller {
 
 	@Override
 	public String getServerVersion() {
-		return "SpoutServer " + Spout.getAPIVersion();
+		return "SpoutServer " + loader.getEngine().getAPIVersion();
 	}
 
 	@Override

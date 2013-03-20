@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import com.greatmancode.craftconomy3.Cause;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.account.Account;
 import com.greatmancode.craftconomy3.converter.Converter;
@@ -97,7 +98,7 @@ public class BoseEconomy extends Converter {
 	private void bankImporter(String username) throws IOException {
 		String line = flatFileReader.readLine();
 		double amount = Double.parseDouble(line.split(" ")[1]);
-		Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + username).set(amount, Common.getInstance().getServerCaller().getDefaultWorld(), Common.getInstance().getCurrencyManager().getDefaultCurrency().getName());
+		Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + username).set(amount, Common.getInstance().getServerCaller().getDefaultWorld(), Common.getInstance().getCurrencyManager().getDefaultCurrency().getName(), Cause.CONVERT, null);
 		line = flatFileReader.readLine();
 		if (line.contains("members")) {
 			line = flatFileReader.readLine();

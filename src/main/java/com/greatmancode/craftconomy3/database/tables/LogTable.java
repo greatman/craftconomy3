@@ -43,6 +43,9 @@ public class LogTable {
 	public Cause cause;
 
 	@Field
+	public String causeReason;
+
+	@Field
 	public String currencyName;
 
 	@Field

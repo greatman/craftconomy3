@@ -182,7 +182,7 @@ public class Account {
 	 * @return The new balance. If the account has infinite money. Double.MAX_VALUE is returned.
 	 */
 	public double deposit(double amount, String world, String currencyName) {
-		return deposit(amount, world, currencyName, Cause.UNKNOWN);
+		return deposit(amount, world, currencyName, Cause.UNKNOWN, null);
 	}
 
 	/**
@@ -193,7 +193,7 @@ public class Account {
 	 * @param cause The cause of the change.
 	 * @return The new balance. If the account has infinite money. Double.MAX_VALUE is returned.
 	 */
-	public double deposit(double amount, String world, String currencyName, Cause cause) {
+	public double deposit(double amount, String world, String currencyName, Cause cause, String causeReason) {
 		BalanceTable balanceTable;
 		double result = 0;
 		amount = format(amount);
@@ -215,7 +215,7 @@ public class Account {
 				}
 				Common.getInstance().getDatabaseManager().getDatabase().save(balanceTable);
 
-				Common.getInstance().writeLog(LogInfo.DEPOSIT, cause, this, amount, currency, world);
+				Common.getInstance().writeLog(LogInfo.DEPOSIT, cause, causeReason, this, amount, currency, world);
 				result = balanceTable.getBalance();
 			} else {
 				result = Double.MAX_VALUE;
@@ -234,7 +234,7 @@ public class Account {
 	 * @return The new balance. If the account has infinite money. Double.MAX_VALUE is returned.
 	 */
 	public double withdraw(double amount, String world, String currencyName) {
-		return withdraw(amount, world, currencyName, Cause.UNKNOWN);
+		return withdraw(amount, world, currencyName, Cause.UNKNOWN, null);
 	}
 
 	/**
@@ -245,7 +245,7 @@ public class Account {
 	 * @param cause The cause of the change.
 	 * @return The new balance. If the account has infinite money. Double.MAX_VALUE is returned.
 	 */
-	public double withdraw(double amount, String world, String currencyName, Cause cause) {
+	public double withdraw(double amount, String world, String currencyName, Cause cause, String causeReason) {
 		BalanceTable balanceTable;
 		double result = 0;
 		amount = format(amount);
@@ -266,7 +266,7 @@ public class Account {
 					balanceTable.setBalance(amount);
 				}
 				Common.getInstance().getDatabaseManager().getDatabase().save(balanceTable);
-				Common.getInstance().writeLog(LogInfo.WITHDRAW, cause, this, amount, currency, world);
+				Common.getInstance().writeLog(LogInfo.WITHDRAW, cause, causeReason, this, amount, currency, world);
 				result = balanceTable.getBalance();
 			} else {
 				result = Double.MAX_VALUE;
@@ -284,7 +284,7 @@ public class Account {
 	 * @return The new balance
 	 */
 	public double set(double amount, String world, String currencyName) {
-		return set(amount,world,currencyName, Cause.UNKNOWN);
+		return set(amount,world,currencyName, Cause.UNKNOWN, null);
 	}
 
 	/**
@@ -295,7 +295,7 @@ public class Account {
 	 * @param cause The cause of the change.
 	 * @return The new balance. If the account has infinite money. Double.MAX_VALUE is returned.
 	 */
-	public double set(double amount, String world, String currencyName, Cause cause) {
+	public double set(double amount, String world, String currencyName, Cause cause, String causeReason) {
 		BalanceTable balanceTable;
 		double result = 0;
 		amount = format(amount);
@@ -314,7 +314,7 @@ public class Account {
 					balanceTable.setBalance(amount);
 				}
 				Common.getInstance().getDatabaseManager().getDatabase().save(balanceTable);
-				Common.getInstance().writeLog(LogInfo.SET, cause, this, amount, currency, newWorld);
+				Common.getInstance().writeLog(LogInfo.SET, cause, causeReason, this, amount, currency, newWorld);
 				result = balanceTable.getBalance();
 			}
 

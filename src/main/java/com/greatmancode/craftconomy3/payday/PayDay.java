@@ -23,6 +23,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 
+import com.greatmancode.craftconomy3.Cause;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.database.tables.PayDayTable;
 
@@ -77,12 +78,12 @@ public class PayDay implements Runnable {
 				Common.getInstance().sendConsoleMessage(Level.INFO, "{{DARK_RED}}Impossible to give a wage for the payday {{WHITE}}" + getName() + "{{DARK_RED}}. The account doesn't have enough money!");
 				return;
 			}
-			Common.getInstance().getAccountManager().getAccount(getAccount()).withdraw(getValue() * list.size(), getWorldName(), Common.getInstance().getCurrencyManager().getCurrency(getCurrencyId()).getName());
+			Common.getInstance().getAccountManager().getAccount(getAccount()).withdraw(getValue() * list.size(), getWorldName(), Common.getInstance().getCurrencyManager().getCurrency(getCurrencyId()).getName(), Cause.PAYDAY_WAGE, getName());
 		}
 		Iterator<String> listIterator = list.iterator();
 		while (listIterator.hasNext()) {
 			String p = listIterator.next();
-			Common.getInstance().getAccountManager().getAccount(p).deposit(getValue(), getWorldName(), Common.getInstance().getCurrencyManager().getCurrency(getCurrencyId()).getName());
+			Common.getInstance().getAccountManager().getAccount(p).deposit(getValue(), getWorldName(), Common.getInstance().getCurrencyManager().getCurrency(getCurrencyId()).getName(), Cause.PAYDAY_WAGE, getName());
 			Common.getInstance().getServerCaller().sendMessage(p, "{{DARK_GREEN}}Payday! You received " + Common.getInstance().format(getWorldName(), Common.getInstance().getCurrencyManager().getCurrency(getCurrencyId()), getValue()));
 		}
 	}
@@ -92,9 +93,9 @@ public class PayDay implements Runnable {
 		while (listIterator.hasNext()) {
 			String p = listIterator.next();
 			if (Common.getInstance().getAccountManager().getAccount(p).hasEnough(getValue(), getWorldName(), Common.getInstance().getCurrencyManager().getCurrency(getCurrencyId()).getName())) {
-				Common.getInstance().getAccountManager().getAccount(p).withdraw(getValue(), getWorldName(), Common.getInstance().getCurrencyManager().getCurrency(getCurrencyId()).getName());
+				Common.getInstance().getAccountManager().getAccount(p).withdraw(getValue(), getWorldName(), Common.getInstance().getCurrencyManager().getCurrency(getCurrencyId()).getName(), Cause.PAYDAY_TAX, getName());
 				if (!getAccount().equals("")) {
-					Common.getInstance().getAccountManager().getAccount(getAccount()).deposit(getValue(), getWorldName(), Common.getInstance().getCurrencyManager().getCurrency(getCurrencyId()).getName());
+					Common.getInstance().getAccountManager().getAccount(getAccount()).deposit(getValue(), getWorldName(), Common.getInstance().getCurrencyManager().getCurrency(getCurrencyId()).getName(), Cause.PAYDAY_TAX, getName());
 				}
 			} else {
 				Common.getInstance().getServerCaller().sendMessage(p, "{{RED}}Not enough money to pay for your taxes!");

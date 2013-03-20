@@ -28,6 +28,7 @@ import com.alta189.simplesave.exceptions.ConnectionException;
 import com.alta189.simplesave.exceptions.TableRegistrationException;
 import com.alta189.simplesave.mysql.MySQLConfiguration;
 import com.alta189.simplesave.sqlite.SQLiteConfiguration;
+import com.greatmancode.craftconomy3.Cause;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.account.Account;
 import com.greatmancode.craftconomy3.converter.Converter;
@@ -170,7 +171,7 @@ public class Craftconomy2 extends Converter {
 						BalanceTable balanceEntry = balanceIterator.next();
 						CurrencyTable currency = db.select(CurrencyTable.class).where().equal("id", balanceEntry.getCurrencyId()).execute().findOne();
 						if (currency != null) {
-							Common.getInstance().getAccountManager().getAccount(entry.getUsername()).set(balanceEntry.getBalance(), balanceEntry.getWorldName(), currency.getName());
+							Common.getInstance().getAccountManager().getAccount(entry.getUsername()).set(balanceEntry.getBalance(), balanceEntry.getWorldName(), currency.getName(), Cause.CONVERT, null);
 						}
 					}
 				}
@@ -199,7 +200,7 @@ public class Craftconomy2 extends Converter {
 						BankBalanceTable balanceEntry = bankBalanceIterator.next();
 						CurrencyTable currency = db.select(CurrencyTable.class).where().equal("id", balanceEntry.getCurrencyId()).execute().findOne();
 						if (currency != null) {
-							Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + entry.getName()).set(balanceEntry.getBalance(), balanceEntry.getWorldName(), currency.getName());
+							Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + entry.getName()).set(balanceEntry.getBalance(), balanceEntry.getWorldName(), currency.getName(), Cause.CONVERT, null);
 						}
 					}
 				}

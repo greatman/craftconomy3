@@ -18,6 +18,7 @@
  */
 package com.greatmancode.craftconomy3.commands.bank;
 
+import com.greatmancode.craftconomy3.Cause;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.account.Account;
 import com.greatmancode.craftconomy3.commands.interfaces.CraftconomyCommand;
@@ -49,7 +50,7 @@ public class BankGiveCommand extends CraftconomyCommand {
 					worldName = Common.getInstance().getWorldGroupManager().getWorldGroupName(args[3]);
 				}
 
-				bankAccount.deposit(amount, worldName, currency.getName());
+				bankAccount.deposit(amount, worldName, currency.getName(), Cause.USER, sender);
 				Common.getInstance().getServerCaller().sendMessage(sender, String.format(Common.getInstance().getLanguageManager().getString("bank_give_success"), Common.getInstance().format(worldName, currency, amount), args[0]));
 			} else {
 				Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("invalid_amount"));

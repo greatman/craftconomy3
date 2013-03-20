@@ -18,6 +18,7 @@
  */
 package com.greatmancode.craftconomy3.commands.bank;
 
+import com.greatmancode.craftconomy3.Cause;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.account.Account;
 import com.greatmancode.craftconomy3.commands.interfaces.CraftconomyCommand;
@@ -43,8 +44,8 @@ public class BankDepositCommand extends CraftconomyCommand {
 					}
 					Account playerAccount = Common.getInstance().getAccountManager().getAccount(sender);
 					if (playerAccount.hasEnough(amount, playerAccount.getWorldGroupOfPlayerCurrentlyIn(), currency.getName())) {
-						playerAccount.withdraw(amount, playerAccount.getWorldGroupOfPlayerCurrentlyIn(), currency.getName());
-						bankAccount.deposit(amount, playerAccount.getWorldGroupOfPlayerCurrentlyIn(), currency.getName());
+						playerAccount.withdraw(amount, playerAccount.getWorldGroupOfPlayerCurrentlyIn(), currency.getName(), Cause.BANK_DEPOSIT, bankAccount.getAccountName());
+						bankAccount.deposit(amount, playerAccount.getWorldGroupOfPlayerCurrentlyIn(), currency.getName(), Cause.BANK_DEPOSIT, sender);
 						Common.getInstance().getServerCaller().sendMessage(sender, String.format(Common.getInstance().getLanguageManager().getString("deposited"), Common.getInstance().format(null, currency, amount), args[0]));
 					} else {
 						Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("not_enough_money"));

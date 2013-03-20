@@ -18,6 +18,7 @@
  */
 package com.greatmancode.craftconomy3.commands.money;
 
+import com.greatmancode.craftconomy3.Cause;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.account.Account;
 import com.greatmancode.craftconomy3.commands.interfaces.CraftconomyCommand;
@@ -49,7 +50,7 @@ public class SetCommand extends CraftconomyCommand {
 					worldName = Common.getInstance().getWorldGroupManager().getWorldGroupName(args[3]);
 				}
 
-				Common.getInstance().getAccountManager().getAccount(args[0]).set(amount, worldName, currency.getName());
+				Common.getInstance().getAccountManager().getAccount(args[0]).set(amount, worldName, currency.getName(), Cause.USER, sender);
 				Common.getInstance().getServerCaller().sendMessage(sender, String.format(Common.getInstance().getLanguageManager().getString("money_set"), args[0], Common.getInstance().format(worldName, currency, amount)));
 				if (Common.getInstance().getServerCaller().isOnline(args[0])) {
 					Common.getInstance().getServerCaller().sendMessage(args[0], String.format(Common.getInstance().getLanguageManager().getString("money_set_other"), Common.getInstance().format(worldName, currency, amount), sender));

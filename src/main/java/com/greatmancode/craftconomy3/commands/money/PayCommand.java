@@ -18,6 +18,7 @@
  */
 package com.greatmancode.craftconomy3.commands.money;
 
+import com.greatmancode.craftconomy3.Cause;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.account.Account;
 import com.greatmancode.craftconomy3.commands.interfaces.CraftconomyCommand;
@@ -42,8 +43,8 @@ public class PayCommand extends CraftconomyCommand {
 				boolean hasEnough = Common.getInstance().getAccountManager().getAccount(sender).hasEnough(amount, Common.getInstance().getAccountManager().getAccount(sender).getWorldGroupOfPlayerCurrentlyIn(), currency.getName());
 
 				if (hasEnough) {
-					Common.getInstance().getAccountManager().getAccount(sender).withdraw(amount, Common.getInstance().getAccountManager().getAccount(sender).getWorldGroupOfPlayerCurrentlyIn(), currency.getName());
-					Common.getInstance().getAccountManager().getAccount(args[0]).deposit(amount, Common.getInstance().getAccountManager().getAccount(sender).getWorldGroupOfPlayerCurrentlyIn(), currency.getName());
+					Common.getInstance().getAccountManager().getAccount(sender).withdraw(amount, Common.getInstance().getAccountManager().getAccount(sender).getWorldGroupOfPlayerCurrentlyIn(), currency.getName(), Cause.USER, args[0]);
+					Common.getInstance().getAccountManager().getAccount(args[0]).deposit(amount, Common.getInstance().getAccountManager().getAccount(sender).getWorldGroupOfPlayerCurrentlyIn(), currency.getName(), Cause.USER, sender);
 					Common.getInstance().getServerCaller().sendMessage(sender, String.format(Common.getInstance().getLanguageManager().getString("money_pay_sent"), Common.getInstance().format(null, currency, amount), args[0]));
 					if (Common.getInstance().getServerCaller().isOnline(args[0])) {
 						Common.getInstance().getServerCaller().sendMessage(args[0], String.format(Common.getInstance().getLanguageManager().getString("money_pay_received"), Common.getInstance().format(null, currency, amount), sender));
