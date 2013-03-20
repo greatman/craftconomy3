@@ -48,6 +48,7 @@ import com.greatmancode.craftconomy3.commands.currency.CurrencyEditCommand;
 import com.greatmancode.craftconomy3.commands.currency.CurrencyExchangeCommand;
 import com.greatmancode.craftconomy3.commands.currency.CurrencyHelpCommand;
 import com.greatmancode.craftconomy3.commands.currency.CurrencyInfoCommand;
+import com.greatmancode.craftconomy3.commands.currency.CurrencyRatesCommand;
 import com.greatmancode.craftconomy3.commands.group.GroupAddWorldCommand;
 import com.greatmancode.craftconomy3.commands.group.GroupCreateCommand;
 import com.greatmancode.craftconomy3.commands.group.GroupDelWorldCommand;
@@ -152,6 +153,7 @@ public class CommandLoader {
 			currencyCommand.registerCommand("", new CurrencyHelpCommand());
 			currencyCommand.registerCommand("default", new CurrencyDefaultCommand());
 			currencyCommand.registerCommand("exchange", new CurrencyExchangeCommand());
+			currencyCommand.registerCommand("rates", new CurrencyRatesCommand());
 			commandList.put("currency", currencyCommand);
 
 			CommandHandler configCommand = new CommandHandler("craftconomy", "config related commands", false);

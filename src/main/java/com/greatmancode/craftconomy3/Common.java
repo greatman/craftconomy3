@@ -400,9 +400,7 @@ public class Common {
 	 * @param worldName The world name associated with this transaction
 	 */
 	public void writeLog(LogInfo info, Cause cause, String causeReason, Account account, double amount, Currency currency, String worldName) {
-		System.out.println("LOGGING:" + info + ":" + cause + ":" + causeReason + ":" + account.getAccountName() + ":" + amount);
 		if (getConfigurationManager().getConfig().getBoolean("System.Logging.Enabled")) {
-			System.out.println("logging...");
 			LogTable log = new LogTable();
 			log.username_id = account.getAccountID();
 			log.amount = amount;
@@ -412,7 +410,6 @@ public class Common {
 			log.currencyName = currency.getName();
 			log.worldName = worldName;
 			getDatabaseManager().getDatabase().save(log);
-			System.out.println("LOGGED!");
 		}
 	}
 

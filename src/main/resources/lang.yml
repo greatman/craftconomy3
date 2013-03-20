@@ -167,3 +167,5 @@ money_log_header: "{{DARK_GREEN}} Money Log | Page {{WHITE}}%s {{DARK_GREEN}} | 
 money_log_cmd_help: "/money log <page> [Account Name] - Show the account log"
 bank_list_cmd_help: "/bank list - List all the bank accounts you have access"
 bank_account_list: "List of bank accounts: %s"
+currency_rates_cmd_help: "/currency rates - Show all the exchange rates available."
+rates_header: "{{DARK_GREEN}}[Currency rates]"
