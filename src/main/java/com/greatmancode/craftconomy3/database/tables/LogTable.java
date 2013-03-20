@@ -26,28 +26,20 @@ import com.greatmancode.craftconomy3.LogInfo;
 
 @Table("log")
 public class LogTable {
-
 	@Id
 	public int id;
-
 	@Field
 	public int username_id;
-
 	@Field
 	public double amount;
-
 	@Field
 	public LogInfo type;
-
 	@Field
 	public Cause cause;
-
 	@Field
 	public String causeReason;
-
 	@Field
 	public String currencyName;
-
 	@Field
 	public String worldName;
 }

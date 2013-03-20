@@ -22,7 +22,7 @@ import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.account.Account;
 import com.greatmancode.craftconomy3.commands.interfaces.CraftconomyCommand;
 
-public class InfiniteCommand extends CraftconomyCommand{
+public class InfiniteCommand extends CraftconomyCommand {
 	@Override
 	public void execute(String sender, String[] args) {
 		if (Common.getInstance().getAccountManager().exist(args[0])) {
@@ -30,11 +30,10 @@ public class InfiniteCommand extends CraftconomyCommand{
 			if (account.hasInfiniteMoney()) {
 				account.setInfiniteMoney(false);
 				Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("money_infinite_set_false"));
-			} else  {
+			} else {
 				account.setInfiniteMoney(true);
 				Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("money_infinite_set_true"));
 			}
-
 		} else {
 			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("account_not_exist"));
 		}

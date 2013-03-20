@@ -169,7 +169,6 @@ public class Account {
 			} else {
 				balance = Double.MAX_VALUE;
 			}
-
 		}
 		return balance;
 	}
@@ -220,7 +219,6 @@ public class Account {
 			} else {
 				result = Double.MAX_VALUE;
 			}
-
 		}
 
 		return result;
@@ -271,7 +269,6 @@ public class Account {
 			} else {
 				result = Double.MAX_VALUE;
 			}
-
 		}
 		return result;
 	}
@@ -284,7 +281,7 @@ public class Account {
 	 * @return The new balance
 	 */
 	public double set(double amount, String world, String currencyName) {
-		return set(amount,world,currencyName, Cause.UNKNOWN, null);
+		return set(amount, world, currencyName, Cause.UNKNOWN, null);
 	}
 
 	/**
@@ -317,7 +314,6 @@ public class Account {
 				Common.getInstance().writeLog(LogInfo.SET, cause, causeReason, this, amount, currency, newWorld);
 				result = balanceTable.getBalance();
 			}
-
 		}
 		return result;
 	}

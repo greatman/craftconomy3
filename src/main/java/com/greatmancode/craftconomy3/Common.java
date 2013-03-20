@@ -18,11 +18,7 @@
  */
 package com.greatmancode.craftconomy3;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -100,7 +96,7 @@ public class Common {
 			if (!config.getConfig().has("System.Database.Prefix")) {
 				config.getConfig().setValue("System.Database.Prefix", "cc3_");
 			}
-			
+
 			languageManager = new LanguageManager();
 			try {
 				metrics = new Metrics("Craftconomy", this.getServerCaller().getPluginVersion());

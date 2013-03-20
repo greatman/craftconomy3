@@ -24,11 +24,7 @@ import com.alta189.simplesave.query.SelectQuery;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.account.Account;
 import com.greatmancode.craftconomy3.commands.interfaces.CraftconomyCommand;
-import com.greatmancode.craftconomy3.currency.Currency;
-import com.greatmancode.craftconomy3.database.tables.AccountTable;
-import com.greatmancode.craftconomy3.database.tables.BalanceTable;
 import com.greatmancode.craftconomy3.database.tables.LogTable;
-import com.greatmancode.craftconomy3.groups.WorldGroupsManager;
 
 class LogCommandThread implements Runnable {
 	public static final int NUMBER_ELEMENTS = 10;

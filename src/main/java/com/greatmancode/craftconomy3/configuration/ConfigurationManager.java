@@ -136,7 +136,7 @@ public class ConfigurationManager {
 			alertOldDbVersion(dbVersion.getValue(), 4);
 			Common.getInstance().getLogger().info("Converting worlds to the new format.");
 			Common.getInstance().initializeWorldGroup();
-			ResultSet result = Common.getInstance().getDatabaseManager().getDatabase().directQueryWithResult("SELECT DISTINCT worldName FROM "+ Common.getInstance().getConfigurationManager().getConfig().getString("System.Database.Prefix") + "balance");
+			ResultSet result = Common.getInstance().getDatabaseManager().getDatabase().directQueryWithResult("SELECT DISTINCT worldName FROM " + Common.getInstance().getConfigurationManager().getConfig().getString("System.Database.Prefix") + "balance");
 			try {
 				while (result.next()) {
 					String entry = result.getString("worldName");
@@ -163,7 +163,7 @@ public class ConfigurationManager {
 			Common.getInstance().sendConsoleMessage(Level.INFO, "Notice: This may take some time.");
 			List<BalanceTable> entryList = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).execute().find();
 			int amount = 0;
-			for (BalanceTable entry: entryList) {
+			for (BalanceTable entry : entryList) {
 				entry.setBalance(Account.format(entry.getBalance()));
 				Common.getInstance().getDatabaseManager().getDatabase().save(entry);
 				if (amount % 100 == 0) {

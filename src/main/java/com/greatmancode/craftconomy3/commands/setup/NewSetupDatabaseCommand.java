@@ -143,7 +143,6 @@ public class NewSetupDatabaseCommand extends CraftconomyCommand {
 				VALUES.put("prefix", args[1]);
 				Common.getInstance().getConfigurationManager().getConfig().setValue("System.Database.Prefix", args[1]);
 				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Done! Please wait while the database is initializing.");
-
 			}
 		}
 

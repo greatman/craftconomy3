@@ -27,7 +27,6 @@ import com.greatmancode.craftconomy3.commands.interfaces.CommandManager;
 import com.greatmancode.craftconomy3.commands.managers.SpoutCommandManager;
 
 import org.spout.api.Server;
-import org.spout.api.Spout;
 import org.spout.api.chat.ChatArguments;
 import org.spout.api.entity.Player;
 import org.spout.api.scheduler.TaskPriority;

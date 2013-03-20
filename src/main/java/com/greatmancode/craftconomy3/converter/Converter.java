@@ -156,7 +156,6 @@ public abstract class Converter {
 				if (iterator.hasNext()) {
 					stringBuilder.append(",");
 				}
-
 			} else {
 				Common.getInstance().getDatabaseManager().getDatabase().directQuery(stringBuilder.toString());
 				first = false;

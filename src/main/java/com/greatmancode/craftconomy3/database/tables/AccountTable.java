@@ -26,10 +26,8 @@ import com.alta189.simplesave.Table;
 public class AccountTable {
 	@Id
 	private int id;
-
 	@Field
 	private String name;
-
 	@Field
 	private boolean infiniteMoney;
 
