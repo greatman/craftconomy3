@@ -21,6 +21,7 @@ package com.greatmancode.craftconomy3.database.tables;
 import com.alta189.simplesave.Field;
 import com.alta189.simplesave.Id;
 import com.alta189.simplesave.Table;
+import com.greatmancode.craftconomy3.account.Account;
 
 @Table("account")
 public class AccountTable {
@@ -53,5 +54,10 @@ public class AccountTable {
 
 	public void setInfiniteMoney(boolean infiniteMoney) {
 		this.infiniteMoney = infiniteMoney;
+	}
+
+	@Override
+	public String toString() {
+		return getName().replace(Account.BANK_PREFIX, "");
 	}
 }
