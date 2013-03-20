@@ -135,6 +135,9 @@ public class Common {
 				startUp();
 				sendConsoleMessage(Level.INFO, getLanguageManager().getString("ready"));
 			}
+
+			//TODO: Let's make that less ugly shall we?
+			getServerCaller().registerPermission("craftconomy.money.log.others");
 			initialized = true;
 		}
 	}
