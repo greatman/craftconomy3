@@ -161,10 +161,15 @@ public class Account {
 		}
 		Currency currency = Common.getInstance().getCurrencyManager().getCurrency(currencyName);
 		if (currency != null) {
-			BalanceTable balanceTable = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal(BalanceTable.USERNAME_ID_FIELD, account.getId()).and().equal(BalanceTable.CURRENCY_ID_FIELD, currency.getDatabaseID()).and().equal(BalanceTable.WORLD_NAME_FIELD, world).execute().findOne();
-			if (balanceTable != null) {
-				balance = balanceTable.getBalance();
+			if (!hasInfiniteMoney()) {
+				BalanceTable balanceTable = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal(BalanceTable.USERNAME_ID_FIELD, account.getId()).and().equal(BalanceTable.CURRENCY_ID_FIELD, currency.getDatabaseID()).and().equal(BalanceTable.WORLD_NAME_FIELD, world).execute().findOne();
+				if (balanceTable != null) {
+					balance = balanceTable.getBalance();
+				}
+			} else {
+				balance = Double.MAX_VALUE;
 			}
+
 		}
 		return balance;
 	}
@@ -174,7 +179,7 @@ public class Account {
 	 * @param amount The amount of money to add
 	 * @param world The World / World group we want to add money in
 	 * @param currencyName The currency we want to add money in
-	 * @return The new balance
+	 * @return The new balance. If the account has infinite money. Double.MAX_VALUE is returned.
 	 */
 	public double deposit(double amount, String world, String currencyName) {
 		return deposit(amount, world, currencyName, Cause.UNKNOWN);
@@ -186,7 +191,7 @@ public class Account {
 	 * @param world The World / World group we want to add money in
 	 * @param currencyName The currency we want to add money in
 	 * @param cause The cause of the change.
-	 * @return The new balance
+	 * @return The new balance. If the account has infinite money. Double.MAX_VALUE is returned.
 	 */
 	public double deposit(double amount, String world, String currencyName, Cause cause) {
 		BalanceTable balanceTable = null;
@@ -197,20 +202,25 @@ public class Account {
 		}
 		Currency currency = Common.getInstance().getCurrencyManager().getCurrency(currencyName);
 		if (currency != null) {
-			balanceTable = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal(BalanceTable.USERNAME_ID_FIELD, account.getId()).and().equal(BalanceTable.CURRENCY_ID_FIELD, currency.getDatabaseID()).and().equal(BalanceTable.WORLD_NAME_FIELD, world).execute().findOne();
-			if (balanceTable != null) {
-				balanceTable.setBalance(balanceTable.getBalance() + amount);
-			} else {
-				balanceTable = new BalanceTable();
-				balanceTable.setCurrencyId(currency.getDatabaseID());
-				balanceTable.setUsernameId(account.getId());
-				balanceTable.setWorldName(world);
-				balanceTable.setBalance(amount);
-			}
-			Common.getInstance().getDatabaseManager().getDatabase().save(balanceTable);
+			if (!hasInfiniteMoney()) {
+				balanceTable = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal(BalanceTable.USERNAME_ID_FIELD, account.getId()).and().equal(BalanceTable.CURRENCY_ID_FIELD, currency.getDatabaseID()).and().equal(BalanceTable.WORLD_NAME_FIELD, world).execute().findOne();
+				if (balanceTable != null) {
+					balanceTable.setBalance(balanceTable.getBalance() + amount);
+				} else {
+					balanceTable = new BalanceTable();
+					balanceTable.setCurrencyId(currency.getDatabaseID());
+					balanceTable.setUsernameId(account.getId());
+					balanceTable.setWorldName(world);
+					balanceTable.setBalance(amount);
+				}
+				Common.getInstance().getDatabaseManager().getDatabase().save(balanceTable);
 
-			Common.getInstance().writeLog(LogInfo.DEPOSIT, cause, this, amount, currency, world);
-			result = balanceTable.getBalance();
+				Common.getInstance().writeLog(LogInfo.DEPOSIT, cause, this, amount, currency, world);
+				result = balanceTable.getBalance();
+			} else {
+				result = Double.MAX_VALUE;
+			}
+
 		}
 
 		return result;
@@ -221,7 +231,7 @@ public class Account {
 	 * @param amount The amount of money to withdraw
 	 * @param world The World / World group we want to withdraw money from
 	 * @param currencyName The currency we want to withdraw money from
-	 * @return The new balance
+	 * @return The new balance. If the account has infinite money. Double.MAX_VALUE is returned.
 	 */
 	public double withdraw(double amount, String world, String currencyName) {
 		return withdraw(amount, world, currencyName, Cause.UNKNOWN);
@@ -233,7 +243,7 @@ public class Account {
 	 * @param world The World / World group we want to withdraw money from
 	 * @param currencyName The currency we want to withdraw money from
 	 * @param cause The cause of the change.
-	 * @return The new balance
+	 * @return The new balance. If the account has infinite money. Double.MAX_VALUE is returned.
 	 */
 	public double withdraw(double amount, String world, String currencyName, Cause cause) {
 		BalanceTable balanceTable = null;
@@ -244,19 +254,24 @@ public class Account {
 		}
 		Currency currency = Common.getInstance().getCurrencyManager().getCurrency(currencyName);
 		if (currency != null) {
-			balanceTable = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal(BalanceTable.USERNAME_ID_FIELD, account.getId()).and().equal(BalanceTable.CURRENCY_ID_FIELD, currency.getDatabaseID()).and().equal(BalanceTable.WORLD_NAME_FIELD, world).execute().findOne();
-			if (balanceTable != null) {
-				balanceTable.setBalance(balanceTable.getBalance() - amount);
+			if (!hasInfiniteMoney()) {
+				balanceTable = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal(BalanceTable.USERNAME_ID_FIELD, account.getId()).and().equal(BalanceTable.CURRENCY_ID_FIELD, currency.getDatabaseID()).and().equal(BalanceTable.WORLD_NAME_FIELD, world).execute().findOne();
+				if (balanceTable != null) {
+					balanceTable.setBalance(balanceTable.getBalance() - amount);
+				} else {
+					balanceTable = new BalanceTable();
+					balanceTable.setCurrencyId(currency.getDatabaseID());
+					balanceTable.setUsernameId(account.getId());
+					balanceTable.setWorldName(world);
+					balanceTable.setBalance(amount);
+				}
+				Common.getInstance().getDatabaseManager().getDatabase().save(balanceTable);
+				Common.getInstance().writeLog(LogInfo.WITHDRAW, cause, this, amount, currency, world);
+				result = balanceTable.getBalance();
 			} else {
-				balanceTable = new BalanceTable();
-				balanceTable.setCurrencyId(currency.getDatabaseID());
-				balanceTable.setUsernameId(account.getId());
-				balanceTable.setWorldName(world);
-				balanceTable.setBalance(amount);
+				result = Double.MAX_VALUE;
 			}
-			Common.getInstance().getDatabaseManager().getDatabase().save(balanceTable);
-			Common.getInstance().writeLog(LogInfo.WITHDRAW, cause, this, amount, currency, world);
-			result = balanceTable.getBalance();
+
 		}
 		return result;
 	}
@@ -278,7 +293,7 @@ public class Account {
 	 * @param world The World / World group we want to set money to
 	 * @param currencyName The currency we want to set money to
 	 * @param cause The cause of the change.
-	 * @return The new balance
+	 * @return The new balance. If the account has infinite money. Double.MAX_VALUE is returned.
 	 */
 	public double set(double amount, String world, String currencyName, Cause cause) {
 		BalanceTable balanceTable = null;
@@ -287,19 +302,22 @@ public class Account {
 		String newWorld = Common.getInstance().getWorldGroupManager().getWorldGroupName(world);
 		Currency currency = Common.getInstance().getCurrencyManager().getCurrency(currencyName);
 		if (currency != null) {
-			balanceTable = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal(BalanceTable.USERNAME_ID_FIELD, account.getId()).and().equal(BalanceTable.CURRENCY_ID_FIELD, currency.getDatabaseID()).and().equal(BalanceTable.WORLD_NAME_FIELD, newWorld).execute().findOne();
-			if (balanceTable != null) {
-				balanceTable.setBalance(amount);
-			} else {
-				balanceTable = new BalanceTable();
-				balanceTable.setCurrencyId(currency.getDatabaseID());
-				balanceTable.setUsernameId(account.getId());
-				balanceTable.setWorldName(newWorld);
-				balanceTable.setBalance(amount);
+			if (!hasInfiniteMoney()) {
+				balanceTable = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal(BalanceTable.USERNAME_ID_FIELD, account.getId()).and().equal(BalanceTable.CURRENCY_ID_FIELD, currency.getDatabaseID()).and().equal(BalanceTable.WORLD_NAME_FIELD, newWorld).execute().findOne();
+				if (balanceTable != null) {
+					balanceTable.setBalance(amount);
+				} else {
+					balanceTable = new BalanceTable();
+					balanceTable.setCurrencyId(currency.getDatabaseID());
+					balanceTable.setUsernameId(account.getId());
+					balanceTable.setWorldName(newWorld);
+					balanceTable.setBalance(amount);
+				}
+				Common.getInstance().getDatabaseManager().getDatabase().save(balanceTable);
+				Common.getInstance().writeLog(LogInfo.SET, cause, this, amount, currency, newWorld);
+				result = balanceTable.getBalance();
 			}
-			Common.getInstance().getDatabaseManager().getDatabase().save(balanceTable);
-			Common.getInstance().writeLog(LogInfo.SET, cause, this, amount, currency, newWorld);
-			result = balanceTable.getBalance();
+
 		}
 		return result;
 	}
@@ -318,7 +336,7 @@ public class Account {
 			worldName = Common.getInstance().getWorldGroupManager().getWorldGroupName(worldName);
 		}
 		Currency currency = Common.getInstance().getCurrencyManager().getCurrency(currencyName);
-		if (currency != null && getBalance(worldName, currencyName) >= amount) {
+		if (currency != null && (getBalance(worldName, currencyName) >= amount || hasInfiniteMoney())) {
 			result = true;
 		}
 		return result;
@@ -339,6 +357,23 @@ public class Account {
 	 */
 	public String getWorldGroupOfPlayerCurrentlyIn() {
 		return Common.getInstance().getWorldGroupManager().getWorldGroupName(getWorldPlayerCurrentlyIn());
+	}
+
+	/**
+	 * Sets the account to have infinite money.
+	 * @param infinite True if the account should have infinite money. Else false.
+	 */
+	public void setInfiniteMoney(boolean infinite) {
+		account.setInfiniteMoney(infinite);
+		Common.getInstance().getDatabaseManager().getDatabase().save(account);
+	}
+
+	/**
+	 * Checks if the account have infinite money
+	 * @return True if the account have infinite money. Else false.
+	 */
+	public boolean hasInfiniteMoney() {
+		return account.hasInfiniteMoney();
 	}
 
 	/**

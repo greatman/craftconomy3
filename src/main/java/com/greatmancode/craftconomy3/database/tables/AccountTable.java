@@ -26,8 +26,12 @@ import com.alta189.simplesave.Table;
 public class AccountTable {
 	@Id
 	private int id;
+
 	@Field
 	private String name;
+
+	@Field
+	private boolean infiniteMoney;
 
 	public int getId() {
 		return id;
@@ -43,5 +47,13 @@ public class AccountTable {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public boolean hasInfiniteMoney() {
+		return infiniteMoney;
+	}
+
+	public void setInfiniteMoney(boolean infiniteMoney) {
+		this.infiniteMoney = infiniteMoney;
 	}
 }

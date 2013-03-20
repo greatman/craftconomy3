@@ -61,6 +61,7 @@ import com.greatmancode.craftconomy3.commands.money.DeleteCommand;
 import com.greatmancode.craftconomy3.commands.money.ExchangeCommand;
 import com.greatmancode.craftconomy3.commands.money.GiveCommand;
 import com.greatmancode.craftconomy3.commands.money.HelpCommand;
+import com.greatmancode.craftconomy3.commands.money.InfiniteCommand;
 import com.greatmancode.craftconomy3.commands.money.MainCommand;
 import com.greatmancode.craftconomy3.commands.money.PayCommand;
 import com.greatmancode.craftconomy3.commands.money.SetCommand;
@@ -116,6 +117,7 @@ public class CommandLoader {
 			moneyCommand.registerCommand("balance", new BalanceCommand());
 			moneyCommand.registerCommand("top", new TopCommand());
 			moneyCommand.registerCommand("exchange", new ExchangeCommand());
+			moneyCommand.registerCommand("infinite", new InfiniteCommand());
 			commandList.put("money", moneyCommand);
 
 			CommandHandler bankCommand = new CommandHandler("bank", "Bank related commands.", false);

@@ -51,6 +51,12 @@ public class TestAccount {
 		account.withdraw(0.35, UnitTestCaller.worldName, Common.getInstance().getCurrencyManager().getDefaultCurrency().getName());
 		account2.deposit(0.35, UnitTestCaller.worldName, Common.getInstance().getCurrencyManager().getDefaultCurrency().getName());
 		assertTrue(account.hasEnough(49.65, UnitTestCaller.worldName, Common.getInstance().getCurrencyManager().getDefaultCurrency().getName()));
-		assertTrue(account.hasEnough(0.35, UnitTestCaller.worldName, Common.getInstance().getCurrencyManager().getDefaultCurrency().getName()));
+		assertTrue(account2.hasEnough(0.35, UnitTestCaller.worldName, Common.getInstance().getCurrencyManager().getDefaultCurrency().getName()));
+
+		account2.setInfiniteMoney(true);
+		assertTrue(account2.hasEnough(99999999, UnitTestCaller.worldName, Common.getInstance().getCurrencyManager().getDefaultCurrency().getName()));
+		account2.setInfiniteMoney(false);
+		assertFalse(account2.hasEnough(99999999, UnitTestCaller.worldName, Common.getInstance().getCurrencyManager().getDefaultCurrency().getName()));
+
 	}
 }
