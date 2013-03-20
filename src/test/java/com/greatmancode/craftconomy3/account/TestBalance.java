@@ -24,7 +24,7 @@ import junit.framework.TestCase;
 
 public class TestBalance extends TestCase {
 	public void testBalance() {
-		Balance balance = new Balance(null, null, 0.0);
+		new Balance(null, null, 0.0);
 	}
 
 	public void testGetWorld() {

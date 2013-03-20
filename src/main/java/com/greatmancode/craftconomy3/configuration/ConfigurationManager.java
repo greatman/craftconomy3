@@ -42,7 +42,6 @@ import com.greatmancode.craftconomy3.database.tables.PayDayTable;
 public class ConfigurationManager {
 	private Config config = null;
 	private int bankCurrencyId;
-	private boolean multiworld;
 	private String displayFormat;
 	private double bankPrice, holdings;
 

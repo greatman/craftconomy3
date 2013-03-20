@@ -54,7 +54,7 @@ public class SpoutCaller implements Caller {
 
 	@Override
 	public boolean checkPermission(String playerName, String perm) {
-		boolean result = false;
+		boolean result;
 		Player p = loader.getEngine().getPlayer(playerName, true);
 		if (p != null) {
 			result = p.hasPermission(perm);

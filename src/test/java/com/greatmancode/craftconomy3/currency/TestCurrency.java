@@ -24,98 +24,72 @@ public class TestCurrency extends TestCase {
 	//TODO: Null tests
 	public void testGetName() {
 		Currency currency = new Currency(1, "test", "plural", "minor", "minorplural", 0.0, "$");
-		if (!currency.getName().equals("test")) {
-			fail("getName fail");
-		}
+		assertEquals("test", currency.getName());
 	}
 
 	public void testSetName() {
 		Currency currency = new Currency(1, "test", "plural", "minor", "minorplural", 0.0, "$");
 		currency.setName("testing");
-		if (!currency.getName().equals("testing")) {
-			fail("setName fail");
-		}
+		assertEquals("testing", currency.getName());
 	}
 
 	public void testGetPlural() {
 		Currency currency = new Currency(1, "test", "plural", "minor", "minorplural", 0.0, "$");
-		if (!currency.getPlural().equals("plural")) {
-			fail("getPlural fail");
-		}
+		assertEquals("plural", currency.getPlural());
 	}
 
 	public void testSetPlural() {
 		Currency currency = new Currency(1, "test", "plural", "minor", "minorplural", 0.0, "$");
 		currency.setPlural("plurall");
-		if (!currency.getPlural().equals("plurall")) {
-			fail("setPlural fail");
-		}
+		assertEquals("plurall", currency.getPlural());
 	}
 
 	public void testGetMinor() {
 		Currency currency = new Currency(1, "test", "plural", "minor", "minorplural", 0.0, "$");
-		if (!currency.getMinor().equals("minor")) {
-			fail("getMinor fail");
-		}
+		assertEquals("minor", currency.getMinor());
 	}
 
 	public void testSetMinor() {
 		Currency currency = new Currency(1, "test", "plural", "minor", "minorplural", 0.0, "$");
 		currency.setMinor("minors");
-		if (!currency.getMinor().equals("minors")) {
-			fail("setMinor fail");
-		}
+		assertEquals("minors", currency.getMinor());
 	}
 
 	public void testGetMinorPlural() {
 		Currency currency = new Currency(1, "test", "plural", "minor", "minorplural", 0.0, "$");
-		if (!currency.getMinorPlural().equals("minorplural")) {
-			fail("getMinorPlural fail");
-		}
+		assertEquals("minorplural", currency.getMinorPlural());
 	}
 
 	public void testSetMinorPlural() {
 		Currency currency = new Currency(1, "test", "plural", "minor", "minorplural", 0.0, "$");
 		currency.setMinorPlural("minorPlurals");
-		if (!currency.getMinorPlural().equals("minorPlurals")) {
-			fail("setMinorPlural fail");
-		}
+		assertEquals("minorPlurals", currency.getMinorPlural());
 	}
 
 	public void testGetDatabaseID() {
 		Currency currency = new Currency(1, "test", "plural", "minor", "minorplural", 0.0, "$");
-		if (currency.getDatabaseID() != 1) {
-			fail("getDatabaseID fail");
-		}
+		assertEquals(1, currency.getDatabaseID());
 	}
 
 	public void testSetHardCap() {
 		Currency currency = new Currency(1, "test", "plural", "minor", "minorplural", 0.0, "$");
 		currency.setHardCap(300.0);
-		if (currency.getHardCap() != 300.0) {
-			fail("setHardCap fail");
-		}
+		assertEquals(300.0, currency.getHardCap(), 0);
 	}
 
 	public void testGetHardCap() {
 		Currency currency = new Currency(1, "test", "plural", "minor", "minorplural", 5.0, "$");
-		if (currency.getHardCap() != 5.0) {
-			fail("getHardCap fail");
-		}
+		assertEquals(5.0, currency.getHardCap(), 0);
 	}
 
 	public void testSetSign() {
 		Currency currency = new Currency(1, "test", "plural", "minor", "minorplural", 0.0, "$");
 		currency.setSign("asdf");
-		if (!currency.getSign().equals("asdf")) {
-			fail("setSign fail");
-		}
+		assertEquals("asdf", currency.getSign());
 	}
 
 	public void testGetSign() {
 		Currency currency = new Currency(1, "test", "plural", "minor", "minorplural", 0.0, "$");
-		if (!currency.getSign().equals("$")) {
-			fail("getSign fail");
-		}
+		assertEquals("$", currency.getSign());
 	}
 }

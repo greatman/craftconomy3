@@ -101,13 +101,11 @@ public class EconomyServiceHandler extends EconomyService {
 
 	@Override
 	public String getCurrencySymbol(String name) throws UnknownCurrencyException {
-		String sign = null;
 		Currency currency = Common.getInstance().getCurrencyManager().getCurrency(name);
 		if (currency == null) {
 			throw new UnknownCurrencyException();
 		}
-		sign = currency.getSign();
-		return sign;
+		return currency.getSign();
 	}
 
 	@Override

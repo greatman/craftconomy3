@@ -55,14 +55,10 @@ public class BukkitCaller implements Caller {
 
 	@Override
 	public boolean checkPermission(String playerName, String perm) {
-		boolean result = false;
+		boolean result;
 		Player p = loader.getServer().getPlayerExact(playerName);
 		if (p != null) {
-			if (p.isOp()) {
-				result = true;
-			} else {
-				result = p.hasPermission(perm);
-			}
+			result = p.isOp() || p.hasPermission(perm);
 		} else {
 			// It's the console
 			result = true;

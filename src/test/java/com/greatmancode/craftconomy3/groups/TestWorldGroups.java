@@ -28,6 +28,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.reflections.Reflections;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 public class TestWorldGroups {
@@ -40,20 +42,16 @@ public class TestWorldGroups {
 	@Test
 	public void testWorldGroup() throws NoSuchFieldException, IllegalAccessException {
 		WorldGroup worldGroup = new WorldGroup("test");
-		if (worldGroup.worldExist(UnitTestCaller.worldName)) {
-			fail("World test exist.");
-		}
+
+		assertFalse(worldGroup.worldExist(UnitTestCaller.worldName));
+
 		worldGroup.addWorld("test");
-		if (worldGroup.worldExist("test")) {
-			fail("World test doesn't exist but was added!");
-		}
+		assertFalse(worldGroup.worldExist("test"));
+
 		worldGroup.addWorld(UnitTestCaller.worldName);
-		if (!worldGroup.worldExist(UnitTestCaller.worldName)) {
-			fail("World waesn't added!");
-		}
+		assertTrue(worldGroup.worldExist(UnitTestCaller.worldName));
+
 		worldGroup.removeWorld(UnitTestCaller.worldName);
-		if (worldGroup.worldExist(UnitTestCaller.worldName)) {
-			fail("World UnitTestWorld exist part 2.");
-		}
+		assertFalse(worldGroup.worldExist(UnitTestCaller.worldName));
 	}
 }

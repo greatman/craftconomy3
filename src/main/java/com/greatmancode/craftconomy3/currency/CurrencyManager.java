@@ -161,11 +161,11 @@ public class CurrencyManager {
 		}
 	}
 
+	/**
+	 * Retrieve the default currency
+	 * @return The default currency
+	 */
 	public Currency getDefaultCurrency() {
 		return getCurrency(defaultCurrencyID);
-	}
-
-	public void setDefaultCurrency(Currency currency) {
-		defaultCurrencyID = currency.getDatabaseID();
 	}
 }

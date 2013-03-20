@@ -152,7 +152,7 @@ public class Account {
 	 * Get's the player balance. Sends double.MIN_NORMAL in case of a error
 	 * @param world The world / world group to search in
 	 * @param currencyName The currency Name
-	 * @return The balance
+	 * @return The balance. If the account has infinite money. Double.MAX_VALUE is returned.
 	 */
 	public double getBalance(String world, String currencyName) {
 		double balance = Double.MIN_NORMAL;
@@ -194,7 +194,7 @@ public class Account {
 	 * @return The new balance. If the account has infinite money. Double.MAX_VALUE is returned.
 	 */
 	public double deposit(double amount, String world, String currencyName, Cause cause) {
-		BalanceTable balanceTable = null;
+		BalanceTable balanceTable;
 		double result = 0;
 		amount = format(amount);
 		if (!Common.getInstance().getWorldGroupManager().worldGroupExist(world)) {
@@ -246,7 +246,7 @@ public class Account {
 	 * @return The new balance. If the account has infinite money. Double.MAX_VALUE is returned.
 	 */
 	public double withdraw(double amount, String world, String currencyName, Cause cause) {
-		BalanceTable balanceTable = null;
+		BalanceTable balanceTable;
 		double result = 0;
 		amount = format(amount);
 		if (!Common.getInstance().getWorldGroupManager().worldGroupExist(world)) {
@@ -296,7 +296,7 @@ public class Account {
 	 * @return The new balance. If the account has infinite money. Double.MAX_VALUE is returned.
 	 */
 	public double set(double amount, String world, String currencyName, Cause cause) {
-		BalanceTable balanceTable = null;
+		BalanceTable balanceTable;
 		double result = 0;
 		amount = format(amount);
 		String newWorld = Common.getInstance().getWorldGroupManager().getWorldGroupName(world);
@@ -386,6 +386,6 @@ public class Account {
 		long factor = (long) Math.pow(10, 2);
 		value = value * factor;
 		double tmp = Math.floor(value);
-		return (double)tmp / factor;
+		return tmp / factor;
 	}
 }

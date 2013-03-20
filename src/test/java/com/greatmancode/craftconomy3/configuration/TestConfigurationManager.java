@@ -24,6 +24,9 @@ import com.greatmancode.craftconomy3.TestInitializator;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 
 public class TestConfigurationManager {
@@ -34,25 +37,17 @@ public class TestConfigurationManager {
 
 	@Test
 	public void test() {
-		if (Common.getInstance().getConfigurationManager() == null) {
-			fail("ConfigurationManager didin't load!");
-		}
-
-		if (Common.getInstance().getConfigurationManager().getConfig() == null) {
-			fail("getConfig() is null!");
-		}
-
+		assertNotNull(Common.getInstance().getConfigurationManager());
+		assertNotNull(Common.getInstance().getConfigurationManager().getConfig());
+		assertEquals(false, Common.getInstance().getConfigurationManager().getConfig().getBoolean("System.Setup"));
+		Common.getInstance().getConfigurationManager().getConfig().setValue("System.Setup", true);
+		assertEquals(true, Common.getInstance().getConfigurationManager().getConfig().getBoolean("System.Setup"));
 		Common.getInstance().getConfigurationManager().getConfig().setValue("System.Setup", false);
-		if (Common.getInstance().getConfigurationManager().getConfig().getBoolean("System.Setup")) {
-			fail("Craftconomy in setup mode. Should be false! setValue fail!");
-		}
-
-		if (!Common.getInstance().getConfigurationManager().getConfig().getString("System.Database.Type").equals("sqlite")) {
-			fail("Database isin't SQLITE! Error with getString()");
-		}
-
-		if (Common.getInstance().getConfigurationManager().getConfig().getInt("System.Database.Port") != 3306) {
-			fail("Port isin't 3306! Error with getInt()");
-		}
+		assertEquals("sqlite", Common.getInstance().getConfigurationManager().getConfig().getString("System.Database.Type"));
+		assertEquals(3306, Common.getInstance().getConfigurationManager().getConfig().getInt("System.Database.Port"));
+		Common.getInstance().getConfigurationManager().getConfig().setValue("test", 30);
+		assertEquals(30, Common.getInstance().getConfigurationManager().getConfig().getLong("test"));
+		Common.getInstance().getConfigurationManager().getConfig().setValue("test", 30.40);
+		assertEquals(30.40, Common.getInstance().getConfigurationManager().getConfig().getDouble("test"), 0);
 	}
 }

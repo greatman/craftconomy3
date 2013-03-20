@@ -247,7 +247,7 @@ public class Common {
 
 		if (worldName != null && !worldName.equals(WorldGroupsManager.DEFAULT_GROUP_NAME)) {
 			// We put the world name if the conf is true
-			string.append(worldName + ":").append(" ");
+			string.append(worldName).append(": ");
 		}
 		if (currency != null) {
 			// We removes some cents if it's something like 20.20381 it would set it
@@ -391,7 +391,7 @@ public class Common {
 	/**
 	 * Write a transaction to the Log.
 	 * @param info The type of transaction to log.
-	 * @param username The username that did this transaction.
+	 * @param cause The cause of the transaction.
 	 * @param amount The amount of money in this transaction.
 	 * @param currency The currency associated with this transaction
 	 * @param worldName The world name associated with this transaction

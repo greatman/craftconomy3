@@ -25,6 +25,9 @@ import com.greatmancode.craftconomy3.UnitTestCaller;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 public class TestWorldGroupManager {
@@ -36,23 +39,18 @@ public class TestWorldGroupManager {
 
 	@Test
 	public void testWorldGroupManager() {
-		if (Common.getInstance().getWorldGroupManager().worldGroupExist("testeur")) {
-			fail("worldgroup already exist!");
-		}
-		Common.getInstance().getWorldGroupManager().addWorldGroup("testeur");
+		assertFalse(Common.getInstance().getWorldGroupManager().worldGroupExist("testeur"));
 
-		if (!Common.getInstance().getWorldGroupManager().worldGroupExist("testeur")) {
-			fail("worldgroup doesn't exist!");
-		}
+		Common.getInstance().getWorldGroupManager().addWorldGroup("testeur");
+		assertTrue(Common.getInstance().getWorldGroupManager().worldGroupExist("testeur"));
 
 		Common.getInstance().getWorldGroupManager().addWorldToGroup("testeur", UnitTestCaller.worldName);
-		if (!Common.getInstance().getWorldGroupManager().getWorldGroupName(UnitTestCaller.worldName).equalsIgnoreCase("testeur")) {
-			fail("the world failed to be added into the group!");
-		}
+		assertEquals("testeur", Common.getInstance().getWorldGroupManager().getWorldGroupName(UnitTestCaller.worldName));
+		assertEquals(WorldGroupsManager.DEFAULT_GROUP_NAME, Common.getInstance().getWorldGroupManager().getWorldGroupName(UnitTestCaller.worldName2));
+		Common.getInstance().getWorldGroupManager().removeGroup("testeur");
+		assertEquals(WorldGroupsManager.DEFAULT_GROUP_NAME, Common.getInstance().getWorldGroupManager().getWorldGroupName(UnitTestCaller.worldName));
+		assertEquals(WorldGroupsManager.DEFAULT_GROUP_NAME, Common.getInstance().getWorldGroupManager().getWorldGroupName(UnitTestCaller.worldName2));
 
-		if(!Common.getInstance().getWorldGroupManager().getWorldGroupName(UnitTestCaller.worldName2).equalsIgnoreCase(WorldGroupsManager.DEFAULT_GROUP_NAME)) {
-			fail("World2 is not equal to default group.");
-		}
 	}
 
 }

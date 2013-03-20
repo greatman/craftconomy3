@@ -24,6 +24,7 @@ import com.greatmancode.craftconomy3.TestInitializator;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
 public class TestDatabaseManager {
@@ -34,8 +35,6 @@ public class TestDatabaseManager {
 
 	@Test
 	public void testDatabaseManager() {
-		if (Common.getInstance().getDatabaseManager() == null) {
-			fail("DatabaseManager not loaded.");
-		}
+		assertNotNull(Common.getInstance().getDatabaseManager());
 	}
 }

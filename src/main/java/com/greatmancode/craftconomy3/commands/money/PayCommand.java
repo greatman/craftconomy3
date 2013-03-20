@@ -30,7 +30,6 @@ public class PayCommand extends CraftconomyCommand {
 		if (!Account.isBankAccount(args[0]) && Common.getInstance().getAccountManager().exist(args[0])) {
 			if (Tools.isValidDouble(args[1])) {
 				double amount = Double.parseDouble(args[1]);
-				boolean hasEnough = false;
 				Currency currency = Common.getInstance().getCurrencyManager().getDefaultCurrency();
 				if (args.length > 2) {
 					if (Common.getInstance().getCurrencyManager().getCurrency(args[2]) != null) {
@@ -40,7 +39,7 @@ public class PayCommand extends CraftconomyCommand {
 						return;
 					}
 				}
-				hasEnough = Common.getInstance().getAccountManager().getAccount(sender).hasEnough(amount, Common.getInstance().getAccountManager().getAccount(sender).getWorldGroupOfPlayerCurrentlyIn(), currency.getName());
+				boolean hasEnough = Common.getInstance().getAccountManager().getAccount(sender).hasEnough(amount, Common.getInstance().getAccountManager().getAccount(sender).getWorldGroupOfPlayerCurrentlyIn(), currency.getName());
 
 				if (hasEnough) {
 					Common.getInstance().getAccountManager().getAccount(sender).withdraw(amount, Common.getInstance().getAccountManager().getAccount(sender).getWorldGroupOfPlayerCurrentlyIn(), currency.getName());
