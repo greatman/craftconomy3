@@ -34,6 +34,7 @@ import com.greatmancode.craftconomy3.configuration.ConfigurationManager;
 import com.greatmancode.craftconomy3.currency.Currency;
 import com.greatmancode.craftconomy3.currency.CurrencyManager;
 import com.greatmancode.craftconomy3.database.DatabaseManager;
+import com.greatmancode.craftconomy3.database.tables.ConfigTable;
 import com.greatmancode.craftconomy3.database.tables.LogTable;
 import com.greatmancode.craftconomy3.events.EventManager;
 import com.greatmancode.craftconomy3.groups.WorldGroupsManager;
@@ -117,8 +118,26 @@ public class Common {
 			commandManager = new CommandLoader();
 			commandManager.initialize();
 			if (config.getConfig().getBoolean("System.Setup")) {
-				SetupWizard.setState(SetupWizard.valueOf(config.getConfig().getString("System.SetupStep")));
-				sendConsoleMessage(Level.WARNING, getLanguageManager().getString("loaded_setup_mode"));
+
+				//We got quick setup. Let's do it!!!!
+				if (config.getConfig().getBoolean("System.QuickSetup.Enable")) {
+					try {
+						quickSetup();
+					} catch (TableRegistrationException e) {
+						e.printStackTrace();
+						sendConsoleMessage(Level.SEVERE, String.format(getLanguageManager().getString("database_connect_error"), e.getMessage()));
+						getServerCaller().disablePlugin();
+						return;
+					} catch (ConnectionException e) {
+						e.printStackTrace();
+						sendConsoleMessage(Level.SEVERE, String.format(getLanguageManager().getString("database_connect_error"), e.getMessage()));
+						getServerCaller().disablePlugin();
+						return;
+					}
+				} else {
+					SetupWizard.setState(SetupWizard.DATABASE_SETUP);
+					sendConsoleMessage(Level.WARNING, getLanguageManager().getString("loaded_setup_mode"));
+				}
 			} else {
 				try {
 					initialiseDatabase();
@@ -447,5 +466,38 @@ public class Common {
 	 */
 	public static boolean isInitialized() {
 		return initialized;
+	}
+
+	private void quickSetup() throws TableRegistrationException, ConnectionException {
+		initialiseDatabase();
+		Common.getInstance().initializeCurrency();
+		Common.getInstance().getCurrencyManager().addCurrency(getConfigurationManager().getConfig().getString("System.QuickSetup.Currency.Name"), getConfigurationManager().getConfig().getString("System.QuickSetup.Currency.NamePlural"), getConfigurationManager().getConfig().getString("System.QuickSetup.Currency.Minor"), getConfigurationManager().getConfig().getString("System.QuickSetup.Currency.MinorPlural"), 0.0, getConfigurationManager().getConfig().getString("System.QuickSetup.Currency.Sign"), true);
+		int dbId = Common.getInstance().getCurrencyManager().getCurrency(getConfigurationManager().getConfig().getString("System.QuickSetup.Currency.Name")).getDatabaseID();
+		Common.getInstance().getCurrencyManager().setDefault(dbId);
+		ConfigTable table = new ConfigTable();
+		table.setName("bankcurrency");
+		table.setValue(dbId + "");
+		Common.getInstance().getDatabaseManager().getDatabase().save(table);
+		table = new ConfigTable();
+		table.setName("holdings");
+		table.setValue(getConfigurationManager().getConfig().getString("System.QuickSetup.StartBalance"));
+		Common.getInstance().getDatabaseManager().getDatabase().save(table);
+		table = new ConfigTable();
+		table.setName("bankprice");
+		table.setValue(getConfigurationManager().getConfig().getString("System.QuickSetup.PriceBank"));
+		Common.getInstance().getDatabaseManager().getDatabase().save(table);
+		table = new ConfigTable();
+		table.setName("longmode");
+		table.setValue(DisplayFormat.valueOf(getConfigurationManager().getConfig().getString("System.QuickSetup.DisplayMode").toUpperCase()).name());
+		Common.getInstance().getDatabaseManager().getDatabase().save(table);
+		table = new ConfigTable();
+		table.setName("dbVersion");
+		table.setValue("4");
+		Common.getInstance().getDatabaseManager().getDatabase().save(table);
+		initializeCurrency();
+		Common.getInstance().getConfigurationManager().loadDefaultSettings();
+		Common.getInstance().startUp();
+		Common.getInstance().getConfigurationManager().getConfig().setValue("System.Setup", false);
+		sendConsoleMessage(Level.INFO, "Quick-Config done!");
 	}
 }

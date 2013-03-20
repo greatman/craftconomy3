@@ -1,12 +1,23 @@
 System:
   Setup: true
-  #Setting to skip setup steps. More info here: https://github.com/greatman/craftconomy3/blob/master/src/main/java/com/greatmancode/craftconomy3/SetupWizard.java#L37
-  #Possible options: NOT_STARTED / DATABASE_SETUP / MULTIWORLD_SETUP / CURRENCY_SETUP / BASIC_SETUP / CONVERT_SETUP
-  #Don't touch if you are not sure.
-  SetupStep: 'NOT_STARTED'
+
+  QuickSetup:
+    Enable: false
+    Currency:
+      Name: Dollar
+      NamePlural: Dollars
+      Minor: Coin
+      MinorPlural: Coins
+      Sign: $
+    StartBalance: 100.0
+    PriceBank: 200.0
+    #Available values: Long, small, majoronly, sign
+    DisplayMode: long
+
   CheckNewVersion: true
   Case-sentitive: false
   CreateOnLogin: false
+
   # Logs all monetary transactions passed through CraftConomy in a table.
   Logging:
     Enabled: false
