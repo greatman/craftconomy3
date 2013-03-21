@@ -125,7 +125,7 @@ public class Account {
 		Iterator<BalanceTable> list = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal(BalanceTable.USERNAME_ID_FIELD, account.getId()).execute().find().iterator();
 		while (list.hasNext()) {
 			BalanceTable table = list.next();
-			balanceList.add(new Balance(table.getWorldName(), Common.getInstance().getCurrencyManager().getCurrency(table.getCurrencyId()), table.getBalance()));
+			balanceList.add(new Balance(table.getWorldName(), Common.getInstance().getCurrencyManager().getCurrency(table.getCurrencyId()), format(table.getBalance())));
 		}
 		return balanceList;
 	}
@@ -143,7 +143,7 @@ public class Account {
 		Iterator<BalanceTable> list = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal(BalanceTable.USERNAME_ID_FIELD, account.getId()).and().equal(BalanceTable.WORLD_NAME_FIELD, world).execute().find().iterator();
 		while (list.hasNext()) {
 			BalanceTable table = list.next();
-			balanceList.add(new Balance(table.getWorldName(), Common.getInstance().getCurrencyManager().getCurrency(table.getCurrencyId()), table.getBalance()));
+			balanceList.add(new Balance(table.getWorldName(), Common.getInstance().getCurrencyManager().getCurrency(table.getCurrencyId()), format(table.getBalance())));
 		}
 		return balanceList;
 	}
@@ -170,7 +170,7 @@ public class Account {
 				balance = Double.MAX_VALUE;
 			}
 		}
-		return balance;
+		return format(balance);
 	}
 
 	/**
@@ -221,7 +221,7 @@ public class Account {
 			}
 		}
 
-		return result;
+		return format(result);
 	}
 
 	/**
@@ -270,7 +270,7 @@ public class Account {
 				result = Double.MAX_VALUE;
 			}
 		}
-		return result;
+		return format(result);
 	}
 
 	/**
@@ -315,7 +315,7 @@ public class Account {
 				result = balanceTable.getBalance();
 			}
 		}
-		return result;
+		return format(result);
 	}
 
 	/**
