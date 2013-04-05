@@ -179,7 +179,9 @@ public class Account {
 	 * @param world The World / World group we want to add money in
 	 * @param currencyName The currency we want to add money in
 	 * @return The new balance. If the account has infinite money. Double.MAX_VALUE is returned.
+	 * @deprecated use {@link #deposit(double, String, String, com.greatmancode.craftconomy3.Cause, String)}
 	 */
+	@Deprecated
 	public double deposit(double amount, String world, String currencyName) {
 		return deposit(amount, world, currencyName, Cause.UNKNOWN, null);
 	}
@@ -230,7 +232,9 @@ public class Account {
 	 * @param world The World / World group we want to withdraw money from
 	 * @param currencyName The currency we want to withdraw money from
 	 * @return The new balance. If the account has infinite money. Double.MAX_VALUE is returned.
+	 * @deprecated use {@link #withdraw(double, String, String, com.greatmancode.craftconomy3.Cause, String)}
 	 */
+	@Deprecated
 	public double withdraw(double amount, String world, String currencyName) {
 		return withdraw(amount, world, currencyName, Cause.UNKNOWN, null);
 	}
@@ -279,7 +283,9 @@ public class Account {
 	 * @param world The World / World group we want to set money to
 	 * @param currencyName The currency we want to set money to
 	 * @return The new balance
+	 * @deprecated use {@link #set(double, String, String, com.greatmancode.craftconomy3.Cause, String)}
 	 */
+	@Deprecated
 	public double set(double amount, String world, String currencyName) {
 		return set(amount, world, currencyName, Cause.UNKNOWN, null);
 	}
