@@ -69,7 +69,7 @@ class LogCommandThread implements Runnable {
 			// Is it better to do 50 query or to get ALL the username-id pairs?
 			// I choose the first solution. This is done async and will save lot
 			// of memory on large server with lots of players/account.
-			ret += "{{WHITE}}" + ((page - 1) * NUMBER_ELEMENTS + i + 1) + ": {{DARK_GREEN}}Type: {{WHITE}}" + r.type + " {{DARK_GREEN}} Amount: {{WHITE}}" + Common.getInstance().format(r.worldName, Common.getInstance().getCurrencyManager().getCurrency(r.currencyName), r.amount) + " {{DARK_GREEN}}Cause: {{WHITE}}" + r.cause;
+			ret += "{{WHITE}}" + ((page - 1) * NUMBER_ELEMENTS + i + 1) + ": {{DARK_GREEN}}Time: {{WHITE}}" + r.timestamp + " {{DARK_GREEN}}Type: {{WHITE}}" + r.type + " {{DARK_GREEN}} Amount: {{WHITE}}" + Common.getInstance().format(r.worldName, Common.getInstance().getCurrencyManager().getCurrency(r.currencyName), r.amount) + " {{DARK_GREEN}}Cause: {{WHITE}}" + r.cause;
 			if (r.causeReason != null) {
 				ret += " {{DARK_GREEN}}Reason: {{WHITE}}" + r.causeReason;
 			}

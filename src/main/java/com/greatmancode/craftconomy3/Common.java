@@ -20,6 +20,7 @@ package com.greatmancode.craftconomy3;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.logging.Level;
@@ -428,6 +429,7 @@ public class Common {
 			log.causeReason = causeReason;
 			log.currencyName = currency.getName();
 			log.worldName = worldName;
+			log.timestamp = new Timestamp(System.currentTimeMillis());
 			getDatabaseManager().getDatabase().save(log);
 		}
 	}

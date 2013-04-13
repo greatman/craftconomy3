@@ -18,6 +18,8 @@
  */
 package com.greatmancode.craftconomy3.database.tables;
 
+import java.sql.Timestamp;
+
 import com.alta189.simplesave.Field;
 import com.alta189.simplesave.Id;
 import com.alta189.simplesave.Table;
@@ -36,6 +38,10 @@ public class LogTable {
 	public LogInfo type;
 	@Field
 	public Cause cause;
+
+	@Field
+	public Timestamp timestamp;
+
 	@Field
 	public String causeReason;
 	@Field
