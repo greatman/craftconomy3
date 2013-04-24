@@ -18,7 +18,9 @@
  */
 package com.greatmancode.craftconomy3;
 
-public enum Cause {
+import java.io.Serializable;
+
+public enum Cause implements Serializable{
 	VAULT,
 	USER,
 	PLUGIN,
@@ -29,7 +31,9 @@ public enum Cause {
 	PAYMENT,
 	BANK_DEPOSIT,
 	BANK_WITHDRAW,
+	BANK_DELETE,
 	PAYDAY_TAX,
 	PAYDAY_WAGE,
 	UNKNOWN;
+
 }

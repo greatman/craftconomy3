@@ -29,6 +29,7 @@ import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.SpoutCaller;
 import com.greatmancode.craftconomy3.commands.bank.BankBalanceCommand;
 import com.greatmancode.craftconomy3.commands.bank.BankCreateCommand;
+import com.greatmancode.craftconomy3.commands.bank.BankDeleteCommand;
 import com.greatmancode.craftconomy3.commands.bank.BankDepositCommand;
 import com.greatmancode.craftconomy3.commands.bank.BankGiveCommand;
 import com.greatmancode.craftconomy3.commands.bank.BankHelpCommand;
@@ -135,6 +136,7 @@ public class CommandLoader {
 			bankCommand.registerCommand("take", new BankTakeCommand());
 			bankCommand.registerCommand("perm", new BankPermCommand());
 			bankCommand.registerCommand("list", new BankListCommand());
+			bankCommand.registerCommand("delete", new BankDeleteCommand());
 			commandList.put("bank", bankCommand);
 
 			CommandHandler setupCommand = new CommandHandler("ccsetup", "Setup related commands", true);
