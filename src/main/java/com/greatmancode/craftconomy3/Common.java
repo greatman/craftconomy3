@@ -18,6 +18,7 @@
  */
 package com.greatmancode.craftconomy3;
 
+import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -31,25 +32,41 @@ import com.alta189.simplesave.exceptions.TableRegistrationException;
 import com.greatmancode.craftconomy3.account.Account;
 import com.greatmancode.craftconomy3.account.AccountManager;
 import com.greatmancode.craftconomy3.commands.CommandLoader;
-import com.greatmancode.craftconomy3.configuration.ConfigurationManager;
 import com.greatmancode.craftconomy3.currency.Currency;
 import com.greatmancode.craftconomy3.currency.CurrencyManager;
-import com.greatmancode.craftconomy3.database.DatabaseManager;
+import com.greatmancode.craftconomy3.database.tables.AccessTable;
+import com.greatmancode.craftconomy3.database.tables.AccountTable;
+import com.greatmancode.craftconomy3.database.tables.BalanceTable;
 import com.greatmancode.craftconomy3.database.tables.ConfigTable;
+import com.greatmancode.craftconomy3.database.tables.CurrencyTable;
+import com.greatmancode.craftconomy3.database.tables.ExchangeTable;
 import com.greatmancode.craftconomy3.database.tables.LogTable;
+import com.greatmancode.craftconomy3.database.tables.PayDayTable;
+import com.greatmancode.craftconomy3.database.tables.WorldGroupTable;
 import com.greatmancode.craftconomy3.events.EventManager;
 import com.greatmancode.craftconomy3.groups.WorldGroupsManager;
-import com.greatmancode.craftconomy3.language.LanguageManager;
 import com.greatmancode.craftconomy3.payday.PayDayManager;
 import com.greatmancode.craftconomy3.utils.Metrics;
 import com.greatmancode.craftconomy3.utils.Metrics.Graph;
 import com.greatmancode.craftconomy3.utils.VersionChecker;
+import com.greatmancode.tools.ServerType;
+import com.greatmancode.tools.caller.bukkit.BukkitCaller;
+import com.greatmancode.tools.caller.spout.SpoutCaller;
+import com.greatmancode.tools.caller.unittest.UnitTestCaller;
+import com.greatmancode.tools.configuration.Config;
+import com.greatmancode.tools.configuration.ConfigurationManager;
+import com.greatmancode.tools.database.DatabaseManager;
+import com.greatmancode.tools.database.interfaces.DatabaseType;
+import com.greatmancode.tools.database.throwable.InvalidDatabaseConstructor;
+import com.greatmancode.tools.interfaces.Caller;
+import com.greatmancode.tools.interfaces.Loader;
+import com.greatmancode.tools.language.LanguageManager;
 
 /**
  * The core of Craftconomy. Every requests pass through this class
  * @author greatman
  */
-public class Common {
+public class Common implements com.greatmancode.tools.interfaces.Common{
 	private Logger log = null;
 	private static Common instance = null;
 	// Managers
@@ -68,6 +85,14 @@ public class Common {
 	private boolean currencyInitialized;
 	private static boolean initialized = false;
 	private Metrics metrics = null;
+
+	private Config mainConfig = null;
+
+	//Default values
+	private DisplayFormat displayFormat = null;
+	private double holdings = 0.0;
+	private double bankPrice = 0.0;
+	private int bankCurrencyId = 0;
 
 	/**
 	 * Loads the Common core.
@@ -89,23 +114,24 @@ public class Common {
 	/**
 	 * Initialize the Common core.
 	 */
-	public void initialize() {
+	public void onEnable() {
 		if (!initialized) {
 			sendConsoleMessage(Level.INFO, "Starting up!");
 			sendConsoleMessage(Level.INFO, "Loading the Configuration");
-			config = new ConfigurationManager();
-			config.initialize(Common.getInstance().getServerCaller().getDataFolder(), "config.yml");
-			if (!config.getConfig().has("System.Database.Prefix")) {
-				config.getConfig().setValue("System.Database.Prefix", "cc3_");
+			config = new ConfigurationManager(serverCaller);
+			mainConfig = config.loadFile(serverCaller.getDataFolder(), "config.yml", false, true);
+
+			if (!getMainConfig().has("System.Database.Prefix")) {
+				getMainConfig().setValue("System.Database.Prefix", "cc3_");
 			}
 
-			languageManager = new LanguageManager();
+			languageManager = new LanguageManager(serverCaller, serverCaller.getDataFolder(), "lang.yml");
 			try {
 				metrics = new Metrics("Craftconomy", this.getServerCaller().getPluginVersion());
 			} catch (IOException e) {
 				this.getLogger().log(Level.SEVERE, String.format(getLanguageManager().getString("metric_start_error"), e.getMessage()));
 			}
-			if (getConfigurationManager().getConfig().getBoolean("System.CheckNewVersion")) {
+			if (getMainConfig().getBoolean("System.CheckNewVersion")) {
 				sendConsoleMessage(Level.INFO, getLanguageManager().getString("checking_new_version"));
 				versionChecker = new VersionChecker(Common.getInstance().getServerCaller().getPluginVersion());
 				if (versionChecker.isOld()) {
@@ -118,10 +144,10 @@ public class Common {
 			Common.getInstance().getServerCaller().registerPermission("craftconomy.*");
 			commandManager = new CommandLoader();
 			commandManager.initialize();
-			if (config.getConfig().getBoolean("System.Setup")) {
+			if (getMainConfig().getBoolean("System.Setup")) {
 
 				//We got quick setup. Let's do it!!!!
-				if (config.getConfig().getBoolean("System.QuickSetup.Enable")) {
+				if (getMainConfig().getBoolean("System.QuickSetup.Enable")) {
 					try {
 						quickSetup();
 					} catch (TableRegistrationException e) {
@@ -134,6 +160,10 @@ public class Common {
 						sendConsoleMessage(Level.SEVERE, String.format(getLanguageManager().getString("database_connect_error"), e.getMessage()));
 						getServerCaller().disablePlugin();
 						return;
+					} catch (InvalidDatabaseConstructor invalidDatabaseConstructor) {
+						invalidDatabaseConstructor.printStackTrace();
+						sendConsoleMessage(Level.SEVERE, String.format(getLanguageManager().getString("database_connect_error"), invalidDatabaseConstructor.getMessage()));
+						getServerCaller().disablePlugin();
 					}
 				} else {
 					SetupWizard.setState(SetupWizard.DATABASE_SETUP);
@@ -147,10 +177,14 @@ public class Common {
 					sendConsoleMessage(Level.SEVERE, String.format(getLanguageManager().getString("database_connect_error"), e.getMessage()));
 					getServerCaller().disablePlugin();
 					return;
+				} catch (InvalidDatabaseConstructor invalidDatabaseConstructor) {
+					invalidDatabaseConstructor.printStackTrace();
+					sendConsoleMessage(Level.SEVERE, String.format(getLanguageManager().getString("database_connect_error"), invalidDatabaseConstructor.getMessage()));
+					getServerCaller().disablePlugin();
 				}
 				initializeCurrency();
 				sendConsoleMessage(Level.INFO, getLanguageManager().getString("loading_default_settings"));
-				getConfigurationManager().loadDefaultSettings();
+				loadDefaultSettings();
 				sendConsoleMessage(Level.INFO, getLanguageManager().getString("default_settings_loaded"));
 				startUp();
 				sendConsoleMessage(Level.INFO, getLanguageManager().getString("ready"));
@@ -165,7 +199,8 @@ public class Common {
 	/**
 	 * Disable the plugin.
 	 */
-	void disable() {
+	@Override
+	public void onDisable() {
 		if (getDatabaseManager() != null && getDatabaseManager().getDatabase() != null) {
 			getLogger().info(getLanguageManager().getString("closing_db_link"));
 			try {
@@ -176,6 +211,9 @@ public class Common {
 		}
 	}
 
+	public Config getMainConfig() {
+		return mainConfig;
+	}
 	/**
 	 * Retrieve the logger associated with this plugin.
 	 * @return The logger instance.
@@ -327,7 +365,7 @@ public class Common {
 	 * @return A pretty String showing the balance. Returns a empty string if currency is invalid.
 	 */
 	public String format(String worldName, Currency currency, double balance) {
-		return format(worldName, currency, balance, getConfigurationManager().getDisplayFormat());
+		return format(worldName, currency, balance, displayFormat);
 	}
 
 	/**
@@ -335,10 +373,25 @@ public class Common {
 	 * @throws TableRegistrationException
 	 * @throws ConnectionException
 	 */
-	public void initialiseDatabase() throws TableRegistrationException, ConnectionException {
+	public void initialiseDatabase() throws TableRegistrationException, ConnectionException, InvalidDatabaseConstructor {
 		if (!databaseInitialized) {
 			sendConsoleMessage(Level.INFO, getLanguageManager().getString("loading_database_manager"));
-			dbManager = new DatabaseManager();
+			DatabaseType databaseType = DatabaseType.valueOf(getMainConfig().getString("System.Database.Type").toUpperCase());
+			if (DatabaseType.MySQL.equals(databaseType)) {
+				dbManager = new DatabaseManager(databaseType,getMainConfig().getString("System.Database.Address"), getMainConfig().getInt("System.Database.Port"), getMainConfig().getString("System.Database.Username"), getMainConfig().getString("System.Database.Password"), getMainConfig().getString("System.Database.Db"), getMainConfig().getString("System.Database.Prefix"));
+			} else {
+				dbManager = new DatabaseManager(databaseType, getMainConfig().getString("System.Database.Prefix"), new File(serverCaller.getDataFolder(), "database.db"));
+			}
+			dbManager.registerTable(AccountTable.class);
+			dbManager.registerTable(AccessTable.class);
+			dbManager.registerTable(BalanceTable.class);
+			dbManager.registerTable(CurrencyTable.class);
+			dbManager.registerTable(ConfigTable.class);
+			dbManager.registerTable(PayDayTable.class);
+			dbManager.registerTable(ExchangeTable.class);
+			dbManager.registerTable(WorldGroupTable.class);
+			dbManager.registerTable(LogTable.class);
+			dbManager.connect();
 			databaseInitialized = true;
 			sendConsoleMessage(Level.INFO, getLanguageManager().getString("database_manager_loaded"));
 		}
@@ -420,7 +473,7 @@ public class Common {
 	 * @param worldName The world name associated with this transaction
 	 */
 	public void writeLog(LogInfo info, Cause cause, String causeReason, Account account, double amount, Currency currency, String worldName) {
-		if (getConfigurationManager().getConfig().getBoolean("System.Logging.Enabled")) {
+		if (getMainConfig().getBoolean("System.Logging.Enabled")) {
 			LogTable log = new LogTable();
 			log.username_id = account.getAccountID();
 			log.amount = amount;
@@ -470,11 +523,11 @@ public class Common {
 		return initialized;
 	}
 
-	private void quickSetup() throws TableRegistrationException, ConnectionException {
+	private void quickSetup() throws TableRegistrationException, ConnectionException, InvalidDatabaseConstructor {
 		initialiseDatabase();
 		Common.getInstance().initializeCurrency();
-		Common.getInstance().getCurrencyManager().addCurrency(getConfigurationManager().getConfig().getString("System.QuickSetup.Currency.Name"), getConfigurationManager().getConfig().getString("System.QuickSetup.Currency.NamePlural"), getConfigurationManager().getConfig().getString("System.QuickSetup.Currency.Minor"), getConfigurationManager().getConfig().getString("System.QuickSetup.Currency.MinorPlural"), 0.0, getConfigurationManager().getConfig().getString("System.QuickSetup.Currency.Sign"), true);
-		int dbId = Common.getInstance().getCurrencyManager().getCurrency(getConfigurationManager().getConfig().getString("System.QuickSetup.Currency.Name")).getDatabaseID();
+		Common.getInstance().getCurrencyManager().addCurrency(getMainConfig().getString("System.QuickSetup.Currency.Name"), getMainConfig().getString("System.QuickSetup.Currency.NamePlural"), getMainConfig().getString("System.QuickSetup.Currency.Minor"), getMainConfig().getString("System.QuickSetup.Currency.MinorPlural"), 0.0, getMainConfig().getString("System.QuickSetup.Currency.Sign"), true);
+		int dbId = Common.getInstance().getCurrencyManager().getCurrency(getMainConfig().getString("System.QuickSetup.Currency.Name")).getDatabaseID();
 		Common.getInstance().getCurrencyManager().setDefault(dbId);
 		ConfigTable table = new ConfigTable();
 		table.setName("bankcurrency");
@@ -482,24 +535,77 @@ public class Common {
 		Common.getInstance().getDatabaseManager().getDatabase().save(table);
 		table = new ConfigTable();
 		table.setName("holdings");
-		table.setValue(getConfigurationManager().getConfig().getString("System.QuickSetup.StartBalance"));
+		table.setValue(getMainConfig().getString("System.QuickSetup.StartBalance"));
 		Common.getInstance().getDatabaseManager().getDatabase().save(table);
 		table = new ConfigTable();
 		table.setName("bankprice");
-		table.setValue(getConfigurationManager().getConfig().getString("System.QuickSetup.PriceBank"));
+		table.setValue(getMainConfig().getString("System.QuickSetup.PriceBank"));
 		Common.getInstance().getDatabaseManager().getDatabase().save(table);
 		table = new ConfigTable();
 		table.setName("longmode");
-		table.setValue(DisplayFormat.valueOf(getConfigurationManager().getConfig().getString("System.QuickSetup.DisplayMode").toUpperCase()).name());
+		table.setValue(DisplayFormat.valueOf(getMainConfig().getString("System.QuickSetup.DisplayMode").toUpperCase()).name());
 		Common.getInstance().getDatabaseManager().getDatabase().save(table);
 		table = new ConfigTable();
 		table.setName("dbVersion");
 		table.setValue("4");
 		Common.getInstance().getDatabaseManager().getDatabase().save(table);
 		initializeCurrency();
-		Common.getInstance().getConfigurationManager().loadDefaultSettings();
+		loadDefaultSettings();
 		Common.getInstance().startUp();
-		Common.getInstance().getConfigurationManager().getConfig().setValue("System.Setup", false);
+		Common.getInstance().getMainConfig().setValue("System.Setup", false);
 		sendConsoleMessage(Level.INFO, "Quick-Config done!");
 	}
+
+	private void loadDefaultSettings() {
+		displayFormat = DisplayFormat.valueOf(getDatabaseManager().getDatabase().select(ConfigTable.class).where().contains(ConfigTable.NAME_FIELD, "longmode").execute().findOne().getValue().toUpperCase());
+		holdings = Double.parseDouble(getDatabaseManager().getDatabase().select(ConfigTable.class).where().equal(ConfigTable.NAME_FIELD, "holdings").execute().findOne().getValue());
+		bankPrice = Double.parseDouble(getDatabaseManager().getDatabase().select(ConfigTable.class).where().equal(ConfigTable.NAME_FIELD, "bankprice").execute().findOne().getValue());
+		ConfigTable currencyId = getDatabaseManager().getDatabase().select(ConfigTable.class).where().equal(ConfigTable.NAME_FIELD, "bankcurrency").execute().findOne();
+		if (currencyId != null) {
+			bankCurrencyId = Integer.parseInt(currencyId.getValue());
+		}
+
+		// Test if the currency is good. Else we revert it to the default value.
+		if (getCurrencyManager().getCurrency(bankCurrencyId) == null) {
+			bankCurrencyId = getCurrencyManager().getDefaultCurrency().getDatabaseID();
+		}
+	}
+
+	public DisplayFormat getDisplayFormat() {
+		return displayFormat;
+	}
+
+	public void setDisplayFormat(DisplayFormat format) {
+		ConfigTable table = getDatabaseManager().getDatabase().select(ConfigTable.class).where().equal(ConfigTable.NAME_FIELD, "longmode").execute().findOne();
+		table.setValue(format.name());
+		getDatabaseManager().getDatabase().save(table);
+		displayFormat = format;
+	}
+	public double getDefaultHoldings() {
+		return holdings;
+	}
+
+	public void setDefaultHoldings(double value) {
+		ConfigTable table = getDatabaseManager().getDatabase().select(ConfigTable.class).where().equal(ConfigTable.NAME_FIELD, "holdings").execute().findOne();
+		table.setValue(String.valueOf(value));
+		getDatabaseManager().getDatabase().save(table);
+		holdings = value;
+	}
+
+	public double getBankPrice() {
+		return bankPrice;
+	}
+
+	public void setBankPrice(double value) {
+		ConfigTable table = getDatabaseManager().getDatabase().select(ConfigTable.class).where().equal(ConfigTable.NAME_FIELD, "bankprice").execute().findOne();
+		table.setValue(String.valueOf(value));
+		getDatabaseManager().getDatabase().save(table);
+		bankPrice = value;
+	}
+
+	public int getBankCurrencyId() {
+		return bankCurrencyId;
+	}
+
+
 }

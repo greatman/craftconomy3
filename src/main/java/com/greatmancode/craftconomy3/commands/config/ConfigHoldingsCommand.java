@@ -19,14 +19,14 @@
 package com.greatmancode.craftconomy3.commands.config;
 
 import com.greatmancode.craftconomy3.Common;
-import com.greatmancode.craftconomy3.commands.interfaces.CraftconomyCommand;
 import com.greatmancode.craftconomy3.utils.Tools;
+import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 
-public class ConfigHoldingsCommand extends CraftconomyCommand {
+public class ConfigHoldingsCommand extends CommandExecutor {
 	@Override
 	public void execute(String sender, String[] args) {
 		if (Tools.isValidDouble(args[0])) {
-			Common.getInstance().getConfigurationManager().setHoldings(Double.parseDouble(args[0]));
+			Common.getInstance().setDefaultHoldings(Double.parseDouble(args[0]));
 			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("default_holding_modified"));
 		} else {
 			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("invalid_amount"));

@@ -19,15 +19,17 @@
 package com.greatmancode.craftconomy3.commands.config;
 
 import com.greatmancode.craftconomy3.Common;
-import com.greatmancode.craftconomy3.commands.interfaces.CraftconomyCommand;
+import com.greatmancode.craftconomy3.DisplayFormat;
+import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 
-public class ConfigFormatCommand extends CraftconomyCommand {
+public class ConfigFormatCommand extends CommandExecutor {
 	@Override
 	public void execute(String sender, String[] args) {
-		if (args[0].equalsIgnoreCase("long") || args[0].equalsIgnoreCase("small") || args[0].equalsIgnoreCase("sign") || args[0].equalsIgnoreCase("majoronly")) {
-			Common.getInstance().getConfigurationManager().setDisplayFormat(args[0]);
+		try {
+			DisplayFormat format = DisplayFormat.valueOf(args[0].toUpperCase());
+			Common.getInstance().setDisplayFormat(format);
 			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("format_modified"));
-		} else {
+		} catch (IllegalArgumentException e) {
 			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("invalid_mode"));
 		}
 	}

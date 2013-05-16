@@ -23,9 +23,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import com.greatmancode.craftconomy3.Common;
-import com.greatmancode.craftconomy3.commands.interfaces.CraftconomyCommand;
+import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 
-public class ConfigHelpCommand extends CraftconomyCommand {
+public class ConfigHelpCommand extends CommandExecutor {
 	@Override
 	public void execute(String sender, String[] args) {
 		Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("config_help_title"));

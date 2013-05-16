@@ -33,6 +33,7 @@ public class BukkitCommandManager implements CommandExecutor, CommandManager {
 	@Override
 	public boolean onCommand(CommandSender commandSender, Command command, String commandLabel, String[] args) {
 		if (Common.getInstance().getCommandManager().commandExist(command.getName())) {
+
 			String[] newargs;
 			if (args.length == 0) {
 				newargs = new String[0];

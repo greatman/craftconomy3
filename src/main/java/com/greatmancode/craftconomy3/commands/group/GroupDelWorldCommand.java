@@ -19,9 +19,9 @@
 package com.greatmancode.craftconomy3.commands.group;
 
 import com.greatmancode.craftconomy3.Common;
-import com.greatmancode.craftconomy3.commands.interfaces.CraftconomyCommand;
+import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 
-public class GroupDelWorldCommand extends CraftconomyCommand {
+public class GroupDelWorldCommand extends CommandExecutor {
 	@Override
 	public void execute(String sender, String[] args) {
 		if (!Common.getInstance().getWorldGroupManager().getWorldGroupName(args[0]).equals("default")) {

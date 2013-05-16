@@ -21,11 +21,11 @@ package com.greatmancode.craftconomy3.commands.currency;
 import java.util.List;
 
 import com.greatmancode.craftconomy3.Common;
-import com.greatmancode.craftconomy3.commands.interfaces.CraftconomyCommand;
 import com.greatmancode.craftconomy3.currency.Currency;
 import com.greatmancode.craftconomy3.database.tables.ExchangeTable;
+import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 
-public class CurrencyRatesCommand extends CraftconomyCommand{
+public class CurrencyRatesCommand extends CommandExecutor {
 	@Override
 	public void execute(String sender, String[] args) {
 		List<ExchangeTable> exchangeTableList = Common.getInstance().getDatabaseManager().getDatabase().select(ExchangeTable.class).execute().find();

@@ -58,7 +58,7 @@ public class Account {
 			balance.setCurrencyId(Common.getInstance().getCurrencyManager().getDefaultCurrency().getDatabaseID());
 			balance.setWorldName(getWorldGroupOfPlayerCurrentlyIn());
 			if (!name.contains(Account.BANK_PREFIX)) {
-				balance.setBalance(Common.getInstance().getConfigurationManager().getHoldings());
+				balance.setBalance(Common.getInstance().getDefaultHoldings());
 			} else {
 				balance.setBalance(0.0);
 			}

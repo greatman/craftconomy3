@@ -23,11 +23,12 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import com.greatmancode.craftconomy3.Common;
-import com.greatmancode.craftconomy3.commands.interfaces.CraftconomyCommand;
+import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 
-public class BankHelpCommand extends CraftconomyCommand {
+public class BankHelpCommand extends CommandExecutor {
 	@Override
 	public void execute(String sender, String[] args) {
+		//TODO: This
 		Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("bank_help_title"));
 		Map<String, CraftconomyCommand> cmdList = Common.getInstance().getCommandManager().getCommandHandler("bank").getCommandList();
 		Iterator<Entry<String, CraftconomyCommand>> iterator = cmdList.entrySet().iterator();

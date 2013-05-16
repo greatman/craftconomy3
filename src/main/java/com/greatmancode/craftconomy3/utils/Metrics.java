@@ -48,6 +48,7 @@ import java.util.logging.Level;
 
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.configuration.Config;
+import com.greatmancode.tools.configuration.Config;
 
 /**
  * <p>

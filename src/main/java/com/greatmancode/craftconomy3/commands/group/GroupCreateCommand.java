@@ -19,9 +19,9 @@
 package com.greatmancode.craftconomy3.commands.group;
 
 import com.greatmancode.craftconomy3.Common;
-import com.greatmancode.craftconomy3.commands.interfaces.CraftconomyCommand;
+import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 
-public class GroupCreateCommand extends CraftconomyCommand {
+public class GroupCreateCommand extends CommandExecutor {
 	@Override
 	public void execute(String sender, String[] args) {
 		if (!Common.getInstance().getWorldGroupManager().worldGroupExist(args[0])) {

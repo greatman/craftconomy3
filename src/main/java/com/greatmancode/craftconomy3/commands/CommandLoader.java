@@ -24,9 +24,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import com.greatmancode.craftconomy3.BukkitCaller;
 import com.greatmancode.craftconomy3.Common;
-import com.greatmancode.craftconomy3.SpoutCaller;
 import com.greatmancode.craftconomy3.commands.bank.BankBalanceCommand;
 import com.greatmancode.craftconomy3.commands.bank.BankCreateCommand;
 import com.greatmancode.craftconomy3.commands.bank.BankDeleteCommand;
@@ -82,6 +80,8 @@ import com.greatmancode.craftconomy3.commands.setup.NewSetupConvertCommand;
 import com.greatmancode.craftconomy3.commands.setup.NewSetupCurrencyCommand;
 import com.greatmancode.craftconomy3.commands.setup.NewSetupDatabaseCommand;
 import com.greatmancode.craftconomy3.commands.setup.NewSetupMainCommand;
+import com.greatmancode.tools.caller.bukkit.BukkitCaller;
+import com.greatmancode.tools.caller.spout.SpoutCaller;
 
 /**
  * Generic CommandLoader. Loads all the sub-commands.
@@ -108,6 +108,7 @@ public class CommandLoader {
 	 */
 	public void initialize() {
 		if (!initialized) {
+
 			CommandHandler moneyCommand = new CommandHandler("money", "Main money command.", false);
 			moneyCommand.registerCommand("", new MainCommand());
 			moneyCommand.registerCommand("all", new AllCommand());
