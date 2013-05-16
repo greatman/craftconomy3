@@ -32,6 +32,44 @@ import com.alta189.simplesave.exceptions.TableRegistrationException;
 import com.greatmancode.craftconomy3.account.Account;
 import com.greatmancode.craftconomy3.account.AccountManager;
 import com.greatmancode.craftconomy3.commands.CommandLoader;
+import com.greatmancode.craftconomy3.commands.bank.BankBalanceCommand;
+import com.greatmancode.craftconomy3.commands.bank.BankCreateCommand;
+import com.greatmancode.craftconomy3.commands.bank.BankDeleteCommand;
+import com.greatmancode.craftconomy3.commands.bank.BankDepositCommand;
+import com.greatmancode.craftconomy3.commands.bank.BankGiveCommand;
+import com.greatmancode.craftconomy3.commands.bank.BankHelpCommand;
+import com.greatmancode.craftconomy3.commands.bank.BankListCommand;
+import com.greatmancode.craftconomy3.commands.bank.BankPermCommand;
+import com.greatmancode.craftconomy3.commands.bank.BankSetCommand;
+import com.greatmancode.craftconomy3.commands.bank.BankTakeCommand;
+import com.greatmancode.craftconomy3.commands.bank.BankWithdrawCommand;
+import com.greatmancode.craftconomy3.commands.currency.CurrencyAddCommand;
+import com.greatmancode.craftconomy3.commands.currency.CurrencyDefaultCommand;
+import com.greatmancode.craftconomy3.commands.currency.CurrencyDeleteCommand;
+import com.greatmancode.craftconomy3.commands.currency.CurrencyEditCommand;
+import com.greatmancode.craftconomy3.commands.currency.CurrencyExchangeCommand;
+import com.greatmancode.craftconomy3.commands.currency.CurrencyHelpCommand;
+import com.greatmancode.craftconomy3.commands.currency.CurrencyInfoCommand;
+import com.greatmancode.craftconomy3.commands.currency.CurrencyRatesCommand;
+import com.greatmancode.craftconomy3.commands.money.AllCommand;
+import com.greatmancode.craftconomy3.commands.money.BalanceCommand;
+import com.greatmancode.craftconomy3.commands.money.CreateCommand;
+import com.greatmancode.craftconomy3.commands.money.DeleteCommand;
+import com.greatmancode.craftconomy3.commands.money.ExchangeCommand;
+import com.greatmancode.craftconomy3.commands.money.GiveCommand;
+import com.greatmancode.craftconomy3.commands.money.HelpCommand;
+import com.greatmancode.craftconomy3.commands.money.InfiniteCommand;
+import com.greatmancode.craftconomy3.commands.money.LogCommand;
+import com.greatmancode.craftconomy3.commands.money.MainCommand;
+import com.greatmancode.craftconomy3.commands.money.PayCommand;
+import com.greatmancode.craftconomy3.commands.money.SetCommand;
+import com.greatmancode.craftconomy3.commands.money.TakeCommand;
+import com.greatmancode.craftconomy3.commands.money.TopCommand;
+import com.greatmancode.craftconomy3.commands.setup.NewSetupBasicCommand;
+import com.greatmancode.craftconomy3.commands.setup.NewSetupConvertCommand;
+import com.greatmancode.craftconomy3.commands.setup.NewSetupCurrencyCommand;
+import com.greatmancode.craftconomy3.commands.setup.NewSetupDatabaseCommand;
+import com.greatmancode.craftconomy3.commands.setup.NewSetupMainCommand;
 import com.greatmancode.craftconomy3.currency.Currency;
 import com.greatmancode.craftconomy3.currency.CurrencyManager;
 import com.greatmancode.craftconomy3.database.tables.AccessTable;
@@ -53,6 +91,8 @@ import com.greatmancode.tools.ServerType;
 import com.greatmancode.tools.caller.bukkit.BukkitCaller;
 import com.greatmancode.tools.caller.spout.SpoutCaller;
 import com.greatmancode.tools.caller.unittest.UnitTestCaller;
+import com.greatmancode.tools.commands.CommandHandler;
+import com.greatmancode.tools.commands.SubCommand;
 import com.greatmancode.tools.configuration.Config;
 import com.greatmancode.tools.configuration.ConfigurationManager;
 import com.greatmancode.tools.database.DatabaseManager;
@@ -78,7 +118,7 @@ public class Common implements com.greatmancode.tools.interfaces.Common{
 	private EventManager eventManager = null;
 	private LanguageManager languageManager = null;
 	private WorldGroupsManager worldGroupManager = null;
-	private CommandLoader commandManager;
+	private CommandHandler commandManager;
 	private Caller serverCaller;
 	private VersionChecker versionChecker = null;
 	private boolean databaseInitialized = false;
@@ -142,8 +182,10 @@ public class Common implements com.greatmancode.tools.interfaces.Common{
 			eventManager = new EventManager();
 			sendConsoleMessage(Level.INFO, "Loading commands");
 			Common.getInstance().getServerCaller().registerPermission("craftconomy.*");
-			commandManager = new CommandLoader();
-			commandManager.initialize();
+			commandManager = new CommandHandler(serverCaller);
+			registerCommands();
+			//commandManager = new CommandLoader();
+			//commandManager.initialize();
 			if (getMainConfig().getBoolean("System.Setup")) {
 
 				//We got quick setup. Let's do it!!!!
@@ -556,7 +598,7 @@ public class Common implements com.greatmancode.tools.interfaces.Common{
 		sendConsoleMessage(Level.INFO, "Quick-Config done!");
 	}
 
-	private void loadDefaultSettings() {
+	public void loadDefaultSettings() {
 		displayFormat = DisplayFormat.valueOf(getDatabaseManager().getDatabase().select(ConfigTable.class).where().contains(ConfigTable.NAME_FIELD, "longmode").execute().findOne().getValue().toUpperCase());
 		holdings = Double.parseDouble(getDatabaseManager().getDatabase().select(ConfigTable.class).where().equal(ConfigTable.NAME_FIELD, "holdings").execute().findOne().getValue());
 		bankPrice = Double.parseDouble(getDatabaseManager().getDatabase().select(ConfigTable.class).where().equal(ConfigTable.NAME_FIELD, "bankprice").execute().findOne().getValue());
@@ -607,5 +649,56 @@ public class Common implements com.greatmancode.tools.interfaces.Common{
 		return bankCurrencyId;
 	}
 
+	private void registerCommands() {
+		SubCommand money = new SubCommand(commandManager);
+		money.addCommand("", new MainCommand());
+		money.addCommand("all", new AllCommand());
+		money.addCommand("pay", new PayCommand());
+		money.addCommand("give", new GiveCommand());
+		money.addCommand("take", new TakeCommand());
+		money.addCommand("set", new SetCommand());
+		money.addCommand("delete", new DeleteCommand());
+		money.addCommand("create", new CreateCommand());
+		money.addCommand("help", new HelpCommand());
+		money.addCommand("balance", new BalanceCommand());
+		money.addCommand("top", new TopCommand());
+		money.addCommand("exchange", new ExchangeCommand());
+		money.addCommand("infinite", new InfiniteCommand());
+		money.addCommand("log", new LogCommand());
+		commandManager.registerMainCommand("money", money);
+
+		SubCommand bank = new SubCommand(commandManager);
+		bank.addCommand("create", new BankCreateCommand());
+		bank.addCommand("balance", new BankBalanceCommand());
+		bank.addCommand("deposit", new BankDepositCommand());
+		bank.addCommand("withdraw", new BankWithdrawCommand());
+		bank.addCommand("set", new BankSetCommand());
+		bank.addCommand("", new BankHelpCommand());
+		bank.addCommand("give", new BankGiveCommand());
+		bank.addCommand("take", new BankTakeCommand());
+		bank.addCommand("perm", new BankPermCommand());
+		bank.addCommand("list", new BankListCommand());
+		bank.addCommand("delete", new BankDeleteCommand());
+		commandManager.registerMainCommand("bank", bank);
+
+		SubCommand ccsetup = new SubCommand(commandManager);
+		ccsetup.addCommand("", new NewSetupMainCommand());
+		ccsetup.addCommand("database", new NewSetupDatabaseCommand());
+		ccsetup.addCommand("currency", new NewSetupCurrencyCommand());
+		ccsetup.addCommand("basic", new NewSetupBasicCommand());
+		ccsetup.addCommand("convert", new NewSetupConvertCommand());
+		commandManager.registerMainCommand("ccsetup", ccsetup);
+
+		SubCommand currency = new SubCommand(commandManager);
+		currency.addCommand("add", new CurrencyAddCommand());
+		currency.addCommand("delete", new CurrencyDeleteCommand());
+		currency.addCommand("edit", new CurrencyEditCommand());
+		currency.addCommand("info", new CurrencyInfoCommand());
+		currency.addCommand("", new CurrencyHelpCommand());
+		currency.addCommand("default", new CurrencyDefaultCommand());
+		currency.addCommand("exchange", new CurrencyExchangeCommand());
+		currency.addCommand("rates", new CurrencyRatesCommand());
+		commandManager.registerMainCommand("currency", currency);
+	}
 
 }

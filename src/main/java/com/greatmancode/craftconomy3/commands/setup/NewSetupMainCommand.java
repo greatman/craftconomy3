@@ -20,9 +20,9 @@ package com.greatmancode.craftconomy3.commands.setup;
 
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.NewSetupWizard;
-import com.greatmancode.craftconomy3.commands.interfaces.CraftconomyCommand;
+import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 
-public class NewSetupMainCommand extends CraftconomyCommand {
+public class NewSetupMainCommand extends CommandExecutor {
 	@Override
 	public void execute(String sender, String[] args) {
 		if (NewSetupWizard.getState().equals(NewSetupWizard.BASIC_STEP)) {

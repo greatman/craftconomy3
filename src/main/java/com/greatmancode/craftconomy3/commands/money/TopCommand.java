@@ -22,11 +22,11 @@ import com.alta189.simplesave.query.OrderQuery;
 import com.alta189.simplesave.query.QueryResult;
 import com.alta189.simplesave.query.SelectQuery;
 import com.greatmancode.craftconomy3.Common;
-import com.greatmancode.craftconomy3.commands.interfaces.CraftconomyCommand;
 import com.greatmancode.craftconomy3.currency.Currency;
 import com.greatmancode.craftconomy3.database.tables.AccountTable;
 import com.greatmancode.craftconomy3.database.tables.BalanceTable;
 import com.greatmancode.craftconomy3.groups.WorldGroupsManager;
+import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 
 class TopCommandThread implements Runnable {
 	public static final int NUMBER_ELEMENTS = 10;
@@ -60,7 +60,7 @@ class TopCommandThread implements Runnable {
 
 	@Override
 	public void run() {
-		String ret = String.format(Common.getInstance().getLanguageManager().getString("money_top_header"), page, world) + "\n";
+		String ret = Common.getInstance().getLanguageManager().parse("money_top_header", page, world) + "\n";
 		SelectQuery<BalanceTable> balanceQuery = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class);
 		balanceQuery.where().equal("worldName", world).and().equal("currency_id", currency);
 		balanceQuery.order().getPairs().add(new OrderQuery.OrderPair("balance", OrderQuery.Order.DESC));
@@ -85,7 +85,7 @@ class TopCommandThread implements Runnable {
 	}
 }
 
-public class TopCommand extends CraftconomyCommand {
+public class TopCommand extends CommandExecutor {
 	@Override
 	public void execute(String sender, String[] args) {
 		int page = 1;

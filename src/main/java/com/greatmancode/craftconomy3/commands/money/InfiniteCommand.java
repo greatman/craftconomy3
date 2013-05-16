@@ -20,9 +20,9 @@ package com.greatmancode.craftconomy3.commands.money;
 
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.account.Account;
-import com.greatmancode.craftconomy3.commands.interfaces.CraftconomyCommand;
+import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 
-public class InfiniteCommand extends CraftconomyCommand {
+public class InfiniteCommand extends CommandExecutor {
 	@Override
 	public void execute(String sender, String[] args) {
 		if (Common.getInstance().getAccountManager().exist(args[0])) {

@@ -23,10 +23,10 @@ import java.util.Map;
 
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.NewSetupWizard;
-import com.greatmancode.craftconomy3.commands.interfaces.CraftconomyCommand;
 import com.greatmancode.craftconomy3.database.tables.ConfigTable;
+import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 
-public class NewSetupCurrencyCommand extends CraftconomyCommand {
+public class NewSetupCurrencyCommand extends CommandExecutor {
 	private enum INTERNALSTEP {
 		NAME,
 		NAMEPLURAL,

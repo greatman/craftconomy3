@@ -19,11 +19,11 @@
 package com.greatmancode.craftconomy3.commands.payday;
 
 import com.greatmancode.craftconomy3.Common;
-import com.greatmancode.craftconomy3.commands.interfaces.CraftconomyCommand;
 import com.greatmancode.craftconomy3.currency.Currency;
 import com.greatmancode.craftconomy3.utils.Tools;
+import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 
-public class PayDayCreateCommand extends CraftconomyCommand {
+public class PayDayCreateCommand extends CommandExecutor {
 	@Override
 	public void execute(String sender, String[] args) {
 		if (Common.getInstance().getPaydayManager().getPayDay(args[0]) == null) {
@@ -62,7 +62,7 @@ public class PayDayCreateCommand extends CraftconomyCommand {
 							status = 1;
 						}
 						Common.getInstance().getPaydayManager().addPayDay(args[0], false, Integer.parseInt(args[1]), accountName, status, currencyId, Double.parseDouble(args[3]), worldName, true);
-						Common.getInstance().getServerCaller().sendMessage(sender, String.format(Common.getInstance().getLanguageManager().getString("payday_create_success"), "craftconomy.payday." + args[0].toLowerCase()));
+						Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().parse("payday_create_success", "craftconomy.payday." + args[0].toLowerCase()));
 					} else {
 						Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("invalid_amount"));
 					}

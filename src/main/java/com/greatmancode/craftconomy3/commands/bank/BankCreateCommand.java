@@ -33,7 +33,7 @@ public class BankCreateCommand extends CommandExecutor {
 				account.getAccountACL().set(sender, true, true, true, true, true);
 				Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("bank_account_created"));
 			} else {
-				Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().parse("bank_account_not_enough_money_create", Common.getInstance().format(null, Common.getInstance().getCurrencyManager().getCurrency(Common.getInstance().getBankCurrencyId()), Common.getInstance().getBankPrice()));
+				Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().parse("bank_account_not_enough_money_create", Common.getInstance().format(null, Common.getInstance().getCurrencyManager().getCurrency(Common.getInstance().getBankCurrencyId()), Common.getInstance().getBankPrice())));
 			}
 		} else {
 			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("account_already_exists"));

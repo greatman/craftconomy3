@@ -21,11 +21,11 @@ package com.greatmancode.craftconomy3.commands.setup;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.DisplayFormat;
 import com.greatmancode.craftconomy3.NewSetupWizard;
-import com.greatmancode.craftconomy3.commands.interfaces.CraftconomyCommand;
 import com.greatmancode.craftconomy3.database.tables.ConfigTable;
 import com.greatmancode.craftconomy3.utils.Tools;
+import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 
-public class NewSetupBasicCommand extends CraftconomyCommand {
+public class NewSetupBasicCommand extends CommandExecutor {
 	private enum INTERNALSTEP {
 		DEFAULT_MONEY,
 		BANK_PRICE,
@@ -89,7 +89,7 @@ public class NewSetupBasicCommand extends CraftconomyCommand {
 				table.setValue("4");
 				Common.getInstance().getDatabaseManager().getDatabase().save(table);
 				NewSetupWizard.setState(NewSetupWizard.CONVERT_STEP);
-				Common.getInstance().getConfigurationManager().loadDefaultSettings();
+				Common.getInstance().loadDefaultSettings();
 				Common.getInstance().startUp();
 				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Only 1 step left! Do you want to convert from another system? Type {{WHITE}} /ccsetup convert yes {{DARK_GREEN}}or {{WHITE}}/ccsetup convert no");
 			} catch (IllegalArgumentException e) {

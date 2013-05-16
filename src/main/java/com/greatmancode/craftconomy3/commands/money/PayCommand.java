@@ -21,11 +21,11 @@ package com.greatmancode.craftconomy3.commands.money;
 import com.greatmancode.craftconomy3.Cause;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.account.Account;
-import com.greatmancode.craftconomy3.commands.interfaces.CraftconomyCommand;
 import com.greatmancode.craftconomy3.currency.Currency;
 import com.greatmancode.craftconomy3.utils.Tools;
+import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 
-public class PayCommand extends CraftconomyCommand {
+public class PayCommand extends CommandExecutor {
 	@Override
 	public void execute(String sender, String[] args) {
 		if (!Account.isBankAccount(args[0]) && Common.getInstance().getAccountManager().exist(args[0])) {
@@ -45,9 +45,9 @@ public class PayCommand extends CraftconomyCommand {
 				if (hasEnough) {
 					Common.getInstance().getAccountManager().getAccount(sender).withdraw(amount, Common.getInstance().getAccountManager().getAccount(sender).getWorldGroupOfPlayerCurrentlyIn(), currency.getName(), Cause.PAYMENT, args[0]);
 					Common.getInstance().getAccountManager().getAccount(args[0]).deposit(amount, Common.getInstance().getAccountManager().getAccount(sender).getWorldGroupOfPlayerCurrentlyIn(), currency.getName(), Cause.PAYMENT, sender);
-					Common.getInstance().getServerCaller().sendMessage(sender, String.format(Common.getInstance().getLanguageManager().getString("money_pay_sent"), Common.getInstance().format(null, currency, amount), args[0]));
+					Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().parse("money_pay_sent", Common.getInstance().format(null, currency, amount), args[0]));
 					if (Common.getInstance().getServerCaller().isOnline(args[0])) {
-						Common.getInstance().getServerCaller().sendMessage(args[0], String.format(Common.getInstance().getLanguageManager().getString("money_pay_received"), Common.getInstance().format(null, currency, amount), sender));
+						Common.getInstance().getServerCaller().sendMessage(args[0], Common.getInstance().getLanguageManager().parse("money_pay_received", Common.getInstance().format(null, currency, amount), sender));
 					}
 				} else {
 					Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("not_enough_money"));
