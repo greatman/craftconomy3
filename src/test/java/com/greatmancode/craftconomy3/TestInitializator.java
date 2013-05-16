@@ -18,19 +18,21 @@
  */
 package com.greatmancode.craftconomy3;
 
+import java.util.logging.Logger;
+
 import com.alta189.simplesave.exceptions.ConnectionException;
 import com.alta189.simplesave.exceptions.TableRegistrationException;
-import com.greatmancode.craftconomy3.currency.Currency;
 import com.greatmancode.craftconomy3.database.tables.ConfigTable;
-import com.greatmancode.craftconomy3.database.tables.CurrencyTable;
+import com.greatmancode.tools.ServerType;
+import com.greatmancode.tools.database.throwable.InvalidDatabaseConstructor;
+import com.greatmancode.tools.interfaces.Loader;
 
 public class TestInitializator {
 	private static boolean initialized = false;
-
 	public TestInitializator() {
 		if (!initialized) {
-			new UnitTestLoader().onEnable();
-			Common.getInstance().getConfigurationManager().getConfig().setValue("System.Setup", false);
+			new Common(new UnitTestLoader(), Logger.getLogger("unittest")).onEnable();
+			Common.getInstance().getMainConfig().setValue("System.Setup", false);
 			try {
 				Common.getInstance().initialiseDatabase();
 			} catch (TableRegistrationException e) {
@@ -39,6 +41,8 @@ public class TestInitializator {
 			} catch (ConnectionException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+			} catch (InvalidDatabaseConstructor invalidDatabaseConstructor) {
+				invalidDatabaseConstructor.printStackTrace();
 			}
 			Common.getInstance().initializeCurrency();
 			ConfigTable table = new ConfigTable();
@@ -55,9 +59,26 @@ public class TestInitializator {
 			Common.getInstance().getDatabaseManager().getDatabase().save(table);
 			Common.getInstance().getCurrencyManager().addCurrency("Dollar", "Dollars", "Coin", "Coins", 0 , "$", true);
 			Common.getInstance().getCurrencyManager().setDefault(1);
-			Common.getInstance().getConfigurationManager().loadDefaultSettings();
+			Common.getInstance().loadDefaultSettings();
 			Common.getInstance().startUp();
 			initialized = true;
+		}
+	}
+
+	private class UnitTestLoader implements Loader {
+		@Override
+		public void onEnable() {
+
+		}
+
+		@Override
+		public void onDisable() {
+
+		}
+
+		@Override
+		public ServerType getServerType() {
+			return ServerType.UNIT_TEST;
 		}
 	}
 }

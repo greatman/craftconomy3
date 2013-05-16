@@ -37,11 +37,6 @@ public class PayDayListCommand extends CommandExecutor {
 	}
 
 	@Override
-	public boolean permission(String sender) {
-		return Common.getInstance().getServerCaller().checkPermission(sender, "craftconomy.payday.command.list");
-	}
-
-	@Override
 	public String help() {
 		return Common.getInstance().getLanguageManager().getString("payday_list_cmd_help");
 	}

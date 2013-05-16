@@ -80,6 +80,7 @@ public class VersionChecker {
 	 * @return The new version of the plugin.
 	 */
 	public String getNewVersion() {
+		System.out.println("VERSION:" + newVersion);
 		return newVersion;
 	}
 }

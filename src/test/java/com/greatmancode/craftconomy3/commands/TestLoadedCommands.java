@@ -20,9 +20,8 @@ package com.greatmancode.craftconomy3.commands;
 
 import java.util.Iterator;
 
-import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.TestInitializator;
-import com.greatmancode.craftconomy3.commands.interfaces.CraftconomyCommand;
+import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -40,11 +39,11 @@ public class TestLoadedCommands {
 	public void testCommands() {
 
 		Reflections reflections = new Reflections("com.greatmancode.craftconomy3.commands");
-		Iterator<Class<? extends CraftconomyCommand>> allClasses = reflections.getSubTypesOf(CraftconomyCommand.class).iterator();
+		Iterator<Class<? extends CommandExecutor>> allClasses = reflections.getSubTypesOf(CommandExecutor.class).iterator();
 		while (allClasses.hasNext()) {
-			Class<? extends CraftconomyCommand> clazz = allClasses.next();
+			Class<? extends CommandExecutor> clazz = allClasses.next();
 			try {
-				CraftconomyCommand instance = clazz.newInstance();
+				CommandExecutor instance = clazz.newInstance();
 				if (instance.help() == null) {
 					fail("Help is null for: " + clazz.getName());
 				}
@@ -71,10 +70,5 @@ public class TestLoadedCommands {
 				fail(e.getMessage());
 			}
 		}
-	}
-
-	@Test
-	public void testBankBalanceCommand() {
-		Common.getInstance().getCommandManager().getCommandHandler("bank").execute("console", "balance", null);
 	}
 }

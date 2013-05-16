@@ -26,8 +26,6 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.fail;
 
 public class TestConfigurationManager {
 	@Before
@@ -38,16 +36,16 @@ public class TestConfigurationManager {
 	@Test
 	public void test() {
 		assertNotNull(Common.getInstance().getConfigurationManager());
-		assertNotNull(Common.getInstance().getConfigurationManager().getConfig());
-		assertEquals(false, Common.getInstance().getConfigurationManager().getConfig().getBoolean("System.Setup"));
-		Common.getInstance().getConfigurationManager().getConfig().setValue("System.Setup", true);
-		assertEquals(true, Common.getInstance().getConfigurationManager().getConfig().getBoolean("System.Setup"));
-		Common.getInstance().getConfigurationManager().getConfig().setValue("System.Setup", false);
-		assertEquals("sqlite", Common.getInstance().getConfigurationManager().getConfig().getString("System.Database.Type"));
-		assertEquals(3306, Common.getInstance().getConfigurationManager().getConfig().getInt("System.Database.Port"));
-		Common.getInstance().getConfigurationManager().getConfig().setValue("test", 30);
-		assertEquals(30, Common.getInstance().getConfigurationManager().getConfig().getLong("test"));
-		Common.getInstance().getConfigurationManager().getConfig().setValue("test", 30.40);
-		assertEquals(30.40, Common.getInstance().getConfigurationManager().getConfig().getDouble("test"), 0);
+		assertNotNull(Common.getInstance().getMainConfig());
+		assertEquals(false, Common.getInstance().getMainConfig().getBoolean("System.Setup"));
+		Common.getInstance().getMainConfig().setValue("System.Setup", true);
+		assertEquals(true, Common.getInstance().getMainConfig().getBoolean("System.Setup"));
+		Common.getInstance().getMainConfig().setValue("System.Setup", false);
+		assertEquals("sqlite", Common.getInstance().getMainConfig().getString("System.Database.Type"));
+		assertEquals(3306, Common.getInstance().getMainConfig().getInt("System.Database.Port"));
+		Common.getInstance().getMainConfig().setValue("test", 30);
+		assertEquals(30, Common.getInstance().getMainConfig().getLong("test"));
+		Common.getInstance().getMainConfig().setValue("test", 30.40);
+		assertEquals(30.40, Common.getInstance().getMainConfig().getDouble("test"), 0);
 	}
 }
