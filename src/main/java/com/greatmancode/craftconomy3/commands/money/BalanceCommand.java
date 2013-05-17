@@ -23,12 +23,13 @@ import java.util.Iterator;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.account.Account;
 import com.greatmancode.craftconomy3.account.Balance;
-import com.greatmancode.craftconomy3.commands.interfaces.CraftconomyCommand;
+import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 
-public class BalanceCommand extends CraftconomyCommand {
+public class BalanceCommand extends CommandExecutor {
 	@Override
 	public void execute(String sender, String[] args) {
 		if (Common.getInstance().getAccountManager().exist(args[0])) {
+			//TODO: Format this properly
 			Common.getInstance().getServerCaller().sendMessage(sender, "{{WHITE}} " + args[0] + " " + Common.getInstance().getLanguageManager().getString("money_all_title"));
 			Account account = Common.getInstance().getAccountManager().getAccount(args[0]);
 			Iterator<Balance> balanceList = account.getAllBalance().iterator();

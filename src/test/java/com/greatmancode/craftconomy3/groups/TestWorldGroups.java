@@ -18,19 +18,14 @@
  */
 package com.greatmancode.craftconomy3.groups;
 
-import java.lang.reflect.Field;
-import java.util.List;
-
 import com.greatmancode.craftconomy3.TestInitializator;
-import com.greatmancode.craftconomy3.UnitTestCaller;
+import com.greatmancode.tools.caller.unittest.UnitTestCaller;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.reflections.Reflections;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 public class TestWorldGroups {
 
@@ -42,6 +37,7 @@ public class TestWorldGroups {
 	@Test
 	public void testWorldGroup() throws NoSuchFieldException, IllegalAccessException {
 		WorldGroup worldGroup = new WorldGroup("test");
+
 
 		assertFalse(worldGroup.worldExist(UnitTestCaller.worldName));
 

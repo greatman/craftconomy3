@@ -19,10 +19,10 @@
 package com.greatmancode.craftconomy3.commands.payday;
 
 import com.greatmancode.craftconomy3.Common;
-import com.greatmancode.craftconomy3.commands.interfaces.CraftconomyCommand;
 import com.greatmancode.craftconomy3.payday.PayDay;
+import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 
-public class PayDayDeleteCommand extends CraftconomyCommand {
+public class PayDayDeleteCommand extends CommandExecutor {
 	@Override
 	public void execute(String sender, String[] args) {
 		PayDay payday = Common.getInstance().getPaydayManager().getPayDay(args[0]);

@@ -19,11 +19,11 @@
 package com.greatmancode.craftconomy3.commands.currency;
 
 import com.greatmancode.craftconomy3.Common;
-import com.greatmancode.craftconomy3.commands.interfaces.CraftconomyCommand;
 import com.greatmancode.craftconomy3.currency.Currency;
-import com.greatmancode.craftconomy3.utils.Tools;
+import com.greatmancode.tools.commands.interfaces.CommandExecutor;
+import com.greatmancode.tools.utils.Tools;
 
-public class CurrencyExchangeCommand extends CraftconomyCommand {
+public class CurrencyExchangeCommand extends CommandExecutor {
 	@Override
 	public void execute(String sender, String[] args) {
 		Currency currency = Common.getInstance().getCurrencyManager().getCurrency(args[0]);

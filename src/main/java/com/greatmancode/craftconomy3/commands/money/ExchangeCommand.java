@@ -21,12 +21,12 @@ package com.greatmancode.craftconomy3.commands.money;
 import com.greatmancode.craftconomy3.Cause;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.account.Account;
-import com.greatmancode.craftconomy3.commands.interfaces.CraftconomyCommand;
 import com.greatmancode.craftconomy3.currency.Currency;
 import com.greatmancode.craftconomy3.utils.NoExchangeRate;
-import com.greatmancode.craftconomy3.utils.Tools;
+import com.greatmancode.tools.commands.interfaces.CommandExecutor;
+import com.greatmancode.tools.utils.Tools;
 
-public class ExchangeCommand extends CraftconomyCommand {
+public class ExchangeCommand extends CommandExecutor {
 	@Override
 	public void execute(String sender, String[] args) {
 		if (Tools.isValidDouble(args[2])) {
@@ -41,10 +41,10 @@ public class ExchangeCommand extends CraftconomyCommand {
 						double value = amount * exchangeRate;
 						account.withdraw(amount, Common.getInstance().getServerCaller().getPlayerWorld(sender), currency1.getName(), Cause.EXCHANGE, currency2.getName());
 						account.deposit(value, Common.getInstance().getServerCaller().getPlayerWorld(sender), currency2.getName(), Cause.EXCHANGE, currency1.getName());
-						Common.getInstance().getServerCaller().sendMessage(sender, String.format(Common.getInstance().getLanguageManager().getString("exchange_done"), amount, currency1.getName(), value, currency2.getName()));
+						Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().parse("exchange_done", amount, currency1.getName(), value, currency2.getName()));
 					}
 				} catch (NoExchangeRate noExchangeRate) {
-					Common.getInstance().getServerCaller().sendMessage(sender, String.format(Common.getInstance().getLanguageManager().getString("no_exchange_rate"), currency1.getName(), currency2.getName()));
+					Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().parse("no_exchange_rate", currency1.getName(), currency2.getName()));
 				}
 			} else {
 				Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("currency_not_exist"));

@@ -20,7 +20,7 @@ package com.greatmancode.craftconomy3.account;
 
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.TestInitializator;
-import com.greatmancode.craftconomy3.UnitTestCaller;
+import com.greatmancode.tools.caller.unittest.UnitTestCaller;
 
 import org.junit.Before;
 import org.junit.Test;

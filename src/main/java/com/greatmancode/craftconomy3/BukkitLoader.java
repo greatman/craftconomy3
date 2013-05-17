@@ -19,20 +19,19 @@
 package com.greatmancode.craftconomy3;
 
 import com.greatmancode.craftconomy3.events.BukkitListener;
-
-import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.plugin.java.PluginClassLoader;
+import com.greatmancode.tools.ServerType;
 
 /**
  * Class used when the plugin is loaded from Craftbukkit
  * @author greatman
  */
-public class BukkitLoader extends JavaPlugin implements Loader {
+public class BukkitLoader extends com.greatmancode.tools.interfaces.BukkitLoader {
+
 	/**
 	 * Called when the plugin is loaded.
 	 */
 	public void onEnable() {
-		new Common(this, getLogger()).initialize();
+		new Common(this, getLogger()).onEnable();
 		if (Common.isInitialized()) {
 			this.getServer().getPluginManager().registerEvents(new BukkitListener(), this);
 		}
@@ -42,15 +41,7 @@ public class BukkitLoader extends JavaPlugin implements Loader {
 	 * Called when the plugin is unloaded.
 	 */
 	public void onDisable() {
-		Common.getInstance().disable();
-	}
-
-	/**
-	 * Retrieve the PluginClassLoader of Bukkit
-	 * @return The PluginClassLoader of Bukkit
-	 */
-	public PluginClassLoader getPluginClassLoader() {
-		return (PluginClassLoader) this.getClassLoader();
+		Common.getInstance().onDisable();
 	}
 
 	@Override

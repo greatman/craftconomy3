@@ -21,14 +21,15 @@ package com.greatmancode.craftconomy3.commands.money;
 import com.greatmancode.craftconomy3.Cause;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.account.Account;
-import com.greatmancode.craftconomy3.commands.interfaces.CraftconomyCommand;
 import com.greatmancode.craftconomy3.currency.Currency;
-import com.greatmancode.craftconomy3.utils.Tools;
+import com.greatmancode.tools.commands.interfaces.CommandExecutor;
+import com.greatmancode.tools.utils.Tools;
 
-public class GiveCommand extends CraftconomyCommand {
+public class GiveCommand extends CommandExecutor {
 	@Override
 	public void execute(String sender, String[] args) {
 		if (!Account.isBankAccount(args[0]) && Common.getInstance().getAccountManager().exist(args[0])) {
+
 			if (Tools.isValidDouble(args[1])) {
 				double amount = Double.parseDouble(args[1]);
 				Currency currency = Common.getInstance().getCurrencyManager().getDefaultCurrency();
@@ -50,9 +51,9 @@ public class GiveCommand extends CraftconomyCommand {
 				}
 
 				Common.getInstance().getAccountManager().getAccount(args[0]).deposit(amount, worldName, currency.getName(), Cause.USER, sender);
-				Common.getInstance().getServerCaller().sendMessage(sender, String.format(Common.getInstance().getLanguageManager().getString("money_give_send"), Common.getInstance().format(worldName, currency, amount), args[0]));
+				Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().parse("money_give_send", Common.getInstance().format(worldName, currency, amount), args[0]));
 				if (Common.getInstance().getServerCaller().isOnline(args[0])) {
-					Common.getInstance().getServerCaller().sendMessage(args[0], String.format(Common.getInstance().getLanguageManager().getString("money_give_received"), Common.getInstance().format(worldName, currency, amount), sender));
+					Common.getInstance().getServerCaller().sendMessage(args[0], Common.getInstance().getLanguageManager().parse("money_give_received", Common.getInstance().format(worldName, currency, amount), sender));
 				}
 			} else {
 				Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("invalid_amount"));

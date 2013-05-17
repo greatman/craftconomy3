@@ -24,11 +24,11 @@ import java.util.Map.Entry;
 
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.NewSetupWizard;
-import com.greatmancode.craftconomy3.commands.interfaces.CraftconomyCommand;
 import com.greatmancode.craftconomy3.converter.Converter;
 import com.greatmancode.craftconomy3.converter.ConverterList;
+import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 
-public class NewSetupConvertCommand extends CraftconomyCommand {
+public class NewSetupConvertCommand extends CommandExecutor {
 	private enum INTERNALSTEP {
 		START,
 		SELECT_CONVERT,
@@ -94,8 +94,8 @@ public class NewSetupConvertCommand extends CraftconomyCommand {
 								public void run() {
 									Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}NOTICE: {{WHITE}}The conversion is made in another thread so it doesn't hang the server. Craftconomy will be unlocked when the conversion is complete.");
 									selectedConverter.importData(sender);
-									Common.getInstance().getConfigurationManager().getConfig().setValue("System.Setup", false);
-									Common.getInstance().getConfigurationManager().loadDefaultSettings();
+									Common.getInstance().getMainConfig().setValue("System.Setup", false);
+									Common.getInstance().loadDefaultSettings();
 									Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Conversion complete! Enjoy Craftconomy!");
 								}
 							}, 0, 0, true);
@@ -143,7 +143,7 @@ public class NewSetupConvertCommand extends CraftconomyCommand {
 			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}I currently support those systems: {{WHITE}}" + getConverterListFormatted());
 			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Please type {{WHITE}}/ccsetup convert <" + getConverterListFormatted() + ">");
 		} else if (args[0].equalsIgnoreCase("no")) {
-			Common.getInstance().getConfigurationManager().getConfig().setValue("System.Setup", false);
+			Common.getInstance().getMainConfig().setValue("System.Setup", false);
 			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}The setup is done! Enjoy Craftconomy!");
 		} else {
 			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Correct values are yes or no! Please type {{WHITE}}/ccsetup convert <yes/no>");

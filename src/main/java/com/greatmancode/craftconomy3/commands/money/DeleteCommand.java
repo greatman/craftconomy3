@@ -19,13 +19,13 @@
 package com.greatmancode.craftconomy3.commands.money;
 
 import com.greatmancode.craftconomy3.Common;
-import com.greatmancode.craftconomy3.commands.interfaces.CraftconomyCommand;
+import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 
-public class DeleteCommand extends CraftconomyCommand {
+public class DeleteCommand extends CommandExecutor {
 	@Override
 	public void execute(String sender, String[] args) {
 		if (Common.getInstance().getAccountManager().delete(args[0])) {
-			Common.getInstance().getServerCaller().sendMessage(sender, String.format(Common.getInstance().getLanguageManager().getString("money_delete_success"), args[0]));
+			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().parse("money_delete_success", args[0]));
 		} else {
 			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("account_not_exist"));
 		}

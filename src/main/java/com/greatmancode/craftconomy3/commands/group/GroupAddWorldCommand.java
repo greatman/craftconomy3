@@ -19,15 +19,15 @@
 package com.greatmancode.craftconomy3.commands.group;
 
 import com.greatmancode.craftconomy3.Common;
-import com.greatmancode.craftconomy3.commands.interfaces.CraftconomyCommand;
+import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 
-public class GroupAddWorldCommand extends CraftconomyCommand {
+public class GroupAddWorldCommand extends CommandExecutor {
 	@Override
 	public void execute(String sender, String[] args) {
 		if (Common.getInstance().getWorldGroupManager().worldGroupExist(args[0])) {
 			if (Common.getInstance().getServerCaller().worldExist(args[1])) {
 				if (!Common.getInstance().getWorldGroupManager().getWorldGroupName(args[1]).equals("default")) {
-					Common.getInstance().getServerCaller().sendMessage(sender, String.format(Common.getInstance().getLanguageManager().getString("world_already_in_group"), args[1]));
+					Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().parse("world_already_in_group", args[1]));
 					return;
 				}
 				Common.getInstance().getWorldGroupManager().addWorldToGroup(args[0], args[1]);

@@ -29,11 +29,11 @@ public class EventManager {
 	 * @param playerName The player name.
 	 */
 	public void playerJoinEvent(String playerName) {
-		if (Common.getInstance().getConfigurationManager().getConfig().getBoolean("System.CheckNewVersion") && Common.getInstance().getServerCaller().isOp(playerName) && Common.getInstance().getVersionChecker().isOld()) {
+		if (Common.getInstance().getMainConfig().getBoolean("System.CheckNewVersion") && Common.getInstance().getServerCaller().isOp(playerName) && Common.getInstance().getVersionChecker().isOld()) {
 			Common.getInstance().getServerCaller().sendMessage(playerName, "{{DARK_CYAN}}Craftconomy is out of date! New version is " + Common.getInstance().getVersionChecker().getNewVersion());
 		}
 
-		if (Common.getInstance().getConfigurationManager().getConfig().getBoolean("System.CreateOnLogin")) {
+		if (Common.getInstance().getMainConfig().getBoolean("System.CreateOnLogin")) {
 			Common.getInstance().getAccountManager().getAccount(playerName);
 		}
 	}

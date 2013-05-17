@@ -19,9 +19,9 @@
 package com.greatmancode.craftconomy3.commands.currency;
 
 import com.greatmancode.craftconomy3.Common;
-import com.greatmancode.craftconomy3.commands.interfaces.CraftconomyCommand;
+import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 
-public class CurrencyAddCommand extends CraftconomyCommand {
+public class CurrencyAddCommand extends CommandExecutor {
 	@Override
 	public void execute(String sender, String[] args) {
 		if (args[0] != null && args[1] != null && args[2] != null && args[3] != null && args[4] != null) {

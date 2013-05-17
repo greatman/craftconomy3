@@ -19,19 +19,19 @@
 package com.greatmancode.craftconomy3.commands.currency;
 
 import com.greatmancode.craftconomy3.Common;
-import com.greatmancode.craftconomy3.commands.interfaces.CraftconomyCommand;
 import com.greatmancode.craftconomy3.currency.Currency;
+import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 
-public class CurrencyInfoCommand extends CraftconomyCommand {
+public class CurrencyInfoCommand extends CommandExecutor {
 	@Override
 	public void execute(String sender, String[] args) {
 		Currency currency = Common.getInstance().getCurrencyManager().getCurrency(args[0]);
 		if (currency != null) {
 			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}======== {{WHITE}}" + currency.getName() + " {{DARK_GREEN}}========");
-			Common.getInstance().getServerCaller().sendMessage(sender, String.format(Common.getInstance().getLanguageManager().getString("currency_info_name"), currency.getName()));
-			Common.getInstance().getServerCaller().sendMessage(sender, String.format(Common.getInstance().getLanguageManager().getString("currency_info_name_plural"), currency.getPlural()));
-			Common.getInstance().getServerCaller().sendMessage(sender, String.format(Common.getInstance().getLanguageManager().getString("currency_info_minor"), currency.getMinor()));
-			Common.getInstance().getServerCaller().sendMessage(sender, String.format(Common.getInstance().getLanguageManager().getString("currency_info_minor_plural"), currency.getMinorPlural()));
+			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().parse("currency_info_name", currency.getName()));
+			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().parse("currency_info_name_plural", currency.getPlural()));
+			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().parse("currency_info_minor", currency.getMinor()));
+			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().parse("currency_info_minor_plural", currency.getMinorPlural()));
 		} else {
 			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("currency_not_exist"));
 		}

@@ -22,10 +22,10 @@ import java.util.Iterator;
 import java.util.Map.Entry;
 
 import com.greatmancode.craftconomy3.Common;
-import com.greatmancode.craftconomy3.commands.interfaces.CraftconomyCommand;
 import com.greatmancode.craftconomy3.payday.PayDay;
+import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 
-public class PayDayListCommand extends CraftconomyCommand {
+public class PayDayListCommand extends CommandExecutor {
 	@Override
 	public void execute(String sender, String[] args) {
 		Iterator<Entry<Integer, PayDay>> paydayList = Common.getInstance().getPaydayManager().getPayDayList().entrySet().iterator();
@@ -34,11 +34,6 @@ public class PayDayListCommand extends CraftconomyCommand {
 			Entry<Integer, PayDay> entry = paydayList.next();
 			Common.getInstance().getServerCaller().sendMessage(sender, entry.getValue().getName());
 		}
-	}
-
-	@Override
-	public boolean permission(String sender) {
-		return Common.getInstance().getServerCaller().checkPermission(sender, "craftconomy.payday.command.list");
 	}
 
 	@Override

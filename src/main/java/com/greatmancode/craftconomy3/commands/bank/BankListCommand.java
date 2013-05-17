@@ -23,11 +23,11 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.greatmancode.craftconomy3.Common;
-import com.greatmancode.craftconomy3.commands.interfaces.CraftconomyCommand;
 import com.greatmancode.craftconomy3.database.tables.AccessTable;
 import com.greatmancode.craftconomy3.database.tables.AccountTable;
+import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 
-public class BankListCommand extends CraftconomyCommand{
+public class BankListCommand extends CommandExecutor{
 	@Override
 	public void execute(String sender, String[] args) {
 		List<AccessTable> accessTableList = Common.getInstance().getDatabaseManager().getDatabase().select(AccessTable.class).where().equal("playerName", sender).execute().find();
@@ -36,7 +36,7 @@ public class BankListCommand extends CraftconomyCommand{
 			accountTableList.add(Common.getInstance().getDatabaseManager().getDatabase().select(AccountTable.class).where().equal("id", accessEntry.getAccountId()).execute().findOne());
 		}
 
-		Common.getInstance().getServerCaller().sendMessage(sender, String.format(Common.getInstance().getLanguageManager().getString("bank_account_list"), Arrays.toString(accountTableList.toArray())));
+		Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().parse("bank_account_list", Arrays.toString(accountTableList.toArray())));
 	}
 
 	@Override

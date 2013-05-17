@@ -21,11 +21,11 @@ package com.greatmancode.craftconomy3.commands.bank;
 import com.greatmancode.craftconomy3.Cause;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.account.Account;
-import com.greatmancode.craftconomy3.commands.interfaces.CraftconomyCommand;
 import com.greatmancode.craftconomy3.currency.Currency;
-import com.greatmancode.craftconomy3.utils.Tools;
+import com.greatmancode.tools.commands.interfaces.CommandExecutor;
+import com.greatmancode.tools.utils.Tools;
 
-public class BankWithdrawCommand extends CraftconomyCommand {
+public class BankWithdrawCommand extends CommandExecutor{
 	@Override
 	public void execute(String sender, String[] args) {
 		if (Common.getInstance().getAccountManager().exist(Account.BANK_PREFIX + args[0])) {
@@ -46,6 +46,7 @@ public class BankWithdrawCommand extends CraftconomyCommand {
 					if (bankAccount.hasEnough(amount, playerAccount.getWorldGroupOfPlayerCurrentlyIn(), currency.getName())) {
 						bankAccount.withdraw(amount, playerAccount.getWorldGroupOfPlayerCurrentlyIn(), currency.getName(), Cause.BANK_WITHDRAW, sender);
 						playerAccount.deposit(amount, playerAccount.getWorldGroupOfPlayerCurrentlyIn(), currency.getName(), Cause.BANK_WITHDRAW, bankAccount.getAccountName());
+						//TODO: Language
 						Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Withdrawed {{WHITE}}" + Common.getInstance().format(null, currency, amount) + "{{DARK_GREEN}} from the {{WHITE}}" + args[0] + "{{DARK_GREEN}} bank Account.");
 					} else {
 						Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("bank_not_enough_money"));
