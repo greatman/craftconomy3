@@ -22,8 +22,8 @@ import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.DisplayFormat;
 import com.greatmancode.craftconomy3.NewSetupWizard;
 import com.greatmancode.craftconomy3.database.tables.ConfigTable;
-import com.greatmancode.craftconomy3.utils.Tools;
 import com.greatmancode.tools.commands.interfaces.CommandExecutor;
+import com.greatmancode.tools.utils.Tools;
 
 public class NewSetupBasicCommand extends CommandExecutor {
 	private enum INTERNALSTEP {

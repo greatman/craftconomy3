@@ -19,8 +19,8 @@
 package com.greatmancode.craftconomy3.commands.payday;
 
 import com.greatmancode.craftconomy3.Common;
-import com.greatmancode.craftconomy3.utils.Tools;
 import com.greatmancode.tools.commands.interfaces.CommandExecutor;
+import com.greatmancode.tools.utils.Tools;
 
 public class PayDayModifyCommand extends CommandExecutor {
 	@Override

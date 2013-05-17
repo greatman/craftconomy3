@@ -26,8 +26,6 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import com.alta189.simplesave.exceptions.ConnectionException;
 import com.alta189.simplesave.exceptions.TableRegistrationException;
@@ -93,7 +91,6 @@ import com.greatmancode.craftconomy3.database.tables.WorldGroupTable;
 import com.greatmancode.craftconomy3.events.EventManager;
 import com.greatmancode.craftconomy3.groups.WorldGroupsManager;
 import com.greatmancode.craftconomy3.payday.PayDayManager;
-import com.greatmancode.craftconomy3.utils.VersionChecker;
 import com.greatmancode.tools.ServerType;
 import com.greatmancode.tools.caller.bukkit.BukkitCaller;
 import com.greatmancode.tools.caller.spout.SpoutCaller;
@@ -109,6 +106,7 @@ import com.greatmancode.tools.interfaces.Caller;
 import com.greatmancode.tools.interfaces.Loader;
 import com.greatmancode.tools.language.LanguageManager;
 import com.greatmancode.tools.utils.Metrics;
+import com.greatmancode.tools.utils.VersionChecker;
 
 /**
  * The core of Craftconomy. Every requests pass through this class
@@ -155,7 +153,7 @@ public class Common implements com.greatmancode.tools.interfaces.Common{
 		} else if (loader.getServerType().equals(ServerType.SPOUT)) {
 			serverCaller = new SpoutCaller(loader);
 		} else if (loader.getServerType().equals(ServerType.UNIT_TEST)) {
-			serverCaller = new UnitTestCaller();
+			serverCaller = new UnitTestCaller(loader);
 		}
 	}
 
@@ -175,6 +173,7 @@ public class Common implements com.greatmancode.tools.interfaces.Common{
 
 			languageManager = new LanguageManager(serverCaller, serverCaller.getDataFolder(), "lang.yml");
 			loadLanguage();
+			serverCaller.setCommandPrefix(languageManager.getString("command_prefix"));
 			if (!(getServerCaller() instanceof UnitTestCaller)) {
 				try {
 					metrics = new Metrics("Craftconomy", this.getServerCaller().getPluginVersion(), serverCaller);
@@ -224,6 +223,7 @@ public class Common implements com.greatmancode.tools.interfaces.Common{
 					sendConsoleMessage(Level.WARNING, getLanguageManager().getString("loaded_setup_mode"));
 				}
 			} else {
+				commandManager.setLevel(1);
 				try {
 					initialiseDatabase();
 				} catch (Exception e) {
@@ -431,7 +431,7 @@ public class Common implements com.greatmancode.tools.interfaces.Common{
 		if (!databaseInitialized) {
 			sendConsoleMessage(Level.INFO, getLanguageManager().getString("loading_database_manager"));
 			DatabaseType databaseType = DatabaseType.valueOf(getMainConfig().getString("System.Database.Type").toUpperCase());
-			if (DatabaseType.MySQL.equals(databaseType)) {
+			if (DatabaseType.MYSQL.equals(databaseType)) {
 				dbManager = new DatabaseManager(databaseType,getMainConfig().getString("System.Database.Address"), getMainConfig().getInt("System.Database.Port"), getMainConfig().getString("System.Database.Username"), getMainConfig().getString("System.Database.Password"), getMainConfig().getString("System.Database.Db"), getMainConfig().getString("System.Database.Prefix"));
 
 			} else {
@@ -495,13 +495,15 @@ public class Common implements com.greatmancode.tools.interfaces.Common{
 	 * @param value The value of the entry
 	 */
 	public void addMetricsGraph(String title, String value) {
-		org.mcstats.Metrics.Graph graph = metrics.createGraph(title);
-		graph.addPlotter(new Metrics.Plotter(value) {
-			@Override
-			public int getValue() {
-				return 1;
-			}
-		});
+		if (metrics != null) {
+			Metrics.Graph graph = metrics.createGraph(title);
+			graph.addPlotter(new Metrics.Plotter(value) {
+				@Override
+				public int getValue() {
+					return 1;
+				}
+			});
+		}
 	}
 
 	/**
@@ -518,7 +520,10 @@ public class Common implements com.greatmancode.tools.interfaces.Common{
 	}
 
 	public void startMetrics() {
-		metrics.start();
+		if (metrics != null) {
+			metrics.start();
+		}
+
 	}
 
 	/**
@@ -610,6 +615,7 @@ public class Common implements com.greatmancode.tools.interfaces.Common{
 		loadDefaultSettings();
 		Common.getInstance().startUp();
 		Common.getInstance().getMainConfig().setValue("System.Setup", false);
+		commandManager.setLevel(1);
 		sendConsoleMessage(Level.INFO, "Quick-Config done!");
 	}
 
@@ -666,7 +672,8 @@ public class Common implements com.greatmancode.tools.interfaces.Common{
 	}
 
 	private void registerCommands() {
-		SubCommand money = new SubCommand("money", commandManager, null);
+		commandManager.setWrongLevelMsg(languageManager.getString("command_disabled_setup_mode"));
+		SubCommand money = new SubCommand("money", commandManager, null, 1);
 		money.addCommand("", new MainCommand());
 		money.addCommand("all", new AllCommand());
 		money.addCommand("pay", new PayCommand());
@@ -682,7 +689,7 @@ public class Common implements com.greatmancode.tools.interfaces.Common{
 		money.addCommand("log", new LogCommand());
 		commandManager.registerMainCommand("money", money);
 
-		SubCommand bank = new SubCommand("bank", commandManager, null);
+		SubCommand bank = new SubCommand("bank", commandManager, null, 1);
 		bank.addCommand("create", new BankCreateCommand());
 		bank.addCommand("balance", new BankBalanceCommand());
 		bank.addCommand("deposit", new BankDepositCommand());
@@ -695,7 +702,7 @@ public class Common implements com.greatmancode.tools.interfaces.Common{
 		bank.addCommand("delete", new BankDeleteCommand());
 		commandManager.registerMainCommand("bank", bank);
 
-		SubCommand ccsetup = new SubCommand("ccsetup", commandManager, null);
+		SubCommand ccsetup = new SubCommand("ccsetup", commandManager, null, 0);
 		ccsetup.addCommand("", new NewSetupMainCommand());
 		ccsetup.addCommand("database", new NewSetupDatabaseCommand());
 		ccsetup.addCommand("currency", new NewSetupCurrencyCommand());
@@ -703,7 +710,7 @@ public class Common implements com.greatmancode.tools.interfaces.Common{
 		ccsetup.addCommand("convert", new NewSetupConvertCommand());
 		commandManager.registerMainCommand("ccsetup", ccsetup);
 
-		SubCommand currency = new SubCommand("currency", commandManager, null);
+		SubCommand currency = new SubCommand("currency", commandManager, null, 1);
 		currency.addCommand("add", new CurrencyAddCommand());
 		currency.addCommand("delete", new CurrencyDeleteCommand());
 		currency.addCommand("edit", new CurrencyEditCommand());
@@ -713,13 +720,13 @@ public class Common implements com.greatmancode.tools.interfaces.Common{
 		currency.addCommand("rates", new CurrencyRatesCommand());
 		commandManager.registerMainCommand("currency", currency);
 
-		SubCommand configCommand = new SubCommand("craftconomy", commandManager, null);
+		SubCommand configCommand = new SubCommand("craftconomy", commandManager, null, 1);
 		configCommand.addCommand("holdings", new ConfigHoldingsCommand());
 		configCommand.addCommand("bankprice", new ConfigBankPriceCommand());
 		configCommand.addCommand("format", new ConfigFormatCommand());
 		commandManager.registerMainCommand("craftconomy", configCommand);
 
-		SubCommand payday = new SubCommand("payday", commandManager, null);
+		SubCommand payday = new SubCommand("payday", commandManager, null, 1);
 		payday.addCommand("create", new PayDayCreateCommand());
 		payday.addCommand("delete", new PayDayDeleteCommand());
 		payday.addCommand("modify", new PayDayModifyCommand());
@@ -727,7 +734,7 @@ public class Common implements com.greatmancode.tools.interfaces.Common{
 		payday.addCommand("info", new PayDayInfoCommand());
 		commandManager.registerMainCommand("payday", payday);
 
-		SubCommand ccgroup = new SubCommand("ccgroup", commandManager, null);
+		SubCommand ccgroup = new SubCommand("ccgroup", commandManager, null, 1);
 		ccgroup.addCommand("create", new GroupCreateCommand());
 		ccgroup.addCommand("addworld", new GroupAddWorldCommand());
 		ccgroup.addCommand("delworld", new GroupDelWorldCommand());

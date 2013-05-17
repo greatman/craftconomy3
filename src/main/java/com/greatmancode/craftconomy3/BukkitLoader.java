@@ -20,10 +20,6 @@ package com.greatmancode.craftconomy3;
 
 import com.greatmancode.craftconomy3.events.BukkitListener;
 import com.greatmancode.tools.ServerType;
-import com.greatmancode.tools.interfaces.Loader;
-
-import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.plugin.java.PluginClassLoader;
 
 /**
  * Class used when the plugin is loaded from Craftbukkit

@@ -26,6 +26,7 @@ import com.greatmancode.craftconomy3.database.tables.ConfigTable;
 import com.greatmancode.tools.ServerType;
 import com.greatmancode.tools.database.throwable.InvalidDatabaseConstructor;
 import com.greatmancode.tools.interfaces.Loader;
+import com.greatmancode.tools.interfaces.UnitTestLoader;
 
 public class TestInitializator {
 	private static boolean initialized = false;
@@ -62,23 +63,6 @@ public class TestInitializator {
 			Common.getInstance().loadDefaultSettings();
 			Common.getInstance().startUp();
 			initialized = true;
-		}
-	}
-
-	private class UnitTestLoader implements Loader {
-		@Override
-		public void onEnable() {
-
-		}
-
-		@Override
-		public void onDisable() {
-
-		}
-
-		@Override
-		public ServerType getServerType() {
-			return ServerType.UNIT_TEST;
 		}
 	}
 }
