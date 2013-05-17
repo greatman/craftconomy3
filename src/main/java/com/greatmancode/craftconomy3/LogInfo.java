@@ -24,6 +24,6 @@ import java.io.Serializable;
  * The different transactions/actions that can be logged.
  * @author greatman
  */
-public enum LogInfo implements Serializable{
+public enum LogInfo implements Serializable {
 	DEPOSIT, WITHDRAW, SET, ADMIN_CMD
 }

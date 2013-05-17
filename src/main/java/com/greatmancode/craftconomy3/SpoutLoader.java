@@ -21,9 +21,7 @@ package com.greatmancode.craftconomy3;
 import com.greatmancode.craftconomy3.events.SpoutListener;
 import com.greatmancode.craftconomy3.spout.EconomyServiceHandler;
 import com.greatmancode.tools.ServerType;
-import com.greatmancode.tools.interfaces.Loader;
 
-import org.spout.api.plugin.CommonPlugin;
 import org.spout.api.plugin.ServiceManager.ServicePriority;
 import org.spout.api.plugin.services.EconomyService;
 
@@ -32,7 +30,6 @@ import org.spout.api.plugin.services.EconomyService;
  * @author greatman
  */
 public class SpoutLoader extends com.greatmancode.tools.interfaces.SpoutLoader {
-
 	@Override
 	public void onEnable() {
 		new Common(this, getLogger()).onEnable();

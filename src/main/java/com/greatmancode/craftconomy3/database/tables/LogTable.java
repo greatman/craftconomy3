@@ -38,10 +38,8 @@ public class LogTable {
 	public LogInfo type;
 	@Field
 	public Cause cause;
-
 	@Field
 	public Timestamp timestamp;
-
 	@Field
 	public String causeReason;
 	@Field

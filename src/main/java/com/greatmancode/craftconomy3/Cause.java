@@ -20,7 +20,7 @@ package com.greatmancode.craftconomy3;
 
 import java.io.Serializable;
 
-public enum Cause implements Serializable{
+public enum Cause implements Serializable {
 	VAULT,
 	USER,
 	PLUGIN,

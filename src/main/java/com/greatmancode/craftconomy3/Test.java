@@ -21,13 +21,10 @@ package com.greatmancode.craftconomy3;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -40,7 +37,6 @@ public class Test {
 			System.out.println(m.group(0));
 		}
 
-
 		try {
 			System.out.println(new File(Test.class.getProtectionDomain().getCodeSource().getLocation().getPath(), "lang.yml").getAbsolutePath());
 			BufferedReader br = new BufferedReader(new FileReader(new File(Test.class.getProtectionDomain().getCodeSource().getLocation().getPath(), "lang.yml")));
@@ -52,7 +48,6 @@ public class Test {
 					String key = m.group(0).replace(":", "");
 					bw.write("languageManager.addLanguageEntry(\"" + key + "\",\"" + line.replace(key, "").replace("\"", "").replaceFirst(": ", "") + "\");\n");
 				}
-
 			}
 			bw.close();
 			br.close();

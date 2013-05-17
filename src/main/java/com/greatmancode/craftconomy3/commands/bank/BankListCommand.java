@@ -27,7 +27,7 @@ import com.greatmancode.craftconomy3.database.tables.AccessTable;
 import com.greatmancode.craftconomy3.database.tables.AccountTable;
 import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 
-public class BankListCommand extends CommandExecutor{
+public class BankListCommand extends CommandExecutor {
 	@Override
 	public void execute(String sender, String[] args) {
 		List<AccessTable> accessTableList = Common.getInstance().getDatabaseManager().getDatabase().select(AccessTable.class).where().equal("playerName", sender).execute().find();

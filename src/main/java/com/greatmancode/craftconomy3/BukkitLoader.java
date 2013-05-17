@@ -26,7 +26,6 @@ import com.greatmancode.tools.ServerType;
  * @author greatman
  */
 public class BukkitLoader extends com.greatmancode.tools.interfaces.BukkitLoader {
-
 	/**
 	 * Called when the plugin is loaded.
 	 */
