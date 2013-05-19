@@ -1,5 +1,5 @@
 name: Craftconomy3
-main: com.greatmancode.craftconomy3.BukkitLoader
+main: com.greatmancode.tools.interfaces.BukkitLoader
 version: ${build.number}
 author: Greatman
 commands:

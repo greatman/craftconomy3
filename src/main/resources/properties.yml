@@ -4,6 +4,6 @@ description: ${project.description}
 author: [ Greatman ]
 website: ${project.url}
 
-main: com.greatmancode.craftconomy3.SpoutLoader
+main: com.greatmancode.tools.interfaces.SpoutLoader
 load: POSTWORLD
 platform: SERVER

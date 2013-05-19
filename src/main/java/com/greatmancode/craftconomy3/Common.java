@@ -139,32 +139,20 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
 	private int bankCurrencyId = 0;
 
 	/**
-	 * Loads the Common core.
-	 * @param loader The plugin Loader.
-	 * @param log The Logger associated with this plugin.
-	 */
-	public Common(Loader loader, Logger log) {
-		instance = this;
-		this.log = log;
-		if (loader.getServerType().equals(ServerType.BUKKIT)) {
-			serverCaller = new BukkitCaller(loader);
-		} else if (loader.getServerType().equals(ServerType.SPOUT)) {
-			serverCaller = new SpoutCaller(loader);
-		} else if (loader.getServerType().equals(ServerType.UNIT_TEST)) {
-			serverCaller = new UnitTestCaller(loader);
-		}
-	}
-
-	/**
 	 * Initialize the Common core.
 	 */
-	public void onEnable() {
+	public void onEnable(Caller caller, Logger log) {
+		serverCaller = caller;
+		instance = this;
+		this.log = log;
 		if (!initialized) {
 			sendConsoleMessage(Level.INFO, "Starting up!");
 			sendConsoleMessage(Level.INFO, "Loading the Configuration");
 			config = new ConfigurationManager(serverCaller);
-			mainConfig = config.loadFile(serverCaller.getDataFolder(), "config.yml", false, true);
-
+			mainConfig = config.loadFile(serverCaller.getDataFolder(), "config.yml");
+			if (!mainConfig.has("System.Setup")) {
+				initializeConfig();
+			}
 			if (!getMainConfig().has("System.Database.Prefix")) {
 				getMainConfig().setValue("System.Database.Prefix", "cc3_");
 			}
@@ -913,5 +901,29 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
 		languageManager.addLanguageEntry("rates_header", "{{DARK_GREEN}}[Currency rates]");
 		languageManager.addLanguageEntry("bank_delete_cmd_help", "/bank delete <Name> - Delete a bank account that you own.");
 		languageManager.addLanguageEntry("bank_delete_not_owner", "{{DARK_RED}}You aren't this bank owner!");
+	}
+
+	private void initializeConfig() {
+		mainConfig.setValue("System.Setup", true);
+		mainConfig.setValue("System.QuickSetup.Enable", false);
+		mainConfig.setValue("System.QuickSetup.Currency.Name", "Dollar");
+		mainConfig.setValue("System.QuickSetup.Currency.NamePlural", "Dollars");
+		mainConfig.setValue("System.QuickSetup.Currency.Minor", "Coin");
+		mainConfig.setValue("System.QuickSetup.Currency.MinorPlural", "Coins");
+		mainConfig.setValue("System.QuickSetup.Currency.Sign", "$");
+		mainConfig.setValue("System.QuickSetup.StartBalance", 100.0);
+		mainConfig.setValue("System.QuickSetup.PriceBank", 200.0);
+		mainConfig.setValue("System.QuickSetup.DisplayMode", "long");
+		mainConfig.setValue("System.CheckNewVersion", true);
+		mainConfig.setValue("System.Case-sentitive", false);
+		mainConfig.setValue("System.CreateOnLogin", false);
+		mainConfig.setValue("System.Logging.Enabled", false);
+		mainConfig.setValue("System.Database.Type", "sqlite");
+		mainConfig.setValue("System.Database.Address", "localhost");
+		mainConfig.setValue("System.Database.Port", 3306);
+		mainConfig.setValue("System.Database.Username", "root");
+		mainConfig.setValue("System.Database.Password", "");
+		mainConfig.setValue("System.Database.Db", "craftconomy");
+		mainConfig.setValue("System.Database.Prefix", "cc3_");
 	}
 }

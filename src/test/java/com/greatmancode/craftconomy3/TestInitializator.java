@@ -24,6 +24,7 @@ import com.alta189.simplesave.exceptions.ConnectionException;
 import com.alta189.simplesave.exceptions.TableRegistrationException;
 import com.greatmancode.craftconomy3.database.tables.ConfigTable;
 import com.greatmancode.tools.ServerType;
+import com.greatmancode.tools.caller.unittest.UnitTestCaller;
 import com.greatmancode.tools.database.throwable.InvalidDatabaseConstructor;
 import com.greatmancode.tools.interfaces.Loader;
 import com.greatmancode.tools.interfaces.UnitTestLoader;
@@ -32,7 +33,7 @@ public class TestInitializator {
 	private static boolean initialized = false;
 	public TestInitializator() {
 		if (!initialized) {
-			new Common(new UnitTestLoader(), Logger.getLogger("unittest")).onEnable();
+			new Common().onEnable(new UnitTestCaller(new UnitTestLoader()), Logger.getLogger("unittest"));
 			Common.getInstance().getMainConfig().setValue("System.Setup", false);
 			try {
 				Common.getInstance().initialiseDatabase();
