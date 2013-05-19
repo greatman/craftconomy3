@@ -419,9 +419,9 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
 			sendConsoleMessage(Level.INFO, getLanguageManager().getString("loading_database_manager"));
 			DatabaseType databaseType = DatabaseType.valueOf(getMainConfig().getString("System.Database.Type").toUpperCase());
 			if (DatabaseType.MYSQL.equals(databaseType)) {
-				dbManager = new DatabaseManager(databaseType, getMainConfig().getString("System.Database.Address"), getMainConfig().getInt("System.Database.Port"), getMainConfig().getString("System.Database.Username"), getMainConfig().getString("System.Database.Password"), getMainConfig().getString("System.Database.Db"), getMainConfig().getString("System.Database.Prefix"));
+				dbManager = new DatabaseManager(databaseType, getMainConfig().getString("System.Database.Address"), getMainConfig().getInt("System.Database.Port"), getMainConfig().getString("System.Database.Username"), getMainConfig().getString("System.Database.Password"), getMainConfig().getString("System.Database.Db"), getMainConfig().getString("System.Database.Prefix"), serverCaller);
 			} else {
-				dbManager = new DatabaseManager(databaseType, getMainConfig().getString("System.Database.Prefix"), new File(serverCaller.getDataFolder(), "database.db"));
+				dbManager = new DatabaseManager(databaseType, getMainConfig().getString("System.Database.Prefix"), new File(serverCaller.getDataFolder(), "database.db"), serverCaller);
 			}
 			addMetricsGraph("Database Engine", databaseType.name());
 
