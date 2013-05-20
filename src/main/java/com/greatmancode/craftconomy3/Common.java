@@ -50,6 +50,7 @@ import com.greatmancode.craftconomy3.commands.currency.CurrencyDeleteCommand;
 import com.greatmancode.craftconomy3.commands.currency.CurrencyEditCommand;
 import com.greatmancode.craftconomy3.commands.currency.CurrencyExchangeCommand;
 import com.greatmancode.craftconomy3.commands.currency.CurrencyInfoCommand;
+import com.greatmancode.craftconomy3.commands.currency.CurrencyListCommand;
 import com.greatmancode.craftconomy3.commands.currency.CurrencyRatesCommand;
 import com.greatmancode.craftconomy3.commands.group.GroupAddWorldCommand;
 import com.greatmancode.craftconomy3.commands.group.GroupCreateCommand;
@@ -704,6 +705,7 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
 		currency.addCommand("default", new CurrencyDefaultCommand());
 		currency.addCommand("exchange", new CurrencyExchangeCommand());
 		currency.addCommand("rates", new CurrencyRatesCommand());
+		currency.addCommand("list", new CurrencyListCommand());
 		commandManager.registerMainCommand("currency", currency);
 
 		SubCommand configCommand = new SubCommand("craftconomy", commandManager, null, 1);
@@ -901,6 +903,8 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
 		languageManager.addLanguageEntry("rates_header", "{{DARK_GREEN}}[Currency rates]");
 		languageManager.addLanguageEntry("bank_delete_cmd_help", "/bank delete <Name> - Delete a bank account that you own.");
 		languageManager.addLanguageEntry("bank_delete_not_owner", "{{DARK_RED}}You aren't this bank owner!");
+		languageManager.addLanguageEntry("currency_list_cmd_help", "/currency list - List all the currencies");
+		languageManager.addLanguageEntry("currency_list_title", "{{DARK_GREEN}}====== {{WHITE}}Currencies {{DARK_GREEN}}======");
 	}
 
 	private void initializeConfig() {
