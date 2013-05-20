@@ -19,22 +19,26 @@
 package com.greatmancode.craftconomy3.events;
 
 import com.greatmancode.craftconomy3.Common;
+import com.greatmancode.tools.events.interfaces.EventHandler;
+import com.greatmancode.tools.events.interfaces.Listener;
+import com.greatmancode.tools.events.playerEvent.PlayerJoinEvent;
 
 /**
  * This class contains code shared for events.
  */
-public class EventManager {
+public class EventManager implements Listener {
+	
 	/**
 	 * Event handler for when a player is connecting to the server.
-	 * @param playerName The player name.
 	 */
-	public void playerJoinEvent(String playerName) {
-		if (Common.getInstance().getMainConfig().getBoolean("System.CheckNewVersion") && Common.getInstance().getServerCaller().isOp(playerName) && Common.getInstance().getVersionChecker().isOld()) {
-			Common.getInstance().getServerCaller().sendMessage(playerName, "{{DARK_CYAN}}Craftconomy is out of date! New version is " + Common.getInstance().getVersionChecker().getNewVersion());
+	@EventHandler
+	public void playerJoinEvent(PlayerJoinEvent event) {
+		if (Common.getInstance().getMainConfig().getBoolean("System.CheckNewVersion") && Common.getInstance().getServerCaller().isOp(event.getPlayer().getName()) && Common.getInstance().getVersionChecker().isOld()) {
+			Common.getInstance().getServerCaller().sendMessage(event.getPlayer().getName(), "{{DARK_CYAN}}Craftconomy is out of date! New version is " + Common.getInstance().getVersionChecker().getNewVersion());
 		}
 
 		if (Common.getInstance().getMainConfig().getBoolean("System.CreateOnLogin")) {
-			Common.getInstance().getAccountManager().getAccount(playerName);
+			Common.getInstance().getAccountManager().getAccount(event.getPlayer().getName());
 		}
 	}
 }

@@ -177,7 +177,7 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
 				}
 			}
 			sendConsoleMessage(Level.INFO, "Loading listeners.");
-			eventManager = new EventManager();
+			caller.getLoader().getEventManager().registerEvents(this, new EventManager());
 			sendConsoleMessage(Level.INFO, "Loading commands");
 			Common.getInstance().getServerCaller().registerPermission("craftconomy.*");
 			commandManager = new CommandHandler(serverCaller);
