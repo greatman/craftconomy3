@@ -28,6 +28,7 @@ import com.greatmancode.craftconomy3.LogInfo;
 import com.greatmancode.craftconomy3.currency.Currency;
 import com.greatmancode.craftconomy3.database.tables.AccountTable;
 import com.greatmancode.craftconomy3.database.tables.BalanceTable;
+import com.greatmancode.tools.events.event.EconomyChangeEvent;
 
 /**
  * Represents a economy account.
@@ -218,6 +219,7 @@ public class Account {
 
 				Common.getInstance().writeLog(LogInfo.DEPOSIT, cause, causeReason, this, amount, currency, world);
 				result = balanceTable.getBalance();
+				Common.getInstance().getServerCaller().throwEvent(new EconomyChangeEvent(this.getAccountName(), result));
 			} else {
 				result = Double.MAX_VALUE;
 			}
@@ -270,6 +272,7 @@ public class Account {
 				Common.getInstance().getDatabaseManager().getDatabase().save(balanceTable);
 				Common.getInstance().writeLog(LogInfo.WITHDRAW, cause, causeReason, this, amount, currency, world);
 				result = balanceTable.getBalance();
+				Common.getInstance().getServerCaller().throwEvent(new EconomyChangeEvent(this.getAccountName(), result));
 			} else {
 				result = Double.MAX_VALUE;
 			}
@@ -319,6 +322,7 @@ public class Account {
 				Common.getInstance().getDatabaseManager().getDatabase().save(balanceTable);
 				Common.getInstance().writeLog(LogInfo.SET, cause, causeReason, this, amount, currency, newWorld);
 				result = balanceTable.getBalance();
+				Common.getInstance().getServerCaller().throwEvent(new EconomyChangeEvent(this.getAccountName(), result));
 			}
 		}
 		return format(result);
