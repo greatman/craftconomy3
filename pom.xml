@@ -179,6 +179,12 @@
 							<goal>shade</goal>
 						</goals>
 						<configuration>
+							<relocations>
+								<relocation>
+									<pattern>com.greatmancode.tools</pattern>
+									<shadedPattern>com.greatmancode.craftconomy3.tools</shadedPattern>
+								</relocation>
+							</relocations>
 							<artifactSet>
 								<excludes>
 									<exclude>junit:junit</exclude>
