@@ -117,7 +117,7 @@ public class Craftconomy2 extends Converter {
 				importBanks(sender);
 				result = true;
 			} else {
-				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}No currency found. Are you sure everything is ok?");
+				Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_RED}}No currency found. Are you sure everything is ok?");
 			}
 			try {
 				db.close();
@@ -133,7 +133,7 @@ public class Craftconomy2 extends Converter {
 		List<CurrencyTable> currencyList = db.select(CurrencyTable.class).execute().find();
 		if (currencyList != null) {
 			Iterator<CurrencyTable> currencyIterator = currencyList.iterator();
-			Common.getInstance().getServerCaller().sendMessage(sender, "Importing currencies.");
+			Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "Importing currencies.");
 			while (currencyIterator.hasNext()) {
 				CurrencyTable entry = currencyIterator.next();
 				// Check if the entry is valid
@@ -146,11 +146,11 @@ public class Craftconomy2 extends Converter {
 						first = false;
 					}
 				} else {
-					Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}A invalid currency has been caught. Information: name: " + entry.getName() + " plural:" + entry.getPlural() + " minor:" + entry.getMinor() + " minorplural:" + entry.getMinorplural());
+					Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_RED}}A invalid currency has been caught. Information: name: " + entry.getName() + " plural:" + entry.getPlural() + " minor:" + entry.getMinor() + " minorplural:" + entry.getMinorplural());
 				}
 			}
 			result = true;
-			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Currencies imported!");
+			Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_GREEN}}Currencies imported!");
 		}
 		return result;
 	}
@@ -176,11 +176,11 @@ public class Craftconomy2 extends Converter {
 					}
 				}
 				if (i % ALERT_EACH_X_ACCOUNT == 0) {
-					Common.getInstance().getServerCaller().sendMessage(sender, i + " of " + accountList.size() + "{{DARK_GREEN}} accounts imported.");
+					Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, i + " of " + accountList.size() + "{{DARK_GREEN}} accounts imported.");
 				}
 				i++;
 			}
-			Common.getInstance().getServerCaller().sendMessage(sender, i + " of  " + accountList.size() + "{{DARK_GREEN}}accounts imported.");
+			Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, i + " of  " + accountList.size() + "{{DARK_GREEN}}accounts imported.");
 		}
 	}
 
@@ -215,11 +215,11 @@ public class Craftconomy2 extends Converter {
 					}
 				}
 				if (i % ALERT_EACH_X_ACCOUNT == 0) {
-					Common.getInstance().getServerCaller().sendMessage(sender, i + " of  " + bankList.size() + "{{DARK_GREEN}} bank accounts imported.");
+					Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, i + " of  " + bankList.size() + "{{DARK_GREEN}} bank accounts imported.");
 				}
 				i++;
 			}
-			Common.getInstance().getServerCaller().sendMessage(sender, i + " of  " + bankList.size() + "{{DARK_GREEN}} bank accounts imported.");
+			Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, i + " of  " + bankList.size() + "{{DARK_GREEN}} bank accounts imported.");
 		}
 	}
 }

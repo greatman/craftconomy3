@@ -20,7 +20,7 @@ package com.greatmancode.craftconomy3.groups;
 
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.TestInitializator;
-import com.greatmancode.tools.caller.unittest.UnitTestCaller;
+import com.greatmancode.tools.caller.unittest.UnitTestServerCaller;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -44,12 +44,12 @@ public class TestWorldGroupManager {
 		Common.getInstance().getWorldGroupManager().addWorldGroup("testeur");
 		assertTrue(Common.getInstance().getWorldGroupManager().worldGroupExist("testeur"));
 
-		Common.getInstance().getWorldGroupManager().addWorldToGroup("testeur", UnitTestCaller.worldName);
-		assertEquals("testeur", Common.getInstance().getWorldGroupManager().getWorldGroupName(UnitTestCaller.worldName));
-		assertEquals(WorldGroupsManager.DEFAULT_GROUP_NAME, Common.getInstance().getWorldGroupManager().getWorldGroupName(UnitTestCaller.worldName2));
+		Common.getInstance().getWorldGroupManager().addWorldToGroup("testeur", UnitTestServerCaller.worldName);
+		assertEquals("testeur", Common.getInstance().getWorldGroupManager().getWorldGroupName(UnitTestServerCaller.worldName));
+		assertEquals(WorldGroupsManager.DEFAULT_GROUP_NAME, Common.getInstance().getWorldGroupManager().getWorldGroupName(UnitTestServerCaller.worldName2));
 		Common.getInstance().getWorldGroupManager().removeGroup("testeur");
-		assertEquals(WorldGroupsManager.DEFAULT_GROUP_NAME, Common.getInstance().getWorldGroupManager().getWorldGroupName(UnitTestCaller.worldName));
-		assertEquals(WorldGroupsManager.DEFAULT_GROUP_NAME, Common.getInstance().getWorldGroupManager().getWorldGroupName(UnitTestCaller.worldName2));
+		assertEquals(WorldGroupsManager.DEFAULT_GROUP_NAME, Common.getInstance().getWorldGroupManager().getWorldGroupName(UnitTestServerCaller.worldName));
+		assertEquals(WorldGroupsManager.DEFAULT_GROUP_NAME, Common.getInstance().getWorldGroupManager().getWorldGroupName(UnitTestServerCaller.worldName2));
 
 	}
 

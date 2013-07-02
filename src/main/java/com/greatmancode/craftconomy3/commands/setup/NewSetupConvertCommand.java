@@ -88,26 +88,26 @@ public class NewSetupConvertCommand extends CommandExecutor {
 					if (selectedConverter.allSet()) {
 						//We start the convert!
 						if (selectedConverter.connect()) {
-							Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}All values are ok! Let's start this conversion!");
-							Common.getInstance().getServerCaller().schedule(new Runnable() {
+							Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_GREEN}}All values are ok! Let's start this conversion!");
+							Common.getInstance().getServerCaller().getSchedulerCaller().schedule(new Runnable() {
 								@Override
 								public void run() {
-									Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}NOTICE: {{WHITE}}The conversion is made in another thread so it doesn't hang the server. Craftconomy will be unlocked when the conversion is complete.");
+									Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_RED}}NOTICE: {{WHITE}}The conversion is made in another thread so it doesn't hang the server. Craftconomy will be unlocked when the conversion is complete.");
 									selectedConverter.importData(sender);
 									Common.getInstance().getMainConfig().setValue("System.Setup", false);
 									Common.getInstance().loadDefaultSettings();
-									Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Conversion complete! Enjoy Craftconomy!");
+									Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_GREEN}}Conversion complete! Enjoy Craftconomy!");
 								}
 							}, 0, 0, true);
 						} else {
-							Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Some settings are wrong. Be sure that every settings are ok! Check the console log for more information.");
+							Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_RED}}Some settings are wrong. Be sure that every settings are ok! Check the console log for more information.");
 						}
 					} else {
-						Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Value for {{WHITE}}" + args[0] + "{{DARK_GREEN}} set. Please conitnue.");
+						Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_GREEN}}Value for {{WHITE}}" + args[0] + "{{DARK_GREEN}} set. Please conitnue.");
 					}
 				}
 			} else {
-				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Something is wrong. There isin't a converter selected!");
+				Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_RED}}Something is wrong. There isin't a converter selected!");
 			}
 		}
 	}
@@ -116,22 +116,22 @@ public class NewSetupConvertCommand extends CommandExecutor {
 		if (selectedConverter.getDbTypes().contains(args[0])) {
 			selectedConverter.setDbType(args[0]);
 			step = INTERNALSTEP.INSERT_VALUES;
-			Common.getInstance().getServerCaller().sendMessage(sender, args[0] + " {{DARK_GREEN}}selected. Now, Please enter the correct values for the database format chosen. Syntax is: {{WHITE}}/ccsetup convert <" + formatListString(selectedConverter.getDbInfo()) + "> <value>");
+			Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, args[0] + " {{DARK_GREEN}}selected. Now, Please enter the correct values for the database format chosen. Syntax is: {{WHITE}}/ccsetup convert <" + formatListString(selectedConverter.getDbInfo()) + "> <value>");
 		} else {
-			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}This db type doesn't exist! Please type {{WHITE}}/ccsetup convert <" + formatListString(selectedConverter.getDbTypes()) + ">");
+			Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_RED}}This db type doesn't exist! Please type {{WHITE}}/ccsetup convert <" + formatListString(selectedConverter.getDbTypes()) + ">");
 		}
 	}
 
 	private void selectConvert(String sender, String[] args) {
 		if (IMPORTER_LIST.getConverterList().containsKey(args[0])) {
 			selectedConverter = IMPORTER_LIST.getConverterList().get(args[0]);
-			Common.getInstance().getServerCaller().sendMessage(sender, "{{WHITE}}" + args[0] + " {{DARK_GREEN}}importer selected.");
+			Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{WHITE}}" + args[0] + " {{DARK_GREEN}}importer selected.");
 			if (selectedConverter.getDbTypes().size() == 1) {
 				step = INTERNALSTEP.SELECT_DB;
 				selectDb(sender, new String[]{selectedConverter.getDbTypes().get(0)});
 			} else {
-				Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}This converter support those database types. Please select one");
-				Common.getInstance().getServerCaller().sendMessage(sender, "{{WHITE}}/ccsetup convert <" + formatListString(selectedConverter.getDbTypes()) + ">");
+				Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_GREEN}}This converter support those database types. Please select one");
+				Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{WHITE}}/ccsetup convert <" + formatListString(selectedConverter.getDbTypes()) + ">");
 				step = INTERNALSTEP.SELECT_DB;
 			}
 		}
@@ -140,13 +140,13 @@ public class NewSetupConvertCommand extends CommandExecutor {
 	private void start(String sender, String[] args) {
 		if (args[0].equalsIgnoreCase("yes")) {
 			step = INTERNALSTEP.SELECT_CONVERT;
-			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}I currently support those systems: {{WHITE}}" + getConverterListFormatted());
-			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}Please type {{WHITE}}/ccsetup convert <" + getConverterListFormatted() + ">");
+			Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_GREEN}}I currently support those systems: {{WHITE}}" + getConverterListFormatted());
+			Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_GREEN}}Please type {{WHITE}}/ccsetup convert <" + getConverterListFormatted() + ">");
 		} else if (args[0].equalsIgnoreCase("no")) {
 			Common.getInstance().getMainConfig().setValue("System.Setup", false);
-			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_GREEN}}The setup is done! Enjoy Craftconomy!");
+			Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_GREEN}}The setup is done! Enjoy Craftconomy!");
 		} else {
-			Common.getInstance().getServerCaller().sendMessage(sender, "{{DARK_RED}}Correct values are yes or no! Please type {{WHITE}}/ccsetup convert <yes/no>");
+			Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_RED}}Correct values are yes or no! Please type {{WHITE}}/ccsetup convert <yes/no>");
 		}
 	}
 

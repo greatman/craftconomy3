@@ -27,8 +27,8 @@ public class CurrencyListCommand extends CommandExecutor{
 
 	@Override
 	public void execute(String sender, String[] args) {
-		Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().parse("currency_list_title"));
-		Common.getInstance().getServerCaller().sendMessage(sender, Arrays.toString(Common.getInstance().getCurrencyManager().getCurrencyNames().toArray()));
+		Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().parse("currency_list_title"));
+		Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Arrays.toString(Common.getInstance().getCurrencyManager().getCurrencyNames().toArray()));
 	}
 
 	@Override

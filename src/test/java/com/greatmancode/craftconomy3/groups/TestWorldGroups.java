@@ -19,7 +19,7 @@
 package com.greatmancode.craftconomy3.groups;
 
 import com.greatmancode.craftconomy3.TestInitializator;
-import com.greatmancode.tools.caller.unittest.UnitTestCaller;
+import com.greatmancode.tools.caller.unittest.UnitTestServerCaller;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -39,15 +39,15 @@ public class TestWorldGroups {
 		WorldGroup worldGroup = new WorldGroup("test");
 
 
-		assertFalse(worldGroup.worldExist(UnitTestCaller.worldName));
+		assertFalse(worldGroup.worldExist(UnitTestServerCaller.worldName));
 
 		worldGroup.addWorld("test");
 		assertFalse(worldGroup.worldExist("test"));
 
-		worldGroup.addWorld(UnitTestCaller.worldName);
-		assertTrue(worldGroup.worldExist(UnitTestCaller.worldName));
+		worldGroup.addWorld(UnitTestServerCaller.worldName);
+		assertTrue(worldGroup.worldExist(UnitTestServerCaller.worldName));
 
-		worldGroup.removeWorld(UnitTestCaller.worldName);
-		assertFalse(worldGroup.worldExist(UnitTestCaller.worldName));
+		worldGroup.removeWorld(UnitTestServerCaller.worldName);
+		assertFalse(worldGroup.worldExist(UnitTestServerCaller.worldName));
 	}
 }

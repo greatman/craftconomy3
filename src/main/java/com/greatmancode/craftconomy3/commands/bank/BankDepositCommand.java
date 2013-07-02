@@ -30,7 +30,7 @@ public class BankDepositCommand extends CommandExecutor {
 	public void execute(String sender, String[] args) {
 		if (Common.getInstance().getAccountManager().exist(Account.BANK_PREFIX + args[0])) {
 			Account bankAccount = Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + args[0]);
-			if (bankAccount.getAccountACL().canDeposit(sender) || Common.getInstance().getServerCaller().checkPermission(sender, "craftconomy.bank.deposit.others")) {
+			if (bankAccount.getAccountACL().canDeposit(sender) || Common.getInstance().getServerCaller().getPlayerCaller().checkPermission(sender, "craftconomy.bank.deposit.others")) {
 				if (Tools.isValidDouble(args[1])) {
 					double amount = Double.parseDouble(args[1]);
 					Currency currency = Common.getInstance().getCurrencyManager().getDefaultCurrency();
@@ -38,7 +38,7 @@ public class BankDepositCommand extends CommandExecutor {
 						if (Common.getInstance().getCurrencyManager().getCurrency(args[2]) != null) {
 							currency = Common.getInstance().getCurrencyManager().getCurrency(args[2]);
 						} else {
-							Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("currency_not_exist"));
+							Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("currency_not_exist"));
 							return;
 						}
 					}
@@ -46,18 +46,18 @@ public class BankDepositCommand extends CommandExecutor {
 					if (playerAccount.hasEnough(amount, playerAccount.getWorldGroupOfPlayerCurrentlyIn(), currency.getName())) {
 						playerAccount.withdraw(amount, playerAccount.getWorldGroupOfPlayerCurrentlyIn(), currency.getName(), Cause.BANK_DEPOSIT, bankAccount.getAccountName());
 						bankAccount.deposit(amount, playerAccount.getWorldGroupOfPlayerCurrentlyIn(), currency.getName(), Cause.BANK_DEPOSIT, sender);
-						Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().parse("deposited", Common.getInstance().format(null, currency, amount), args[0]));
+						Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().parse("deposited", Common.getInstance().format(null, currency, amount), args[0]));
 					} else {
-						Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("not_enough_money"));
+						Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("not_enough_money"));
 					}
 				} else {
-					Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("invalid_amount"));
+					Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("invalid_amount"));
 				}
 			} else {
-				Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("bank_cant_deposit"));
+				Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("bank_cant_deposit"));
 			}
 		} else {
-			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("account_not_exist"));
+			Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("account_not_exist"));
 		}
 	}
 

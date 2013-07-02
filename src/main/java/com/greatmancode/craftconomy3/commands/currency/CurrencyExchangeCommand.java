@@ -31,12 +31,12 @@ public class CurrencyExchangeCommand extends CommandExecutor {
 		if (currency != null && currency2 != null) {
 			if (Tools.isDouble(args[2])) {
 				currency.setExchangeRate(currency2, Double.parseDouble(args[2]));
-				Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("currency_exchange_set"));
+				Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("currency_exchange_set"));
 			} else {
-				Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("invalid_amount"));
+				Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("invalid_amount"));
 			}
 		} else {
-			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("currency_not_exist"));
+			Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("currency_not_exist"));
 		}
 	}
 

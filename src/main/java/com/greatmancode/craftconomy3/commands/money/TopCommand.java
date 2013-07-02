@@ -42,7 +42,7 @@ class TopCommandThread implements Runnable {
 
 		@Override
 		public void run() {
-			Common.getInstance().getServerCaller().sendMessage(sender, ret);
+			Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, ret);
 		}
 	}
 
@@ -81,7 +81,7 @@ class TopCommandThread implements Runnable {
 			ret += "" + ((page - 1) * NUMBER_ELEMENTS + i + 1) + ": {{DARK_GREEN}}" + username + " {{WHITE}}" + Common.getInstance().format(null, Common.getInstance().getCurrencyManager().getCurrency(currency), r.getBalance()) + "\n";
 		}
 
-		Common.getInstance().getServerCaller().delay(new TopCommandThreadEnd(sender, ret), 0, false);
+		Common.getInstance().getServerCaller().getSchedulerCaller().delay(new TopCommandThreadEnd(sender, ret), 0, false);
 	}
 }
 
@@ -96,7 +96,7 @@ public class TopCommand extends CommandExecutor {
 			if (Common.getInstance().getCurrencyManager().getCurrency(args[0]) != null) {
 				currency = Common.getInstance().getCurrencyManager().getCurrency(args[0]);
 			} else {
-				Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("currency_not_exist"));
+				Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("currency_not_exist"));
 				return;
 			}
 		}
@@ -108,7 +108,7 @@ public class TopCommand extends CommandExecutor {
 					page = 1;
 				}
 			} catch (NumberFormatException e) {
-				Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("invalid_page"));
+				Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("invalid_page"));
 				return;
 			}
 		}
@@ -118,7 +118,7 @@ public class TopCommand extends CommandExecutor {
 			world = args[2];
 		}
 
-		Common.getInstance().getServerCaller().delay(new TopCommandThread(sender, page, world, currency.getDatabaseID()), 0, false);
+		Common.getInstance().getServerCaller().getSchedulerCaller().delay(new TopCommandThread(sender, page, world, currency.getDatabaseID()), 0, false);
 	}
 
 	@Override

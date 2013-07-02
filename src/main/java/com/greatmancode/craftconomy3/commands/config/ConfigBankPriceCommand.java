@@ -27,9 +27,9 @@ public class ConfigBankPriceCommand extends CommandExecutor {
 	public void execute(String sender, String[] args) {
 		if (Tools.isValidDouble(args[0])) {
 			Common.getInstance().setBankPrice(Double.parseDouble(args[0]));
-			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("bank_price_modified"));
+			Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("bank_price_modified"));
 		} else {
-			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("invalid_amount"));
+			Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("invalid_amount"));
 		}
 	}
 

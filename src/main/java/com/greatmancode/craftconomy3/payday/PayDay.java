@@ -53,11 +53,11 @@ public class PayDay implements Runnable {
 
 	@Override
 	public void run() {
-		Iterator<String> iterator = Common.getInstance().getServerCaller().getOnlinePlayers().iterator();
+		Iterator<String> iterator = Common.getInstance().getServerCaller().getPlayerCaller().getOnlinePlayers().iterator();
 		List<String> list = new ArrayList<String>();
 		while (iterator.hasNext()) {
 			String player = iterator.next();
-			if (Common.getInstance().getServerCaller().checkPermission(player, "craftconomy.payday." + table.getName())) {
+			if (Common.getInstance().getServerCaller().getPlayerCaller().checkPermission(player, "craftconomy.payday." + table.getName())) {
 				list.add(player);
 			}
 		}
@@ -84,7 +84,7 @@ public class PayDay implements Runnable {
 		while (listIterator.hasNext()) {
 			String p = listIterator.next();
 			Common.getInstance().getAccountManager().getAccount(p).deposit(getValue(), getWorldName(), Common.getInstance().getCurrencyManager().getCurrency(getCurrencyId()).getName(), Cause.PAYDAY_WAGE, getName());
-			Common.getInstance().getServerCaller().sendMessage(p, "{{DARK_GREEN}}Payday! You received " + Common.getInstance().format(getWorldName(), Common.getInstance().getCurrencyManager().getCurrency(getCurrencyId()), getValue()));
+			Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(p, "{{DARK_GREEN}}Payday! You received " + Common.getInstance().format(getWorldName(), Common.getInstance().getCurrencyManager().getCurrency(getCurrencyId()), getValue()));
 		}
 	}
 
@@ -98,7 +98,7 @@ public class PayDay implements Runnable {
 					Common.getInstance().getAccountManager().getAccount(getAccount()).deposit(getValue(), getWorldName(), Common.getInstance().getCurrencyManager().getCurrency(getCurrencyId()).getName(), Cause.PAYDAY_TAX, getName());
 				}
 			} else {
-				Common.getInstance().getServerCaller().sendMessage(p, "{{RED}}Not enough money to pay for your taxes!");
+				Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(p, "{{RED}}Not enough money to pay for your taxes!");
 			}
 		}
 	}
@@ -291,7 +291,7 @@ public class PayDay implements Runnable {
 	}
 
 	private void startDelay() {
-		delayedId = Common.getInstance().getServerCaller().schedule(this, table.getTime(), table.getTime());
+		delayedId = Common.getInstance().getServerCaller().getSchedulerCaller().schedule(this, table.getTime(), table.getTime());
 	}
 
 	/**
@@ -299,7 +299,7 @@ public class PayDay implements Runnable {
 	 */
 	public void stopDelay() {
 		if (delayedId != -1) {
-			Common.getInstance().getServerCaller().cancelSchedule(delayedId);
+			Common.getInstance().getServerCaller().getSchedulerCaller().cancelSchedule(delayedId);
 			delayedId = -1;
 		}
 	}

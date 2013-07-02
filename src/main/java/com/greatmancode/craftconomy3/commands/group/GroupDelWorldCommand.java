@@ -26,9 +26,9 @@ public class GroupDelWorldCommand extends CommandExecutor {
 	public void execute(String sender, String[] args) {
 		if (!Common.getInstance().getWorldGroupManager().getWorldGroupName(args[0]).equals("default")) {
 			Common.getInstance().getWorldGroupManager().removeWorldFromGroup(args[0]);
-			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("world_removed_from_group"));
+			Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("world_removed_from_group"));
 		} else {
-			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("world_not_in_group"));
+			Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("world_not_in_group"));
 		}
 	}
 

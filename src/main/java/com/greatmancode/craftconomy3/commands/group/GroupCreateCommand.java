@@ -26,9 +26,9 @@ public class GroupCreateCommand extends CommandExecutor {
 	public void execute(String sender, String[] args) {
 		if (!Common.getInstance().getWorldGroupManager().worldGroupExist(args[0])) {
 			Common.getInstance().getWorldGroupManager().addWorldGroup(args[0]);
-			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("group_created"));
+			Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("group_created"));
 		} else {
-			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("group_already_exist"));
+			Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("group_already_exist"));
 		}
 	}
 

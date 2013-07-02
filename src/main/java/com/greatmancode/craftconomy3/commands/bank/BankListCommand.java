@@ -36,7 +36,7 @@ public class BankListCommand extends CommandExecutor {
 			accountTableList.add(Common.getInstance().getDatabaseManager().getDatabase().select(AccountTable.class).where().equal("id", accessEntry.getAccountId()).execute().findOne());
 		}
 
-		Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().parse("bank_account_list", Arrays.toString(accountTableList.toArray())));
+		Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().parse("bank_account_list", Arrays.toString(accountTableList.toArray())));
 	}
 
 	@Override

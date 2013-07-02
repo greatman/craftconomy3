@@ -354,7 +354,7 @@ public class Account {
 	 * @deprecated Please use {@link com.greatmancode.craftconomy3.account.Account#getWorldGroupOfPlayerCurrentlyIn()}
 	 */
 	private String getWorldPlayerCurrentlyIn() {
-		return Common.getInstance().getServerCaller().getPlayerWorld(account.getName());
+		return Common.getInstance().getServerCaller().getPlayerCaller().getPlayerWorld(account.getName());
 	}
 
 	/**

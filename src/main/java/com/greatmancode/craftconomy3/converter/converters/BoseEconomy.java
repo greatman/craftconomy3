@@ -69,7 +69,7 @@ public class BoseEconomy extends Converter {
 			int i = 0;
 			while (line != null) {
 				if (i % ALERT_EACH_X_ACCOUNT == 0) {
-					Common.getInstance().getServerCaller().sendMessage(sender, i + " {{DARK_GREEN}}accounts imported.");
+					Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, i + " {{DARK_GREEN}}accounts imported.");
 				}
 				line = flatFileReader.readLine();
 				if (line != null && Pattern.compile("[?a-zA-Z0-9\\s{_-]+").matcher(line).matches()) {

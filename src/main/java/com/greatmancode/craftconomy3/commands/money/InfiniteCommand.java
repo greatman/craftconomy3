@@ -29,13 +29,13 @@ public class InfiniteCommand extends CommandExecutor {
 			Account account = Common.getInstance().getAccountManager().getAccount(args[0]);
 			if (account.hasInfiniteMoney()) {
 				account.setInfiniteMoney(false);
-				Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("money_infinite_set_false"));
+				Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("money_infinite_set_false"));
 			} else {
 				account.setInfiniteMoney(true);
-				Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("money_infinite_set_true"));
+				Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("money_infinite_set_true"));
 			}
 		} else {
-			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("account_not_exist"));
+			Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("account_not_exist"));
 		}
 	}
 

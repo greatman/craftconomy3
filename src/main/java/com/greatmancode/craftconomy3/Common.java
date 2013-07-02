@@ -95,7 +95,7 @@ import com.greatmancode.craftconomy3.database.tables.WorldGroupTable;
 import com.greatmancode.craftconomy3.events.EventManager;
 import com.greatmancode.craftconomy3.groups.WorldGroupsManager;
 import com.greatmancode.craftconomy3.payday.PayDayManager;
-import com.greatmancode.tools.caller.unittest.UnitTestCaller;
+import com.greatmancode.tools.caller.unittest.UnitTestServerCaller;
 import com.greatmancode.tools.commands.CommandHandler;
 import com.greatmancode.tools.commands.SubCommand;
 import com.greatmancode.tools.configuration.Config;
@@ -103,7 +103,7 @@ import com.greatmancode.tools.configuration.ConfigurationManager;
 import com.greatmancode.tools.database.DatabaseManager;
 import com.greatmancode.tools.database.interfaces.DatabaseType;
 import com.greatmancode.tools.database.throwable.InvalidDatabaseConstructor;
-import com.greatmancode.tools.interfaces.Caller;
+import com.greatmancode.tools.interfaces.caller.ServerCaller;
 import com.greatmancode.tools.language.LanguageManager;
 import com.greatmancode.tools.utils.Metrics;
 import com.greatmancode.tools.utils.VersionChecker;
@@ -125,7 +125,7 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
 	private LanguageManager languageManager = null;
 	private WorldGroupsManager worldGroupManager = null;
 	private CommandHandler commandManager;
-	private Caller serverCaller;
+	private ServerCaller serverCaller;
 	private VersionChecker versionChecker = null;
 	private boolean databaseInitialized = false;
 	private boolean currencyInitialized;
@@ -141,8 +141,8 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
 	/**
 	 * Initialize the Common core.
 	 */
-	public void onEnable(Caller caller, Logger log) {
-		serverCaller = caller;
+	public void onEnable(ServerCaller serverCaller, Logger log) {
+		serverCaller = serverCaller;
 		instance = this;
 		this.log = log;
 		if (!initialized) {
@@ -160,7 +160,7 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
 			languageManager = new LanguageManager(serverCaller, serverCaller.getDataFolder(), "lang.yml");
 			loadLanguage();
 			serverCaller.setCommandPrefix(languageManager.getString("command_prefix"));
-			if (!(getServerCaller() instanceof UnitTestCaller)) {
+			if (!(getServerCaller() instanceof UnitTestServerCaller)) {
 				try {
 					metrics = new Metrics("Craftconomy", this.getServerCaller().getPluginVersion(), serverCaller);
 				} catch (IOException e) {
@@ -176,7 +176,7 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
 				}
 			}
 			sendConsoleMessage(Level.INFO, "Loading listeners.");
-			caller.getLoader().getEventManager().registerEvents(this, new EventManager());
+			serverCaller.getLoader().getEventManager().registerEvents(this, new EventManager());
 			sendConsoleMessage(Level.INFO, "Loading commands");
 			Common.getInstance().getServerCaller().registerPermission("craftconomy.*");
 			commandManager = new CommandHandler(serverCaller);
@@ -333,7 +333,7 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
 	 * Retrieve the Server Caller.
 	 * @return The Server Caller instance or null if the caller is not initialized.
 	 */
-	public Caller getServerCaller() {
+	public ServerCaller getServerCaller() {
 		return serverCaller;
 	}
 

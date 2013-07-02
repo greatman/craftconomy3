@@ -29,11 +29,11 @@ public class CurrencyRatesCommand extends CommandExecutor {
 	@Override
 	public void execute(String sender, String[] args) {
 		List<ExchangeTable> exchangeTableList = Common.getInstance().getDatabaseManager().getDatabase().select(ExchangeTable.class).execute().find();
-		Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("rates_header"));
+		Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("rates_header"));
 		for (ExchangeTable entry : exchangeTableList) {
 			Currency currencyFrom = Common.getInstance().getCurrencyManager().getCurrency(entry.from_currency_id);
 			Currency currencyTo = Common.getInstance().getCurrencyManager().getCurrency(entry.to_currency_id);
-			Common.getInstance().getServerCaller().sendMessage(sender, "1 " + currencyFrom.getName() + " => " + entry.amount + " " + currencyTo.getName());
+			Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "1 " + currencyFrom.getName() + " => " + entry.amount + " " + currencyTo.getName());
 		}
 	}
 

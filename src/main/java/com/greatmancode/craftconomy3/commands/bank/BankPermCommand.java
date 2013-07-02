@@ -27,7 +27,7 @@ public class BankPermCommand extends CommandExecutor {
 	public void execute(String sender, String[] args) {
 		if (Common.getInstance().getAccountManager().exist(Account.BANK_PREFIX + args[0])) {
 			Account account = Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + args[0]);
-			if (account.getAccountACL().canAcl(sender) || account.getAccountACL().isOwner(sender) || Common.getInstance().getServerCaller().checkPermission(sender, "craftconomy.bank.set.others")) {
+			if (account.getAccountACL().canAcl(sender) || account.getAccountACL().isOwner(sender) || Common.getInstance().getServerCaller().getPlayerCaller().checkPermission(sender, "craftconomy.bank.set.others")) {
 
 				if (args[1].equalsIgnoreCase("deposit")) {
 					account.getAccountACL().setDeposit(args[2], Boolean.parseBoolean(args[3]));
@@ -38,15 +38,15 @@ public class BankPermCommand extends CommandExecutor {
 				} else if (args[1].equalsIgnoreCase("show")) {
 					account.getAccountACL().setShow(args[2], Boolean.parseBoolean(args[3]));
 				} else {
-					Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("invalid_flag"));
+					Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("invalid_flag"));
 					return;
 				}
-				Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().parse("bank_flag_set", args[1], args[2], args[3]));
+				Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().parse("bank_flag_set", args[1], args[2], args[3]));
 			} else {
-				Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("cant_modify_acl"));
+				Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("cant_modify_acl"));
 			}
 		} else {
-			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("account_not_exist!"));
+			Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("account_not_exist!"));
 		}
 	}
 

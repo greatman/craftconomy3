@@ -175,7 +175,7 @@ public abstract class Converter {
 		boolean first = true, isSQLite = Common.getInstance().getDatabaseManager().getDatabase() instanceof SQLiteDatabase;
 		while (iterator.hasNext()) {
 			if (i % ALERT_EACH_X_ACCOUNT == 0) {
-				Common.getInstance().getServerCaller().sendMessage(sender, i + " {{DARK_GREEN}}of {{WHITE}} " + userList.size() + " {{DARK_GREEN}}accounts ready to be imported.");
+				Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, i + " {{DARK_GREEN}}of {{WHITE}} " + userList.size() + " {{DARK_GREEN}}accounts ready to be imported.");
 			}
 			if (isSQLite && !first) {
 				stringBuilder = new StringBuilder();
@@ -197,7 +197,7 @@ public abstract class Converter {
 		if (!isSQLite) {
 			Common.getInstance().getDatabaseManager().getDatabase().directQuery(stringBuilder.toString());
 		}
-		Common.getInstance().getServerCaller().sendMessage(sender, userList.size() + " {{DARK_GREEN}}accounts converted! Enjoy!");
+		Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, userList.size() + " {{DARK_GREEN}}accounts converted! Enjoy!");
 	}
 
 	protected class User {

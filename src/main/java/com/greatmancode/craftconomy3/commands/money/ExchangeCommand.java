@@ -37,20 +37,20 @@ public class ExchangeCommand extends CommandExecutor {
 				try {
 					double exchangeRate = currency1.getExchangeRate(currency2);
 					Account account = Common.getInstance().getAccountManager().getAccount(sender);
-					if (account.hasEnough(amount, Common.getInstance().getServerCaller().getPlayerWorld(sender), currency1.getName())) {
+					if (account.hasEnough(amount, Common.getInstance().getServerCaller().getPlayerCaller().getPlayerWorld(sender), currency1.getName())) {
 						double value = amount * exchangeRate;
-						account.withdraw(amount, Common.getInstance().getServerCaller().getPlayerWorld(sender), currency1.getName(), Cause.EXCHANGE, currency2.getName());
-						account.deposit(value, Common.getInstance().getServerCaller().getPlayerWorld(sender), currency2.getName(), Cause.EXCHANGE, currency1.getName());
-						Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().parse("exchange_done", amount, currency1.getName(), value, currency2.getName()));
+						account.withdraw(amount, Common.getInstance().getServerCaller().getPlayerCaller().getPlayerWorld(sender), currency1.getName(), Cause.EXCHANGE, currency2.getName());
+						account.deposit(value, Common.getInstance().getServerCaller().getPlayerCaller().getPlayerWorld(sender), currency2.getName(), Cause.EXCHANGE, currency1.getName());
+						Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().parse("exchange_done", amount, currency1.getName(), value, currency2.getName()));
 					}
 				} catch (NoExchangeRate noExchangeRate) {
-					Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().parse("no_exchange_rate", currency1.getName(), currency2.getName()));
+					Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().parse("no_exchange_rate", currency1.getName(), currency2.getName()));
 				}
 			} else {
-				Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("currency_not_exist"));
+				Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("currency_not_exist"));
 			}
 		} else {
-			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("invalid_amount"));
+			Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("invalid_amount"));
 		}
 	}
 

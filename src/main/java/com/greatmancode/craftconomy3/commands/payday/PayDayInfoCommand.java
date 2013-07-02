@@ -27,17 +27,17 @@ public class PayDayInfoCommand extends CommandExecutor {
 	public void execute(String sender, String[] args) {
 		PayDay payday = Common.getInstance().getPaydayManager().getPayDay(args[0]);
 		if (payday != null) {
-			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().parse("payday_info_title", payday.getName()));
-			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().parse("payday_info_amount", Common.getInstance().format(payday.getWorldName(), Common.getInstance().getCurrencyManager().getCurrency(payday.getCurrencyId()), payday.getValue())));
+			Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().parse("payday_info_title", payday.getName()));
+			Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().parse("payday_info_amount", Common.getInstance().format(payday.getWorldName(), Common.getInstance().getCurrencyManager().getCurrency(payday.getCurrencyId()), payday.getValue())));
 			if (payday.getStatus() == 0) {
-				Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("payday_info_type_wage"));
+				Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("payday_info_type_wage"));
 			} else {
-				Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("payday_info_type_tax"));
+				Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("payday_info_type_tax"));
 			}
-			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().parse("payday_info_account", payday.getAccount()));
-			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().parse("payday_info_interval", payday.getInterval()));
+			Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().parse("payday_info_account", payday.getAccount()));
+			Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().parse("payday_info_interval", payday.getInterval()));
 		} else {
-			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("payday_not_found"));
+			Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("payday_not_found"));
 		}
 	}
 

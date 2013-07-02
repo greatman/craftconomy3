@@ -29,10 +29,10 @@ public class PayDayListCommand extends CommandExecutor {
 	@Override
 	public void execute(String sender, String[] args) {
 		Iterator<Entry<Integer, PayDay>> paydayList = Common.getInstance().getPaydayManager().getPayDayList().entrySet().iterator();
-		Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("payday_list_title"));
+		Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("payday_list_title"));
 		while (paydayList.hasNext()) {
 			Entry<Integer, PayDay> entry = paydayList.next();
-			Common.getInstance().getServerCaller().sendMessage(sender, entry.getValue().getName());
+			Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, entry.getValue().getName());
 		}
 	}
 

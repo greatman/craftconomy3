@@ -27,16 +27,16 @@ public class GroupAddWorldCommand extends CommandExecutor {
 		if (Common.getInstance().getWorldGroupManager().worldGroupExist(args[0])) {
 			if (Common.getInstance().getServerCaller().worldExist(args[1])) {
 				if (!Common.getInstance().getWorldGroupManager().getWorldGroupName(args[1]).equals("default")) {
-					Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().parse("world_already_in_group", args[1]));
+					Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().parse("world_already_in_group", args[1]));
 					return;
 				}
 				Common.getInstance().getWorldGroupManager().addWorldToGroup(args[0], args[1]);
-				Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("group_world_added"));
+				Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("group_world_added"));
 			} else {
-				Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("world_not_exist"));
+				Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("world_not_exist"));
 			}
 		} else {
-			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("group_not_exist"));
+			Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("group_not_exist"));
 		}
 	}
 

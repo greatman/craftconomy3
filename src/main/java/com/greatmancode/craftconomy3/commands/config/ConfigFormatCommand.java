@@ -28,9 +28,9 @@ public class ConfigFormatCommand extends CommandExecutor {
 		try {
 			DisplayFormat format = DisplayFormat.valueOf(args[0].toUpperCase());
 			Common.getInstance().setDisplayFormat(format);
-			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("format_modified"));
+			Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("format_modified"));
 		} catch (IllegalArgumentException e) {
-			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("invalid_mode"));
+			Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("invalid_mode"));
 		}
 	}
 

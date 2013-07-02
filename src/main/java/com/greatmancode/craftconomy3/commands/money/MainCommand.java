@@ -28,12 +28,12 @@ import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 public class MainCommand extends CommandExecutor {
 	@Override
 	public void execute(String sender, String[] args) {
-		Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("money_all_title"));
+		Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("money_all_title"));
 		Account account = Common.getInstance().getAccountManager().getAccount(sender);
 		Iterator<Balance> balanceList = account.getAllWorldBalance(account.getWorldGroupOfPlayerCurrentlyIn()).iterator();
 		while (balanceList.hasNext()) {
 			Balance bl = balanceList.next();
-			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().format(bl.getWorld(), bl.getCurrency(), bl.getBalance()));
+			Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().format(bl.getWorld(), bl.getCurrency(), bl.getBalance()));
 		}
 	}
 

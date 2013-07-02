@@ -29,9 +29,9 @@ public class PayDayModifyCommand extends CommandExecutor {
 			if (args[1].equalsIgnoreCase("name")) {
 				if (Common.getInstance().getPaydayManager().getPayDay(args[2]) == null) {
 					Common.getInstance().getPaydayManager().getPayDay(args[0]).setName(args[2]);
-					Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("name_changed"));
+					Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("name_changed"));
 				} else {
-					Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("payday_with_name_already_exist"));
+					Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("payday_with_name_already_exist"));
 				}
 			} else if (args[1].equalsIgnoreCase("status")) {
 				if (args[2].equalsIgnoreCase("wage") || args[2].equalsIgnoreCase("tax")) {
@@ -40,57 +40,57 @@ public class PayDayModifyCommand extends CommandExecutor {
 					} else {
 						Common.getInstance().getPaydayManager().getPayDay(args[0]).setStatus(1);
 					}
-					Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("status_changed"));
+					Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("status_changed"));
 				} else {
-					Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("invalid_status"));
+					Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("invalid_status"));
 				}
 			} else if (args[1].equalsIgnoreCase("disabled")) {
 				if (args[2].equalsIgnoreCase("true") || args[2].equalsIgnoreCase("false")) {
 					Common.getInstance().getPaydayManager().getPayDay(args[0]).setDisabled(Boolean.parseBoolean(args[2]));
-					Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("disabled_changed"));
+					Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("disabled_changed"));
 				} else {
-					Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("invalid_disabled"));
+					Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("invalid_disabled"));
 				}
 			} else if (args[1].equalsIgnoreCase("interval")) {
 				if (Tools.isInteger(args[2])) {
 					Common.getInstance().getPaydayManager().getPayDay(args[0]).setInterval(Integer.parseInt(args[2]));
-					Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("interval_changed"));
+					Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("interval_changed"));
 				} else {
-					Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("invalid_interval"));
+					Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("invalid_interval"));
 				}
 			} else if (args[1].equalsIgnoreCase("amount")) {
 				if (Tools.isValidDouble(args[2])) {
 					Common.getInstance().getPaydayManager().getPayDay(args[0]).setValue(Double.parseDouble(args[2]));
-					Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("amount_changed"));
+					Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("amount_changed"));
 				} else {
-					Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("invalid_amount"));
+					Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("invalid_amount"));
 				}
 			} else if (args[1].equalsIgnoreCase("account")) {
 				if (Common.getInstance().getAccountManager().exist(args[2])) {
 					Common.getInstance().getPaydayManager().getPayDay(args[0]).setAccount(args[2]);
-					Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("account_changed"));
+					Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("account_changed"));
 				} else {
-					Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("account_not_exist"));
+					Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("account_not_exist"));
 				}
 			} else if (args[1].equalsIgnoreCase("currency")) {
 				if (Common.getInstance().getCurrencyManager().getCurrency(args[2]) != null) {
 					Common.getInstance().getPaydayManager().getPayDay(args[0]).setCurrencyId(Common.getInstance().getCurrencyManager().getCurrency(args[2]).getDatabaseID());
-					Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("currency_changed"));
+					Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("currency_changed"));
 				} else {
-					Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("currency_not_exist"));
+					Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("currency_not_exist"));
 				}
 			} else if (args[1].equalsIgnoreCase("world")) {
 				if (Common.getInstance().getServerCaller().worldExist(args[2])) {
 					Common.getInstance().getPaydayManager().getPayDay(args[0]).setWorldName(args[2]);
-					Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("world_changed"));
+					Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("world_changed"));
 				} else {
-					Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("world_not_exist"));
+					Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("world_not_exist"));
 				}
 			} else {
-				Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("invalid_edit_mode"));
+				Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("invalid_edit_mode"));
 			}
 		} else {
-			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("payday_not_found"));
+			Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("payday_not_found"));
 		}
 	}
 

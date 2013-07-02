@@ -36,7 +36,7 @@ public class PayDayCreateCommand extends CommandExecutor {
 							if (Common.getInstance().getAccountManager().exist(args[4])) {
 								accountName = args[4];
 							} else {
-								Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("account_not_exist"));
+								Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("account_not_exist"));
 								return;
 							}
 						}
@@ -45,7 +45,7 @@ public class PayDayCreateCommand extends CommandExecutor {
 							if (currency != null) {
 								currencyId = currency.getDatabaseID();
 							} else {
-								Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("currency_not_exist"));
+								Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("currency_not_exist"));
 								return;
 							}
 						}
@@ -53,7 +53,7 @@ public class PayDayCreateCommand extends CommandExecutor {
 							if (Common.getInstance().getWorldGroupManager().worldGroupExist(args[6])) {
 								worldName = args[6];
 							} else {
-								Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("world_not_exist"));
+								Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("world_not_exist"));
 								return;
 							}
 						}
@@ -62,18 +62,18 @@ public class PayDayCreateCommand extends CommandExecutor {
 							status = 1;
 						}
 						Common.getInstance().getPaydayManager().addPayDay(args[0], false, Integer.parseInt(args[1]), accountName, status, currencyId, Double.parseDouble(args[3]), worldName, true);
-						Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().parse("payday_create_success", "craftconomy.payday." + args[0].toLowerCase()));
+						Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().parse("payday_create_success", "craftconomy.payday." + args[0].toLowerCase()));
 					} else {
-						Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("invalid_amount"));
+						Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("invalid_amount"));
 					}
 				} else {
-					Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("payday_invalid_mode"));
+					Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("payday_invalid_mode"));
 				}
 			} else {
-				Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("invalid_interval"));
+				Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("invalid_interval"));
 			}
 		} else {
-			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("payday_already_exist"));
+			Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("payday_already_exist"));
 		}
 	}
 

@@ -26,9 +26,9 @@ public class CreateCommand extends CommandExecutor {
 	public void execute(String sender, String[] args) {
 		if (!Common.getInstance().getAccountManager().exist(args[0])) {
 			Common.getInstance().getAccountManager().getAccount(args[0]);
-			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("money_create_success"));
+			Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("money_create_success"));
 		} else {
-			Common.getInstance().getServerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("account_already_exist"));
+			Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("account_already_exist"));
 		}
 	}
 
