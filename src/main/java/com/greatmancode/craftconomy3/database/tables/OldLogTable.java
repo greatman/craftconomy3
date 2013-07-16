@@ -27,7 +27,7 @@ import com.greatmancode.craftconomy3.Cause;
 import com.greatmancode.craftconomy3.LogInfo;
 
 @Table("log")
-public class LogTable {
+public class OldLogTable {
 	@Id
 	public int id;
 	@Field
@@ -35,9 +35,9 @@ public class LogTable {
 	@Field
 	public double amount;
 	@Field
-	public String type;
+	public LogInfo type;
 	@Field
-	public String cause;
+	public Cause cause;
 	@Field
 	public Timestamp timestamp;
 	@Field

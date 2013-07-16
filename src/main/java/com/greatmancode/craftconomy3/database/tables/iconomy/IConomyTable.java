@@ -26,6 +26,7 @@ import com.alta189.simplesave.Table;
 public class IConomyTable {
 	@Id
 	private int id;
+
 	@Field
 	private String username;
 	@Field

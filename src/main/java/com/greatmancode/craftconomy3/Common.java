@@ -90,6 +90,7 @@ import com.greatmancode.craftconomy3.database.tables.ConfigTable;
 import com.greatmancode.craftconomy3.database.tables.CurrencyTable;
 import com.greatmancode.craftconomy3.database.tables.ExchangeTable;
 import com.greatmancode.craftconomy3.database.tables.LogTable;
+import com.greatmancode.craftconomy3.database.tables.OldLogTable;
 import com.greatmancode.craftconomy3.database.tables.PayDayTable;
 import com.greatmancode.craftconomy3.database.tables.WorldGroupTable;
 import com.greatmancode.craftconomy3.events.EventManager;
@@ -525,8 +526,8 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
 			LogTable log = new LogTable();
 			log.username_id = account.getAccountID();
 			log.amount = amount;
-			log.type = info;
-			log.cause = cause;
+			log.type = info.name();
+			log.cause = cause.name();
 			log.causeReason = causeReason;
 			log.currencyName = currency.getName();
 			log.worldName = worldName;
@@ -1026,6 +1027,44 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
 			dbVersion.setValue(6 + "");
 			Common.getInstance().getDatabaseManager().getDatabase().save(dbVersion);
 			Common.getInstance().getLogger().info("Updated to Revision 6!");
+		}
+		if (dbVersion.getValue().equalsIgnoreCase("6")) {
+			alertOldDbVersion(dbVersion.getValue(), 7);
+			try {
+				dbManager.close();
+				dbManager.registerTable(OldLogTable.class);
+				dbManager.connect();
+				List<OldLogTable> oldLogTableList = dbManager.getDatabase().select(OldLogTable.class).execute().find();
+				databaseInitialized = false;
+				dbManager.close();
+				initialiseDatabase();
+				System.out.println("DROP TABLE " + getMainConfig().getString("System.Database.Prefix") + "log");
+				dbManager.getDatabase().directQuery("DROP TABLE " + getMainConfig().getString("System.Database.Prefix") + "log");
+				dbManager.close();
+				databaseInitialized = false;
+				initialiseDatabase();
+				for (OldLogTable entry : oldLogTableList) {
+					LogTable log = new LogTable();
+					log.username_id = entry.username_id;
+					log.amount = entry.amount;
+					log.type = entry.type.name();
+					log.cause = entry.cause.name();
+					log.causeReason = entry.causeReason;
+					log.currencyName = entry.currencyName;
+					log.worldName = entry.worldName;
+					log.timestamp = entry.timestamp;
+					getDatabaseManager().getDatabase().save(log);
+				}
+				dbVersion.setValue(7 + "");
+				Common.getInstance().getDatabaseManager().getDatabase().save(dbVersion);
+				Common.getInstance().getLogger().info("Updated to Revision 7!");
+			} catch (ConnectionException e) {
+				e.printStackTrace();
+			} catch (TableRegistrationException e) {
+				e.printStackTrace();
+			} catch (InvalidDatabaseConstructor invalidDatabaseConstructor) {
+				invalidDatabaseConstructor.printStackTrace();
+			}
 		}
 	}
 
