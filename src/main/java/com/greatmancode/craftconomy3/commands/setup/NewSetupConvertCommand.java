@@ -95,7 +95,8 @@ public class NewSetupConvertCommand extends CommandExecutor {
 									Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_RED}}NOTICE: {{WHITE}}The conversion is made in another thread so it doesn't hang the server. Craftconomy will be unlocked when the conversion is complete.");
 									selectedConverter.importData(sender);
 									Common.getInstance().getMainConfig().setValue("System.Setup", false);
-									Common.getInstance().loadDefaultSettings();
+									Common.getInstance().reloadPlugin();
+
 									Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_GREEN}}Conversion complete! Enjoy Craftconomy!");
 								}
 							}, 0, 0, true);
@@ -116,7 +117,14 @@ public class NewSetupConvertCommand extends CommandExecutor {
 		if (selectedConverter.getDbTypes().contains(args[0])) {
 			selectedConverter.setDbType(args[0]);
 			step = INTERNALSTEP.INSERT_VALUES;
-			Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, args[0] + " {{DARK_GREEN}}selected. Now, Please enter the correct values for the database format chosen. Syntax is: {{WHITE}}/ccsetup convert <" + formatListString(selectedConverter.getDbInfo()) + "> <value>");
+			if (selectedConverter.getDbInfo().size() == 0) {
+				selectedConverter.importData(sender);
+				Common.getInstance().getMainConfig().setValue("System.Setup", false);
+				Common.getInstance().reloadPlugin();
+				Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_GREEN}}Conversion complete! Enjoy Craftconomy!");
+			} else {
+				Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, args[0] + " {{DARK_GREEN}}selected. Now, Please enter the correct values for the database format chosen. Syntax is: {{WHITE}}/ccsetup convert <" + formatListString(selectedConverter.getDbInfo()) + "> <value>");
+			}
 		} else {
 			Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_RED}}This db type doesn't exist! Please type {{WHITE}}/ccsetup convert <" + formatListString(selectedConverter.getDbTypes()) + ">");
 		}

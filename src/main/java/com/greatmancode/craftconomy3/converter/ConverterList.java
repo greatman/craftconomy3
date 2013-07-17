@@ -23,6 +23,7 @@ import java.util.Map;
 
 import com.greatmancode.craftconomy3.converter.converters.BoseEconomy;
 import com.greatmancode.craftconomy3.converter.converters.Craftconomy2;
+import com.greatmancode.craftconomy3.converter.converters.Essentials;
 import com.greatmancode.craftconomy3.converter.converters.Iconomy6;
 
 /**
@@ -46,5 +47,6 @@ public class ConverterList {
 		converterList.put("iconomy6", new Iconomy6());
 		converterList.put("craftconomy2", new Craftconomy2());
 		converterList.put("boseeconomy", new BoseEconomy());
+		converterList.put("essentials", new Essentials());
 	}
 }
