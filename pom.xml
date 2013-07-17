@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.greatmancode</groupId>
 	<artifactId>craftconomy3</artifactId>
-	<version>3.1.4-SNAPSHOT</version>
+	<version>3.1.4</version>
 	<inceptionYear>2011</inceptionYear>
 	<name>Craftconomy3</name>
 	<url>https://github.com/greatman/Craftconomy3</url>
@@ -180,10 +180,6 @@
 						</goals>
 						<configuration>
 							<relocations>
-								<relocation>
-									<pattern>org.mcstats</pattern>
-									<shadedPattern>com.greatmancode.craftconomy3.metrics</shadedPattern>
-								</relocation>
 								<relocation>
 									<pattern>com.greatmancode.tools</pattern>
 									<shadedPattern>com.greatmancode.craftconomy3.tools</shadedPattern>
