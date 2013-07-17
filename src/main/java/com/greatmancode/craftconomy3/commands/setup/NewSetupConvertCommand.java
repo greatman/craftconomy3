@@ -144,7 +144,7 @@ public class NewSetupConvertCommand extends CommandExecutor {
 			Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_GREEN}}Please type {{WHITE}}/ccsetup convert <" + getConverterListFormatted() + ">");
 		} else if (args[0].equalsIgnoreCase("no")) {
 			Common.getInstance().getMainConfig().setValue("System.Setup", false);
-			Common.getInstance().getCommandManager().setLevel(1);
+			Common.getInstance().reloadPlugin();
 			Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_GREEN}}The setup is done! Enjoy Craftconomy!");
 		} else {
 			Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_RED}}Correct values are yes or no! Please type {{WHITE}}/ccsetup convert <yes/no>");

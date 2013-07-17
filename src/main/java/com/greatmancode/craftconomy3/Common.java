@@ -252,6 +252,41 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
 		}
 	}
 
+	public void reloadPlugin() {
+		sendConsoleMessage(Level.INFO, "Starting up!");
+		sendConsoleMessage(Level.INFO, "Loading the Configuration");
+		config = new ConfigurationManager(serverCaller);
+		mainConfig = config.loadFile(serverCaller.getDataFolder(), "config.yml");
+		if (!mainConfig.has("System.Setup")) {
+			initializeConfig();
+		}
+		if (!getMainConfig().has("System.Database.Prefix")) {
+			getMainConfig().setValue("System.Database.Prefix", "cc3_");
+		}
+
+		languageManager = new LanguageManager(serverCaller, serverCaller.getDataFolder(), "lang.yml");
+		loadLanguage();
+		serverCaller.setCommandPrefix(languageManager.getString("command_prefix"));
+		commandManager.setLevel(1);
+		try {
+			initialiseDatabase();
+			updateDatabase();
+			initializeCurrency();
+			sendConsoleMessage(Level.INFO, getLanguageManager().getString("loading_default_settings"));
+			loadDefaultSettings();
+			sendConsoleMessage(Level.INFO, getLanguageManager().getString("default_settings_loaded"));
+			startUp();
+			sendConsoleMessage(Level.INFO, getLanguageManager().getString("ready"));
+		} catch (TableRegistrationException e) {
+			e.printStackTrace();
+		} catch (ConnectionException e) {
+			e.printStackTrace();
+		} catch (InvalidDatabaseConstructor invalidDatabaseConstructor) {
+			invalidDatabaseConstructor.printStackTrace();
+		}
+
+	}
+
 	public Config getMainConfig() {
 		return mainConfig;
 	}
