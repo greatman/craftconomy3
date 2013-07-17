@@ -181,6 +181,10 @@
 						<configuration>
 							<relocations>
 								<relocation>
+									<pattern>org.mcstats</pattern>
+									<shadedPattern>com.greatmancode.craftconomy3.metrics</shadedPattern>
+								</relocation>
+								<relocation>
 									<pattern>com.greatmancode.tools</pattern>
 									<shadedPattern>com.greatmancode.craftconomy3.tools</shadedPattern>
 								</relocation>
