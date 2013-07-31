@@ -18,6 +18,9 @@
  */
 package com.greatmancode.craftconomy3;
 
+/**
+ * Different setup steps for the wizard
+ */
 public enum NewSetupWizard {
 	DATABASE_STEP,
 	BASIC_STEP,

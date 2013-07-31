@@ -20,6 +20,9 @@ package com.greatmancode.craftconomy3;
 
 import java.io.Serializable;
 
+/**
+ * A Cause of a event
+ */
 public enum Cause implements Serializable {
 	VAULT,
 	USER,

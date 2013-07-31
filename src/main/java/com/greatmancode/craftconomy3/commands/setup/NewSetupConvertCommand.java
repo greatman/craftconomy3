@@ -104,7 +104,7 @@ public class NewSetupConvertCommand extends CommandExecutor {
 							Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_RED}}Some settings are wrong. Be sure that every settings are ok! Check the console log for more information.");
 						}
 					} else {
-						Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_GREEN}}Value for {{WHITE}}" + args[0] + "{{DARK_GREEN}} set. Please conitnue.");
+						Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_GREEN}}Value for {{WHITE}}" + args[0] + "{{DARK_GREEN}} set. Please continue.");
 					}
 				}
 			} else {
@@ -124,6 +124,7 @@ public class NewSetupConvertCommand extends CommandExecutor {
 				Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_GREEN}}Conversion complete! Enjoy Craftconomy!");
 			} else {
 				Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, args[0] + " {{DARK_GREEN}}selected. Now, Please enter the correct values for the database format chosen. Syntax is: {{WHITE}}/ccsetup convert <" + formatListString(selectedConverter.getDbInfo()) + "> <value>");
+				Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_GREEN}}Example: {{WHITE}}/ccsetup convert "+ selectedConverter.getDbInfo().get(0) + " test");
 			}
 		} else {
 			Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_RED}}This db type doesn't exist! Please type {{WHITE}}/ccsetup convert <" + formatListString(selectedConverter.getDbTypes()) + ">");

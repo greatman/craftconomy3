@@ -26,6 +26,9 @@ import java.util.Map.Entry;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.database.tables.WorldGroupTable;
 
+/**
+ * World Group Manager
+ */
 public class WorldGroupsManager {
 	public static final String DEFAULT_GROUP_NAME = "default";
 	private final Map<String, WorldGroup> list = new HashMap<String, WorldGroup>();
@@ -36,6 +39,11 @@ public class WorldGroupsManager {
 		}
 	}
 
+	/**
+	 * Add a world to a group
+	 * @param groupName the group name
+	 * @param world the world to add
+	 */
 	public void addWorldToGroup(String groupName, String world) {
 		if (!groupName.equalsIgnoreCase(DEFAULT_GROUP_NAME)) {
 			if (list.containsKey(groupName)) {
@@ -47,6 +55,11 @@ public class WorldGroupsManager {
 		}
 	}
 
+	/**
+	 * Retrieve the name of the worldgroup a world belongs to
+	 * @param world The world name
+	 * @return The worldgroup name linked to this world
+	 */
 	public String getWorldGroupName(String world) {
 		String result = DEFAULT_GROUP_NAME;
 		Iterator<Entry<String, WorldGroup>> iterator = list.entrySet().iterator();
@@ -59,6 +72,10 @@ public class WorldGroupsManager {
 		return result;
 	}
 
+	/**
+	 * Remove a world from a worldgroup
+	 * @param world The world to reset to default
+	 */
 	public void removeWorldFromGroup(String world) {
 		String groupName = getWorldGroupName(world);
 		if (!groupName.equals(DEFAULT_GROUP_NAME)) {
@@ -77,10 +94,19 @@ public class WorldGroupsManager {
 		}
 	}
 
+	/**
+	 * Check if a world group exists
+	 * @param name The world group name
+	 * @return True if the world exist else false
+	 */
 	public boolean worldGroupExist(String name) {
 		return list.containsKey(name);
 	}
 
+	/**
+	 * Create a world group
+	 * @param name the world group name.
+	 */
 	public void addWorldGroup(String name) {
 		if (!worldGroupExist(name)) {
 			list.put(name, new WorldGroup(name));

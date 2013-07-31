@@ -205,7 +205,7 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
 						getServerCaller().disablePlugin();
 					}
 				} else {
-					SetupWizard.setState(SetupWizard.DATABASE_SETUP);
+					NewSetupWizard.setState(NewSetupWizard.DATABASE_STEP);
 					sendConsoleMessage(Level.WARNING, getLanguageManager().getString("loaded_setup_mode"));
 				}
 			} else {
@@ -252,6 +252,9 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
 		}
 	}
 
+	/**
+	 * Reload the plugin.
+	 */
 	public void reloadPlugin() {
 		sendConsoleMessage(Level.INFO, "Starting up!");
 		sendConsoleMessage(Level.INFO, "Loading the Configuration");
@@ -287,6 +290,10 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
 
 	}
 
+	/**
+	 * Retrieve the main configuration file
+	 * @return the main configuration file
+	 */
 	public Config getMainConfig() {
 		return mainConfig;
 	}
@@ -477,7 +484,7 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
 	}
 
 	/**
-	 * Initialize the Currency Manager.
+	 * Initialize the {@link CurrencyManager}
 	 */
 	public void initializeCurrency() {
 		if (!currencyInitialized) {
@@ -488,6 +495,9 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
 		}
 	}
 
+	/**
+	 * Initialize the {@link WorldGroupsManager}
+	 */
 	public void initializeWorldGroup() {
 		if (worldGroupManager == null) {
 			worldGroupManager = new WorldGroupsManager();
@@ -496,7 +506,7 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
 	}
 
 	/**
-	 * Initialize the Account & PayDay Manager
+	 * Initialize the {@link AccountManager}, {@link PayDayManager}, Metrics and {@link EventManager}
 	 */
 	public void startUp() {
 		sendConsoleMessage(Level.INFO, getLanguageManager().getString("loading_account_manager"));
@@ -541,6 +551,9 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
 		addMetricsGraph(title, stringEnabled);
 	}
 
+	/**
+	 * Start Metrics.
+	 */
 	public void startMetrics() {
 		if (metrics != null) {
 			metrics.start();
@@ -594,6 +607,10 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
 		return languageManager;
 	}
 
+	/**
+	 * Retrieve the {@link WorldGroupsManager}
+	 * @return The {@link WorldGroupsManager}
+	 */
 	public WorldGroupsManager getWorldGroupManager() {
 		return worldGroupManager;
 	}
@@ -606,6 +623,9 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
 		return initialized;
 	}
 
+	/**
+	 * Reload the default settings.
+	 */
 	public void loadDefaultSettings() {
 		displayFormat = DisplayFormat.valueOf(getDatabaseManager().getDatabase().select(ConfigTable.class).where().contains(ConfigTable.NAME_FIELD, "longmode").execute().findOne().getValue().toUpperCase());
 		addMetricsGraph("Display Format", displayFormat.name());
@@ -622,10 +642,18 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
 		}
 	}
 
+	/**
+	 * Retrieve the display format for any formatting through {@link #format(String, com.greatmancode.craftconomy3.currency.Currency, double, DisplayFormat)}
+	 * @return the display format used.
+	 */
 	public DisplayFormat getDisplayFormat() {
 		return displayFormat;
 	}
 
+	/**
+	 * Set the display format for any formatting through {@link #format(String, com.greatmancode.craftconomy3.currency.Currency, double, DisplayFormat)}
+	 * @param format
+	 */
 	public void setDisplayFormat(DisplayFormat format) {
 		ConfigTable table = getDatabaseManager().getDatabase().select(ConfigTable.class).where().equal(ConfigTable.NAME_FIELD, "longmode").execute().findOne();
 		table.setValue(format.name());
@@ -633,10 +661,18 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
 		displayFormat = format;
 	}
 
+	/**
+	 * Get the default amount of money a account will have
+	 * @return the default amount of money
+	 */
 	public double getDefaultHoldings() {
 		return holdings;
 	}
 
+	/**
+	 * Set the default amount of money a account will have
+	 * @param value the default amount of money
+	 */
 	public void setDefaultHoldings(double value) {
 		ConfigTable table = getDatabaseManager().getDatabase().select(ConfigTable.class).where().equal(ConfigTable.NAME_FIELD, "holdings").execute().findOne();
 		table.setValue(String.valueOf(value));
@@ -644,10 +680,18 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
 		holdings = value;
 	}
 
+	/**
+	 * Retrieve the price of a bank account creation
+	 * @return The price of a bank account creation
+	 */
 	public double getBankPrice() {
 		return bankPrice;
 	}
 
+	/**
+	 * Set the bank account creation price
+	 * @param value the bank account creation price
+	 */
 	public void setBankPrice(double value) {
 		ConfigTable table = getDatabaseManager().getDatabase().select(ConfigTable.class).where().equal(ConfigTable.NAME_FIELD, "bankprice").execute().findOne();
 		table.setValue(String.valueOf(value));
@@ -655,10 +699,20 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
 		bankPrice = value;
 	}
 
+	/**
+	 * Retrieve the default currency ID for a bank account
+	 * @return The default currency ID.
+	 */
 	public int getBankCurrencyId() {
 		return bankCurrencyId;
 	}
 
+	/**
+	 * Perform a quick setup
+	 * @throws TableRegistrationException
+	 * @throws ConnectionException
+	 * @throws InvalidDatabaseConstructor
+	 */
 	private void quickSetup() throws TableRegistrationException, ConnectionException, InvalidDatabaseConstructor {
 		initialiseDatabase();
 		Common.getInstance().initializeCurrency();
@@ -693,6 +747,9 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
 		sendConsoleMessage(Level.INFO, "Quick-Config done!");
 	}
 
+	/**
+	 * Register all the commands
+	 */
 	private void registerCommands() {
 		commandManager.setWrongLevelMsg(languageManager.getString("command_disabled_setup_mode"));
 		SubCommand money = new SubCommand("money", commandManager, null, 1);
@@ -764,6 +821,9 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
 		commandManager.registerMainCommand("ccgroup", ccgroup);
 	}
 
+	/**
+	 * Initialize the configuration file
+	 */
 	private void loadLanguage() {
 		languageManager.addLanguageEntry("metric_start_error", "Unable to load Metrics! The error is: %s");
 		languageManager.addLanguageEntry("checking_new_version", "Checking if there's a new version.");
@@ -942,6 +1002,9 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
 		languageManager.addLanguageEntry("currency_list_title", "{{DARK_GREEN}}====== {{WHITE}}Currencies {{DARK_GREEN}}======");
 	}
 
+	/**
+	 * Initialize the configuration file
+	 */
 	private void initializeConfig() {
 		mainConfig.setValue("System.Setup", true);
 		mainConfig.setValue("System.QuickSetup.Enable", false);
@@ -966,6 +1029,9 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
 		mainConfig.setValue("System.Database.Prefix", "cc3_");
 	}
 
+	/**
+	 * Run a database update.
+	 */
 	private void updateDatabase() {
 		ConfigTable dbVersion = Common.getInstance().getDatabaseManager().getDatabase().select(ConfigTable.class).where().equal(ConfigTable.NAME_FIELD, "dbVersion").execute().findOne();
 		if (dbVersion == null) {
@@ -1064,6 +1130,11 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
 		}
 	}
 
+	/**
+	 * Alert in the console of a database update.
+	 * @param currentVersion The current version
+	 * @param newVersion The database update version
+	 */
 	private void alertOldDbVersion(String currentVersion, int newVersion) {
 		Common.getInstance().getLogger().info("Your database is out of date! (Version " + currentVersion + "). Updating it to Revision " + newVersion + ".");
 	}

@@ -61,6 +61,10 @@ public abstract class Converter {
 		return dbTypes;
 	}
 
+	/**
+	 * Retrieve the information required about the selected input data method.
+	 * @return the information required about the selected input data method.
+	 */
 	protected List<String> getDbInfoList() {
 		return dbInfo;
 	}
@@ -80,8 +84,8 @@ public abstract class Converter {
 	}
 
 	/**
-	 * Retrieve the list of required fields about the selected database type
-	 * @return A list of required fields to connect to the selected database type
+	 * Retrieve the list of the possible input data method
+	 * @return A list of the possible input data method
 	 */
 	public abstract List<String> getDbInfo();
 
@@ -125,15 +129,30 @@ public abstract class Converter {
 	 */
 	public abstract boolean importData(String sender);
 
+	/**
+	 * Get the selected database type
+	 * @return the selected database type
+	 */
 	public String getSelectedDbType() {
 		return selectedDbType;
 	}
 
+	/**
+	 * Set the database type
+	 * @param selectedDbType the database type
+	 */
 	public void setSelectedDbType(String selectedDbType) {
-		this.selectedDbType = selectedDbType;
+		if (dbTypes.contains(selectedDbType)) {
+			this.selectedDbType = selectedDbType;
+		}
 	}
 
 	//Should be used in INSERT TO cc3_account
+
+	/**
+	 * Add the given accounts to the system
+	 * @param userList2 Account list
+	 */
 	protected void addAccountToString(List<User> userList2) {
 		stringBuilder = new StringBuilder();
 		List<User> userList = new ArrayList<User>(userList2);
@@ -166,6 +185,11 @@ public abstract class Converter {
 		}
 	}
 
+	/**
+	 * Add the balance of the imported accounts
+	 * @param sender The command sender
+	 * @param userList the user list
+	 */
 	protected void addBalance(String sender, List<User> userList) {
 		int i = 0;
 		stringBuilder = new StringBuilder();
@@ -200,8 +224,17 @@ public abstract class Converter {
 		Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, userList.size() + " {{DARK_GREEN}}accounts converted! Enjoy!");
 	}
 
+	/**
+	 * Represents a economy user
+	 */
 	protected class User {
+		/**
+		 * the user name
+		 */
 		public String user;
+		/**
+		 * the account balance
+		 */
 		public double balance;
 
 		public User(String user, double balance) {

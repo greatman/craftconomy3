@@ -18,10 +18,25 @@
  */
 package com.greatmancode.craftconomy3;
 
+/**
+ * Display formats
+ */
 public enum DisplayFormat {
 
+	/**
+	 * 2 dollars 1 cent
+	 */
 	LONG,
+	/**
+	 * $2.1
+	 */
 	SIGN,
+	/**
+	 * 2.01 dollars
+	 */
 	SMALL,
+	/**
+	 * 2 dollars
+	 */
 	MAJORONLY
 }
