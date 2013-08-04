@@ -81,12 +81,13 @@ public class Essentials extends Converter {
                     Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, i + " {{DARK_GREEN}}accounts loaded.");
                 }
                 i++;
+                reader.close();
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-		}
+        }
 		addAccountToString(userList);
 		addBalance(sender, userList);
 		return true;
