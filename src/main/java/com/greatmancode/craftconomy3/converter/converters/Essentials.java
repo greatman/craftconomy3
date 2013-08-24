@@ -71,6 +71,9 @@ public class Essentials extends Converter {
                 //money: '0.0'
                     if (line.contains("money")) {
                         String value = line.replace("money: '", "");
+                        if (value.contains("money")) {
+                            value = line.replace("money: ", "");
+                        }
                         value = value.substring(0, value.length() - 1);
                         double money = Double.parseDouble(value);
                         String name = account.getName().replace(".yml", "");
