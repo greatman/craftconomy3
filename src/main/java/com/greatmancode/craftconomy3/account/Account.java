@@ -389,6 +389,10 @@ public class Account {
 	 * @return The formatted double
 	 */
 	public static double format(double value) {
+		if (value == Double.MAX_VALUE) {
+			return value;
+		}
+		
 		long factor = (long) Math.pow(10, 2);
 		value = value * factor;
 		double tmp = Math.floor(value);
