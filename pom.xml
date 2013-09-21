@@ -184,6 +184,10 @@
 									<pattern>com.greatmancode.tools</pattern>
 									<shadedPattern>com.greatmancode.craftconomy3.tools</shadedPattern>
 								</relocation>
+								<relocation>
+									<pattern>com.alta189.simplesave</pattern>
+									<shadedPattern>com.greatmancode.alta189</shadedPattern>
+								</relocation>
 							</relocations>
 							<artifactSet>
 								<excludes>
