@@ -37,7 +37,7 @@
 	<repositories>
 		<repository>
 			<id>spout-repo</id>
-			<url>http://nexus.spout.org/content/groups/public/</url>
+			<url>http://oss.sonatype.org/content/repositories/snapshots</url>
 		</repository>
 		<repository>
 			<id>bukkit-repo</id>
