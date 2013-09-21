@@ -30,7 +30,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<spoutVersion>dev-SNAPSHOT</spoutVersion>
+		<spoutVersion>1.0.0-SNAPSHOT</spoutVersion>
 		<bukkitVersion>1.5.2-R0.1</bukkitVersion>
 	</properties>
 
@@ -72,7 +72,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.spout</groupId>
-			<artifactId>spoutapi</artifactId>
+			<artifactId>spout-api</artifactId>
 			<version>${spoutVersion}</version>
 			<type>jar</type>
 			<scope>provided</scope>
