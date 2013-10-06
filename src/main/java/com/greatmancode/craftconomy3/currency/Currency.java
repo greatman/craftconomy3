@@ -41,14 +41,20 @@ public class Currency {
 	 * @param sign The sign of the currency. (Example: $)
 	 */
 	public Currency(int databaseID, String name, String plural, String minor, String minorPlural, double hardCap, String sign) {
-		entry.setName(name);
-		entry.setPlural(plural);
-		entry.setMinor(minor);
-		entry.setMinorplural(minorPlural);
-		entry.setId(databaseID);
-		entry.setHardCap(hardCap);
-		entry.setSign(sign);
+		this(databaseID, name, plural, minor, minorPlural, hardCap, sign, false);
 	}
+
+    protected Currency(int databaseID, String name, String plural, String minor, String minorPlural, double hardCap, String sign, boolean status) {
+        entry.setName(name);
+        entry.setPlural(plural);
+        entry.setMinor(minor);
+        entry.setMinorplural(minorPlural);
+        entry.setId(databaseID);
+        entry.setHardCap(hardCap);
+        entry.setSign(sign);
+        entry.setStatus(status);
+    }
+
 
 	/**
 	 * Get the currency name
