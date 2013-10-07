@@ -403,7 +403,7 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
 			unusualSymbols.setGroupingSeparator(',');
 			DecimalFormat decimalFormat = new DecimalFormat("###,###", unusualSymbols);
 			String name = currency.getName();
-			if (balance > 2.0) {
+			if (balance > 1.0 || balance < 1.0) {
 				name = currency.getPlural();
 			}
 			String coin;
