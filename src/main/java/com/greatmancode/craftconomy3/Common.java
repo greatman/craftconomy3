@@ -205,7 +205,6 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
 						getServerCaller().disablePlugin();
 					}
 				} else {
-					NewSetupWizard.setState(NewSetupWizard.DATABASE_STEP);
 					sendConsoleMessage(Level.WARNING, getLanguageManager().getString("loaded_setup_mode"));
 				}
 			} else {
