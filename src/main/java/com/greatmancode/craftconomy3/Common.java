@@ -45,6 +45,7 @@ import com.greatmancode.craftconomy3.commands.bank.BankSetCommand;
 import com.greatmancode.craftconomy3.commands.bank.BankTakeCommand;
 import com.greatmancode.craftconomy3.commands.bank.BankWithdrawCommand;
 import com.greatmancode.craftconomy3.commands.config.ConfigBankPriceCommand;
+import com.greatmancode.craftconomy3.commands.config.ConfigClearLogCommand;
 import com.greatmancode.craftconomy3.commands.config.ConfigFormatCommand;
 import com.greatmancode.craftconomy3.commands.config.ConfigHoldingsCommand;
 import com.greatmancode.craftconomy3.commands.currency.CurrencyAddCommand;
@@ -189,6 +190,7 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
 				if (getMainConfig().getBoolean("System.QuickSetup.Enable")) {
 					try {
 						quickSetup();
+                        reloadPlugin();
 					} catch (TableRegistrationException e) {
 						e.printStackTrace();
 						sendConsoleMessage(Level.SEVERE, String.format(getLanguageManager().getString("database_connect_error"), e.getMessage()));
@@ -803,6 +805,7 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
 		configCommand.addCommand("holdings", new ConfigHoldingsCommand());
 		configCommand.addCommand("bankprice", new ConfigBankPriceCommand());
 		configCommand.addCommand("format", new ConfigFormatCommand());
+        configCommand.addCommand("clearlog", new ConfigClearLogCommand());
 		commandManager.registerMainCommand("craftconomy", configCommand);
 
 		SubCommand payday = new SubCommand("payday", commandManager, null, 1);
@@ -999,7 +1002,10 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
 		languageManager.addLanguageEntry("bank_delete_not_owner", "{{DARK_RED}}You aren't this bank owner!");
 		languageManager.addLanguageEntry("currency_list_cmd_help", "/currency list - List all the currencies");
 		languageManager.addLanguageEntry("currency_list_title", "{{DARK_GREEN}}====== {{WHITE}}Currencies {{DARK_GREEN}}======");
-	}
+        languageManager.addLanguageEntry("invalid_time_log", "Invalid time! It needs to be a positive number!");
+        languageManager.addLanguageEntry("log_cleared", "The log table has been cleared up to the time you said!");
+        languageManager.addLanguageEntry("craftconomy_clearlog_cmd_help", "/craftconomy clearlog <Time in days> - Clear the log table from entries olders than the value provided");
+    }
 
 	/**
 	 * Initialize the configuration file
