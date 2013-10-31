@@ -32,6 +32,8 @@ public class AccountTable {
 	@Field
 	private boolean infiniteMoney;
     @Field
+    private boolean isPlayer;
+    @Field
     private boolean ignoreACL;
 
 	public int getId() {
@@ -62,6 +64,15 @@ public class AccountTable {
 	public String toString() {
 		return getName().replace(Account.BANK_PREFIX, "");
 	}
+
+    public boolean isPlayer() {
+        return isPlayer;
+    }
+
+    public void setPlayer(boolean player) {
+        isPlayer = player;
+    }
+
     public boolean isIgnoreACL() {
         return ignoreACL;
     }

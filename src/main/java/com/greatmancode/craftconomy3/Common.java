@@ -1038,6 +1038,9 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
 		languageManager.addLanguageEntry("bank_delete_not_owner", "{{DARK_RED}}You aren't this bank owner!");
 		languageManager.addLanguageEntry("currency_list_cmd_help", "/currency list - List all the currencies");
 		languageManager.addLanguageEntry("currency_list_title", "{{DARK_GREEN}}====== {{WHITE}}Currencies {{DARK_GREEN}}======");
+        languageManager.addLanguageEntry("money_isplayer_cmd_help", "/money isplayer <Account Name> - Switch a account status to player or not (Affects the Top listing).");
+	    languageManager.addLanguageEntry("account_is_player", "The account is now a player account!");
+        languageManager.addLanguageEntry("account_is_not_player", "The account is no more a player account!");
         languageManager.addLanguageEntry("invalid_time_log", "Invalid time! It needs to be a positive number!");
         languageManager.addLanguageEntry("log_cleared", "The log table has been cleared up to the time you said!");
         languageManager.addLanguageEntry("craftconomy_clearlog_cmd_help", "/craftconomy clearlog <Time in days> - Clear the log table from entries olders than the value provided");

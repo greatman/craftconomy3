@@ -398,6 +398,24 @@ public class Account {
 		double tmp = Math.floor(value);
 		return tmp / factor;
 	}
+
+    /**
+     * Set if the account is a player account. That currently affects if the account is shown in /money top or not
+     * @param value True if the account is a player account else false
+     */
+    public void setIsPlayerAccount(boolean value) {
+        account.setPlayer(value);
+        Common.getInstance().getDatabaseManager().getDatabase().save(account);
+    }
+
+    /**
+     * Check if a account is a player account or not. Currently affects only /money top
+     * @return True if the account is a player account else False.
+     */
+    public boolean isPlayerAccount() {
+        return account.isPlayer();
+    }
+
     /**
      * Check if the ACL is ignored for a bank account. That means that there will be no protection on the account and anybody can deposit/withdraw from it!
      * @return True if the ACL is ignored else false.
