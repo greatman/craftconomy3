@@ -27,7 +27,7 @@ public class BankPermCommand extends CommandExecutor {
 	public void execute(String sender, String[] args) {
 		if (Common.getInstance().getAccountManager().exist(Account.BANK_PREFIX + args[0])) {
 			Account account = Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + args[0]);
-			if (account.getAccountACL().canAcl(sender) || account.getAccountACL().isOwner(sender) || Common.getInstance().getServerCaller().getPlayerCaller().checkPermission(sender, "craftconomy.bank.set.others")) {
+			if (account.getAccountACL().canAcl(sender) || account.getAccountACL().isOwner(sender) || Common.getInstance().getServerCaller().getPlayerCaller().checkPermission(sender, "craftconomy.bank.perm.others")) {
 
 				if (args[1].equalsIgnoreCase("deposit")) {
 					account.getAccountACL().setDeposit(args[2], Boolean.parseBoolean(args[3]));
