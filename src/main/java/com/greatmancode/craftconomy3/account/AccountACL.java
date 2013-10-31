@@ -50,6 +50,9 @@ public class AccountACL {
 	 * @return True if the player can deposit money, else false
 	 */
 	public boolean canDeposit(String name) {
+        if (getParent().ignoreACL()) {
+            return true;
+        }
 		String newName = name.toLowerCase();
 		boolean result = false;
 		if (aclList.containsKey(newName)) {
@@ -64,6 +67,9 @@ public class AccountACL {
 	 * @return True if the player can withdraw money, else false.
 	 */
 	public boolean canWithdraw(String name) {
+        if (getParent().ignoreACL()) {
+            return true;
+        }
 		String newName = name.toLowerCase();
 		boolean result = false;
 		if (aclList.containsKey(newName)) {
@@ -78,6 +84,9 @@ public class AccountACL {
 	 * @return True if the player can modify the ACL, else false.
 	 */
 	public boolean canAcl(String name) {
+        if (getParent().ignoreACL()) {
+            return false;
+        }
 		String newName = name.toLowerCase();
 		boolean result = false;
 		if (aclList.containsKey(newName)) {
@@ -92,6 +101,9 @@ public class AccountACL {
 	 * @return True if the player can show the balance of the account, else false.
 	 */
 	public boolean canShow(String name) {
+        if (getParent().ignoreACL()) {
+            return true;
+        }
 		String newName = name.toLowerCase();
 		boolean result = false;
 		if (aclList.containsKey(newName)) {
@@ -189,7 +201,7 @@ public class AccountACL {
 	}
 
 	/**
-	 * Checks if the player is the bank owner.
+	 * Checks if the player is the bank owner. This is not affected by the ACL ignore.
 	 * @param name The player name to check
 	 * @return True if the player is the owner of the account. Else false.
 	 */

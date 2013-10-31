@@ -31,6 +31,8 @@ public class AccountTable {
 	private String name;
 	@Field
 	private boolean infiniteMoney;
+    @Field
+    private boolean ignoreACL;
 
 	public int getId() {
 		return id;
@@ -60,4 +62,11 @@ public class AccountTable {
 	public String toString() {
 		return getName().replace(Account.BANK_PREFIX, "");
 	}
+    public boolean isIgnoreACL() {
+        return ignoreACL;
+    }
+
+    public void setIgnoreACL(boolean ignoreACL) {
+        this.ignoreACL = ignoreACL;
+    }
 }

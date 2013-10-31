@@ -34,16 +34,7 @@ import com.alta189.simplesave.exceptions.ConnectionException;
 import com.alta189.simplesave.exceptions.TableRegistrationException;
 import com.greatmancode.craftconomy3.account.Account;
 import com.greatmancode.craftconomy3.account.AccountManager;
-import com.greatmancode.craftconomy3.commands.bank.BankBalanceCommand;
-import com.greatmancode.craftconomy3.commands.bank.BankCreateCommand;
-import com.greatmancode.craftconomy3.commands.bank.BankDeleteCommand;
-import com.greatmancode.craftconomy3.commands.bank.BankDepositCommand;
-import com.greatmancode.craftconomy3.commands.bank.BankGiveCommand;
-import com.greatmancode.craftconomy3.commands.bank.BankListCommand;
-import com.greatmancode.craftconomy3.commands.bank.BankPermCommand;
-import com.greatmancode.craftconomy3.commands.bank.BankSetCommand;
-import com.greatmancode.craftconomy3.commands.bank.BankTakeCommand;
-import com.greatmancode.craftconomy3.commands.bank.BankWithdrawCommand;
+import com.greatmancode.craftconomy3.commands.bank.*;
 import com.greatmancode.craftconomy3.commands.config.ConfigBankPriceCommand;
 import com.greatmancode.craftconomy3.commands.config.ConfigClearLogCommand;
 import com.greatmancode.craftconomy3.commands.config.ConfigFormatCommand;
@@ -780,6 +771,7 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
 		bank.addCommand("perm", new BankPermCommand());
 		bank.addCommand("list", new BankListCommand());
 		bank.addCommand("delete", new BankDeleteCommand());
+        bank.addCommand("ignoreacl", new BankIgnoreACLCommand());
 		commandManager.registerMainCommand("bank", bank);
 
 		SubCommand ccsetup = new SubCommand("ccsetup", commandManager, null, 0);
@@ -1005,6 +997,9 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
         languageManager.addLanguageEntry("invalid_time_log", "Invalid time! It needs to be a positive number!");
         languageManager.addLanguageEntry("log_cleared", "The log table has been cleared up to the time you said!");
         languageManager.addLanguageEntry("craftconomy_clearlog_cmd_help", "/craftconomy clearlog <Time in days> - Clear the log table from entries olders than the value provided");
+        languageManager.addLanguageEntry("bank_ignoreacl_cmd_help", "/bank ignoreacl <Account Name>  - Ignore the ACL system for that account.");
+        languageManager.addLanguageEntry("account_is_ignoring_acl", "The account is now ignoring the ACL!");
+        languageManager.addLanguageEntry("account_is_not_ignoring_acl", "The account is now following the ACL!");
     }
 
 	/**

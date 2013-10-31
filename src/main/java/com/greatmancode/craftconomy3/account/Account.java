@@ -398,4 +398,20 @@ public class Account {
 		double tmp = Math.floor(value);
 		return tmp / factor;
 	}
+    /**
+     * Check if the ACL is ignored for a bank account. That means that there will be no protection on the account and anybody can deposit/withdraw from it!
+     * @return True if the ACL is ignored else false.
+     */
+    public boolean ignoreACL() {
+        return account.isIgnoreACL();
+    }
+
+    /**
+     * Sets if a account should ignore his ACL. Only works on Bank accounts.
+     * @param ignore If the ACL is ignored or not
+     */
+    public void setIgnoreACL(boolean ignore) {
+        account.setIgnoreACL(ignore);
+        Common.getInstance().getDatabaseManager().getDatabase().save(account);
+    }
 }
