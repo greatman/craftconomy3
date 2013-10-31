@@ -29,7 +29,7 @@ public class BankDeleteCommand extends CommandExecutor {
 	public void execute(String sender, String[] args) {
 		if (Common.getInstance().getAccountManager().exist(Account.BANK_PREFIX + args[0])) {
 			Account account = Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + args[0]);
-			if (account.getAccountACL().isOwner(sender)) {
+			if (account.getAccountACL().isOwner(sender) || Common.getInstance().getServerCaller().getPlayerCaller().checkPermission(sender, "craftconomy.bank.delete.admin")) {
 				Account owner = Common.getInstance().getAccountManager().getAccount(sender);
 				for (Balance balance : account.getAllBalance()) {
 					owner.deposit(balance.getBalance(), balance.getWorld(), balance.getCurrency().getName(), Cause.BANK_DELETE, args[0]);
