@@ -31,7 +31,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<spoutVersion>1.0.0-SNAPSHOT</spoutVersion>
-		<bukkitVersion>1.5.2-R0.1</bukkitVersion>
+		<bukkitVersion>1.6.4-R2.0</bukkitVersion>
 	</properties>
 
 	<repositories>
@@ -87,20 +87,20 @@
 		<dependency>
 			<groupId>org.reflections</groupId>
 			<artifactId>reflections</artifactId>
-			<version>0.9.8</version>
+			<version>0.9.9-RC1</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.xerial</groupId>
 			<artifactId>sqlite-jdbc</artifactId>
-			<version>3.7.2</version>
+			<version>3.7.15-M1</version>
 			<type>jar</type>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<version>5.1.14</version>
+			<version>5.1.26</version>
 			<type>jar</type>
 			<scope>test</scope>
 		</dependency>
