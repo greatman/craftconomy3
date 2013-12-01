@@ -1,5 +1,5 @@
 name: Craftconomy3
-version: ${build.number}
+version: ${version} ${BUILD_TAG}
 description: ${project.description}
 author: [ Greatman ]
 website: ${project.url}

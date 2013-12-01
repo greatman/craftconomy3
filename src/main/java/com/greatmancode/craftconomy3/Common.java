@@ -162,7 +162,7 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
 
 			if (getMainConfig().getBoolean("System.CheckNewVersion")) {
 				sendConsoleMessage(Level.INFO, getLanguageManager().getString("checking_new_version"));
-				versionChecker = new VersionChecker(Common.getInstance().getServerCaller().getPluginVersion());
+				versionChecker = new VersionChecker(Common.getInstance().getServerCaller().getPluginName(), Common.getInstance().getServerCaller().getPluginVersion());
 				if (versionChecker.isOld()) {
 					sendConsoleMessage(Level.WARNING, getLanguageManager().parse("running_old_version", versionChecker.getNewVersion()));
 				}

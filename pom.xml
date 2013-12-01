@@ -32,6 +32,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<spoutVersion>1.0.0-SNAPSHOT</spoutVersion>
 		<bukkitVersion>1.7.2-R0.1-SNAPSHOT</bukkitVersion>
+        <BUILD_TAG>unknown-unknown-unknown</BUILD_TAG>
 	</properties>
 
 	<repositories>
