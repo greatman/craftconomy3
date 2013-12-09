@@ -68,16 +68,21 @@ public class Essentials extends Converter {
             try {
                 BufferedReader reader = new BufferedReader(new FileReader(account));
                 while ((line = reader.readLine()) != null) {
-                //money: '0.0'
+                //money: '0.0' but can also be without '' in older versions
                     if (line.contains("money")) {
                         String value = line.replace("money: '", "");
                         if (value.contains("money")) {
                             value = line.replace("money: ", "");
+                        } else {
+                            value = value.substring(0, value.length() - 1);
                         }
-                        value = value.substring(0, value.length() - 1);
-                        double money = Double.parseDouble(value);
                         String name = account.getName().replace(".yml", "");
-                        userList.add(new User(name, money));
+                        try {
+                            double money = Double.parseDouble(value);
+                            userList.add(new User(name, money));
+                        } catch(NumberFormatException e) {
+                            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "Failed to load account " + name + ": " + value + " - " + e.getMessage());
+                        }
                     }
                 }
                 if (i % 10 == 0) {
