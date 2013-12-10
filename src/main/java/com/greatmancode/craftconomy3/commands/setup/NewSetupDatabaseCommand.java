@@ -135,8 +135,13 @@ public class NewSetupDatabaseCommand extends CommandExecutor {
 				Common.getInstance().getMainConfig().setValue("System.Database.Username", args[1]);
 				Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_GREEN}}Saved! Please type {{WHITE}}/ccsetup database password <Password> {{DARK_GREEN}}to set your MySQL password (enter \"\" for none)");
 			} else if (args[0].equalsIgnoreCase("password")) {
-				VALUES.put("password", args[1]);
-				Common.getInstance().getMainConfig().setValue("System.Database.Password", args[1]);
+                if (args[0].equals("''") || args[0].equals("\"\"")) {
+                    VALUES.put("password", "");
+                    Common.getInstance().getMainConfig().setValue("System.Database.Password", "");
+                } else {
+                    VALUES.put("password", args[1]);
+                    Common.getInstance().getMainConfig().setValue("System.Database.Password", args[1]);
+                }
 				Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_GREEN}}Saved! Please type {{WHITE}}/ccsetup database db <Database Name> {{DARK_GREEN}}to set your MySQL database.");
 			} else if (args[0].equalsIgnoreCase("db")) {
 				VALUES.put("db", args[1]);
