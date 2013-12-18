@@ -458,6 +458,7 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
 			} else {
 				dbManager = new DatabaseManager(databaseType, getMainConfig().getString("System.Database.Prefix"), new File(serverCaller.getDataFolder(), "database.db"), serverCaller);
 			}
+
 			addMetricsGraph("Database Engine", databaseType.name());
 
 			dbManager.registerTable(AccountTable.class);
@@ -470,10 +471,53 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
 			dbManager.registerTable(WorldGroupTable.class);
 			dbManager.registerTable(LogTable.class);
 			dbManager.connect();
+
+            if (getMainConfig().getBoolean("System.Database.ConvertFromSQLite")) {
+                convertDatabase(dbManager);
+            }
 			databaseInitialized = true;
 			sendConsoleMessage(Level.INFO, getLanguageManager().getString("database_manager_loaded"));
 		}
 	}
+
+    /**
+     * Convert from SQLite to MySQL
+     * @param dbManagernew The MySQL instance
+     */
+    private void convertDatabase(DatabaseManager dbManagernew) throws InvalidDatabaseConstructor, TableRegistrationException, ConnectionException {
+        sendConsoleMessage(Level.INFO, getLanguageManager().getString("starting_database_convert"));
+        DatabaseManager sqliteManager = new DatabaseManager(DatabaseType.SQLITE, getMainConfig().getString("System.Database.Prefix"), new File(serverCaller.getDataFolder(), "database.db"), serverCaller);
+        sqliteManager.registerTable(AccountTable.class);
+        sqliteManager.registerTable(AccessTable.class);
+        sqliteManager.registerTable(BalanceTable.class);
+        sqliteManager.registerTable(CurrencyTable.class);
+        sqliteManager.registerTable(ConfigTable.class);
+        sqliteManager.registerTable(PayDayTable.class);
+        sqliteManager.registerTable(ExchangeTable.class);
+        sqliteManager.registerTable(WorldGroupTable.class);
+        sqliteManager.registerTable(LogTable.class);
+        sqliteManager.connect();
+
+        sendConsoleMessage(Level.INFO, getLanguageManager().getString("convert_save_account"));
+        dbManager.getDatabase().save(sqliteManager.getDatabase().select(AccountTable.class).execute().find());
+        sendConsoleMessage(Level.INFO, getLanguageManager().getString("convert_save_access"));
+        dbManager.getDatabase().save(sqliteManager.getDatabase().select(AccessTable.class).execute().find());
+        sendConsoleMessage(Level.INFO, getLanguageManager().getString("convert_save_balance"));
+        dbManager.getDatabase().save(sqliteManager.getDatabase().select(BalanceTable.class).execute().find());
+        sendConsoleMessage(Level.INFO, getLanguageManager().getString("convert_save_currency"));
+        dbManager.getDatabase().save(sqliteManager.getDatabase().select(CurrencyTable.class).execute().find());
+        sendConsoleMessage(Level.INFO, getLanguageManager().getString("convert_save_config"));
+        dbManager.getDatabase().save(sqliteManager.getDatabase().select(ConfigTable.class).execute().find());
+        sendConsoleMessage(Level.INFO, getLanguageManager().getString("convert_save_payday"));
+        dbManager.getDatabase().save(sqliteManager.getDatabase().select(PayDayTable.class).execute().find());
+        sendConsoleMessage(Level.INFO, getLanguageManager().getString("convert_save_exchange"));
+        dbManager.getDatabase().save(sqliteManager.getDatabase().select(ExchangeTable.class).execute().find());
+        sendConsoleMessage(Level.INFO, getLanguageManager().getString("convert_save_worldgroup"));
+        dbManager.getDatabase().save(sqliteManager.getDatabase().select(WorldGroupTable.class).execute().find());
+        sendConsoleMessage(Level.INFO, getLanguageManager().getString("convert_save_log"));
+        dbManager.getDatabase().save(sqliteManager.getDatabase().select(LogTable.class).execute().find());
+        sendConsoleMessage(Level.INFO, getLanguageManager().getString("convert_done"));
+    }
 
 	/**
 	 * Initialize the {@link CurrencyManager}
@@ -1000,6 +1044,17 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
         languageManager.addLanguageEntry("bank_ignoreacl_cmd_help", "/bank ignoreacl <Account Name>  - Ignore the ACL system for that account.");
         languageManager.addLanguageEntry("account_is_ignoring_acl", "The account is now ignoring the ACL!");
         languageManager.addLanguageEntry("account_is_not_ignoring_acl", "The account is now following the ACL!");
+        languageManager.addLanguageEntry("starting_database_convert", "Starting database convertion to MySQL. This can take come time.");
+        languageManager.addLanguageEntry("convert_save_account", "Converting accounts... (1/9)");
+        languageManager.addLanguageEntry("convert_save_balance", "Converting balances... (2/9)");
+        languageManager.addLanguageEntry("convert_save_access", "Converting bank access... (3/9)");
+        languageManager.addLanguageEntry("convert_save_currency", "Converting currencies... (4/9)");
+        languageManager.addLanguageEntry("convert_save_config", "Converting config... (5/9)");
+        languageManager.addLanguageEntry("convert_save_payday", "Converting payday... (6/9)");
+        languageManager.addLanguageEntry("convert_save_exchange", "Converting exchange... (7/9)");
+        languageManager.addLanguageEntry("convert_save_worldgroup", "Converting worldgroups... (8/9)");
+        languageManager.addLanguageEntry("convert_save_log", "Converting logs... (9/9)");
+        languageManager.addLanguageEntry("convert_done", "Conversion done!");
     }
 
 	/**

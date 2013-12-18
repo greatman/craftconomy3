@@ -39,3 +39,6 @@ System:
     Password: ''
     Db: 'Craftconomy'
     Prefix: 'cc3_'
+
+    #Used when you come from SQLite and want a MySQL database
+    ConvertFromSQLite: false
