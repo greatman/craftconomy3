@@ -545,6 +545,7 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
         }
         sendConsoleMessage(Level.INFO, getLanguageManager().getString("convert_done"));
         getMainConfig().setValue("System.Database.ConvertFromSQLite", false);
+        sqliteManager.close();
     }
 
 	/**
