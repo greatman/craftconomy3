@@ -1110,6 +1110,7 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
 		mainConfig.setValue("System.Database.Password", "");
 		mainConfig.setValue("System.Database.Db", "craftconomy");
 		mainConfig.setValue("System.Database.Prefix", "cc3_");
+        mainConfig.setValue("System.Database.ConvertFromSQLite", false);
 	}
 
 	/**
