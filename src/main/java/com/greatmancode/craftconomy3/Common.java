@@ -116,11 +116,11 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
 	private EventManager eventManager = null;
 	private LanguageManager languageManager = null;
 	private WorldGroupsManager worldGroupManager = null;
-	private CommandHandler commandManager;
-	private ServerCaller serverCaller;
+	private CommandHandler commandManager = null;
+	private ServerCaller serverCaller = null;
 	private VersionChecker versionChecker = null;
 	private boolean databaseInitialized = false;
-	private boolean currencyInitialized;
+	private boolean currencyInitialized = false;
 	private static boolean initialized = false;
 	private Metrics metrics = null;
 	private Config mainConfig = null;
@@ -242,6 +242,31 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
 				this.getLogger().severe(String.format(getLanguageManager().getString("unable_close_db_link"), e.getMessage()));
 			}
 		}
+        //Null everything
+        log = null;
+        instance = null;
+        // Managers
+        accountManager = null;
+        config = null;
+        currencyManager = null;
+        dbManager = null;
+        paydayManager = null;
+        eventManager = null;
+        languageManager = null;
+        worldGroupManager = null;
+        commandManager = null;
+        serverCaller = null;
+        versionChecker = null;
+        databaseInitialized = false;
+        currencyInitialized = false;
+        initialized = false;
+        metrics = null;
+        mainConfig = null;
+        //Default values
+        displayFormat = null;
+        holdings = 0.0;
+        bankPrice = 0.0;
+        bankCurrencyId = 0;
 	}
 
 	/**
