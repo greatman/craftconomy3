@@ -499,24 +499,52 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
         sqliteManager.connect();
 
         sendConsoleMessage(Level.INFO, getLanguageManager().getString("convert_save_account"));
-        dbManager.getDatabase().save(sqliteManager.getDatabase().select(AccountTable.class).execute().find());
+        for (AccountTable entry: sqliteManager.getDatabase().select(AccountTable.class).execute().find()) {
+            entry.setId(0);
+            dbManager.getDatabase().save(entry);
+        }
         sendConsoleMessage(Level.INFO, getLanguageManager().getString("convert_save_access"));
-        dbManager.getDatabase().save(sqliteManager.getDatabase().select(AccessTable.class).execute().find());
+        for (AccessTable entry : sqliteManager.getDatabase().select(AccessTable.class).execute().find()) {
+            entry.setId(0);
+            dbManager.getDatabase().save(entry);
+        }
         sendConsoleMessage(Level.INFO, getLanguageManager().getString("convert_save_balance"));
-        dbManager.getDatabase().save(sqliteManager.getDatabase().select(BalanceTable.class).execute().find());
+        for (BalanceTable entry : sqliteManager.getDatabase().select(BalanceTable.class).execute().find()) {
+            entry.setId(0);
+            dbManager.getDatabase().save(entry);
+        }
         sendConsoleMessage(Level.INFO, getLanguageManager().getString("convert_save_currency"));
-        dbManager.getDatabase().save(sqliteManager.getDatabase().select(CurrencyTable.class).execute().find());
+        for (CurrencyTable entry : sqliteManager.getDatabase().select(CurrencyTable.class).execute().find()) {
+            entry.setId(0);
+            dbManager.getDatabase().save(entry);
+        }
         sendConsoleMessage(Level.INFO, getLanguageManager().getString("convert_save_config"));
-        dbManager.getDatabase().save(sqliteManager.getDatabase().select(ConfigTable.class).execute().find());
+        for (ConfigTable entry : sqliteManager.getDatabase().select(ConfigTable.class).execute().find()) {
+            entry.setId(0);
+            dbManager.getDatabase().save(entry);
+        }
         sendConsoleMessage(Level.INFO, getLanguageManager().getString("convert_save_payday"));
-        dbManager.getDatabase().save(sqliteManager.getDatabase().select(PayDayTable.class).execute().find());
+        for (PayDayTable entry : sqliteManager.getDatabase().select(PayDayTable.class).execute().find()) {
+            entry.setId(0);
+            dbManager.getDatabase().save(entry);
+        }
         sendConsoleMessage(Level.INFO, getLanguageManager().getString("convert_save_exchange"));
-        dbManager.getDatabase().save(sqliteManager.getDatabase().select(ExchangeTable.class).execute().find());
+        for (ExchangeTable entry : sqliteManager.getDatabase().select(ExchangeTable.class).execute().find()) {
+            entry.id = 0;
+            dbManager.getDatabase().save(entry);
+        }
         sendConsoleMessage(Level.INFO, getLanguageManager().getString("convert_save_worldgroup"));
-        dbManager.getDatabase().save(sqliteManager.getDatabase().select(WorldGroupTable.class).execute().find());
+        for (WorldGroupTable entry : sqliteManager.getDatabase().select(WorldGroupTable.class).execute().find()) {
+            entry.id = 0;
+            dbManager.getDatabase().save(entry);
+        }
         sendConsoleMessage(Level.INFO, getLanguageManager().getString("convert_save_log"));
-        dbManager.getDatabase().save(sqliteManager.getDatabase().select(LogTable.class).execute().find());
+        for (LogTable entry : sqliteManager.getDatabase().select(LogTable.class).execute().find()) {
+            entry.id = 0;
+            dbManager.getDatabase().save(entry);
+        }
         sendConsoleMessage(Level.INFO, getLanguageManager().getString("convert_done"));
+        getMainConfig().setValue("System.Database.ConvertFromSQLite", false);
     }
 
 	/**
