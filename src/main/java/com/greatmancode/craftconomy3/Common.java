@@ -50,19 +50,7 @@ import com.greatmancode.craftconomy3.commands.currency.CurrencyRatesCommand;
 import com.greatmancode.craftconomy3.commands.group.GroupAddWorldCommand;
 import com.greatmancode.craftconomy3.commands.group.GroupCreateCommand;
 import com.greatmancode.craftconomy3.commands.group.GroupDelWorldCommand;
-import com.greatmancode.craftconomy3.commands.money.AllCommand;
-import com.greatmancode.craftconomy3.commands.money.BalanceCommand;
-import com.greatmancode.craftconomy3.commands.money.CreateCommand;
-import com.greatmancode.craftconomy3.commands.money.DeleteCommand;
-import com.greatmancode.craftconomy3.commands.money.ExchangeCommand;
-import com.greatmancode.craftconomy3.commands.money.GiveCommand;
-import com.greatmancode.craftconomy3.commands.money.InfiniteCommand;
-import com.greatmancode.craftconomy3.commands.money.LogCommand;
-import com.greatmancode.craftconomy3.commands.money.MainCommand;
-import com.greatmancode.craftconomy3.commands.money.PayCommand;
-import com.greatmancode.craftconomy3.commands.money.SetCommand;
-import com.greatmancode.craftconomy3.commands.money.TakeCommand;
-import com.greatmancode.craftconomy3.commands.money.TopCommand;
+import com.greatmancode.craftconomy3.commands.money.*;
 import com.greatmancode.craftconomy3.commands.payday.PayDayCreateCommand;
 import com.greatmancode.craftconomy3.commands.payday.PayDayDeleteCommand;
 import com.greatmancode.craftconomy3.commands.payday.PayDayInfoCommand;
@@ -802,6 +790,7 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
 		money.addCommand("exchange", new ExchangeCommand());
 		money.addCommand("infinite", new InfiniteCommand());
 		money.addCommand("log", new LogCommand());
+        money.addCommand("isplayer", new IsPlayerCommand());
 		commandManager.registerMainCommand("money", money);
 
 		SubCommand bank = new SubCommand("bank", commandManager, null, 1);

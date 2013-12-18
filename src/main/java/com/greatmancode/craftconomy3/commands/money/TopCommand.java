@@ -61,8 +61,8 @@ class TopCommandThread implements Runnable {
 	@Override
 	public void run() {
 		String ret = Common.getInstance().getLanguageManager().parse("money_top_header", page, world) + "\n";
-		SelectQuery<BalanceTable> balanceQuery = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class);
-		balanceQuery.where().equal("worldName", world).and().equal("currency_id", currency);
+		SelectQuery<BalanceTable> balanceQuery = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).;
+		balanceQuery.where().equal("worldName", world).and().equal("currency_id", currency).and().equal(Common.getInstance().getMainConfig().getString("System.Database.Prefix") + "account.isPlayer", true).and().equal(Common.getInstance().getMainConfig().getString("System.Database.Prefix") + "user.id", Common.getInstance().getMainConfig().getString("System.Database.Prefix") + "balance.username_id");
 		balanceQuery.order().getPairs().add(new OrderQuery.OrderPair("balance", OrderQuery.Order.DESC));
 		balanceQuery.limit().setLimit((page - 1) * NUMBER_ELEMENTS, NUMBER_ELEMENTS);
 		QueryResult<BalanceTable> balanceResult = balanceQuery.execute();
