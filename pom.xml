@@ -112,6 +112,12 @@
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.12.2</version>
+            <scope>provided</scope>
+        </dependency>
 	</dependencies>
 
 	<build>
@@ -180,6 +186,7 @@
 							<goal>shade</goal>
 						</goals>
 						<configuration>
+                            <minimizeJar>true</minimizeJar>
 							<relocations>
 								<relocation>
 									<pattern>com.greatmancode.tools</pattern>
@@ -191,14 +198,9 @@
 								</relocation>
 							</relocations>
 							<artifactSet>
-								<excludes>
-									<exclude>junit:junit</exclude>
-									<exclude>org.bukkit:bukkit</exclude>
-									<exclude>org.spout:spoutapi</exclude>
-									<exclude>commons-lang:commons-lang</exclude>
-									<exclude>org.yaml:snakeyaml</exclude>
-									<exclude>net.canarymod:CanaryLib</exclude>
-								</excludes>
+                                <includes>
+                                    <include>com.greatmancode:tools</include>
+                                </includes>
 							</artifactSet>
 						</configuration>
 					</execution>
