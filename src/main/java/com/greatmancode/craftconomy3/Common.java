@@ -98,7 +98,7 @@ import com.greatmancode.tools.database.throwable.InvalidDatabaseConstructor;
 import com.greatmancode.tools.interfaces.caller.ServerCaller;
 import com.greatmancode.tools.language.LanguageManager;
 import com.greatmancode.tools.utils.Metrics;
-import com.greatmancode.tools.utils.VersionChecker;
+import com.greatmancode.tools.utils.Updater;
 
 /**
  * The core of Craftconomy. Every requests pass through this class
@@ -118,12 +118,12 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
 	private WorldGroupsManager worldGroupManager = null;
 	private CommandHandler commandManager = null;
 	private ServerCaller serverCaller = null;
-	private VersionChecker versionChecker = null;
 	private boolean databaseInitialized = false;
 	private boolean currencyInitialized = false;
 	private static boolean initialized = false;
 	private Metrics metrics = null;
 	private Config mainConfig = null;
+    private Updater updater;
 	//Default values
 	private DisplayFormat displayFormat = null;
 	private double holdings = 0.0;
@@ -159,14 +159,11 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
 					this.getLogger().log(Level.SEVERE, String.format(getLanguageManager().getString("metric_start_error"), e.getMessage()));
 				}
 			}
+            updater = new Updater(serverCaller, 35564, Updater.UpdateType.NO_DOWNLOAD, false);
+            if (updater.getResult() == Updater.UpdateResult.UPDATE_AVAILABLE) {
+                sendConsoleMessage(Level.WARNING, getLanguageManager().parse("running_old_version", updater.getLatestName()));
+            }
 
-			if (getMainConfig().getBoolean("System.CheckNewVersion")) {
-				sendConsoleMessage(Level.INFO, getLanguageManager().getString("checking_new_version"));
-				versionChecker = new VersionChecker(Common.getInstance().getServerCaller().getPluginName(), Common.getInstance().getServerCaller().getPluginVersion());
-				if (versionChecker.isOld()) {
-					sendConsoleMessage(Level.WARNING, getLanguageManager().parse("running_old_version", versionChecker.getNewVersion()));
-				}
-			}
 			sendConsoleMessage(Level.INFO, "Loading listeners.");
 			serverCaller.getLoader().getEventManager().registerEvents(this, new EventManager());
 			sendConsoleMessage(Level.INFO, "Loading commands");
@@ -256,12 +253,12 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
         worldGroupManager = null;
         commandManager = null;
         serverCaller = null;
-        versionChecker = null;
         databaseInitialized = false;
         currencyInitialized = false;
         initialized = false;
         metrics = null;
         mainConfig = null;
+        updater = null;
         //Default values
         displayFormat = null;
         holdings = 0.0;
@@ -677,8 +674,8 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
 	 * Get the version Checker.
 	 * @return The version checker. May return null if the system is disabled in the config.yml
 	 */
-	public VersionChecker getVersionChecker() {
-		return versionChecker;
+	public Updater getVersionChecker() {
+		return updater;
 	}
 
 	/**
