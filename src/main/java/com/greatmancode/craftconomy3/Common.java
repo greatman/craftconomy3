@@ -159,11 +159,12 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
 					this.getLogger().log(Level.SEVERE, String.format(getLanguageManager().getString("metric_start_error"), e.getMessage()));
 				}
 			}
-            updater = new Updater(serverCaller, 35564, Updater.UpdateType.NO_DOWNLOAD, false);
-            if (updater.getResult() == Updater.UpdateResult.UPDATE_AVAILABLE) {
-                sendConsoleMessage(Level.WARNING, getLanguageManager().parse("running_old_version", updater.getLatestName()));
+            if (getMainConfig().getBoolean("System.CheckNewVersion")) {
+                updater = new Updater(serverCaller, 35564, Updater.UpdateType.NO_DOWNLOAD, false);
+                if (updater.getResult() == Updater.UpdateResult.UPDATE_AVAILABLE) {
+                    sendConsoleMessage(Level.WARNING, getLanguageManager().parse("running_old_version", updater.getLatestName()));
+                }
             }
-
 			sendConsoleMessage(Level.INFO, "Loading listeners.");
 			serverCaller.getLoader().getEventManager().registerEvents(this, new EventManager());
 			sendConsoleMessage(Level.INFO, "Loading commands");
