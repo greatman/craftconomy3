@@ -61,7 +61,7 @@ public class Essentials extends Converter {
 			}
 		});
 		List<User> userList = new ArrayList<User>();
-
+        Common.getInstance().getLogger().info("Amount of accounts found:" + accounts.length);
 		int i = 0;
         String line;
 		for (File account : accounts){
