@@ -57,15 +57,17 @@ public class Iconomy6 extends Converter {
 	@Override
 	public List<String> getDbInfo() {
 
-		if (getSelectedDbType().equals("flatfile") || getSelectedDbType().equals("minidb") || getSelectedDbType().equals("sqlite")) {
-			getDbInfoList().add("filename");
-		} else if (getSelectedDbType().equals("mysql")) {
-			getDbInfoList().add("address");
-			getDbInfoList().add("port");
-			getDbInfoList().add("username");
-			getDbInfoList().add("password");
-			getDbInfoList().add("database");
-		}
+        if (getDbInfoList().size() == 0) {
+            if (getSelectedDbType().equals("flatfile") || getSelectedDbType().equals("minidb") || getSelectedDbType().equals("sqlite")) {
+                getDbInfoList().add("filename");
+            } else if (getSelectedDbType().equals("mysql")) {
+                getDbInfoList().add("address");
+                getDbInfoList().add("port");
+                getDbInfoList().add("username");
+                getDbInfoList().add("password");
+                getDbInfoList().add("database");
+            }
+        }
 		return getDbInfoList();
 	}
 
