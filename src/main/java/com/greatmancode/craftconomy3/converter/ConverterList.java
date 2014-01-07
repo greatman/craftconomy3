@@ -21,10 +21,7 @@ package com.greatmancode.craftconomy3.converter;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.greatmancode.craftconomy3.converter.converters.BoseEconomy;
-import com.greatmancode.craftconomy3.converter.converters.Craftconomy2;
-import com.greatmancode.craftconomy3.converter.converters.Essentials;
-import com.greatmancode.craftconomy3.converter.converters.Iconomy6;
+import com.greatmancode.craftconomy3.converter.converters.*;
 
 /**
  * Contains the list of loaded converters.
@@ -44,9 +41,10 @@ public class ConverterList {
 	 * Load the converters.
 	 */
 	public ConverterList() {
-		converterList.put("iconomy6", new Iconomy6());
+		converterList.put("iconomy6", new Feconomy());
 		converterList.put("craftconomy2", new Craftconomy2());
 		converterList.put("boseeconomy", new BoseEconomy());
 		converterList.put("essentials", new Essentials());
+        converterList.put("feconomy", new Feconomy());
 	}
 }
