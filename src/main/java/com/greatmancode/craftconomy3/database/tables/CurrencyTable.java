@@ -26,23 +26,23 @@ import lombok.Data;
 @Table("currency")
 @Data
 public class CurrencyTable {
-	@Id
-	private int id;
-	@Field
-	private String name;
-	@Field
-	private String plural;
-	@Field
-	private String minor;
-	@Field
-	private String minorplural;
-	/**
-	 * 1 = Default currency, 0 = Non Default
-	 */
-	@Field
-	private boolean status;
-	@Field
-	private double hardCap;
-	@Field
-	private String sign;
+    @Id
+    private int id;
+    @Field
+    private String name;
+    @Field
+    private String plural;
+    @Field
+    private String minor;
+    @Field
+    private String minorplural;
+    /**
+     * 1 = Default currency, 0 = Non Default
+     */
+    @Field
+    private boolean status;
+    @Field
+    private double hardCap;
+    @Field
+    private String sign;
 }

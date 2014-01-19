@@ -18,55 +18,55 @@
  */
 package com.greatmancode.craftconomy3.commands.bank;
 
-import java.util.Iterator;
-
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.account.Account;
 import com.greatmancode.craftconomy3.account.Balance;
 import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 
+import java.util.Iterator;
+
 public class BankBalanceCommand extends CommandExecutor {
-	@Override
-	public void execute(String sender, String[] args) {
-		if (Common.getInstance().getAccountManager().exist(Account.BANK_PREFIX + args[0])) {
-			Account account = Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + args[0]);
-			if (account.getAccountACL().canShow(sender) || Common.getInstance().getServerCaller().getPlayerCaller().checkPermission(sender, "craftconomy.bank.balance.others")) {
-				Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("bank_statement"));
-				Iterator<Balance> balanceList = account.getAllBalance().iterator();
-				while (balanceList.hasNext()) {
-					Balance bl = balanceList.next();
-					Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().format(bl.getWorld(), bl.getCurrency(), bl.getBalance()));
-				}
-			} else {
-				Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("cant_check_bank_statement"));
-			}
-		} else {
-			Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("account_not_exist"));
-		}
-	}
+    @Override
+    public void execute(String sender, String[] args) {
+        if (Common.getInstance().getAccountManager().exist(Account.BANK_PREFIX + args[0])) {
+            Account account = Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + args[0]);
+            if (account.getAccountACL().canShow(sender) || Common.getInstance().getServerCaller().getPlayerCaller().checkPermission(sender, "craftconomy.bank.balance.others")) {
+                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("bank_statement"));
+                Iterator<Balance> balanceList = account.getAllBalance().iterator();
+                while (balanceList.hasNext()) {
+                    Balance bl = balanceList.next();
+                    Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().format(bl.getWorld(), bl.getCurrency(), bl.getBalance()));
+                }
+            } else {
+                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("cant_check_bank_statement"));
+            }
+        } else {
+            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("account_not_exist"));
+        }
+    }
 
-	@Override
-	public String help() {
-		return Common.getInstance().getLanguageManager().getString("bank_balance_cmd_help");
-	}
+    @Override
+    public String help() {
+        return Common.getInstance().getLanguageManager().getString("bank_balance_cmd_help");
+    }
 
-	@Override
-	public int maxArgs() {
-		return 1;
-	}
+    @Override
+    public int maxArgs() {
+        return 1;
+    }
 
-	@Override
-	public int minArgs() {
-		return 1;
-	}
+    @Override
+    public int minArgs() {
+        return 1;
+    }
 
-	@Override
-	public boolean playerOnly() {
-		return false;
-	}
+    @Override
+    public boolean playerOnly() {
+        return false;
+    }
 
-	@Override
-	public String getPermissionNode() {
-		return "craftconomy.bank.balance";
-	}
+    @Override
+    public String getPermissionNode() {
+        return "craftconomy.bank.balance";
+    }
 }

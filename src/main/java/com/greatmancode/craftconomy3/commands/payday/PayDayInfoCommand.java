@@ -23,46 +23,46 @@ import com.greatmancode.craftconomy3.payday.PayDay;
 import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 
 public class PayDayInfoCommand extends CommandExecutor {
-	@Override
-	public void execute(String sender, String[] args) {
-		PayDay payday = Common.getInstance().getPaydayManager().getPayDay(args[0]);
-		if (payday != null) {
-			Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().parse("payday_info_title", payday.getName()));
-			Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().parse("payday_info_amount", Common.getInstance().format(payday.getWorldName(), Common.getInstance().getCurrencyManager().getCurrency(payday.getCurrencyId()), payday.getValue())));
-			if (payday.getStatus() == 0) {
-				Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("payday_info_type_wage"));
-			} else {
-				Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("payday_info_type_tax"));
-			}
-			Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().parse("payday_info_account", payday.getAccount()));
-			Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().parse("payday_info_interval", payday.getInterval()));
-		} else {
-			Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("payday_not_found"));
-		}
-	}
+    @Override
+    public void execute(String sender, String[] args) {
+        PayDay payday = Common.getInstance().getPaydayManager().getPayDay(args[0]);
+        if (payday != null) {
+            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().parse("payday_info_title", payday.getName()));
+            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().parse("payday_info_amount", Common.getInstance().format(payday.getWorldName(), Common.getInstance().getCurrencyManager().getCurrency(payday.getCurrencyId()), payday.getValue())));
+            if (payday.getStatus() == 0) {
+                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("payday_info_type_wage"));
+            } else {
+                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("payday_info_type_tax"));
+            }
+            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().parse("payday_info_account", payday.getAccount()));
+            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().parse("payday_info_interval", payday.getInterval()));
+        } else {
+            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("payday_not_found"));
+        }
+    }
 
-	@Override
-	public String help() {
-		return Common.getInstance().getLanguageManager().getString("payday_info_cmd_help");
-	}
+    @Override
+    public String help() {
+        return Common.getInstance().getLanguageManager().getString("payday_info_cmd_help");
+    }
 
-	@Override
-	public int maxArgs() {
-		return 1;
-	}
+    @Override
+    public int maxArgs() {
+        return 1;
+    }
 
-	@Override
-	public int minArgs() {
-		return 1;
-	}
+    @Override
+    public int minArgs() {
+        return 1;
+    }
 
-	@Override
-	public boolean playerOnly() {
-		return false;
-	}
+    @Override
+    public boolean playerOnly() {
+        return false;
+    }
 
-	@Override
-	public String getPermissionNode() {
-		return "craftconomy.payday.command.info";
-	}
+    @Override
+    public String getPermissionNode() {
+        return "craftconomy.payday.command.info";
+    }
 }

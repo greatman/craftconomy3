@@ -18,48 +18,48 @@
  */
 package com.greatmancode.craftconomy3.commands.money;
 
-import java.util.Iterator;
-
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.account.Account;
 import com.greatmancode.craftconomy3.account.Balance;
 import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 
+import java.util.Iterator;
+
 public class AllCommand extends CommandExecutor {
-	@Override
-	public void execute(String sender, String[] args) {
-		Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("money_all_title"));
-		Account account = Common.getInstance().getAccountManager().getAccount(sender);
-		//TODO: For
-		Iterator<Balance> balanceList = account.getAllBalance().iterator();
-		while (balanceList.hasNext()) {
-			Balance bl = balanceList.next();
-			Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().format(bl.getWorld(), bl.getCurrency(), bl.getBalance()));
-		}
-	}
+    @Override
+    public void execute(String sender, String[] args) {
+        Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("money_all_title"));
+        Account account = Common.getInstance().getAccountManager().getAccount(sender);
+        //TODO: For
+        Iterator<Balance> balanceList = account.getAllBalance().iterator();
+        while (balanceList.hasNext()) {
+            Balance bl = balanceList.next();
+            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().format(bl.getWorld(), bl.getCurrency(), bl.getBalance()));
+        }
+    }
 
-	@Override
-	public String help() {
-		return Common.getInstance().getLanguageManager().getString("money_all_cmd_help");
-	}
+    @Override
+    public String help() {
+        return Common.getInstance().getLanguageManager().getString("money_all_cmd_help");
+    }
 
-	@Override
-	public int maxArgs() {
-		return 0;
-	}
+    @Override
+    public int maxArgs() {
+        return 0;
+    }
 
-	@Override
-	public int minArgs() {
-		return 0;
-	}
+    @Override
+    public int minArgs() {
+        return 0;
+    }
 
-	@Override
-	public boolean playerOnly() {
-		return true;
-	}
+    @Override
+    public boolean playerOnly() {
+        return true;
+    }
 
-	@Override
-	public String getPermissionNode() {
-		return "craftconomy.money.balance";
-	}
+    @Override
+    public String getPermissionNode() {
+        return "craftconomy.money.balance";
+    }
 }

@@ -26,10 +26,10 @@ import lombok.Data;
 @Table("Bank")
 @Data
 public class BankTable {
-	@Id
-	private int id;
-	@Field
-	private String name;
-	@Field
-	private String owner;
+    @Id
+    private int id;
+    @Field
+    private String name;
+    @Field
+    private String owner;
 }

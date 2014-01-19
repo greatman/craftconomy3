@@ -24,19 +24,19 @@ import java.io.Serializable;
  * A Cause of a event
  */
 public enum Cause implements Serializable {
-	VAULT,
-	USER,
-	PLUGIN,
-	SPOUT,
-	BANK_CREATION,
-	CONVERT,
-	EXCHANGE,
-	PAYMENT,
-	BANK_DEPOSIT,
-	BANK_WITHDRAW,
-	BANK_DELETE,
-	PAYDAY_TAX,
-	PAYDAY_WAGE,
-	UNKNOWN;
+    VAULT,
+    USER,
+    PLUGIN,
+    SPOUT,
+    BANK_CREATION,
+    CONVERT,
+    EXCHANGE,
+    PAYMENT,
+    BANK_DEPOSIT,
+    BANK_WITHDRAW,
+    BANK_DELETE,
+    PAYDAY_TAX,
+    PAYDAY_WAGE,
+    UNKNOWN;
 
 }

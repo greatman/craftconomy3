@@ -27,55 +27,55 @@ import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 import com.greatmancode.tools.utils.Tools;
 
 public class ExchangeCommand extends CommandExecutor {
-	@Override
-	public void execute(String sender, String[] args) {
-		if (Tools.isValidDouble(args[2])) {
-			double amount = Double.parseDouble(args[2]);
-			Currency currency1 = Common.getInstance().getCurrencyManager().getCurrency(args[0]);
-			Currency currency2 = Common.getInstance().getCurrencyManager().getCurrency(args[1]);
-			if (currency1 != null && currency2 != null) {
-				try {
-					double exchangeRate = currency1.getExchangeRate(currency2);
-					Account account = Common.getInstance().getAccountManager().getAccount(sender);
-					if (account.hasEnough(amount, Common.getInstance().getServerCaller().getPlayerCaller().getPlayerWorld(sender), currency1.getName())) {
-						double value = amount * exchangeRate;
-						account.withdraw(amount, Common.getInstance().getServerCaller().getPlayerCaller().getPlayerWorld(sender), currency1.getName(), Cause.EXCHANGE, currency2.getName());
-						account.deposit(value, Common.getInstance().getServerCaller().getPlayerCaller().getPlayerWorld(sender), currency2.getName(), Cause.EXCHANGE, currency1.getName());
-						Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().parse("exchange_done", amount, currency1.getName(), value, currency2.getName()));
-					}
-				} catch (NoExchangeRate noExchangeRate) {
-					Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().parse("no_exchange_rate", currency1.getName(), currency2.getName()));
-				}
-			} else {
-				Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("currency_not_exist"));
-			}
-		} else {
-			Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("invalid_amount"));
-		}
-	}
+    @Override
+    public void execute(String sender, String[] args) {
+        if (Tools.isValidDouble(args[2])) {
+            double amount = Double.parseDouble(args[2]);
+            Currency currency1 = Common.getInstance().getCurrencyManager().getCurrency(args[0]);
+            Currency currency2 = Common.getInstance().getCurrencyManager().getCurrency(args[1]);
+            if (currency1 != null && currency2 != null) {
+                try {
+                    double exchangeRate = currency1.getExchangeRate(currency2);
+                    Account account = Common.getInstance().getAccountManager().getAccount(sender);
+                    if (account.hasEnough(amount, Common.getInstance().getServerCaller().getPlayerCaller().getPlayerWorld(sender), currency1.getName())) {
+                        double value = amount * exchangeRate;
+                        account.withdraw(amount, Common.getInstance().getServerCaller().getPlayerCaller().getPlayerWorld(sender), currency1.getName(), Cause.EXCHANGE, currency2.getName());
+                        account.deposit(value, Common.getInstance().getServerCaller().getPlayerCaller().getPlayerWorld(sender), currency2.getName(), Cause.EXCHANGE, currency1.getName());
+                        Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().parse("exchange_done", amount, currency1.getName(), value, currency2.getName()));
+                    }
+                } catch (NoExchangeRate noExchangeRate) {
+                    Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().parse("no_exchange_rate", currency1.getName(), currency2.getName()));
+                }
+            } else {
+                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("currency_not_exist"));
+            }
+        } else {
+            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("invalid_amount"));
+        }
+    }
 
-	@Override
-	public String help() {
-		return Common.getInstance().getLanguageManager().getString("money_exchange_cmd_help");
-	}
+    @Override
+    public String help() {
+        return Common.getInstance().getLanguageManager().getString("money_exchange_cmd_help");
+    }
 
-	@Override
-	public int maxArgs() {
-		return 3;
-	}
+    @Override
+    public int maxArgs() {
+        return 3;
+    }
 
-	@Override
-	public int minArgs() {
-		return 3;
-	}
+    @Override
+    public int minArgs() {
+        return 3;
+    }
 
-	@Override
-	public boolean playerOnly() {
-		return true;
-	}
+    @Override
+    public boolean playerOnly() {
+        return true;
+    }
 
-	@Override
-	public String getPermissionNode() {
-		return "craftconomy.money.exchange";
-	}
+    @Override
+    public String getPermissionNode() {
+        return "craftconomy.money.exchange";
+    }
 }

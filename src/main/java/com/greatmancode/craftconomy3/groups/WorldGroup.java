@@ -18,78 +18,82 @@
  */
 package com.greatmancode.craftconomy3.groups;
 
+import com.greatmancode.craftconomy3.Common;
+import com.greatmancode.craftconomy3.database.tables.WorldGroupTable;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
-import com.greatmancode.craftconomy3.Common;
-import com.greatmancode.craftconomy3.database.tables.WorldGroupTable;
 
 /**
  * Contains information about a world group.
  */
 public class WorldGroup {
-	WorldGroupTable table = null;
-	private List<String> worldList = new ArrayList<String>();
+    WorldGroupTable table = null;
+    private List<String> worldList = new ArrayList<String>();
 
-	/**
-	 * Initialize a world group.
-	 * @param name The group name.
-	 */
-	public WorldGroup(String name) {
-		table = Common.getInstance().getDatabaseManager().getDatabase().select(WorldGroupTable.class).where().equal("groupName", name).execute().findOne();
-		if (table == null) {
-			table = new WorldGroupTable();
-			table.setGroupName(name);
-			save();
-		} else {
-			for (String entry : table.getWorldList().split(",")) {
-				worldList.add(entry);
-			}
-		}
-	}
+    /**
+     * Initialize a world group.
+     *
+     * @param name The group name.
+     */
+    public WorldGroup(String name) {
+        table = Common.getInstance().getDatabaseManager().getDatabase().select(WorldGroupTable.class).where().equal("groupName", name).execute().findOne();
+        if (table == null) {
+            table = new WorldGroupTable();
+            table.setGroupName(name);
+            save();
+        } else {
+            for (String entry : table.getWorldList().split(",")) {
+                worldList.add(entry);
+            }
+        }
+    }
 
-	/**
-	 * Add a world to this worldGroup. It needs to exist so it can be added!
-	 * @param name The world name.
-	 */
-	public void addWorld(String name) {
-		if (name != null && Common.getInstance().getServerCaller().worldExist(name) && !worldExist(name)) {
-			worldList.add(name);
-			save();
-		}
-	}
+    /**
+     * Add a world to this worldGroup. It needs to exist so it can be added!
+     *
+     * @param name The world name.
+     */
+    public void addWorld(String name) {
+        if (name != null && Common.getInstance().getServerCaller().worldExist(name) && !worldExist(name)) {
+            worldList.add(name);
+            save();
+        }
+    }
 
-	/**
-	 * Remove a world from the group if it exists.
-	 * @param world The world name
-	 */
-	public void removeWorld(String world) {
-		if (worldList.contains(world)) {
-			worldList.remove(world);
-			save();
-		}
-	}
+    /**
+     * Remove a world from the group if it exists.
+     *
+     * @param world The world name
+     */
+    public void removeWorld(String world) {
+        if (worldList.contains(world)) {
+            worldList.remove(world);
+            save();
+        }
+    }
 
-	/**
-	 * Checks if a certain world is in this group.
-	 * @param worldName The world name.
-	 * @return True if the world is in this world. Else false.
-	 */
-	public boolean worldExist(String worldName) {
-		return worldList.contains(worldName);
-	}
+    /**
+     * Checks if a certain world is in this group.
+     *
+     * @param worldName The world name.
+     * @return True if the world is in this world. Else false.
+     */
+    public boolean worldExist(String worldName) {
+        return worldList.contains(worldName);
+    }
 
-	private void save() {
-		String save = "";
-		Iterator<String> iterator = worldList.iterator();
-		while (iterator.hasNext()) {
-			save += iterator.next();
-			if (iterator.hasNext()) {
-				save += ",";
-			}
-		}
-		table.setWorldList(save);
-		Common.getInstance().getDatabaseManager().getDatabase().save(table);
-	}
+    private void save() {
+        String save = "";
+        Iterator<String> iterator = worldList.iterator();
+        while (iterator.hasNext()) {
+            save += iterator.next();
+            if (iterator.hasNext()) {
+                save += ",";
+            }
+        }
+        table.setWorldList(save);
+        Common.getInstance().getDatabaseManager().getDatabase().save(table);
+    }
 }

@@ -22,46 +22,46 @@ import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 
 public class GroupAddWorldCommand extends CommandExecutor {
-	@Override
-	public void execute(String sender, String[] args) {
-		if (Common.getInstance().getWorldGroupManager().worldGroupExist(args[0])) {
-			if (Common.getInstance().getServerCaller().worldExist(args[1])) {
-				if (!Common.getInstance().getWorldGroupManager().getWorldGroupName(args[1]).equals("default")) {
-					Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().parse("world_already_in_group", args[1]));
-					return;
-				}
-				Common.getInstance().getWorldGroupManager().addWorldToGroup(args[0], args[1]);
-				Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("group_world_added"));
-			} else {
-				Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("world_not_exist"));
-			}
-		} else {
-			Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("group_not_exist"));
-		}
-	}
+    @Override
+    public void execute(String sender, String[] args) {
+        if (Common.getInstance().getWorldGroupManager().worldGroupExist(args[0])) {
+            if (Common.getInstance().getServerCaller().worldExist(args[1])) {
+                if (!Common.getInstance().getWorldGroupManager().getWorldGroupName(args[1]).equals("default")) {
+                    Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().parse("world_already_in_group", args[1]));
+                    return;
+                }
+                Common.getInstance().getWorldGroupManager().addWorldToGroup(args[0], args[1]);
+                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("group_world_added"));
+            } else {
+                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("world_not_exist"));
+            }
+        } else {
+            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("group_not_exist"));
+        }
+    }
 
-	@Override
-	public String help() {
-		return Common.getInstance().getLanguageManager().getString("group_addworld_cmd_help");
-	}
+    @Override
+    public String help() {
+        return Common.getInstance().getLanguageManager().getString("group_addworld_cmd_help");
+    }
 
-	@Override
-	public int maxArgs() {
-		return 2;
-	}
+    @Override
+    public int maxArgs() {
+        return 2;
+    }
 
-	@Override
-	public int minArgs() {
-		return 2;
-	}
+    @Override
+    public int minArgs() {
+        return 2;
+    }
 
-	@Override
-	public boolean playerOnly() {
-		return false;
-	}
+    @Override
+    public boolean playerOnly() {
+        return false;
+    }
 
-	@Override
-	public String getPermissionNode() {
-		return "craftconomy.group.addworld";
-	}
+    @Override
+    public String getPermissionNode() {
+        return "craftconomy.group.addworld";
+    }
 }

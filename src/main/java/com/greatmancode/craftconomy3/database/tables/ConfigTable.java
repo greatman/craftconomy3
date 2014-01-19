@@ -26,11 +26,11 @@ import lombok.Data;
 @Table("config")
 @Data
 public class ConfigTable {
-	public static final String NAME_FIELD = "name";
-	@Id
-	private int id; //To prevent possible bugs
-	@Field
-	private String name;
-	@Field
-	private String value;
+    public static final String NAME_FIELD = "name";
+    @Id
+    private int id; //To prevent possible bugs
+    @Field
+    private String name;
+    @Field
+    private String value;
 }

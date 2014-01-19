@@ -22,38 +22,38 @@ import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 
 public class CurrencyDeleteCommand extends CommandExecutor {
-	@Override
-	public void execute(String sender, String[] args) {
-		if (Common.getInstance().getCurrencyManager().getCurrency(args[0]) != null) {
-			Common.getInstance().getCurrencyManager().deleteCurrency(Common.getInstance().getCurrencyManager().getCurrency(args[0]).getDatabaseID());
-			Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("currency_deleted"));
-		} else {
-			Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("currency_not_exists"));
-		}
-	}
+    @Override
+    public void execute(String sender, String[] args) {
+        if (Common.getInstance().getCurrencyManager().getCurrency(args[0]) != null) {
+            Common.getInstance().getCurrencyManager().deleteCurrency(Common.getInstance().getCurrencyManager().getCurrency(args[0]).getDatabaseID());
+            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("currency_deleted"));
+        } else {
+            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("currency_not_exists"));
+        }
+    }
 
-	@Override
-	public String help() {
-		return Common.getInstance().getLanguageManager().getString("currency_delete_cmd_help");
-	}
+    @Override
+    public String help() {
+        return Common.getInstance().getLanguageManager().getString("currency_delete_cmd_help");
+    }
 
-	@Override
-	public int maxArgs() {
-		return 1;
-	}
+    @Override
+    public int maxArgs() {
+        return 1;
+    }
 
-	@Override
-	public int minArgs() {
-		return 1;
-	}
+    @Override
+    public int minArgs() {
+        return 1;
+    }
 
-	@Override
-	public boolean playerOnly() {
-		return false;
-	}
+    @Override
+    public boolean playerOnly() {
+        return false;
+    }
 
-	@Override
-	public String getPermissionNode() {
-		return "craftconomy.currency.delete";
-	}
+    @Override
+    public String getPermissionNode() {
+        return "craftconomy.currency.delete";
+    }
 }

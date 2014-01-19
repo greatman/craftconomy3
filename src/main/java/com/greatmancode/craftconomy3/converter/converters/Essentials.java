@@ -18,57 +18,51 @@
  */
 package com.greatmancode.craftconomy3.converter.converters;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FilenameFilter;
-import java.io.IOException;
+import com.greatmancode.craftconomy3.Common;
+import com.greatmancode.craftconomy3.converter.Converter;
+
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.greatmancode.craftconomy3.Common;
-import com.greatmancode.craftconomy3.converter.Converter;
-import com.greatmancode.tools.configuration.Config;
-import com.greatmancode.tools.interfaces.caller.ServerCaller;
-
 public class Essentials extends Converter {
 
-	public Essentials() {
-		getDbTypes().add("flatfile");
-	}
-	@Override
-	public List<String> getDbInfo() {
-		return new ArrayList<String>();
-	}
+    public Essentials() {
+        getDbTypes().add("flatfile");
+    }
 
-	@Override
-	public boolean connect() {
-		return true;
-	}
+    @Override
+    public List<String> getDbInfo() {
+        return new ArrayList<String>();
+    }
 
-	@Override
-	public boolean importData(String sender) {
-		File accountsFolder = new File("plugins/Essentials/userdata/");
+    @Override
+    public boolean connect() {
+        return true;
+    }
 
-		if (!accountsFolder.isDirectory()){
-			return false;
-		}
+    @Override
+    public boolean importData(String sender) {
+        File accountsFolder = new File("plugins/Essentials/userdata/");
 
-		File[] accounts = accountsFolder.listFiles(new FilenameFilter(){
-			public boolean accept(File file, String name){
-				return name.toLowerCase().endsWith(".yml");
-			}
-		});
-		List<User> userList = new ArrayList<User>();
+        if (!accountsFolder.isDirectory()) {
+            return false;
+        }
+
+        File[] accounts = accountsFolder.listFiles(new FilenameFilter() {
+            public boolean accept(File file, String name) {
+                return name.toLowerCase().endsWith(".yml");
+            }
+        });
+        List<User> userList = new ArrayList<User>();
         Common.getInstance().getLogger().info("Amount of accounts found:" + accounts.length);
-		int i = 0;
+        int i = 0;
         String line;
-		for (File account : accounts){
+        for (File account : accounts) {
             try {
                 BufferedReader reader = new BufferedReader(new FileReader(account));
                 while ((line = reader.readLine()) != null) {
-                //money: '0.0'
+                    //money: '0.0'
                     if (line.startsWith("money:")) {
                         String value = line.replace("money: '", "");
                         if (value.contains("money")) {
@@ -96,8 +90,8 @@ public class Essentials extends Converter {
                 e.printStackTrace();
             }
         }
-		addAccountToString(userList);
-		addBalance(sender, userList);
-		return true;
-	}
+        addAccountToString(userList);
+        addBalance(sender, userList);
+        return true;
+    }
 }

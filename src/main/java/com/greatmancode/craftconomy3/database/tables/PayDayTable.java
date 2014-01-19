@@ -26,29 +26,29 @@ import lombok.Data;
 @Table("payday")
 @Data
 public class PayDayTable {
-	@Id
-	private int id;
-	@Field
-	private String name;
-	@Field
-	private boolean disabled;
-	/**
-	 * In seconds
-	 */
-	@Field
-	private int time;
-	@Field
-	private String account;
-	/**
-	 * 0 = wage
-	 * 1 = tax
-	 */
-	@Field
-	private int status;
-	@Field
-	private int currency_id;
-	@Field
-	private double value;
-	@Field
-	private String worldName;
+    @Id
+    private int id;
+    @Field
+    private String name;
+    @Field
+    private boolean disabled;
+    /**
+     * In seconds
+     */
+    @Field
+    private int time;
+    @Field
+    private String account;
+    /**
+     * 0 = wage
+     * 1 = tax
+     */
+    @Field
+    private int status;
+    @Field
+    private int currency_id;
+    @Field
+    private double value;
+    @Field
+    private String worldName;
 }

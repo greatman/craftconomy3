@@ -24,84 +24,84 @@ import com.alta189.simplesave.Table;
 
 @Table("acl")
 public class AccessTable {
-	@Id
-	private int id;
-	@Field
-	private int account_id;
-	@Field
-	private String playerName;
-	@Field
-	private boolean deposit;
-	@Field
-	private boolean withdraw;
-	@Field
-	private boolean acl;
-	@Field
-	private boolean balance;
-	@Field
-	private boolean owner;
+    @Id
+    private int id;
+    @Field
+    private int account_id;
+    @Field
+    private String playerName;
+    @Field
+    private boolean deposit;
+    @Field
+    private boolean withdraw;
+    @Field
+    private boolean acl;
+    @Field
+    private boolean balance;
+    @Field
+    private boolean owner;
 
-	public int getId() {
-		return id;
-	}
+    public int getId() {
+        return id;
+    }
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public int getAccountId() {
-		return account_id;
-	}
+    public int getAccountId() {
+        return account_id;
+    }
 
-	public void setAccountId(int accountId) {
-		this.account_id = accountId;
-	}
+    public void setAccountId(int accountId) {
+        this.account_id = accountId;
+    }
 
-	public String getPlayerName() {
-		return playerName;
-	}
+    public String getPlayerName() {
+        return playerName;
+    }
 
-	public void setPlayerName(String playerName) {
-		this.playerName = playerName;
-	}
+    public void setPlayerName(String playerName) {
+        this.playerName = playerName;
+    }
 
-	public boolean canDeposit() {
-		return deposit;
-	}
+    public boolean canDeposit() {
+        return deposit;
+    }
 
-	public void setDeposit(boolean deposit) {
-		this.deposit = deposit;
-	}
+    public void setDeposit(boolean deposit) {
+        this.deposit = deposit;
+    }
 
-	public boolean canWithdraw() {
-		return withdraw;
-	}
+    public boolean canWithdraw() {
+        return withdraw;
+    }
 
-	public void setWithdraw(boolean withdraw) {
-		this.withdraw = withdraw;
-	}
+    public void setWithdraw(boolean withdraw) {
+        this.withdraw = withdraw;
+    }
 
-	public boolean canAcl() {
-		return acl;
-	}
+    public boolean canAcl() {
+        return acl;
+    }
 
-	public void setAcl(boolean acl) {
-		this.acl = acl;
-	}
+    public void setAcl(boolean acl) {
+        this.acl = acl;
+    }
 
-	public boolean canBalance() {
-		return balance;
-	}
+    public boolean canBalance() {
+        return balance;
+    }
 
-	public void setBalance(boolean balance) {
-		this.balance = balance;
-	}
+    public void setBalance(boolean balance) {
+        this.balance = balance;
+    }
 
-	public boolean isOwner() {
-		return owner;
-	}
+    public boolean isOwner() {
+        return owner;
+    }
 
-	public void setOwner(boolean owner) {
-		this.owner = owner;
-	}
+    public void setOwner(boolean owner) {
+        this.owner = owner;
+    }
 }

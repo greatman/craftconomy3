@@ -18,98 +18,104 @@
  */
 package com.greatmancode.craftconomy3.groups;
 
+import com.greatmancode.craftconomy3.Common;
+import com.greatmancode.craftconomy3.database.tables.WorldGroupTable;
+
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import com.greatmancode.craftconomy3.Common;
-import com.greatmancode.craftconomy3.database.tables.WorldGroupTable;
-
 /**
  * World Group Manager
  */
 public class WorldGroupsManager {
-	public static final String DEFAULT_GROUP_NAME = "default";
-	private final Map<String, WorldGroup> list = new HashMap<String, WorldGroup>();
+    public static final String DEFAULT_GROUP_NAME = "default";
+    private final Map<String, WorldGroup> list = new HashMap<String, WorldGroup>();
 
-	public WorldGroupsManager() {
-		for (WorldGroupTable group : Common.getInstance().getDatabaseManager().getDatabase().select(WorldGroupTable.class).execute().find()) {
-			list.put(group.getGroupName(), new WorldGroup(group.getGroupName()));
-		}
-	}
+    public WorldGroupsManager() {
+        for (WorldGroupTable group : Common.getInstance().getDatabaseManager().getDatabase().select(WorldGroupTable.class).execute().find()) {
+            list.put(group.getGroupName(), new WorldGroup(group.getGroupName()));
+        }
+    }
 
-	/**
-	 * Add a world to a group
-	 * @param groupName the group name
-	 * @param world the world to add
-	 */
-	public void addWorldToGroup(String groupName, String world) {
-		if (!groupName.equalsIgnoreCase(DEFAULT_GROUP_NAME)) {
-			if (list.containsKey(groupName)) {
-				list.get(groupName).addWorld(world);
-			} else {
-				WorldGroup group = new WorldGroup(groupName);
-				group.addWorld(world);
-			}
-		}
-	}
+    /**
+     * Add a world to a group
+     *
+     * @param groupName the group name
+     * @param world     the world to add
+     */
+    public void addWorldToGroup(String groupName, String world) {
+        if (!groupName.equalsIgnoreCase(DEFAULT_GROUP_NAME)) {
+            if (list.containsKey(groupName)) {
+                list.get(groupName).addWorld(world);
+            } else {
+                WorldGroup group = new WorldGroup(groupName);
+                group.addWorld(world);
+            }
+        }
+    }
 
-	/**
-	 * Retrieve the name of the worldgroup a world belongs to
-	 * @param world The world name
-	 * @return The worldgroup name linked to this world
-	 */
-	public String getWorldGroupName(String world) {
-		String result = DEFAULT_GROUP_NAME;
-		Iterator<Entry<String, WorldGroup>> iterator = list.entrySet().iterator();
-		while (iterator.hasNext()) {
-			Entry<String, WorldGroup> entry = iterator.next();
-			if (entry.getValue().worldExist(world)) {
-				result = entry.getKey();
-			}
-		}
-		return result;
-	}
+    /**
+     * Retrieve the name of the worldgroup a world belongs to
+     *
+     * @param world The world name
+     * @return The worldgroup name linked to this world
+     */
+    public String getWorldGroupName(String world) {
+        String result = DEFAULT_GROUP_NAME;
+        Iterator<Entry<String, WorldGroup>> iterator = list.entrySet().iterator();
+        while (iterator.hasNext()) {
+            Entry<String, WorldGroup> entry = iterator.next();
+            if (entry.getValue().worldExist(world)) {
+                result = entry.getKey();
+            }
+        }
+        return result;
+    }
 
-	/**
-	 * Remove a world from a worldgroup
-	 * @param world The world to reset to default
-	 */
-	public void removeWorldFromGroup(String world) {
-		String groupName = getWorldGroupName(world);
-		if (!groupName.equals(DEFAULT_GROUP_NAME)) {
-			list.get(groupName).removeWorld(world);
-		}
-	}
+    /**
+     * Remove a world from a worldgroup
+     *
+     * @param world The world to reset to default
+     */
+    public void removeWorldFromGroup(String world) {
+        String groupName = getWorldGroupName(world);
+        if (!groupName.equals(DEFAULT_GROUP_NAME)) {
+            list.get(groupName).removeWorld(world);
+        }
+    }
 
-	/**
-	 * Remove a world group. Reverting all the world into this group to the default one.
-	 * @param group The group to remove.
-	 */
-	public void removeGroup(String group) {
-		if (worldGroupExist(group)) {
-			Common.getInstance().getDatabaseManager().getDatabase().remove(list.get(group).table);
-			list.remove(group);
-		}
-	}
+    /**
+     * Remove a world group. Reverting all the world into this group to the default one.
+     *
+     * @param group The group to remove.
+     */
+    public void removeGroup(String group) {
+        if (worldGroupExist(group)) {
+            Common.getInstance().getDatabaseManager().getDatabase().remove(list.get(group).table);
+            list.remove(group);
+        }
+    }
 
-	/**
-	 * Check if a world group exists
-	 * @param name The world group name
-	 * @return True if the world exist else false
-	 */
-	public boolean worldGroupExist(String name) {
-		return list.containsKey(name);
-	}
+    /**
+     * Check if a world group exists
+     *
+     * @param name The world group name
+     * @return True if the world exist else false
+     */
+    public boolean worldGroupExist(String name) {
+        return list.containsKey(name);
+    }
 
-	/**
-	 * Create a world group
-	 * @param name the world group name.
-	 */
-	public void addWorldGroup(String name) {
-		if (!worldGroupExist(name)) {
-			list.put(name, new WorldGroup(name));
-		}
-	}
+    /**
+     * Create a world group
+     *
+     * @param name the world group name.
+     */
+    public void addWorldGroup(String name) {
+        if (!worldGroupExist(name)) {
+            list.put(name, new WorldGroup(name));
+        }
+    }
 }

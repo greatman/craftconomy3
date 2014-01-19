@@ -22,24 +22,25 @@ package com.greatmancode.craftconomy3;
  * Different setup steps for the wizard
  */
 public enum NewSetupWizard {
-	DATABASE_STEP,
-	BASIC_STEP,
-	CURRENCY_STEP,
-	CONVERT_STEP;
-	private static NewSetupWizard state = BASIC_STEP;
+    DATABASE_STEP,
+    BASIC_STEP,
+    CURRENCY_STEP,
+    CONVERT_STEP;
+    private static NewSetupWizard state = BASIC_STEP;
 
-	/**
-	 * Set the wizard state.
-	 * @param newState The new state to set to.
-	 */
-	public static void setState(NewSetupWizard newState) {
-		state = newState;
-	}
+    /**
+     * Set the wizard state.
+     *
+     * @param newState The new state to set to.
+     */
+    public static void setState(NewSetupWizard newState) {
+        state = newState;
+    }
 
-	/**
-	 * Retrieve the Wizard state.
-	 */
-	public static NewSetupWizard getState() {
-		return state;
-	}
+    /**
+     * Retrieve the Wizard state.
+     */
+    public static NewSetupWizard getState() {
+        return state;
+    }
 }

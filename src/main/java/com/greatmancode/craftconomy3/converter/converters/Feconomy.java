@@ -18,12 +18,6 @@
  */
 package com.greatmancode.craftconomy3.converter.converters;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-import java.util.logging.Level;
-
 import com.alta189.simplesave.Database;
 import com.alta189.simplesave.DatabaseFactory;
 import com.alta189.simplesave.exceptions.ConnectionException;
@@ -33,8 +27,13 @@ import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.converter.Converter;
 import com.greatmancode.craftconomy3.database.tables.feconomy.FeconomyTable;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 /**
  * Converter for Feconomy. Currently only MySQL
+ *
  * @author greatman
  */
 public class Feconomy extends Converter {
@@ -104,6 +103,7 @@ public class Feconomy extends Converter {
 
     /**
      * Import accounts from the database.
+     *
      * @param sender The command sender so we can send back messages.
      * @return True if the convert is done. Else false.
      */

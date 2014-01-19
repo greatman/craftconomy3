@@ -26,8 +26,8 @@ import lombok.Data;
 @Table("Account")
 @Data
 public class AccountTable {
-	@Id
-	private int id;
-	@Field
-	private String username;
+    @Id
+    private int id;
+    @Field
+    private String username;
 }

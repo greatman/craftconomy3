@@ -25,46 +25,46 @@ import com.greatmancode.craftconomy3.account.Balance;
 import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 
 public class BankDeleteCommand extends CommandExecutor {
-	@Override
-	public void execute(String sender, String[] args) {
-		if (Common.getInstance().getAccountManager().exist(Account.BANK_PREFIX + args[0])) {
-			Account account = Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + args[0]);
-			if (account.getAccountACL().isOwner(sender) || Common.getInstance().getServerCaller().getPlayerCaller().checkPermission(sender, "craftconomy.bank.delete.admin")) {
-				Account owner = Common.getInstance().getAccountManager().getAccount(sender);
-				for (Balance balance : account.getAllBalance()) {
-					owner.deposit(balance.getBalance(), balance.getWorld(), balance.getCurrency().getName(), Cause.BANK_DELETE, args[0]);
-				}
-				Common.getInstance().getAccountManager().delete(Account.BANK_PREFIX + args[0]);
-			} else {
-				Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("bank_delete_not_owner"));
-			}
-		} else {
-			Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("account_not_exist"));
-		}
-	}
+    @Override
+    public void execute(String sender, String[] args) {
+        if (Common.getInstance().getAccountManager().exist(Account.BANK_PREFIX + args[0])) {
+            Account account = Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + args[0]);
+            if (account.getAccountACL().isOwner(sender) || Common.getInstance().getServerCaller().getPlayerCaller().checkPermission(sender, "craftconomy.bank.delete.admin")) {
+                Account owner = Common.getInstance().getAccountManager().getAccount(sender);
+                for (Balance balance : account.getAllBalance()) {
+                    owner.deposit(balance.getBalance(), balance.getWorld(), balance.getCurrency().getName(), Cause.BANK_DELETE, args[0]);
+                }
+                Common.getInstance().getAccountManager().delete(Account.BANK_PREFIX + args[0]);
+            } else {
+                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("bank_delete_not_owner"));
+            }
+        } else {
+            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("account_not_exist"));
+        }
+    }
 
-	@Override
-	public String help() {
-		return Common.getInstance().getLanguageManager().getString("bank_delete_cmd_help");
-	}
+    @Override
+    public String help() {
+        return Common.getInstance().getLanguageManager().getString("bank_delete_cmd_help");
+    }
 
-	@Override
-	public int maxArgs() {
-		return 1;
-	}
+    @Override
+    public int maxArgs() {
+        return 1;
+    }
 
-	@Override
-	public int minArgs() {
-		return 1;
-	}
+    @Override
+    public int minArgs() {
+        return 1;
+    }
 
-	@Override
-	public boolean playerOnly() {
-		return true;
-	}
+    @Override
+    public boolean playerOnly() {
+        return true;
+    }
 
-	@Override
-	public String getPermissionNode() {
-		return "craftconomy.bank.delete";
-	}
+    @Override
+    public String getPermissionNode() {
+        return "craftconomy.bank.delete";
+    }
 }

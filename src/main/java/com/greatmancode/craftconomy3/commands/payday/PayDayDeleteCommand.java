@@ -23,42 +23,42 @@ import com.greatmancode.craftconomy3.payday.PayDay;
 import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 
 public class PayDayDeleteCommand extends CommandExecutor {
-	@Override
-	public void execute(String sender, String[] args) {
-		PayDay payday = Common.getInstance().getPaydayManager().getPayDay(args[0]);
-		if (payday != null) {
-			if (Common.getInstance().getPaydayManager().deletePayDay(payday.getDatabaseId())) {
-				Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("payday_removed"));
-			} else {
-				Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("error_occured"));
-			}
-		} else {
-			Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("payday_not_found"));
-		}
-	}
+    @Override
+    public void execute(String sender, String[] args) {
+        PayDay payday = Common.getInstance().getPaydayManager().getPayDay(args[0]);
+        if (payday != null) {
+            if (Common.getInstance().getPaydayManager().deletePayDay(payday.getDatabaseId())) {
+                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("payday_removed"));
+            } else {
+                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("error_occured"));
+            }
+        } else {
+            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("payday_not_found"));
+        }
+    }
 
-	@Override
-	public String help() {
-		return Common.getInstance().getLanguageManager().getString("payday_delete_cmd_help");
-	}
+    @Override
+    public String help() {
+        return Common.getInstance().getLanguageManager().getString("payday_delete_cmd_help");
+    }
 
-	@Override
-	public int maxArgs() {
-		return 1;
-	}
+    @Override
+    public int maxArgs() {
+        return 1;
+    }
 
-	@Override
-	public int minArgs() {
-		return 0;
-	}
+    @Override
+    public int minArgs() {
+        return 0;
+    }
 
-	@Override
-	public boolean playerOnly() {
-		return false;
-	}
+    @Override
+    public boolean playerOnly() {
+        return false;
+    }
 
-	@Override
-	public String getPermissionNode() {
-		return "craftconomy.payday.command.delete";
-	}
+    @Override
+    public String getPermissionNode() {
+        return "craftconomy.payday.command.delete";
+    }
 }

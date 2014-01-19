@@ -26,66 +26,66 @@ import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 import com.greatmancode.tools.utils.Tools;
 
 public class BankTakeCommand extends CommandExecutor {
-	@Override
-	public void execute(String sender, String[] args) {
-		if (Common.getInstance().getAccountManager().exist(Account.BANK_PREFIX + args[0])) {
-			Account bankAccount = Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + args[0]);
-			if (Tools.isValidDouble(args[1])) {
-				double amount = Double.parseDouble(args[1]);
-				Currency currency = Common.getInstance().getCurrencyManager().getDefaultCurrency();
-				if (args.length > 2) {
-					if (Common.getInstance().getCurrencyManager().getCurrency(args[2]) != null) {
-						currency = Common.getInstance().getCurrencyManager().getCurrency(args[2]);
-					} else {
-						Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("currency_not_exist"));
-						return;
-					}
-				}
-				String worldName = Common.getInstance().getAccountManager().getAccount(sender).getWorldGroupOfPlayerCurrentlyIn();
-				if (args.length > 3) {
-					if (!Common.getInstance().getServerCaller().worldExist(args[3])) {
-						Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("world_not_exist"));
-						return;
-					}
-					worldName = Common.getInstance().getWorldGroupManager().getWorldGroupName(args[3]);
-				}
+    @Override
+    public void execute(String sender, String[] args) {
+        if (Common.getInstance().getAccountManager().exist(Account.BANK_PREFIX + args[0])) {
+            Account bankAccount = Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + args[0]);
+            if (Tools.isValidDouble(args[1])) {
+                double amount = Double.parseDouble(args[1]);
+                Currency currency = Common.getInstance().getCurrencyManager().getDefaultCurrency();
+                if (args.length > 2) {
+                    if (Common.getInstance().getCurrencyManager().getCurrency(args[2]) != null) {
+                        currency = Common.getInstance().getCurrencyManager().getCurrency(args[2]);
+                    } else {
+                        Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("currency_not_exist"));
+                        return;
+                    }
+                }
+                String worldName = Common.getInstance().getAccountManager().getAccount(sender).getWorldGroupOfPlayerCurrentlyIn();
+                if (args.length > 3) {
+                    if (!Common.getInstance().getServerCaller().worldExist(args[3])) {
+                        Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("world_not_exist"));
+                        return;
+                    }
+                    worldName = Common.getInstance().getWorldGroupManager().getWorldGroupName(args[3]);
+                }
 
-				if (bankAccount.hasEnough(amount, worldName, currency.getName())) {
-					bankAccount.withdraw(amount, worldName, currency.getName(), Cause.USER, sender);
-					Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().parse("bank_take_success", Common.getInstance().format(worldName, currency, amount), args[0]));
-				} else {
-					Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("bank_not_enough_money"));
-				}
-			} else {
-				Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("invalid_amount"));
-			}
-		} else {
-			Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("account_not_exist"));
-		}
-	}
+                if (bankAccount.hasEnough(amount, worldName, currency.getName())) {
+                    bankAccount.withdraw(amount, worldName, currency.getName(), Cause.USER, sender);
+                    Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().parse("bank_take_success", Common.getInstance().format(worldName, currency, amount), args[0]));
+                } else {
+                    Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("bank_not_enough_money"));
+                }
+            } else {
+                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("invalid_amount"));
+            }
+        } else {
+            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("account_not_exist"));
+        }
+    }
 
-	@Override
-	public String help() {
-		return Common.getInstance().getLanguageManager().getString("bank_take_cmd_help");
-	}
+    @Override
+    public String help() {
+        return Common.getInstance().getLanguageManager().getString("bank_take_cmd_help");
+    }
 
-	@Override
-	public int maxArgs() {
-		return 3;
-	}
+    @Override
+    public int maxArgs() {
+        return 3;
+    }
 
-	@Override
-	public int minArgs() {
-		return 2;
-	}
+    @Override
+    public int minArgs() {
+        return 2;
+    }
 
-	@Override
-	public boolean playerOnly() {
-		return false;
-	}
+    @Override
+    public boolean playerOnly() {
+        return false;
+    }
 
-	@Override
-	public String getPermissionNode() {
-		return "craftconomy.bank.take";
-	}
+    @Override
+    public String getPermissionNode() {
+        return "craftconomy.bank.take";
+    }
 }

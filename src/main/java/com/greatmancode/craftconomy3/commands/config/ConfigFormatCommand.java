@@ -23,39 +23,39 @@ import com.greatmancode.craftconomy3.DisplayFormat;
 import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 
 public class ConfigFormatCommand extends CommandExecutor {
-	@Override
-	public void execute(String sender, String[] args) {
-		try {
-			DisplayFormat format = DisplayFormat.valueOf(args[0].toUpperCase());
-			Common.getInstance().setDisplayFormat(format);
-			Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("format_modified"));
-		} catch (IllegalArgumentException e) {
-			Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("invalid_mode"));
-		}
-	}
+    @Override
+    public void execute(String sender, String[] args) {
+        try {
+            DisplayFormat format = DisplayFormat.valueOf(args[0].toUpperCase());
+            Common.getInstance().setDisplayFormat(format);
+            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("format_modified"));
+        } catch (IllegalArgumentException e) {
+            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("invalid_mode"));
+        }
+    }
 
-	@Override
-	public String help() {
-		return Common.getInstance().getLanguageManager().getString("config_format_cmd_help");
-	}
+    @Override
+    public String help() {
+        return Common.getInstance().getLanguageManager().getString("config_format_cmd_help");
+    }
 
-	@Override
-	public int maxArgs() {
-		return 1;
-	}
+    @Override
+    public int maxArgs() {
+        return 1;
+    }
 
-	@Override
-	public int minArgs() {
-		return 1;
-	}
+    @Override
+    public int minArgs() {
+        return 1;
+    }
 
-	@Override
-	public boolean playerOnly() {
-		return false;
-	}
+    @Override
+    public boolean playerOnly() {
+        return false;
+    }
 
-	@Override
-	public String getPermissionNode() {
-		return "craftconomy.config.format";
-	}
+    @Override
+    public String getPermissionNode() {
+        return "craftconomy.config.format";
+    }
 }

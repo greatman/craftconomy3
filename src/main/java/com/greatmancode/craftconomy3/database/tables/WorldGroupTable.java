@@ -26,10 +26,10 @@ import lombok.Data;
 @Table("worldgroup")
 @Data
 public class WorldGroupTable {
-	@Id
-	private int id;
-	@Field
-	private String groupName;
-	@Field
-	private String worldList;
+    @Id
+    private int id;
+    @Field
+    private String groupName;
+    @Field
+    private String worldList;
 }

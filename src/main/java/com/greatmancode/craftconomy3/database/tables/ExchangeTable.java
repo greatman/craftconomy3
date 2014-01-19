@@ -26,12 +26,12 @@ import lombok.Data;
 @Table("exchange")
 @Data
 public class ExchangeTable {
-	@Id
-	private int id;
-	@Field
-	private int from_currency_id;
-	@Field
-	private int to_currency_id;
-	@Field
-	private double amount;
+    @Id
+    private int id;
+    @Field
+    private int from_currency_id;
+    @Field
+    private int to_currency_id;
+    @Field
+    private double amount;
 }

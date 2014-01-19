@@ -24,10 +24,10 @@ import com.alta189.simplesave.Table;
 
 @Table("fe_accounts")
 public class FeconomyTable {
-	@Id
+    @Id
     private String name;
-	@Field
-	private double money;
+    @Field
+    private double money;
 
     public String getName() {
         return name;

@@ -18,8 +18,6 @@
  */
 package com.greatmancode.craftconomy3.database.tables;
 
-import java.sql.Timestamp;
-
 import com.alta189.simplesave.Field;
 import com.alta189.simplesave.Id;
 import com.alta189.simplesave.Table;
@@ -27,25 +25,27 @@ import com.greatmancode.craftconomy3.Cause;
 import com.greatmancode.craftconomy3.LogInfo;
 import lombok.Data;
 
+import java.sql.Timestamp;
+
 @Table("log")
 @Data
 public class LogTable {
-	@Id
-	private int id;
-	@Field
-	private int username_id;
-	@Field
-	private double amount;
-	@Field
-	private LogInfo type;
-	@Field
-	private Cause cause;
-	@Field
-	private Timestamp timestamp;
-	@Field
-	private String causeReason;
-	@Field
-	private String currencyName;
-	@Field
-	private String worldName;
+    @Id
+    private int id;
+    @Field
+    private int username_id;
+    @Field
+    private double amount;
+    @Field
+    private LogInfo type;
+    @Field
+    private Cause cause;
+    @Field
+    private Timestamp timestamp;
+    @Field
+    private String causeReason;
+    @Field
+    private String currencyName;
+    @Field
+    private String worldName;
 }

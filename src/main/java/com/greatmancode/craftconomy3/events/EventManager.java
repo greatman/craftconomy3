@@ -28,18 +28,18 @@ import com.greatmancode.tools.utils.Updater;
  * This class contains code shared for events.
  */
 public class EventManager implements Listener {
-	
-	/**
-	 * Event handler for when a player is connecting to the server.
-	 */
-	@EventHandler
-	public void playerJoinEvent(PlayerJoinEvent event) {
-		if (Common.getInstance().getMainConfig().getBoolean("System.CheckNewVersion") && Common.getInstance().getServerCaller().getPlayerCaller().isOp(event.getPlayer().getName()) && Common.getInstance().getVersionChecker().getResult() == Updater.UpdateResult.UPDATE_AVAILABLE) {
-			Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(event.getPlayer().getName(), "{{DARK_CYAN}}Craftconomy is out of date! New version is " + Common.getInstance().getVersionChecker().getLatestName());
-		}
 
-		if (Common.getInstance().getMainConfig().getBoolean("System.CreateOnLogin")) {
-			Common.getInstance().getAccountManager().getAccount(event.getPlayer().getName());
-		}
-	}
+    /**
+     * Event handler for when a player is connecting to the server.
+     */
+    @EventHandler
+    public void playerJoinEvent(PlayerJoinEvent event) {
+        if (Common.getInstance().getMainConfig().getBoolean("System.CheckNewVersion") && Common.getInstance().getServerCaller().getPlayerCaller().isOp(event.getPlayer().getName()) && Common.getInstance().getVersionChecker().getResult() == Updater.UpdateResult.UPDATE_AVAILABLE) {
+            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(event.getPlayer().getName(), "{{DARK_CYAN}}Craftconomy is out of date! New version is " + Common.getInstance().getVersionChecker().getLatestName());
+        }
+
+        if (Common.getInstance().getMainConfig().getBoolean("System.CreateOnLogin")) {
+            Common.getInstance().getAccountManager().getAccount(event.getPlayer().getName());
+        }
+    }
 }

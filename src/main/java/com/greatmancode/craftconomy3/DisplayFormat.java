@@ -23,20 +23,20 @@ package com.greatmancode.craftconomy3;
  */
 public enum DisplayFormat {
 
-	/**
-	 * 2 dollars 1 cent
-	 */
-	LONG,
-	/**
-	 * $2.1
-	 */
-	SIGN,
-	/**
-	 * 2.01 dollars
-	 */
-	SMALL,
-	/**
-	 * 2 dollars
-	 */
-	MAJORONLY
+    /**
+     * 2 dollars 1 cent
+     */
+    LONG,
+    /**
+     * $2.1
+     */
+    SIGN,
+    /**
+     * 2.01 dollars
+     */
+    SMALL,
+    /**
+     * 2 dollars
+     */
+    MAJORONLY
 }

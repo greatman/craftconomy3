@@ -21,18 +21,17 @@ package com.greatmancode.craftconomy3.database.tables;
 import com.alta189.simplesave.Field;
 import com.alta189.simplesave.Id;
 import com.alta189.simplesave.Table;
-import com.greatmancode.craftconomy3.account.Account;
 import lombok.Data;
 
 @Table("account")
 @Data
 public class AccountTable {
-	@Id
-	private int id;
-	@Field
-	private String name;
-	@Field
-	private boolean infiniteMoney;
+    @Id
+    private int id;
+    @Field
+    private String name;
+    @Field
+    private boolean infiniteMoney;
     @Field
     private boolean ignoreACL;
 }

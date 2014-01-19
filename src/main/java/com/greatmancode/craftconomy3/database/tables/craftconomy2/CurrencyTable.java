@@ -26,14 +26,14 @@ import lombok.Data;
 @Table("Currency")
 @Data
 public class CurrencyTable {
-	@Id
-	private int id;
-	@Field
-	private String name;
-	@Field
-	private String plural;
-	@Field
-	private String minor;
-	@Field
-	private String minorplural;
+    @Id
+    private int id;
+    @Field
+    private String name;
+    @Field
+    private String plural;
+    @Field
+    private String minor;
+    @Field
+    private String minorplural;
 }

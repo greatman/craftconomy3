@@ -18,113 +18,109 @@
  */
 package com.greatmancode.craftconomy3.converter.converters;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Pattern;
-
 import com.greatmancode.craftconomy3.Cause;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.account.Account;
 import com.greatmancode.craftconomy3.converter.Converter;
 
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Pattern;
+
 public class BoseEconomy extends Converter {
-	private static final String TAB_CHECK = "\\t+";
-	private BufferedReader flatFileReader = null;
-	private List<User> userList = new ArrayList<User>();
+    private static final String TAB_CHECK = "\\t+";
+    private BufferedReader flatFileReader = null;
+    private List<User> userList = new ArrayList<User>();
 
-	public BoseEconomy() {
-		getDbTypes().add("flatfile");
-	}
+    public BoseEconomy() {
+        getDbTypes().add("flatfile");
+    }
 
-	@Override
-	public List<String> getDbInfo() {
-		getDbInfoList().add("filename");
-		return getDbInfoList();
-	}
+    @Override
+    public List<String> getDbInfo() {
+        getDbInfoList().add("filename");
+        return getDbInfoList();
+    }
 
-	@Override
-	public boolean connect() {
-		boolean result = false;
-		File dbFile = new File(Common.getInstance().getServerCaller().getDataFolder(), this.getDbConnectInfo().get("filename"));
-		if (dbFile.exists()) {
-			try {
-				flatFileReader = new BufferedReader(new FileReader(dbFile));
-				result = true;
-			} catch (FileNotFoundException e) {
-				Common.getInstance().getLogger().severe("iConomy database file not found!");
-			}
-		}
-		return result;
-	}
+    @Override
+    public boolean connect() {
+        boolean result = false;
+        File dbFile = new File(Common.getInstance().getServerCaller().getDataFolder(), this.getDbConnectInfo().get("filename"));
+        if (dbFile.exists()) {
+            try {
+                flatFileReader = new BufferedReader(new FileReader(dbFile));
+                result = true;
+            } catch (FileNotFoundException e) {
+                Common.getInstance().getLogger().severe("iConomy database file not found!");
+            }
+        }
+        return result;
+    }
 
-	@Override
-	public boolean importData(String sender) {
-		String line = "";
-		try {
-			int i = 0;
-			while (line != null) {
-				if (i % ALERT_EACH_X_ACCOUNT == 0) {
-					Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, i + " {{DARK_GREEN}}accounts imported.");
-				}
-				line = flatFileReader.readLine();
-				if (line != null && Pattern.compile("[?a-zA-Z0-9\\s{_-]+").matcher(line).matches()) {
-					String username = line.split(" ")[0];
-					line = flatFileReader.readLine();
-					// Line for account type
-					String type = line.split(" ")[1];
-					if (type.equalsIgnoreCase("player")) {
-						accountImporter(sender, username);
-						i++;
-					} else if (type.equalsIgnoreCase("bank")) {
-						bankImporter(username);
-						i++;
-					}
-				}
-			}
-			flatFileReader.close();
-			addAccountToString(userList);
-			addBalance(sender, userList);
-		} catch (IOException e) {
-			Common.getInstance().getLogger().severe("Error while reading bose file!" + e.getMessage());
-		}
-		return true;
-	}
+    @Override
+    public boolean importData(String sender) {
+        String line = "";
+        try {
+            int i = 0;
+            while (line != null) {
+                if (i % ALERT_EACH_X_ACCOUNT == 0) {
+                    Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, i + " {{DARK_GREEN}}accounts imported.");
+                }
+                line = flatFileReader.readLine();
+                if (line != null && Pattern.compile("[?a-zA-Z0-9\\s{_-]+").matcher(line).matches()) {
+                    String username = line.split(" ")[0];
+                    line = flatFileReader.readLine();
+                    // Line for account type
+                    String type = line.split(" ")[1];
+                    if (type.equalsIgnoreCase("player")) {
+                        accountImporter(sender, username);
+                        i++;
+                    } else if (type.equalsIgnoreCase("bank")) {
+                        bankImporter(username);
+                        i++;
+                    }
+                }
+            }
+            flatFileReader.close();
+            addAccountToString(userList);
+            addBalance(sender, userList);
+        } catch (IOException e) {
+            Common.getInstance().getLogger().severe("Error while reading bose file!" + e.getMessage());
+        }
+        return true;
+    }
 
-	private void bankImporter(String username) throws IOException {
-		String line = flatFileReader.readLine();
-		double amount = Double.parseDouble(line.split(" ")[1]);
-		Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + username).set(amount, Common.getInstance().getServerCaller().getDefaultWorld(), Common.getInstance().getCurrencyManager().getDefaultCurrency().getName(), Cause.CONVERT, null);
-		line = flatFileReader.readLine();
-		if (line.contains("members")) {
-			line = flatFileReader.readLine();
-			line = line.replaceAll(TAB_CHECK, "");
-			while (!line.equals("}")) {
-				Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + username).getAccountACL().set(line, true, true, false, true, false);
-				line = flatFileReader.readLine();
-				line = line.replaceAll(TAB_CHECK, "");
-			}
-		}
-		line = flatFileReader.readLine();
-		if (line.contains("owners")) {
-			line = flatFileReader.readLine();
-			line = line.replaceAll(TAB_CHECK, "");
-			while (!line.equals("}")) {
-				Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + username).getAccountACL().set(line, true, true, true, true, true);
-				line = flatFileReader.readLine();
-				line = line.replaceAll(TAB_CHECK, "");
-			}
-		}
-	}
+    private void bankImporter(String username) throws IOException {
+        String line = flatFileReader.readLine();
+        double amount = Double.parseDouble(line.split(" ")[1]);
+        Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + username).set(amount, Common.getInstance().getServerCaller().getDefaultWorld(), Common.getInstance().getCurrencyManager().getDefaultCurrency().getName(), Cause.CONVERT, null);
+        line = flatFileReader.readLine();
+        if (line.contains("members")) {
+            line = flatFileReader.readLine();
+            line = line.replaceAll(TAB_CHECK, "");
+            while (!line.equals("}")) {
+                Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + username).getAccountACL().set(line, true, true, false, true, false);
+                line = flatFileReader.readLine();
+                line = line.replaceAll(TAB_CHECK, "");
+            }
+        }
+        line = flatFileReader.readLine();
+        if (line.contains("owners")) {
+            line = flatFileReader.readLine();
+            line = line.replaceAll(TAB_CHECK, "");
+            while (!line.equals("}")) {
+                Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + username).getAccountACL().set(line, true, true, true, true, true);
+                line = flatFileReader.readLine();
+                line = line.replaceAll(TAB_CHECK, "");
+            }
+        }
+    }
 
-	private void accountImporter(String sender, String username) throws IOException {
-		String line = flatFileReader.readLine();
-		double amount = Double.parseDouble(line.split(" ")[1]);
-		userList.add(new User(username, amount));
-		//Common.getInstance().getAccountManager().getAccount(username).set(amount, Common.getInstance().getServerCaller().getDefaultWorld(), Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.defaultCurrencyID).getName());
-	}
+    private void accountImporter(String sender, String username) throws IOException {
+        String line = flatFileReader.readLine();
+        double amount = Double.parseDouble(line.split(" ")[1]);
+        userList.add(new User(username, amount));
+        //Common.getInstance().getAccountManager().getAccount(username).set(amount, Common.getInstance().getServerCaller().getDefaultWorld(), Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.defaultCurrencyID).getName());
+    }
 }

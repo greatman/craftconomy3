@@ -23,55 +23,55 @@ import com.greatmancode.craftconomy3.account.Account;
 import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 
 public class BankPermCommand extends CommandExecutor {
-	@Override
-	public void execute(String sender, String[] args) {
-		if (Common.getInstance().getAccountManager().exist(Account.BANK_PREFIX + args[0])) {
-			Account account = Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + args[0]);
-			if (account.getAccountACL().canAcl(sender) || account.getAccountACL().isOwner(sender) || Common.getInstance().getServerCaller().getPlayerCaller().checkPermission(sender, "craftconomy.bank.perm.others")) {
+    @Override
+    public void execute(String sender, String[] args) {
+        if (Common.getInstance().getAccountManager().exist(Account.BANK_PREFIX + args[0])) {
+            Account account = Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + args[0]);
+            if (account.getAccountACL().canAcl(sender) || account.getAccountACL().isOwner(sender) || Common.getInstance().getServerCaller().getPlayerCaller().checkPermission(sender, "craftconomy.bank.perm.others")) {
 
-				if (args[1].equalsIgnoreCase("deposit")) {
-					account.getAccountACL().setDeposit(args[2], Boolean.parseBoolean(args[3]));
-				} else if (args[1].equalsIgnoreCase("withdraw")) {
-					account.getAccountACL().setWithdraw(args[2], Boolean.parseBoolean(args[3]));
-				} else if (args[1].equalsIgnoreCase("acl")) {
-					account.getAccountACL().setAcl(args[2], Boolean.parseBoolean(args[3]));
-				} else if (args[1].equalsIgnoreCase("show")) {
-					account.getAccountACL().setShow(args[2], Boolean.parseBoolean(args[3]));
-				} else {
-					Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("invalid_flag"));
-					return;
-				}
-				Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().parse("bank_flag_set", args[1], args[2], args[3]));
-			} else {
-				Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("cant_modify_acl"));
-			}
-		} else {
-			Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("account_not_exist!"));
-		}
-	}
+                if (args[1].equalsIgnoreCase("deposit")) {
+                    account.getAccountACL().setDeposit(args[2], Boolean.parseBoolean(args[3]));
+                } else if (args[1].equalsIgnoreCase("withdraw")) {
+                    account.getAccountACL().setWithdraw(args[2], Boolean.parseBoolean(args[3]));
+                } else if (args[1].equalsIgnoreCase("acl")) {
+                    account.getAccountACL().setAcl(args[2], Boolean.parseBoolean(args[3]));
+                } else if (args[1].equalsIgnoreCase("show")) {
+                    account.getAccountACL().setShow(args[2], Boolean.parseBoolean(args[3]));
+                } else {
+                    Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("invalid_flag"));
+                    return;
+                }
+                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().parse("bank_flag_set", args[1], args[2], args[3]));
+            } else {
+                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("cant_modify_acl"));
+            }
+        } else {
+            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("account_not_exist!"));
+        }
+    }
 
-	@Override
-	public String help() {
-		return Common.getInstance().getLanguageManager().getString("bank_perm_cmd_help");
-	}
+    @Override
+    public String help() {
+        return Common.getInstance().getLanguageManager().getString("bank_perm_cmd_help");
+    }
 
-	@Override
-	public int maxArgs() {
-		return 4;
-	}
+    @Override
+    public int maxArgs() {
+        return 4;
+    }
 
-	@Override
-	public int minArgs() {
-		return 4;
-	}
+    @Override
+    public int minArgs() {
+        return 4;
+    }
 
-	@Override
-	public boolean playerOnly() {
-		return false;
-	}
+    @Override
+    public boolean playerOnly() {
+        return false;
+    }
 
-	@Override
-	public String getPermissionNode() {
-		return "craftconomy.bank.perm";
-	}
+    @Override
+    public String getPermissionNode() {
+        return "craftconomy.bank.perm";
+    }
 }

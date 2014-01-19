@@ -18,33 +18,34 @@
  */
 package com.greatmancode.craftconomy3.converter;
 
+import com.greatmancode.craftconomy3.converter.converters.*;
+
 import java.util.HashMap;
 import java.util.Map;
 
-import com.greatmancode.craftconomy3.converter.converters.*;
-
 /**
  * Contains the list of loaded converters.
+ *
  * @author greatman
  */
 public class ConverterList {
-	/**
-	 * Contains the list of the loaded converters.
-	 */
-	private final Map<String, Converter> converterList = new HashMap<String, Converter>();
+    /**
+     * Contains the list of the loaded converters.
+     */
+    private final Map<String, Converter> converterList = new HashMap<String, Converter>();
 
-	public Map<String, Converter> getConverterList() {
-		return converterList;
-	}
+    public Map<String, Converter> getConverterList() {
+        return converterList;
+    }
 
-	/**
-	 * Load the converters.
-	 */
-	public ConverterList() {
-		converterList.put("iconomy6", new Iconomy6());
-		converterList.put("craftconomy2", new Craftconomy2());
-		converterList.put("boseeconomy", new BoseEconomy());
-		converterList.put("essentials", new Essentials());
+    /**
+     * Load the converters.
+     */
+    public ConverterList() {
+        converterList.put("iconomy6", new Iconomy6());
+        converterList.put("craftconomy2", new Craftconomy2());
+        converterList.put("boseeconomy", new BoseEconomy());
+        converterList.put("essentials", new Essentials());
         converterList.put("feconomy", new Feconomy());
-	}
+    }
 }

@@ -18,228 +18,237 @@
  */
 package com.greatmancode.craftconomy3.converter;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
 import com.alta189.simplesave.sqlite.SQLiteDatabase;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.database.tables.AccountTable;
 import com.greatmancode.craftconomy3.groups.WorldGroupsManager;
 
+import java.util.*;
+
 /**
  * Represents a Converter
+ *
  * @author greatman
  */
 public abstract class Converter {
-	public static final int ALERT_EACH_X_ACCOUNT = 10;
-	private StringBuilder stringBuilder = new StringBuilder();
-	/**
-	 * Contains the type of Database (flatfile, sqlite, etc.) supported by the originating plugin
-	 */
-	private final List<String> dbTypes = new ArrayList<String>();
-	/**
-	 * Contains the selected Db Type.
-	 */
-	private String selectedDbType;
-	/**
-	 * Contains all the required fields about the selected database type
-	 */
-	private final List<String> dbInfo = new ArrayList<String>();
-	/**
-	 * Contains all the information about the required fields entered by the user.
-	 */
-	private final Map<String, String> dbConnectInfo = new HashMap<String, String>();
+    public static final int ALERT_EACH_X_ACCOUNT = 10;
+    private StringBuilder stringBuilder = new StringBuilder();
+    /**
+     * Contains the type of Database (flatfile, sqlite, etc.) supported by the originating plugin
+     */
+    private final List<String> dbTypes = new ArrayList<String>();
+    /**
+     * Contains the selected Db Type.
+     */
+    private String selectedDbType;
+    /**
+     * Contains all the required fields about the selected database type
+     */
+    private final List<String> dbInfo = new ArrayList<String>();
+    /**
+     * Contains all the information about the required fields entered by the user.
+     */
+    private final Map<String, String> dbConnectInfo = new HashMap<String, String>();
 
-	/**
-	 * Retrieve a list of all the database type.
-	 * @return A list of database type.
-	 */
-	public List<String> getDbTypes() {
-		return dbTypes;
-	}
+    /**
+     * Retrieve a list of all the database type.
+     *
+     * @return A list of database type.
+     */
+    public List<String> getDbTypes() {
+        return dbTypes;
+    }
 
-	/**
-	 * Retrieve the information required about the selected input data method.
-	 * @return the information required about the selected input data method.
-	 */
-	protected List<String> getDbInfoList() {
-		return dbInfo;
-	}
+    /**
+     * Retrieve the information required about the selected input data method.
+     *
+     * @return the information required about the selected input data method.
+     */
+    protected List<String> getDbInfoList() {
+        return dbInfo;
+    }
 
-	/**
-	 * Sets the selected database type.
-	 * @param dbType The database type selected
-	 * @return True if the database type has been saved else false (A invalid type)
-	 */
-	public boolean setDbType(String dbType) {
-		boolean result = false;
-		if (dbTypes.contains(dbType)) {
-			setSelectedDbType(dbType);
-			result = true;
-		}
-		return result;
-	}
+    /**
+     * Sets the selected database type.
+     *
+     * @param dbType The database type selected
+     * @return True if the database type has been saved else false (A invalid type)
+     */
+    public boolean setDbType(String dbType) {
+        boolean result = false;
+        if (dbTypes.contains(dbType)) {
+            setSelectedDbType(dbType);
+            result = true;
+        }
+        return result;
+    }
 
-	/**
-	 * Retrieve the list of the possible input data method
-	 * @return A list of the possible input data method
-	 */
-	public abstract List<String> getDbInfo();
+    /**
+     * Retrieve the list of the possible input data method
+     *
+     * @return A list of the possible input data method
+     */
+    public abstract List<String> getDbInfo();
 
-	/**
-	 * Sets a field information for the selected database type
-	 * @param field The field name.
-	 * @param value The value of the field.
-	 * @return True if the field has been saved else false (A invalid field)
-	 */
-	public boolean setDbInfo(String field, String value) {
-		boolean result = false;
-		if (dbInfo.contains(field)) {
-			dbConnectInfo.put(field, value);
-			result = true;
-		}
-		return result;
-	}
+    /**
+     * Sets a field information for the selected database type
+     *
+     * @param field The field name.
+     * @param value The value of the field.
+     * @return True if the field has been saved else false (A invalid field)
+     */
+    public boolean setDbInfo(String field, String value) {
+        boolean result = false;
+        if (dbInfo.contains(field)) {
+            dbConnectInfo.put(field, value);
+            result = true;
+        }
+        return result;
+    }
 
-	public Map<String, String> getDbConnectInfo() {
-		return dbConnectInfo;
-	}
+    public Map<String, String> getDbConnectInfo() {
+        return dbConnectInfo;
+    }
 
-	/**
-	 * Checks if we filled all the required fields
-	 * @return True if all fields has been filled else false.
-	 */
-	public boolean allSet() {
-		return dbInfo.size() == dbConnectInfo.size();
-	}
+    /**
+     * Checks if we filled all the required fields
+     *
+     * @return True if all fields has been filled else false.
+     */
+    public boolean allSet() {
+        return dbInfo.size() == dbConnectInfo.size();
+    }
 
-	/**
-	 * Connects to the database
-	 * @return True if the connection is successful else false.
-	 */
-	public abstract boolean connect();
+    /**
+     * Connects to the database
+     *
+     * @return True if the connection is successful else false.
+     */
+    public abstract boolean connect();
 
-	/**
-	 * Import all the data into Craftconomy
-	 * @param sender The name of the sender so we can send status update.
-	 * @return True if everything went well else false.
-	 */
-	public abstract boolean importData(String sender);
+    /**
+     * Import all the data into Craftconomy
+     *
+     * @param sender The name of the sender so we can send status update.
+     * @return True if everything went well else false.
+     */
+    public abstract boolean importData(String sender);
 
-	/**
-	 * Get the selected database type
-	 * @return the selected database type
-	 */
-	public String getSelectedDbType() {
-		return selectedDbType;
-	}
+    /**
+     * Get the selected database type
+     *
+     * @return the selected database type
+     */
+    public String getSelectedDbType() {
+        return selectedDbType;
+    }
 
-	/**
-	 * Set the database type
-	 * @param selectedDbType the database type
-	 */
-	public void setSelectedDbType(String selectedDbType) {
-		if (dbTypes.contains(selectedDbType)) {
-			this.selectedDbType = selectedDbType;
-		}
-	}
+    /**
+     * Set the database type
+     *
+     * @param selectedDbType the database type
+     */
+    public void setSelectedDbType(String selectedDbType) {
+        if (dbTypes.contains(selectedDbType)) {
+            this.selectedDbType = selectedDbType;
+        }
+    }
 
-	//Should be used in INSERT TO cc3_account
+    //Should be used in INSERT TO cc3_account
 
-	/**
-	 * Add the given accounts to the system
-	 * @param userList2 Account list
-	 */
-	protected void addAccountToString(List<User> userList2) {
-		stringBuilder = new StringBuilder();
-		List<User> userList = new ArrayList<User>(userList2);
-		stringBuilder.append("INSERT INTO " + Common.getInstance().getMainConfig().getString("System.Database.Prefix") + "account(name) VALUES ");
-		Iterator<User> iterator = userList.iterator();
-		boolean first = true, isCaseSentitive = Common.getInstance().getMainConfig().getBoolean("System.Case-sentitive"), isSQLite = Common.getInstance().getDatabaseManager().getDatabase() instanceof SQLiteDatabase;
-		while (iterator.hasNext()) {
-			if (isSQLite && !first) {
-				stringBuilder = new StringBuilder();
-				stringBuilder.append("INSERT INTO " + Common.getInstance().getMainConfig().getString("System.Database.Prefix") + "account(name) VALUES ");
-			}
-			User user = iterator.next();
-			if (isCaseSentitive) {
-				stringBuilder.append("('" + user.user + "')");
-			} else {
-				stringBuilder.append("('" + user.user.toLowerCase() + "')");
-			}
+    /**
+     * Add the given accounts to the system
+     *
+     * @param userList2 Account list
+     */
+    protected void addAccountToString(List<User> userList2) {
+        stringBuilder = new StringBuilder();
+        List<User> userList = new ArrayList<User>(userList2);
+        stringBuilder.append("INSERT INTO " + Common.getInstance().getMainConfig().getString("System.Database.Prefix") + "account(name) VALUES ");
+        Iterator<User> iterator = userList.iterator();
+        boolean first = true, isCaseSentitive = Common.getInstance().getMainConfig().getBoolean("System.Case-sentitive"), isSQLite = Common.getInstance().getDatabaseManager().getDatabase() instanceof SQLiteDatabase;
+        while (iterator.hasNext()) {
+            if (isSQLite && !first) {
+                stringBuilder = new StringBuilder();
+                stringBuilder.append("INSERT INTO " + Common.getInstance().getMainConfig().getString("System.Database.Prefix") + "account(name) VALUES ");
+            }
+            User user = iterator.next();
+            if (isCaseSentitive) {
+                stringBuilder.append("('" + user.user + "')");
+            } else {
+                stringBuilder.append("('" + user.user.toLowerCase() + "')");
+            }
 
-			if (!isSQLite) {
-				if (iterator.hasNext()) {
-					stringBuilder.append(",");
-				}
-			} else {
-				Common.getInstance().getDatabaseManager().getDatabase().directQuery(stringBuilder.toString());
-				first = false;
-			}
-		}
-		if (!isSQLite) {
-			Common.getInstance().getDatabaseManager().getDatabase().directQuery(stringBuilder.toString());
-		}
-	}
+            if (!isSQLite) {
+                if (iterator.hasNext()) {
+                    stringBuilder.append(",");
+                }
+            } else {
+                Common.getInstance().getDatabaseManager().getDatabase().directQuery(stringBuilder.toString());
+                first = false;
+            }
+        }
+        if (!isSQLite) {
+            Common.getInstance().getDatabaseManager().getDatabase().directQuery(stringBuilder.toString());
+        }
+    }
 
-	/**
-	 * Add the balance of the imported accounts
-	 * @param sender The command sender
-	 * @param userList the user list
-	 */
-	protected void addBalance(String sender, List<User> userList) {
-		int i = 0;
-		stringBuilder = new StringBuilder();
+    /**
+     * Add the balance of the imported accounts
+     *
+     * @param sender   The command sender
+     * @param userList the user list
+     */
+    protected void addBalance(String sender, List<User> userList) {
+        int i = 0;
+        stringBuilder = new StringBuilder();
 
-		stringBuilder.append("INSERT INTO " + Common.getInstance().getMainConfig().getString("System.Database.Prefix") + "balance(username_id, currency_id, worldName,balance) VALUES ");
-		Iterator<User> iterator = userList.iterator();
-		boolean first = true, isSQLite = Common.getInstance().getDatabaseManager().getDatabase() instanceof SQLiteDatabase;
-		while (iterator.hasNext()) {
-			if (i % ALERT_EACH_X_ACCOUNT == 0) {
-				Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, i + " {{DARK_GREEN}}of {{WHITE}} " + userList.size() + " {{DARK_GREEN}}accounts ready to be imported.");
-			}
-			if (isSQLite && !first) {
-				stringBuilder = new StringBuilder();
-				stringBuilder.append("INSERT INTO " + Common.getInstance().getMainConfig().getString("System.Database.Prefix") + "balance(username_id, currency_id, worldName,balance) VALUES ");
-			}
-			User user = iterator.next();
-			AccountTable account = Common.getInstance().getDatabaseManager().getDatabase().select(AccountTable.class).where().equal("name", user.user).execute().findOne();
-			stringBuilder.append("(" + account.getId() + "," + Common.getInstance().getCurrencyManager().getDefaultCurrency().getDatabaseID() + ",'" + WorldGroupsManager.DEFAULT_GROUP_NAME + "'," + user.balance + ")");
-			if (!isSQLite) {
-				if (iterator.hasNext()) {
-					stringBuilder.append(",");
-				}
-			} else {
-				Common.getInstance().getDatabaseManager().getDatabase().directQuery(stringBuilder.toString());
-				first = false;
-			}
-			i++;
-		}
-		if (!isSQLite) {
-			Common.getInstance().getDatabaseManager().getDatabase().directQuery(stringBuilder.toString());
-		}
-		Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, userList.size() + " {{DARK_GREEN}}accounts converted! Enjoy!");
-	}
+        stringBuilder.append("INSERT INTO " + Common.getInstance().getMainConfig().getString("System.Database.Prefix") + "balance(username_id, currency_id, worldName,balance) VALUES ");
+        Iterator<User> iterator = userList.iterator();
+        boolean first = true, isSQLite = Common.getInstance().getDatabaseManager().getDatabase() instanceof SQLiteDatabase;
+        while (iterator.hasNext()) {
+            if (i % ALERT_EACH_X_ACCOUNT == 0) {
+                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, i + " {{DARK_GREEN}}of {{WHITE}} " + userList.size() + " {{DARK_GREEN}}accounts ready to be imported.");
+            }
+            if (isSQLite && !first) {
+                stringBuilder = new StringBuilder();
+                stringBuilder.append("INSERT INTO " + Common.getInstance().getMainConfig().getString("System.Database.Prefix") + "balance(username_id, currency_id, worldName,balance) VALUES ");
+            }
+            User user = iterator.next();
+            AccountTable account = Common.getInstance().getDatabaseManager().getDatabase().select(AccountTable.class).where().equal("name", user.user).execute().findOne();
+            stringBuilder.append("(" + account.getId() + "," + Common.getInstance().getCurrencyManager().getDefaultCurrency().getDatabaseID() + ",'" + WorldGroupsManager.DEFAULT_GROUP_NAME + "'," + user.balance + ")");
+            if (!isSQLite) {
+                if (iterator.hasNext()) {
+                    stringBuilder.append(",");
+                }
+            } else {
+                Common.getInstance().getDatabaseManager().getDatabase().directQuery(stringBuilder.toString());
+                first = false;
+            }
+            i++;
+        }
+        if (!isSQLite) {
+            Common.getInstance().getDatabaseManager().getDatabase().directQuery(stringBuilder.toString());
+        }
+        Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, userList.size() + " {{DARK_GREEN}}accounts converted! Enjoy!");
+    }
 
-	/**
-	 * Represents a economy user
-	 */
-	protected class User {
-		/**
-		 * the user name
-		 */
-		public String user;
-		/**
-		 * the account balance
-		 */
-		public double balance;
+    /**
+     * Represents a economy user
+     */
+    protected class User {
+        /**
+         * the user name
+         */
+        public String user;
+        /**
+         * the account balance
+         */
+        public double balance;
 
-		public User(String user, double balance) {
-			this.user = user;
-			this.balance = balance;
-		}
-	}
+        public User(String user, double balance) {
+            this.user = user;
+            this.balance = balance;
+        }
+    }
 }

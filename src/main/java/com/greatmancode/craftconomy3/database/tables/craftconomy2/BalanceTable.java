@@ -26,14 +26,14 @@ import lombok.Data;
 @Table("Balance")
 @Data
 public class BalanceTable {
-	@Id
-	private int id;
-	@Field
-	private double balance;
-	@Field
-	private int currency_id;
-	@Field
-	private String worldName;
-	@Field
-	private int username_id;
+    @Id
+    private int id;
+    @Field
+    private double balance;
+    @Field
+    private int currency_id;
+    @Field
+    private String worldName;
+    @Field
+    private int username_id;
 }

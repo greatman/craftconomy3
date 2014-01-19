@@ -26,62 +26,62 @@ import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 import com.greatmancode.tools.utils.Tools;
 
 public class PayCommand extends CommandExecutor {
-	@Override
-	public void execute(String sender, String[] args) {
-		if (!Account.isBankAccount(args[0]) && Common.getInstance().getAccountManager().exist(args[0])) {
-			if (Tools.isValidDouble(args[1])) {
-				double amount = Double.parseDouble(args[1]);
-				Currency currency = Common.getInstance().getCurrencyManager().getDefaultCurrency();
-				if (args.length > 2) {
-					if (Common.getInstance().getCurrencyManager().getCurrency(args[2]) != null) {
-						currency = Common.getInstance().getCurrencyManager().getCurrency(args[2]);
-					} else {
-						Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("currency_not_exist"));
-						return;
-					}
-				}
-				boolean hasEnough = Common.getInstance().getAccountManager().getAccount(sender).hasEnough(amount, Common.getInstance().getAccountManager().getAccount(sender).getWorldGroupOfPlayerCurrentlyIn(), currency.getName());
+    @Override
+    public void execute(String sender, String[] args) {
+        if (!Account.isBankAccount(args[0]) && Common.getInstance().getAccountManager().exist(args[0])) {
+            if (Tools.isValidDouble(args[1])) {
+                double amount = Double.parseDouble(args[1]);
+                Currency currency = Common.getInstance().getCurrencyManager().getDefaultCurrency();
+                if (args.length > 2) {
+                    if (Common.getInstance().getCurrencyManager().getCurrency(args[2]) != null) {
+                        currency = Common.getInstance().getCurrencyManager().getCurrency(args[2]);
+                    } else {
+                        Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("currency_not_exist"));
+                        return;
+                    }
+                }
+                boolean hasEnough = Common.getInstance().getAccountManager().getAccount(sender).hasEnough(amount, Common.getInstance().getAccountManager().getAccount(sender).getWorldGroupOfPlayerCurrentlyIn(), currency.getName());
 
-				if (hasEnough) {
-					Common.getInstance().getAccountManager().getAccount(sender).withdraw(amount, Common.getInstance().getAccountManager().getAccount(sender).getWorldGroupOfPlayerCurrentlyIn(), currency.getName(), Cause.PAYMENT, args[0]);
-					Common.getInstance().getAccountManager().getAccount(args[0]).deposit(amount, Common.getInstance().getAccountManager().getAccount(sender).getWorldGroupOfPlayerCurrentlyIn(), currency.getName(), Cause.PAYMENT, sender);
-					Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().parse("money_pay_sent", Common.getInstance().format(null, currency, amount), args[0]));
-					if (Common.getInstance().getServerCaller().getPlayerCaller().isOnline(args[0])) {
-						Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(args[0], Common.getInstance().getLanguageManager().parse("money_pay_received", Common.getInstance().format(null, currency, amount), sender));
-					}
-				} else {
-					Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("not_enough_money"));
-				}
-			} else {
-				Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("invalid_amount"));
-			}
-		} else {
-			Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("player_not_exist"));
-		}
-	}
+                if (hasEnough) {
+                    Common.getInstance().getAccountManager().getAccount(sender).withdraw(amount, Common.getInstance().getAccountManager().getAccount(sender).getWorldGroupOfPlayerCurrentlyIn(), currency.getName(), Cause.PAYMENT, args[0]);
+                    Common.getInstance().getAccountManager().getAccount(args[0]).deposit(amount, Common.getInstance().getAccountManager().getAccount(sender).getWorldGroupOfPlayerCurrentlyIn(), currency.getName(), Cause.PAYMENT, sender);
+                    Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().parse("money_pay_sent", Common.getInstance().format(null, currency, amount), args[0]));
+                    if (Common.getInstance().getServerCaller().getPlayerCaller().isOnline(args[0])) {
+                        Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(args[0], Common.getInstance().getLanguageManager().parse("money_pay_received", Common.getInstance().format(null, currency, amount), sender));
+                    }
+                } else {
+                    Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("not_enough_money"));
+                }
+            } else {
+                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("invalid_amount"));
+            }
+        } else {
+            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("player_not_exist"));
+        }
+    }
 
-	@Override
-	public String help() {
-		return Common.getInstance().getLanguageManager().getString("money_pay_cmd_help");
-	}
+    @Override
+    public String help() {
+        return Common.getInstance().getLanguageManager().getString("money_pay_cmd_help");
+    }
 
-	@Override
-	public int maxArgs() {
-		return 3;
-	}
+    @Override
+    public int maxArgs() {
+        return 3;
+    }
 
-	@Override
-	public int minArgs() {
-		return 2;
-	}
+    @Override
+    public int minArgs() {
+        return 2;
+    }
 
-	@Override
-	public boolean playerOnly() {
-		return true;
-	}
+    @Override
+    public boolean playerOnly() {
+        return true;
+    }
 
-	@Override
-	public String getPermissionNode() {
-		return "craftconomy.money.pay";
-	}
+    @Override
+    public String getPermissionNode() {
+        return "craftconomy.money.pay";
+    }
 }

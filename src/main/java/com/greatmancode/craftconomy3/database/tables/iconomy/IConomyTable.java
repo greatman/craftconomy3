@@ -26,12 +26,12 @@ import lombok.Data;
 @Table("iConomy")
 @Data
 public class IConomyTable {
-	@Id
-	private int id;
-	@Field
-	private String username;
-	@Field
-	private double balance;
-	@Field
-	private int status;
+    @Id
+    private int id;
+    @Field
+    private String username;
+    @Field
+    private double balance;
+    @Field
+    private int status;
 }

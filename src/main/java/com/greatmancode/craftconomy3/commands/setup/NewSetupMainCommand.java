@@ -23,43 +23,43 @@ import com.greatmancode.craftconomy3.NewSetupWizard;
 import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 
 public class NewSetupMainCommand extends CommandExecutor {
-	@Override
-	public void execute(String sender, String[] args) {
-		if (NewSetupWizard.getState().equals(NewSetupWizard.BASIC_STEP)) {
-			start(sender);
-		}
-	}
+    @Override
+    public void execute(String sender, String[] args) {
+        if (NewSetupWizard.getState().equals(NewSetupWizard.BASIC_STEP)) {
+            start(sender);
+        }
+    }
 
-	@Override
-	public String help() {
-		return "/ccsetup - Start the setup wizard.";
-	}
+    @Override
+    public String help() {
+        return "/ccsetup - Start the setup wizard.";
+    }
 
-	@Override
-	public int maxArgs() {
-		return 0;
-	}
+    @Override
+    public int maxArgs() {
+        return 0;
+    }
 
-	@Override
-	public int minArgs() {
-		return 0;
-	}
+    @Override
+    public int minArgs() {
+        return 0;
+    }
 
-	@Override
-	public boolean playerOnly() {
-		return false;
-	}
+    @Override
+    public boolean playerOnly() {
+        return false;
+    }
 
-	@Override
-	public String getPermissionNode() {
-		return "craftconomy.setup";
-	}
+    @Override
+    public String getPermissionNode() {
+        return "craftconomy.setup";
+    }
 
-	private void start(String sender) {
-		Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_GREEN}}Welcome to the {{WHITE}}Craftconomy 3 {{DARK_GREEN}} setup wizard!");
-		Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_GREEN}}I will help you configure {{WHITE}}Craftconomy {{DARK_GREEN}}like you want!");
-		Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_GREEN}}First, I need to know what kind of database you want to use. If you want a {{WHITE}}flatfile {{DARK_GREEN}}database, I recommend {{WHITE}}SQLite.");
-		Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_GREEN}}Please type {{WHITE}}/ccsetup database <sqlite/mysql/h2>");
-		NewSetupWizard.setState(NewSetupWizard.DATABASE_STEP);
-	}
+    private void start(String sender) {
+        Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_GREEN}}Welcome to the {{WHITE}}Craftconomy 3 {{DARK_GREEN}} setup wizard!");
+        Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_GREEN}}I will help you configure {{WHITE}}Craftconomy {{DARK_GREEN}}like you want!");
+        Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_GREEN}}First, I need to know what kind of database you want to use. If you want a {{WHITE}}flatfile {{DARK_GREEN}}database, I recommend {{WHITE}}SQLite.");
+        Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_GREEN}}Please type {{WHITE}}/ccsetup database <sqlite/mysql/h2>");
+        NewSetupWizard.setState(NewSetupWizard.DATABASE_STEP);
+    }
 }

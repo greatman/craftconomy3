@@ -23,38 +23,38 @@ import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 import com.greatmancode.tools.utils.Tools;
 
 public class ConfigBankPriceCommand extends CommandExecutor {
-	@Override
-	public void execute(String sender, String[] args) {
-		if (Tools.isValidDouble(args[0])) {
-			Common.getInstance().setBankPrice(Double.parseDouble(args[0]));
-			Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("bank_price_modified"));
-		} else {
-			Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("invalid_amount"));
-		}
-	}
+    @Override
+    public void execute(String sender, String[] args) {
+        if (Tools.isValidDouble(args[0])) {
+            Common.getInstance().setBankPrice(Double.parseDouble(args[0]));
+            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("bank_price_modified"));
+        } else {
+            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("invalid_amount"));
+        }
+    }
 
-	@Override
-	public String help() {
-		return Common.getInstance().getLanguageManager().getString("config_bankprice_cmd_help");
-	}
+    @Override
+    public String help() {
+        return Common.getInstance().getLanguageManager().getString("config_bankprice_cmd_help");
+    }
 
-	@Override
-	public int maxArgs() {
-		return 1;
-	}
+    @Override
+    public int maxArgs() {
+        return 1;
+    }
 
-	@Override
-	public int minArgs() {
-		return 1;
-	}
+    @Override
+    public int minArgs() {
+        return 1;
+    }
 
-	@Override
-	public boolean playerOnly() {
-		return false;
-	}
+    @Override
+    public boolean playerOnly() {
+        return false;
+    }
 
-	@Override
-	public String getPermissionNode() {
-		return "craftconomy.config.bankprice";
-	}
+    @Override
+    public String getPermissionNode() {
+        return "craftconomy.config.bankprice";
+    }
 }
