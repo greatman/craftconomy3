@@ -44,10 +44,10 @@ public class CurrencyManager {
 		Iterator<CurrencyTable> iterator = Common.getInstance().getDatabaseManager().getDatabase().select(CurrencyTable.class).execute().find().iterator();
 		while (iterator.hasNext()) {
 			CurrencyTable entry = iterator.next();
-			if (entry.getStatus()) {
+			if (entry.isStatus()) {
 				defaultCurrencyID = entry.getId();
 			}
-			addCurrency(entry.getId(), entry.getName(), entry.getPlural(), entry.getMinor(), entry.getMinorplural(), entry.getHardCap(), entry.getSign(), false, entry.getStatus());
+			addCurrency(entry.getId(), entry.getName(), entry.getPlural(), entry.getMinor(), entry.getMinorplural(), entry.getHardCap(), entry.getSign(), false, entry.isStatus());
 		}
 	}
 

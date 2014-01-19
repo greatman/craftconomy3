@@ -21,8 +21,10 @@ package com.greatmancode.craftconomy3.database.tables.craftconomy2;
 import com.alta189.simplesave.Field;
 import com.alta189.simplesave.Id;
 import com.alta189.simplesave.Table;
+import lombok.Data;
 
 @Table("Currency")
+@Data
 public class CurrencyTable {
 	@Id
 	private int id;
@@ -34,44 +36,4 @@ public class CurrencyTable {
 	private String minor;
 	@Field
 	private String minorplural;
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getPlural() {
-		return plural;
-	}
-
-	public void setPlural(String plural) {
-		this.plural = plural;
-	}
-
-	public String getMinor() {
-		return minor;
-	}
-
-	public void setMinor(String minor) {
-		this.minor = minor;
-	}
-
-	public String getMinorplural() {
-		return minorplural;
-	}
-
-	public void setMinorplural(String minorplural) {
-		this.minorplural = minorplural;
-	}
 }

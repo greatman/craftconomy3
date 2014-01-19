@@ -25,25 +25,27 @@ import com.alta189.simplesave.Id;
 import com.alta189.simplesave.Table;
 import com.greatmancode.craftconomy3.Cause;
 import com.greatmancode.craftconomy3.LogInfo;
+import lombok.Data;
 
 @Table("log")
+@Data
 public class LogTable {
 	@Id
-	public int id;
+	private int id;
 	@Field
-	public int username_id;
+	private int username_id;
 	@Field
-	public double amount;
+	private double amount;
 	@Field
-	public LogInfo type;
+	private LogInfo type;
 	@Field
-	public Cause cause;
+	private Cause cause;
 	@Field
-	public Timestamp timestamp;
+	private Timestamp timestamp;
 	@Field
-	public String causeReason;
+	private String causeReason;
 	@Field
-	public String currencyName;
+	private String currencyName;
 	@Field
-	public String worldName;
+	private String worldName;
 }

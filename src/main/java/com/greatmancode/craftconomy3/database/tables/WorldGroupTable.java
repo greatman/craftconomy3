@@ -21,13 +21,15 @@ package com.greatmancode.craftconomy3.database.tables;
 import com.alta189.simplesave.Field;
 import com.alta189.simplesave.Id;
 import com.alta189.simplesave.Table;
+import lombok.Data;
 
 @Table("worldgroup")
+@Data
 public class WorldGroupTable {
 	@Id
-	public int id;
+	private int id;
 	@Field
-	public String groupName;
+	private String groupName;
 	@Field
-	public String worldList;
+	private String worldList;
 }

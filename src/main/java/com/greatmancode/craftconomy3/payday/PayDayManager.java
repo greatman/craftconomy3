@@ -39,7 +39,7 @@ public class PayDayManager {
 		Iterator<PayDayTable> iterator = Common.getInstance().getDatabaseManager().getDatabase().select(PayDayTable.class).execute().find().iterator();
 		while (iterator.hasNext()) {
 			PayDayTable entry = iterator.next();
-			addPayDay(entry.getId(), entry.getName(), entry.isDisabled(), entry.getTime(), entry.getAccount(), entry.getStatus(), entry.getCurrencyId(), entry.getValue(), entry.getWorldName(), false);
+			addPayDay(entry.getId(), entry.getName(), entry.isDisabled(), entry.getTime(), entry.getAccount(), entry.getStatus(), entry.getCurrency_id(), entry.getValue(), entry.getWorldName(), false);
 		}
 	}
 
@@ -110,7 +110,7 @@ public class PayDayManager {
 			table.setTime(interval);
 			table.setAccount(account);
 			table.setStatus(status);
-			table.setCurrencyId(currencyId);
+			table.setCurrency_id(currencyId);
 			table.setValue(value);
 			table.setWorldName(worldName);
 			Common.getInstance().getDatabaseManager().getDatabase().save(table);

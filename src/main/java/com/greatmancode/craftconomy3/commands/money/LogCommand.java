@@ -70,9 +70,9 @@ class LogCommandThread implements Runnable {
 			// I choose the first solution. This is done async and will save lot
 			// of memory on large server with lots of players/account.
 			//TODO: Language
-			ret += "{{WHITE}}" + ((page - 1) * NUMBER_ELEMENTS + i + 1) + ": {{DARK_GREEN}}Time: {{WHITE}}" + r.timestamp + " {{DARK_GREEN}}Type: {{WHITE}}" + r.type + " {{DARK_GREEN}} Amount: {{WHITE}}" + Common.getInstance().format(r.worldName, Common.getInstance().getCurrencyManager().getCurrency(r.currencyName), r.amount) + " {{DARK_GREEN}}Cause: {{WHITE}}" + r.cause;
-			if (r.causeReason != null) {
-				ret += " {{DARK_GREEN}}Reason: {{WHITE}}" + r.causeReason;
+			ret += "{{WHITE}}" + ((page - 1) * NUMBER_ELEMENTS + i + 1) + ": {{DARK_GREEN}}Time: {{WHITE}}" + r.getTimestamp() + " {{DARK_GREEN}}Type: {{WHITE}}" + r.getType() + " {{DARK_GREEN}} Amount: {{WHITE}}" + Common.getInstance().format(r.getWorldName(), Common.getInstance().getCurrencyManager().getCurrency(r.getCurrencyName()), r.getAmount()) + " {{DARK_GREEN}}Cause: {{WHITE}}" + r.getCause();
+			if (r.getCauseReason() != null) {
+				ret += " {{DARK_GREEN}}Reason: {{WHITE}}" + r.getCauseReason();
 			}
 			ret += "\n";
 		}

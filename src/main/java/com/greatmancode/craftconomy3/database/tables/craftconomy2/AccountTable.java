@@ -21,27 +21,13 @@ package com.greatmancode.craftconomy3.database.tables.craftconomy2;
 import com.alta189.simplesave.Field;
 import com.alta189.simplesave.Id;
 import com.alta189.simplesave.Table;
+import lombok.Data;
 
 @Table("Account")
+@Data
 public class AccountTable {
 	@Id
 	private int id;
 	@Field
 	private String username;
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
 }

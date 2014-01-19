@@ -22,8 +22,10 @@ import com.alta189.simplesave.Field;
 import com.alta189.simplesave.Id;
 import com.alta189.simplesave.Table;
 import com.greatmancode.craftconomy3.account.Account;
+import lombok.Data;
 
 @Table("account")
+@Data
 public class AccountTable {
 	@Id
 	private int id;
@@ -33,40 +35,4 @@ public class AccountTable {
 	private boolean infiniteMoney;
     @Field
     private boolean ignoreACL;
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public boolean hasInfiniteMoney() {
-		return infiniteMoney;
-	}
-
-	public void setInfiniteMoney(boolean infiniteMoney) {
-		this.infiniteMoney = infiniteMoney;
-	}
-
-	@Override
-	public String toString() {
-		return getName().replace(Account.BANK_PREFIX, "");
-	}
-    public boolean isIgnoreACL() {
-        return ignoreACL;
-    }
-
-    public void setIgnoreACL(boolean ignoreACL) {
-        this.ignoreACL = ignoreACL;
-    }
 }

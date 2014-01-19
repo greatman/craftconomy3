@@ -176,7 +176,7 @@ public class Currency {
 		if (exchangeTable == null) {
 			throw new NoExchangeRate();
 		}
-		return exchangeTable.amount;
+		return exchangeTable.getAmount();
 	}
 
 	/**
@@ -187,12 +187,12 @@ public class Currency {
 	public void setExchangeRate(Currency otherCurrency, double amount) {
 		ExchangeTable exchangeTable = Common.getInstance().getDatabaseManager().getDatabase().select(ExchangeTable.class).where().equal("from_currency_id", this.getDatabaseID()).and().equal("to_currency_id", otherCurrency.getDatabaseID()).execute().findOne();
 		if (exchangeTable != null) {
-			exchangeTable.amount = amount;
+			exchangeTable.setAmount(amount);
 		} else {
 			exchangeTable = new ExchangeTable();
-			exchangeTable.from_currency_id = this.getDatabaseID();
-			exchangeTable.to_currency_id = otherCurrency.getDatabaseID();
-			exchangeTable.amount = amount;
+			exchangeTable.setFrom_currency_id(this.getDatabaseID());
+			exchangeTable.setTo_currency_id(otherCurrency.getDatabaseID());
+			exchangeTable.setAmount(amount);
 		}
 		Common.getInstance().getDatabaseManager().getDatabase().save(exchangeTable);
 	}

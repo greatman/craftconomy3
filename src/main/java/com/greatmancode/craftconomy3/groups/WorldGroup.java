@@ -40,10 +40,10 @@ public class WorldGroup {
 		table = Common.getInstance().getDatabaseManager().getDatabase().select(WorldGroupTable.class).where().equal("groupName", name).execute().findOne();
 		if (table == null) {
 			table = new WorldGroupTable();
-			table.groupName = name;
+			table.setGroupName(name);
 			save();
 		} else {
-			for (String entry : table.worldList.split(",")) {
+			for (String entry : table.getWorldList().split(",")) {
 				worldList.add(entry);
 			}
 		}
@@ -89,7 +89,7 @@ public class WorldGroup {
 				save += ",";
 			}
 		}
-		table.worldList = save;
+		table.setWorldList(save);
 		Common.getInstance().getDatabaseManager().getDatabase().save(table);
 	}
 }

@@ -21,8 +21,10 @@ package com.greatmancode.craftconomy3.database.tables.craftconomy2;
 import com.alta189.simplesave.Field;
 import com.alta189.simplesave.Id;
 import com.alta189.simplesave.Table;
+import lombok.Data;
 
 @Table("Balance")
+@Data
 public class BalanceTable {
 	@Id
 	private int id;
@@ -34,44 +36,4 @@ public class BalanceTable {
 	private String worldName;
 	@Field
 	private int username_id;
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public double getBalance() {
-		return balance;
-	}
-
-	public void setBalance(double balance) {
-		this.balance = balance;
-	}
-
-	public int getCurrencyId() {
-		return currency_id;
-	}
-
-	public void setCurrencyId(int currencyId) {
-		this.currency_id = currencyId;
-	}
-
-	public String getWorldName() {
-		return worldName;
-	}
-
-	public void setWorldName(String worldName) {
-		this.worldName = worldName;
-	}
-
-	public int getUsernameId() {
-		return username_id;
-	}
-
-	public void setUsernameId(int usernameId) {
-		this.username_id = usernameId;
-	}
 }

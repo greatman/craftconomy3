@@ -55,8 +55,8 @@ public class Account {
 		if (create) {
 			Common.getInstance().getDatabaseManager().getDatabase().save(result);
 			BalanceTable balance = new BalanceTable();
-			balance.setUsernameId(result.getId());
-			balance.setCurrencyId(Common.getInstance().getCurrencyManager().getDefaultCurrency().getDatabaseID());
+			balance.setUsername_id(result.getId());
+			balance.setCurrency_id(Common.getInstance().getCurrencyManager().getDefaultCurrency().getDatabaseID());
 			balance.setWorldName(getWorldGroupOfPlayerCurrentlyIn());
 			if (!name.contains(Account.BANK_PREFIX)) {
 				balance.setBalance(Common.getInstance().getDefaultHoldings());
@@ -126,7 +126,7 @@ public class Account {
 		Iterator<BalanceTable> list = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal(BalanceTable.USERNAME_ID_FIELD, account.getId()).execute().find().iterator();
 		while (list.hasNext()) {
 			BalanceTable table = list.next();
-			balanceList.add(new Balance(table.getWorldName(), Common.getInstance().getCurrencyManager().getCurrency(table.getCurrencyId()), format(table.getBalance())));
+			balanceList.add(new Balance(table.getWorldName(), Common.getInstance().getCurrencyManager().getCurrency(table.getCurrency_id()), format(table.getBalance())));
 		}
 		return balanceList;
 	}
@@ -144,7 +144,7 @@ public class Account {
 		Iterator<BalanceTable> list = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal(BalanceTable.USERNAME_ID_FIELD, account.getId()).and().equal(BalanceTable.WORLD_NAME_FIELD, world).execute().find().iterator();
 		while (list.hasNext()) {
 			BalanceTable table = list.next();
-			balanceList.add(new Balance(table.getWorldName(), Common.getInstance().getCurrencyManager().getCurrency(table.getCurrencyId()), format(table.getBalance())));
+			balanceList.add(new Balance(table.getWorldName(), Common.getInstance().getCurrencyManager().getCurrency(table.getCurrency_id()), format(table.getBalance())));
 		}
 		return balanceList;
 	}
@@ -210,8 +210,8 @@ public class Account {
 					balanceTable.setBalance(balanceTable.getBalance() + amount);
 				} else {
 					balanceTable = new BalanceTable();
-					balanceTable.setCurrencyId(currency.getDatabaseID());
-					balanceTable.setUsernameId(account.getId());
+					balanceTable.setCurrency_id(currency.getDatabaseID());
+					balanceTable.setUsername_id(account.getId());
 					balanceTable.setWorldName(world);
 					balanceTable.setBalance(amount);
 				}
@@ -264,8 +264,8 @@ public class Account {
 					balanceTable.setBalance(balanceTable.getBalance() - amount);
 				} else {
 					balanceTable = new BalanceTable();
-					balanceTable.setCurrencyId(currency.getDatabaseID());
-					balanceTable.setUsernameId(account.getId());
+					balanceTable.setCurrency_id(currency.getDatabaseID());
+					balanceTable.setUsername_id(account.getId());
 					balanceTable.setWorldName(world);
 					balanceTable.setBalance(amount);
 				}
@@ -314,8 +314,8 @@ public class Account {
 					balanceTable.setBalance(amount);
 				} else {
 					balanceTable = new BalanceTable();
-					balanceTable.setCurrencyId(currency.getDatabaseID());
-					balanceTable.setUsernameId(account.getId());
+					balanceTable.setCurrency_id(currency.getDatabaseID());
+					balanceTable.setUsername_id(account.getId());
 					balanceTable.setWorldName(newWorld);
 					balanceTable.setBalance(amount);
 				}
@@ -379,7 +379,7 @@ public class Account {
 	 * @return True if the account have infinite money. Else false.
 	 */
 	public boolean hasInfiniteMoney() {
-		return account.hasInfiniteMoney();
+		return account.isInfiniteMoney();
 	}
 
 	/**

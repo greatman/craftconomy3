@@ -553,17 +553,17 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
         }
         sendConsoleMessage(Level.INFO, getLanguageManager().getString("convert_save_exchange"));
         for (ExchangeTable entry : sqliteManager.getDatabase().select(ExchangeTable.class).execute().find()) {
-            entry.id = 0;
+            entry.setId(0);
             dbManager.getDatabase().save(entry);
         }
         sendConsoleMessage(Level.INFO, getLanguageManager().getString("convert_save_worldgroup"));
         for (WorldGroupTable entry : sqliteManager.getDatabase().select(WorldGroupTable.class).execute().find()) {
-            entry.id = 0;
+            entry.setId(0);
             dbManager.getDatabase().save(entry);
         }
         sendConsoleMessage(Level.INFO, getLanguageManager().getString("convert_save_log"));
         for (LogTable entry : sqliteManager.getDatabase().select(LogTable.class).execute().find()) {
-            entry.id = 0;
+            entry.setId(0);
             dbManager.getDatabase().save(entry);
         }
         sendConsoleMessage(Level.INFO, getLanguageManager().getString("convert_done"));
@@ -659,14 +659,14 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
 	public void writeLog(LogInfo info, Cause cause, String causeReason, Account account, double amount, Currency currency, String worldName) {
 		if (getMainConfig().getBoolean("System.Logging.Enabled")) {
 			LogTable log = new LogTable();
-			log.username_id = account.getAccountID();
-			log.amount = amount;
-			log.type = info;
-			log.cause = cause;
-			log.causeReason = causeReason;
-			log.currencyName = currency.getName();
-			log.worldName = worldName;
-			log.timestamp = new Timestamp(System.currentTimeMillis());
+			log.setUsername_id(account.getAccountID());
+			log.setAmount(amount);
+			log.setType(info);
+			log.setCause(cause);
+			log.setCauseReason(causeReason);
+            log.setCurrencyName(currency.getName());
+			log.setWorldName(worldName);
+			log.setTimestamp(new Timestamp(System.currentTimeMillis()));
 			getDatabaseManager().getDatabase().save(log);
 		}
 	}

@@ -42,7 +42,7 @@ public class PayDay implements Runnable {
 		table.setTime(interval);
 		table.setAccount(account);
 		table.setStatus(status);
-		table.setCurrencyId(currencyId);
+		table.setCurrency_id(currencyId);
 		table.setValue(value);
 		table.setWorldName(worldName);
 		if (!disabled) {
@@ -232,7 +232,7 @@ public class PayDay implements Runnable {
 	 * @return The currency ID.
 	 */
 	public int getCurrencyId() {
-		return table.getCurrencyId();
+		return table.getCurrency_id();
 	}
 
 	/**
@@ -240,7 +240,7 @@ public class PayDay implements Runnable {
 	 * @param currencyId The currency ID to set to.
 	 */
 	public void setCurrencyId(int currencyId) {
-		table.setCurrencyId(currencyId);
+		table.setCurrency_id(currencyId);
 		save();
 	}
 

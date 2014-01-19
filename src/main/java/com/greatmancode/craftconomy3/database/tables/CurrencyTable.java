@@ -21,8 +21,10 @@ package com.greatmancode.craftconomy3.database.tables;
 import com.alta189.simplesave.Field;
 import com.alta189.simplesave.Id;
 import com.alta189.simplesave.Table;
+import lombok.Data;
 
 @Table("currency")
+@Data
 public class CurrencyTable {
 	@Id
 	private int id;
@@ -43,68 +45,4 @@ public class CurrencyTable {
 	private double hardCap;
 	@Field
 	private String sign;
-
-	public String getSign() {
-		return sign;
-	}
-
-	public void setSign(String sign) {
-		this.sign = sign;
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getPlural() {
-		return plural;
-	}
-
-	public void setPlural(String plural) {
-		this.plural = plural;
-	}
-
-	public String getMinor() {
-		return minor;
-	}
-
-	public void setMinor(String minor) {
-		this.minor = minor;
-	}
-
-	public String getMinorplural() {
-		return minorplural;
-	}
-
-	public void setMinorplural(String minorplural) {
-		this.minorplural = minorplural;
-	}
-
-	public boolean getStatus() {
-		return status;
-	}
-
-	public void setStatus(boolean status) {
-		this.status = status;
-	}
-
-	public double getHardCap() {
-		return hardCap;
-	}
-
-	public void setHardCap(double hardCap) {
-		this.hardCap = hardCap;
-	}
 }

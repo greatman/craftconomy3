@@ -35,7 +35,7 @@ public class WorldGroupsManager {
 
 	public WorldGroupsManager() {
 		for (WorldGroupTable group : Common.getInstance().getDatabaseManager().getDatabase().select(WorldGroupTable.class).execute().find()) {
-			list.put(group.groupName, new WorldGroup(group.groupName));
+			list.put(group.getGroupName(), new WorldGroup(group.getGroupName()));
 		}
 	}
 
