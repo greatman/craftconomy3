@@ -167,9 +167,8 @@ public class Iconomy6 extends Converter {
             }
             flatFileReader.close();
             List<User> userList = new ArrayList<User>();
-            Iterator<String> iterator = file.iterator();
-            while (iterator.hasNext()) {
-                String[] info = iterator.next().split(" ");
+            for (String aFile : file) {
+                String[] info = aFile.split(" ");
                 try {
                     double balance = Double.parseDouble(info[1].split(":")[1]);
                     userList.add(new User(info[0], balance));

@@ -130,10 +130,10 @@ public class Craftconomy2 extends Converter {
         if (currencyList != null) {
             Iterator<CurrencyTable> currencyIterator = currencyList.iterator();
             Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "Importing currencies.");
+            boolean first = true;
             while (currencyIterator.hasNext()) {
                 CurrencyTable entry = currencyIterator.next();
                 // Check if the entry is valid
-                boolean first = true;
                 if (entry.getMinor() != null && entry.getMinorplural() != null && entry.getName() != null && entry.getPlural() != null) {
                     Common.getInstance().getCurrencyManager().addCurrency(entry.getName(), entry.getPlural(), entry.getMinor(), entry.getMinorplural(), 0.0, "", true);
                     // TODO: Need better than that...
@@ -156,15 +156,11 @@ public class Craftconomy2 extends Converter {
         List<AccountTable> accountList = db.select(AccountTable.class).execute().find();
         if (accountList != null) {
             int i = 0;
-            Iterator<AccountTable> accountIterator = accountList.iterator();
-            while (accountIterator.hasNext()) {
-                AccountTable entry = accountIterator.next();
+            for (AccountTable entry : accountList) {
                 Common.getInstance().getAccountManager().getAccount(entry.getUsername());
                 List<BalanceTable> balanceList = db.select(BalanceTable.class).where().equal("username_id", entry.getId()).execute().find();
                 if (balanceList != null) {
-                    Iterator<BalanceTable> balanceIterator = balanceList.iterator();
-                    while (balanceIterator.hasNext()) {
-                        BalanceTable balanceEntry = balanceIterator.next();
+                    for (BalanceTable balanceEntry : balanceList) {
                         CurrencyTable currency = db.select(CurrencyTable.class).where().equal("id", balanceEntry.getCurrency_id()).execute().findOne();
                         if (currency != null) {
                             Common.getInstance().getAccountManager().getAccount(entry.getUsername()).set(balanceEntry.getBalance(), balanceEntry.getWorldName(), currency.getName(), Cause.CONVERT, null);
@@ -185,15 +181,11 @@ public class Craftconomy2 extends Converter {
         List<BankTable> bankList = db.select(BankTable.class).execute().find();
         if (bankList != null) {
             int i = 0;
-            Iterator<BankTable> bankIterator = bankList.iterator();
-            while (bankIterator.hasNext()) {
-                BankTable entry = bankIterator.next();
+            for (BankTable entry : bankList) {
                 Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + entry.getName()).getAccountACL().set(entry.getOwner(), true, true, true, true, true);
                 List<BankBalanceTable> bankBalanceList = db.select(BankBalanceTable.class).where().equal("bank_id", entry.getId()).execute().find();
                 if (bankBalanceList != null) {
-                    Iterator<BankBalanceTable> bankBalanceIterator = bankBalanceList.iterator();
-                    while (bankBalanceIterator.hasNext()) {
-                        BankBalanceTable balanceEntry = bankBalanceIterator.next();
+                    for (BankBalanceTable balanceEntry : bankBalanceList) {
                         CurrencyTable currency = db.select(CurrencyTable.class).where().equal("id", balanceEntry.getCurrency_id()).execute().findOne();
                         if (currency != null) {
                             Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + entry.getName()).set(balanceEntry.getBalance(), balanceEntry.getWorldName(), currency.getName(), Cause.CONVERT, null);
@@ -204,9 +196,7 @@ public class Craftconomy2 extends Converter {
                 // Adding members
                 List<BankMemberTable> bankMemberList = db.select(BankMemberTable.class).where().equal("bank_id", entry.getId()).execute().find();
                 if (bankMemberList != null) {
-                    Iterator<BankMemberTable> bankMemberIterator = bankMemberList.iterator();
-                    while (bankMemberIterator.hasNext()) {
-                        BankMemberTable memberEntry = bankMemberIterator.next();
+                    for (BankMemberTable memberEntry : bankMemberList) {
                         Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + entry.getName()).getAccountACL().set(memberEntry.getPlayerName(), true, true, false, true, false);
                     }
                 }

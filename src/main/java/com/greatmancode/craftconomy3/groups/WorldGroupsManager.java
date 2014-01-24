@@ -64,9 +64,7 @@ public class WorldGroupsManager {
      */
     public String getWorldGroupName(String world) {
         String result = DEFAULT_GROUP_NAME;
-        Iterator<Entry<String, WorldGroup>> iterator = list.entrySet().iterator();
-        while (iterator.hasNext()) {
-            Entry<String, WorldGroup> entry = iterator.next();
+        for (Entry<String, WorldGroup> entry : list.entrySet()) {
             if (entry.getValue().worldExist(world)) {
                 result = entry.getKey();
             }

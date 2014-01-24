@@ -164,19 +164,19 @@ public abstract class Converter {
     protected void addAccountToString(List<User> userList2) {
         stringBuilder = new StringBuilder();
         List<User> userList = new ArrayList<User>(userList2);
-        stringBuilder.append("INSERT INTO " + Common.getInstance().getMainConfig().getString("System.Database.Prefix") + "account(name) VALUES ");
+        stringBuilder.append("INSERT INTO ").append(Common.getInstance().getMainConfig().getString("System.Database.Prefix")).append("account(name) VALUES ");
         Iterator<User> iterator = userList.iterator();
         boolean first = true, isCaseSentitive = Common.getInstance().getMainConfig().getBoolean("System.Case-sentitive"), isSQLite = Common.getInstance().getDatabaseManager().getDatabase() instanceof SQLiteDatabase;
         while (iterator.hasNext()) {
             if (isSQLite && !first) {
                 stringBuilder = new StringBuilder();
-                stringBuilder.append("INSERT INTO " + Common.getInstance().getMainConfig().getString("System.Database.Prefix") + "account(name) VALUES ");
+                stringBuilder.append("INSERT INTO ").append(Common.getInstance().getMainConfig().getString("System.Database.Prefix")).append("account(name) VALUES ");
             }
             User user = iterator.next();
             if (isCaseSentitive) {
-                stringBuilder.append("('" + user.user + "')");
+                stringBuilder.append("('").append(user.user).append("')");
             } else {
-                stringBuilder.append("('" + user.user.toLowerCase() + "')");
+                stringBuilder.append("('").append(user.user.toLowerCase()).append("')");
             }
 
             if (!isSQLite) {
@@ -203,7 +203,7 @@ public abstract class Converter {
         int i = 0;
         stringBuilder = new StringBuilder();
 
-        stringBuilder.append("INSERT INTO " + Common.getInstance().getMainConfig().getString("System.Database.Prefix") + "balance(username_id, currency_id, worldName,balance) VALUES ");
+        stringBuilder.append("INSERT INTO ").append(Common.getInstance().getMainConfig().getString("System.Database.Prefix")).append("balance(username_id, currency_id, worldName,balance) VALUES ");
         Iterator<User> iterator = userList.iterator();
         boolean first = true, isSQLite = Common.getInstance().getDatabaseManager().getDatabase() instanceof SQLiteDatabase;
         while (iterator.hasNext()) {
@@ -212,11 +212,11 @@ public abstract class Converter {
             }
             if (isSQLite && !first) {
                 stringBuilder = new StringBuilder();
-                stringBuilder.append("INSERT INTO " + Common.getInstance().getMainConfig().getString("System.Database.Prefix") + "balance(username_id, currency_id, worldName,balance) VALUES ");
+                stringBuilder.append("INSERT INTO ").append(Common.getInstance().getMainConfig().getString("System.Database.Prefix")).append("balance(username_id, currency_id, worldName,balance) VALUES ");
             }
             User user = iterator.next();
             AccountTable account = Common.getInstance().getDatabaseManager().getDatabase().select(AccountTable.class).where().equal("name", user.user).execute().findOne();
-            stringBuilder.append("(" + account.getId() + "," + Common.getInstance().getCurrencyManager().getDefaultCurrency().getDatabaseID() + ",'" + WorldGroupsManager.DEFAULT_GROUP_NAME + "'," + user.balance + ")");
+            stringBuilder.append("(").append(account.getId()).append(",").append(Common.getInstance().getCurrencyManager().getDefaultCurrency().getDatabaseID()).append(",'").append(WorldGroupsManager.DEFAULT_GROUP_NAME).append("',").append(user.balance).append(")");
             if (!isSQLite) {
                 if (iterator.hasNext()) {
                     stringBuilder.append(",");

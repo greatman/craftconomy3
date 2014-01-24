@@ -96,9 +96,7 @@ public class Feconomy extends Converter {
 
     @Override
     public boolean importData(String sender) {
-        boolean result = false;
-        result = importDatabase(sender);
-        return result;
+        return importDatabase(sender);
     }
 
     /**

@@ -81,18 +81,14 @@ public class PayDay implements Runnable {
             }
             Common.getInstance().getAccountManager().getAccount(getAccount()).withdraw(getValue() * list.size(), getWorldName(), Common.getInstance().getCurrencyManager().getCurrency(getCurrencyId()).getName(), Cause.PAYDAY_WAGE, getName());
         }
-        Iterator<String> listIterator = list.iterator();
-        while (listIterator.hasNext()) {
-            String p = listIterator.next();
+        for (String p : list) {
             Common.getInstance().getAccountManager().getAccount(p).deposit(getValue(), getWorldName(), Common.getInstance().getCurrencyManager().getCurrency(getCurrencyId()).getName(), Cause.PAYDAY_WAGE, getName());
             Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(p, "{{DARK_GREEN}}Payday! You received " + Common.getInstance().format(getWorldName(), Common.getInstance().getCurrencyManager().getCurrency(getCurrencyId()), getValue()));
         }
     }
 
     private void handleTax(List<String> list) {
-        Iterator<String> listIterator = list.iterator();
-        while (listIterator.hasNext()) {
-            String p = listIterator.next();
+        for (String p : list) {
             if (Common.getInstance().getAccountManager().getAccount(p).hasEnough(getValue(), getWorldName(), Common.getInstance().getCurrencyManager().getCurrency(getCurrencyId()).getName())) {
                 Common.getInstance().getAccountManager().getAccount(p).withdraw(getValue(), getWorldName(), Common.getInstance().getCurrencyManager().getCurrency(getCurrencyId()).getName(), Cause.PAYDAY_TAX, getName());
                 if (!getAccount().equals("")) {

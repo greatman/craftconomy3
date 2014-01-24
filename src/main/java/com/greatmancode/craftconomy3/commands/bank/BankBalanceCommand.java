@@ -32,9 +32,7 @@ public class BankBalanceCommand extends CommandExecutor {
             Account account = Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + args[0]);
             if (account.getAccountACL().canShow(sender) || Common.getInstance().getServerCaller().getPlayerCaller().checkPermission(sender, "craftconomy.bank.balance.others")) {
                 Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("bank_statement"));
-                Iterator<Balance> balanceList = account.getAllBalance().iterator();
-                while (balanceList.hasNext()) {
-                    Balance bl = balanceList.next();
+                for (Balance bl : account.getAllBalance()) {
                     Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().format(bl.getWorld(), bl.getCurrency(), bl.getBalance()));
                 }
             } else {

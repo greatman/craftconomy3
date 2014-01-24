@@ -409,11 +409,11 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
             } else {
                 coin = "0";
             }
-            String amount = theAmount[0];
+            String amount;
             try {
                 amount = decimalFormat.format(Double.parseDouble(theAmount[0]));
             } catch (NumberFormatException e) {
-
+                amount = theAmount[0];
             }
 
             // Do we seperate money and dollar or not?

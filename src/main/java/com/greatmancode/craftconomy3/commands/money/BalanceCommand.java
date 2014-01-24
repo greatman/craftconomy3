@@ -32,9 +32,7 @@ public class BalanceCommand extends CommandExecutor {
             //TODO: Format this properly
             Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{WHITE}} " + args[0] + " " + Common.getInstance().getLanguageManager().getString("money_all_title"));
             Account account = Common.getInstance().getAccountManager().getAccount(args[0]);
-            Iterator<Balance> balanceList = account.getAllBalance().iterator();
-            while (balanceList.hasNext()) {
-                Balance bl = balanceList.next();
+            for (Balance bl : account.getAllBalance()) {
                 Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().format(bl.getWorld(), bl.getCurrency(), bl.getBalance()));
             }
         } else {

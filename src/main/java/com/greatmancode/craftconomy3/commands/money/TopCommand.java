@@ -89,7 +89,7 @@ public class TopCommand extends CommandExecutor {
     @Override
     public void execute(String sender, String[] args) {
         int page = 1;
-        Currency currency = Common.getInstance().getCurrencyManager().getDefaultCurrency();
+        Currency currency;
         if (args.length == 0) {
             currency = Common.getInstance().getCurrencyManager().getDefaultCurrency();
         } else {

@@ -39,36 +39,34 @@ public class TestLoadedCommands {
 	public void testCommands() {
 
 		Reflections reflections = new Reflections("com.greatmancode.craftconomy3.commands");
-		Iterator<Class<? extends CommandExecutor>> allClasses = reflections.getSubTypesOf(CommandExecutor.class).iterator();
-		while (allClasses.hasNext()) {
-			Class<? extends CommandExecutor> clazz = allClasses.next();
-			try {
-				CommandExecutor instance = clazz.newInstance();
-				if (instance.help() == null) {
-					fail("Help is null for: " + clazz.getName());
-				}
-				if (instance.maxArgs() < 0) {
-					fail("Fail maxArgs for class: " + clazz.getName());
-				}
-				if (instance.minArgs() < 0) {
-					fail("Fail minArgs for class: " + clazz.getName());
-				}
-				if (instance.maxArgs() < instance.minArgs()) {
-					fail("Fail maxArgs less than minArgs for class:" + clazz.getName());
-				}
-				if (instance.getPermissionNode() != null) {
-					if (!instance.getPermissionNode().contains("craftconomy")) {
-						fail("Fail permissionNode for class: " + clazz.getName());
-					}
-				}
-				if (!instance.playerOnly() && instance.playerOnly()) {
-					fail("Fail playerOnly. Should never get this..");
-				}
-			} catch (InstantiationException e) {
-				fail(e.getMessage());
-			} catch (IllegalAccessException e) {
-				fail(e.getMessage());
-			}
-		}
+        for (Class<? extends CommandExecutor> clazz : reflections.getSubTypesOf(CommandExecutor.class)) {
+            try {
+                CommandExecutor instance = clazz.newInstance();
+                if (instance.help() == null) {
+                    fail("Help is null for: " + clazz.getName());
+                }
+                if (instance.maxArgs() < 0) {
+                    fail("Fail maxArgs for class: " + clazz.getName());
+                }
+                if (instance.minArgs() < 0) {
+                    fail("Fail minArgs for class: " + clazz.getName());
+                }
+                if (instance.maxArgs() < instance.minArgs()) {
+                    fail("Fail maxArgs less than minArgs for class:" + clazz.getName());
+                }
+                if (instance.getPermissionNode() != null) {
+                    if (!instance.getPermissionNode().contains("craftconomy")) {
+                        fail("Fail permissionNode for class: " + clazz.getName());
+                    }
+                }
+                if (!instance.playerOnly() && instance.playerOnly()) {
+                    fail("Fail playerOnly. Should never get this..");
+                }
+            } catch (InstantiationException e) {
+                fail(e.getMessage());
+            } catch (IllegalAccessException e) {
+                fail(e.getMessage());
+            }
+        }
 	}
 }

@@ -131,9 +131,7 @@ public class Account {
      */
     public List<Balance> getAllBalance() {
         List<Balance> balanceList = new ArrayList<Balance>();
-        Iterator<BalanceTable> list = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal(BalanceTable.USERNAME_ID_FIELD, account.getId()).execute().find().iterator();
-        while (list.hasNext()) {
-            BalanceTable table = list.next();
+        for (BalanceTable table : Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal(BalanceTable.USERNAME_ID_FIELD, account.getId()).execute().find()) {
             balanceList.add(new Balance(table.getWorldName(), Common.getInstance().getCurrencyManager().getCurrency(table.getCurrency_id()), format(table.getBalance())));
         }
         return balanceList;
@@ -150,9 +148,7 @@ public class Account {
             world = Common.getInstance().getWorldGroupManager().getWorldGroupName(world);
         }
         List<Balance> balanceList = new ArrayList<Balance>();
-        Iterator<BalanceTable> list = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal(BalanceTable.USERNAME_ID_FIELD, account.getId()).and().equal(BalanceTable.WORLD_NAME_FIELD, world).execute().find().iterator();
-        while (list.hasNext()) {
-            BalanceTable table = list.next();
+        for (BalanceTable table : Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal(BalanceTable.USERNAME_ID_FIELD, account.getId()).and().equal(BalanceTable.WORLD_NAME_FIELD, world).execute().find()) {
             balanceList.add(new Balance(table.getWorldName(), Common.getInstance().getCurrencyManager().getCurrency(table.getCurrency_id()), format(table.getBalance())));
         }
         return balanceList;

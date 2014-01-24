@@ -37,9 +37,7 @@ public class PayDayManager {
      * Initialize the payday manager by loading all the entries in the database.
      */
     public PayDayManager() {
-        Iterator<PayDayTable> iterator = Common.getInstance().getDatabaseManager().getDatabase().select(PayDayTable.class).execute().find().iterator();
-        while (iterator.hasNext()) {
-            PayDayTable entry = iterator.next();
+        for (PayDayTable entry : Common.getInstance().getDatabaseManager().getDatabase().select(PayDayTable.class).execute().find()) {
             addPayDay(entry.getId(), entry.getName(), entry.isDisabled(), entry.getTime(), entry.getAccount(), entry.getStatus(), entry.getCurrency_id(), entry.getValue(), entry.getWorldName(), false);
         }
     }

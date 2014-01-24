@@ -38,9 +38,7 @@ public class CurrencyManager {
 
     public CurrencyManager() {
         // Let's load all currency in the database
-        Iterator<CurrencyTable> iterator = Common.getInstance().getDatabaseManager().getDatabase().select(CurrencyTable.class).execute().find().iterator();
-        while (iterator.hasNext()) {
-            CurrencyTable entry = iterator.next();
+        for (CurrencyTable entry : Common.getInstance().getDatabaseManager().getDatabase().select(CurrencyTable.class).execute().find()) {
             if (entry.isStatus()) {
                 defaultCurrencyID = entry.getId();
             }
@@ -161,9 +159,8 @@ public class CurrencyManager {
         if (currencyList.containsKey(currencyId)) {
             List<BalanceTable> balanceList = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal("currency_id", currencyId).execute().find();
             if (balanceList != null) {
-                Iterator<BalanceTable> balanceIterator = balanceList.iterator();
-                while (balanceIterator.hasNext()) {
-                    Common.getInstance().getDatabaseManager().getDatabase().remove(balanceIterator.next());
+                for (BalanceTable aBalanceList : balanceList) {
+                    Common.getInstance().getDatabaseManager().getDatabase().remove(aBalanceList);
                 }
             }
             currencyList.get(currencyId).delete();
