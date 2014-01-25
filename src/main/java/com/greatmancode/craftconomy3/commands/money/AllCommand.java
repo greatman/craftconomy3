@@ -31,9 +31,7 @@ public class AllCommand extends CommandExecutor {
         Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("money_all_title"));
         Account account = Common.getInstance().getAccountManager().getAccount(sender);
         //TODO: For
-        Iterator<Balance> balanceList = account.getAllBalance().iterator();
-        while (balanceList.hasNext()) {
-            Balance bl = balanceList.next();
+        for (Balance bl : account.getAllBalance()) {
             Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().format(bl.getWorld(), bl.getCurrency(), bl.getBalance()));
         }
     }

@@ -67,13 +67,7 @@ public class AccountManager {
         if (!Common.getInstance().getMainConfig().getBoolean("System.Case-sentitive")) {
             newName = name.toLowerCase();
         }
-        boolean result;
-        if (accountList.containsKey(newName)) {
-            result = true;
-        } else {
-            result = Common.getInstance().getDatabaseManager().getDatabase().select(AccountTable.class).where().equal("name", newName).execute().findOne() != null;
-        }
-        return result;
+        return accountList.containsKey(newName) || Common.getInstance().getDatabaseManager().getDatabase().select(AccountTable.class).where().equal("name", newName).execute().findOne() != null;
     }
 
     /**
@@ -89,17 +83,15 @@ public class AccountManager {
             AccountTable accountTable = Common.getInstance().getDatabaseManager().getDatabase().select(AccountTable.class).where().contains("name", name).execute().findOne();
             List<BalanceTable> balanceTableList = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal("username_id", accountTable.getId()).execute().find();
             if (balanceTableList != null) {
-                Iterator<BalanceTable> iterator = balanceTableList.iterator();
-                while (iterator.hasNext()) {
-                    Common.getInstance().getDatabaseManager().getDatabase().remove(iterator.next());
+                for (BalanceTable aBalanceTableList : balanceTableList) {
+                    Common.getInstance().getDatabaseManager().getDatabase().remove(aBalanceTableList);
                 }
             }
             if (account.isBankAccount()) {
                 List<AccessTable> accessTableList = Common.getInstance().getDatabaseManager().getDatabase().select(AccessTable.class).where().equal("account_id", accountTable.getId()).execute().find();
                 if (accessTableList != null) {
-                    Iterator<AccessTable> iterator = accessTableList.iterator();
-                    while (iterator.hasNext()) {
-                        Common.getInstance().getDatabaseManager().getDatabase().remove(iterator.next());
+                    for (AccessTable anAccessTableList : accessTableList) {
+                        Common.getInstance().getDatabaseManager().getDatabase().remove(anAccessTableList);
                     }
                 }
             }

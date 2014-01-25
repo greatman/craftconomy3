@@ -22,6 +22,7 @@ import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.database.tables.WorldGroupTable;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -44,9 +45,7 @@ public class WorldGroup {
             table.setGroupName(name);
             save();
         } else {
-            for (String entry : table.getWorldList().split(",")) {
-                worldList.add(entry);
-            }
+            Collections.addAll(worldList, table.getWorldList().split(","));
         }
     }
 
