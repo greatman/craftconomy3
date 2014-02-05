@@ -296,7 +296,9 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
      * @param msg   The message to send.
      */
     public void sendConsoleMessage(Level level, String msg) {
-        getLogger().log(level, msg);
+        if (!(getServerCaller() instanceof UnitTestServerCaller)) {
+            getLogger().log(level, msg);
+        }
     }
 
     /**
@@ -1152,13 +1154,13 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
             dbVersion.setName("dbVersion");
             dbVersion.setValue(1 + "");
             Common.getInstance().getDatabaseManager().getDatabase().save(dbVersion);
-            Common.getInstance().getLogger().info("Updated to Revision 1!");
+            Common.getInstance().sendConsoleMessage(Level.INFO, "Updated to Revision 1!");
         }
         if (dbVersion.getValue().equalsIgnoreCase("")) {
             alertOldDbVersion(dbVersion.getValue(), 1);
             dbVersion.setValue(1 + "");
             Common.getInstance().getDatabaseManager().getDatabase().save(dbVersion);
-            Common.getInstance().getLogger().info("Really updated to Revision 1.");
+            Common.getInstance().sendConsoleMessage(Level.INFO, "Really updated to Revision 1.");
         }
         if (dbVersion.getValue().equalsIgnoreCase("1")) {
             alertOldDbVersion(dbVersion.getValue(), 2);
@@ -1174,25 +1176,25 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
                 Common.getInstance().getDatabaseManager().getDatabase().save(display);
                 dbVersion.setValue(2 + "");
                 Common.getInstance().getDatabaseManager().getDatabase().save(dbVersion);
-                Common.getInstance().getLogger().info("Updated to Revision 2!");
+                Common.getInstance().sendConsoleMessage(Level.INFO, "Updated to Revision 2!");
             }
         }
         if (dbVersion.getValue().equalsIgnoreCase("2")) {
             alertOldDbVersion(dbVersion.getValue(), 3);
-            Common.getInstance().getLogger().info("Checking if the display format is valid.");
+            Common.getInstance().sendConsoleMessage(Level.INFO, "Checking if the display format is valid.");
             ConfigTable display = Common.getInstance().getDatabaseManager().getDatabase().select(ConfigTable.class).where().equal(ConfigTable.NAME_FIELD, "longmode").execute().findOne();
             if (!display.getValue().equalsIgnoreCase("long") && !display.getValue().equalsIgnoreCase("small") && !display.getValue().equalsIgnoreCase("sign") && !display.getValue().equalsIgnoreCase("majoronly")) {
-                Common.getInstance().getLogger().info("Display format is invalid. Saving a valid one.");
+                Common.getInstance().sendConsoleMessage(Level.INFO,"Display format is invalid. Saving a valid one.");
                 display.setValue("long");
                 Common.getInstance().getDatabaseManager().getDatabase().save(display);
             }
             dbVersion.setValue(3 + "");
             Common.getInstance().getDatabaseManager().getDatabase().save(dbVersion);
-            Common.getInstance().getLogger().info("Updated to Revision 3!");
+            Common.getInstance().sendConsoleMessage(Level.INFO, "Updated to Revision 3!");
         }
         if (dbVersion.getValue().equalsIgnoreCase("3")) {
             alertOldDbVersion(dbVersion.getValue(), 4);
-            Common.getInstance().getLogger().info("Converting worlds to the new format.");
+            Common.getInstance().sendConsoleMessage(Level.INFO, "Converting worlds to the new format.");
             Common.getInstance().initializeWorldGroup();
             ResultSet result = Common.getInstance().getDatabaseManager().getDatabase().directQueryWithResult("SELECT DISTINCT worldName FROM " + getMainConfig().getString("System.Database.Prefix") + "balance");
             try {
@@ -1207,14 +1209,14 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
             }
             dbVersion.setValue(4 + "");
             Common.getInstance().getDatabaseManager().getDatabase().save(dbVersion);
-            Common.getInstance().getLogger().info("Updated to Revision 4!");
+            Common.getInstance().sendConsoleMessage(Level.INFO, "Updated to Revision 4!");
         }
         if (dbVersion.getValue().equalsIgnoreCase("4")) {
             alertOldDbVersion(dbVersion.getValue(), 5);
             Common.getInstance().getDatabaseManager().getDatabase().directQuery("UPDATE " + getMainConfig().getString("System.Database.Prefix") + "balance SET worldName='default' WHERE worldName='any';");
             dbVersion.setValue(5 + "");
             Common.getInstance().getDatabaseManager().getDatabase().save(dbVersion);
-            Common.getInstance().getLogger().info("Updated to Revision 5!");
+            Common.getInstance().sendConsoleMessage(Level.INFO, "Updated to Revision 5!");
         }
         if (dbVersion.getValue().equalsIgnoreCase("5")) {
             alertOldDbVersion(dbVersion.getValue(), 6);
@@ -1231,7 +1233,7 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
             }
             dbVersion.setValue(6 + "");
             Common.getInstance().getDatabaseManager().getDatabase().save(dbVersion);
-            Common.getInstance().getLogger().info("Updated to Revision 6!");
+            Common.getInstance().sendConsoleMessage(Level.INFO, "Updated to Revision 6!");
         }
     }
 
@@ -1242,6 +1244,6 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
      * @param newVersion     The database update version
      */
     private void alertOldDbVersion(String currentVersion, int newVersion) {
-        Common.getInstance().getLogger().info("Your database is out of date! (Version " + currentVersion + "). Updating it to Revision " + newVersion + ".");
+        Common.getInstance().sendConsoleMessage(Level.INFO, "Your database is out of date! (Version " + currentVersion + "). Updating it to Revision " + newVersion + ".");
     }
 }
