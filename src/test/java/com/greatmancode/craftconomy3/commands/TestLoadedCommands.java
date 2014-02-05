@@ -18,8 +18,6 @@
  */
 package com.greatmancode.craftconomy3.commands;
 
-import java.util.Iterator;
-
 import com.greatmancode.craftconomy3.TestInitializator;
 import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 

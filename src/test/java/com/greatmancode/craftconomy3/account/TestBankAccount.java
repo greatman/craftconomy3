@@ -16,25 +16,28 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Craftconomy3.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.greatmancode.craftconomy3.database;
+package com.greatmancode.craftconomy3.account;
 
-import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.TestInitializator;
-
+import junit.framework.TestCase;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
-public class TestDatabaseManager {
-	@Before
-	public void setUp() {
-		new TestInitializator();
-	}
+public class TestBankAccount extends TestCase{
 
-	@Test
-	public void testDatabaseManager() {
-		assertNotNull(Common.getInstance().getDatabaseManager());
-        assertNotNull(Common.getInstance().getDatabaseManager().getDatabase());
-	}
+
+    @Before
+    public void setUp() {
+        new TestInitializator();
+    }
+
+    @Test
+    public void testBankAccount() {
+        Account account = new Account(Account.BANK_PREFIX + "testbank");
+        assertTrue(account.isBankAccount());
+        assertFalse(account.ignoreACL());
+    }
 }
