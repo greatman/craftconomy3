@@ -18,6 +18,7 @@
  */
 package com.greatmancode.craftconomy3.groups;
 
+import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.TestInitializator;
 import com.greatmancode.tools.caller.unittest.UnitTestServerCaller;
 
@@ -49,5 +50,6 @@ public class TestWorldGroups {
 
 		worldGroup.removeWorld(UnitTestServerCaller.worldName);
 		assertFalse(worldGroup.worldExist(UnitTestServerCaller.worldName));
-	}
+        Common.getInstance().getDatabaseManager().getDatabase().remove(worldGroup.table);
+    }
 }
