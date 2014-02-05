@@ -25,6 +25,7 @@ import lombok.Data;
 
 @Table("exchange")
 @Data
+@SuppressWarnings("PMD.UnusedPrivateField")
 public class ExchangeTable {
     @Id
     private int id;

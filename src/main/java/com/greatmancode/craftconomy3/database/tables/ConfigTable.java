@@ -25,6 +25,7 @@ import lombok.Data;
 
 @Table("config")
 @Data
+@SuppressWarnings("PMD.UnusedPrivateField")
 public class ConfigTable {
     public static final String NAME_FIELD = "name";
     @Id

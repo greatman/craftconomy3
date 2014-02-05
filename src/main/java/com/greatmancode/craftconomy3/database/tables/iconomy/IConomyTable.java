@@ -25,6 +25,7 @@ import lombok.Data;
 
 @Table("iConomy")
 @Data
+@SuppressWarnings("PMD.UnusedPrivateField")
 public class IConomyTable {
     @Id
     private int id;

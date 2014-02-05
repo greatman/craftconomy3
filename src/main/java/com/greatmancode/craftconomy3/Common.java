@@ -99,7 +99,7 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
     /**
      * Initialize the Common core.
      */
-    public void onEnable(ServerCaller serverCaller, Logger log) {
+    public void onEnable(ServerCaller serverCaller, final Logger log) {
         this.serverCaller = serverCaller;
         instance = this;
         this.log = log;

@@ -25,6 +25,7 @@ import lombok.Data;
 
 @Table("balance")
 @Data
+@SuppressWarnings("PMD.UnusedPrivateField")
 public class BalanceTable {
     public static final String USERNAME_ID_FIELD = "username_id";
     public static final String CURRENCY_ID_FIELD = "currency_id";

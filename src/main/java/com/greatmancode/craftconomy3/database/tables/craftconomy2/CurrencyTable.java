@@ -25,6 +25,7 @@ import lombok.Data;
 
 @Table("Currency")
 @Data
+@SuppressWarnings("PMD.UnusedPrivateField")
 public class CurrencyTable {
     @Id
     private int id;

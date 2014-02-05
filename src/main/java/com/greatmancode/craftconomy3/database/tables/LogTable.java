@@ -29,6 +29,7 @@ import java.sql.Timestamp;
 
 @Table("log")
 @Data
+@SuppressWarnings("PMD.UnusedPrivateField")
 public class LogTable {
     @Id
     private int id;

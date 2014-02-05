@@ -25,6 +25,7 @@ import lombok.Data;
 
 @Table("payday")
 @Data
+@SuppressWarnings("PMD.UnusedPrivateField")
 public class PayDayTable {
     @Id
     private int id;

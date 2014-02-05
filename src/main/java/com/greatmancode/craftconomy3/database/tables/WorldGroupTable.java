@@ -25,6 +25,7 @@ import lombok.Data;
 
 @Table("worldgroup")
 @Data
+@SuppressWarnings("PMD.UnusedPrivateField")
 public class WorldGroupTable {
     @Id
     private int id;

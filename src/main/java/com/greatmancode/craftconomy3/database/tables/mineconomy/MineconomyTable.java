@@ -25,6 +25,7 @@ import lombok.Data;
 
 @Table(value = "mineconomy_accounts")
 @Data
+@SuppressWarnings("PMD.UnusedPrivateField")
 public class MineconomyTable {
 
     @Id
