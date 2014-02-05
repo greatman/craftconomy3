@@ -39,7 +39,9 @@ public class BoseEconomy extends Converter {
 
     @Override
     public List<String> getDbInfo() {
-        getDbInfoList().add("filename");
+        if (getDbInfoList().size() == 0) {
+            getDbInfoList().add("filename");
+        }
         return getDbInfoList();
     }
 
