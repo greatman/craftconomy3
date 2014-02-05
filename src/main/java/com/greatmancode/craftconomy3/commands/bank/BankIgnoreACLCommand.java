@@ -34,7 +34,7 @@ public class BankIgnoreACLCommand extends CommandExecutor {
                 Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("account_is_not_ignoring_acl"));
             }
         } else {
-            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("account_not_exist!"));
+            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("account_not_exist"));
         }
     }
 
