@@ -27,7 +27,6 @@ import com.greatmancode.craftconomy3.database.tables.BalanceTable;
 import com.greatmancode.tools.events.event.EconomyChangeEvent;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**

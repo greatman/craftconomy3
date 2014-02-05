@@ -23,8 +23,6 @@ import com.greatmancode.craftconomy3.account.Account;
 import com.greatmancode.craftconomy3.account.Balance;
 import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 
-import java.util.Iterator;
-
 public class MainCommand extends CommandExecutor {
     @Override
     public void execute(String sender, String[] args) {
