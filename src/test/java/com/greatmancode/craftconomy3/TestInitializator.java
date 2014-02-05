@@ -18,6 +18,7 @@
  */
 package com.greatmancode.craftconomy3;
 
+import java.io.File;
 import java.lang.reflect.Field;
 import java.util.logging.Logger;
 
@@ -29,24 +30,34 @@ import com.greatmancode.tools.database.throwable.InvalidDatabaseConstructor;
 import com.greatmancode.tools.interfaces.UnitTestLoader;
 
 public class TestInitializator {
-	private static boolean initialized = false;
 	public TestInitializator() {
-		if (!initialized) {
-			new Common().onEnable(new UnitTestServerCaller(new UnitTestLoader()), Logger.getLogger("unittest"));
-            Common.getInstance().getMainConfig().setValue("System.QuickSetup.Enable", true);
-            Common.getInstance().getMainConfig().setValue("System.Logging.Enabled", true);
-            try {
-                setStaticValue("com.greatmancode.craftconomy3.Common", "initialized", false);
-            } catch (NoSuchFieldException e) {
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            }
-            new Common().onEnable(new UnitTestServerCaller(new UnitTestLoader()), Logger.getLogger("unittest"));
-			initialized = true;
-		}
+        File file = new UnitTestServerCaller(new UnitTestLoader()).getDataFolder();
+        for (File entry : file.listFiles()) {
+            entry.delete();
+        }
+        file.delete();
+        try {
+            setStaticValue("com.greatmancode.craftconomy3.Common", "initialized", false);
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        new Common().onEnable(new UnitTestServerCaller(new UnitTestLoader()), Logger.getLogger("unittest"));
+        Common.getInstance().getMainConfig().setValue("System.QuickSetup.Enable", true);
+        Common.getInstance().getMainConfig().setValue("System.Logging.Enabled", true);
+        try {
+            setStaticValue("com.greatmancode.craftconomy3.Common", "initialized", false);
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        new Common().onEnable(new UnitTestServerCaller(new UnitTestLoader()), Logger.getLogger("unittest"));
 	}
 
     /**

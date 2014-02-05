@@ -55,6 +55,7 @@ public class TestBankCommands {
 
     @Test
     public void testBankGiveCommand() {
+        Common.getInstance().sendConsoleMessage(Level.INFO, "EENTRY");
         BankGiveCommand command = new BankGiveCommand();
         double initialValue = Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + BANK_ACCOUNT).getBalance("default", Common.getInstance().getCurrencyManager().getDefaultCurrency().getName());
         Common.getInstance().sendConsoleMessage(Level.INFO, initialValue + "");
@@ -62,14 +63,20 @@ public class TestBankCommands {
         assertEquals(initialValue, Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + BANK_ACCOUNT).getBalance("default", Common.getInstance().getCurrencyManager().getDefaultCurrency().getName()), 0);
         command.execute(TEST_USER, new String[]{BANK_ACCOUNT, "100"});
         assertEquals(initialValue + 100, Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + BANK_ACCOUNT).getBalance("default", Common.getInstance().getCurrencyManager().getDefaultCurrency().getName()), 0);
+        Common.getInstance().sendConsoleMessage(Level.INFO, "EXIT");
     }
 
     @Test
     public void testBankTakeCommand() {
+        Common.getInstance().sendConsoleMessage(Level.INFO, "ENTRY2");
         BankTakeCommand command = new BankTakeCommand();
         double initialValue = Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + BANK_ACCOUNT).getBalance("default", Common.getInstance().getCurrencyManager().getDefaultCurrency().getName());
         command.execute(TEST_USER, new String[]{BANK_ACCOUNT, "100"});
-        assertEquals(initialValue - 100, Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + BANK_ACCOUNT).getBalance("default", Common.getInstance().getCurrencyManager().getDefaultCurrency().getName()), 0);
+        assertEquals(0, Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + BANK_ACCOUNT).getBalance("default", Common.getInstance().getCurrencyManager().getDefaultCurrency().getName()), 0);
+        Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + BANK_ACCOUNT).deposit(200, "default", Common.getInstance().getCurrencyManager().getDefaultCurrency().getName(), Cause.UNKNOWN, "unittest");
+        command.execute(TEST_USER, new String[]{BANK_ACCOUNT, "100"});
+        assertEquals(100, Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + BANK_ACCOUNT).getBalance("default", Common.getInstance().getCurrencyManager().getDefaultCurrency().getName()), 0);
+        Common.getInstance().sendConsoleMessage(Level.INFO, "EXIT2");
     }
 
     @Test
