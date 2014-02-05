@@ -33,6 +33,7 @@ public class TestInitializator {
 		if (!initialized) {
 			new Common().onEnable(new UnitTestServerCaller(new UnitTestLoader()), Logger.getLogger("unittest"));
 			Common.getInstance().getMainConfig().setValue("System.Setup", false);
+            Common.getInstance().getMainConfig().setValue("System.Logging.Enabled", true);
 			try {
 				Common.getInstance().initialiseDatabase();
 			} catch (TableRegistrationException e) {
