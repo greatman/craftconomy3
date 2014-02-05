@@ -102,6 +102,35 @@ public class TestBankCommands {
     }
 
     @Test
+    public void testBankListCommand() {
+
+    }
+
+    @Test
+    public void testBankPermCommand() {
+
+    }
+
+    @Test
+    public void testBankSetCommand() {
+        BankSetCommand command = new BankSetCommand();
+        Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + BANK_ACCOUNT);
+        double initialValue = Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + BANK_ACCOUNT).getBalance("default", Common.getInstance().getCurrencyManager().getDefaultCurrency().getName());
+        command.execute(TEST_USER, new String[]{BANK_ACCOUNT, "wow"});
+        assertEquals(initialValue, Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + BANK_ACCOUNT).getBalance("default", Common.getInstance().getCurrencyManager().getDefaultCurrency().getName()), 0);
+        command.execute(TEST_USER, new String[]{BANK_ACCOUNT, "100"});
+        assertEquals(initialValue + 100, Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + BANK_ACCOUNT).getBalance("default", Common.getInstance().getCurrencyManager().getDefaultCurrency().getName()), 0);
+        command.execute(TEST_USER, new String[]{BANK_ACCOUNT, "0"});
+        assertEquals(initialValue, Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + BANK_ACCOUNT).getBalance("default", Common.getInstance().getCurrencyManager().getDefaultCurrency().getName()), 0);
+
+    }
+
+    @Test
+    public void testBankWithdrawCommand() {
+
+    }
+
+    @Test
     public void testBankDeleteCommand() {
 
     }

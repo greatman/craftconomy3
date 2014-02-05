@@ -50,12 +50,8 @@ public class BankSetCommand extends CommandExecutor {
                     worldName = Common.getInstance().getWorldGroupManager().getWorldGroupName(args[3]);
                 }
 
-                if (bankAccount.hasEnough(amount, worldName, currency.getName())) {
-                    bankAccount.set(amount, worldName, currency.getName(), Cause.USER, sender);
-                    Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().parse("bank_set_success", Common.getInstance().format(worldName, currency, amount), args[0]));
-                } else {
-                    Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("bank_not_enough_money"));
-                }
+                bankAccount.set(amount, worldName, currency.getName(), Cause.USER, sender);
+                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().parse("bank_set_success", Common.getInstance().format(worldName, currency, amount), args[0]));
             } else {
                 Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("invalid_amount"));
             }
