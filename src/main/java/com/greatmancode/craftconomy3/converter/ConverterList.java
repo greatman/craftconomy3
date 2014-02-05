@@ -47,5 +47,6 @@ public class ConverterList {
         converterList.put("boseeconomy", new BoseEconomy());
         converterList.put("essentials", new Essentials());
         converterList.put("feconomy", new Feconomy());
+        converterList.put("mineconomy", new Mineconomy());
     }
 }

@@ -135,6 +135,9 @@ public class NewSetupConvertCommand extends CommandExecutor {
         if (IMPORTER_LIST.getConverterList().containsKey(args[0])) {
             selectedConverter = IMPORTER_LIST.getConverterList().get(args[0]);
             Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{WHITE}}" + args[0] + " {{DARK_GREEN}}importer selected.");
+            if (selectedConverter.getWarning() != null) {
+                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_RED}}Warning{{WHITE}}: " + selectedConverter.getWarning());
+            }
             if (selectedConverter.getDbTypes().size() == 1) {
                 step = INTERNALSTEP.SELECT_DB;
                 selectDb(sender, new String[]{selectedConverter.getDbTypes().get(0)});

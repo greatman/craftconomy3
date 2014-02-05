@@ -154,7 +154,9 @@ public abstract class Converter {
         }
     }
 
-    //Should be used in INSERT TO cc3_account
+    public String getWarning() {
+        return null;
+    }
 
     /**
      * Add the given accounts to the system
