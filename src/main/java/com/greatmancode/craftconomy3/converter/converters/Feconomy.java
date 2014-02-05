@@ -18,17 +18,11 @@
  */
 package com.greatmancode.craftconomy3.converter.converters;
 
-import com.alta189.simplesave.Database;
-import com.alta189.simplesave.DatabaseFactory;
-import com.alta189.simplesave.exceptions.ConnectionException;
-import com.alta189.simplesave.exceptions.TableRegistrationException;
-import com.alta189.simplesave.mysql.MySQLConfiguration;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.converter.Converter;
-import com.greatmancode.craftconomy3.database.tables.feconomy.FeconomyTable;
 
+import java.sql.*;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -37,7 +31,7 @@ import java.util.List;
  * @author greatman
  */
 public class Feconomy extends Converter {
-    private Database db = null;
+    private Connection connect;
 
     public Feconomy() {
         getDbTypes().add("mysql");
@@ -59,39 +53,15 @@ public class Feconomy extends Converter {
     @Override
     public boolean connect() {
         boolean result = false;
-        loadMySQL();
-
-        if (db != null) {
-
-            try {
-                db.registerTable(FeconomyTable.class);
-                db.setCheckTableOnRegistration(false);
-                db.connect();
-                result = true;
-            } catch (TableRegistrationException e) {
-                Common.getInstance().getLogger().severe("Unable to register Feconomy tables. Reason: " + e.getMessage());
-            } catch (ConnectionException e) {
-                Common.getInstance().getLogger().severe("Unable to connect to Feconomy database. Reason: " + e.getMessage());
-            }
+        try {
+            connect = DriverManager
+                    .getConnection("jdbc:mysql://" + getDbConnectInfo().get("address") + ":" + getDbConnectInfo().get("port") + "/" + getDbConnectInfo().get("database") + "?"
+                            + "user=" + getDbConnectInfo().get("username") + "&password=" + getDbConnectInfo().get("password"));
+            result = true;
+        } catch (SQLException e) {
+            Common.getInstance().getLogger().severe("Unable to connect to Feconomy database. Reason: " + e.getMessage());
         }
         return result;
-    }
-
-    /**
-     * Allow to load a MySQL database.
-     */
-    private void loadMySQL() {
-        try {
-            MySQLConfiguration config = new MySQLConfiguration();
-            config.setHost(getDbConnectInfo().get("address"));
-            config.setUser(getDbConnectInfo().get("username"));
-            config.setPassword(getDbConnectInfo().get("password"));
-            config.setDatabase(getDbConnectInfo().get("database"));
-            config.setPort(Integer.parseInt(getDbConnectInfo().get("port")));
-            db = DatabaseFactory.createNewDatabase(config);
-        } catch (NumberFormatException e) {
-            Common.getInstance().getLogger().severe("Illegal Port!");
-        }
     }
 
     @Override
@@ -106,20 +76,22 @@ public class Feconomy extends Converter {
      * @return True if the convert is done. Else false.
      */
     private boolean importDatabase(String sender) {
-        List<FeconomyTable> icoList = db.select(FeconomyTable.class).execute().find();
-        if (icoList != null && icoList.size() > 0) {
-            Iterator<FeconomyTable> icoListIterator = icoList.iterator();
+        try {
+            Statement statement = connect.createStatement();
+            ResultSet rs = statement.executeQuery("SELECT * FROM fe_accounts");
             List<User> userList = new ArrayList<User>();
-            while (icoListIterator.hasNext()) {
-                FeconomyTable entry = icoListIterator.next();
-                userList.add(new User(entry.getName(), entry.getMoney()));
+            while (rs.next()) {
+                userList.add(new User(rs.getString("name"), rs.getDouble("money")));
             }
+            rs.close();
             addAccountToString(userList);
             addBalance(sender, userList);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         try {
-            db.close();
-        } catch (ConnectionException e) {
+            connect.close();
+        } catch (SQLException e) {
             Common.getInstance().getLogger().severe("Unable to disconnect from the Feconomy database! Message: " + e.getMessage());
         }
         return true;
