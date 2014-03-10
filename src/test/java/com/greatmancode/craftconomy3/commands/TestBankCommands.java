@@ -36,6 +36,7 @@ public class TestBankCommands {
 
     private static final String BANK_ACCOUNT = "testbankaccount39";
     private static final String TEST_USER = "testuser39";
+    private static final String TEST_USER2 = "testuser40";
     @Before
     public void setUp() {
         new TestInitializator();
@@ -108,7 +109,54 @@ public class TestBankCommands {
 
     @Test
     public void testBankPermCommand() {
+        BankPermCommand command = new BankPermCommand();
+        Common.getInstance().getAccountManager().getAccount(TEST_USER).set(200, "default", Common.getInstance().getCurrencyManager().getDefaultCurrency().getName(), Cause.USER, "greatman");
+        new BankCreateCommand().execute(TEST_USER, new String[]{BANK_ACCOUNT});
+        Account account = Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + BANK_ACCOUNT);
+        command.execute(TEST_USER, new String[] {BANK_ACCOUNT, "deposit", TEST_USER2, "true"});
+        System.out.println("WOW SUPER");
 
+        assertTrue(account.getAccountACL().canDeposit(TEST_USER2));
+        assertFalse(account.getAccountACL().canAcl(TEST_USER2));
+        assertFalse(account.getAccountACL().canShow(TEST_USER2));
+        assertFalse(account.getAccountACL().canWithdraw(TEST_USER2));
+        assertFalse(account.getAccountACL().isOwner(TEST_USER2));
+        command.execute(TEST_USER, new String[] {BANK_ACCOUNT, "deposit", TEST_USER2, "false"});
+        assertFalse(account.getAccountACL().canDeposit(TEST_USER2));
+        assertFalse(account.getAccountACL().canAcl(TEST_USER2));
+        assertFalse(account.getAccountACL().canShow(TEST_USER2));
+        assertFalse(account.getAccountACL().canWithdraw(TEST_USER2));
+        assertFalse(account.getAccountACL().isOwner(TEST_USER2));
+
+        command.execute(TEST_USER, new String[] {BANK_ACCOUNT, "withdraw", TEST_USER2, "true"});
+        assertFalse(account.getAccountACL().canDeposit(TEST_USER2));
+        assertFalse(account.getAccountACL().canAcl(TEST_USER2));
+        assertFalse(account.getAccountACL().canShow(TEST_USER2));
+        assertTrue(account.getAccountACL().canWithdraw(TEST_USER2));
+        assertFalse(account.getAccountACL().isOwner(TEST_USER2));
+
+        command.execute(TEST_USER, new String[] {BANK_ACCOUNT, "withdraw", TEST_USER2, "false"});
+        assertFalse(account.getAccountACL().canDeposit(TEST_USER2));
+        assertFalse(account.getAccountACL().canAcl(TEST_USER2));
+        assertFalse(account.getAccountACL().canShow(TEST_USER2));
+        assertFalse(account.getAccountACL().canWithdraw(TEST_USER2));
+        assertFalse(account.getAccountACL().isOwner(TEST_USER2));
+
+
+
+        command.execute(TEST_USER, new String[] {BANK_ACCOUNT, "show", TEST_USER2, "true"});
+        assertFalse(account.getAccountACL().canDeposit(TEST_USER2));
+        assertFalse(account.getAccountACL().canAcl(TEST_USER2));
+        assertTrue(account.getAccountACL().canShow(TEST_USER2));
+        assertFalse(account.getAccountACL().canWithdraw(TEST_USER2));
+        assertFalse(account.getAccountACL().isOwner(TEST_USER2));
+
+        command.execute(TEST_USER, new String[] {BANK_ACCOUNT, "show", TEST_USER2, "false"});
+        assertFalse(account.getAccountACL().canDeposit(TEST_USER2));
+        assertFalse(account.getAccountACL().canAcl(TEST_USER2));
+        assertFalse(account.getAccountACL().canShow(TEST_USER2));
+        assertFalse(account.getAccountACL().canWithdraw(TEST_USER2));
+        assertFalse(account.getAccountACL().isOwner(TEST_USER2));
     }
 
     @Test

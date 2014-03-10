@@ -48,5 +48,6 @@ public class ConverterList {
         converterList.put("essentials", new Essentials());
         converterList.put("feconomy", new Feconomy());
         converterList.put("mineconomy", new Mineconomy());
+
     }
 }
