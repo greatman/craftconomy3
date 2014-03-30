@@ -175,7 +175,11 @@ public class TestBankCommands {
 
     @Test
     public void testBankWithdrawCommand() {
-
+        BankWithdrawCommand command = new BankWithdrawCommand();
+        Common.getInstance().getAccountManager().getAccount(TEST_USER).set(200, "default", Common.getInstance().getCurrencyManager().getDefaultCurrency().getName(), Cause.USER, "greatman");
+        new BankCreateCommand().execute(TEST_USER, new String[]{BANK_ACCOUNT});
+        Account account = Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + BANK_ACCOUNT);
+        account.set(200, "default", Common.getInstance().getCurrencyManager().getDefaultCurrency().getName());
     }
 
     @Test
