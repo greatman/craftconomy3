@@ -179,11 +179,16 @@ public class TestBankCommands {
         Common.getInstance().getAccountManager().getAccount(TEST_USER).set(200, "default", Common.getInstance().getCurrencyManager().getDefaultCurrency().getName(), Cause.USER, "greatman");
         new BankCreateCommand().execute(TEST_USER, new String[]{BANK_ACCOUNT});
         Account account = Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + BANK_ACCOUNT);
-        account.set(200, "default", Common.getInstance().getCurrencyManager().getDefaultCurrency().getName());
+        account.set(200, "default", Common.getInstance().getCurrencyManager().getDefaultCurrency().getName(), Cause.UNKNOWN, null);
+        account.withdraw(20, "default", Common.getInstance().getCurrencyManager().getDefaultCurrency().getName(), Cause.UNKNOWN, null);
+        assertEquals(180, account.getBalance("default", Common.getInstance().getCurrencyManager().getDefaultCurrency().getName()), 0);
     }
 
     @Test
     public void testBankDeleteCommand() {
-
+        new BankCreateCommand().execute(TEST_USER, new String[]{BANK_ACCOUNT});
+        BankDeleteCommand command = new BankDeleteCommand();
+        command.execute(TEST_USER, new String[] {BANK_ACCOUNT});
+        assertFalse(Common.getInstance().getAccountManager().exist(Account.BANK_PREFIX + BANK_ACCOUNT));
     }
 }
