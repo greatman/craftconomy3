@@ -50,6 +50,9 @@ public class Account {
         if (result == null) {
             result = new AccountTable();
             result.setName(name);
+            if (!name.contains(Account.BANK_PREFIX) && Common.getInstance().getServerCaller().getPlayerCaller().isOnline(name)) {
+                result.setUuid(Common.getInstance().getServerCaller().getPlayerCaller().getUUID(name).toString());
+            }
             create = true;
         }
         account = result;

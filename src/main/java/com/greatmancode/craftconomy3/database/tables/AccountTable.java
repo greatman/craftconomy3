@@ -23,6 +23,8 @@ import com.alta189.simplesave.Id;
 import com.alta189.simplesave.Table;
 import lombok.Data;
 
+import java.util.UUID;
+
 @Table("account")
 @Data
 @SuppressWarnings("PMD.UnusedPrivateField")
@@ -35,4 +37,6 @@ public class AccountTable {
     private boolean infiniteMoney;
     @Field
     private boolean ignoreACL;
+    @Field
+    private String uuid;
 }

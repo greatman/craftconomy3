@@ -19,6 +19,7 @@
 package com.greatmancode.craftconomy3.events;
 
 import com.greatmancode.craftconomy3.Common;
+import com.greatmancode.craftconomy3.database.tables.AccountTable;
 import com.greatmancode.tools.events.interfaces.EventHandler;
 import com.greatmancode.tools.events.interfaces.Listener;
 import com.greatmancode.tools.events.playerEvent.PlayerJoinEvent;
@@ -38,6 +39,20 @@ public class EventManager implements Listener {
             Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(event.getPlayer().getName(), "{{DARK_CYAN}}Craftconomy is out of date! New version is " + Common.getInstance().getVersionChecker().getLatestName());
         }
 
+        //We search if the UUID is in the database
+        AccountTable table = Common.getInstance().getDatabaseManager().getDatabase().select(AccountTable.class).where().equal("uuid", event.getPlayer().getUuid().toString()).execute().findOne();
+        if (table != null) {
+            table.setName(event.getPlayer().getName());
+            Common.getInstance().getDatabaseManager().getDatabase().save(table);
+        } else {
+            //Did the player already had a account? If so, let's insert his UUID
+            table = Common.getInstance().getDatabaseManager().getDatabase().select(AccountTable.class).where().equal("name", event.getPlayer().getName()).execute().findOne();
+            if (table != null) {
+                table.setUuid(event.getPlayer().getUuid().toString());
+                Common.getInstance().getDatabaseManager().getDatabase().save(table);
+            }
+
+        }
         if (Common.getInstance().getMainConfig().getBoolean("System.CreateOnLogin")) {
             Common.getInstance().getAccountManager().getAccount(event.getPlayer().getName());
         }
