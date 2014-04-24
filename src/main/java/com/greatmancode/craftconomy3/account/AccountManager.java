@@ -100,4 +100,8 @@ public class AccountManager {
         }
         return result;
     }
+
+    public void clearCache(String name) {
+        accountList.remove(name);
+    }
 }

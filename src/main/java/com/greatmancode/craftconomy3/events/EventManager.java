@@ -41,7 +41,9 @@ public class EventManager implements Listener {
 
         //We search if the UUID is in the database
         AccountTable table = Common.getInstance().getDatabaseManager().getDatabase().select(AccountTable.class).where().equal("uuid", event.getPlayer().getUuid().toString()).execute().findOne();
-        if (table != null) {
+        if (table != null && !table.getName().equals(event.getPlayer().getName())) {
+            //Clear the cache of the player
+            Common.getInstance().getAccountManager().clearCache(table.getName());
             table.setName(event.getPlayer().getName());
             Common.getInstance().getDatabaseManager().getDatabase().save(table);
         } else {
@@ -51,7 +53,6 @@ public class EventManager implements Listener {
                 table.setUuid(event.getPlayer().getUuid().toString());
                 Common.getInstance().getDatabaseManager().getDatabase().save(table);
             }
-
         }
         if (Common.getInstance().getMainConfig().getBoolean("System.CreateOnLogin")) {
             Common.getInstance().getAccountManager().getAccount(event.getPlayer().getName());
