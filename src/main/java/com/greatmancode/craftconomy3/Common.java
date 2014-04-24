@@ -1235,6 +1235,34 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
             Common.getInstance().getDatabaseManager().getDatabase().save(dbVersion);
             Common.getInstance().sendConsoleMessage(Level.INFO, "Updated to Revision 6!");
         }
+        if (dbVersion.getValue().equalsIgnoreCase("6")) {
+            alertOldDbVersion(dbVersion.getValue(), 7);
+            DatabaseType databaseType = DatabaseType.valueOf(getMainConfig().getString("System.Database.Type").toUpperCase());
+            if (databaseType.equals(DatabaseType.SQLITE)) {
+                getDatabaseManager().getDatabase().directQuery("CREATE INDEX ON " + getMainConfig().getString("System.Database.Prefix") + "account(name(50))");
+                getDatabaseManager().getDatabase().directQuery("CREATE INDEX ON " + getMainConfig().getString("System.Database.Prefix") + "account(uuid(50))");
+            } else {
+                getDatabaseManager().getDatabase().directQuery("CREATE INDEX account_name_index ON " + getMainConfig().getString("System.Database.Prefix") + "account(name(50))");
+                getDatabaseManager().getDatabase().directQuery("CREATE INDEX account_uuid_index ON " + getMainConfig().getString("System.Database.Prefix") + "account(uuid(50))");
+            }
+            dbVersion.setValue(7 + "");
+            Common.getInstance().getDatabaseManager().getDatabase().save(dbVersion);
+            Common.getInstance().sendConsoleMessage(Level.INFO, "Updated to Revision 7!");
+        }
+        if (dbVersion.getValue().equalsIgnoreCase("7")) {
+            alertOldDbVersion(dbVersion.getValue(), 8);
+            Common.getInstance().sendConsoleMessage(Level.INFO, "Notice: This may take some time.");
+            DatabaseType databaseType = DatabaseType.valueOf(getMainConfig().getString("System.Database.Type").toUpperCase());
+            if (databaseType.equals(DatabaseType.MYSQL)) {
+                getDatabaseManager().getDatabase().directQuery("ALTER TABLE " + getMainConfig().getString("System.Database.Prefix") + "balance ADD CONSTRAINT fk_balance_account FOREIGN KEY (username_id) REFERENCES " + getMainConfig().getString("System.Database.Prefix") + "account(id)");
+                getDatabaseManager().getDatabase().directQuery("ALTER TABLE " + getMainConfig().getString("System.Database.Prefix") + "balance ADD CONSTRAINT fk_balance_currency FOREIGN KEY (currency_id) REFERENCES " + getMainConfig().getString("System.Database.Prefix") + "currency(id)");
+                getDatabaseManager().getDatabase().directQuery("ALTER TABLE " + getMainConfig().getString("System.Database.Prefix") + "log ADD CONSTRAINT fk_log_account FOREIGN KEY (username_id) REFERENCES " + getMainConfig().getString("System.Database.Prefix") + "account(id)");
+                getDatabaseManager().getDatabase().directQuery("ALTER TABLE " + getMainConfig().getString("System.Database.Prefix") + "acl ADD CONSTRAINT fk_acl_account FOREIGN KEY (account_id) REFERENCES " + getMainConfig().getString("System.Database.Prefix") + "account(id)");
+            }
+            dbVersion.setValue(8 + "");
+            Common.getInstance().getDatabaseManager().getDatabase().save(dbVersion);
+            Common.getInstance().sendConsoleMessage(Level.INFO, "Updated to Revision 8!");
+        }
     }
 
     /**
