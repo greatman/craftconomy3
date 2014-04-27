@@ -38,24 +38,26 @@ public class EventManager implements Listener {
         if (Common.getInstance().getMainConfig().getBoolean("System.CheckNewVersion") && Common.getInstance().getServerCaller().getPlayerCaller().isOp(event.getPlayer().getName()) && Common.getInstance().getVersionChecker().getResult() == Updater.UpdateResult.UPDATE_AVAILABLE) {
             Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(event.getPlayer().getName(), "{{DARK_CYAN}}Craftconomy is out of date! New version is " + Common.getInstance().getVersionChecker().getLatestName());
         }
-
-        //We search if the UUID is in the database
-        AccountTable table = Common.getInstance().getDatabaseManager().getDatabase().select(AccountTable.class).where().equal("uuid", event.getPlayer().getUuid().toString()).execute().findOne();
-        if (table != null && !table.getName().equals(event.getPlayer().getName())) {
-            //Clear the cache of the player
-            Common.getInstance().getAccountManager().clearCache(table.getName());
-            table.setName(event.getPlayer().getName());
-            Common.getInstance().getDatabaseManager().getDatabase().save(table);
-        } else {
-            //Did the player already had a account? If so, let's insert his UUID
-            table = Common.getInstance().getDatabaseManager().getDatabase().select(AccountTable.class).where().equal("name", event.getPlayer().getName()).execute().findOne();
-            if (table != null) {
-                table.setUuid(event.getPlayer().getUuid().toString());
+        if (!Common.getInstance().getMainConfig().getBoolean("System.Setup")) {
+            //We search if the UUID is in the database
+            System.out.println(event.getPlayer().getUuid().toString());
+            AccountTable table = Common.getInstance().getDatabaseManager().getDatabase().select(AccountTable.class).where().equal("uuid", event.getPlayer().getUuid().toString()).execute().findOne();
+            if (table != null && !table.getName().equals(event.getPlayer().getName())) {
+                //Clear the cache of the player
+                Common.getInstance().getAccountManager().clearCache(table.getName());
+                table.setName(event.getPlayer().getName());
                 Common.getInstance().getDatabaseManager().getDatabase().save(table);
+            } else {
+                //Did the player already had a account? If so, let's insert his UUID
+                table = Common.getInstance().getDatabaseManager().getDatabase().select(AccountTable.class).where().equal("name", event.getPlayer().getName()).execute().findOne();
+                if (table != null) {
+                    table.setUuid(event.getPlayer().getUuid().toString());
+                    Common.getInstance().getDatabaseManager().getDatabase().save(table);
+                }
             }
-        }
-        if (Common.getInstance().getMainConfig().getBoolean("System.CreateOnLogin")) {
-            Common.getInstance().getAccountManager().getAccount(event.getPlayer().getName());
+            if (Common.getInstance().getMainConfig().getBoolean("System.CreateOnLogin")) {
+                Common.getInstance().getAccountManager().getAccount(event.getPlayer().getName());
+            }
         }
     }
 }
