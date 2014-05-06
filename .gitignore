@@ -8,3 +8,4 @@ dependency-reduced-pom.xml
 atlassian-ide-plugin.xml
 .idea
 *.iml
+build
