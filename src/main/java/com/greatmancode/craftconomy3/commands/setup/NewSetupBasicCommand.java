@@ -128,7 +128,7 @@ public class NewSetupBasicCommand extends CommandExecutor {
                 table.setValue(args[0]);
                 Common.getInstance().getDatabaseManager().getDatabase().save(table);
                 step = INTERNALSTEP.BANK_PRICE;
-                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_GREEN}}How much you want your players to pay for a {{WHITE}}bank account{{DARK_GREEN}}? Please type {{WHITE}}/ccsetup basic <amount>");
+                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_GREEN}}How much do you want your players to pay for a {{WHITE}}bank account{{DARK_GREEN}}? Please type {{WHITE}}/ccsetup basic <amount>");
             } else {
                 Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_RED}}Invalid amount! Please type {{WHITE}}/ccsetup basic <amount>");
             }
