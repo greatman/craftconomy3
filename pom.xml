@@ -31,7 +31,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<spoutVersion>1.0.0-SNAPSHOT</spoutVersion>
-		<bukkitVersion>1.7.5-R0.1-SNAPSHOT</bukkitVersion>
+		<bukkitVersion>1.7.9-R0.2-SNAPSHOT</bukkitVersion>
         <BUILD_TAG>unknown-unknown-unknown</BUILD_TAG>
 	</properties>
 
@@ -68,7 +68,7 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.10</version>
+			<version>4.11</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -101,7 +101,7 @@
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<version>5.1.26</version>
+			<version>5.1.30</version>
 			<type>jar</type>
 			<scope>test</scope>
 		</dependency>
@@ -115,7 +115,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.12.2</version>
+            <version>1.12.6</version>
             <scope>provided</scope>
         </dependency>
 	</dependencies>
