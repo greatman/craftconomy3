@@ -451,8 +451,9 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
     /**
      * Initialize the database Manager
      *
-     * @throws TableRegistrationException
-     * @throws ConnectionException
+     * @throws TableRegistrationException If there's a issue with the tables being registered
+     * @throws ConnectionException If there's a issue conencting to MySQL
+     * @throws InvalidDatabaseConstructor If the database type requested is invalid.
      */
     public void initialiseDatabase() throws TableRegistrationException, ConnectionException, InvalidDatabaseConstructor {
         if (!databaseInitialized) {
@@ -636,11 +637,13 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
     /**
      * Write a transaction to the Log.
      *
-     * @param info      The type of transaction to log.
-     * @param cause     The cause of the transaction.
-     * @param amount    The amount of money in this transaction.
-     * @param currency  The currency associated with this transaction
-     * @param worldName The world name associated with this transaction
+     * @param info          The type of transaction to log.
+     * @param cause         The cause of the transaction.
+     * @param causeReason   The reason of the cause
+     * @param account       The account being impacted by the change
+     * @param amount        The amount of money in this transaction.
+     * @param currency      The currency associated with this transaction
+     * @param worldName     The world name associated with this transaction
      */
     public void writeLog(LogInfo info, Cause cause, String causeReason, Account account, double amount, Currency currency, String worldName) {
         if (getMainConfig().getBoolean("System.Logging.Enabled")) {
@@ -733,7 +736,7 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
     /**
      * Set the display format for any formatting through {@link #format(String, com.greatmancode.craftconomy3.currency.Currency, double, DisplayFormat)}
      *
-     * @param format
+     * @param format The format display to be set to
      */
     public void setDisplayFormat(DisplayFormat format) {
         ConfigTable table = getDatabaseManager().getDatabase().select(ConfigTable.class).where().equal(ConfigTable.NAME_FIELD, "longmode").execute().findOne();

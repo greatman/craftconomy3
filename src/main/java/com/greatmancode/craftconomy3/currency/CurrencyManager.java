@@ -98,6 +98,8 @@ public class CurrencyManager {
      * @param plural      The main currency name in plural
      * @param minor       The minor (cents) part of the currency
      * @param minorPlural The minor (cents) part of the currency in plural
+     * @param hardCap     The hardcap of the plugin (Unused)
+     * @param sign        The sign of the currency
      * @param save        Do we add it in the database?
      */
     public void addCurrency(String name, String plural, String minor, String minorPlural, double hardCap, String sign, boolean save) {
@@ -107,11 +109,14 @@ public class CurrencyManager {
     /**
      * Add a currency in the system
      *
+     * @param databaseID  The database ID
      * @param name        The main currency name
      * @param plural      The main currency name in plural
      * @param minor       The minor (cents) part of the currency
      * @param minorPlural The minor (cents) part of the currency in plural
-     * @param save        Do we add it in the database? If True, generates a databaseID (Whole new entry)
+     * @param hardCap     The hardcap of the plugin (Unused)
+     * @param sign        The sign of the currency
+     * @param save        Do we add it in the database?
      */
     // TODO: A check if the currency already exist.
     public void addCurrency(int databaseID, String name, String plural, String minor, String minorPlural, double hardCap, String sign, boolean save) {

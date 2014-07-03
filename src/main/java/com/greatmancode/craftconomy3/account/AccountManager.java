@@ -60,6 +60,7 @@ public class AccountManager {
      * Check if a account exist in the database.
      *
      * @param name The name to check
+     * @return True if the account exists else false
      */
     public boolean exist(String name) {
         String newName = name;

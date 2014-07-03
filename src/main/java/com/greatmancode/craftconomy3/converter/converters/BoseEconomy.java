@@ -54,7 +54,7 @@ public class BoseEconomy extends Converter {
                 flatFileReader = new BufferedReader(new FileReader(dbFile));
                 result = true;
             } catch (FileNotFoundException e) {
-                Common.getInstance().getLogger().severe("iConomy database file not found!");
+                Common.getInstance().getLogger().severe("BoseEconomy database file not found!");
             }
         }
         return result;

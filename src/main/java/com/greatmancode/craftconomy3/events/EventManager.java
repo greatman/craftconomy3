@@ -32,6 +32,7 @@ public class EventManager implements Listener {
 
     /**
      * Event handler for when a player is connecting to the server.
+     * @param event The PlayerJoinEvent associated with the event
      */
     @EventHandler
     public void playerJoinEvent(PlayerJoinEvent event) {

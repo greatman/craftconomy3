@@ -203,6 +203,7 @@ public class Account {
      * @param world        The World / World group we want to add money in
      * @param currencyName The currency we want to add money in
      * @param cause        The cause of the change.
+     * @param causeReason  The reason of the cause
      * @return The new balance. If the account has infinite money. Double.MAX_VALUE is returned.
      */
     public double deposit(double amount, String world, String currencyName, Cause cause, String causeReason) {
@@ -259,6 +260,7 @@ public class Account {
      * @param world        The World / World group we want to withdraw money from
      * @param currencyName The currency we want to withdraw money from
      * @param cause        The cause of the change.
+     * @param causeReason  The reason of the cause.
      * @return The new balance. If the account has infinite money. Double.MAX_VALUE is returned.
      */
     public double withdraw(double amount, String world, String currencyName, Cause cause, String causeReason) {
@@ -313,6 +315,7 @@ public class Account {
      * @param world        The World / World group we want to set money to
      * @param currencyName The currency we want to set money to
      * @param cause        The cause of the change.
+     * @param causeReason  The reason of the cause.
      * @return The new balance. If the account has infinite money. Double.MAX_VALUE is returned.
      */
     public double set(double amount, String world, String currencyName, Cause cause, String causeReason) {

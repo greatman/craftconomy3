@@ -186,6 +186,7 @@ public class Currency {
      *
      * @param otherCurrency The other currency to exchange to
      * @return The exchange rate or Double.MIN_VALUE if no exchange information are found.
+     * @throws com.greatmancode.craftconomy3.utils.NoExchangeRate If there's no exchange rate between the 2 currencies.
      */
     public double getExchangeRate(Currency otherCurrency) throws NoExchangeRate {
         ExchangeTable exchangeTable = Common.getInstance().getDatabaseManager().getDatabase().select(ExchangeTable.class).where().equal("from_currency_id", this.getDatabaseID()).and().equal("to_currency_id", otherCurrency.getDatabaseID()).execute().findOne();

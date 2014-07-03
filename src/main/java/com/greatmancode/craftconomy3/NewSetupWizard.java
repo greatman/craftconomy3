@@ -39,6 +39,7 @@ public enum NewSetupWizard {
 
     /**
      * Retrieve the Wizard state.
+     * @return The state of the setup wizard
      */
     public static NewSetupWizard getState() {
         return state;
