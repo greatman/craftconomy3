@@ -18,8 +18,6 @@
  */
 package com.greatmancode.craftconomy3;
 
-import com.alta189.simplesave.exceptions.ConnectionException;
-import com.alta189.simplesave.exceptions.TableRegistrationException;
 import com.greatmancode.craftconomy3.account.Account;
 import com.greatmancode.craftconomy3.account.AccountManager;
 import com.greatmancode.craftconomy3.commands.bank.*;
@@ -53,9 +51,7 @@ import com.greatmancode.tools.utils.Updater;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
+import java.sql.*;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.List;
@@ -143,16 +139,6 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
                     try {
                         quickSetup();
                         reloadPlugin();
-                    } catch (TableRegistrationException e) {
-                        e.printStackTrace();
-                        sendConsoleMessage(Level.SEVERE, String.format(getLanguageManager().getString("database_connect_error"), e.getMessage()));
-                        getServerCaller().disablePlugin();
-                        return;
-                    } catch (ConnectionException e) {
-                        e.printStackTrace();
-                        sendConsoleMessage(Level.SEVERE, String.format(getLanguageManager().getString("database_connect_error"), e.getMessage()));
-                        getServerCaller().disablePlugin();
-                        return;
                     } catch (InvalidDatabaseConstructor invalidDatabaseConstructor) {
                         invalidDatabaseConstructor.printStackTrace();
                         sendConsoleMessage(Level.SEVERE, String.format(getLanguageManager().getString("database_connect_error"), invalidDatabaseConstructor.getMessage()));
@@ -197,11 +183,7 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
     public void onDisable() {
         if (getDatabaseManager() != null && getDatabaseManager().getDatabase() != null) {
             getLogger().info(getLanguageManager().getString("closing_db_link"));
-            try {
-                getDatabaseManager().getDatabase().close();
-            } catch (ConnectionException e) {
-                this.getLogger().severe(String.format(getLanguageManager().getString("unable_close_db_link"), e.getMessage()));
-            }
+            getDatabaseManager().getDatabase().close();
         }
         // Managers
         accountManager = null;
@@ -254,10 +236,6 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
             sendConsoleMessage(Level.INFO, getLanguageManager().getString("default_settings_loaded"));
             startUp();
             sendConsoleMessage(Level.INFO, getLanguageManager().getString("ready"));
-        } catch (TableRegistrationException e) {
-            e.printStackTrace();
-        } catch (ConnectionException e) {
-            e.printStackTrace();
         } catch (InvalidDatabaseConstructor invalidDatabaseConstructor) {
             invalidDatabaseConstructor.printStackTrace();
         }
@@ -444,11 +422,9 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
     /**
      * Initialize the database Manager
      *
-     * @throws TableRegistrationException If there's a issue with the tables being registered
-     * @throws ConnectionException If there's a issue conencting to MySQL
      * @throws InvalidDatabaseConstructor If the database type requested is invalid.
      */
-    public void initialiseDatabase() throws TableRegistrationException, ConnectionException, InvalidDatabaseConstructor {
+    public void initialiseDatabase() throws InvalidDatabaseConstructor {
         if (!databaseInitialized) {
             sendConsoleMessage(Level.INFO, getLanguageManager().getString("loading_database_manager"));
             DatabaseType databaseType = DatabaseType.valueOf(getMainConfig().getString("System.Database.Type").toUpperCase());
@@ -457,19 +433,39 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
             } else {
                 dbManager = new DatabaseManager(databaseType, getMainConfig().getString("System.Database.Prefix"), new File(serverCaller.getDataFolder(), "database.db"), serverCaller);
             }
-
             addMetricsGraph("Database Engine", databaseType.name());
-
-            dbManager.registerTable(AccountTable.class);
-            dbManager.registerTable(AccessTable.class);
-            dbManager.registerTable(BalanceTable.class);
-            dbManager.registerTable(CurrencyTable.class);
-            dbManager.registerTable(ConfigTable.class);
-            dbManager.registerTable(PayDayTable.class);
-            dbManager.registerTable(ExchangeTable.class);
-            dbManager.registerTable(WorldGroupTable.class);
-            dbManager.registerTable(LogTable.class);
-            dbManager.connect();
+            try {
+                Connection connection = dbManager.getDatabase().getConnection();
+                if (DatabaseType.MYSQL.equals(databaseType)) {
+                    PreparedStatement statement = connection.prepareStatement(AccountTable.CREATE_TABLE_MYSQL);
+                    statement.executeUpdate();
+                    statement.close();
+                    statement = connection.prepareStatement(CurrencyTable.CREATE_TABLE_MYSQL);
+                    statement.executeUpdate();
+                    statement.close();
+                    statement = connection.prepareStatement(ConfigTable.CREATE_TABLE_MYSQL);
+                    statement.executeUpdate();
+                    statement.close();
+                    statement = connection.prepareStatement(AccessTable.CREATE_TABLE_MYSQL);
+                    statement.executeUpdate();
+                    statement.close();
+                    statement = connection.prepareStatement(BalanceTable.CREATE_TABLE_MYSQL);
+                    statement.executeUpdate();
+                    statement.close();
+                    statement = connection.prepareStatement(ExchangeTable.CREATE_TABLE_MYSQL);
+                    statement.executeUpdate();
+                    statement.close();
+                    statement = connection.prepareStatement(WorldGroupTable.CREATE_TABLE_MYSQL);
+                    statement.executeUpdate();
+                    statement.close();
+                    statement = connection.prepareStatement(LogTable.CREATE_TABLE_MYSQL);
+                    statement.executeUpdate();
+                    statement.close();
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
 
             if (getMainConfig().getBoolean("System.Database.ConvertFromSQLite")) {
                 convertDatabase(dbManager);
@@ -640,16 +636,22 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
      */
     public void writeLog(LogInfo info, Cause cause, String causeReason, Account account, double amount, Currency currency, String worldName) {
         if (getMainConfig().getBoolean("System.Logging.Enabled")) {
-            LogTable log = new LogTable();
-            log.setUsername_id(account.getAccountID());
-            log.setAmount(amount);
-            log.setType(info);
-            log.setCause(cause);
-            log.setCauseReason(causeReason);
-            log.setCurrencyName(currency.getName());
-            log.setWorldName(worldName);
-            log.setTimestamp(new Timestamp(System.currentTimeMillis()));
-            getDatabaseManager().getDatabase().save(log);
+            try {
+                Connection connection = getDatabaseManager().getDatabase().getConnection();
+                PreparedStatement statement = connection.prepareStatement(LogTable.INSERT_ENTRY);
+                statement.setString(1, account.getAccountName());
+                statement.setString(2, info.toString());
+                statement.setString(3, cause.toString());
+                statement.setString(4, causeReason);
+                statement.setString(5, worldName);
+                statement.setDouble(6, amount);
+                statement.setString(7, currency.getName());
+                statement.executeUpdate();
+                statement.close();
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 

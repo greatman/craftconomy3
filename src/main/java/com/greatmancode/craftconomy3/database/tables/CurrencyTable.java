@@ -18,32 +18,32 @@
  */
 package com.greatmancode.craftconomy3.database.tables;
 
-import com.alta189.simplesave.Field;
-import com.alta189.simplesave.Id;
-import com.alta189.simplesave.Table;
-import lombok.Data;
+import com.greatmancode.craftconomy3.Common;
 
-@Table("currency")
-@Data
-@SuppressWarnings("PMD.UnusedPrivateField")
+
 public class CurrencyTable {
-    @Id
-    private int id;
-    @Field
-    private String name;
-    @Field
-    private String plural;
-    @Field
-    private String minor;
-    @Field
-    private String minorplural;
-    /**
-     * 1 = Default currency, 0 = Non Default
-     */
-    @Field
-    private boolean status;
-    @Field
-    private double hardCap;
-    @Field
-    private String sign;
+
+    public static final String TABLE_NAME="currency";
+
+    public static final String CREATE_TABLE_MYSQL = "CREATE TABLE `"+ Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+"` (" +
+            "  `id` int(11) NOT NULL AUTO_INCREMENT," +
+            "  `name` varchar(50)," +
+            "  `plural` varchar(50)," +
+            "  `minor` varchar(50)," +
+            "  `minorplural` text," +
+            "  `hardCap` double DEFAULT NULL," +
+            "  `sign` varchar(5)," +
+            "  `status` BOOLEAN DEFAULT FALSE," +
+            "  PRIMARY KEY (`id`)" +
+            ") ENGINE=InnoDB;";
+
+    public static final String SELECT_ENTRY = "SELECT * FROM "+ Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+" WHERE name=?";
+
+    public static final String INSERT_ENTRY = "INSERT INTO "+ Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+"(name,plural,minor,minorplural,sign) VALUES (?,?,?,?,?)";
+
+    public static final String SET_AS_DEFAULT = "UPDATE "+Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+" SET status=FALSE; UPDATE "+Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+" SET status=TRUE WHERE name=?";
+
+    public static final String UPDATE_ENTRY = "UPDATE "+Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+" SET name=? plural=? minor=? minorplural=? sign=? WHERE name=?";
+
+    public static final String DELETE_ENTRY = "DELETE FROM "+Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+" WHERE name=?";
 }

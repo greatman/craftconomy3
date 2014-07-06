@@ -18,26 +18,42 @@
  */
 package com.greatmancode.craftconomy3.database.tables;
 
-import com.alta189.simplesave.Field;
-import com.alta189.simplesave.Id;
-import com.alta189.simplesave.Table;
-import lombok.Data;
+import com.greatmancode.craftconomy3.Common;
 
-@Table("balance")
-@Data
-@SuppressWarnings("PMD.UnusedPrivateField")
 public class BalanceTable {
-    public static final String USERNAME_ID_FIELD = "username_id";
-    public static final String CURRENCY_ID_FIELD = "currency_id";
+
+
+    public static final String BALANCE_FIELD = "balance";
     public static final String WORLD_NAME_FIELD = "worldName";
-    @Id
-    private int id;
-    @Field
-    private int username_id;
-    @Field
-    private int currency_id;
-    @Field
-    private String worldName;
-    @Field
-    private double balance;
+    public static final String TABLE_NAME = "balance";
+
+    public static final String CREATE_TABLE_MYSQL = "CREATE TABLE "+ Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+"` (" +
+            "  `"+BALANCE_FIELD+"` double DEFAULT NULL," +
+            "  `"+WORLD_NAME_FIELD+"` text," +
+            "  `username_id` int(11) DEFAULT NULL," +
+            "  `currency_id` int(11) DEFAULT NULL," +
+            "  PRIMARY KEY ("+WORLD_NAME_FIELD+", username_id, currency_id)," +
+            "  CONSTRAINT `fk_balance_account`" +
+            "    FOREIGN KEY (username_id)" +
+            "    REFERENCES "+Common.getInstance().getDatabaseManager().getTablePrefix()+AccountTable.TABLE_NAME+" (id))" +
+            "  CONSTRAINT `fk_balance_currency`" +
+            "    FOREIGN KEY (currency_id)" +
+            "    REFERENCES "+Common.getInstance().getDatabaseManager().getTablePrefix()+"currency (id))" +
+            ") ENGINE=InnoDB;";
+
+    public static final String SELECT_ENTRY = "SELECT * FROM "+Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+" " +
+            "LEFT JOIN "+Common.getInstance().getDatabaseManager().getTablePrefix()+AccountTable.TABLE_NAME+" " +
+            "ON "+Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+".username_id = "+Common.getInstance().getDatabaseManager().getTablePrefix()+AccountTable.TABLE_NAME+".id " +
+            "WHERE "+Common.getInstance().getDatabaseManager().getTablePrefix()+AccountTable.TABLE_NAME+".name=?";
+
+    public static final String INSERT_ENTRY = "INSERT INTO "+Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+"("+BALANCE_FIELD+", "+WORLD_NAME_FIELD+", username_id, currency_id) " +
+            "VALUES(?, ?, (SELECT id from "+Common.getInstance().getDatabaseManager().getTablePrefix()+AccountTable.TABLE_NAME+" WHERE username=?), (SELECT id FROM "+Common.getInstance().getDatabaseManager().getTablePrefix()+CurrencyTable.TABLE_NAME+" WHERE name=?))";
+
+    public static final String UPDATE_ENTRY = "UPDATE "+Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+" SET balance=?" +
+            "LEFT JOIN "+Common.getInstance().getDatabaseManager().getTablePrefix()+AccountTable.TABLE_NAME+" " +
+            "ON "+Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+".username_id = "+Common.getInstance().getDatabaseManager().getTablePrefix()+AccountTable.TABLE_NAME+".id " +
+            "LEFT JOIN "+Common.getInstance().getDatabaseManager().getTablePrefix()+CurrencyTable.TABLE_NAME+" " +
+            "ON "+Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+".currency_id = "+Common.getInstance().getDatabaseManager().getTablePrefix()+CurrencyTable.TABLE_NAME+".id "+
+            "WHERE "+Common.getInstance().getDatabaseManager().getTablePrefix()+AccountTable.TABLE_NAME+".name=?" +
+            "AND "+Common.getInstance().getDatabaseManager().getTablePrefix()+CurrencyTable.TABLE_NAME+".name=?";
 }

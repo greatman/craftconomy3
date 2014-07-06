@@ -18,19 +18,21 @@
  */
 package com.greatmancode.craftconomy3.database.tables;
 
-import com.alta189.simplesave.Field;
-import com.alta189.simplesave.Id;
-import com.alta189.simplesave.Table;
-import lombok.Data;
+import com.greatmancode.craftconomy3.Common;
 
-@Table("worldgroup")
-@Data
-@SuppressWarnings("PMD.UnusedPrivateField")
 public class WorldGroupTable {
-    @Id
-    private int id;
-    @Field
-    private String groupName;
-    @Field
-    private String worldList;
+
+    public static final String TABLE_NAME = "worldgroup";
+
+    public static final String CREATE_TABLE_MYSQL = "CREATE TABLE `"+Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+"` (" +
+            "  `worldList` varchar(255)," +
+            "  `groupName` varchar(255)," +
+            "  PRIMARY KEY (`groupName`)" +
+            ") ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;";
+
+    public static final String SELECT_ENTRY = "SELECT * FROM "+ Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+" WHERE groupName=?";
+
+    public static final String INSERT_ENTRY = "INSERT INTO "+Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+"(groupName,worldList) VALUES(?,?)";
+
+    public static final String UPDATE_ENTRY = "UPDATE "+Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+" SET worldList=? WHERE groupName=?";
 }

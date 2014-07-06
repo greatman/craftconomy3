@@ -18,20 +18,22 @@
  */
 package com.greatmancode.craftconomy3.database.tables;
 
-import com.alta189.simplesave.Field;
-import com.alta189.simplesave.Id;
-import com.alta189.simplesave.Table;
-import lombok.Data;
+import com.greatmancode.craftconomy3.Common;
 
-@Table("config")
-@Data
-@SuppressWarnings("PMD.UnusedPrivateField")
 public class ConfigTable {
+
+    public static final String TABLE_NAME = "config";
     public static final String NAME_FIELD = "name";
-    @Id
-    private int id; //To prevent possible bugs
-    @Field
-    private String name;
-    @Field
-    private String value;
+    public static final String VALUE_FIELD = "value";
+    public static final String CREATE_TABLE_MYSQL = "CREATE TABLE `"+ Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+"` (" +
+            "  `"+NAME_FIELD+"` varchar(30) NOT NULL," +
+            "  `"+VALUE_FIELD+"` varchar(255) NOT NULL," +
+            "  PRIMARY KEY (`name`)" +
+            ") ENGINE=InnoDB;";
+
+    public static final String SELECT_ENTRY = "SELECT * FROM "+Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+" WHERE name=?";
+
+    public static final String INSERT_ENTRY = "INSERT INTO "+Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+"(name,value) VALUES(?,?)";
+
+    public static final String UPDATE_ENTRY = "UPDATE "+Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+" SET value=? WHERE name=?";
 }

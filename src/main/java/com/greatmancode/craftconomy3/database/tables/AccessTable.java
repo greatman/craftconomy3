@@ -18,90 +18,30 @@
  */
 package com.greatmancode.craftconomy3.database.tables;
 
-import com.alta189.simplesave.Field;
-import com.alta189.simplesave.Id;
-import com.alta189.simplesave.Table;
+import com.greatmancode.craftconomy3.Common;
 
-@Table("acl")
 public class AccessTable {
-    @Id
-    private int id;
-    @Field
-    private int account_id;
-    @Field
-    private String playerName;
-    @Field
-    private boolean deposit;
-    @Field
-    private boolean withdraw;
-    @Field
-    private boolean acl;
-    @Field
-    private boolean balance;
-    @Field
-    private boolean owner;
+    public static final String TABLE_NAME = "acl";
+    public static final String CREATE_TABLE_MYSQL = "CREATE TABLE `"+ Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+"` (" +
+            "  `account_id` int(11) DEFAULT NULL," +
+            "  `owner` BOOLEAN DEFAULT NULL," +
+            "  `balance` BOOLEAN DEFAULT FALSE," +
+            "  `deposit` BOOLEAN DEFAULT FALSE," +
+            "  `playerName` varchar(16)," +
+            "  `acl` BOOLEAN DEFAULT FALSE," +
+            "  `withdraw` BOOLEAN DEFAULT FALSE," +
+            "  PRIMARY KEY (`account_id`)," +
+            "  ADD CONSTRAINT `fk_acl_account` FOREIGN KEY (`account_id`) REFERENCES `"+Common.getInstance().getDatabaseManager().getTablePrefix()+AccountTable.TABLE_NAME+"` (`id`);" +
+            ") ENGINE=InnoDB;";
 
-    public int getId() {
-        return id;
-    }
+    public static final String SELECT_ENTRY = "SELECT * FROM "+Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+" "+
+            "LEFT JOIN "+Common.getInstance().getDatabaseManager().getTablePrefix()+AccountTable.TABLE_NAME+" ON " +
+            Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+".account_id = "+Common.getInstance().getDatabaseManager().getTablePrefix()+AccountTable.TABLE_NAME+".id WHERE "+Common.getInstance().getDatabaseManager().getTablePrefix()+AccountTable.TABLE_NAME+".name=?";
 
-    public void setId(int id) {
-        this.id = id;
-    }
+    public static final String INSERT_ENTRY = "INSERT INTO "+Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+" VALUES(?,?,?,?,?,?,?)";
 
-    public int getAccountId() {
-        return account_id;
-    }
-
-    public void setAccountId(int accountId) {
-        this.account_id = accountId;
-    }
-
-    public String getPlayerName() {
-        return playerName;
-    }
-
-    public void setPlayerName(String playerName) {
-        this.playerName = playerName;
-    }
-
-    public boolean canDeposit() {
-        return deposit;
-    }
-
-    public void setDeposit(boolean deposit) {
-        this.deposit = deposit;
-    }
-
-    public boolean canWithdraw() {
-        return withdraw;
-    }
-
-    public void setWithdraw(boolean withdraw) {
-        this.withdraw = withdraw;
-    }
-
-    public boolean canAcl() {
-        return acl;
-    }
-
-    public void setAcl(boolean acl) {
-        this.acl = acl;
-    }
-
-    public boolean canBalance() {
-        return balance;
-    }
-
-    public void setBalance(boolean balance) {
-        this.balance = balance;
-    }
-
-    public boolean isOwner() {
-        return owner;
-    }
-
-    public void setOwner(boolean owner) {
-        this.owner = owner;
-    }
+    public static final String UPDATE_ENTRY = "UPDATE "+Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+" SET owner=? , balance=?, deposit=?, acl=?, withdraw=? " +
+            "LEFT JOIN "+Common.getInstance().getDatabaseManager().getTablePrefix()+AccountTable.TABLE_NAME+" ON " +
+            Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+".account_id = "+Common.getInstance().getDatabaseManager().getTablePrefix()+AccountTable.TABLE_NAME+".id " +
+            "WHERE "+Common.getInstance().getDatabaseManager().getTablePrefix()+AccountTable.TABLE_NAME+".name=? AND playerName=?";
 }

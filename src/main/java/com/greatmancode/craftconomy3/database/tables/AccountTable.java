@@ -18,25 +18,29 @@
  */
 package com.greatmancode.craftconomy3.database.tables;
 
-import com.alta189.simplesave.Field;
-import com.alta189.simplesave.Id;
-import com.alta189.simplesave.Table;
-import lombok.Data;
+import com.greatmancode.craftconomy3.Common;
 
-import java.util.UUID;
-
-@Table("account")
-@Data
-@SuppressWarnings("PMD.UnusedPrivateField")
 public class AccountTable {
-    @Id
-    private int id;
-    @Field
-    private String name;
-    @Field
-    private boolean infiniteMoney;
-    @Field
-    private boolean ignoreACL;
-    @Field
-    private String uuid;
+
+
+    public static final String TABLE_NAME = "account";
+    public static final String CREATE_TABLE_MYSQL = "CREATE TABLE `"+ Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+"` (" +
+            "  `id` int(11) NOT NULL AUTO_INCREMENT," +
+            "  `name` text," +
+            "  `infiniteMoney` boolean DEFAULT FALSE," +
+            "  `uuid` varchar(36) UNIQUE," +
+            "  `ignoreACL` boolean DEFAULT FALSE," +
+            "  PRIMARY KEY (id)," +
+            "  KEY `account_name_index` (`name`(50))," +
+            "  KEY `account_uuid_index` (`uuid`(50))" +
+            ") ENGINE=InnoDB;";
+
+    public static final String SELECT_ENTRY_NAME = "SELECT * FROM "+Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+" WHERE name=?";
+
+    public static final String SELECT_ENTRY_UUID = "SELECT * FROM "+Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+" WHERE uuid=?";
+
+    public static final String INSERT_ENTRY = "INSERT INTO "+Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+"(name,uuid) VALUES(?,?)";
+
+    public static final String UPDATE_ENTRY = "UPDATE "+Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+" SET name=?, infiniteMoney=?, uuid=?, ignoreACL=? WHERE id=?";
+
 }
