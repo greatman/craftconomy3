@@ -480,19 +480,19 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
      *
      * @param dbManagernew The MySQL instance
      */
-    private void convertDatabase(DatabaseManager dbManagernew) throws InvalidDatabaseConstructor, TableRegistrationException, ConnectionException {
+    private void convertDatabase(DatabaseManager dbManagernew) throws InvalidDatabaseConstructor {
         sendConsoleMessage(Level.INFO, getLanguageManager().getString("starting_database_convert"));
         DatabaseManager sqliteManager = new DatabaseManager(DatabaseType.SQLITE, getMainConfig().getString("System.Database.Prefix"), new File(serverCaller.getDataFolder(), "database.db"), serverCaller);
-        sqliteManager.registerTable(AccountTable.class);
-        sqliteManager.registerTable(AccessTable.class);
-        sqliteManager.registerTable(BalanceTable.class);
-        sqliteManager.registerTable(CurrencyTable.class);
-        sqliteManager.registerTable(ConfigTable.class);
-        sqliteManager.registerTable(PayDayTable.class);
-        sqliteManager.registerTable(ExchangeTable.class);
-        sqliteManager.registerTable(WorldGroupTable.class);
-        sqliteManager.registerTable(LogTable.class);
-        sqliteManager.connect();
+        try {
+            Connection connection = sqliteManager.getDatabase().getConnection();
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM "+sqliteManager.getTablePrefix()+AccountTable.TABLE_NAME);
+            ResultSet set = statement.executeQuery();
+            while (set.next()) {
+                set.getString()
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
         sendConsoleMessage(Level.INFO, getLanguageManager().getString("convert_save_account"));
         for (AccountTable entry : sqliteManager.getDatabase().select(AccountTable.class).execute().find()) {
@@ -1279,4 +1279,6 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
     private void alertOldDbVersion(String currentVersion, int newVersion) {
         Common.getInstance().sendConsoleMessage(Level.INFO, "Your database is out of date! (Version " + currentVersion + "). Updating it to Revision " + newVersion + ".");
     }
+
+
 }

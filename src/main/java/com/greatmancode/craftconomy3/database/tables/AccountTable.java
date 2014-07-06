@@ -30,6 +30,7 @@ public class AccountTable {
             "  `infiniteMoney` boolean DEFAULT FALSE," +
             "  `uuid` varchar(36) UNIQUE," +
             "  `ignoreACL` boolean DEFAULT FALSE," +
+            "  `bank` boolean DEFAULT FALSE," +
             "  PRIMARY KEY (id)," +
             "  KEY `account_name_index` (`name`(50))," +
             "  KEY `account_uuid_index` (`uuid`(50))" +
