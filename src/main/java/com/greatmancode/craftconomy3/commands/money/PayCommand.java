@@ -29,7 +29,7 @@ public class PayCommand extends CommandExecutor {
     @Override
     public void execute(String sender, String[] args) {
         if (!Account.isBankAccount(args[0]) && Common.getInstance().getAccountManager().exist(args[0])) {
-            if (Tools.isValidDouble(args[1])) {
+            if (Tools.isValidDouble(args[1]) && Double.parseDouble(args[1]) > 0.0) {
                 double amount = Double.parseDouble(args[1]);
                 Currency currency = Common.getInstance().getCurrencyManager().getDefaultCurrency();
                 if (args.length > 2) {
