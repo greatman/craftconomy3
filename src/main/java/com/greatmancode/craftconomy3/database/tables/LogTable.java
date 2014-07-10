@@ -38,7 +38,8 @@ public class LogTable {
             " ADD CONSTRAINT `fk_log_currency` FOREIGN KEY (`currency_id`) REFERENCES `"+Common.getInstance().getDatabaseManager().getTablePrefix()+CurrencyTable.TABLE_NAME+"` (`id`);" +
             ") ENGINE=InnoDB;";
 
-    public static final String INSERT_ENTRY = "INSERT INTO "+Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+"(username_id, type, cause, causeReason, worldName, amount, currency_id)" +
+    public static final String INSERT_ENTRY = "INSERT INTO "+Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+"" +
+            "(username_id, type, cause, causeReason, worldName, amount, currency_id)" +
             "VALUES((SELECT id from "+Common.getInstance().getDatabaseManager().getTablePrefix()+ AccountTable.TABLE_NAME+" WHERE name=?),?,?,?,?,?,(SELECT id from "+Common.getInstance().getDatabaseManager().getTablePrefix()+CurrencyTable.TABLE_NAME+" WHERE name=?))";
 
     public static final String SELECT_ENTRY = "SELECT * FROM "+Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+" "+

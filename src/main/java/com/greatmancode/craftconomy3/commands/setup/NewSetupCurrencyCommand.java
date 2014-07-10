@@ -32,8 +32,7 @@ public class NewSetupCurrencyCommand extends CommandExecutor {
         NAMEPLURAL,
         MINOR,
         MINORPLURAL,
-        SIGN,
-        CC2;
+        SIGN;
     }
 
     private Map<String, String> map = new HashMap<String, String>();
@@ -44,9 +43,7 @@ public class NewSetupCurrencyCommand extends CommandExecutor {
         try {
             INTERNALSTEP step = INTERNALSTEP.valueOf(args[0].toUpperCase());
 
-            if (step.equals(INTERNALSTEP.CC2)) {
-                cc2(sender, args[1]);
-            } else if (step.equals(INTERNALSTEP.NAME)) {
+            if (step.equals(INTERNALSTEP.NAME)) {
                 name(sender, args[1]);
             } else if (step.equals(INTERNALSTEP.NAMEPLURAL)) {
                 namePlural(sender, args[1]);
@@ -85,18 +82,6 @@ public class NewSetupCurrencyCommand extends CommandExecutor {
     @Override
     public String getPermissionNode() {
         return "craftconomy.setup";
-    }
-
-    private void cc2(String sender, String response) {
-        if (response.equals("yes")) {
-            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_GREEN}}Let's skip this step then! Please type {{WHITE}}/ccsetup basic");
-            NewSetupWizard.setState(NewSetupWizard.BASIC_STEP);
-        } else if (response.equals("no")) {
-            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_GREEN}}Alright! Welcome to Craftconomy! We use a Multi-Currency system. I need you to write the settings for the default currency.");
-            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_GREEN}}First, let's configure the {{WHITE}}main currency name {{DARK_GREEN}}(Ex: {{WHITE}}Dollar{{DARK_GREEN}}). Type {{WHITE}}/ccsetup currency name <Name>");
-        } else {
-            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_RED}}Valid values are: {{WHITE}}/ccsetup currency cc2 yes {{DARK_RED}}or {{WHITE}}/ccsetup currency cc2 no");
-        }
     }
 
     private void name(String sender, String name) {

@@ -24,10 +24,10 @@ public class AccessTable {
     public static final String TABLE_NAME = "acl";
     public static final String CREATE_TABLE_MYSQL = "CREATE TABLE `"+ Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+"` (" +
             "  `account_id` int(11) DEFAULT NULL," +
+            "  `playerName` varchar(16)," +
             "  `owner` BOOLEAN DEFAULT NULL," +
             "  `balance` BOOLEAN DEFAULT FALSE," +
             "  `deposit` BOOLEAN DEFAULT FALSE," +
-            "  `playerName` varchar(16)," +
             "  `acl` BOOLEAN DEFAULT FALSE," +
             "  `withdraw` BOOLEAN DEFAULT FALSE," +
             "  PRIMARY KEY (`account_id`)," +
@@ -38,7 +38,8 @@ public class AccessTable {
             "LEFT JOIN "+Common.getInstance().getDatabaseManager().getTablePrefix()+AccountTable.TABLE_NAME+" ON " +
             Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+".account_id = "+Common.getInstance().getDatabaseManager().getTablePrefix()+AccountTable.TABLE_NAME+".id WHERE "+Common.getInstance().getDatabaseManager().getTablePrefix()+AccountTable.TABLE_NAME+".name=?";
 
-    public static final String INSERT_ENTRY = "INSERT INTO "+Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+" VALUES(?,?,?,?,?,?,?)";
+    public static final String INSERT_ENTRY = "INSERT INTO "+Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+"" +
+            "(account_id, playerName, owner, balance, deposit, acl, withdraw) VALUES((SELECT id from "+Common.getInstance().getDatabaseManager().getTablePrefix()+AccountTable.TABLE_NAME+" WHERE name=?),?,?,?,?,?,?)";
 
     public static final String UPDATE_ENTRY = "UPDATE "+Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+" SET owner=? , balance=?, deposit=?, acl=?, withdraw=? " +
             "LEFT JOIN "+Common.getInstance().getDatabaseManager().getTablePrefix()+AccountTable.TABLE_NAME+" ON " +

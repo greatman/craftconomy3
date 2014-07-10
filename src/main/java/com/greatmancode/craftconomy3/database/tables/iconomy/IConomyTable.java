@@ -18,21 +18,7 @@
  */
 package com.greatmancode.craftconomy3.database.tables.iconomy;
 
-import com.alta189.simplesave.Field;
-import com.alta189.simplesave.Id;
-import com.alta189.simplesave.Table;
-import lombok.Data;
-
-@Table("iConomy")
-@Data
-@SuppressWarnings("PMD.UnusedPrivateField")
 public class IConomyTable {
-    @Id
-    private int id;
-    @Field
-    private String username;
-    @Field
-    private double balance;
-    @Field
-    private int status;
+
+    public static final String SELECT_ENTRY = "SELECT * FROM iConomy";
 }

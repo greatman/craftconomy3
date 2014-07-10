@@ -18,8 +18,6 @@
  */
 package com.greatmancode.craftconomy3.commands.setup;
 
-import com.alta189.simplesave.exceptions.ConnectionException;
-import com.alta189.simplesave.exceptions.TableRegistrationException;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.NewSetupWizard;
 import com.greatmancode.tools.commands.interfaces.CommandExecutor;
@@ -106,10 +104,6 @@ public class NewSetupDatabaseCommand extends CommandExecutor {
         try {
             Common.getInstance().initialiseDatabase();
             done(sender);
-        } catch (TableRegistrationException e) {
-            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, String.format(ERROR_MESSAGE, e.getMessage()));
-        } catch (ConnectionException e) {
-            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, String.format(ERROR_MESSAGE, e.getMessage()));
         } catch (InvalidDatabaseConstructor e) {
             Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, String.format(ERROR_MESSAGE, e.getMessage()));
         }
@@ -158,12 +152,6 @@ public class NewSetupDatabaseCommand extends CommandExecutor {
             try {
                 Common.getInstance().initialiseDatabase();
                 done(sender);
-            } catch (TableRegistrationException e) {
-                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, String.format(ERROR_MESSAGE, e.getMessage()));
-                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_GREEN}}Be sure that you entered valid information! Commands are: {{WHITE}}/ccsetup database <address/port/username/password/db> <Value>");
-            } catch (ConnectionException e) {
-                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, String.format(ERROR_MESSAGE, e.getMessage()));
-                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_GREEN}}Be sure that you entered valid information! Commands are: {{WHITE}}/ccsetup database <address/port/username/password/db> <Value>");
             } catch (InvalidDatabaseConstructor e) {
                 Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, String.format(ERROR_MESSAGE, e.getMessage()));
                 Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_GREEN}}Be sure that you entered valid information! Commands are: {{WHITE}}/ccsetup database <address/port/username/password/db> <Value>");
@@ -173,8 +161,8 @@ public class NewSetupDatabaseCommand extends CommandExecutor {
 
     private void done(String sender) {
         Common.getInstance().initializeCurrency();
-        Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_GREEN}}Awesome! Now, I want to know if you want to convert from Craftconomy V2?");
-        Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_GREEN}}Please type {{WHITE}}/ccsetup currency cc2 yes {{DARK_GREEN}}or {{WHITE}}/ccsetup currency cc2 no");
+        Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_GREEN}}Alright! Welcome to Craftconomy! We use a Multi-Currency system. I need you to write the settings for the default currency.");
+        Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_GREEN}}First, let's configure the {{WHITE}}main currency name {{DARK_GREEN}}(Ex: {{WHITE}}Dollar{{DARK_GREEN}}). Type {{WHITE}}/ccsetup currency name <Name>");
         NewSetupWizard.setState(NewSetupWizard.CURRENCY_STEP);
     }
 }

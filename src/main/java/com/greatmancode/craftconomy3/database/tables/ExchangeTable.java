@@ -25,9 +25,9 @@ public class ExchangeTable {
     public static final String TABLE_NAME = "exchange";
 
     public static final String CREATE_TABLE_MYSQL = "CREATE TABLE `"+ Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+"` (" +
+            "  `from_currency_id` int(11) NOT NULL," +
+            "  `to_currency_id` int(11) NOT NULL," +
             "  `amount` double DEFAULT 1.0," +
-            "  `to_currency_id` int(11)," +
-            "  `from_currency_id` int(11)," +
             "  PRIMARY KEY (`to_currency_id`, from_currency_id)" +
             ") ENGINE=InnoDB;";
 
@@ -38,7 +38,7 @@ public class ExchangeTable {
             Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+".from_currency_id = c2.id " +
             "WHERE c1.name=? AND c2.name=?";
 
-    public static final String INSERT_ENTRY = "INSERT INTO "+Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+"(to_currency_id,from_currency_id, amount) " +
+    public static final String INSERT_ENTRY = "INSERT INTO "+Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+"(from_currency_id, to_currency_id, amount) " +
             "VALUES((SELECT id from "+Common.getInstance().getDatabaseManager().getTablePrefix()+CurrencyTable.TABLE_NAME+" WHERE name=?), " +
             "(SELECT id from "+Common.getInstance().getDatabaseManager().getTablePrefix()+CurrencyTable.TABLE_NAME+" WHERE name=?),?)";
 

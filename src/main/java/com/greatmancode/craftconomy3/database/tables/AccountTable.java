@@ -42,6 +42,9 @@ public class AccountTable {
 
     public static final String INSERT_ENTRY = "INSERT INTO "+Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+"(name,uuid) VALUES(?,?)";
 
+    public static final String INSERT_ENTRY_ALL_INFO = "INSERT INTO "+Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+"(name,uuid,infiniteMoney,ignoreACL,bank) VALUES(?,?,?,?,?)";
+
+
     public static final String UPDATE_ENTRY = "UPDATE "+Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+" SET name=?, infiniteMoney=?, uuid=?, ignoreACL=? WHERE id=?";
 
 }

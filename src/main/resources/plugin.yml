@@ -13,8 +13,6 @@ commands:
       description: Setup command
     currency:
       description: Currency management command
-    payday:
-      description: Payday management command
     ccgroup:
       description: world group management command
     pay:

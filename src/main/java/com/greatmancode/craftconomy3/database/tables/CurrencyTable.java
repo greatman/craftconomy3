@@ -39,7 +39,8 @@ public class CurrencyTable {
 
     public static final String SELECT_ENTRY = "SELECT * FROM "+ Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+" WHERE name=?";
 
-    public static final String INSERT_ENTRY = "INSERT INTO "+ Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+"(name,plural,minor,minorplural,sign) VALUES (?,?,?,?,?)";
+    public static final String INSERT_ENTRY = "INSERT INTO "+ Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+"(name,plural,minor,minorplural,sign) " +
+            "VALUES (?,?,?,?,?)";
 
     public static final String SET_AS_DEFAULT = "UPDATE "+Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+" SET status=FALSE; UPDATE "+Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+" SET status=TRUE WHERE name=?";
 

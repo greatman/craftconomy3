@@ -18,20 +18,20 @@
  */
 package com.greatmancode.craftconomy3.converter.converters;
 
-import com.alta189.simplesave.Database;
-import com.alta189.simplesave.DatabaseFactory;
-import com.alta189.simplesave.exceptions.ConnectionException;
-import com.alta189.simplesave.exceptions.TableRegistrationException;
-import com.alta189.simplesave.mysql.MySQLConfiguration;
-import com.alta189.simplesave.sqlite.SQLiteConfiguration;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.converter.Converter;
 import com.greatmancode.craftconomy3.database.tables.iconomy.IConomyTable;
+import com.greatmancode.tools.database.DatabaseManager;
+import com.greatmancode.tools.database.interfaces.DatabaseType;
+import com.greatmancode.tools.database.throwable.InvalidDatabaseConstructor;
 
 import java.io.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 
@@ -42,7 +42,7 @@ import java.util.logging.Level;
  */
 public class Iconomy6 extends Converter {
     private BufferedReader flatFileReader = null;
-    private Database db = null;
+    private DatabaseManager db;
 
     public Iconomy6() {
         getDbTypes().add("flatfile");
@@ -80,17 +80,7 @@ public class Iconomy6 extends Converter {
         }
 
         if (db != null) {
-
-            try {
-                db.registerTable(IConomyTable.class);
-                db.setCheckTableOnRegistration(false);
-                db.connect();
-                result = true;
-            } catch (TableRegistrationException e) {
-                Common.getInstance().getLogger().severe("Unable to register iConomy tables. Reason: " + e.getMessage());
-            } catch (ConnectionException e) {
-                Common.getInstance().getLogger().severe("Unable to connect to iConomy database. Reason: " + e.getMessage());
-            }
+            result = true;
         }
         return result;
     }
@@ -119,15 +109,16 @@ public class Iconomy6 extends Converter {
      */
     private void loadMySQL() {
         try {
-            MySQLConfiguration config = new MySQLConfiguration();
-            config.setHost(getDbConnectInfo().get("address"));
-            config.setUser(getDbConnectInfo().get("username"));
-            if (!getDbConnectInfo().get("password").equals("\"\"") && !getDbConnectInfo().get("password").equals("''")) {
-                config.setPassword(getDbConnectInfo().get("password"));   
+            try {
+                db = new DatabaseManager(DatabaseType.MYSQL,getDbConnectInfo().get("address"),Integer.parseInt(getDbConnectInfo().get("port")),getDbConnectInfo().get("username"),getDbConnectInfo().get("password"),getDbConnectInfo().get("database"),"", Common.getInstance().getServerCaller());
+                db.getDatabase().getConnection().close();
+            } catch (InvalidDatabaseConstructor invalidDatabaseConstructor) {
+                invalidDatabaseConstructor.printStackTrace();
+                db = null;
+            } catch (SQLException e) {
+                e.printStackTrace();
+                db = null;
             }
-            config.setDatabase(getDbConnectInfo().get("database"));
-            config.setPort(Integer.parseInt(getDbConnectInfo().get("port")));
-            db = DatabaseFactory.createNewDatabase(config);
         } catch (NumberFormatException e) {
             Common.getInstance().getLogger().severe("Illegal Port!");
         }
@@ -137,8 +128,16 @@ public class Iconomy6 extends Converter {
      * Allow to load a SQLite database.
      */
     private void loadSQLite() {
-        SQLiteConfiguration config = new SQLiteConfiguration(Common.getInstance().getServerCaller().getDataFolder() + File.separator + getDbConnectInfo().get("filename"));
-        db = DatabaseFactory.createNewDatabase(config);
+        try {
+            db = new DatabaseManager(DatabaseType.SQLITE, "",new File(Common.getInstance().getServerCaller().getDataFolder() + File.separator + getDbConnectInfo().get("filename")), Common.getInstance().getServerCaller());
+            db.getDatabase().getConnection().close();
+        } catch (InvalidDatabaseConstructor invalidDatabaseConstructor) {
+            invalidDatabaseConstructor.printStackTrace();
+            db = null;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            db = null;
+        }
     }
 
     @Override
@@ -196,21 +195,18 @@ public class Iconomy6 extends Converter {
      * @return True if the convert is done. Else false.
      */
     private boolean importDatabase(String sender) {
-        List<IConomyTable> icoList = db.select(IConomyTable.class).execute().find();
-        if (icoList != null && icoList.size() > 0) {
-            Iterator<IConomyTable> icoListIterator = icoList.iterator();
+        try {
+            Connection connection = db.getDatabase().getConnection();
+            PreparedStatement statement = connection.prepareStatement(IConomyTable.SELECT_ENTRY);
+            ResultSet set = statement.executeQuery();
             List<User> userList = new ArrayList<User>();
-            while (icoListIterator.hasNext()) {
-                IConomyTable entry = icoListIterator.next();
-                userList.add(new User(entry.getUsername(), entry.getBalance()));
+            while (set.next()) {
+                userList.add(new User(set.getString("username"), set.getDouble("balance")));
             }
             addAccountToString(userList);
             addBalance(sender, userList);
-        }
-        try {
-            db.close();
-        } catch (ConnectionException e) {
-            Common.getInstance().getLogger().severe("Unable to disconnect from the iConomy database! Message: " + e.getMessage());
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return true;
     }

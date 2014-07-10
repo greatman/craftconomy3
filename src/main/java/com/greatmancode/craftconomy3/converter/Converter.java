@@ -18,11 +18,13 @@
  */
 package com.greatmancode.craftconomy3.converter;
 
-import com.alta189.simplesave.sqlite.SQLiteDatabase;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.database.tables.AccountTable;
 import com.greatmancode.craftconomy3.groups.WorldGroupsManager;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.*;
 
 /**
@@ -174,7 +176,7 @@ public abstract class Converter {
             stringBuilder.append("INSERT INTO ").append(Common.getInstance().getMainConfig().getString("System.Database.Prefix")).append("account(name) VALUES ");
         }
         Iterator<User> iterator = userList.iterator();
-        boolean first = true, isCaseSentitive = Common.getInstance().getMainConfig().getBoolean("System.Case-sentitive"), isSQLite = Common.getInstance().getDatabaseManager().getDatabase() instanceof SQLiteDatabase;
+        boolean first = true, isCaseSentitive = Common.getInstance().getMainConfig().getBoolean("System.Case-sentitive"), isSQLite = Common.getInstance().getMainConfig().getString("Database.Type").equalsIgnoreCase("sqlite");
         while (iterator.hasNext()) {
             user = iterator.next();
             if (isSQLite && !first) {
@@ -198,12 +200,28 @@ public abstract class Converter {
                     stringBuilder.append(",");
                 }
             } else {
-                Common.getInstance().getDatabaseManager().getDatabase().directQuery(stringBuilder.toString());
+                try {
+                    Connection connection = Common.getInstance().getDatabaseManager().getDatabase().getConnection();
+                    PreparedStatement statement = connection.prepareStatement(stringBuilder.toString());
+                    statement.executeUpdate();
+                    statement.close();
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
                 first = false;
             }
         }
         if (!isSQLite) {
-            Common.getInstance().getDatabaseManager().getDatabase().directQuery(stringBuilder.toString());
+            try {
+                Connection connection = Common.getInstance().getDatabaseManager().getDatabase().getConnection();
+                PreparedStatement statement = connection.prepareStatement(stringBuilder.toString());
+                statement.executeUpdate();
+                statement.close();
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -219,7 +237,7 @@ public abstract class Converter {
 
         stringBuilder.append("INSERT INTO ").append(Common.getInstance().getMainConfig().getString("System.Database.Prefix")).append("balance(username_id, currency_id, worldName,balance) VALUES ");
         Iterator<User> iterator = userList.iterator();
-        boolean first = true, isSQLite = Common.getInstance().getDatabaseManager().getDatabase() instanceof SQLiteDatabase;
+        boolean first = true, isSQLite = isSQLite = Common.getInstance().getMainConfig().getString("Database.Type").equalsIgnoreCase("sqlite");
         while (iterator.hasNext()) {
             if (i % ALERT_EACH_X_ACCOUNT == 0) {
                 Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, i + " {{DARK_GREEN}}of {{WHITE}} " + userList.size() + " {{DARK_GREEN}}accounts ready to be imported.");

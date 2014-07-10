@@ -46,7 +46,8 @@ public class BalanceTable {
             "ON "+Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+".username_id = "+Common.getInstance().getDatabaseManager().getTablePrefix()+AccountTable.TABLE_NAME+".id " +
             "WHERE "+Common.getInstance().getDatabaseManager().getTablePrefix()+AccountTable.TABLE_NAME+".name=?";
 
-    public static final String INSERT_ENTRY = "INSERT INTO "+Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+"("+BALANCE_FIELD+", "+WORLD_NAME_FIELD+", username_id, currency_id) " +
+    public static final String INSERT_ENTRY = "INSERT INTO "+Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+"" +
+            "("+BALANCE_FIELD+", "+WORLD_NAME_FIELD+", username_id, currency_id) " +
             "VALUES(?, ?, (SELECT id from "+Common.getInstance().getDatabaseManager().getTablePrefix()+AccountTable.TABLE_NAME+" WHERE name=?), (SELECT id FROM "+Common.getInstance().getDatabaseManager().getTablePrefix()+CurrencyTable.TABLE_NAME+" WHERE name=?))";
 
     public static final String UPDATE_ENTRY = "UPDATE "+Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+" SET balance=?" +

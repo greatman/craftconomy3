@@ -18,29 +18,7 @@
  */
 package com.greatmancode.craftconomy3.database.tables.mineconomy;
 
-import com.alta189.simplesave.Field;
-import com.alta189.simplesave.Id;
-import com.alta189.simplesave.Table;
-import lombok.Data;
-
-@Table(value = "mineconomy_accounts")
-@Data
-@SuppressWarnings("PMD.UnusedPrivateField")
 public class MineconomyTable {
 
-    @Id
-    private int id;
-
-    @Field
-    private String account;
-
-    @Field
-    private double balance;
-
-    @Field
-    private String currency;
-
-    @Field
-    private String status;
-
+    public static final String SELECT_ENTRY = "SELECT * FROM mineconomy_accounts";
 }

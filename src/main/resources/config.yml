@@ -42,3 +42,6 @@ System:
 
     #Used when you come from SQLite and want a MySQL database
     ConvertFromSQLite: false
+
+    #the database revision
+    dbVersion: 0
