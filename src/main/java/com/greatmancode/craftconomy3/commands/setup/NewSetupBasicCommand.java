@@ -25,6 +25,10 @@ import com.greatmancode.craftconomy3.database.tables.ConfigTable;
 import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 import com.greatmancode.tools.utils.Tools;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
 public class NewSetupBasicCommand extends CommandExecutor {
     private enum INTERNALSTEP {
         DEFAULT_MONEY,
@@ -79,15 +83,7 @@ public class NewSetupBasicCommand extends CommandExecutor {
         if (args.length == 1) {
             try {
                 DisplayFormat format = DisplayFormat.valueOf(args[0].toUpperCase());
-                ConfigTable table = new ConfigTable();
-                table.setName("longmode");
-                table.setValue(format.name());
-                Common.getInstance().getDatabaseManager().getDatabase().save(table);
-                //The setup is made for the V4 database.
-                table = new ConfigTable();
-                table.setName("dbVersion");
-                table.setValue("4");
-                Common.getInstance().getDatabaseManager().getDatabase().save(table);
+                saveData("longmode", format.toString());
                 NewSetupWizard.setState(NewSetupWizard.CONVERT_STEP);
                 Common.getInstance().loadDefaultSettings();
                 Common.getInstance().startUp();
@@ -101,10 +97,7 @@ public class NewSetupBasicCommand extends CommandExecutor {
     private void bankMoney(String sender, String[] args) {
         if (args.length == 1) {
             if (Tools.isValidDouble(args[0])) {
-                ConfigTable table = new ConfigTable();
-                table.setName("bankprice");
-                table.setValue(args[0]);
-                Common.getInstance().getDatabaseManager().getDatabase().save(table);
+                saveData("bankprice", args[0]);
                 step = INTERNALSTEP.FORMAT;
                 Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_GREEN}}Now, let's select the display format you want the balance to be shown. Craftconomy have {{WHITE}}4 {{DARK_GREEN}} display formats");
                 Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{WHITE}}Long{{DARK_GREEN}}: {{WHITE}}40 Dollars 1 Coin");
@@ -123,10 +116,7 @@ public class NewSetupBasicCommand extends CommandExecutor {
     private void defaultMoney(String sender, String[] args) {
         if (args.length == 1) {
             if (Tools.isValidDouble(args[0])) {
-                ConfigTable table = new ConfigTable();
-                table.setName("holdings");
-                table.setValue(args[0]);
-                Common.getInstance().getDatabaseManager().getDatabase().save(table);
+                saveData("holdings", args[0]);
                 step = INTERNALSTEP.BANK_PRICE;
                 Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_GREEN}}How much do you want your players to pay for a {{WHITE}}bank account{{DARK_GREEN}}? Please type {{WHITE}}/ccsetup basic <amount>");
             } else {
@@ -141,5 +131,19 @@ public class NewSetupBasicCommand extends CommandExecutor {
         Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_GREEN}}Basic setup. In this step, you will configure the basic settings of Craftconomy.");
         Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_GREEN}}How much money you want your players to have initially? Please type {{WHITE}}/ccsetup basic <amount>");
         step = INTERNALSTEP.DEFAULT_MONEY;
+    }
+
+    private void saveData(String name, String value) {
+        try {
+            Connection connection = Common.getInstance().getDatabaseManager().getDatabase().getConnection();
+            PreparedStatement statement = connection.prepareStatement(ConfigTable.INSERT_ENTRY);
+            statement.setString(1, name);
+            statement.setString(2, value);
+            statement.executeUpdate();
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

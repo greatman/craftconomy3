@@ -18,13 +18,15 @@
  */
 package com.greatmancode.craftconomy3.commands.money;
 
-import com.alta189.simplesave.query.OrderQuery;
-import com.alta189.simplesave.query.QueryResult;
-import com.alta189.simplesave.query.SelectQuery;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.account.Account;
 import com.greatmancode.craftconomy3.database.tables.LogTable;
 import com.greatmancode.tools.commands.interfaces.CommandExecutor;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 class LogCommandThread implements Runnable {
     public static final int NUMBER_ELEMENTS = 10;
@@ -57,27 +59,24 @@ class LogCommandThread implements Runnable {
     @Override
     public void run() {
         String ret = Common.getInstance().getLanguageManager().parse("money_log_header", page, user.getAccountName()) + "\n";
-        SelectQuery<LogTable> logQuery = Common.getInstance().getDatabaseManager().getDatabase().select(LogTable.class);
-        logQuery.where().equal("username_id", user.getAccountID());
-        logQuery.order().getPairs().add(new OrderQuery.OrderPair("id", OrderQuery.Order.DESC));
-
-        logQuery.limit().setLimit((page - 1) * NUMBER_ELEMENTS, NUMBER_ELEMENTS);
-        QueryResult<LogTable> logResult = logQuery.execute();
-        for (int i = 0; i < logResult.find().size(); i++) {
-            LogTable r = logResult.find().get(i);
-
-            // Is it better to do 50 query or to get ALL the username-id pairs?
-            // I choose the first solution. This is done async and will save lot
-            // of memory on large server with lots of players/account.
-            //TODO: Language
-            ret += "{{WHITE}}" + ((page - 1) * NUMBER_ELEMENTS + i + 1) + ": {{DARK_GREEN}}Time: {{WHITE}}" + r.getTimestamp() + " {{DARK_GREEN}}Type: {{WHITE}}" + r.getType() + " {{DARK_GREEN}} Amount: {{WHITE}}" + Common.getInstance().format(r.getWorldName(), Common.getInstance().getCurrencyManager().getCurrency(r.getCurrencyName()), r.getAmount()) + " {{DARK_GREEN}}Cause: {{WHITE}}" + r.getCause();
-            if (r.getCauseReason() != null) {
-                ret += " {{DARK_GREEN}}Reason: {{WHITE}}" + r.getCauseReason();
+        try {
+            Connection connection = Common.getInstance().getDatabaseManager().getDatabase().getConnection();
+            PreparedStatement statement = connection.prepareStatement(LogTable.SELECT_ENTRY_LIMIT);
+            statement.setString(1, user.getAccountName());
+            statement.setInt(2, (page - 1) * NUMBER_ELEMENTS);
+            statement.setInt(3, NUMBER_ELEMENTS);
+            ResultSet set = statement.executeQuery();
+            while (set.next()) {
+                ret += "{{DARK_GREEN}}Time: {{WHITE}}" + set.getTimestamp("timestamp") + " {{DARK_GREEN}}Type: {{WHITE}}" + set.getString("type") + " {{DARK_GREEN}} Amount: {{WHITE}}" + Common.getInstance().format(set.getString("worldName"), Common.getInstance().getCurrencyManager().getCurrency(set.getInt("currency_id")), set.getDouble("amount")) + " {{DARK_GREEN}}Cause: {{WHITE}}" + set.getString("cause");
+                if (set.getString("causeReason") != null) {
+                    ret += " {{DARK_GREEN}}Reason: {{WHITE}}" + set.getString("causeReason");
+                }
+                ret += "\n";
             }
-            ret += "\n";
+            Common.getInstance().getServerCaller().getSchedulerCaller().delay(new TopCommandThreadEnd(sender, ret), 0, false);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-
-        Common.getInstance().getServerCaller().getSchedulerCaller().delay(new TopCommandThreadEnd(sender, ret), 0, false);
     }
 }
 

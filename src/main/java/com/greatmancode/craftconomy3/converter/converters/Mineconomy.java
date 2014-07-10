@@ -104,20 +104,13 @@ public class Mineconomy extends Converter {
             ResultSet set = statement.executeQuery();
             List<User> userList = new ArrayList<User>();
             while (set.next()) {
-                userList.add(new User(set.getString("username"), set.getDouble("balance")));
+                userList.add(new User(set.getString("account"), set.getDouble("balance")));
             }
-            addAccountToString(userList);
-            addBalance(sender, userList);
+            return userList;
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        Conncetion connection =
-        List<MineconomyTable> tables = db.select(MineconomyTable.class).execute().find();
-        List<User> userList = new ArrayList<User>();
-        for (MineconomyTable entry : tables) {
-            userList.add(new User(entry.getAccount(), entry.getBalance()));
-        }
-        return userList;
+       return null;
     }
 
     private List<User> importFlatfile(String sender) {
