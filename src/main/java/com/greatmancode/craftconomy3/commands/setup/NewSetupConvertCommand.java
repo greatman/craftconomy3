@@ -108,7 +108,7 @@ public class NewSetupConvertCommand extends CommandExecutor {
                     }
                 }
             } else {
-                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_RED}}Something is wrong. There isin't a converter selected!");
+                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_RED}}Something is wrong. There isn't a converter selected!");
             }
         }
     }
