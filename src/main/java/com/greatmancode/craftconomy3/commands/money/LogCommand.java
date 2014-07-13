@@ -95,10 +95,10 @@ public class LogCommand extends CommandExecutor {
                 return;
             }
         }
-        Account user = Common.getInstance().getAccountManager().getAccount(sender);
+        Account user = Common.getInstance().getAccountManager().getAccount(sender, false);
         if (args.length == 2 && Common.getInstance().getServerCaller().getPlayerCaller().checkPermission(sender, "craftconomy.money.log.others")) {
-            if (Common.getInstance().getAccountManager().exist(args[1])) {
-                user = Common.getInstance().getAccountManager().getAccount(args[1]);
+            if (Common.getInstance().getAccountManager().exist(args[1], false)) {
+                user = Common.getInstance().getAccountManager().getAccount(args[1], false);
             }
         }
         Common.getInstance().getServerCaller().getSchedulerCaller().delay(new LogCommandThread(sender, page, user), 0, false);

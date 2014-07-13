@@ -28,8 +28,8 @@ import com.greatmancode.tools.utils.Tools;
 public class PayCommand extends CommandExecutor {
     @Override
     public void execute(String sender, String[] args) {
-        if (!Account.isBankAccount(args[0]) && Common.getInstance().getAccountManager().exist(args[0])) {
-            if (Tools.isValidDouble(args[1]) && Double.parseDouble(args[1]) > 0.0) {
+        if (Common.getInstance().getAccountManager().exist(args[0], false)) {
+            if (Tools.isValidDouble(args[1])) {
                 double amount = Double.parseDouble(args[1]);
                 Currency currency = Common.getInstance().getCurrencyManager().getDefaultCurrency();
                 if (args.length > 2) {
@@ -40,11 +40,11 @@ public class PayCommand extends CommandExecutor {
                         return;
                     }
                 }
-                boolean hasEnough = Common.getInstance().getAccountManager().getAccount(sender).hasEnough(amount, Common.getInstance().getAccountManager().getAccount(sender).getWorldGroupOfPlayerCurrentlyIn(), currency.getName());
+                boolean hasEnough = Common.getInstance().getAccountManager().getAccount(sender, false).hasEnough(amount, Common.getInstance().getAccountManager().getAccount(sender, false).getWorldGroupOfPlayerCurrentlyIn(), currency.getName());
 
                 if (hasEnough) {
-                    Common.getInstance().getAccountManager().getAccount(sender).withdraw(amount, Common.getInstance().getAccountManager().getAccount(sender).getWorldGroupOfPlayerCurrentlyIn(), currency.getName(), Cause.PAYMENT, args[0]);
-                    Common.getInstance().getAccountManager().getAccount(args[0]).deposit(amount, Common.getInstance().getAccountManager().getAccount(sender).getWorldGroupOfPlayerCurrentlyIn(), currency.getName(), Cause.PAYMENT, sender);
+                    Common.getInstance().getAccountManager().getAccount(sender, false).withdraw(amount, Common.getInstance().getAccountManager().getAccount(sender, false).getWorldGroupOfPlayerCurrentlyIn(), currency.getName(), Cause.PAYMENT, args[0]);
+                    Common.getInstance().getAccountManager().getAccount(args[0], false).deposit(amount, Common.getInstance().getAccountManager().getAccount(sender, false).getWorldGroupOfPlayerCurrentlyIn(), currency.getName(), Cause.PAYMENT, sender);
                     Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().parse("money_pay_sent", Common.getInstance().format(null, currency, amount), args[0]));
                     if (Common.getInstance().getServerCaller().getPlayerCaller().isOnline(args[0])) {
                         Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(args[0], Common.getInstance().getLanguageManager().parse("money_pay_received", Common.getInstance().format(null, currency, amount), sender));

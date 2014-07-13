@@ -28,7 +28,7 @@ import com.greatmancode.tools.utils.Tools;
 public class TakeCommand extends CommandExecutor {
     @Override
     public void execute(String sender, String[] args) {
-        if (!Account.isBankAccount(args[0]) && Common.getInstance().getAccountManager().exist(args[0])) {
+        if (Common.getInstance().getAccountManager().exist(args[0], false)) {
             if (Tools.isValidDouble(args[1])) {
                 double amount = Double.parseDouble(args[1]);
                 Currency currency = Common.getInstance().getCurrencyManager().getDefaultCurrency();
@@ -42,7 +42,7 @@ public class TakeCommand extends CommandExecutor {
                     }
                 }
 
-                String worldName = Common.getInstance().getAccountManager().getAccount(sender).getWorldGroupOfPlayerCurrentlyIn();
+                String worldName = Common.getInstance().getAccountManager().getAccount(sender, false).getWorldGroupOfPlayerCurrentlyIn();
                 if (args.length > 3) {
                     if (!Common.getInstance().getServerCaller().worldExist(args[3])) {
                         Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("world_not_exist"));
@@ -51,7 +51,7 @@ public class TakeCommand extends CommandExecutor {
                     worldName = Common.getInstance().getWorldGroupManager().getWorldGroupName(args[3]);
                 }
 
-                Common.getInstance().getAccountManager().getAccount(args[0]).withdraw(amount, worldName, currency.getName(), Cause.USER, sender);
+                Common.getInstance().getAccountManager().getAccount(args[0], false).withdraw(amount, worldName, currency.getName(), Cause.USER, sender);
                 Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().parse("money_take", Common.getInstance().format(worldName, currency, amount), args[0]));
                 if (Common.getInstance().getServerCaller().getPlayerCaller().isOnline(args[0])) {
                     Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(args[0], Common.getInstance().getLanguageManager().parse("money_take_other", Common.getInstance().format(worldName, currency, amount), sender));

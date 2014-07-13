@@ -36,7 +36,7 @@ public class ExchangeCommand extends CommandExecutor {
             if (currency1 != null && currency2 != null) {
                 try {
                     double exchangeRate = currency1.getExchangeRate(currency2);
-                    Account account = Common.getInstance().getAccountManager().getAccount(sender);
+                    Account account = Common.getInstance().getAccountManager().getAccount(sender, false);
                     if (account.hasEnough(amount, Common.getInstance().getServerCaller().getPlayerCaller().getPlayerWorld(sender), currency1.getName())) {
                         double value = amount * exchangeRate;
                         account.withdraw(amount, Common.getInstance().getServerCaller().getPlayerCaller().getPlayerWorld(sender), currency1.getName(), Cause.EXCHANGE, currency2.getName());

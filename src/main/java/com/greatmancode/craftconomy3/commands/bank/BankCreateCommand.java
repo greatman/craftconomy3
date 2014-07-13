@@ -26,10 +26,10 @@ import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 public class BankCreateCommand extends CommandExecutor {
     @Override
     public void execute(String sender, String[] args) {
-        if (!Common.getInstance().getAccountManager().exist(Account.BANK_PREFIX + args[0])) {
-            if (Common.getInstance().getAccountManager().getAccount(sender).hasEnough(Common.getInstance().getBankPrice(), Common.getInstance().getServerCaller().getPlayerCaller().getPlayerWorld(sender), Common.getInstance().getCurrencyManager().getDefaultCurrency().getName())) {
-                Common.getInstance().getAccountManager().getAccount(sender).withdraw(Common.getInstance().getBankPrice(), Common.getInstance().getServerCaller().getPlayerCaller().getPlayerWorld(sender), Common.getInstance().getCurrencyManager().getDefaultCurrency().getName(), Cause.BANK_CREATION, null);
-                Account account = Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + args[0]);
+        if (!Common.getInstance().getAccountManager().exist(args[0], true)) {
+            if (Common.getInstance().getAccountManager().getAccount(sender, false).hasEnough(Common.getInstance().getBankPrice(), Common.getInstance().getServerCaller().getPlayerCaller().getPlayerWorld(sender), Common.getInstance().getCurrencyManager().getDefaultCurrency().getName())) {
+                Common.getInstance().getAccountManager().getAccount(sender, false).withdraw(Common.getInstance().getBankPrice(), Common.getInstance().getServerCaller().getPlayerCaller().getPlayerWorld(sender), Common.getInstance().getCurrencyManager().getDefaultCurrency().getName(), Cause.BANK_CREATION, null);
+                Account account = Common.getInstance().getAccountManager().getAccount(args[0], true);
                 account.getAccountACL().set(sender, true, true, true, true, true);
                 Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("bank_account_created"));
             } else {

@@ -20,7 +20,6 @@ package com.greatmancode.craftconomy3.commands.money;
 
 import com.greatmancode.craftconomy3.Cause;
 import com.greatmancode.craftconomy3.Common;
-import com.greatmancode.craftconomy3.account.Account;
 import com.greatmancode.craftconomy3.currency.Currency;
 import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 import com.greatmancode.tools.utils.Tools;
@@ -28,7 +27,7 @@ import com.greatmancode.tools.utils.Tools;
 public class SetCommand extends CommandExecutor {
     @Override
     public void execute(String sender, String[] args) {
-        if (!Account.isBankAccount(args[0]) && Common.getInstance().getAccountManager().exist(args[0])) {
+        if (Common.getInstance().getAccountManager().exist(args[0], false)) {
             if (Tools.isValidDouble(args[1])) {
                 double amount = Double.parseDouble(args[1]);
                 Currency currency = Common.getInstance().getCurrencyManager().getDefaultCurrency();
@@ -41,7 +40,7 @@ public class SetCommand extends CommandExecutor {
                         return;
                     }
                 }
-                String worldName = Common.getInstance().getAccountManager().getAccount(sender).getWorldGroupOfPlayerCurrentlyIn();
+                String worldName = Common.getInstance().getAccountManager().getAccount(sender, false).getWorldGroupOfPlayerCurrentlyIn();
                 if (args.length > 3) {
                     if (!Common.getInstance().getServerCaller().worldExist(args[3])) {
                         Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("world_not_exist"));
@@ -50,7 +49,7 @@ public class SetCommand extends CommandExecutor {
                     worldName = Common.getInstance().getWorldGroupManager().getWorldGroupName(args[3]);
                 }
 
-                Common.getInstance().getAccountManager().getAccount(args[0]).set(amount, worldName, currency.getName(), Cause.USER, sender);
+                Common.getInstance().getAccountManager().getAccount(args[0], false).set(amount, worldName, currency.getName(), Cause.USER, sender);
                 Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().parse("money_set", args[0], Common.getInstance().format(worldName, currency, amount)));
                 if (Common.getInstance().getServerCaller().getPlayerCaller().isOnline(args[0])) {
                     Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(args[0], Common.getInstance().getLanguageManager().parse("money_set_other", Common.getInstance().format(worldName, currency, amount), sender));

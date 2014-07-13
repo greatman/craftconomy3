@@ -40,7 +40,7 @@ import java.util.List;
  */
 public class Account {
     private AccountACL acl;
-    private boolean bankAccount;
+    private boolean bankAccount, infiniteMoney, ignoreACL;
     private String name;
     /**
      * Load a account. Creates one if it doesn't exist.
@@ -74,6 +74,9 @@ public class Account {
                 statement.executeUpdate();
                 statement.close();
                 create = true;
+            } else {
+                infiniteMoney = set.getBoolean("infiniteMoney");
+                ignoreACL = set.getBoolean("ignoreACL");
             }
             statement.close();
             if (create && !isBankAccount()) {
@@ -325,20 +328,40 @@ public class Account {
         Currency currency = Common.getInstance().getCurrencyManager().getCurrency(currencyName);
         if (currency != null) {
             if (!hasInfiniteMoney()) {
-                balanceTable = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal(BalanceTable.USERNAME_ID_FIELD, account.getId()).and().equal(BalanceTable.CURRENCY_ID_FIELD, currency.getDatabaseID()).and().equal(BalanceTable.WORLD_NAME_FIELD, world).execute().findOne();
-                if (balanceTable != null) {
-                    balanceTable.setBalance(balanceTable.getBalance() - amount);
-                } else {
-                    balanceTable = new BalanceTable();
-                    balanceTable.setCurrency_id(currency.getDatabaseID());
-                    balanceTable.setUsername_id(account.getId());
-                    balanceTable.setWorldName(world);
-                    balanceTable.setBalance(amount);
+                try {
+                    Connection connection = Common.getInstance().getDatabaseManager().getDatabase().getConnection();
+                    PreparedStatement statement = connection.prepareStatement(BalanceTable.SELECT_WORLD_CURRENCY_ENTRY_ACCOUNT);
+                    statement.setString(1, name);
+                    statement.setString(2, world);
+                    statement.setString(3, currency.getName());
+                    ResultSet set = statement.executeQuery();
+                    if (set.next()) {
+                        result = set.getDouble(BalanceTable.BALANCE_FIELD) - amount;
+                        statement.close();
+                        statement = connection.prepareStatement(BalanceTable.UPDATE_ENTRY);
+                        statement.setDouble(1, result);
+                        statement.setString(2, name);
+                        statement.setString(3, currency.getName());
+                        statement.setString(4, world);
+                        statement.executeUpdate();
+                        statement.close();
+                    } else {
+                        result = amount;
+                        statement = connection.prepareStatement(BalanceTable.INSERT_ENTRY);
+                        statement.setDouble(1, result);
+                        statement.setString(2, world);
+                        statement.setString(3, name);
+                        statement.setString(4, currency.getName());
+                        statement.executeUpdate();
+                        statement.close();
+                    }
+                    Common.getInstance().writeLog(LogInfo.WITHDRAW, cause, causeReason, this, amount, currency, world);
+                    Common.getInstance().getServerCaller().throwEvent(new EconomyChangeEvent(this.getAccountName(), result));
+                    statement.close();
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
                 }
-                Common.getInstance().getDatabaseManager().getDatabase().save(balanceTable);
-                Common.getInstance().writeLog(LogInfo.WITHDRAW, cause, causeReason, this, amount, currency, world);
-                result = balanceTable.getBalance();
-                Common.getInstance().getServerCaller().throwEvent(new EconomyChangeEvent(this.getAccountName(), result));
             } else {
                 result = Double.MAX_VALUE;
             }
@@ -371,7 +394,6 @@ public class Account {
      * @return The new balance. If the account has infinite money. Double.MAX_VALUE is returned.
      */
     public double set(double amount, String world, String currencyName, Cause cause, String causeReason) {
-        BalanceTable balanceTable;
         double result = 0;
         if (!Common.getInstance().getWorldGroupManager().worldGroupExist(world)) {
             world = Common.getInstance().getWorldGroupManager().getWorldGroupName(world);
@@ -380,20 +402,40 @@ public class Account {
         Currency currency = Common.getInstance().getCurrencyManager().getCurrency(currencyName);
         if (currency != null) {
             if (!hasInfiniteMoney()) {
-                balanceTable = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal(BalanceTable.USERNAME_ID_FIELD, account.getId()).and().equal(BalanceTable.CURRENCY_ID_FIELD, currency.getDatabaseID()).and().equal(BalanceTable.WORLD_NAME_FIELD, world).execute().findOne();
-                if (balanceTable != null) {
-                    balanceTable.setBalance(amount);
-                } else {
-                    balanceTable = new BalanceTable();
-                    balanceTable.setCurrency_id(currency.getDatabaseID());
-                    balanceTable.setUsername_id(account.getId());
-                    balanceTable.setWorldName(world);
-                    balanceTable.setBalance(amount);
+                try {
+                    Connection connection = Common.getInstance().getDatabaseManager().getDatabase().getConnection();
+                    PreparedStatement statement = connection.prepareStatement(BalanceTable.SELECT_WORLD_CURRENCY_ENTRY_ACCOUNT);
+                    statement.setString(1, name);
+                    statement.setString(2, world);
+                    statement.setString(3, currency.getName());
+                    ResultSet set = statement.executeQuery();
+                    if (set.next()) {
+                        result = amount;
+                        statement.close();
+                        statement = connection.prepareStatement(BalanceTable.UPDATE_ENTRY);
+                        statement.setDouble(1, result);
+                        statement.setString(2, name);
+                        statement.setString(3, currency.getName());
+                        statement.setString(4, world);
+                        statement.executeUpdate();
+                        statement.close();
+                    } else {
+                        result = amount;
+                        statement = connection.prepareStatement(BalanceTable.INSERT_ENTRY);
+                        statement.setDouble(1, result);
+                        statement.setString(2, world);
+                        statement.setString(3, name);
+                        statement.setString(4, currency.getName());
+                        statement.executeUpdate();
+                        statement.close();
+                    }
+                    Common.getInstance().writeLog(LogInfo.SET, cause, causeReason, this, amount, currency, newWorld);
+                    Common.getInstance().getServerCaller().throwEvent(new EconomyChangeEvent(this.getAccountName(), result));
+                    statement.close();
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
                 }
-                Common.getInstance().getDatabaseManager().getDatabase().save(balanceTable);
-                Common.getInstance().writeLog(LogInfo.SET, cause, causeReason, this, amount, currency, world);
-                result = balanceTable.getBalance();
-                Common.getInstance().getServerCaller().throwEvent(new EconomyChangeEvent(this.getAccountName(), result));
             }
         }
         return format(result);
@@ -427,7 +469,7 @@ public class Account {
      * @deprecated Please use {@link com.greatmancode.craftconomy3.account.Account#getWorldGroupOfPlayerCurrentlyIn()}
      */
     private String getWorldPlayerCurrentlyIn() {
-        return Common.getInstance().getServerCaller().getPlayerCaller().getPlayerWorld(account.getName());
+        return Common.getInstance().getServerCaller().getPlayerCaller().getPlayerWorld(getAccountName());
     }
 
     /**
@@ -445,8 +487,19 @@ public class Account {
      * @param infinite True if the account should have infinite money. Else false.
      */
     public void setInfiniteMoney(boolean infinite) {
-        account.setInfiniteMoney(infinite);
-        Common.getInstance().getDatabaseManager().getDatabase().save(account);
+        try {
+            Connection connection = Common.getInstance().getDatabaseManager().getDatabase().getConnection();
+            PreparedStatement statement = connection.prepareStatement(AccountTable.UPDATE_INFINITEMONEY_ENTRY);
+            statement.setBoolean(1, infinite);
+            statement.setString(2, getAccountName());
+            statement.setBoolean(3, isBankAccount());
+            statement.executeUpdate();
+            statement.close();
+            connection.close();
+            infiniteMoney = infinite;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -455,7 +508,7 @@ public class Account {
      * @return True if the account have infinite money. Else false.
      */
     public boolean hasInfiniteMoney() {
-        return account.isInfiniteMoney();
+        return infiniteMoney;
     }
 
     /**
@@ -482,7 +535,7 @@ public class Account {
      * @return True if the ACL is ignored else false.
      */
     public boolean ignoreACL() {
-        return account.isIgnoreACL();
+        return ignoreACL;
     }
 
     /**
@@ -491,7 +544,18 @@ public class Account {
      * @param ignore If the ACL is ignored or not
      */
     public void setIgnoreACL(boolean ignore) {
-        account.setIgnoreACL(ignore);
-        Common.getInstance().getDatabaseManager().getDatabase().save(account);
+        try {
+            Connection connection = Common.getInstance().getDatabaseManager().getDatabase().getConnection();
+            PreparedStatement statement = connection.prepareStatement(AccountTable.UPDATE_IGNOREACL_ENTRY);
+            statement.setBoolean(1, ignore);
+            statement.setString(2, getAccountName());
+            statement.setBoolean(3, isBankAccount());
+            statement.executeUpdate();
+            statement.close();
+            connection.close();
+            ignoreACL = ignore;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

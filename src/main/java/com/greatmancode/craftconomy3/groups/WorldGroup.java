@@ -21,6 +21,10 @@ package com.greatmancode.craftconomy3.groups;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.database.tables.WorldGroupTable;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -30,7 +34,7 @@ import java.util.List;
  * Contains information about a world group.
  */
 public class WorldGroup {
-    WorldGroupTable table = null;
+    private String name;
     private List<String> worldList = new ArrayList<String>();
 
     /**
@@ -39,13 +43,24 @@ public class WorldGroup {
      * @param name The group name.
      */
     public WorldGroup(String name) {
-        table = Common.getInstance().getDatabaseManager().getDatabase().select(WorldGroupTable.class).where().equal("groupName", name).execute().findOne();
-        if (table == null) {
-            table = new WorldGroupTable();
-            table.setGroupName(name);
-            save();
-        } else {
-            Collections.addAll(worldList, table.getWorldList().split(","));
+        this.name = name;
+        try {
+            Connection connection = Common.getInstance().getDatabaseManager().getDatabase().getConnection();
+            PreparedStatement statement = connection.prepareStatement(WorldGroupTable.SELECT_ENTRY);
+            statement.setString(1, name);
+            ResultSet set = statement.executeQuery();
+            if (set.next()) {
+                Collections.addAll(worldList, set.getString("worldList").split(","));
+            } else {
+                statement.close();
+                statement = connection.prepareStatement(WorldGroupTable.INSERT_ENTRY);
+                statement.setString(1, name);
+                statement.executeUpdate();
+            }
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
@@ -92,7 +107,16 @@ public class WorldGroup {
                 save += ",";
             }
         }
-        table.setWorldList(save);
-        Common.getInstance().getDatabaseManager().getDatabase().save(table);
+        try {
+            Connection connection = Common.getInstance().getDatabaseManager().getDatabase().getConnection();
+            PreparedStatement statement = connection.prepareStatement(WorldGroupTable.UPDATE_ENTRY);
+            statement.setString(1, save);
+            statement.setString(2, name);
+            statement.executeUpdate();
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

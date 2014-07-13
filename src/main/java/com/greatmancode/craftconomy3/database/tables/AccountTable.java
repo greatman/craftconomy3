@@ -46,7 +46,9 @@ public class AccountTable {
 
     public static final String INSERT_ENTRY_ALL_INFO = "INSERT INTO "+Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+"(name,uuid,infiniteMoney,ignoreACL,bank) VALUES(?,?,?,?,?)";
 
-    public static final String UPDATE_ENTRY = "UPDATE "+Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+" SET name=?, infiniteMoney=?, uuid=?, ignoreACL=? WHERE id=?";
+    public static final String UPDATE_INFINITEMONEY_ENTRY = "UPDATE "+Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+" SET infiniteMoney=?,WHERE name=? AND bank=?";
+
+    public static final String UPDATE_IGNOREACL_ENTRY = "UPDATE "+Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+" SET infiniteMoney=?,WHERE name=? AND bank=?";
 
     public static final String DELETE_ENTRY = "DELETE FROM "+Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+" WHERE name=? AND bank=?";
 }

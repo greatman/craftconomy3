@@ -28,8 +28,8 @@ import com.greatmancode.tools.utils.Tools;
 public class BankTakeCommand extends CommandExecutor {
     @Override
     public void execute(String sender, String[] args) {
-        if (Common.getInstance().getAccountManager().exist(Account.BANK_PREFIX + args[0])) {
-            Account bankAccount = Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + args[0]);
+        if (Common.getInstance().getAccountManager().exist(args[0], true)) {
+            Account bankAccount = Common.getInstance().getAccountManager().getAccount(args[0], true);
             if (Tools.isValidDouble(args[1])) {
                 double amount = Double.parseDouble(args[1]);
                 Currency currency = Common.getInstance().getCurrencyManager().getDefaultCurrency();
@@ -41,7 +41,7 @@ public class BankTakeCommand extends CommandExecutor {
                         return;
                     }
                 }
-                String worldName = Common.getInstance().getAccountManager().getAccount(sender).getWorldGroupOfPlayerCurrentlyIn();
+                String worldName = Common.getInstance().getAccountManager().getAccount(sender, false).getWorldGroupOfPlayerCurrentlyIn();
                 if (args.length > 3) {
                     if (!Common.getInstance().getServerCaller().worldExist(args[3])) {
                         Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("world_not_exist"));

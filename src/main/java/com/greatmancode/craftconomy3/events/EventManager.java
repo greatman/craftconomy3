@@ -60,7 +60,7 @@ public class EventManager implements Listener {
                 }
             }
             if (Common.getInstance().getMainConfig().getBoolean("System.CreateOnLogin")) {
-                Common.getInstance().getAccountManager().getAccount(event.getPlayer().getName());
+                Common.getInstance().getAccountManager().getAccount(event.getPlayer().getName(), false);
             }
         }
     }
