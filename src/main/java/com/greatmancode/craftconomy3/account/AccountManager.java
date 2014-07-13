@@ -23,6 +23,10 @@ import com.greatmancode.craftconomy3.database.tables.AccessTable;
 import com.greatmancode.craftconomy3.database.tables.AccountTable;
 import com.greatmancode.craftconomy3.database.tables.BalanceTable;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,40 +38,103 @@ import java.util.Map;
  */
 public class AccountManager {
     private final Map<String, Account> accountList = new HashMap<String, Account>();
-
+    private final Map<String, Account> bankList = new HashMap<String, Account>();
     /**
      * Retrieve a account. Accounts prefixed with bank: are bank accounts.
      *
      * @param name The name of the account to retrieve
      * @return A economy account
+     * @deprecated Use { @link #getAccount(String, boolean) }
      */
     public Account getAccount(String name) {
+        //TODO LEGACY SUPPORT
+        if (name.startsWith("bank:")) {
+            return getAccount(name, true);
+        } else {
+            return getAccount(name, false);
+        }
+    }
+
+    public Account getAccount(String name, boolean bankAccount) {
         String newName = name;
         if (!Common.getInstance().getMainConfig().getBoolean("System.Case-sentitive")) {
             newName = name.toLowerCase();
         }
         Account account;
-        if (accountList.containsKey(newName)) {
+        if (bankAccount && bankList.containsKey(newName)) {
+            account = bankList.get(newName);
+        } else if (!bankAccount && accountList.containsKey(newName)) {
             account = accountList.get(newName);
         } else {
-            account = new Account(newName);
-            accountList.put(newName, account);
+            account = new Account(newName, bankAccount);
+            if (bankAccount) {
+                bankList.put(newName, account);
+            } else {
+                accountList.put(newName, account);
+            }
         }
         return account;
     }
-
     /**
      * Check if a account exist in the database.
      *
      * @param name The name to check
      * @return True if the account exists else false
+     * @deprecated Use { @link #exist(String, boolean) }
      */
     public boolean exist(String name) {
+        //TODO LEGACY SUPPORT
+        if (name.startsWith("bank:")) {
+            return exist(name, true);
+        } else {
+            return exist(name, false);
+        }
+    }
+
+    public boolean exist(String name, boolean bankAccount) {
         String newName = name;
         if (!Common.getInstance().getMainConfig().getBoolean("System.Case-sentitive")) {
             newName = name.toLowerCase();
         }
-        return accountList.containsKey(newName) || Common.getInstance().getDatabaseManager().getDatabase().select(AccountTable.class).where().equal("name", newName).execute().findOne() != null;
+        boolean result;
+        if (bankAccount) {
+            result = bankList.containsKey(newName);
+            if (!result) {
+                try {
+                    Connection connection = Common.getInstance().getDatabaseManager().getDatabase().getConnection();
+                    PreparedStatement statement = connection.prepareStatement(AccountTable.SELECT_ENTRY_NAME);
+                    statement.setString(1, name);
+                    statement.setBoolean(2, true);
+                    ResultSet set = statement.executeQuery();
+                    if (set.next()) {
+                        result = true;
+                    }
+                    statement.close();
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        } else {
+            result = accountList.containsKey(newName);
+            if (!result) {
+                try {
+                    Connection connection = Common.getInstance().getDatabaseManager().getDatabase().getConnection();
+                    PreparedStatement statement = connection.prepareStatement(AccountTable.SELECT_ENTRY_NAME);
+                    statement.setString(1, name);
+                    statement.setBoolean(2, false);
+                    ResultSet set = statement.executeQuery();
+                    if (set.next()) {
+                        result = true;
+                    }
+                    statement.close();
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return result;
     }
 
     /**
@@ -75,29 +142,34 @@ public class AccountManager {
      *
      * @param name The account name
      * @return True if the account has been deleted. Else false.
+     * @deprecated Use { @link #delete(String, boolean) }
      */
     public boolean delete(String name) {
+        //TODO LEGACY SUPPORT
+        if (name.startsWith("bank:")) {
+            return delete(name, true);
+        } else {
+            return delete(name, false);
+        }
+
+    }
+
+    public boolean delete(String name, boolean bankAccount) {
         boolean result = false;
-        if (exist(name)) {
-            Account account = getAccount(name);
-            AccountTable accountTable = Common.getInstance().getDatabaseManager().getDatabase().select(AccountTable.class).where().contains("name", name).execute().findOne();
-            List<BalanceTable> balanceTableList = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal("username_id", accountTable.getId()).execute().find();
-            if (balanceTableList != null) {
-                for (BalanceTable aBalanceTableList : balanceTableList) {
-                    Common.getInstance().getDatabaseManager().getDatabase().remove(aBalanceTableList);
+        if (exist(name, bankAccount)) {
+            try {
+                Connection connection = Common.getInstance().getDatabaseManager().getDatabase().getConnection();
+                PreparedStatement statement = connection.prepareStatement(AccountTable.DELETE_ENTRY);
+                statement.setString(1, name);
+                statement.setBoolean(2, bankAccount);
+                //TODO : Verify this
+                if (statement.executeUpdate() == 1) {
+                    result = true;
                 }
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
-            if (account.isBankAccount()) {
-                List<AccessTable> accessTableList = Common.getInstance().getDatabaseManager().getDatabase().select(AccessTable.class).where().equal("account_id", accountTable.getId()).execute().find();
-                if (accessTableList != null) {
-                    for (AccessTable anAccessTableList : accessTableList) {
-                        Common.getInstance().getDatabaseManager().getDatabase().remove(anAccessTableList);
-                    }
-                }
-            }
-            Common.getInstance().getDatabaseManager().getDatabase().remove(accountTable);
-            accountList.remove(name);
-            result = true;
+
         }
         return result;
     }

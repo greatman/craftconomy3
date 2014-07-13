@@ -36,15 +36,17 @@ public class AccountTable {
             "  KEY `account_uuid_index` (`uuid`(50))" +
             ") ENGINE=InnoDB;";
 
-    public static final String SELECT_ENTRY_NAME = "SELECT * FROM "+Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+" WHERE name=?";
+    public static final String SELECT_ENTRY_NAME = "SELECT * FROM "+Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+" WHERE name=? AND bank=?";
 
     public static final String SELECT_ENTRY_UUID = "SELECT * FROM "+Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+" WHERE uuid=?";
 
     public static final String INSERT_ENTRY = "INSERT INTO "+Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+"(name,uuid) VALUES(?,?)";
 
-    public static final String INSERT_ENTRY_ALL_INFO = "INSERT INTO "+Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+"(name,uuid,infiniteMoney,ignoreACL,bank) VALUES(?,?,?,?,?)";
+    public static final String INSERT_ENTRY_BANK = "INSERT INTO "+Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+"(name,bank) VALUES(?,true)";
 
+    public static final String INSERT_ENTRY_ALL_INFO = "INSERT INTO "+Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+"(name,uuid,infiniteMoney,ignoreACL,bank) VALUES(?,?,?,?,?)";
 
     public static final String UPDATE_ENTRY = "UPDATE "+Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+" SET name=?, infiniteMoney=?, uuid=?, ignoreACL=? WHERE id=?";
 
+    public static final String DELETE_ENTRY = "DELETE FROM "+Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+" WHERE name=? AND bank=?";
 }

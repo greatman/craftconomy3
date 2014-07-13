@@ -28,8 +28,8 @@ import com.greatmancode.tools.utils.Tools;
 public class BankDepositCommand extends CommandExecutor {
     @Override
     public void execute(String sender, String[] args) {
-        if (Common.getInstance().getAccountManager().exist(Account.BANK_PREFIX + args[0])) {
-            Account bankAccount = Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + args[0]);
+        if (Common.getInstance().getAccountManager().exist(args[0], true)) {
+            Account bankAccount = Common.getInstance().getAccountManager().getAccount(args[0], true);
             if (bankAccount.getAccountACL().canDeposit(sender) || Common.getInstance().getServerCaller().getPlayerCaller().checkPermission(sender, "craftconomy.bank.deposit.others")) {
                 if (Tools.isValidDouble(args[1])) {
                     double amount = Double.parseDouble(args[1]);
@@ -42,7 +42,7 @@ public class BankDepositCommand extends CommandExecutor {
                             return;
                         }
                     }
-                    Account playerAccount = Common.getInstance().getAccountManager().getAccount(sender);
+                    Account playerAccount = Common.getInstance().getAccountManager().getAccount(sender, false);
                     if (playerAccount.hasEnough(amount, playerAccount.getWorldGroupOfPlayerCurrentlyIn(), currency.getName())) {
                         playerAccount.withdraw(amount, playerAccount.getWorldGroupOfPlayerCurrentlyIn(), currency.getName(), Cause.BANK_DEPOSIT, bankAccount.getAccountName());
                         bankAccount.deposit(amount, playerAccount.getWorldGroupOfPlayerCurrentlyIn(), currency.getName(), Cause.BANK_DEPOSIT, sender);

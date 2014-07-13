@@ -25,26 +25,39 @@ public class BalanceTable {
 
     public static final String BALANCE_FIELD = "balance";
     public static final String WORLD_NAME_FIELD = "worldName";
+    public static final String CURRENCY_FIELD = "currency_id";
     public static final String TABLE_NAME = "balance";
 
     public static final String CREATE_TABLE_MYSQL = "CREATE TABLE "+ Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+"` (" +
             "  `"+BALANCE_FIELD+"` double DEFAULT NULL," +
             "  `"+WORLD_NAME_FIELD+"` text," +
             "  `username_id` int(11) DEFAULT NULL," +
-            "  `currency_id` int(11) DEFAULT NULL," +
+            "  `"+CURRENCY_FIELD+"` int(11) DEFAULT NULL," +
             "  PRIMARY KEY ("+WORLD_NAME_FIELD+", username_id, currency_id)," +
             "  CONSTRAINT `fk_balance_account`" +
             "    FOREIGN KEY (username_id)" +
-            "    REFERENCES "+Common.getInstance().getDatabaseManager().getTablePrefix()+AccountTable.TABLE_NAME+" (id))" +
+            "    REFERENCES "+Common.getInstance().getDatabaseManager().getTablePrefix()+AccountTable.TABLE_NAME+" (id)) ON DELETE CASCADE" +
             "  CONSTRAINT `fk_balance_currency`" +
-            "    FOREIGN KEY (currency_id)" +
-            "    REFERENCES "+Common.getInstance().getDatabaseManager().getTablePrefix()+"currency (id))" +
+            "    FOREIGN KEY ("+CURRENCY_FIELD+")" +
+            "    REFERENCES "+Common.getInstance().getDatabaseManager().getTablePrefix()+"currency (id)) ON DELETE CASCADE" +
             ") ENGINE=InnoDB;";
 
-    public static final String SELECT_ENTRY = "SELECT * FROM "+Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+" " +
+    public static final String SELECT_ALL_ENTRY_ACCOUNT = "SELECT * FROM "+Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+" " +
             "LEFT JOIN "+Common.getInstance().getDatabaseManager().getTablePrefix()+AccountTable.TABLE_NAME+" " +
             "ON "+Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+".username_id = "+Common.getInstance().getDatabaseManager().getTablePrefix()+AccountTable.TABLE_NAME+".id " +
             "WHERE "+Common.getInstance().getDatabaseManager().getTablePrefix()+AccountTable.TABLE_NAME+".name=?";
+
+    public static final String SELECT_WORLD_ENTRY_ACCOUNT = "SELECT * FROM "+Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+" " +
+            "LEFT JOIN "+Common.getInstance().getDatabaseManager().getTablePrefix()+AccountTable.TABLE_NAME+" " +
+            "ON "+Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+".username_id = "+Common.getInstance().getDatabaseManager().getTablePrefix()+AccountTable.TABLE_NAME+".id " +
+            "WHERE "+Common.getInstance().getDatabaseManager().getTablePrefix()+AccountTable.TABLE_NAME+".name=? AND "+WORLD_NAME_FIELD+"=?";
+
+    public static final String SELECT_WORLD_CURRENCY_ENTRY_ACCOUNT = "SELECT * FROM "+Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+" " +
+            "LEFT JOIN "+Common.getInstance().getDatabaseManager().getTablePrefix()+AccountTable.TABLE_NAME+" " +
+            "ON "+Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+".username_id = "+Common.getInstance().getDatabaseManager().getTablePrefix()+AccountTable.TABLE_NAME+".id " +
+            "LEFT JOIN "+Common.getInstance().getDatabaseManager().getTablePrefix()+AccountTable.TABLE_NAME+" " +
+            "ON "+Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+".currency_id = "+Common.getInstance().getDatabaseManager().getTablePrefix()+CurrencyTable.TABLE_NAME+".id " +
+            "WHERE "+Common.getInstance().getDatabaseManager().getTablePrefix()+AccountTable.TABLE_NAME+".name=? AND "+WORLD_NAME_FIELD+"=? AND "+Common.getInstance().getDatabaseManager().getTablePrefix()+CurrencyTable.TABLE_NAME+".name=?";
 
     public static final String INSERT_ENTRY = "INSERT INTO "+Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+"" +
             "("+BALANCE_FIELD+", "+WORLD_NAME_FIELD+", username_id, currency_id) " +
@@ -54,7 +67,15 @@ public class BalanceTable {
             "LEFT JOIN "+Common.getInstance().getDatabaseManager().getTablePrefix()+AccountTable.TABLE_NAME+" " +
             "ON "+Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+".username_id = "+Common.getInstance().getDatabaseManager().getTablePrefix()+AccountTable.TABLE_NAME+".id " +
             "LEFT JOIN "+Common.getInstance().getDatabaseManager().getTablePrefix()+CurrencyTable.TABLE_NAME+" " +
-            "ON "+Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+".currency_id = "+Common.getInstance().getDatabaseManager().getTablePrefix()+CurrencyTable.TABLE_NAME+".id "+
+            "ON "+Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+"."+CURRENCY_FIELD+" = "+Common.getInstance().getDatabaseManager().getTablePrefix()+CurrencyTable.TABLE_NAME+".id "+
+            "WHERE "+Common.getInstance().getDatabaseManager().getTablePrefix()+AccountTable.TABLE_NAME+".name=?" +
+            "AND "+Common.getInstance().getDatabaseManager().getTablePrefix()+CurrencyTable.TABLE_NAME+".name=? AND "+WORLD_NAME_FIELD+"=?";
+
+    public static final String DEPOSIT_ENTRY = "UPDATE "+Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+" SET balance=?" +
+            "LEFT JOIN "+Common.getInstance().getDatabaseManager().getTablePrefix()+AccountTable.TABLE_NAME+" " +
+            "ON "+Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+".username_id = "+Common.getInstance().getDatabaseManager().getTablePrefix()+AccountTable.TABLE_NAME+".id " +
+            "LEFT JOIN "+Common.getInstance().getDatabaseManager().getTablePrefix()+CurrencyTable.TABLE_NAME+" " +
+            "ON "+Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+"."+CURRENCY_FIELD+" = "+Common.getInstance().getDatabaseManager().getTablePrefix()+CurrencyTable.TABLE_NAME+".id "+
             "WHERE "+Common.getInstance().getDatabaseManager().getTablePrefix()+AccountTable.TABLE_NAME+".name=?" +
             "AND "+Common.getInstance().getDatabaseManager().getTablePrefix()+CurrencyTable.TABLE_NAME+".name=?";
 }

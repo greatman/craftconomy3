@@ -28,7 +28,7 @@ import com.greatmancode.tools.utils.Tools;
 public class GiveCommand extends CommandExecutor {
     @Override
     public void execute(String sender, String[] args) {
-        if (!Account.isBankAccount(args[0]) && Common.getInstance().getAccountManager().exist(args[0])) {
+        if (Common.getInstance().getAccountManager().exist(args[0], false)) {
 
             if (Tools.isValidDouble(args[1])) {
                 double amount = Double.parseDouble(args[1]);

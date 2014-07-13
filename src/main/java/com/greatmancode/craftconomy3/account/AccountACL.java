@@ -21,6 +21,7 @@ package com.greatmancode.craftconomy3.account;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.database.tables.AccessTable;
 
+import java.sql.Connection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,7 +35,7 @@ public class AccountACL {
     private final Map<String, AccountACLValue> aclList = new HashMap<String, AccountACLValue>();
     private final Account account;
 
-    public AccountACL(Account account, int accountID) {
+    public AccountACL(Account account) {
         this.account = account;
         List<AccessTable> aclTable = Common.getInstance().getDatabaseManager().getDatabase().select(AccessTable.class).where().equal("account_id", accountID).execute().find();
         for (AccessTable entry : aclTable) {

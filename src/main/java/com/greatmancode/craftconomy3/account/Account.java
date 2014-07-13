@@ -26,6 +26,10 @@ import com.greatmancode.craftconomy3.database.tables.AccountTable;
 import com.greatmancode.craftconomy3.database.tables.BalanceTable;
 import com.greatmancode.tools.events.event.EconomyChangeEvent;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,54 +39,59 @@ import java.util.List;
  * @author greatman
  */
 public class Account {
-    public static final String BANK_PREFIX = "bank:";
-    private final AccountTable account;
     private AccountACL acl;
-
+    private boolean bankAccount;
+    private String name;
     /**
      * Load a account. Creates one if it doesn't exist.
      *
      * @param name The account name
      */
-    public Account(String name) {
-        AccountTable result = Common.getInstance().getDatabaseManager().getDatabase().select(AccountTable.class).where().equal("name", name).execute().findOne();
-        boolean create = false;
-        if (result == null) {
-            result = new AccountTable();
-            result.setName(name);
-            if (!name.contains(Account.BANK_PREFIX) && Common.getInstance().getServerCaller().getPlayerCaller().isOnline(name)) {
-                result.setUuid(Common.getInstance().getServerCaller().getPlayerCaller().getUUID(name).toString());
+    public Account(String name, boolean bankAccount) {
+        try {
+            this.name = name;
+            this.bankAccount = bankAccount;
+            boolean create = false;
+            Connection connection = Common.getInstance().getDatabaseManager().getDatabase().getConnection();
+            PreparedStatement statement = connection.prepareStatement(AccountTable.SELECT_ENTRY_NAME);
+            statement.setString(1, name);
+            statement.setBoolean(2, bankAccount);
+            ResultSet set = statement.executeQuery();
+            if (!set.next()) {
+                statement.close();
+                if (bankAccount) {
+                    statement = connection.prepareStatement(AccountTable.INSERT_ENTRY_BANK);
+                    statement.setString(1, name);
+                } else {
+                    statement = connection.prepareStatement(AccountTable.INSERT_ENTRY);
+                    statement.setString(1, name);
+                    if (Common.getInstance().getServerCaller().getPlayerCaller().isOnline(name)) {
+                        statement.setString(2, Common.getInstance().getServerCaller().getPlayerCaller().getUUID(name).toString());
+                    } else {
+                        statement.setString(2, null);
+                    }
+                }
+                statement.executeUpdate();
+                statement.close();
+                create = true;
             }
-            create = true;
-        }
-        account = result;
-        if (create) {
-            Common.getInstance().getDatabaseManager().getDatabase().save(result);
-            BalanceTable balance = new BalanceTable();
-            balance.setUsername_id(result.getId());
-            balance.setCurrency_id(Common.getInstance().getCurrencyManager().getDefaultCurrency().getDatabaseID());
-            balance.setWorldName(getWorldGroupOfPlayerCurrentlyIn());
-            if (!name.contains(Account.BANK_PREFIX)) {
-                balance.setBalance(Common.getInstance().getDefaultHoldings());
-            } else {
-                balance.setBalance(0.0);
+            statement.close();
+            if (create && !isBankAccount()) {
+                statement = connection.prepareStatement(BalanceTable.INSERT_ENTRY);
+                statement.setDouble(1, Common.getInstance().getDefaultHoldings());
+                statement.setString(2, getWorldGroupOfPlayerCurrentlyIn());
+                statement.setString(3, name);
+                statement.setString(4, Common.getInstance().getCurrencyManager().getDefaultCurrency().getName());
+                statement.executeUpdate();
+                statement.close();
             }
-
-            Common.getInstance().getDatabaseManager().getDatabase().save(balance);
+            connection.close();
+            if (isBankAccount()) {
+                acl = new AccountACL(this);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-
-        if (name.contains(Account.BANK_PREFIX)) {
-            acl = new AccountACL(this, account.getId());
-        }
-    }
-
-    /**
-     * Returns the account database ID
-     *
-     * @return the account database ID
-     */
-    public int getAccountID() {
-        return account.getId();
     }
 
     /**
@@ -91,7 +100,7 @@ public class Account {
      * @return The account name
      */
     public String getAccountName() {
-        return account.getName();
+        return name;
     }
 
     /**
@@ -100,17 +109,7 @@ public class Account {
      * @return True if this account is a bank account, else false
      */
     public boolean isBankAccount() {
-        return account.getName().contains(Account.BANK_PREFIX);
-    }
-
-    /**
-     * Checks if this account is a bank account
-     *
-     * @param accountName The account name
-     * @return True if this account is a bank account, else false
-     */
-    public static boolean isBankAccount(String accountName) {
-        return accountName.contains(Account.BANK_PREFIX);
+        return bankAccount;
     }
 
     /**
@@ -133,8 +132,18 @@ public class Account {
      */
     public List<Balance> getAllBalance() {
         List<Balance> balanceList = new ArrayList<Balance>();
-        for (BalanceTable table : Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal(BalanceTable.USERNAME_ID_FIELD, account.getId()).execute().find()) {
-            balanceList.add(new Balance(table.getWorldName(), Common.getInstance().getCurrencyManager().getCurrency(table.getCurrency_id()), format(table.getBalance())));
+        try {
+            Connection connection = Common.getInstance().getDatabaseManager().getDatabase().getConnection();
+            PreparedStatement statement = connection.prepareStatement(BalanceTable.SELECT_ALL_ENTRY_ACCOUNT);
+            statement.setString(1, name);
+            ResultSet set = statement.executeQuery();
+            while (set.next()) {
+                balanceList.add(new Balance(set.getString(BalanceTable.WORLD_NAME_FIELD),Common.getInstance().getCurrencyManager().getCurrency(set.getString(BalanceTable.CURRENCY_FIELD)), set.getDouble(BalanceTable.BALANCE_FIELD)));
+            }
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return balanceList;
     }
@@ -150,8 +159,19 @@ public class Account {
             world = Common.getInstance().getWorldGroupManager().getWorldGroupName(world);
         }
         List<Balance> balanceList = new ArrayList<Balance>();
-        for (BalanceTable table : Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal(BalanceTable.USERNAME_ID_FIELD, account.getId()).and().equal(BalanceTable.WORLD_NAME_FIELD, world).execute().find()) {
-            balanceList.add(new Balance(table.getWorldName(), Common.getInstance().getCurrencyManager().getCurrency(table.getCurrency_id()), format(table.getBalance())));
+        try {
+            Connection connection = Common.getInstance().getDatabaseManager().getDatabase().getConnection();
+            PreparedStatement statement = connection.prepareStatement(BalanceTable.SELECT_WORLD_ENTRY_ACCOUNT);
+            statement.setString(1, name);
+            statement.setString(2, world);
+            ResultSet set = statement.executeQuery();
+            while (set.next()) {
+                balanceList.add(new Balance(set.getString(BalanceTable.WORLD_NAME_FIELD),Common.getInstance().getCurrencyManager().getCurrency(set.getString(BalanceTable.CURRENCY_FIELD)), set.getDouble(BalanceTable.BALANCE_FIELD)));
+            }
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return balanceList;
     }
@@ -171,9 +191,22 @@ public class Account {
         Currency currency = Common.getInstance().getCurrencyManager().getCurrency(currencyName);
         if (currency != null) {
             if (!hasInfiniteMoney()) {
-                BalanceTable balanceTable = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal(BalanceTable.USERNAME_ID_FIELD, account.getId()).and().equal(BalanceTable.CURRENCY_ID_FIELD, currency.getDatabaseID()).and().equal(BalanceTable.WORLD_NAME_FIELD, world).execute().findOne();
-                if (balanceTable != null) {
-                    balance = balanceTable.getBalance();
+                try {
+                    Connection connection = Common.getInstance().getDatabaseManager().getDatabase().getConnection();
+                    PreparedStatement statement = connection.prepareStatement(BalanceTable.SELECT_WORLD_ENTRY_ACCOUNT);
+                    statement.setString(1, name);
+                    statement.setString(2, world);
+                    statement.setString(3, currency.getName());
+                    ResultSet set = statement.executeQuery();
+                    if (set.next()) {
+                        balance = set.getDouble(BalanceTable.BALANCE_FIELD);
+                    } else {
+                        balance = 0;
+                    }
+                    statement.close();
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
                 }
             } else {
                 balance = Double.MAX_VALUE;
@@ -216,21 +249,40 @@ public class Account {
         Currency currency = Common.getInstance().getCurrencyManager().getCurrency(currencyName);
         if (currency != null) {
             if (!hasInfiniteMoney()) {
-                balanceTable = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal(BalanceTable.USERNAME_ID_FIELD, account.getId()).and().equal(BalanceTable.CURRENCY_ID_FIELD, currency.getDatabaseID()).and().equal(BalanceTable.WORLD_NAME_FIELD, world).execute().findOne();
-                if (balanceTable != null) {
-                    balanceTable.setBalance(balanceTable.getBalance() + amount);
-                } else {
-                    balanceTable = new BalanceTable();
-                    balanceTable.setCurrency_id(currency.getDatabaseID());
-                    balanceTable.setUsername_id(account.getId());
-                    balanceTable.setWorldName(world);
-                    balanceTable.setBalance(amount);
+                try {
+                    Connection connection = Common.getInstance().getDatabaseManager().getDatabase().getConnection();
+                    PreparedStatement statement = connection.prepareStatement(BalanceTable.SELECT_WORLD_ENTRY_ACCOUNT);
+                    statement.setString(1, name);
+                    statement.setString(2, world);
+                    statement.setString(3, currency.getName());
+                    ResultSet set = statement.executeQuery();
+                    if (set.next()) {
+                        result = set.getDouble(BalanceTable.BALANCE_FIELD) + amount;
+                        statement.close();
+                        statement = connection.prepareStatement(BalanceTable.UPDATE_ENTRY);
+                        statement.setDouble(1, result);
+                        statement.setString(2, name);
+                        statement.setString(3, currency.getName());
+                        statement.setString(4, world);
+                        statement.executeUpdate();
+                        statement.close();
+                    } else {
+                        result = amount;
+                        statement = connection.prepareStatement(BalanceTable.INSERT_ENTRY);
+                        statement.setDouble(1, result);
+                        statement.setString(2, world);
+                        statement.setString(3, name);
+                        statement.setString(4, currency.getName());
+                        statement.executeUpdate();
+                        statement.close();
+                    }
+                    statement.close();
+                    connection.close();
+                    Common.getInstance().writeLog(LogInfo.DEPOSIT, cause, causeReason, this, amount, currency, world);
+                    Common.getInstance().getServerCaller().throwEvent(new EconomyChangeEvent(this.getAccountName(), result));
+                } catch (SQLException e) {
+                    e.printStackTrace();
                 }
-                Common.getInstance().getDatabaseManager().getDatabase().save(balanceTable);
-
-                Common.getInstance().writeLog(LogInfo.DEPOSIT, cause, causeReason, this, amount, currency, world);
-                result = balanceTable.getBalance();
-                Common.getInstance().getServerCaller().throwEvent(new EconomyChangeEvent(this.getAccountName(), result));
             } else {
                 result = Double.MAX_VALUE;
             }

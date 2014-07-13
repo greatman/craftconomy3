@@ -34,8 +34,8 @@ public class LogTable {
             "  `amount` double DEFAULT NULL," +
             "  `currency_id` text," +
             "  PRIMARY KEY (`id`)," +
-            "  ADD CONSTRAINT `fk_log_account` FOREIGN KEY (`username_id`) REFERENCES `"+Common.getInstance().getDatabaseManager().getTablePrefix()+AccountTable.TABLE_NAME+"` (`id`);" +
-            " ADD CONSTRAINT `fk_log_currency` FOREIGN KEY (`currency_id`) REFERENCES `"+Common.getInstance().getDatabaseManager().getTablePrefix()+CurrencyTable.TABLE_NAME+"` (`id`);" +
+            "  ADD CONSTRAINT `fk_log_account` FOREIGN KEY (`username_id`) REFERENCES `"+Common.getInstance().getDatabaseManager().getTablePrefix()+AccountTable.TABLE_NAME+"` (`id`) ON DELETE CASCADE;" +
+            " ADD CONSTRAINT `fk_log_currency` FOREIGN KEY (`currency_id`) REFERENCES `"+Common.getInstance().getDatabaseManager().getTablePrefix()+CurrencyTable.TABLE_NAME+"` (`id`) ON DELETE CASCADE;" +
             ") ENGINE=InnoDB;";
 
     public static final String INSERT_ENTRY = "INSERT INTO "+Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+"" +

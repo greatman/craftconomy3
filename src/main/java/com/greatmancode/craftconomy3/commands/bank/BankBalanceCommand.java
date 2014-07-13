@@ -26,8 +26,8 @@ import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 public class BankBalanceCommand extends CommandExecutor {
     @Override
     public void execute(String sender, String[] args) {
-        if (Common.getInstance().getAccountManager().exist(Account.BANK_PREFIX + args[0])) {
-            Account account = Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + args[0]);
+        if (Common.getInstance().getAccountManager().exist(args[0], true)) {
+            Account account = Common.getInstance().getAccountManager().getAccount(args[0], true);
             if (account.getAccountACL().canShow(sender) || Common.getInstance().getServerCaller().getPlayerCaller().checkPermission(sender, "craftconomy.bank.balance.others")) {
                 Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("bank_statement"));
                 for (Balance bl : account.getAllBalance()) {
