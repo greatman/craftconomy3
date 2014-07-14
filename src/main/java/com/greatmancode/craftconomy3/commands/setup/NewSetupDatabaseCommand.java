@@ -21,7 +21,6 @@ package com.greatmancode.craftconomy3.commands.setup;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.NewSetupWizard;
 import com.greatmancode.tools.commands.interfaces.CommandExecutor;
-import com.greatmancode.tools.database.throwable.InvalidDatabaseConstructor;
 import com.greatmancode.tools.utils.Tools;
 
 import java.util.HashMap;
@@ -101,12 +100,8 @@ public class NewSetupDatabaseCommand extends CommandExecutor {
         } else {
             Common.getInstance().getMainConfig().setValue(CONFIG_NODE, "h2");
         }
-        try {
-            Common.getInstance().initialiseDatabase();
-            done(sender);
-        } catch (InvalidDatabaseConstructor e) {
-            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, String.format(ERROR_MESSAGE, e.getMessage()));
-        }
+        Common.getInstance().initialiseDatabase();
+        done(sender);
     }
 
     private void mysql(String sender, String[] args) {
@@ -149,13 +144,9 @@ public class NewSetupDatabaseCommand extends CommandExecutor {
         }
 
         if (VALUES.size() == 6) {
-            try {
-                Common.getInstance().initialiseDatabase();
-                done(sender);
-            } catch (InvalidDatabaseConstructor e) {
-                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, String.format(ERROR_MESSAGE, e.getMessage()));
-                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_GREEN}}Be sure that you entered valid information! Commands are: {{WHITE}}/ccsetup database <address/port/username/password/db> <Value>");
-            }
+            Common.getInstance().initialiseDatabase();
+            done(sender);
+            //TODO: A catch
         }
     }
 

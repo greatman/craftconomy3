@@ -20,32 +20,36 @@ package com.greatmancode.craftconomy3.database.tables;
 
 import com.greatmancode.craftconomy3.Common;
 
-public class ExchangeTable {
+public class ExchangeTable extends DatabaseTable{
 
     public static final String TABLE_NAME = "exchange";
 
-    public static final String CREATE_TABLE_MYSQL = "CREATE TABLE `"+ Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+"` (" +
+    public final String CREATE_TABLE_MYSQL = "CREATE TABLE `"+ getPrefix()+TABLE_NAME+"` (" +
             "  `from_currency_id` int(11) NOT NULL," +
             "  `to_currency_id` int(11) NOT NULL," +
             "  `amount` double DEFAULT 1.0," +
             "  PRIMARY KEY (`to_currency_id`, from_currency_id)" +
             ") ENGINE=InnoDB;";
 
-    public static final String SELECT_ENTRY = "SELECT * FROM "+Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+" " +
-            "LEFT JOIN "+Common.getInstance().getDatabaseManager().getTablePrefix()+CurrencyTable.TABLE_NAME+" AS c1 ON " +
-            Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+".to_currency_id = c1.id " +
-            "LEFT JOIN "+Common.getInstance().getDatabaseManager().getTablePrefix()+CurrencyTable.TABLE_NAME+" AS c2 ON " +
-            Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+".from_currency_id = c2.id " +
+    public final String SELECT_ENTRY = "SELECT * FROM "+getPrefix()+TABLE_NAME+" " +
+            "LEFT JOIN "+getPrefix()+CurrencyTable.TABLE_NAME+" AS c1 ON " +
+            getPrefix()+TABLE_NAME+".to_currency_id = c1.id " +
+            "LEFT JOIN "+getPrefix()+CurrencyTable.TABLE_NAME+" AS c2 ON " +
+            getPrefix()+TABLE_NAME+".from_currency_id = c2.id " +
             "WHERE c1.name=? AND c2.name=?";
 
-    public static final String INSERT_ENTRY = "INSERT INTO "+Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+"(from_currency_id, to_currency_id, amount) " +
-            "VALUES((SELECT id from "+Common.getInstance().getDatabaseManager().getTablePrefix()+CurrencyTable.TABLE_NAME+" WHERE name=?), " +
-            "(SELECT id from "+Common.getInstance().getDatabaseManager().getTablePrefix()+CurrencyTable.TABLE_NAME+" WHERE name=?),?)";
+    public final String INSERT_ENTRY = "INSERT INTO "+getPrefix()+TABLE_NAME+"(from_currency_id, to_currency_id, amount) " +
+            "VALUES((SELECT id from "+getPrefix()+CurrencyTable.TABLE_NAME+" WHERE name=?), " +
+            "(SELECT id from "+getPrefix()+CurrencyTable.TABLE_NAME+" WHERE name=?),?)";
 
-    public static final String UPDATE_ENTRY = "UPDATE "+Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+" SET amount=? " +
-            "LEFT JOIN "+Common.getInstance().getDatabaseManager().getTablePrefix()+CurrencyTable.TABLE_NAME+" AS c1 ON " +
-            Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+".to_currency_id = c1.id " +
-            "LEFT JOIN "+Common.getInstance().getDatabaseManager().getTablePrefix()+CurrencyTable.TABLE_NAME+" AS c2 ON " +
-            Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+".from_currency_id = c2.id " +
+    public final String UPDATE_ENTRY = "UPDATE "+getPrefix()+TABLE_NAME+" SET amount=? " +
+            "LEFT JOIN "+getPrefix()+CurrencyTable.TABLE_NAME+" AS c1 ON " +
+            getPrefix()+TABLE_NAME+".to_currency_id = c1.id " +
+            "LEFT JOIN "+getPrefix()+CurrencyTable.TABLE_NAME+" AS c2 ON " +
+            getPrefix()+TABLE_NAME+".from_currency_id = c2.id " +
             "WHERE c1.name=? AND c2.name=?";
+
+    public ExchangeTable(String prefix) {
+        super(prefix);
+    }
 }

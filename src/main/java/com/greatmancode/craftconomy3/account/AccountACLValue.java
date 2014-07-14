@@ -18,21 +18,54 @@
  */
 package com.greatmancode.craftconomy3.account;
 
-import com.greatmancode.craftconomy3.database.tables.AccessTable;
-
 public class AccountACLValue {
-    private final AccessTable table;
+    private boolean deposit,withdraw,acl,balance,owner;
 
-    public AccountACLValue(AccessTable entry) {
-        this.table = entry;
+    public AccountACLValue(boolean deposit, boolean withdraw, boolean acl, boolean balance, boolean owner) {
+        this.deposit = deposit;
+        this.withdraw = withdraw;
+        this.acl = acl;
+        this.balance = balance;
+        this.owner = owner;
     }
 
-    /**
-     * Represents a database entry of the ACL entry.
-     *
-     * @return a AccessTable instance
-     */
-    public AccessTable getTable() {
-        return table;
+    public boolean isDeposit() {
+        return deposit;
+    }
+
+    public void setDeposit(boolean deposit) {
+        this.deposit = deposit;
+    }
+
+    public boolean isWithdraw() {
+        return withdraw;
+    }
+
+    public void setWithdraw(boolean withdraw) {
+        this.withdraw = withdraw;
+    }
+
+    public boolean isAcl() {
+        return acl;
+    }
+
+    public void setAcl(boolean acl) {
+        this.acl = acl;
+    }
+
+    public boolean isBalance() {
+        return balance;
+    }
+
+    public void setBalance(boolean balance) {
+        this.balance = balance;
+    }
+
+    public boolean isOwner() {
+        return owner;
+    }
+
+    public void setOwner(boolean owner) {
+        this.owner = owner;
     }
 }

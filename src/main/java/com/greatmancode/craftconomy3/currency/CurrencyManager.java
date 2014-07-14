@@ -22,6 +22,10 @@ import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.database.tables.BalanceTable;
 import com.greatmancode.craftconomy3.database.tables.CurrencyTable;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -41,11 +45,20 @@ public class CurrencyManager {
 
     public CurrencyManager() {
         // Let's load all currency in the database
-        for (CurrencyTable entry : Common.getInstance().getDatabaseManager().getDatabase().select(CurrencyTable.class).execute().find()) {
-            if (entry.isStatus()) {
-                defaultCurrencyID = entry.getId();
+        try {
+            Connection connection = Common.getInstance().getDatabaseManager().getDatabase().getConnection();
+            PreparedStatement statement = connection.prepareStatement(CurrencyTable.SELECT_ALL_ENTRY);
+            ResultSet set = statement.executeQuery();
+            while (set.next()) {
+                if (set.getBoolean("status")) {
+                    defaultCurrencyID = set.getInt("id");
+                }
+                addCurrency(set.getInt("id"), set.getString("name"), set.getString("plural"), set.getString("minor"), set.getString("minorPlural"), set.getDouble("hardCap"), set.getString("sign"), false, set.getBoolean("status"));
             }
-            addCurrency(entry.getId(), entry.getName(), entry.getPlural(), entry.getMinor(), entry.getMinorplural(), entry.getHardCap(), entry.getSign(), false, entry.isStatus());
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 

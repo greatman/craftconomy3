@@ -20,9 +20,8 @@ package com.greatmancode.craftconomy3.converter;
 
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.database.tables.*;
-import com.greatmancode.tools.database.DatabaseManager;
-import com.greatmancode.tools.database.interfaces.DatabaseType;
-import com.greatmancode.tools.database.throwable.InvalidDatabaseConstructor;
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 
 import java.io.File;
 import java.sql.*;
@@ -42,15 +41,22 @@ public class SQLiteToMySQLConverter {
     private List<Config> configList = new ArrayList<Config>();
     private List<Exchange> exchangeList = new ArrayList<Exchange>();
     private List<WorldGroup> worldGroupList = new ArrayList<WorldGroup>();
+    private HikariDataSource db;
+    private String prefix;
 
-    public void run() throws InvalidDatabaseConstructor {
+    public void run() {
         Common.getInstance().sendConsoleMessage(Level.INFO, Common.getInstance().getLanguageManager().getString("starting_database_convert"));
-        DatabaseManager sqliteManager = new DatabaseManager(DatabaseType.SQLITE, Common.getInstance().getMainConfig().getString("System.Database.Prefix"), new File(Common.getInstance().getServerCaller().getDataFolder(), "database.db"), Common.getInstance().getServerCaller());
+        HikariConfig hikariConfig = new HikariConfig();
+        hikariConfig.setMaximumPoolSize(10);
+        hikariConfig.setDataSourceClassName("com.sqlite.SQLiteDataSource");
+        hikariConfig.addDataSourceProperty("databaseName", new File(Common.getInstance().getServerCaller().getDataFolder(), "database.db").getAbsolutePath());
+        db = new HikariDataSource(hikariConfig);
+        prefix = Common.getInstance().getMainConfig().getString("System.Database.Prefix");
         try {
-            Connection connection = sqliteManager.getDatabase().getConnection();
+            Connection connection = db.getConnection();
 
             Common.getInstance().sendConsoleMessage(Level.INFO, "Getting accounts information");
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM "+sqliteManager.getTablePrefix()+ AccountTable.TABLE_NAME);
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM "+prefix+ AccountTable.TABLE_NAME);
             ResultSet set = statement.executeQuery();
             while (set.next()) {
                 Account account = new Account();
@@ -66,7 +72,7 @@ public class SQLiteToMySQLConverter {
             statement.close();
 
             Common.getInstance().sendConsoleMessage(Level.INFO, "Getting currency table information");
-            statement = connection.prepareStatement("SELECT * FROM "+sqliteManager.getTablePrefix()+ CurrencyTable.TABLE_NAME);
+            statement = connection.prepareStatement("SELECT * FROM "+prefix+ CurrencyTable.TABLE_NAME);
             set = statement.executeQuery();
             while (set.next()) {
                 Currency currency = new Currency();
@@ -84,7 +90,7 @@ public class SQLiteToMySQLConverter {
             statement.close();
 
             Common.getInstance().sendConsoleMessage(Level.INFO, "Getting Balance table information");
-            statement = connection.prepareStatement("SELECT * FROM "+sqliteManager.getTablePrefix()+ BalanceTable.TABLE_NAME);
+            statement = connection.prepareStatement("SELECT * FROM "+prefix+ BalanceTable.TABLE_NAME);
             set = statement.executeQuery();
             while (set.next()) {
                 Balance balance = new Balance();
@@ -97,7 +103,7 @@ public class SQLiteToMySQLConverter {
             statement.close();
 
             Common.getInstance().sendConsoleMessage(Level.INFO, "Getting access table information");
-            statement = connection.prepareStatement("SELECT * FROM "+sqliteManager.getTablePrefix()+ AccessTable.TABLE_NAME);
+            statement = connection.prepareStatement("SELECT * FROM "+prefix+ AccessTable.TABLE_NAME);
             set = statement.executeQuery();
             while (set.next()) {
                 Access access = new Access();
@@ -113,7 +119,7 @@ public class SQLiteToMySQLConverter {
             statement.close();
 
             Common.getInstance().sendConsoleMessage(Level.INFO, "Getting config table information");
-            statement = connection.prepareStatement("SELECT * FROM "+sqliteManager.getTablePrefix()+ ConfigTable.TABLE_NAME);
+            statement = connection.prepareStatement("SELECT * FROM "+prefix+ ConfigTable.TABLE_NAME);
             set = statement.executeQuery();
             while (set.next()) {
                 Config config = new Config();
@@ -125,7 +131,7 @@ public class SQLiteToMySQLConverter {
             statement.close();
 
             Common.getInstance().sendConsoleMessage(Level.INFO, "Getting Exchange table information");
-            statement = connection.prepareStatement("SELECT * FROM "+sqliteManager.getTablePrefix()+ExchangeTable.TABLE_NAME);
+            statement = connection.prepareStatement("SELECT * FROM "+prefix+ExchangeTable.TABLE_NAME);
             set = statement.executeQuery();
             while (set.next()) {
                 Exchange exchange = new Exchange();
@@ -138,7 +144,7 @@ public class SQLiteToMySQLConverter {
             statement.close();
 
             Common.getInstance().sendConsoleMessage(Level.INFO, "Getting log table information");
-            statement = connection.prepareStatement("SELECT * FROM "+sqliteManager.getTablePrefix()+LogTable.TABLE_NAME);
+            statement = connection.prepareStatement("SELECT * FROM "+prefix+LogTable.TABLE_NAME);
             set = statement.executeQuery();
             while (set.next()) {
                 Log log = new Log();
@@ -155,7 +161,7 @@ public class SQLiteToMySQLConverter {
             statement.close();
 
             Common.getInstance().sendConsoleMessage(Level.INFO, "Getting world group information");
-            statement = connection.prepareStatement("SELECT * FROM "+sqliteManager.getTablePrefix()+WorldGroupTable.TABLE_NAME);
+            statement = connection.prepareStatement("SELECT * FROM "+prefix+WorldGroupTable.TABLE_NAME);
             set = statement.executeQuery();
             while (set.next()) {
                 WorldGroup worldGroup = new WorldGroup();
@@ -253,7 +259,7 @@ public class SQLiteToMySQLConverter {
                 }
             }
             connection.close();
-            sqliteManager.getDatabase().close();
+            db.close();
 
         } catch (SQLException e) {
             e.printStackTrace();

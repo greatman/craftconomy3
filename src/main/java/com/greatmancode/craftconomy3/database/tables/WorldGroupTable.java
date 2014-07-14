@@ -18,21 +18,23 @@
  */
 package com.greatmancode.craftconomy3.database.tables;
 
-import com.greatmancode.craftconomy3.Common;
-
-public class WorldGroupTable {
+public class WorldGroupTable extends DatabaseTable{
 
     public static final String TABLE_NAME = "worldgroup";
 
-    public static final String CREATE_TABLE_MYSQL = "CREATE TABLE `"+Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+"` (" +
+    public final String CREATE_TABLE_MYSQL = "CREATE TABLE `"+getPrefix()+TABLE_NAME+"` (" +
             "  `worldList` varchar(255)," +
             "  `groupName` varchar(255)," +
             "  PRIMARY KEY (`groupName`)" +
             ") ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;";
 
-    public static final String SELECT_ENTRY = "SELECT * FROM "+ Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+" WHERE groupName=?";
+    public final String SELECT_ENTRY = "SELECT * FROM "+ getPrefix()+TABLE_NAME+" WHERE groupName=?";
 
-    public static final String INSERT_ENTRY = "INSERT INTO "+Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+"(groupName) VALUES(?)";
+    public final String INSERT_ENTRY = "INSERT INTO "+getPrefix()+TABLE_NAME+"(groupName) VALUES(?)";
 
-    public static final String UPDATE_ENTRY = "UPDATE "+Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+" SET worldList=? WHERE groupName=?";
+    public final String UPDATE_ENTRY = "UPDATE "+getPrefix()+TABLE_NAME+" SET worldList=? WHERE groupName=?";
+
+    public WorldGroupTable(String prefix) {
+        super(prefix);
+    }
 }

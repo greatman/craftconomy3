@@ -37,6 +37,7 @@ public class AccountACL {
 
     public AccountACL(Account account) {
         this.account = account;
+
         List<AccessTable> aclTable = Common.getInstance().getDatabaseManager().getDatabase().select(AccessTable.class).where().equal("account_id", accountID).execute().find();
         for (AccessTable entry : aclTable) {
             aclList.put(entry.getPlayerName(), new AccountACLValue(entry));

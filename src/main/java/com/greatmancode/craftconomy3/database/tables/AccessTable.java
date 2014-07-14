@@ -18,11 +18,11 @@
  */
 package com.greatmancode.craftconomy3.database.tables;
 
-import com.greatmancode.craftconomy3.Common;
+public class AccessTable extends DatabaseTable {
 
-public class AccessTable {
     public static final String TABLE_NAME = "acl";
-    public static final String CREATE_TABLE_MYSQL = "CREATE TABLE `"+ Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+"` (" +
+
+    public final String CREATE_TABLE_MYSQL = "CREATE TABLE `"+ getPrefix()+TABLE_NAME+"` (" +
             "  `account_id` int(11) DEFAULT NULL," +
             "  `playerName` varchar(16)," +
             "  `owner` BOOLEAN DEFAULT NULL," +
@@ -31,18 +31,22 @@ public class AccessTable {
             "  `acl` BOOLEAN DEFAULT FALSE," +
             "  `withdraw` BOOLEAN DEFAULT FALSE," +
             "  PRIMARY KEY (`account_id`)," +
-            "  ADD CONSTRAINT `fk_acl_account` FOREIGN KEY (`account_id`) REFERENCES `"+Common.getInstance().getDatabaseManager().getTablePrefix()+AccountTable.TABLE_NAME+"` (`id`);" +
+            "  ADD CONSTRAINT `fk_acl_account` FOREIGN KEY (`account_id`) REFERENCES `"+getPrefix()+AccountTable.TABLE_NAME+"` (`id`);" +
             ") ENGINE=InnoDB;";
 
-    public static final String SELECT_ENTRY = "SELECT * FROM "+Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+" "+
-            "LEFT JOIN "+Common.getInstance().getDatabaseManager().getTablePrefix()+AccountTable.TABLE_NAME+" ON " +
-            Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+".account_id = "+Common.getInstance().getDatabaseManager().getTablePrefix()+AccountTable.TABLE_NAME+".id WHERE "+Common.getInstance().getDatabaseManager().getTablePrefix()+AccountTable.TABLE_NAME+".name=?";
+    public final String SELECT_ENTRY = "SELECT * FROM "+getPrefix()+TABLE_NAME+" "+
+            "LEFT JOIN "+getPrefix()+AccountTable.TABLE_NAME+" ON " +
+            getPrefix()+TABLE_NAME+".account_id = "+getPrefix()+AccountTable.TABLE_NAME+".id WHERE "+getPrefix()+AccountTable.TABLE_NAME+".name=? AND "+getPrefix()+AccountTable.TABLE_NAME+".bank=?";
 
-    public static final String INSERT_ENTRY = "INSERT INTO "+Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+"" +
-            "(account_id, playerName, owner, balance, deposit, acl, withdraw) VALUES((SELECT id from "+Common.getInstance().getDatabaseManager().getTablePrefix()+AccountTable.TABLE_NAME+" WHERE name=?),?,?,?,?,?,?)";
+    public final String INSERT_ENTRY = "INSERT INTO "+getPrefix()+TABLE_NAME+"" +
+            "(account_id, playerName, owner, balance, deposit, acl, withdraw) VALUES((SELECT id from "+getPrefix()+AccountTable.TABLE_NAME+" WHERE name=?),?,?,?,?,?,?)";
 
-    public static final String UPDATE_ENTRY = "UPDATE "+Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+" SET owner=? , balance=?, deposit=?, acl=?, withdraw=? " +
-            "LEFT JOIN "+Common.getInstance().getDatabaseManager().getTablePrefix()+AccountTable.TABLE_NAME+" ON " +
-            Common.getInstance().getDatabaseManager().getTablePrefix()+TABLE_NAME+".account_id = "+Common.getInstance().getDatabaseManager().getTablePrefix()+AccountTable.TABLE_NAME+".id " +
-            "WHERE "+Common.getInstance().getDatabaseManager().getTablePrefix()+AccountTable.TABLE_NAME+".name=? AND playerName=?";
+    public final String UPDATE_ENTRY = "UPDATE "+getPrefix()+TABLE_NAME+" SET owner=? , balance=?, deposit=?, acl=?, withdraw=? " +
+            "LEFT JOIN "+getPrefix()+AccountTable.TABLE_NAME+" ON " +
+            getPrefix()+TABLE_NAME+".account_id = "+getPrefix()+AccountTable.TABLE_NAME+".id " +
+            "WHERE "+getPrefix()+AccountTable.TABLE_NAME+".name=? AND playerName=?";
+
+    public AccessTable(String prefix) {
+        super(prefix);
+    }
 }
