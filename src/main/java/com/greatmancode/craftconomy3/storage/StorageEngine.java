@@ -81,4 +81,6 @@ public abstract class StorageEngine {
     public abstract void setIgnoreACL(Account account, boolean ignoreACL);
 
     public abstract Map<String, AccountACLValue> retrieveACL(Account account);
+
+    public abstract AccountACLValue saveACL(Account account, String name, boolean deposit, boolean withdraw, boolean acl, boolean show, boolean owner);
 }

@@ -20,7 +20,6 @@ package com.greatmancode.craftconomy3.storage.mysql;
 
 import com.greatmancode.craftconomy3.Cause;
 import com.greatmancode.craftconomy3.Common;
-import com.greatmancode.craftconomy3.DisplayFormat;
 import com.greatmancode.craftconomy3.LogInfo;
 import com.greatmancode.craftconomy3.account.Account;
 import com.greatmancode.craftconomy3.account.AccountACLValue;
@@ -360,7 +359,9 @@ public class MySQLEngine extends StorageEngine {
             statement.setString(1, account.getAccountName());
             statement.setBoolean(2, account.isBankAccount());
             ResultSet set = statement.executeQuery();
-
+            while (set.next()) {
+                result.put(set.getString("playerName"), new AccountACLValue(set.getBoolean("deposit"), set.getBoolean("withdraw"), set.getBoolean("acl"), set.getBoolean("balance"), set.getBoolean("owner")));
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -368,6 +369,22 @@ public class MySQLEngine extends StorageEngine {
             close(connection);
         }
         return result;
+    }
+
+    @Override
+    public AccountACLValue saveACL(Account account, String name, boolean deposit, boolean withdraw, boolean acl, boolean show, boolean owner) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = db.getConnection();
+            statement = connection.prepareStatement(accessTable.SELECT_ENTRY);
+            //TODO not finished
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close(statement);
+            close(connection);
+        }
     }
 
 

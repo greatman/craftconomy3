@@ -29,7 +29,7 @@ public class AccountACLValue {
         this.owner = owner;
     }
 
-    public boolean isDeposit() {
+    public boolean canDeposit() {
         return deposit;
     }
 
@@ -37,7 +37,7 @@ public class AccountACLValue {
         this.deposit = deposit;
     }
 
-    public boolean isWithdraw() {
+    public boolean canWithdraw() {
         return withdraw;
     }
 
@@ -45,7 +45,7 @@ public class AccountACLValue {
         this.withdraw = withdraw;
     }
 
-    public boolean isAcl() {
+    public boolean canAcl() {
         return acl;
     }
 
@@ -53,7 +53,7 @@ public class AccountACLValue {
         this.acl = acl;
     }
 
-    public boolean isBalance() {
+    public boolean canBalance() {
         return balance;
     }
 
