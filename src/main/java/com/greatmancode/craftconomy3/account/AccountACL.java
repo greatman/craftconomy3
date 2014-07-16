@@ -187,9 +187,8 @@ public class AccountACL {
      * @param owner    If he is the owner
      */
     public void set(String name, boolean deposit, boolean withdraw, boolean acl, boolean show, boolean owner) {
-        AccessTable table;
         String newName = name.toLowerCase();
-        aclList.put(name, Common.getInstance().getStorageHandler().getStorageEngine().saveACL(account, name, deposit, withdraw, acl, show, owner));
+        aclList.put(name, Common.getInstance().getStorageHandler().getStorageEngine().saveACL(account, newName, deposit, withdraw, acl, show, owner));
     }
 
     /**

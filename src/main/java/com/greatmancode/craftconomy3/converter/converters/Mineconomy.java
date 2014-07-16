@@ -20,11 +20,9 @@ package com.greatmancode.craftconomy3.converter.converters;
 
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.converter.Converter;
-import com.greatmancode.craftconomy3.database.tables.iconomy.IConomyTable;
 import com.greatmancode.craftconomy3.database.tables.mineconomy.MineconomyTable;
-import com.greatmancode.tools.database.DatabaseManager;
-import com.greatmancode.tools.database.interfaces.DatabaseType;
-import com.greatmancode.tools.database.throwable.InvalidDatabaseConstructor;
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -35,7 +33,7 @@ import java.util.List;
 
 public class Mineconomy extends Converter {
 
-    private DatabaseManager db;
+    private HikariDataSource db;
 
     public Mineconomy() {
         getDbTypes().add("flatfile");
@@ -62,19 +60,16 @@ public class Mineconomy extends Converter {
         if (getSelectedDbType().equalsIgnoreCase("flatfile")) {
 
         } else if (getSelectedDbType().equalsIgnoreCase("mysql")) {
-            try {
-                db = new DatabaseManager(DatabaseType.MYSQL,getDbConnectInfo().get("address"),Integer.parseInt(getDbConnectInfo().get("port")),getDbConnectInfo().get("username"),getDbConnectInfo().get("password"),getDbConnectInfo().get("database"),"", Common.getInstance().getServerCaller());
-                db.getDatabase().getConnection().close();
-                result = true;
-            } catch (InvalidDatabaseConstructor invalidDatabaseConstructor) {
-                Common.getInstance().getLogger().severe("Invalid database constructor! Error:" + invalidDatabaseConstructor.getMessage());
-                db = null;
-            } catch (SQLException e) {
-                Common.getInstance().getLogger().severe("Error testing the connection! Error:" + e.getMessage());
-                db = null;
-            } catch (NumberFormatException e) {
-                Common.getInstance().getLogger().severe("Illegal Port!");
-            }
+            HikariConfig config = new HikariConfig();
+            config.setMaximumPoolSize(10);
+            config.setDataSourceClassName("com.mysql.jdbc.jdbc2.optional.MysqlDataSource");
+            config.addDataSourceProperty("serverName", getDbConnectInfo().get("address"));
+            config.addDataSourceProperty("port", getDbConnectInfo().get("port"));
+            config.addDataSourceProperty("databaseName", getDbConnectInfo().get("database"));
+            config.addDataSourceProperty("user", getDbConnectInfo().get("username"));
+            config.addDataSourceProperty("password", getDbConnectInfo().get("password"));
+            config.addDataSourceProperty("autoDeserialize", true);
+            db = new HikariDataSource(config);
         }
         return result;
     }
@@ -99,7 +94,7 @@ public class Mineconomy extends Converter {
 
     private List<User> importMySQL(String sender) {
         try {
-            Connection connection = db.getDatabase().getConnection();
+            Connection connection = db.getConnection();
             PreparedStatement statement = connection.prepareStatement(MineconomyTable.SELECT_ENTRY);
             ResultSet set = statement.executeQuery();
             List<User> userList = new ArrayList<User>();

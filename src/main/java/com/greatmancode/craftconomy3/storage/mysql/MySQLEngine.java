@@ -24,20 +24,17 @@ import com.greatmancode.craftconomy3.LogInfo;
 import com.greatmancode.craftconomy3.account.Account;
 import com.greatmancode.craftconomy3.account.AccountACLValue;
 import com.greatmancode.craftconomy3.account.Balance;
+import com.greatmancode.craftconomy3.commands.money.LogCommand;
 import com.greatmancode.craftconomy3.currency.Currency;
 import com.greatmancode.craftconomy3.database.tables.*;
+import com.greatmancode.craftconomy3.groups.WorldGroup;
 import com.greatmancode.craftconomy3.storage.StorageEngine;
+import com.greatmancode.craftconomy3.utils.NoExchangeRate;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.sql.*;
+import java.util.*;
 
 /**
  * Created by greatman on 2014-07-13.
@@ -132,6 +129,11 @@ public class MySQLEngine extends StorageEngine {
             close(statement);
             close(connection);
         }
+        return null;
+    }
+
+    @Override
+    public Account getAccount(UUID uuid) {
         return null;
     }
 
@@ -385,6 +387,72 @@ public class MySQLEngine extends StorageEngine {
             close(statement);
             close(connection);
         }
+    }
+
+    @Override
+    public double getExchangeRate(Currency currency, Currency otherCurrency) throws NoExchangeRate{
+        return 0;
+    }
+
+    @Override
+    public void setExchangeRate(Currency currency, Currency otherCurrency, double amount) {
+
+    }
+
+    @Override
+    public void saveCurrency(Currency currency) {
+
+    }
+
+    @Override
+    public void deleteCurrency(Currency currency) {
+
+    }
+
+    @Override
+    public void updateUsername(String name, UUID uuid) {
+
+    }
+
+    @Override
+    public void updateUUID(String name, UUID uuid) {
+
+    }
+
+    @Override
+    public Map<String, WorldGroup> getWorldGroups() {
+        return null;
+    }
+
+    @Override
+    public void removeWorldGroup(String group) {
+
+    }
+
+    @Override
+    public String[] getBankAccountList(String sender) {
+        return new String[0];
+    }
+
+    @Override
+    public List<LogCommand.LogEntry> getLog(Account user, int page) {
+        List<LogCommand.LogEntry> logEntryList = new ArrayList<>();
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = db.getConnection();
+            statement = connection.prepareStatement(logTable.SELECT_ENTRY_LIMIT);
+            statement.setString(1, user.getAccountName());
+            statement.setInt(2, (page - 1) * 10);
+            statement.setInt(3, 10);
+            ResultSet set = statement.executeQuery();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close(statement);
+            close(connection);
+        }
+        return logEntryList;
     }
 
 

@@ -21,9 +21,8 @@ package com.greatmancode.craftconomy3.converter.converters;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.converter.Converter;
 import com.greatmancode.craftconomy3.database.tables.iconomy.IConomyTable;
-import com.greatmancode.tools.database.DatabaseManager;
-import com.greatmancode.tools.database.interfaces.DatabaseType;
-import com.greatmancode.tools.database.throwable.InvalidDatabaseConstructor;
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 
 import java.io.*;
 import java.sql.Connection;
@@ -42,7 +41,7 @@ import java.util.logging.Level;
  */
 public class Iconomy6 extends Converter {
     private BufferedReader flatFileReader = null;
-    private DatabaseManager db;
+    private HikariDataSource db;
 
     public Iconomy6() {
         getDbTypes().add("flatfile");
@@ -109,16 +108,16 @@ public class Iconomy6 extends Converter {
      */
     private void loadMySQL() {
         try {
-            try {
-                db = new DatabaseManager(DatabaseType.MYSQL,getDbConnectInfo().get("address"),Integer.parseInt(getDbConnectInfo().get("port")),getDbConnectInfo().get("username"),getDbConnectInfo().get("password"),getDbConnectInfo().get("database"),"", Common.getInstance().getServerCaller());
-                db.getDatabase().getConnection().close();
-            } catch (InvalidDatabaseConstructor invalidDatabaseConstructor) {
-                invalidDatabaseConstructor.printStackTrace();
-                db = null;
-            } catch (SQLException e) {
-                e.printStackTrace();
-                db = null;
-            }
+            HikariConfig config = new HikariConfig();
+            config.setMaximumPoolSize(10);
+            config.setDataSourceClassName("com.mysql.jdbc.jdbc2.optional.MysqlDataSource");
+            config.addDataSourceProperty("serverName", getDbConnectInfo().get("address"));
+            config.addDataSourceProperty("port", getDbConnectInfo().get("port"));
+            config.addDataSourceProperty("databaseName", getDbConnectInfo().get("database"));
+            config.addDataSourceProperty("user", getDbConnectInfo().get("username"));
+            config.addDataSourceProperty("password", getDbConnectInfo().get("password"));
+            config.addDataSourceProperty("autoDeserialize", true);
+            db = new HikariDataSource(config);
         } catch (NumberFormatException e) {
             Common.getInstance().getLogger().severe("Illegal Port!");
         }
@@ -128,16 +127,7 @@ public class Iconomy6 extends Converter {
      * Allow to load a SQLite database.
      */
     private void loadSQLite() {
-        try {
-            db = new DatabaseManager(DatabaseType.SQLITE, "",new File(Common.getInstance().getServerCaller().getDataFolder() + File.separator + getDbConnectInfo().get("filename")), Common.getInstance().getServerCaller());
-            db.getDatabase().getConnection().close();
-        } catch (InvalidDatabaseConstructor invalidDatabaseConstructor) {
-            invalidDatabaseConstructor.printStackTrace();
-            db = null;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            db = null;
-        }
+        //TODO Hikari this
     }
 
     @Override
@@ -196,13 +186,15 @@ public class Iconomy6 extends Converter {
      */
     private boolean importDatabase(String sender) {
         try {
-            Connection connection = db.getDatabase().getConnection();
+            Connection connection = db.getConnection();
             PreparedStatement statement = connection.prepareStatement(IConomyTable.SELECT_ENTRY);
             ResultSet set = statement.executeQuery();
             List<User> userList = new ArrayList<User>();
             while (set.next()) {
                 userList.add(new User(set.getString("username"), set.getDouble("balance")));
             }
+            statement.close();
+            connection.close();
             addAccountToString(userList);
             addBalance(sender, userList);
         } catch (SQLException e) {

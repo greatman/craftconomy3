@@ -19,9 +19,7 @@
 package com.greatmancode.craftconomy3.groups;
 
 import com.greatmancode.craftconomy3.Common;
-import com.greatmancode.craftconomy3.database.tables.WorldGroupTable;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -30,12 +28,10 @@ import java.util.Map.Entry;
  */
 public class WorldGroupsManager {
     public static final String DEFAULT_GROUP_NAME = "default";
-    private final Map<String, WorldGroup> list = new HashMap<String, WorldGroup>();
+    private final Map<String, WorldGroup> list;
 
     public WorldGroupsManager() {
-        for (WorldGroupTable group : Common.getInstance().getDatabaseManager().getDatabase().select(WorldGroupTable.class).execute().find()) {
-            list.put(group.getGroupName(), new WorldGroup(group.getGroupName()));
-        }
+        list = Common.getInstance().getStorageHandler().getStorageEngine().getWorldGroups();
     }
 
     /**
@@ -90,7 +86,7 @@ public class WorldGroupsManager {
      */
     public void removeGroup(String group) {
         if (worldGroupExist(group)) {
-            Common.getInstance().getDatabaseManager().getDatabase().remove(list.get(group).table);
+            Common.getInstance().getStorageHandler().getStorageEngine().removeWorldGroup(group);
             list.remove(group);
         }
     }

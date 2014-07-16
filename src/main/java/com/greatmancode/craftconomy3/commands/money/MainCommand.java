@@ -28,7 +28,7 @@ public class MainCommand extends CommandExecutor {
     public void execute(String sender, String[] args) {
         Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("money_all_title"));
         Account account = Common.getInstance().getAccountManager().getAccount(sender, false);
-        for (Balance bl : account.getAllWorldBalance(account.getWorldGroupOfPlayerCurrentlyIn())) {
+        for (Balance bl : account.getAllWorldBalance(Account.getWorldGroupOfPlayerCurrentlyIn(sender))) {
             Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().format(bl.getWorld(), bl.getCurrency(), bl.getBalance()));
         }
     }
