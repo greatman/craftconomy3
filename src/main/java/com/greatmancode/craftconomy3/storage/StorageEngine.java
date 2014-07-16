@@ -23,11 +23,14 @@ import com.greatmancode.craftconomy3.LogInfo;
 import com.greatmancode.craftconomy3.account.Account;
 import com.greatmancode.craftconomy3.account.AccountACLValue;
 import com.greatmancode.craftconomy3.account.Balance;
+import com.greatmancode.craftconomy3.commands.currency.CurrencyRatesCommand;
 import com.greatmancode.craftconomy3.commands.money.LogCommand;
+import com.greatmancode.craftconomy3.commands.money.TopCommand;
 import com.greatmancode.craftconomy3.currency.Currency;
 import com.greatmancode.craftconomy3.groups.WorldGroup;
 import com.greatmancode.craftconomy3.utils.NoExchangeRate;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -200,4 +203,16 @@ public abstract class StorageEngine {
     public abstract String[] getBankAccountList(String sender);
 
     public abstract List<LogCommand.LogEntry> getLog(Account user, int page);
+
+    public abstract List<TopCommand.TopEntry> getTopEntry(int page, Currency currency, String world);
+
+    public abstract List<CurrencyRatesCommand.CurrencyRateEntry> getCurrencyExchanges();
+
+    public abstract void cleanLog(Timestamp timestamp);
+
+    public abstract boolean deleteAccount(String name, boolean bankAccount);
+
+    public abstract boolean accountExist(String name, boolean bankAccount);
+
+    public abstract void saveWorldGroup(String name, String worldList);
 }

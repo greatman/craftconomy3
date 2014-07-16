@@ -43,9 +43,9 @@ public class BankWithdrawCommand extends CommandExecutor {
                         }
                     }
                     Account playerAccount = Common.getInstance().getAccountManager().getAccount(sender, false);
-                    if (bankAccount.hasEnough(amount, playerAccount.getWorldGroupOfPlayerCurrentlyIn(), currency.getName())) {
-                        bankAccount.withdraw(amount, playerAccount.getWorldGroupOfPlayerCurrentlyIn(), currency.getName(), Cause.BANK_WITHDRAW, sender);
-                        playerAccount.deposit(amount, playerAccount.getWorldGroupOfPlayerCurrentlyIn(), currency.getName(), Cause.BANK_WITHDRAW, bankAccount.getAccountName());
+                    if (bankAccount.hasEnough(amount, Account.getWorldGroupOfPlayerCurrentlyIn(sender), currency.getName())) {
+                        bankAccount.withdraw(amount, Account.getWorldGroupOfPlayerCurrentlyIn(sender), currency.getName(), Cause.BANK_WITHDRAW, sender);
+                        playerAccount.deposit(amount, Account.getWorldGroupOfPlayerCurrentlyIn(sender), currency.getName(), Cause.BANK_WITHDRAW, bankAccount.getAccountName());
                         //TODO: Language
                         Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_GREEN}}Withdrawed {{WHITE}}" + Common.getInstance().format(null, currency, amount) + "{{DARK_GREEN}} from the {{WHITE}}" + args[0] + "{{DARK_GREEN}} bank Account.");
                     } else {

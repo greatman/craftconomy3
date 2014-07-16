@@ -43,8 +43,8 @@ public class PayCommand extends CommandExecutor {
                 boolean hasEnough = Common.getInstance().getAccountManager().getAccount(sender, false).hasEnough(amount, Common.getInstance().getAccountManager().getAccount(sender, false).getWorldGroupOfPlayerCurrentlyIn(), currency.getName());
 
                 if (hasEnough) {
-                    Common.getInstance().getAccountManager().getAccount(sender, false).withdraw(amount, Common.getInstance().getAccountManager().getAccount(sender, false).getWorldGroupOfPlayerCurrentlyIn(), currency.getName(), Cause.PAYMENT, args[0]);
-                    Common.getInstance().getAccountManager().getAccount(args[0], false).deposit(amount, Common.getInstance().getAccountManager().getAccount(sender, false).getWorldGroupOfPlayerCurrentlyIn(), currency.getName(), Cause.PAYMENT, sender);
+                    Common.getInstance().getAccountManager().getAccount(sender, false).withdraw(amount, Account.getWorldGroupOfPlayerCurrentlyIn(sender), currency.getName(), Cause.PAYMENT, args[0]);
+                    Common.getInstance().getAccountManager().getAccount(args[0], false).deposit(amount, Account.getWorldGroupOfPlayerCurrentlyIn(sender), currency.getName(), Cause.PAYMENT, sender);
                     Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().parse("money_pay_sent", Common.getInstance().format(null, currency, amount), args[0]));
                     if (Common.getInstance().getServerCaller().getPlayerCaller().isOnline(args[0])) {
                         Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(args[0], Common.getInstance().getLanguageManager().parse("money_pay_received", Common.getInstance().format(null, currency, amount), sender));

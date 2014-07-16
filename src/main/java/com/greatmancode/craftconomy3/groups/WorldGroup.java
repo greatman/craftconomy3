@@ -107,16 +107,6 @@ public class WorldGroup {
                 save += ",";
             }
         }
-        try {
-            Connection connection = Common.getInstance().getDatabaseManager().getDatabase().getConnection();
-            PreparedStatement statement = connection.prepareStatement(WorldGroupTable.UPDATE_ENTRY);
-            statement.setString(1, save);
-            statement.setString(2, name);
-            statement.executeUpdate();
-            statement.close();
-            connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        Common.getInstance().getStorageHandler().getStorageEngine().saveWorldGroup(name, save);
     }
 }

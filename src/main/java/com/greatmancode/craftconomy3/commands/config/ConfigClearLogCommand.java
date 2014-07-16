@@ -34,17 +34,8 @@ public class ConfigClearLogCommand extends CommandExecutor {
         Calendar calendar = Calendar.getInstance();
         try {
             calendar.add(Calendar.DAY_OF_MONTH, -Integer.parseInt(args[0]));
-            try {
-                Connection connection = Common.getInstance().getDatabaseManager().getDatabase().getConnection();
-                PreparedStatement statement = connection.prepareStatement(LogTable.CLEAN_ENTRY);
-                statement.setTimestamp(1, new Timestamp(calendar.getTimeInMillis()));
-                statement.executeUpdate();
-                statement.close();
-                connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("log_cleared"));
-            }
+            Common.getInstance().getStorageHandler().getStorageEngine().cleanLog(new Timestamp(calendar.getTimeInMillis()));
+            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("log_cleared"));
         } catch (NumberFormatException e) {
             Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("invalid_time_log"));
         }

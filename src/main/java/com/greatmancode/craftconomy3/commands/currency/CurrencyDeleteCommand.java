@@ -25,7 +25,7 @@ public class CurrencyDeleteCommand extends CommandExecutor {
     @Override
     public void execute(String sender, String[] args) {
         if (Common.getInstance().getCurrencyManager().getCurrency(args[0]) != null) {
-            Common.getInstance().getCurrencyManager().deleteCurrency(Common.getInstance().getCurrencyManager().getCurrency(args[0]).getDatabaseID());
+            Common.getInstance().getCurrencyManager().deleteCurrency(Common.getInstance().getCurrencyManager().getCurrency(args[0]));
             Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("currency_deleted"));
         } else {
             Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("currency_not_exists"));

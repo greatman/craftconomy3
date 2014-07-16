@@ -83,7 +83,7 @@ public class NewSetupBasicCommand extends CommandExecutor {
         if (args.length == 1) {
             try {
                 DisplayFormat format = DisplayFormat.valueOf(args[0].toUpperCase());
-                saveData("longmode", format.toString());
+                Common.getInstance().getStorageHandler().getStorageEngine().setConfigEntry("longmode", format.toString());
                 NewSetupWizard.setState(NewSetupWizard.CONVERT_STEP);
                 Common.getInstance().loadDefaultSettings();
                 Common.getInstance().startUp();
@@ -97,7 +97,7 @@ public class NewSetupBasicCommand extends CommandExecutor {
     private void bankMoney(String sender, String[] args) {
         if (args.length == 1) {
             if (Tools.isValidDouble(args[0])) {
-                saveData("bankprice", args[0]);
+                Common.getInstance().getStorageHandler().getStorageEngine().setConfigEntry("bankprice", args[0]);
                 step = INTERNALSTEP.FORMAT;
                 Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_GREEN}}Now, let's select the display format you want the balance to be shown. Craftconomy have {{WHITE}}4 {{DARK_GREEN}} display formats");
                 Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{WHITE}}Long{{DARK_GREEN}}: {{WHITE}}40 Dollars 1 Coin");
@@ -116,7 +116,7 @@ public class NewSetupBasicCommand extends CommandExecutor {
     private void defaultMoney(String sender, String[] args) {
         if (args.length == 1) {
             if (Tools.isValidDouble(args[0])) {
-                saveData("holdings", args[0]);
+                Common.getInstance().getStorageHandler().getStorageEngine().setConfigEntry("holdings", args[0]);
                 step = INTERNALSTEP.BANK_PRICE;
                 Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_GREEN}}How much do you want your players to pay for a {{WHITE}}bank account{{DARK_GREEN}}? Please type {{WHITE}}/ccsetup basic <amount>");
             } else {
@@ -131,19 +131,5 @@ public class NewSetupBasicCommand extends CommandExecutor {
         Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_GREEN}}Basic setup. In this step, you will configure the basic settings of Craftconomy.");
         Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_GREEN}}How much money you want your players to have initially? Please type {{WHITE}}/ccsetup basic <amount>");
         step = INTERNALSTEP.DEFAULT_MONEY;
-    }
-
-    private void saveData(String name, String value) {
-        try {
-            Connection connection = Common.getInstance().getDatabaseManager().getDatabase().getConnection();
-            PreparedStatement statement = connection.prepareStatement(ConfigTable.INSERT_ENTRY);
-            statement.setString(1, name);
-            statement.setString(2, value);
-            statement.executeUpdate();
-            statement.close();
-            connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 }

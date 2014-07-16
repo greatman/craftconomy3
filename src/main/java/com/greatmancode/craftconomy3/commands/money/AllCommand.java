@@ -27,8 +27,7 @@ public class AllCommand extends CommandExecutor {
     @Override
     public void execute(String sender, String[] args) {
         Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("money_all_title"));
-        Account account = Common.getInstance().getAccountManager().getAccount(sender);
-        //TODO: For
+        Account account = Common.getInstance().getAccountManager().getAccount(sender, false);
         for (Balance bl : account.getAllBalance()) {
             Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().format(bl.getWorld(), bl.getCurrency(), bl.getBalance()));
         }

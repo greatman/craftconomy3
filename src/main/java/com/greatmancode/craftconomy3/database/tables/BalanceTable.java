@@ -79,6 +79,12 @@ public class BalanceTable extends DatabaseTable{
             "WHERE "+getPrefix()+AccountTable.TABLE_NAME+".name=?" +
             "AND "+getPrefix()+CurrencyTable.TABLE_NAME+".name=?";
 
+    public final String LIST_TOP_ACCOUNT = "SELECT balance, "+getPrefix()+CurrencyTable.TABLE_NAME+".name AS currencyName, "+getPrefix()+AccountTable.TABLE_NAME+".username FROM "+getPrefix()+TABLE_NAME+" " +
+            "LEFT JOIN "+getPrefix()+AccountTable.TABLE_NAME+" " +
+            "ON "+getPrefix()+TABLE_NAME+".username_id = "+getPrefix()+AccountTable.TABLE_NAME+".id " +
+            "LEFT JOIN "+getPrefix()+AccountTable.TABLE_NAME+" " +
+            "ON "+getPrefix()+TABLE_NAME+".currency_id = "+getPrefix()+CurrencyTable.TABLE_NAME+".id " +
+            "WHERE "+WORLD_NAME_FIELD+"=? AND "+CurrencyTable.TABLE_NAME+".name=? ORDER BY balance DESC LIMIT ?,?";
     public BalanceTable(String prefix) {
         super(prefix);
     }

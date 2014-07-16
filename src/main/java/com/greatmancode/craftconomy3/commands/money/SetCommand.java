@@ -20,6 +20,7 @@ package com.greatmancode.craftconomy3.commands.money;
 
 import com.greatmancode.craftconomy3.Cause;
 import com.greatmancode.craftconomy3.Common;
+import com.greatmancode.craftconomy3.account.Account;
 import com.greatmancode.craftconomy3.currency.Currency;
 import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 import com.greatmancode.tools.utils.Tools;
@@ -40,7 +41,7 @@ public class SetCommand extends CommandExecutor {
                         return;
                     }
                 }
-                String worldName = Common.getInstance().getAccountManager().getAccount(sender, false).getWorldGroupOfPlayerCurrentlyIn();
+                String worldName = Account.getWorldGroupOfPlayerCurrentlyIn(sender);
                 if (args.length > 3) {
                     if (!Common.getInstance().getServerCaller().worldExist(args[3])) {
                         Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("world_not_exist"));

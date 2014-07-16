@@ -25,7 +25,7 @@ public class CurrencyDefaultCommand extends CommandExecutor {
     @Override
     public void execute(String sender, String[] args) {
         if (Common.getInstance().getCurrencyManager().getCurrency(args[0]) != null) {
-            Common.getInstance().getCurrencyManager().setDefault(Common.getInstance().getCurrencyManager().getCurrency(args[0]).getDatabaseID());
+            Common.getInstance().getCurrencyManager().setDefault(Common.getInstance().getCurrencyManager().getCurrency(args[0]));
             Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().parse("default_currency_set", args[0]));
         } else {
             Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("currency_not_exist"));

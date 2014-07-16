@@ -66,7 +66,7 @@ public class AccountManager {
         } else if (!bankAccount && accountList.containsKey(newName)) {
             account = accountList.get(newName);
         } else {
-            account = new Account(newName, bankAccount);
+            account = Common.getInstance().getStorageHandler().getStorageEngine().getAccount(name, bankAccount);
             if (bankAccount) {
                 bankList.put(newName, account);
             } else {
@@ -100,38 +100,12 @@ public class AccountManager {
         if (bankAccount) {
             result = bankList.containsKey(newName);
             if (!result) {
-                try {
-                    Connection connection = Common.getInstance().getDatabaseManager().getDatabase().getConnection();
-                    PreparedStatement statement = connection.prepareStatement(AccountTable.SELECT_ENTRY_NAME);
-                    statement.setString(1, name);
-                    statement.setBoolean(2, true);
-                    ResultSet set = statement.executeQuery();
-                    if (set.next()) {
-                        result = true;
-                    }
-                    statement.close();
-                    connection.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+                result = Common.getInstance().getStorageHandler().getStorageEngine().accountExist(name, bankAccount);
             }
         } else {
             result = accountList.containsKey(newName);
             if (!result) {
-                try {
-                    Connection connection = Common.getInstance().getDatabaseManager().getDatabase().getConnection();
-                    PreparedStatement statement = connection.prepareStatement(AccountTable.SELECT_ENTRY_NAME);
-                    statement.setString(1, name);
-                    statement.setBoolean(2, false);
-                    ResultSet set = statement.executeQuery();
-                    if (set.next()) {
-                        result = true;
-                    }
-                    statement.close();
-                    connection.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+                result = Common.getInstance().getStorageHandler().getStorageEngine().accountExist(name, bankAccount);
             }
         }
         return result;
@@ -157,19 +131,7 @@ public class AccountManager {
     public boolean delete(String name, boolean bankAccount) {
         boolean result = false;
         if (exist(name, bankAccount)) {
-            try {
-                Connection connection = Common.getInstance().getDatabaseManager().getDatabase().getConnection();
-                PreparedStatement statement = connection.prepareStatement(AccountTable.DELETE_ENTRY);
-                statement.setString(1, name);
-                statement.setBoolean(2, bankAccount);
-                //TODO : Verify this
-                if (statement.executeUpdate() == 1) {
-                    result = true;
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-
+            result = Common.getInstance().getStorageHandler().getStorageEngine().deleteAccount(name, bankAccount);
         }
         return result;
     }

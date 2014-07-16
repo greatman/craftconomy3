@@ -43,9 +43,9 @@ public class BankDepositCommand extends CommandExecutor {
                         }
                     }
                     Account playerAccount = Common.getInstance().getAccountManager().getAccount(sender, false);
-                    if (playerAccount.hasEnough(amount, playerAccount.getWorldGroupOfPlayerCurrentlyIn(), currency.getName())) {
-                        playerAccount.withdraw(amount, playerAccount.getWorldGroupOfPlayerCurrentlyIn(), currency.getName(), Cause.BANK_DEPOSIT, bankAccount.getAccountName());
-                        bankAccount.deposit(amount, playerAccount.getWorldGroupOfPlayerCurrentlyIn(), currency.getName(), Cause.BANK_DEPOSIT, sender);
+                    if (playerAccount.hasEnough(amount, Account.getWorldGroupOfPlayerCurrentlyIn(sender), currency.getName())) {
+                        playerAccount.withdraw(amount, Account.getWorldGroupOfPlayerCurrentlyIn(sender), currency.getName(), Cause.BANK_DEPOSIT, bankAccount.getAccountName());
+                        bankAccount.deposit(amount, Account.getWorldGroupOfPlayerCurrentlyIn(sender), currency.getName(), Cause.BANK_DEPOSIT, sender);
                         Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().parse("deposited", Common.getInstance().format(null, currency, amount), args[0]));
                     } else {
                         Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("not_enough_money"));

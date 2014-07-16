@@ -25,6 +25,7 @@ import com.greatmancode.craftconomy3.account.Account;
 import com.greatmancode.craftconomy3.account.AccountACLValue;
 import com.greatmancode.craftconomy3.account.Balance;
 import com.greatmancode.craftconomy3.commands.money.LogCommand;
+import com.greatmancode.craftconomy3.commands.money.TopCommand;
 import com.greatmancode.craftconomy3.currency.Currency;
 import com.greatmancode.craftconomy3.database.tables.*;
 import com.greatmancode.craftconomy3.groups.WorldGroup;
@@ -453,6 +454,26 @@ public class MySQLEngine extends StorageEngine {
             close(connection);
         }
         return logEntryList;
+    }
+
+    @Override
+    public List<TopCommand.TopEntry> getTopEntry(int page, Currency currency, String world) {
+        List<TopCommand.TopEntry> result = new ArrayList<>();
+        try {
+            Connection connection = db.getConnection();
+            PreparedStatement statement = connection.prepareStatement(balanceTable.LIST_TOP_ACCOUNT);
+            statement.setString(1, world);
+            statement.setString(2, currency.getName());
+            statement.setInt(3, (page - 1) * 10);
+            statement.setInt(4, 10);
+            ResultSet set = statement.executeQuery();
+            while (set.next()) {
+                result.add(new TopCommand.TopEntry(set.getString("username"), Common.getInstance().getCurrencyManager().getCurrency(set.getString("currencyName")), set.getDouble("balance")));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 
 
