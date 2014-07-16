@@ -20,7 +20,6 @@ package com.greatmancode.craftconomy3.events;
 
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.account.Account;
-import com.greatmancode.craftconomy3.database.tables.AccountTable;
 import com.greatmancode.tools.events.interfaces.EventHandler;
 import com.greatmancode.tools.events.interfaces.Listener;
 import com.greatmancode.tools.events.playerEvent.PlayerJoinEvent;
@@ -33,6 +32,7 @@ public class EventManager implements Listener {
 
     /**
      * Event handler for when a player is connecting to the server.
+     *
      * @param event The PlayerJoinEvent associated with the event
      */
     @EventHandler

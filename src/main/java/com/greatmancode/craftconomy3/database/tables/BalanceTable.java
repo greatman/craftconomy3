@@ -18,73 +18,72 @@
  */
 package com.greatmancode.craftconomy3.database.tables;
 
-import com.greatmancode.craftconomy3.Common;
+public class BalanceTable extends DatabaseTable {
 
-public class BalanceTable extends DatabaseTable{
-
-//TODO Fix tables with currency NAME as primary key
+    //TODO Fix tables with currency NAME as primary key
     public static final String BALANCE_FIELD = "balance";
     public static final String WORLD_NAME_FIELD = "worldName";
     public static final String CURRENCY_FIELD = "currency_id";
     public static final String TABLE_NAME = "balance";
 
-    public final String CREATE_TABLE_MYSQL = "CREATE TABLE "+ getPrefix()+TABLE_NAME+"` (" +
-            "  `"+BALANCE_FIELD+"` double DEFAULT NULL," +
-            "  `"+WORLD_NAME_FIELD+"` text," +
+    public final String CREATE_TABLE_MYSQL = "CREATE TABLE " + getPrefix() + TABLE_NAME + "` (" +
+            "  `" + BALANCE_FIELD + "` double DEFAULT NULL," +
+            "  `" + WORLD_NAME_FIELD + "` text," +
             "  `username_id` int(11)," +
-            "  `"+CURRENCY_FIELD+"` varchar(50)," +
-            "  PRIMARY KEY ("+WORLD_NAME_FIELD+", username_id, currency_id)," +
+            "  `" + CURRENCY_FIELD + "` varchar(50)," +
+            "  PRIMARY KEY (" + WORLD_NAME_FIELD + ", username_id, currency_id)," +
             "  CONSTRAINT `fk_balance_account`" +
             "    FOREIGN KEY (username_id)" +
-            "    REFERENCES "+getPrefix()+AccountTable.TABLE_NAME+" (id)) ON UPDATE CASCADE ON DELETE CASCADE" +
+            "    REFERENCES " + getPrefix() + AccountTable.TABLE_NAME + " (id)) ON UPDATE CASCADE ON DELETE CASCADE" +
             "  CONSTRAINT `fk_balance_currency`" +
-            "    FOREIGN KEY ("+CURRENCY_FIELD+")" +
-            "    REFERENCES "+getPrefix()+"currency (name)) ON UPDATE CASCADE ON DELETE CASCADE" +
+            "    FOREIGN KEY (" + CURRENCY_FIELD + ")" +
+            "    REFERENCES " + getPrefix() + "currency (name)) ON UPDATE CASCADE ON DELETE CASCADE" +
             ") ENGINE=InnoDB;";
 
-    public final String SELECT_ALL_ENTRY_ACCOUNT = "SELECT * FROM "+getPrefix()+TABLE_NAME+" " +
-            "LEFT JOIN "+getPrefix()+AccountTable.TABLE_NAME+" " +
-            "ON "+getPrefix()+TABLE_NAME+".username_id = "+getPrefix()+AccountTable.TABLE_NAME+".id " +
-            "WHERE "+getPrefix()+AccountTable.TABLE_NAME+".name=?";
+    public final String SELECT_ALL_ENTRY_ACCOUNT = "SELECT * FROM " + getPrefix() + TABLE_NAME + " " +
+            "LEFT JOIN " + getPrefix() + AccountTable.TABLE_NAME + " " +
+            "ON " + getPrefix() + TABLE_NAME + ".username_id = " + getPrefix() + AccountTable.TABLE_NAME + ".id " +
+            "WHERE " + getPrefix() + AccountTable.TABLE_NAME + ".name=?";
 
-    public final String SELECT_WORLD_ENTRY_ACCOUNT = "SELECT * FROM "+getPrefix()+TABLE_NAME+" " +
-            "LEFT JOIN "+getPrefix()+AccountTable.TABLE_NAME+" " +
-            "ON "+getPrefix()+TABLE_NAME+".username_id = "+getPrefix()+AccountTable.TABLE_NAME+".id " +
-            "WHERE "+getPrefix()+AccountTable.TABLE_NAME+".name=? AND "+WORLD_NAME_FIELD+"=?";
+    public final String SELECT_WORLD_ENTRY_ACCOUNT = "SELECT * FROM " + getPrefix() + TABLE_NAME + " " +
+            "LEFT JOIN " + getPrefix() + AccountTable.TABLE_NAME + " " +
+            "ON " + getPrefix() + TABLE_NAME + ".username_id = " + getPrefix() + AccountTable.TABLE_NAME + ".id " +
+            "WHERE " + getPrefix() + AccountTable.TABLE_NAME + ".name=? AND " + WORLD_NAME_FIELD + "=?";
 
-    public final String SELECT_WORLD_CURRENCY_ENTRY_ACCOUNT = "SELECT * FROM "+getPrefix()+TABLE_NAME+" " +
-            "LEFT JOIN "+getPrefix()+AccountTable.TABLE_NAME+" " +
-            "ON "+getPrefix()+TABLE_NAME+".username_id = "+getPrefix()+AccountTable.TABLE_NAME+".id " +
-            "LEFT JOIN "+getPrefix()+AccountTable.TABLE_NAME+" " +
-            "ON "+getPrefix()+TABLE_NAME+".currency_id = "+getPrefix()+CurrencyTable.TABLE_NAME+".id " +
-            "WHERE "+getPrefix()+AccountTable.TABLE_NAME+".name=? AND "+WORLD_NAME_FIELD+"=? AND "+getPrefix()+CurrencyTable.TABLE_NAME+".name=?";
+    public final String SELECT_WORLD_CURRENCY_ENTRY_ACCOUNT = "SELECT * FROM " + getPrefix() + TABLE_NAME + " " +
+            "LEFT JOIN " + getPrefix() + AccountTable.TABLE_NAME + " " +
+            "ON " + getPrefix() + TABLE_NAME + ".username_id = " + getPrefix() + AccountTable.TABLE_NAME + ".id " +
+            "LEFT JOIN " + getPrefix() + AccountTable.TABLE_NAME + " " +
+            "ON " + getPrefix() + TABLE_NAME + ".currency_id = " + getPrefix() + CurrencyTable.TABLE_NAME + ".id " +
+            "WHERE " + getPrefix() + AccountTable.TABLE_NAME + ".name=? AND " + WORLD_NAME_FIELD + "=? AND " + getPrefix() + CurrencyTable.TABLE_NAME + ".name=?";
 
-    public final String INSERT_ENTRY = "INSERT INTO "+getPrefix()+TABLE_NAME+"" +
-            "("+BALANCE_FIELD+", "+WORLD_NAME_FIELD+", username_id, currency_id) " +
-            "VALUES(?, ?, (SELECT id from "+getPrefix()+AccountTable.TABLE_NAME+" WHERE name=?), (SELECT id FROM "+getPrefix()+CurrencyTable.TABLE_NAME+" WHERE name=?))";
+    public final String INSERT_ENTRY = "INSERT INTO " + getPrefix() + TABLE_NAME + "" +
+            "(" + BALANCE_FIELD + ", " + WORLD_NAME_FIELD + ", username_id, currency_id) " +
+            "VALUES(?, ?, (SELECT id from " + getPrefix() + AccountTable.TABLE_NAME + " WHERE name=?), (SELECT id FROM " + getPrefix() + CurrencyTable.TABLE_NAME + " WHERE name=?))";
 
-    public final String UPDATE_ENTRY = "UPDATE "+getPrefix()+TABLE_NAME+" SET balance=?" +
-            "LEFT JOIN "+getPrefix()+AccountTable.TABLE_NAME+" " +
-            "ON "+getPrefix()+TABLE_NAME+".username_id = "+getPrefix()+AccountTable.TABLE_NAME+".id " +
-            "LEFT JOIN "+getPrefix()+CurrencyTable.TABLE_NAME+" " +
-            "ON "+getPrefix()+TABLE_NAME+"."+CURRENCY_FIELD+" = "+getPrefix()+CurrencyTable.TABLE_NAME+".id "+
-            "WHERE "+getPrefix()+AccountTable.TABLE_NAME+".name=?" +
-            "AND "+getPrefix()+CurrencyTable.TABLE_NAME+".name=? AND "+WORLD_NAME_FIELD+"=?";
+    public final String UPDATE_ENTRY = "UPDATE " + getPrefix() + TABLE_NAME + " SET balance=?" +
+            "LEFT JOIN " + getPrefix() + AccountTable.TABLE_NAME + " " +
+            "ON " + getPrefix() + TABLE_NAME + ".username_id = " + getPrefix() + AccountTable.TABLE_NAME + ".id " +
+            "LEFT JOIN " + getPrefix() + CurrencyTable.TABLE_NAME + " " +
+            "ON " + getPrefix() + TABLE_NAME + "." + CURRENCY_FIELD + " = " + getPrefix() + CurrencyTable.TABLE_NAME + ".id " +
+            "WHERE " + getPrefix() + AccountTable.TABLE_NAME + ".name=?" +
+            "AND " + getPrefix() + CurrencyTable.TABLE_NAME + ".name=? AND " + WORLD_NAME_FIELD + "=?";
 
-    public final String DEPOSIT_ENTRY = "UPDATE "+getPrefix()+TABLE_NAME+" SET balance=?" +
-            "LEFT JOIN "+getPrefix()+AccountTable.TABLE_NAME+" " +
-            "ON "+getPrefix()+TABLE_NAME+".username_id = "+getPrefix()+AccountTable.TABLE_NAME+".id " +
-            "LEFT JOIN "+getPrefix()+CurrencyTable.TABLE_NAME+" " +
-            "ON "+getPrefix()+TABLE_NAME+"."+CURRENCY_FIELD+" = "+getPrefix()+CurrencyTable.TABLE_NAME+".id "+
-            "WHERE "+getPrefix()+AccountTable.TABLE_NAME+".name=?" +
-            "AND "+getPrefix()+CurrencyTable.TABLE_NAME+".name=?";
+    public final String DEPOSIT_ENTRY = "UPDATE " + getPrefix() + TABLE_NAME + " SET balance=?" +
+            "LEFT JOIN " + getPrefix() + AccountTable.TABLE_NAME + " " +
+            "ON " + getPrefix() + TABLE_NAME + ".username_id = " + getPrefix() + AccountTable.TABLE_NAME + ".id " +
+            "LEFT JOIN " + getPrefix() + CurrencyTable.TABLE_NAME + " " +
+            "ON " + getPrefix() + TABLE_NAME + "." + CURRENCY_FIELD + " = " + getPrefix() + CurrencyTable.TABLE_NAME + ".id " +
+            "WHERE " + getPrefix() + AccountTable.TABLE_NAME + ".name=?" +
+            "AND " + getPrefix() + CurrencyTable.TABLE_NAME + ".name=?";
 
-    public final String LIST_TOP_ACCOUNT = "SELECT balance, "+getPrefix()+CurrencyTable.TABLE_NAME+".name AS currencyName, "+getPrefix()+AccountTable.TABLE_NAME+".username FROM "+getPrefix()+TABLE_NAME+" " +
-            "LEFT JOIN "+getPrefix()+AccountTable.TABLE_NAME+" " +
-            "ON "+getPrefix()+TABLE_NAME+".username_id = "+getPrefix()+AccountTable.TABLE_NAME+".id " +
-            "LEFT JOIN "+getPrefix()+AccountTable.TABLE_NAME+" " +
-            "ON "+getPrefix()+TABLE_NAME+".currency_id = "+getPrefix()+CurrencyTable.TABLE_NAME+".id " +
-            "WHERE "+WORLD_NAME_FIELD+"=? AND "+CurrencyTable.TABLE_NAME+".name=? ORDER BY balance DESC LIMIT ?,?";
+    public final String LIST_TOP_ACCOUNT = "SELECT balance, " + getPrefix() + CurrencyTable.TABLE_NAME + ".name AS currencyName, " + getPrefix() + AccountTable.TABLE_NAME + ".username FROM " + getPrefix() + TABLE_NAME + " " +
+            "LEFT JOIN " + getPrefix() + AccountTable.TABLE_NAME + " " +
+            "ON " + getPrefix() + TABLE_NAME + ".username_id = " + getPrefix() + AccountTable.TABLE_NAME + ".id " +
+            "LEFT JOIN " + getPrefix() + AccountTable.TABLE_NAME + " " +
+            "ON " + getPrefix() + TABLE_NAME + ".currency_id = " + getPrefix() + CurrencyTable.TABLE_NAME + ".id " +
+            "WHERE " + WORLD_NAME_FIELD + "=? AND " + CurrencyTable.TABLE_NAME + ".name=? ORDER BY balance DESC LIMIT ?,?";
+
     public BalanceTable(String prefix) {
         super(prefix);
     }

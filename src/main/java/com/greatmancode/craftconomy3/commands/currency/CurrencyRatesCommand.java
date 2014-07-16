@@ -20,10 +20,7 @@ package com.greatmancode.craftconomy3.commands.currency;
 
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.currency.Currency;
-import com.greatmancode.craftconomy3.database.tables.ExchangeTable;
 import com.greatmancode.tools.commands.interfaces.CommandExecutor;
-
-import java.util.List;
 
 public class CurrencyRatesCommand extends CommandExecutor {
     @Override

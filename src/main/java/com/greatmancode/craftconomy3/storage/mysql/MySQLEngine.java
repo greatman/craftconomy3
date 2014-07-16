@@ -34,7 +34,10 @@ import com.greatmancode.craftconomy3.utils.NoExchangeRate;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.*;
 
 /**
@@ -85,7 +88,7 @@ public class MySQLEngine extends StorageEngine {
         boolean create = false;
         PreparedStatement statement = null;
         Connection connection = null;
-        try  {
+        try {
             boolean infiniteMoney = false, ignoreACL = false;
             connection = db.getConnection();
             statement = connection.prepareStatement(accountTable.SELECT_ENTRY_NAME);
@@ -212,7 +215,7 @@ public class MySQLEngine extends StorageEngine {
             statement.setString(1, account.getAccountName());
             ResultSet set = statement.executeQuery();
             while (set.next()) {
-                balanceList.add(new Balance(set.getString(balanceTable.WORLD_NAME_FIELD),Common.getInstance().getCurrencyManager().getCurrency(set.getString(balanceTable.CURRENCY_FIELD)), set.getDouble(balanceTable.BALANCE_FIELD)));
+                balanceList.add(new Balance(set.getString(balanceTable.WORLD_NAME_FIELD), Common.getInstance().getCurrencyManager().getCurrency(set.getString(balanceTable.CURRENCY_FIELD)), set.getDouble(balanceTable.BALANCE_FIELD)));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -235,7 +238,7 @@ public class MySQLEngine extends StorageEngine {
             statement.setString(2, worldName);
             ResultSet set = statement.executeQuery();
             while (set.next()) {
-                balanceList.add(new Balance(set.getString(balanceTable.WORLD_NAME_FIELD),Common.getInstance().getCurrencyManager().getCurrency(set.getString(balanceTable.CURRENCY_FIELD)), set.getDouble(balanceTable.BALANCE_FIELD)));
+                balanceList.add(new Balance(set.getString(balanceTable.WORLD_NAME_FIELD), Common.getInstance().getCurrencyManager().getCurrency(set.getString(balanceTable.CURRENCY_FIELD)), set.getDouble(balanceTable.BALANCE_FIELD)));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -391,7 +394,7 @@ public class MySQLEngine extends StorageEngine {
     }
 
     @Override
-    public double getExchangeRate(Currency currency, Currency otherCurrency) throws NoExchangeRate{
+    public double getExchangeRate(Currency currency, Currency otherCurrency) throws NoExchangeRate {
         return 0;
     }
 

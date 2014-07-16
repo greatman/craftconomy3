@@ -19,8 +19,6 @@
 package com.greatmancode.craftconomy3.currency;
 
 import com.greatmancode.craftconomy3.Common;
-import com.greatmancode.craftconomy3.database.tables.CurrencyTable;
-import com.greatmancode.craftconomy3.database.tables.ExchangeTable;
 import com.greatmancode.craftconomy3.utils.NoExchangeRate;
 
 /**

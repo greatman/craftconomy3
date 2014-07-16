@@ -20,11 +20,9 @@ package com.greatmancode.craftconomy3.commands.money;
 
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.account.Account;
-import com.greatmancode.craftconomy3.database.tables.LogTable;
 import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 
-import java.sql.*;
-import java.util.List;
+import java.sql.Timestamp;
 
 class LogCommandThread implements Runnable {
 
@@ -57,11 +55,11 @@ class LogCommandThread implements Runnable {
     public void run() {
         String ret = Common.getInstance().getLanguageManager().parse("money_log_header", page, user.getAccountName()) + "\n";
         for (LogCommand.LogEntry entry : Common.getInstance().getStorageHandler().getStorageEngine().getLog(user, page)) {
-                ret += "{{DARK_GREEN}}Time: {{WHITE}}" + entry.timestamp + " {{DARK_GREEN}}Type: {{WHITE}}" + entry.type + " {{DARK_GREEN}} Amount: {{WHITE}}" + Common.getInstance().format(entry.worldName, Common.getInstance().getCurrencyManager().getCurrency(entry.currency_id), entry.amount) + " {{DARK_GREEN}}Cause: {{WHITE}}" + entry.cause;
-                if (entry.causeReason != null) {
-                    ret += " {{DARK_GREEN}}Reason: {{WHITE}}" + entry.causeReason;
-                }
-                ret += "\n";
+            ret += "{{DARK_GREEN}}Time: {{WHITE}}" + entry.timestamp + " {{DARK_GREEN}}Type: {{WHITE}}" + entry.type + " {{DARK_GREEN}} Amount: {{WHITE}}" + Common.getInstance().format(entry.worldName, Common.getInstance().getCurrencyManager().getCurrency(entry.currency_id), entry.amount) + " {{DARK_GREEN}}Cause: {{WHITE}}" + entry.cause;
+            if (entry.causeReason != null) {
+                ret += " {{DARK_GREEN}}Reason: {{WHITE}}" + entry.causeReason;
+            }
+            ret += "\n";
         }
         Common.getInstance().getServerCaller().getSchedulerCaller().delay(new TopCommandThreadEnd(sender, ret), 0, false);
     }

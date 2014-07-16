@@ -382,7 +382,6 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
 
     /**
      * Initialize the database Manager
-     *
      */
     public void initialiseDatabase() {
         if (!databaseInitialized) {
@@ -489,13 +488,13 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
     /**
      * Write a transaction to the Log.
      *
-     * @param info          The type of transaction to log.
-     * @param cause         The cause of the transaction.
-     * @param causeReason   The reason of the cause
-     * @param account       The account being impacted by the change
-     * @param amount        The amount of money in this transaction.
-     * @param currency      The currency associated with this transaction
-     * @param worldName     The world name associated with this transaction
+     * @param info        The type of transaction to log.
+     * @param cause       The cause of the transaction.
+     * @param causeReason The reason of the cause
+     * @param account     The account being impacted by the change
+     * @param amount      The amount of money in this transaction.
+     * @param currency    The currency associated with this transaction
+     * @param worldName   The world name associated with this transaction
      */
     public void writeLog(LogInfo info, Cause cause, String causeReason, Account account, double amount, Currency currency, String worldName) {
         if (getMainConfig().getBoolean("System.Logging.Enabled")) {
@@ -654,7 +653,6 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
 
     /**
      * Perform a quick setup
-     *
      */
     private void quickSetup() {
         initialiseDatabase();

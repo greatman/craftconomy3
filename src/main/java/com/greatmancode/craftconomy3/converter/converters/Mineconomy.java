@@ -18,7 +18,6 @@
  */
 package com.greatmancode.craftconomy3.converter.converters;
 
-import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.converter.Converter;
 import com.greatmancode.craftconomy3.database.tables.mineconomy.MineconomyTable;
 import com.zaxxer.hikari.HikariConfig;
@@ -105,7 +104,7 @@ public class Mineconomy extends Converter {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-       return null;
+        return null;
     }
 
     private List<User> importFlatfile(String sender) {

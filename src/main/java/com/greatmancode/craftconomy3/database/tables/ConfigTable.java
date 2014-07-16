@@ -18,24 +18,22 @@
  */
 package com.greatmancode.craftconomy3.database.tables;
 
-import com.greatmancode.craftconomy3.Common;
-
-public class ConfigTable extends DatabaseTable{
+public class ConfigTable extends DatabaseTable {
 
     public static final String TABLE_NAME = "config";
     public static final String NAME_FIELD = "name";
     public static final String VALUE_FIELD = "value";
-    public final String CREATE_TABLE_MYSQL = "CREATE TABLE `"+ getPrefix()+TABLE_NAME+"` (" +
-            "  `"+NAME_FIELD+"` varchar(30) NOT NULL," +
-            "  `"+VALUE_FIELD+"` varchar(255) NOT NULL," +
+    public final String CREATE_TABLE_MYSQL = "CREATE TABLE `" + getPrefix() + TABLE_NAME + "` (" +
+            "  `" + NAME_FIELD + "` varchar(30) NOT NULL," +
+            "  `" + VALUE_FIELD + "` varchar(255) NOT NULL," +
             "  PRIMARY KEY (`name`)" +
             ") ENGINE=InnoDB;";
 
-    public final String SELECT_ENTRY = "SELECT * FROM "+getPrefix()+TABLE_NAME+" WHERE name=?";
+    public final String SELECT_ENTRY = "SELECT * FROM " + getPrefix() + TABLE_NAME + " WHERE name=?";
 
-    public final String INSERT_ENTRY = "INSERT INTO "+getPrefix()+TABLE_NAME+"(name,value) VALUES(?,?)";
+    public final String INSERT_ENTRY = "INSERT INTO " + getPrefix() + TABLE_NAME + "(name,value) VALUES(?,?)";
 
-    public final String UPDATE_ENTRY = "UPDATE "+getPrefix()+TABLE_NAME+" SET value=? WHERE name=?";
+    public final String UPDATE_ENTRY = "UPDATE " + getPrefix() + TABLE_NAME + " SET value=? WHERE name=?";
 
     public ConfigTable(String prefix) {
         super(prefix);

@@ -19,13 +19,9 @@
 package com.greatmancode.craftconomy3.commands.bank;
 
 import com.greatmancode.craftconomy3.Common;
-import com.greatmancode.craftconomy3.database.tables.AccessTable;
-import com.greatmancode.craftconomy3.database.tables.AccountTable;
 import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public class BankListCommand extends CommandExecutor {
     @Override

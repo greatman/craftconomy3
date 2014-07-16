@@ -56,7 +56,7 @@ public class SQLiteToMySQLConverter {
             Connection connection = db.getConnection();
 
             Common.getInstance().sendConsoleMessage(Level.INFO, "Getting accounts information");
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM "+prefix+ AccountTable.TABLE_NAME);
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM " + prefix + AccountTable.TABLE_NAME);
             ResultSet set = statement.executeQuery();
             while (set.next()) {
                 Account account = new Account();
@@ -72,7 +72,7 @@ public class SQLiteToMySQLConverter {
             statement.close();
 
             Common.getInstance().sendConsoleMessage(Level.INFO, "Getting currency table information");
-            statement = connection.prepareStatement("SELECT * FROM "+prefix+ CurrencyTable.TABLE_NAME);
+            statement = connection.prepareStatement("SELECT * FROM " + prefix + CurrencyTable.TABLE_NAME);
             set = statement.executeQuery();
             while (set.next()) {
                 Currency currency = new Currency();
@@ -90,7 +90,7 @@ public class SQLiteToMySQLConverter {
             statement.close();
 
             Common.getInstance().sendConsoleMessage(Level.INFO, "Getting Balance table information");
-            statement = connection.prepareStatement("SELECT * FROM "+prefix+ BalanceTable.TABLE_NAME);
+            statement = connection.prepareStatement("SELECT * FROM " + prefix + BalanceTable.TABLE_NAME);
             set = statement.executeQuery();
             while (set.next()) {
                 Balance balance = new Balance();
@@ -103,7 +103,7 @@ public class SQLiteToMySQLConverter {
             statement.close();
 
             Common.getInstance().sendConsoleMessage(Level.INFO, "Getting access table information");
-            statement = connection.prepareStatement("SELECT * FROM "+prefix+ AccessTable.TABLE_NAME);
+            statement = connection.prepareStatement("SELECT * FROM " + prefix + AccessTable.TABLE_NAME);
             set = statement.executeQuery();
             while (set.next()) {
                 Access access = new Access();
@@ -119,7 +119,7 @@ public class SQLiteToMySQLConverter {
             statement.close();
 
             Common.getInstance().sendConsoleMessage(Level.INFO, "Getting config table information");
-            statement = connection.prepareStatement("SELECT * FROM "+prefix+ ConfigTable.TABLE_NAME);
+            statement = connection.prepareStatement("SELECT * FROM " + prefix + ConfigTable.TABLE_NAME);
             set = statement.executeQuery();
             while (set.next()) {
                 Config config = new Config();
@@ -131,7 +131,7 @@ public class SQLiteToMySQLConverter {
             statement.close();
 
             Common.getInstance().sendConsoleMessage(Level.INFO, "Getting Exchange table information");
-            statement = connection.prepareStatement("SELECT * FROM "+prefix+ExchangeTable.TABLE_NAME);
+            statement = connection.prepareStatement("SELECT * FROM " + prefix + ExchangeTable.TABLE_NAME);
             set = statement.executeQuery();
             while (set.next()) {
                 Exchange exchange = new Exchange();
@@ -144,7 +144,7 @@ public class SQLiteToMySQLConverter {
             statement.close();
 
             Common.getInstance().sendConsoleMessage(Level.INFO, "Getting log table information");
-            statement = connection.prepareStatement("SELECT * FROM "+prefix+LogTable.TABLE_NAME);
+            statement = connection.prepareStatement("SELECT * FROM " + prefix + LogTable.TABLE_NAME);
             set = statement.executeQuery();
             while (set.next()) {
                 Log log = new Log();
@@ -161,7 +161,7 @@ public class SQLiteToMySQLConverter {
             statement.close();
 
             Common.getInstance().sendConsoleMessage(Level.INFO, "Getting world group information");
-            statement = connection.prepareStatement("SELECT * FROM "+prefix+WorldGroupTable.TABLE_NAME);
+            statement = connection.prepareStatement("SELECT * FROM " + prefix + WorldGroupTable.TABLE_NAME);
             set = statement.executeQuery();
             while (set.next()) {
                 WorldGroup worldGroup = new WorldGroup();
@@ -186,16 +186,16 @@ public class SQLiteToMySQLConverter {
             }
 
             Common.getInstance().sendConsoleMessage(Level.INFO, "Inserting config information");
-            for(Config config : configList) {
+            for (Config config : configList) {
                 statement = connection.prepareStatement(ConfigTable.INSERT_ENTRY);
-                statement.setString(1,config.name);
+                statement.setString(1, config.name);
                 statement.setString(2, config.value);
                 statement.executeUpdate();
                 statement.close();
             }
 
             Common.getInstance().sendConsoleMessage(Level.INFO, "Inserting Exchange information");
-            for (Exchange exchange :exchangeList) {
+            for (Exchange exchange : exchangeList) {
                 statement = connection.prepareStatement(ExchangeTable.INSERT_ENTRY);
                 statement.setString(1, currencyList.get(exchange.currency_id_from).name);
                 statement.setString(2, currencyList.get(exchange.currency_id_to).name);
@@ -253,7 +253,7 @@ public class SQLiteToMySQLConverter {
                     statement.setString(4, log.causeReason);
                     statement.setString(5, log.worldName);
                     statement.setTimestamp(6, log.timestamp);
-                    statement.setDouble(7,log.amount);
+                    statement.setDouble(7, log.amount);
                     statement.setString(8, currencyList.get(log.currency_id).name);
                     statement.executeUpdate();
                     statement.close();
@@ -282,6 +282,7 @@ public class SQLiteToMySQLConverter {
         public double hardCap;
         public boolean status;
     }
+
     private class Balance {
         public double balance;
         public String worldName;

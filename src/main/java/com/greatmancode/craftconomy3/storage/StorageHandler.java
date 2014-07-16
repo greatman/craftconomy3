@@ -19,14 +19,8 @@
 package com.greatmancode.craftconomy3.storage;
 
 import com.greatmancode.craftconomy3.Common;
-import com.greatmancode.craftconomy3.account.Account;
 import com.greatmancode.craftconomy3.storage.mysql.MySQLEngine;
 import com.greatmancode.craftconomy3.storage.sqlite.SQLiteEngine;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Created by greatman on 2014-07-13.
@@ -34,6 +28,7 @@ import java.util.Map;
 public class StorageHandler {
 
     private final StorageEngine engine;
+
     public StorageHandler() {
         switch (Common.getInstance().getMainConfig().getString("Engine.Database.Type")) {
             case "sqlite":
@@ -56,7 +51,6 @@ public class StorageHandler {
     public void disable() {
         engine.disable();
     }
-
 
 
 }

@@ -19,7 +19,7 @@
 package com.greatmancode.craftconomy3.account;
 
 public class AccountACLValue {
-    private boolean deposit,withdraw,acl,balance,owner;
+    private boolean deposit, withdraw, acl, balance, owner;
 
     public AccountACLValue(boolean deposit, boolean withdraw, boolean acl, boolean balance, boolean owner) {
         this.deposit = deposit;

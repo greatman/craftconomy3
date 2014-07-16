@@ -19,16 +19,8 @@
 package com.greatmancode.craftconomy3.account;
 
 import com.greatmancode.craftconomy3.Common;
-import com.greatmancode.craftconomy3.database.tables.AccessTable;
-import com.greatmancode.craftconomy3.database.tables.AccountTable;
-import com.greatmancode.craftconomy3.database.tables.BalanceTable;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -39,6 +31,7 @@ import java.util.Map;
 public class AccountManager {
     private final Map<String, Account> accountList = new HashMap<String, Account>();
     private final Map<String, Account> bankList = new HashMap<String, Account>();
+
     /**
      * Retrieve a account. Accounts prefixed with bank: are bank accounts.
      *
@@ -75,6 +68,7 @@ public class AccountManager {
         }
         return account;
     }
+
     /**
      * Check if a account exist in the database.
      *

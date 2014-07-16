@@ -36,6 +36,7 @@ public class Account {
     private AccountACL acl;
     private boolean bankAccount, infiniteMoney, ignoreACL;
     private String name;
+
     /**
      * Load a account. Creates one if it doesn't exist.
      *
@@ -160,9 +161,9 @@ public class Account {
         Currency currency = Common.getInstance().getCurrencyManager().getCurrency(currencyName);
         if (currency != null) {
             if (!hasInfiniteMoney()) {
-                    result = Common.getInstance().getStorageHandler().getStorageEngine().setBalance(this, amount, currency, world);
-                    Common.getInstance().writeLog(LogInfo.DEPOSIT, cause, causeReason, this, amount, currency, world);
-                    Common.getInstance().getServerCaller().throwEvent(new EconomyChangeEvent(this.getAccountName(), result));
+                result = Common.getInstance().getStorageHandler().getStorageEngine().setBalance(this, amount, currency, world);
+                Common.getInstance().writeLog(LogInfo.DEPOSIT, cause, causeReason, this, amount, currency, world);
+                Common.getInstance().getServerCaller().throwEvent(new EconomyChangeEvent(this.getAccountName(), result));
             } else {
                 result = Double.MAX_VALUE;
             }

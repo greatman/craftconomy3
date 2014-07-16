@@ -19,11 +19,7 @@
 package com.greatmancode.craftconomy3.account;
 
 import com.greatmancode.craftconomy3.Common;
-import com.greatmancode.craftconomy3.database.tables.AccessTable;
 
-import java.sql.Connection;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**

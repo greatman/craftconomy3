@@ -44,7 +44,8 @@ public abstract class StorageEngine {
 
     /**
      * Retrieve an account from the storage. If it doesn't exist, it must be created
-     * @param name The account name
+     *
+     * @param name   The account name
      * @param isBank If the account is a bank or not
      * @return
      */
@@ -52,6 +53,7 @@ public abstract class StorageEngine {
 
     /**
      * Retrieve an account from the storage. Doesn't care if it doesn't exist.
+     *
      * @param uuid The UUID of the player
      * @return An Account if an account was found, else null
      */
@@ -60,18 +62,19 @@ public abstract class StorageEngine {
     /**
      * Write a transaction to the Log.
      *
-     * @param info          The type of transaction to log.
-     * @param cause         The cause of the transaction.
-     * @param causeReason   The reason of the cause
-     * @param account       The account being impacted by the change
-     * @param amount        The amount of money in this transaction.
-     * @param currency      The currency associated with this transaction
-     * @param worldName     The world name associated with this transaction
+     * @param info        The type of transaction to log.
+     * @param cause       The cause of the transaction.
+     * @param causeReason The reason of the cause
+     * @param account     The account being impacted by the change
+     * @param amount      The amount of money in this transaction.
+     * @param currency    The currency associated with this transaction
+     * @param worldName   The world name associated with this transaction
      */
     public abstract void saveLog(LogInfo info, Cause cause, String causeReason, Account account, double amount, Currency currency, String worldName);
 
     /**
      * Retrieve the configuration value
+     *
      * @param name The name of the value
      * @return The configuration value or null if the entry was not found
      */
@@ -79,13 +82,15 @@ public abstract class StorageEngine {
 
     /**
      * Set a configuration value in the database
-     * @param name The name of the value
+     *
+     * @param name  The name of the value
      * @param value The actual value
      */
     public abstract void setConfigEntry(String name, String value);
 
     /**
      * Retrieve all the balance of an account
+     *
      * @param account The account to retrieve the balance from
      * @return A list of { @link Balance }
      */
@@ -93,47 +98,53 @@ public abstract class StorageEngine {
 
     /**
      * Retrieve all balance from a world
+     *
      * @param account The account to retrieve the balance from
-     * @param world The world group to retrieve the balance from
+     * @param world   The world group to retrieve the balance from
      * @return A list of { @link Balance }
      */
     public abstract List<Balance> getAllWorldBalance(Account account, String world);
 
     /**
      * Retrieve the balance of an account
-     * @param account The account to retrieve the balance from
+     *
+     * @param account  The account to retrieve the balance from
      * @param currency The currency
-     * @param world The world group
+     * @param world    The world group
      * @return the balance
      */
     public abstract double getBalance(Account account, Currency currency, String world);
 
     /**
      * Set the balance of the account
-     * @param account The account that the balance is set in.
-     * @param amount  The amount of money being placed
+     *
+     * @param account  The account that the balance is set in.
+     * @param amount   The amount of money being placed
      * @param currency The Currency
-     * @param world The world group
+     * @param world    The world group
      * @return The balance
      */
     public abstract double setBalance(Account account, double amount, Currency currency, String world);
 
     /**
      * Set if the account have infinite money
-     * @param account The account to modify
+     *
+     * @param account  The account to modify
      * @param infinite If the account have infinite money or not
      */
     public abstract void setInfiniteMoney(Account account, boolean infinite);
 
     /**
      * Set if the account must ignore the ACL
-     * @param account The account to modify
+     *
+     * @param account   The account to modify
      * @param ignoreACL If the account must ignore the ACL or not
      */
     public abstract void setIgnoreACL(Account account, boolean ignoreACL);
 
     /**
      * Retrieve the ACL listing for a bank account
+     *
      * @param account The bank account
      * @return A Map of all the ACL entries
      */
@@ -141,20 +152,22 @@ public abstract class StorageEngine {
 
     /**
      * Save the ACL setting of a bank account
-     * @param account The account
-     * @param name The player name
-     * @param deposit If the player can deposit
+     *
+     * @param account  The account
+     * @param name     The player name
+     * @param deposit  If the player can deposit
      * @param withdraw If the player can withdraw
-     * @param acl If the player can modify the ACL
-     * @param show If the player can show the balance
-     * @param owner If the player is the owner
+     * @param acl      If the player can modify the ACL
+     * @param show     If the player can show the balance
+     * @param owner    If the player is the owner
      * @return
      */
     public abstract AccountACLValue saveACL(Account account, String name, boolean deposit, boolean withdraw, boolean acl, boolean show, boolean owner);
 
     /**
      * Retrieve the exchange rate between 2 currencies
-     * @param currency The currency to convert from
+     *
+     * @param currency      The currency to convert from
      * @param otherCurrency The currency to convert to
      * @return The exchange rate.
      * @throws NoExchangeRate If there's no exchange rate, this event is thrown.
@@ -163,26 +176,30 @@ public abstract class StorageEngine {
 
     /**
      * Set the exchange between 2 currencies in the backend
-     * @param currency The currency to convert from
+     *
+     * @param currency      The currency to convert from
      * @param otherCurrency The currency to convert to
-     * @param amount The exchange rate (Example: 1.3 will make 1 Currency transform to 1.3 otherCurrency)
+     * @param amount        The exchange rate (Example: 1.3 will make 1 Currency transform to 1.3 otherCurrency)
      */
     public abstract void setExchangeRate(Currency currency, Currency otherCurrency, double amount);
 
     /**
      * Save a currency in the backend
+     *
      * @param currency The currency to save
      */
     public abstract void saveCurrency(Currency currency);
 
     /**
      * Delete a currency from the storage
+     *
      * @param currency The currency to delete
      */
     public abstract void deleteCurrency(Currency currency);
 
     /**
      * Update the username in the account
+     *
      * @param name The name of the player
      * @param uuid The UUID of the player
      */
@@ -190,13 +207,14 @@ public abstract class StorageEngine {
 
     /**
      * Set the UUID of the account if it exists
+     *
      * @param name The player name
      * @param uuid the UUID of the player
      */
     public abstract void updateUUID(String name, UUID uuid);
 
 
-    public abstract Map<String,WorldGroup> getWorldGroups();
+    public abstract Map<String, WorldGroup> getWorldGroups();
 
     public abstract void removeWorldGroup(String group);
 

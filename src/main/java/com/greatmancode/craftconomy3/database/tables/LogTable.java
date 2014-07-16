@@ -18,10 +18,10 @@
  */
 package com.greatmancode.craftconomy3.database.tables;
 
-public class LogTable extends DatabaseTable{
+public class LogTable extends DatabaseTable {
     public static final String TABLE_NAME = "log";
 
-    public final String CREATE_TABLE_MYSQL = "CREATE TABLE `"+ getPrefix()+TABLE_NAME+"` (" +
+    public final String CREATE_TABLE_MYSQL = "CREATE TABLE `" + getPrefix() + TABLE_NAME + "` (" +
             "  `id` int(11) NOT NULL AUTO_INCREMENT," +
             "  `username_id` int(11) DEFAULT NULL," +
             "  `type` varchar(30)," +
@@ -32,25 +32,25 @@ public class LogTable extends DatabaseTable{
             "  `amount` double DEFAULT NULL," +
             "  `currency_id` text," +
             "  PRIMARY KEY (`id`)," +
-            "  ADD CONSTRAINT `fk_log_account` FOREIGN KEY (`username_id`) REFERENCES `"+getPrefix()+AccountTable.TABLE_NAME+"` (`id`) ON DELETE CASCADE;" +
-            " ADD CONSTRAINT `fk_log_currency` FOREIGN KEY (`currency_id`) REFERENCES `"+getPrefix()+CurrencyTable.TABLE_NAME+"` (`id`) ON DELETE CASCADE;" +
+            "  ADD CONSTRAINT `fk_log_account` FOREIGN KEY (`username_id`) REFERENCES `" + getPrefix() + AccountTable.TABLE_NAME + "` (`id`) ON DELETE CASCADE;" +
+            " ADD CONSTRAINT `fk_log_currency` FOREIGN KEY (`currency_id`) REFERENCES `" + getPrefix() + CurrencyTable.TABLE_NAME + "` (`id`) ON DELETE CASCADE;" +
             ") ENGINE=InnoDB;";
 
-    public final String INSERT_ENTRY = "INSERT INTO "+getPrefix()+TABLE_NAME+"" +
+    public final String INSERT_ENTRY = "INSERT INTO " + getPrefix() + TABLE_NAME + "" +
             "(username_id, type, cause, causeReason, worldName, amount, currency_id)" +
-            "VALUES((SELECT id from "+getPrefix()+ AccountTable.TABLE_NAME+" WHERE name=?),?,?,?,?,?,(SELECT id from "+getPrefix()+CurrencyTable.TABLE_NAME+" WHERE name=?))";
+            "VALUES((SELECT id from " + getPrefix() + AccountTable.TABLE_NAME + " WHERE name=?),?,?,?,?,?,(SELECT id from " + getPrefix() + CurrencyTable.TABLE_NAME + " WHERE name=?))";
 
-    public final String SELECT_ENTRY = "SELECT * FROM "+getPrefix()+TABLE_NAME+" "+
-            "LEFT JOIN "+getPrefix()+AccountTable.TABLE_NAME+" " +
-            "ON "+getPrefix()+TABLE_NAME+".username_id = "+getPrefix()+AccountTable.TABLE_NAME+".id " +
-            "WHERE "+getPrefix()+AccountTable.TABLE_NAME+".name=?";
+    public final String SELECT_ENTRY = "SELECT * FROM " + getPrefix() + TABLE_NAME + " " +
+            "LEFT JOIN " + getPrefix() + AccountTable.TABLE_NAME + " " +
+            "ON " + getPrefix() + TABLE_NAME + ".username_id = " + getPrefix() + AccountTable.TABLE_NAME + ".id " +
+            "WHERE " + getPrefix() + AccountTable.TABLE_NAME + ".name=?";
 
-    public final String SELECT_ENTRY_LIMIT = "SELECT * FROM "+getPrefix()+TABLE_NAME+" "+
-            "LEFT JOIN "+getPrefix()+AccountTable.TABLE_NAME+" " +
-            "ON "+getPrefix()+TABLE_NAME+".username_id = "+getPrefix()+AccountTable.TABLE_NAME+".id " +
-            "WHERE "+getPrefix()+AccountTable.TABLE_NAME+".name=? LIMIT ?,? ORDER BY "+TABLE_NAME+".id";
+    public final String SELECT_ENTRY_LIMIT = "SELECT * FROM " + getPrefix() + TABLE_NAME + " " +
+            "LEFT JOIN " + getPrefix() + AccountTable.TABLE_NAME + " " +
+            "ON " + getPrefix() + TABLE_NAME + ".username_id = " + getPrefix() + AccountTable.TABLE_NAME + ".id " +
+            "WHERE " + getPrefix() + AccountTable.TABLE_NAME + ".name=? LIMIT ?,? ORDER BY " + TABLE_NAME + ".id";
 
-    public final String CLEAN_ENTRY = "DELETE FROM "+getPrefix()+TABLE_NAME+" WHERE timestamp <= ?";
+    public final String CLEAN_ENTRY = "DELETE FROM " + getPrefix() + TABLE_NAME + " WHERE timestamp <= ?";
 
     public LogTable(String prefix) {
         super(prefix);

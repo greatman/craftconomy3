@@ -19,13 +19,12 @@
 package com.greatmancode.craftconomy3.storage.sqlite;
 
 import com.greatmancode.craftconomy3.account.Account;
-import com.greatmancode.craftconomy3.storage.StorageEngine;
 import com.greatmancode.craftconomy3.storage.mysql.MySQLEngine;
 
 /**
  * Created by greatman on 2014-07-13.
  */
-public class SQLiteEngine extends MySQLEngine{
+public class SQLiteEngine extends MySQLEngine {
     @Override
     public Account getAccount(String name, boolean isBank) {
         return null;
