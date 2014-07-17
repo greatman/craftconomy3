@@ -26,6 +26,7 @@ import com.greatmancode.craftconomy3.account.Balance;
 import com.greatmancode.craftconomy3.commands.currency.CurrencyRatesCommand;
 import com.greatmancode.craftconomy3.commands.money.LogCommand;
 import com.greatmancode.craftconomy3.commands.money.TopCommand;
+import com.greatmancode.craftconomy3.converter.Converter;
 import com.greatmancode.craftconomy3.currency.Currency;
 import com.greatmancode.craftconomy3.groups.WorldGroup;
 import com.greatmancode.craftconomy3.utils.NoExchangeRate;
@@ -246,4 +247,6 @@ public abstract class StorageEngine {
     public abstract Map<String,Currency> getAllCurrencies();
 
     public abstract String retrieveWorldGroupWorlds(String name);
+
+    public abstract void saveImporterUsers(List<Converter.User> userList2);
 }

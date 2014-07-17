@@ -86,8 +86,7 @@ public class Mineconomy extends Converter {
         } else {
             userList = importMySQL(sender);
         }
-        addAccountToString(userList);
-        addBalance(sender, userList);
+        addAccountToString(sender, userList);
         return true;
     }
 

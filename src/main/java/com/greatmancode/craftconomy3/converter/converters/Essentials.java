@@ -90,8 +90,7 @@ public class Essentials extends Converter {
                 e.printStackTrace();
             }
         }
-        addAccountToString(userList);
-        addBalance(sender, userList);
+        addAccountToString(sender, userList);
         return true;
     }
 }

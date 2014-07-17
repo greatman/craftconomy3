@@ -165,115 +165,16 @@ public abstract class Converter {
      *
      * @param userList2 Account list
      */
-    protected void addAccountToString(List<User> userList2) {
-        stringBuilder = new StringBuilder();
-        List<User> userList = new ArrayList<User>(userList2);
-        User user = userList2.get(0);
-        //If the user contains a UUID we switch to UUID mode.
-        if (user.user.contains("-")) {
-            stringBuilder.append("INSERT INTO ").append(Common.getInstance().getMainConfig().getString("System.Database.Prefix")).append("account(uuid) VALUES ");
-        } else {
-            stringBuilder.append("INSERT INTO ").append(Common.getInstance().getMainConfig().getString("System.Database.Prefix")).append("account(name) VALUES ");
-        }
-        Iterator<User> iterator = userList.iterator();
-        boolean first = true, isCaseSentitive = Common.getInstance().getMainConfig().getBoolean("System.Case-sentitive"), isSQLite = Common.getInstance().getMainConfig().getString("Database.Type").equalsIgnoreCase("sqlite");
-        while (iterator.hasNext()) {
-            user = iterator.next();
-            if (isSQLite && !first) {
-                stringBuilder = new StringBuilder();
-                if (user.user.contains("-")) {
-                    stringBuilder.append("INSERT INTO ").append(Common.getInstance().getMainConfig().getString("System.Database.Prefix")).append("account(uuid) VALUES ");
-                } else {
-                    stringBuilder.append("INSERT INTO ").append(Common.getInstance().getMainConfig().getString("System.Database.Prefix")).append("account(name) VALUES ");
-                }
-                
-            }
-
-            if (isCaseSentitive) {
-                stringBuilder.append("('").append(user.user).append("')");
-            } else {
-                stringBuilder.append("('").append(user.user.toLowerCase()).append("')");
-            }
-
-            if (!isSQLite) {
-                if (iterator.hasNext()) {
-                    stringBuilder.append(",");
-                }
-            } else {
-                try {
-                    Connection connection = Common.getInstance().getDatabaseManager().getDatabase().getConnection();
-                    PreparedStatement statement = connection.prepareStatement(stringBuilder.toString());
-                    statement.executeUpdate();
-                    statement.close();
-                    connection.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-                first = false;
-            }
-        }
-        if (!isSQLite) {
-            try {
-                Connection connection = Common.getInstance().getDatabaseManager().getDatabase().getConnection();
-                PreparedStatement statement = connection.prepareStatement(stringBuilder.toString());
-                statement.executeUpdate();
-                statement.close();
-                connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    /**
-     * Add the balance of the imported accounts
-     *
-     * @param sender   The command sender
-     * @param userList the user list
-     */
-    protected void addBalance(String sender, List<User> userList) {
-        int i = 0;
-        stringBuilder = new StringBuilder();
-
-        stringBuilder.append("INSERT INTO ").append(Common.getInstance().getMainConfig().getString("System.Database.Prefix")).append("balance(username_id, currency_id, worldName,balance) VALUES ");
-        Iterator<User> iterator = userList.iterator();
-        boolean first = true, isSQLite = Common.getInstance().getMainConfig().getString("Database.Type").equalsIgnoreCase("sqlite");
-        while (iterator.hasNext()) {
-            if (i % ALERT_EACH_X_ACCOUNT == 0) {
-                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, i + " {{DARK_GREEN}}of {{WHITE}} " + userList.size() + " {{DARK_GREEN}}accounts ready to be imported.");
-            }
-            if (isSQLite && !first) {
-                stringBuilder = new StringBuilder();
-                stringBuilder.append("INSERT INTO ").append(Common.getInstance().getMainConfig().getString("System.Database.Prefix")).append("balance(username_id, currency_id, worldName,balance) VALUES ");
-            }
-            User user = iterator.next();
-            AccountTable account = null;
-            if (user.user.contains("-")) {
-                account = Common.getInstance().getDatabaseManager().getDatabase().select(AccountTable.class).where().equal("uuid", user.user).execute().findOne();
-            } else {
-                account = Common.getInstance().getDatabaseManager().getDatabase().select(AccountTable.class).where().equal("name", user.user).execute().findOne();
-            }
-            stringBuilder.append("(").append(account.getId()).append(",").append(Common.getInstance().getCurrencyManager().getDefaultCurrency().getDatabaseID()).append(",'").append(WorldGroupsManager.DEFAULT_GROUP_NAME).append("',").append(user.balance).append(")");
-            if (!isSQLite) {
-                if (iterator.hasNext()) {
-                    stringBuilder.append(",");
-                }
-            } else {
-                Common.getInstance().getDatabaseManager().getDatabase().directQuery(stringBuilder.toString());
-                first = false;
-            }
-            i++;
-        }
-        if (!isSQLite) {
-            Common.getInstance().getDatabaseManager().getDatabase().directQuery(stringBuilder.toString());
-        }
-        Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, userList.size() + " {{DARK_GREEN}}accounts converted! Enjoy!");
+    protected void addAccountToString(String sender, List<User> userList2) {
+        Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_RED}}Converting accounts. This may take a while.");
+        Common.getInstance().getStorageHandler().getStorageEngine().saveImporterUsers(userList2);
+        Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, userList2.size() + " {{DARK_GREEN}}accounts converted! Enjoy!");
     }
 
     /**
      * Represents a economy user
      */
-    protected class User {
+    public class User {
         /**
          * the user name
          */

@@ -30,7 +30,7 @@ public class StorageHandler {
     private final StorageEngine engine;
 
     public StorageHandler() {
-        switch (Common.getInstance().getMainConfig().getString("Engine.Database.Type")) {
+        switch (Common.getInstance().getMainConfig().getString("System.Database.Type")) {
             case "sqlite":
                 engine = new SQLiteEngine();
                 break;

@@ -34,7 +34,7 @@ public class TestDatabaseManager {
 
 	@Test
 	public void testDatabaseManager() {
-		assertNotNull(Common.getInstance().getDatabaseManager());
-        assertNotNull(Common.getInstance().getDatabaseManager().getDatabase());
+		assertNotNull(Common.getInstance().getStorageHandler());
+        assertNotNull(Common.getInstance().getStorageHandler().getStorageEngine());
 	}
 }

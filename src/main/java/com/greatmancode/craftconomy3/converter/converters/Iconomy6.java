@@ -169,8 +169,7 @@ public class Iconomy6 extends Converter {
                     Common.getInstance().sendConsoleMessage(Level.WARNING, "Line not formatted correctly. I read:" + Arrays.toString(info));
                 }
             }
-            addAccountToString(userList);
-            addBalance(sender, userList);
+            addAccountToString(sender, userList);
             result = true;
         } catch (IOException e) {
             Common.getInstance().getLogger().severe("A error occured while reading the iConomy database file! Message: " + e.getMessage());
@@ -195,8 +194,7 @@ public class Iconomy6 extends Converter {
             }
             statement.close();
             connection.close();
-            addAccountToString(userList);
-            addBalance(sender, userList);
+            addAccountToString(sender, userList);
         } catch (SQLException e) {
             e.printStackTrace();
         }

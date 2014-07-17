@@ -84,8 +84,7 @@ public class Feconomy extends Converter {
                 userList.add(new User(rs.getString("name"), rs.getDouble("money")));
             }
             rs.close();
-            addAccountToString(userList);
-            addBalance(sender, userList);
+            addAccountToString(sender, userList);
         } catch (SQLException e) {
             e.printStackTrace();
         }

@@ -50,6 +50,6 @@ public class TestWorldGroups {
 
 		worldGroup.removeWorld(UnitTestServerCaller.worldName);
 		assertFalse(worldGroup.worldExist(UnitTestServerCaller.worldName));
-        Common.getInstance().getDatabaseManager().getDatabase().remove(worldGroup.table);
+        Common.getInstance().getStorageHandler().getStorageEngine().removeWorldGroup("test");
     }
 }

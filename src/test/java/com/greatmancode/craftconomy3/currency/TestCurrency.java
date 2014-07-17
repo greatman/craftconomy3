@@ -23,73 +23,57 @@ import junit.framework.TestCase;
 public class TestCurrency extends TestCase {
 	//TODO: Null tests
 	public void testGetName() {
-		Currency currency = new Currency(1, "test", "plural", "minor", "minorplural", 0.0, "$");
+		Currency currency = new Currency("test", "plural", "minor", "minorplural", "$");
 		assertEquals("test", currency.getName());
 	}
 
 	public void testSetName() {
-		Currency currency = new Currency(1, "test", "plural", "minor", "minorplural", 0.0, "$");
+		Currency currency = new Currency("test", "plural", "minor", "minorplural", "$");
 		currency.setName("testing");
 		assertEquals("testing", currency.getName());
 	}
 
 	public void testGetPlural() {
-		Currency currency = new Currency(1, "test", "plural", "minor", "minorplural", 0.0, "$");
+		Currency currency = new Currency("test", "plural", "minor", "minorplural", "$");
 		assertEquals("plural", currency.getPlural());
 	}
 
 	public void testSetPlural() {
-		Currency currency = new Currency(1, "test", "plural", "minor", "minorplural", 0.0, "$");
+		Currency currency = new Currency("test", "plural", "minor", "minorplural", "$");
 		currency.setPlural("plurall");
 		assertEquals("plurall", currency.getPlural());
 	}
 
 	public void testGetMinor() {
-		Currency currency = new Currency(1, "test", "plural", "minor", "minorplural", 0.0, "$");
+		Currency currency = new Currency("test", "plural", "minor", "minorplural", "$");
 		assertEquals("minor", currency.getMinor());
 	}
 
 	public void testSetMinor() {
-		Currency currency = new Currency(1, "test", "plural", "minor", "minorplural", 0.0, "$");
+		Currency currency = new Currency("test", "plural", "minor", "minorplural", "$");
 		currency.setMinor("minors");
 		assertEquals("minors", currency.getMinor());
 	}
 
 	public void testGetMinorPlural() {
-		Currency currency = new Currency(1, "test", "plural", "minor", "minorplural", 0.0, "$");
+		Currency currency = new Currency("test", "plural", "minor", "minorplural", "$");
 		assertEquals("minorplural", currency.getMinorPlural());
 	}
 
 	public void testSetMinorPlural() {
-		Currency currency = new Currency(1, "test", "plural", "minor", "minorplural", 0.0, "$");
+		Currency currency = new Currency("test", "plural", "minor", "minorplural", "$");
 		currency.setMinorPlural("minorPlurals");
 		assertEquals("minorPlurals", currency.getMinorPlural());
 	}
 
-	public void testGetDatabaseID() {
-		Currency currency = new Currency(1, "test", "plural", "minor", "minorplural", 0.0, "$");
-		assertEquals(1, currency.getDatabaseID());
-	}
-
-	public void testSetHardCap() {
-		Currency currency = new Currency(1, "test", "plural", "minor", "minorplural", 0.0, "$");
-		currency.setHardCap(300.0);
-		assertEquals(300.0, currency.getHardCap(), 0);
-	}
-
-	public void testGetHardCap() {
-		Currency currency = new Currency(1, "test", "plural", "minor", "minorplural", 5.0, "$");
-		assertEquals(5.0, currency.getHardCap(), 0);
-	}
-
 	public void testSetSign() {
-		Currency currency = new Currency(1, "test", "plural", "minor", "minorplural", 0.0, "$");
+		Currency currency = new Currency("test", "plural", "minor", "minorplural", "$");
 		currency.setSign("asdf");
 		assertEquals("asdf", currency.getSign());
 	}
 
 	public void testGetSign() {
-		Currency currency = new Currency(1, "test", "plural", "minor", "minorplural", 0.0, "$");
+		Currency currency = new Currency("test", "plural", "minor", "minorplural", "$");
 		assertEquals("$", currency.getSign());
 	}
 }

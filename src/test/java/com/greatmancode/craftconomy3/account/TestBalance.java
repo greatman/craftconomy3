@@ -47,7 +47,7 @@ public class TestBalance extends TestCase {
 	}
 
 	public void testGetCurrency() {
-		Currency currency = new Currency(1, "test", "plural", "minor", "minorplural", 0.0, "$");
+		Currency currency = new Currency("test", "plural", "minor", "minorplural", "$");
 		Balance balance = new Balance("uberWorld", currency, 0.0);
 		if (!balance.getCurrency().equals(currency)) {
 			fail("Fail getCurrency");
@@ -55,7 +55,7 @@ public class TestBalance extends TestCase {
 	}
 
 	public void testSetCurrency() {
-		Currency currency = new Currency(1, "test", "plural", "minor", "minorplural", 0.0, "$");
+		Currency currency = new Currency("test", "plural", "minor", "minorplural","$");
 		Balance balance = new Balance("uberWorld", null, 0.0);
 		balance.setCurrency(currency);
 		if (!balance.getCurrency().equals(currency)) {

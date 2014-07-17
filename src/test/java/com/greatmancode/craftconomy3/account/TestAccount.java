@@ -36,7 +36,7 @@ public class TestAccount {
 
 	@Test
 	public void testAccount() {
-		Account account = new Account("greatman321");
+		Account account = new Account("greatman321", false, false, false);
 		account.deposit(50.0, UnitTestServerCaller.worldName, Common.getInstance().getCurrencyManager().getDefaultCurrency().getName());
 		assertTrue(account.hasEnough(50.0, UnitTestServerCaller.worldName, Common.getInstance().getCurrencyManager().getDefaultCurrency().getName()));
 		account.set(0, UnitTestServerCaller.worldName, Common.getInstance().getCurrencyManager().getDefaultCurrency().getName());
@@ -47,7 +47,7 @@ public class TestAccount {
 		assertFalse(account.hasEnough(50.01, UnitTestServerCaller.worldName, Common.getInstance().getCurrencyManager().getDefaultCurrency().getName()));
 		assertTrue(account.hasEnough(50.00, UnitTestServerCaller.worldName, Common.getInstance().getCurrencyManager().getDefaultCurrency().getName()));
 
-		Account account2 = new Account("test123");
+		Account account2 = new Account("test123", false, false, false);
 		account.withdraw(0.35, UnitTestServerCaller.worldName, Common.getInstance().getCurrencyManager().getDefaultCurrency().getName());
 		account2.deposit(0.35, UnitTestServerCaller.worldName, Common.getInstance().getCurrencyManager().getDefaultCurrency().getName());
 		assertTrue(account.hasEnough(49.65, UnitTestServerCaller.worldName, Common.getInstance().getCurrencyManager().getDefaultCurrency().getName()));

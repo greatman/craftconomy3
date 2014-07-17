@@ -46,39 +46,39 @@ public class TestBankCommands {
     public void testBankCreateCommand() {
         BankCreateCommand command = new BankCreateCommand();
         command.execute(TEST_USER, new String[]{BANK_ACCOUNT});
-        assertFalse(Common.getInstance().getAccountManager().exist(Account.BANK_PREFIX + BANK_ACCOUNT));
+        assertFalse(Common.getInstance().getAccountManager().exist(BANK_ACCOUNT, true));
         Common.getInstance().getAccountManager().getAccount(TEST_USER).set(200, "default", Common.getInstance().getCurrencyManager().getDefaultCurrency().getName(), Cause.USER, "greatman");
         command.execute(TEST_USER, new String[]{BANK_ACCOUNT});
-        assertTrue(Common.getInstance().getAccountManager().exist(Account.BANK_PREFIX + BANK_ACCOUNT));
+        assertTrue(Common.getInstance().getAccountManager().exist(BANK_ACCOUNT, true));
         command.execute(TEST_USER, new String[]{BANK_ACCOUNT});
     }
 
     @Test
     public void testBankGiveCommand() {
         BankGiveCommand command = new BankGiveCommand();
-        Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + BANK_ACCOUNT);
-        double initialValue = Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + BANK_ACCOUNT).getBalance("default", Common.getInstance().getCurrencyManager().getDefaultCurrency().getName());
+        Common.getInstance().getAccountManager().getAccount(BANK_ACCOUNT, true);
+        double initialValue = Common.getInstance().getAccountManager().getAccount(BANK_ACCOUNT, true).getBalance("default", Common.getInstance().getCurrencyManager().getDefaultCurrency().getName());
         command.execute(TEST_USER, new String[]{BANK_ACCOUNT, "wow"});
-        assertEquals(initialValue, Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + BANK_ACCOUNT).getBalance("default", Common.getInstance().getCurrencyManager().getDefaultCurrency().getName()), 0);
+        assertEquals(initialValue, Common.getInstance().getAccountManager().getAccount(BANK_ACCOUNT, true).getBalance("default", Common.getInstance().getCurrencyManager().getDefaultCurrency().getName()), 0);
         command.execute(TEST_USER, new String[]{BANK_ACCOUNT, "100"});
-        assertEquals(initialValue + 100, Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + BANK_ACCOUNT).getBalance("default", Common.getInstance().getCurrencyManager().getDefaultCurrency().getName()), 0);
+        assertEquals(initialValue + 100, Common.getInstance().getAccountManager().getAccount(BANK_ACCOUNT, true).getBalance("default", Common.getInstance().getCurrencyManager().getDefaultCurrency().getName()), 0);
     }
 
     @Test
     public void testBankTakeCommand() {
         BankTakeCommand command = new BankTakeCommand();
-        Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + BANK_ACCOUNT);
+        Common.getInstance().getAccountManager().getAccount(BANK_ACCOUNT, true);
         command.execute(TEST_USER, new String[]{BANK_ACCOUNT, "100"});
-        assertEquals(0, Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + BANK_ACCOUNT).getBalance("default", Common.getInstance().getCurrencyManager().getDefaultCurrency().getName()), 0);
-        Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + BANK_ACCOUNT).deposit(200, "default", Common.getInstance().getCurrencyManager().getDefaultCurrency().getName(), Cause.UNKNOWN, "unittest");
+        assertEquals(0, Common.getInstance().getAccountManager().getAccount(BANK_ACCOUNT, true).getBalance("default", Common.getInstance().getCurrencyManager().getDefaultCurrency().getName()), 0);
+        Common.getInstance().getAccountManager().getAccount(BANK_ACCOUNT, true).deposit(200, "default", Common.getInstance().getCurrencyManager().getDefaultCurrency().getName(), Cause.UNKNOWN, "unittest");
         command.execute(TEST_USER, new String[]{BANK_ACCOUNT, "100"});
-        assertEquals(100, Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + BANK_ACCOUNT).getBalance("default", Common.getInstance().getCurrencyManager().getDefaultCurrency().getName()), 0);
+        assertEquals(100, Common.getInstance().getAccountManager().getAccount(BANK_ACCOUNT, true).getBalance("default", Common.getInstance().getCurrencyManager().getDefaultCurrency().getName()), 0);
     }
 
     @Test
     public void testBankBalanceCommand() {
         BankBalanceCommand command = new BankBalanceCommand();
-        Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + BANK_ACCOUNT);
+        Common.getInstance().getAccountManager().getAccount(BANK_ACCOUNT, true);
         command.execute(TEST_USER, new String[] {BANK_ACCOUNT});
         command.execute(TEST_USER, new String[] {"unknown"});
 
@@ -91,15 +91,15 @@ public class TestBankCommands {
 
     @Test
     public void testBankIgnoreACLCommand() {
-        Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + BANK_ACCOUNT);
+        Common.getInstance().getAccountManager().getAccount(BANK_ACCOUNT, true);
         BankIgnoreACLCommand command = new BankIgnoreACLCommand();
-        assertFalse(Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + BANK_ACCOUNT).ignoreACL());
+        assertFalse(Common.getInstance().getAccountManager().getAccount(BANK_ACCOUNT, true).ignoreACL());
         command.execute(TEST_USER, new String[]{BANK_ACCOUNT});
-        assertTrue(Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + BANK_ACCOUNT).ignoreACL());
+        assertTrue(Common.getInstance().getAccountManager().getAccount(BANK_ACCOUNT, true).ignoreACL());
         command.execute(TEST_USER, new String[]{BANK_ACCOUNT});
-        assertFalse(Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + BANK_ACCOUNT).ignoreACL());
+        assertFalse(Common.getInstance().getAccountManager().getAccount(BANK_ACCOUNT, true).ignoreACL());
         command.execute(TEST_USER, new String[]{"unknown"});
-        assertFalse(Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + BANK_ACCOUNT).ignoreACL());
+        assertFalse(Common.getInstance().getAccountManager().getAccount(BANK_ACCOUNT, true).ignoreACL());
     }
 
     @Test
@@ -112,7 +112,7 @@ public class TestBankCommands {
         BankPermCommand command = new BankPermCommand();
         Common.getInstance().getAccountManager().getAccount(TEST_USER).set(200, "default", Common.getInstance().getCurrencyManager().getDefaultCurrency().getName(), Cause.USER, "greatman");
         new BankCreateCommand().execute(TEST_USER, new String[]{BANK_ACCOUNT});
-        Account account = Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + BANK_ACCOUNT);
+        Account account = Common.getInstance().getAccountManager().getAccount(BANK_ACCOUNT, true);
         command.execute(TEST_USER, new String[] {BANK_ACCOUNT, "deposit", TEST_USER2, "true"});
         System.out.println("WOW SUPER");
 
@@ -162,14 +162,14 @@ public class TestBankCommands {
     @Test
     public void testBankSetCommand() {
         BankSetCommand command = new BankSetCommand();
-        Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + BANK_ACCOUNT);
-        double initialValue = Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + BANK_ACCOUNT).getBalance("default", Common.getInstance().getCurrencyManager().getDefaultCurrency().getName());
+        Common.getInstance().getAccountManager().getAccount(BANK_ACCOUNT, true);
+        double initialValue = Common.getInstance().getAccountManager().getAccount(BANK_ACCOUNT, true).getBalance("default", Common.getInstance().getCurrencyManager().getDefaultCurrency().getName());
         command.execute(TEST_USER, new String[]{BANK_ACCOUNT, "wow"});
-        assertEquals(initialValue, Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + BANK_ACCOUNT).getBalance("default", Common.getInstance().getCurrencyManager().getDefaultCurrency().getName()), 0);
+        assertEquals(initialValue, Common.getInstance().getAccountManager().getAccount(BANK_ACCOUNT, true).getBalance("default", Common.getInstance().getCurrencyManager().getDefaultCurrency().getName()), 0);
         command.execute(TEST_USER, new String[]{BANK_ACCOUNT, "100"});
-        assertEquals(initialValue + 100, Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + BANK_ACCOUNT).getBalance("default", Common.getInstance().getCurrencyManager().getDefaultCurrency().getName()), 0);
+        assertEquals(initialValue + 100, Common.getInstance().getAccountManager().getAccount(BANK_ACCOUNT, true).getBalance("default", Common.getInstance().getCurrencyManager().getDefaultCurrency().getName()), 0);
         command.execute(TEST_USER, new String[]{BANK_ACCOUNT, "0"});
-        assertEquals(initialValue, Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + BANK_ACCOUNT).getBalance("default", Common.getInstance().getCurrencyManager().getDefaultCurrency().getName()), 0);
+        assertEquals(initialValue, Common.getInstance().getAccountManager().getAccount(BANK_ACCOUNT, true).getBalance("default", Common.getInstance().getCurrencyManager().getDefaultCurrency().getName()), 0);
 
     }
 
@@ -178,7 +178,7 @@ public class TestBankCommands {
         BankWithdrawCommand command = new BankWithdrawCommand();
         Common.getInstance().getAccountManager().getAccount(TEST_USER).set(200, "default", Common.getInstance().getCurrencyManager().getDefaultCurrency().getName(), Cause.USER, "greatman");
         new BankCreateCommand().execute(TEST_USER, new String[]{BANK_ACCOUNT});
-        Account account = Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + BANK_ACCOUNT);
+        Account account = Common.getInstance().getAccountManager().getAccount(BANK_ACCOUNT, true);
         account.set(200, "default", Common.getInstance().getCurrencyManager().getDefaultCurrency().getName(), Cause.UNKNOWN, null);
         account.withdraw(20, "default", Common.getInstance().getCurrencyManager().getDefaultCurrency().getName(), Cause.UNKNOWN, null);
         assertEquals(180, account.getBalance("default", Common.getInstance().getCurrencyManager().getDefaultCurrency().getName()), 0);
@@ -189,6 +189,6 @@ public class TestBankCommands {
         new BankCreateCommand().execute(TEST_USER, new String[]{BANK_ACCOUNT});
         BankDeleteCommand command = new BankDeleteCommand();
         command.execute(TEST_USER, new String[] {BANK_ACCOUNT});
-        assertFalse(Common.getInstance().getAccountManager().exist(Account.BANK_PREFIX + BANK_ACCOUNT));
+        assertFalse(Common.getInstance().getAccountManager().exist(BANK_ACCOUNT, true));
     }
 }

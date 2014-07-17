@@ -36,7 +36,7 @@ public class TestBankAccount extends TestCase{
 
     @Test
     public void testBankAccount() {
-        Account account = new Account(Account.BANK_PREFIX + "testbank");
+        Account account = new Account("testbank", true, false, false);
         assertTrue(account.isBankAccount());
         assertFalse(account.ignoreACL());
     }

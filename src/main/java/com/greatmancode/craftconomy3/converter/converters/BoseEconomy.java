@@ -85,8 +85,7 @@ public class BoseEconomy extends Converter {
                 }
             }
             flatFileReader.close();
-            addAccountToString(userList);
-            addBalance(sender, userList);
+            addAccountToString(sender,userList);
         } catch (IOException e) {
             Common.getInstance().getLogger().severe("Error while reading bose file!" + e.getMessage());
         }
@@ -96,13 +95,13 @@ public class BoseEconomy extends Converter {
     private void bankImporter(String username) throws IOException {
         String line = flatFileReader.readLine();
         double amount = Double.parseDouble(line.split(" ")[1]);
-        Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + username).set(amount, Common.getInstance().getServerCaller().getDefaultWorld(), Common.getInstance().getCurrencyManager().getDefaultCurrency().getName(), Cause.CONVERT, null);
+        Common.getInstance().getAccountManager().getAccount(username, true).set(amount, Common.getInstance().getServerCaller().getDefaultWorld(), Common.getInstance().getCurrencyManager().getDefaultCurrency().getName(), Cause.CONVERT, null);
         line = flatFileReader.readLine();
         if (line.contains("members")) {
             line = flatFileReader.readLine();
             line = line.replaceAll(TAB_CHECK, "");
             while (!line.equals("}")) {
-                Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + username).getAccountACL().set(line, true, true, false, true, false);
+                Common.getInstance().getAccountManager().getAccount(username,true).getAccountACL().set(line, true, true, false, true, false);
                 line = flatFileReader.readLine();
                 line = line.replaceAll(TAB_CHECK, "");
             }
@@ -112,7 +111,7 @@ public class BoseEconomy extends Converter {
             line = flatFileReader.readLine();
             line = line.replaceAll(TAB_CHECK, "");
             while (!line.equals("}")) {
-                Common.getInstance().getAccountManager().getAccount(Account.BANK_PREFIX + username).getAccountACL().set(line, true, true, true, true, true);
+                Common.getInstance().getAccountManager().getAccount(username, true).getAccountACL().set(line, true, true, true, true, true);
                 line = flatFileReader.readLine();
                 line = line.replaceAll(TAB_CHECK, "");
             }

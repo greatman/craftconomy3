@@ -22,11 +22,7 @@ import java.io.File;
 import java.lang.reflect.Field;
 import java.util.logging.Logger;
 
-import com.alta189.simplesave.exceptions.ConnectionException;
-import com.alta189.simplesave.exceptions.TableRegistrationException;
-import com.greatmancode.craftconomy3.database.tables.ConfigTable;
 import com.greatmancode.tools.caller.unittest.UnitTestServerCaller;
-import com.greatmancode.tools.database.throwable.InvalidDatabaseConstructor;
 import com.greatmancode.tools.interfaces.UnitTestLoader;
 
 public class TestInitializator {

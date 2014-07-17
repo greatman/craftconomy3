@@ -27,6 +27,7 @@ import com.greatmancode.craftconomy3.account.Balance;
 import com.greatmancode.craftconomy3.commands.currency.CurrencyRatesCommand;
 import com.greatmancode.craftconomy3.commands.money.LogCommand;
 import com.greatmancode.craftconomy3.commands.money.TopCommand;
+import com.greatmancode.craftconomy3.converter.Converter;
 import com.greatmancode.craftconomy3.currency.Currency;
 import com.greatmancode.craftconomy3.database.tables.*;
 import com.greatmancode.craftconomy3.groups.WorldGroup;
@@ -392,6 +393,7 @@ public class MySQLEngine extends StorageEngine {
             close(statement);
             close(connection);
         }
+        return null;
     }
 
     @Override
@@ -555,6 +557,41 @@ public class MySQLEngine extends StorageEngine {
             close(connection);
         }
         return result;
+    }
+
+    @Override
+    public void saveImporterUsers(List<Converter.User> userList) {
+        StringBuilder builder = new StringBuilder("INSERT INTO "+tablePrefix+AccountTable.TABLE_NAME+"(name) VALUES(");
+        StringBuilder balanceBuilder = new StringBuilder("INSERT INTO "+tablePrefix+BalanceTable.TABLE_NAME+"(balance, worldName, currency_id, username_id) VALUES(");
+        boolean first = true;
+        for (Converter.User userEntry : userList) {
+            if (!first) {
+                builder.append(",");
+                balanceBuilder.append(",");
+            } else {
+                first = false;
+            }
+            builder.append("'"+userEntry.user+"')");
+            balanceBuilder.append(userEntry.balance+",default,"+Common.getInstance().getCurrencyManager().getDefaultCurrency().getName()+",(SELECT id from " + tablePrefix + AccountTable.TABLE_NAME + " WHERE name=?))");
+        }
+        builder.append(";");
+        balanceBuilder.append(";");
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = db.getConnection();
+            statement = connection.prepareStatement(builder.toString());
+            statement.executeUpdate();
+            statement.close();
+            statement = connection.prepareStatement(balanceBuilder.toString());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close(statement);
+            close(connection);
+        }
+
+
     }
 
 
