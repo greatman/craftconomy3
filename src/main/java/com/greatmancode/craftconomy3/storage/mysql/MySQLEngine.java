@@ -41,16 +41,16 @@ import java.util.*;
 
 public class MySQLEngine extends StorageEngine {
 
-    private final String tablePrefix;
-    private final HikariDataSource db;
-    private final AccessTable accessTable;
-    private final AccountTable accountTable;
-    private final BalanceTable balanceTable;
-    private final ConfigTable configTable;
-    private final CurrencyTable currencyTable;
-    private final ExchangeTable exchangeTable;
-    private final LogTable logTable;
-    private final WorldGroupTable worldGroupTable;
+    protected String tablePrefix;
+    protected HikariDataSource db;
+    protected AccessTable accessTable;
+    protected AccountTable accountTable;
+    protected BalanceTable balanceTable;
+    protected ConfigTable configTable;
+    protected CurrencyTable currencyTable;
+    protected ExchangeTable exchangeTable;
+    protected LogTable logTable;
+    protected WorldGroupTable worldGroupTable;
 
     public MySQLEngine() {
         HikariConfig config = new HikariConfig();
@@ -380,40 +380,161 @@ public class MySQLEngine extends StorageEngine {
     }
 
     @Override
-    public AccountACLValue saveACL(Account account, String name, boolean deposit, boolean withdraw, boolean acl, boolean show, boolean owner) {
+    public AccountACLValue saveACL(Account account, String name, boolean deposit, boolean withdraw, boolean acl, boolean balance, boolean owner) {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
             connection = db.getConnection();
             statement = connection.prepareStatement(accessTable.SELECT_ENTRY);
-            //TODO not finished
+            statement.setString(1,account.getAccountName());
+            statement.setBoolean(2, account.isBankAccount());
+            statement.setString(3, name);
+            ResultSet set = statement.executeQuery();
+            if (set.next()) {
+                statement.close();
+                statement = connection.prepareStatement(accessTable.UPDATE_ENTRY);
+                statement.setBoolean(1, owner);
+                statement.setBoolean(2, balance);
+                statement.setBoolean(3, deposit);
+                statement.setBoolean(4, acl);
+                statement.setBoolean(5, withdraw);
+                statement.setString(6, account.getAccountName());
+                statement.setBoolean(7, account.isBankAccount());
+                statement.setString(8, name);
+            } else {
+                statement.close();
+                statement = connection.prepareStatement(accessTable.INSERT_ENTRY);
+                statement.setString(1, account.getAccountName());
+                statement.setBoolean(2, account.isBankAccount());
+                statement.setString(3, name);
+                statement.setBoolean(4, owner);
+                statement.setBoolean(5, balance);
+                statement.setBoolean(6, deposit);
+                statement.setBoolean(7, acl);
+                statement.setBoolean(8, withdraw);
+                statement.executeUpdate();
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             close(statement);
             close(connection);
         }
-        return null;
+        return new AccountACLValue(deposit,withdraw,acl,balance,owner);
     }
 
     @Override
     public double getExchangeRate(Currency currency, Currency otherCurrency) throws NoExchangeRate {
-        return 0;
+        double result = 0.0;
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = db.getConnection();
+            statement = connection.prepareStatement(exchangeTable.SELECT_ENTRY);
+            statement.setString(1, currency.getName());
+            statement.setString(2, otherCurrency.getName());
+            ResultSet set = statement.executeQuery();
+            if (set.next()) {
+                result = set.getDouble("amount");
+            } else {
+                throw new NoExchangeRate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close(statement);
+            close(connection);
+        }
+        return result;
     }
 
     @Override
     public void setExchangeRate(Currency currency, Currency otherCurrency, double amount) {
-
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = db.getConnection();
+            statement = connection.prepareStatement(exchangeTable.SELECT_ENTRY);
+            statement.setString(1, currency.getName());
+            statement.setString(2, otherCurrency.getName());
+            ResultSet set = statement.executeQuery();
+            if (set.next()) {
+                statement.close();
+                statement = connection.prepareStatement(exchangeTable.UPDATE_ENTRY);
+                statement.setString(1, currency.getName());
+                statement.setString(2, otherCurrency.getName());
+                statement.setDouble(3, amount);
+                statement.executeUpdate();
+            } else {
+                statement.close();
+                statement = connection.prepareStatement(exchangeTable.INSERT_ENTRY);
+                statement.setString(1, currency.getName());
+                statement.setString(2, otherCurrency.getName());
+                statement.setDouble(3, amount);
+                statement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close(statement);
+            close(connection);
+        }
     }
 
     @Override
-    public void saveCurrency(Currency currency) {
-
+    public void saveCurrency(String oldName, Currency currency) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = db.getConnection();
+            statement = connection.prepareStatement(currencyTable.SELECT_ENTRY);
+            statement.setString(1, currency.getName());
+            ResultSet set = statement.executeQuery();
+            if (set.next()) {
+                statement.close();
+                statement = connection.prepareStatement(currencyTable.UPDATE_ENTRY);
+                statement.setString(1, currency.getName());
+                statement.setString(2, currency.getPlural());
+                statement.setString(3, currency.getMinor());
+                statement.setString(4, currency.getMinorPlural());
+                statement.setBoolean(5, currency.getStatus());
+                statement.setBoolean(6, currency.isPrimaryBankCurrency());
+                statement.setString(7, oldName);
+                statement.executeUpdate();
+            } else {
+                statement.close();
+                statement = connection.prepareStatement(exchangeTable.INSERT_ENTRY);
+                statement.setString(1, currency.getName());
+                statement.setString(2, currency.getPlural());
+                statement.setString(3, currency.getMinor());
+                statement.setString(4, currency.getMinorPlural());
+                statement.setBoolean(5, currency.getStatus());
+                statement.setBoolean(6, currency.isPrimaryBankCurrency());
+                statement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close(statement);
+            close(connection);
+        }
     }
 
     @Override
     public void deleteCurrency(Currency currency) {
-
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = db.getConnection();
+            statement = connection.prepareStatement(currencyTable.DELETE_ENTRY);
+            statement.setString(1, currency.getName());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close(statement);
+            close(connection);
+        }
     }
 
     @Override

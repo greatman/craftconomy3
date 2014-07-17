@@ -18,15 +18,34 @@
  */
 package com.greatmancode.craftconomy3.storage.sqlite;
 
+import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.account.Account;
+import com.greatmancode.craftconomy3.database.tables.*;
 import com.greatmancode.craftconomy3.storage.mysql.MySQLEngine;
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
+
+import java.io.File;
 
 /**
  * Created by greatman on 2014-07-13.
  */
 public class SQLiteEngine extends MySQLEngine {
-    @Override
-    public Account getAccount(String name, boolean isBank) {
-        return null;
+
+    public SQLiteEngine() {
+        HikariConfig config = new HikariConfig();
+        config.setMaximumPoolSize(10);
+        config.setDataSourceClassName("com.mysql.jdbc.jdbc2.optional.MysqlDataSource");
+        config.addDataSourceProperty("databaseName", new File(Common.getInstance().getServerCaller().getDataFolder(), "database.db").getAbsolutePath());
+        db = new HikariDataSource(config);
+        this.tablePrefix = Common.getInstance().getMainConfig().getString("System.Database.Prefix");
+        accessTable = new AccessTable(tablePrefix);
+        accountTable = new AccountTable(tablePrefix);
+        balanceTable = new BalanceTable(tablePrefix);
+        configTable = new ConfigTable(tablePrefix);
+        currencyTable = new CurrencyTable(tablePrefix);
+        exchangeTable = new ExchangeTable(tablePrefix);
+        logTable = new LogTable(tablePrefix);
+        worldGroupTable = new WorldGroupTable(tablePrefix);
     }
 }

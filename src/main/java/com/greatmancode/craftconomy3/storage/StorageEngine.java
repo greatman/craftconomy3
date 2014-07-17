@@ -191,7 +191,7 @@ public abstract class StorageEngine {
      *
      * @param currency The currency to save
      */
-    public abstract void saveCurrency(Currency currency);
+    public abstract void saveCurrency(String oldName, Currency currency);
 
     /**
      * Delete a currency from the storage

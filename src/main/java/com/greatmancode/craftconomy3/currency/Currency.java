@@ -175,8 +175,7 @@ public class Currency {
      * Save the currency information.
      */
     private void save() {
-        Common.getInstance().getStorageHandler().getStorageEngine().saveCurrency(this);
-
+        save(getName());
     }
 
     /**
@@ -184,7 +183,7 @@ public class Currency {
      * @param oldName
      */
     private void save(String oldName) {
-        save();
+        Common.getInstance().getStorageHandler().getStorageEngine().saveCurrency(oldName, this);
         Common.getInstance().getCurrencyManager().updateEntry(oldName, this);
     }
 

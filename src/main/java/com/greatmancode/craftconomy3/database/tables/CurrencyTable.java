@@ -36,14 +36,14 @@ public class CurrencyTable extends DatabaseTable {
     public final String SELECT_ALL_ENTRY = "SELECT * FROM " + getPrefix() + TABLE_NAME;
     public final String SELECT_ENTRY = "SELECT * FROM " + getPrefix() + TABLE_NAME + " WHERE name=?";
 
-    public final String INSERT_ENTRY = "INSERT INTO " + getPrefix() + TABLE_NAME + "(name,plural,minor,minorplural,sign) " +
-            "VALUES (?,?,?,?,?)";
+    public final String INSERT_ENTRY = "INSERT INTO " + getPrefix() + TABLE_NAME + "(name,plural,minor,minorplural,sign,status,bankCurrency) " +
+            "VALUES (?,?,?,?,?,?,?)";
 
     public final String SET_AS_DEFAULT = "UPDATE " + getPrefix() + TABLE_NAME + " SET status=FALSE; UPDATE " + getPrefix() + TABLE_NAME + " SET status=TRUE WHERE name=?";
 
     public final String SET_AS_DEFAULT_BANK = "UPDATE " + getPrefix() + TABLE_NAME + " SET bankCurrency=FALSE; UPDATE " + getPrefix() + TABLE_NAME + " SET bankCurrency=TRUE WHERE name=?";
 
-    public final String UPDATE_ENTRY = "UPDATE " + getPrefix() + TABLE_NAME + " SET name=? plural=? minor=? minorplural=? sign=? WHERE name=?";
+    public final String UPDATE_ENTRY = "UPDATE " + getPrefix() + TABLE_NAME + " SET name=? plural=? minor=? minorplural=? sign=? status=? bankCurrency=? WHERE name=?";
 
     public final String DELETE_ENTRY = "DELETE FROM " + getPrefix() + TABLE_NAME + " WHERE name=?";
 

@@ -26,7 +26,7 @@ public class ExchangeTable extends DatabaseTable {
             "  `from_currency` VARCHAR(50) NOT NULL," +
             "  `to_currency` VARCHAR(50) NOT NULL," +
             "  `amount` double DEFAULT 1.0," +
-            "  PRIMARY KEY (`to_currency_id`, from_currency_id)" +
+            "  PRIMARY KEY (`from_currency`, to_currency)" +
             "  CONSTRAINT `fk_exchange_currencyfrom`" +
             "    FOREIGN KEY (from_currency)" +
             "    REFERENCES " + getPrefix() + CurrencyTable.TABLE_NAME + " (name)) ON UPDATE CASCADE ON DELETE CASCADE" +
@@ -36,22 +36,13 @@ public class ExchangeTable extends DatabaseTable {
             ") ENGINE=InnoDB;";
 
     public final String SELECT_ENTRY = "SELECT * FROM " + getPrefix() + TABLE_NAME + " " +
-            "LEFT JOIN " + getPrefix() + CurrencyTable.TABLE_NAME + " AS c1 ON " +
-            getPrefix() + TABLE_NAME + ".to_currency = c1.id " +
-            "LEFT JOIN " + getPrefix() + CurrencyTable.TABLE_NAME + " AS c2 ON " +
-            getPrefix() + TABLE_NAME + ".from_currency = c2.id " +
-            "WHERE c1.name=? AND c2.name=?";
+            "WHERE from_currency=? AND to_currency=?";
 
     public final String INSERT_ENTRY = "INSERT INTO " + getPrefix() + TABLE_NAME + "(from_currency, to_currency, amount) " +
-            "VALUES((SELECT id from " + getPrefix() + CurrencyTable.TABLE_NAME + " WHERE name=?), " +
-            "(SELECT id from " + getPrefix() + CurrencyTable.TABLE_NAME + " WHERE name=?),?)";
+            "VALUES(?,?,?)";
 
     public final String UPDATE_ENTRY = "UPDATE " + getPrefix() + TABLE_NAME + " SET amount=? " +
-            "LEFT JOIN " + getPrefix() + CurrencyTable.TABLE_NAME + " AS c1 ON " +
-            getPrefix() + TABLE_NAME + ".to_currency = c1.id " +
-            "LEFT JOIN " + getPrefix() + CurrencyTable.TABLE_NAME + " AS c2 ON " +
-            getPrefix() + TABLE_NAME + ".from_currency = c2.id " +
-            "WHERE c1.name=? AND c2.name=?";
+            "WHERE from_currency.name=? AND to_currency.name=?";
 
     public ExchangeTable(String prefix) {
         super(prefix);
