@@ -43,7 +43,6 @@ public class ConverterList {
      */
     public ConverterList() {
         converterList.put("iconomy6", new Iconomy6());
-        converterList.put("craftconomy2", new Craftconomy2());
         converterList.put("boseeconomy", new BoseEconomy());
         converterList.put("essentials", new Essentials());
         converterList.put("feconomy", new Feconomy());

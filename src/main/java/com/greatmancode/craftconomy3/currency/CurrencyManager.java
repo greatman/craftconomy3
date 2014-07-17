@@ -37,7 +37,8 @@ public class CurrencyManager {
     /**
      * The default currency database ID
      */
-    private static String defaultCurrencyName;
+    private static Currency defaultCurrency;
+    private static Currency defaultBankCurrency;
     private final Map<String, Currency> currencyList;
 
     public CurrencyManager() {
@@ -45,8 +46,10 @@ public class CurrencyManager {
         currencyList = Common.getInstance().getStorageHandler().getStorageEngine().getAllCurrencies();
         for (Map.Entry<String, Currency> currencyEntry : currencyList.entrySet()) {
             if (currencyEntry.getValue().getStatus()) {
-                defaultCurrencyName = currencyEntry.getKey();
-                return;
+                defaultCurrency = currencyEntry.getValue();
+            }
+            if (currencyEntry.getValue().isPrimaryBankCurrency()) {
+                defaultBankCurrency = currencyEntry.getValue();
             }
         }
     }
@@ -112,7 +115,13 @@ public class CurrencyManager {
     public void setDefault(Currency currency) {
         if (currencyList.containsKey(currency.getName())) {
             Common.getInstance().getStorageHandler().getStorageEngine().setDefaultCurrency(currency);
-            defaultCurrencyName = currency.getName();
+            defaultCurrency = currency;
+            currency.setDefault(true);
+            for (Map.Entry<String, Currency> currencyEntry : currencyList.entrySet()) {
+                if (!currencyEntry.getValue().equals(currency)) {
+                    currency.setDefault(false);
+                }
+            }
         }
     }
 
@@ -134,11 +143,28 @@ public class CurrencyManager {
      * @return The default currency
      */
     public Currency getDefaultCurrency() {
-        return getCurrency(defaultCurrencyName);
+        return defaultCurrency;
     }
 
     protected void updateEntry(String oldName, Currency currency) {
         currencyList.remove(oldName);
         currencyList.put(currency.getName(), currency);
+    }
+
+    public void setDefaultBankCurrency(Currency currency) {
+        if (currencyList.containsKey(currency.getName())) {
+            Common.getInstance().getStorageHandler().getStorageEngine().setDefaultBankCurrency(currency);
+            defaultBankCurrency = currency;
+            currency.setBankCurrency(true);
+            for (Map.Entry<String, Currency> currencyEntry : currencyList.entrySet()) {
+                if (!currencyEntry.getValue().equals(currency)) {
+                    currency.setBankCurrency(false);
+                }
+            }
+        }
+    }
+
+    public Currency getDefaultBankCurrency() {
+        return defaultBankCurrency;
     }
 }

@@ -29,6 +29,7 @@ public class CurrencyTable extends DatabaseTable {
             "  `minorplural` text," +
             "  `sign` varchar(5)," +
             "  `status` BOOLEAN DEFAULT FALSE," +
+            "  `bankCurrency` BOOLEAN DEFAULT FALSE," +
             "  PRIMARY KEY (`name`)" +
             ") ENGINE=InnoDB;";
 
@@ -39,6 +40,8 @@ public class CurrencyTable extends DatabaseTable {
             "VALUES (?,?,?,?,?)";
 
     public final String SET_AS_DEFAULT = "UPDATE " + getPrefix() + TABLE_NAME + " SET status=FALSE; UPDATE " + getPrefix() + TABLE_NAME + " SET status=TRUE WHERE name=?";
+
+    public final String SET_AS_DEFAULT_BANK = "UPDATE " + getPrefix() + TABLE_NAME + " SET bankCurrency=FALSE; UPDATE " + getPrefix() + TABLE_NAME + " SET bankCurrency=TRUE WHERE name=?";
 
     public final String UPDATE_ENTRY = "UPDATE " + getPrefix() + TABLE_NAME + " SET name=? plural=? minor=? minorplural=? sign=? WHERE name=?";
 

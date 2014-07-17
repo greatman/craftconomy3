@@ -28,7 +28,7 @@ import com.greatmancode.craftconomy3.utils.NoExchangeRate;
  */
 public class Currency {
     private String name, plural, minor, minorPlural, sign;
-    private boolean status;
+    private boolean status, bankCurrency;
 
     /**
      * Initialize a currency
@@ -198,12 +198,19 @@ public class Currency {
     /**
      * Set the default flag to true.
      */
-    void setDefault() {
-        this.status = true;
-        save();
+    protected void setDefault(boolean status) {
+        this.status = status;
     }
 
     public boolean getStatus() {
         return status;
+    }
+
+    public boolean isPrimaryBankCurrency() {
+        return bankCurrency;
+    }
+
+    protected void setBankCurrency(boolean bankCurrency) {
+        this.bankCurrency = bankCurrency;
     }
 }

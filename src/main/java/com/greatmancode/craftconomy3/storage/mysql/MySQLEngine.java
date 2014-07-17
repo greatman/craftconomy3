@@ -516,6 +516,11 @@ public class MySQLEngine extends StorageEngine {
     }
 
     @Override
+    public void setDefaultBankCurrency(Currency currency) {
+
+    }
+
+    @Override
     public Currency getCurrency(String name) {
         return null;
     }

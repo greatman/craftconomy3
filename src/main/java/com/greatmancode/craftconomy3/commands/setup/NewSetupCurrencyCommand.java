@@ -20,6 +20,7 @@ package com.greatmancode.craftconomy3.commands.setup;
 
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.NewSetupWizard;
+import com.greatmancode.craftconomy3.currency.Currency;
 import com.greatmancode.craftconomy3.database.tables.ConfigTable;
 import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 
@@ -115,13 +116,9 @@ public class NewSetupCurrencyCommand extends CommandExecutor {
 
     private void done(String sender) {
         if (map.size() == 5) {
-            Common.getInstance().getCurrencyManager().addCurrency(map.get("name"), map.get("nameplural"), map.get("minor"), map.get("minorplural"), 0.0, map.get("sign"), true);
-            int dbId = Common.getInstance().getCurrencyManager().getCurrency(map.get("name")).getDatabaseID();
-            Common.getInstance().getCurrencyManager().setDefault(dbId);
-            ConfigTable table = new ConfigTable();
-            table.setName("bankcurrency");
-            table.setValue(dbId + "");
-            Common.getInstance().getDatabaseManager().getDatabase().save(table);
+            Currency currency = Common.getInstance().getCurrencyManager().addCurrency(map.get("name"), map.get("nameplural"), map.get("minor"), map.get("minorplural"), map.get("sign"), true);
+            Common.getInstance().getCurrencyManager().setDefault(currency);
+            Common.getInstance().getCurrencyManager().setDefaultBankCurrency(currency);
             Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_GREEN}}We are done for that step! Only 2 remaining! Please type {{WHITE}}/ccsetup basic");
             NewSetupWizard.setState(NewSetupWizard.BASIC_STEP);
         }

@@ -239,6 +239,8 @@ public abstract class StorageEngine {
 
     public abstract void setDefaultCurrency(Currency currency);
 
+    public abstract void setDefaultBankCurrency(Currency currency);
+
     public abstract Currency getCurrency(String name);
 
     public abstract Map<String,Currency> getAllCurrencies();

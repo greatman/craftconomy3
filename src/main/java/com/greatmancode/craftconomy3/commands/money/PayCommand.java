@@ -40,7 +40,7 @@ public class PayCommand extends CommandExecutor {
                         return;
                     }
                 }
-                boolean hasEnough = Common.getInstance().getAccountManager().getAccount(sender, false).hasEnough(amount, Common.getInstance().getAccountManager().getAccount(sender, false).getWorldGroupOfPlayerCurrentlyIn(), currency.getName());
+                boolean hasEnough = Common.getInstance().getAccountManager().getAccount(sender, false).hasEnough(amount, Account.getWorldGroupOfPlayerCurrentlyIn(sender), currency.getName());
 
                 if (hasEnough) {
                     Common.getInstance().getAccountManager().getAccount(sender, false).withdraw(amount, Account.getWorldGroupOfPlayerCurrentlyIn(sender), currency.getName(), Cause.PAYMENT, args[0]);

@@ -79,7 +79,6 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
     private DisplayFormat displayFormat = null;
     private double holdings = 0.0;
     private double bankPrice = 0.0;
-    private String bankCurrencyName = null;
 
     /**
      * Initialize the Common core.
@@ -179,7 +178,6 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
         displayFormat = null;
         holdings = 0.0;
         bankPrice = 0.0;
-        bankCurrencyName = null;
     }
 
     /**
@@ -573,16 +571,6 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
             getStorageHandler().getStorageEngine().setConfigEntry("bankprice", 100.0 + "");
             sendConsoleMessage(Level.SEVERE, "No default value was set for bank creation or was invalid! Defaulting to 100.");
         }
-
-        //TODO : That with names
-        value = getStorageHandler().getStorageEngine().getConfigEntry("bankcurrency");
-        if (value != null && Tools.isInteger(value) && getCurrencyManager().getCurrency(value) != null) {
-            bankCurrencyName = value;
-        } else {
-            bankCurrencyName = Common.getInstance().getCurrencyManager().getDefaultCurrency().getName();
-            sendConsoleMessage(Level.SEVERE, "Invalid value for the bank currency ID on creation. Defaulting to default currency");
-
-        }
     }
 
     /**
@@ -640,15 +628,6 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
     public void setBankPrice(double value) {
         getStorageHandler().getStorageEngine().setConfigEntry("bankprice", String.valueOf(value));
         bankPrice = value;
-    }
-
-    /**
-     * Retrieve the default currency ID for a bank account
-     *
-     * @return The default currency ID.
-     */
-    public String getBankCurrencyName() {
-        return bankCurrencyName;
     }
 
     /**
