@@ -27,7 +27,6 @@ public class CurrencyTable extends DatabaseTable {
             "  `plural` varchar(50)," +
             "  `minor` varchar(50)," +
             "  `minorplural` text," +
-            "  `hardCap` double DEFAULT NULL," +
             "  `sign` varchar(5)," +
             "  `status` BOOLEAN DEFAULT FALSE," +
             "  PRIMARY KEY (`name`)" +

@@ -44,24 +44,7 @@ public class WorldGroup {
      */
     public WorldGroup(String name) {
         this.name = name;
-        try {
-            Connection connection = Common.getInstance().getDatabaseManager().getDatabase().getConnection();
-            PreparedStatement statement = connection.prepareStatement(WorldGroupTable.SELECT_ENTRY);
-            statement.setString(1, name);
-            ResultSet set = statement.executeQuery();
-            if (set.next()) {
-                Collections.addAll(worldList, set.getString("worldList").split(","));
-            } else {
-                statement.close();
-                statement = connection.prepareStatement(WorldGroupTable.INSERT_ENTRY);
-                statement.setString(1, name);
-                statement.executeUpdate();
-            }
-            statement.close();
-            connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        Collections.addAll(worldList, Common.getInstance().getStorageHandler().getStorageEngine().retrieveWorldGroupWorlds(name).split(","));
     }
 
     /**

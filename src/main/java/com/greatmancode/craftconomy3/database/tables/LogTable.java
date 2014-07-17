@@ -33,12 +33,12 @@ public class LogTable extends DatabaseTable {
             "  `currency_id` text," +
             "  PRIMARY KEY (`id`)," +
             "  ADD CONSTRAINT `fk_log_account` FOREIGN KEY (`username_id`) REFERENCES `" + getPrefix() + AccountTable.TABLE_NAME + "` (`id`) ON DELETE CASCADE;" +
-            " ADD CONSTRAINT `fk_log_currency` FOREIGN KEY (`currency_id`) REFERENCES `" + getPrefix() + CurrencyTable.TABLE_NAME + "` (`id`) ON DELETE CASCADE;" +
+            " ADD CONSTRAINT `fk_log_currency` FOREIGN KEY (`currency_id`) REFERENCES `" + getPrefix() + CurrencyTable.TABLE_NAME + "` (`name`) ON DELETE CASCADE;" +
             ") ENGINE=InnoDB;";
 
     public final String INSERT_ENTRY = "INSERT INTO " + getPrefix() + TABLE_NAME + "" +
-            "(username_id, type, cause, causeReason, worldName, amount, currency_id)" +
-            "VALUES((SELECT id from " + getPrefix() + AccountTable.TABLE_NAME + " WHERE name=?),?,?,?,?,?,(SELECT id from " + getPrefix() + CurrencyTable.TABLE_NAME + " WHERE name=?))";
+            "(username_id, type, cause, causeReason, worldName, amount, currency_id, timestamp)" +
+            "VALUES((SELECT id from " + getPrefix() + AccountTable.TABLE_NAME + " WHERE name=?),?,?,?,?,?,?,?)";
 
     public final String SELECT_ENTRY = "SELECT * FROM " + getPrefix() + TABLE_NAME + " " +
             "LEFT JOIN " + getPrefix() + AccountTable.TABLE_NAME + " " +

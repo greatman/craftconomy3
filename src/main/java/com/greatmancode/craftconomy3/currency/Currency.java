@@ -68,9 +68,10 @@ public class Currency {
      * @param name The currency name to set to.
      */
     public void setName(String name) {
+        String oldname = this.name;
         this.name = name;
         //TODO Reset the main map
-        save();
+        save(oldname);
     }
 
     /**
@@ -175,6 +176,16 @@ public class Currency {
      */
     private void save() {
         Common.getInstance().getStorageHandler().getStorageEngine().saveCurrency(this);
+
+    }
+
+    /**
+     * Save the currency information. Used while changing the main currency name.
+     * @param oldName
+     */
+    private void save(String oldName) {
+        save();
+        Common.getInstance().getCurrencyManager().updateEntry(oldName, this);
     }
 
     /**
@@ -190,5 +201,9 @@ public class Currency {
     void setDefault() {
         this.status = true;
         save();
+    }
+
+    public boolean getStatus() {
+        return status;
     }
 }

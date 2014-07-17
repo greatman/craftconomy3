@@ -18,17 +18,18 @@
  */
 package com.greatmancode.craftconomy3.converter;
 
+import com.greatmancode.craftconomy3.Cause;
 import com.greatmancode.craftconomy3.Common;
+import com.greatmancode.craftconomy3.LogInfo;
+import com.greatmancode.craftconomy3.account.Account;
+import com.greatmancode.craftconomy3.currency.Currency;
 import com.greatmancode.craftconomy3.database.tables.*;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
 import java.io.File;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.logging.Level;
 
 /**
@@ -63,7 +64,7 @@ public class SQLiteToMySQLConverter {
                 account.id = set.getInt("id");
                 account.name = set.getString("name");
                 account.ignoreACL = set.getBoolean("ignoreACL");
-                account.uuid = set.getString("uuid");
+                account.uuid = UUID.fromString(set.getString("uuid"));
                 account.infiniteMoney = set.getBoolean("ignoreACL");
                 account.bank = set.getBoolean("bank");
                 accountList.put(account.id, account);
@@ -75,15 +76,7 @@ public class SQLiteToMySQLConverter {
             statement = connection.prepareStatement("SELECT * FROM " + prefix + CurrencyTable.TABLE_NAME);
             set = statement.executeQuery();
             while (set.next()) {
-                Currency currency = new Currency();
-                currency.id = set.getInt("id");
-                currency.name = set.getString("name");
-                currency.plural = set.getString("plural");
-                currency.minor = set.getString("minor");
-                currency.minorPlural = set.getString("minorPlural");
-                currency.hardCap = set.getDouble("hardCap");
-                currency.sign = set.getString("sign");
-                currency.status = set.getBoolean("status");
+                Currency currency = new Currency(set.getInt("id"), set.getString("name"), set.getString("plural"), set.getString("minor"), set.getString("minorPlural"), set.getString("sign"), set.getBoolean("status"));
                 currencyList.put(currency.id, currency);
             }
             set.close();
@@ -174,89 +167,39 @@ public class SQLiteToMySQLConverter {
 
             Common.getInstance().sendConsoleMessage(Level.INFO, "Inserting currency information");
             for (Map.Entry<Integer, Currency> currency : currencyList.entrySet()) {
-                Common.getInstance().getStorageHandler().getStorageEngine().addCurrency(currency.getValue());
-                statement = connection.prepareStatement(CurrencyTable.INSERT_ENTRY);
-                statement.setString(1, currency.getValue().name);
-                statement.setString(2, currency.getValue().plural);
-                statement.setString(3, currency.getValue().minor);
-                statement.setString(4, currency.getValue().minorPlural);
-                statement.setString(5, currency.getValue().sign);
-                statement.executeUpdate();
-                statement.close();
+                Common.getInstance().getStorageHandler().getStorageEngine().saveCurrency(currency.getValue());
             }
 
             Common.getInstance().sendConsoleMessage(Level.INFO, "Inserting config information");
             for (Config config : configList) {
-                statement = connection.prepareStatement(ConfigTable.INSERT_ENTRY);
-                statement.setString(1, config.name);
-                statement.setString(2, config.value);
-                statement.executeUpdate();
-                statement.close();
+                Common.getInstance().getStorageHandler().getStorageEngine().setConfigEntry(config.name, config.value);
             }
 
             Common.getInstance().sendConsoleMessage(Level.INFO, "Inserting Exchange information");
             for (Exchange exchange : exchangeList) {
-                statement = connection.prepareStatement(ExchangeTable.INSERT_ENTRY);
-                statement.setString(1, currencyList.get(exchange.currency_id_from).name);
-                statement.setString(2, currencyList.get(exchange.currency_id_to).name);
-                statement.setDouble(3, exchange.amount);
-                statement.executeUpdate();
-                statement.close();
+                Common.getInstance().getStorageHandler().getStorageEngine().setExchangeRate(currencyList.get(exchange.currency_id_from), currencyList.get(exchange.currency_id_to), exchange.amount);
             }
 
             Common.getInstance().sendConsoleMessage(Level.INFO, "Inserting World Group information");
             for (WorldGroup worldGroup : worldGroupList) {
-                statement = connection.prepareStatement(WorldGroupTable.INSERT_ENTRY);
-                statement.setString(1, worldGroup.groupName);
-                statement.setString(2, worldGroup.worldList);
-                statement.executeUpdate();
-                statement.close();
+                Common.getInstance().getStorageHandler().getStorageEngine().saveWorldGroup(worldGroup.groupName, worldGroup.worldList);
             }
 
             Common.getInstance().sendConsoleMessage(Level.INFO, "Inserting account/balance/log/access information");
-            for (Map.Entry<Integer, Account> account : accountList.entrySet()) {
-                statement = connection.prepareStatement(AccountTable.INSERT_ENTRY);
-                statement.setString(1, account.getValue().name);
-                statement.setString(2, account.getValue().uuid);
-                statement.setBoolean(3, account.getValue().infiniteMoney);
-                statement.setBoolean(4, account.getValue().ignoreACL);
-                statement.setBoolean(5, account.getValue().bank);
-                statement.executeUpdate();
-                statement.close();
+            for (Map.Entry<Integer, Account> accountEntry : accountList.entrySet()) {
+                com.greatmancode.craftconomy3.account.Account account = Common.getInstance().getStorageHandler().getStorageEngine().getAccount(accountEntry.getValue().name, accountEntry.getValue().bank);
+                Common.getInstance().getStorageHandler().getStorageEngine().updateUUID(accountEntry.getValue().name, accountEntry.getValue().uuid);
+                Common.getInstance().getStorageHandler().getStorageEngine().setInfiniteMoney(account, accountEntry.getValue().infiniteMoney);
+                Common.getInstance().getStorageHandler().getStorageEngine().setIgnoreACL(account, accountEntry.getValue().ignoreACL);
 
-                for (Balance balance : account.getValue().balanceList) {
-                    statement = connection.prepareStatement(BalanceTable.INSERT_ENTRY);
-                    statement.setDouble(1, balance.balance);
-                    statement.setString(2, balance.worldName);
-                    statement.setString(3, account.getValue().name);
-                    statement.setString(4, currencyList.get(balance.currency_id).name);
-                    statement.executeUpdate();
-                    statement.close();
+                for (Balance balance : accountEntry.getValue().balanceList) {
+                    account.set(balance.balance, balance.worldName, currencyList.get(balance.currency_id).getName(), Cause.CONVERT, "SQLite=>MySQL conversion");
                 }
-                for (Access access : account.getValue().accessList) {
-                    statement = connection.prepareStatement(AccessTable.INSERT_ENTRY);
-                    statement.setString(1, account.getValue().name);
-                    statement.setString(2, access.playerName);
-                    statement.setBoolean(3, access.owner);
-                    statement.setBoolean(4, access.balance);
-                    statement.setBoolean(5, access.deposit);
-                    statement.setBoolean(6, access.acl);
-                    statement.setBoolean(7, access.withdraw);
-                    statement.executeUpdate();
-                    statement.close();
+                for (Access access : accountEntry.getValue().accessList) {
+                    account.getAccountACL().set(access.playerName, access.deposit, access.withdraw, access.acl, access.balance, access.owner);
                 }
-                for (Log log : account.getValue().logList) {
-                    statement = connection.prepareStatement(LogTable.INSERT_ENTRY);
-                    statement.setString(1, account.getValue().name);
-                    statement.setString(2, log.type);
-                    statement.setString(3, log.cause);
-                    statement.setString(4, log.causeReason);
-                    statement.setString(5, log.worldName);
-                    statement.setTimestamp(6, log.timestamp);
-                    statement.setDouble(7, log.amount);
-                    statement.setString(8, currencyList.get(log.currency_id).name);
-                    statement.executeUpdate();
-                    statement.close();
+                for (Log log : accountEntry.getValue().logList) {
+                    Common.getInstance().getStorageHandler().getStorageEngine().saveLog(LogInfo.valueOf(log.type.toUpperCase()), Cause.valueOf(log.cause.toUpperCase()), log.causeReason, account, log.amount, currencyList.get(log.currency_id), log.worldName, log.timestamp);
                 }
             }
             connection.close();
@@ -268,19 +211,22 @@ public class SQLiteToMySQLConverter {
     }
 
     private class Account {
-        public String name, uuid;
+        public String name;
+        public UUID uuid;
         public boolean infiniteMoney, ignoreACL, bank;
-        public int id, newID;
+        public int id;
         public List<Balance> balanceList = new ArrayList<Balance>();
         public List<Access> accessList = new ArrayList<Access>();
         public List<Log> logList = new ArrayList<Log>();
     }
 
-    private class Currency {
+    private class Currency extends com.greatmancode.craftconomy3.currency.Currency{
         public int id;
-        public String name, plural, minor, minorPlural, sign;
-        public double hardCap;
-        public boolean status;
+
+        public Currency(int id, String name, String plural, String minor, String minorPlural, String sign, boolean status) {
+            super(name, plural, minor, minorPlural, sign, status);
+            this.id = id;
+        }
     }
 
     private class Balance {

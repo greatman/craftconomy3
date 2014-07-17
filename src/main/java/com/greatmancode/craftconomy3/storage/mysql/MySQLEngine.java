@@ -24,6 +24,7 @@ import com.greatmancode.craftconomy3.LogInfo;
 import com.greatmancode.craftconomy3.account.Account;
 import com.greatmancode.craftconomy3.account.AccountACLValue;
 import com.greatmancode.craftconomy3.account.Balance;
+import com.greatmancode.craftconomy3.commands.currency.CurrencyRatesCommand;
 import com.greatmancode.craftconomy3.commands.money.LogCommand;
 import com.greatmancode.craftconomy3.commands.money.TopCommand;
 import com.greatmancode.craftconomy3.currency.Currency;
@@ -34,15 +35,9 @@ import com.greatmancode.craftconomy3.utils.NoExchangeRate;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.*;
 
-/**
- * Created by greatman on 2014-07-13.
- */
 public class MySQLEngine extends StorageEngine {
 
     private final String tablePrefix;
@@ -143,6 +138,11 @@ public class MySQLEngine extends StorageEngine {
 
     @Override
     public void saveLog(LogInfo info, Cause cause, String causeReason, Account account, double amount, Currency currency, String worldName) {
+        saveLog(info, cause, causeReason, account, amount, currency, worldName, new Timestamp(System.currentTimeMillis()));
+    }
+
+    @Override
+    public void saveLog(LogInfo info, Cause cause, String causeReason, Account account, double amount, Currency currency, String worldName, Timestamp timestamp) {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
@@ -155,6 +155,7 @@ public class MySQLEngine extends StorageEngine {
             statement.setString(5, worldName);
             statement.setDouble(6, amount);
             statement.setString(7, currency.getName());
+            statement.setTimestamp(8, timestamp);
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -475,6 +476,78 @@ public class MySQLEngine extends StorageEngine {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+        return result;
+    }
+
+    @Override
+    public List<CurrencyRatesCommand.CurrencyRateEntry> getCurrencyExchanges() {
+        return null;
+    }
+
+    @Override
+    public void cleanLog(Timestamp timestamp) {
+
+    }
+
+    @Override
+    public boolean deleteAccount(String name, boolean bankAccount) {
+        return false;
+    }
+
+    @Override
+    public boolean accountExist(String name, boolean bankAccount) {
+        return false;
+    }
+
+    @Override
+    public void saveWorldGroup(String name, String worldList) {
+
+    }
+
+    @Override
+    public List<String> getAllCurrencyNames() {
+        return null;
+    }
+
+    @Override
+    public void setDefaultCurrency(Currency currency) {
+
+    }
+
+    @Override
+    public Currency getCurrency(String name) {
+        return null;
+    }
+
+    @Override
+    public Map<String, Currency> getAllCurrencies() {
+        return null;
+    }
+
+    @Override
+    public String retrieveWorldGroupWorlds(String name) {
+        String result = "";
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = db.getConnection();
+            statement = connection.prepareStatement(worldGroupTable.SELECT_ENTRY);
+            statement.setString(1, name);
+            ResultSet set = statement.executeQuery();
+            if (set.next()) {
+                result = set.getString("worldList");
+            } else {
+                statement.close();
+                statement = connection.prepareStatement(worldGroupTable.INSERT_ENTRY);
+                statement.setString(1, name);
+                statement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close(statement);
+            close(connection);
         }
         return result;
     }

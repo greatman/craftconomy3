@@ -26,10 +26,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Currency Handler
@@ -40,40 +37,18 @@ public class CurrencyManager {
     /**
      * The default currency database ID
      */
-    private static int defaultCurrencyID;
-    private final Map<Integer, Currency> currencyList = new HashMap<Integer, Currency>();
+    private static String defaultCurrencyName;
+    private final Map<String, Currency> currencyList;
 
     public CurrencyManager() {
         // Let's load all currency in the database
-        try {
-            Connection connection = Common.getInstance().getDatabaseManager().getDatabase().getConnection();
-            PreparedStatement statement = connection.prepareStatement(CurrencyTable.SELECT_ALL_ENTRY);
-            ResultSet set = statement.executeQuery();
-            while (set.next()) {
-                if (set.getBoolean("status")) {
-                    defaultCurrencyID = set.getInt("id");
-                }
-                addCurrency(set.getInt("id"), set.getString("name"), set.getString("plural"), set.getString("minor"), set.getString("minorPlural"), set.getDouble("hardCap"), set.getString("sign"), false, set.getBoolean("status"));
+        currencyList = Common.getInstance().getStorageHandler().getStorageEngine().getAllCurrencies();
+        for (Map.Entry<String, Currency> currencyEntry : currencyList.entrySet()) {
+            if (currencyEntry.getValue().getStatus()) {
+                defaultCurrencyName = currencyEntry.getKey();
+                return;
             }
-            statement.close();
-            connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
-    }
-
-    /**
-     * Get a currency
-     *
-     * @param id The Database ID
-     * @return A Currency instance if the currency is found else null
-     */
-    public Currency getCurrency(int id) {
-        Currency result = null;
-        if (currencyList.containsKey(id)) {
-            result = currencyList.get(id);
-        }
-        return result;
     }
 
     /**
@@ -83,10 +58,14 @@ public class CurrencyManager {
      * @return A currency instance if the currency is found else null
      */
     public Currency getCurrency(String name) {
-        Currency result = null;
-        CurrencyTable dbResult = Common.getInstance().getDatabaseManager().getDatabase().select(CurrencyTable.class).where().equal("name", name).execute().findOne();
-        if (dbResult != null) {
-            result = getCurrency(dbResult.getId());
+        Currency result;
+        if (!currencyList.containsKey(name)) {
+            result = Common.getInstance().getStorageHandler().getStorageEngine().getCurrency(name);
+            if (result != null) {
+                currencyList.put(result.getName(), result);
+            }
+        } else {
+            result = currencyList.get(name);
         }
         return result;
     }
@@ -97,11 +76,7 @@ public class CurrencyManager {
      * @return A list of all the currency in the system
      */
     public List<String> getCurrencyNames() {
-        List<String> list = new ArrayList<String>();
-        for (CurrencyTable currency : Common.getInstance().getDatabaseManager().getDatabase().select(CurrencyTable.class).execute().find()) {
-            list.add(currency.getName());
-        }
-        return list;
+        return Common.getInstance().getStorageHandler().getStorageEngine().getAllCurrencyNames();
     }
 
     /**
@@ -111,81 +86,45 @@ public class CurrencyManager {
      * @param plural      The main currency name in plural
      * @param minor       The minor (cents) part of the currency
      * @param minorPlural The minor (cents) part of the currency in plural
-     * @param hardCap     The hardcap of the plugin (Unused)
-     * @param sign        The sign of the currency
-     * @param save        Do we add it in the database?
-     */
-    public void addCurrency(String name, String plural, String minor, String minorPlural, double hardCap, String sign, boolean save) {
-        addCurrency(-1, name, plural, minor, minorPlural, hardCap, sign, save);
-    }
-
-    /**
-     * Add a currency in the system
-     *
-     * @param databaseID  The database ID
-     * @param name        The main currency name
-     * @param plural      The main currency name in plural
-     * @param minor       The minor (cents) part of the currency
-     * @param minorPlural The minor (cents) part of the currency in plural
-     * @param hardCap     The hardcap of the plugin (Unused)
      * @param sign        The sign of the currency
      * @param save        Do we add it in the database?
      */
     // TODO: A check if the currency already exist.
-    public void addCurrency(int databaseID, String name, String plural, String minor, String minorPlural, double hardCap, String sign, boolean save) {
-        addCurrency(databaseID, name, plural, minor, minorPlural, hardCap, sign, save, false);
+    public Currency addCurrency(String name, String plural, String minor, String minorPlural, String sign, boolean save) {
+        return addCurrency(name, plural, minor, minorPlural, sign, save, false);
     }
 
 
-    private void addCurrency(int databaseID, String name, String plural, String minor, String minorPlural, double hardCap, String sign, boolean save, boolean status) {
-        int newDatabaseID = databaseID;
+    private Currency addCurrency(String name, String plural, String minor, String minorPlural, String sign, boolean save, boolean status) {
+        Currency currency = new Currency(name, plural, minor, minorPlural, sign, status);
         if (save) {
-            CurrencyTable entry = new CurrencyTable();
-            entry.setMinor(minor);
-            entry.setMinorplural(minorPlural);
-            entry.setName(name);
-            entry.setPlural(plural);
-            entry.setHardCap(hardCap);
-            entry.setSign(sign);
-            entry.setStatus(status);
-            Common.getInstance().getDatabaseManager().getDatabase().save(entry);
-            newDatabaseID = entry.getId();
+            Common.getInstance().getStorageHandler().getStorageEngine().saveCurrency(currency);
         }
-        currencyList.put(newDatabaseID, new Currency(newDatabaseID, name, plural, minor, minorPlural, hardCap, sign, status));
+        currencyList.put(currency.getName(), currency);
+        return currency;
     }
 
     /**
      * Set a currency as the default one.
      *
-     * @param currencyId The default currency ID.
+     * @param currency The currency to set to default
      */
     public void setDefault(Currency currency) {
-        if (currencyList.containsKey(currencyId)) {
-            CurrencyTable entry = Common.getInstance().getDatabaseManager().getDatabase().select(CurrencyTable.class).where().equal("status", true).execute().findOne();
-            if (entry != null) {
-                entry.setStatus(false);
-                Common.getInstance().getDatabaseManager().getDatabase().save(entry);
-            }
-            currencyList.get(currencyId).setDefault();
-            defaultCurrencyID = currencyId;
+        if (currencyList.containsKey(currency.getName())) {
+            Common.getInstance().getStorageHandler().getStorageEngine().setDefaultCurrency(currency);
+            defaultCurrencyName = currency.getName();
         }
     }
 
     /**
      * Delete a currency.
      *
-     * @param currencyId The currency ID to delete.
+     * @param currency The currency to delete
      */
     public void deleteCurrency(Currency currency) {
-        if (currencyList.containsKey(currencyId)) {
-            List<BalanceTable> balanceList = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal("currency_id", currencyId).execute().find();
-            if (balanceList != null) {
-                for (BalanceTable aBalanceList : balanceList) {
-                    Common.getInstance().getDatabaseManager().getDatabase().remove(aBalanceList);
-                }
-            }
-            currencyList.get(currencyId).delete();
-            currencyList.remove(currencyId);
+        if (currencyList.containsKey(currency.getName())) {
+            Common.getInstance().getStorageHandler().getStorageEngine().deleteCurrency(currency);
+            currencyList.remove(currency.getName());
         }
     }
 
@@ -195,6 +134,11 @@ public class CurrencyManager {
      * @return The default currency
      */
     public Currency getDefaultCurrency() {
-        return getCurrency(defaultCurrencyID);
+        return getCurrency(defaultCurrencyName);
+    }
+
+    protected void updateEntry(String oldName, Currency currency) {
+        currencyList.remove(oldName);
+        currencyList.put(currency.getName(), currency);
     }
 }

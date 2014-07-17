@@ -72,6 +72,8 @@ public abstract class StorageEngine {
      */
     public abstract void saveLog(LogInfo info, Cause cause, String causeReason, Account account, double amount, Currency currency, String worldName);
 
+    public abstract void saveLog(LogInfo info, Cause cause, String causeReason, Account account, double amount, Currency currency, String worldName, Timestamp timestamp);
+
     /**
      * Retrieve the configuration value
      *
@@ -213,7 +215,6 @@ public abstract class StorageEngine {
      */
     public abstract void updateUUID(String name, UUID uuid);
 
-
     public abstract Map<String, WorldGroup> getWorldGroups();
 
     public abstract void removeWorldGroup(String group);
@@ -233,4 +234,14 @@ public abstract class StorageEngine {
     public abstract boolean accountExist(String name, boolean bankAccount);
 
     public abstract void saveWorldGroup(String name, String worldList);
+
+    public abstract List<String> getAllCurrencyNames();
+
+    public abstract void setDefaultCurrency(Currency currency);
+
+    public abstract Currency getCurrency(String name);
+
+    public abstract Map<String,Currency> getAllCurrencies();
+
+    public abstract String retrieveWorldGroupWorlds(String name);
 }

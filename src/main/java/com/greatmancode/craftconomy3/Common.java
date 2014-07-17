@@ -79,7 +79,7 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
     private DisplayFormat displayFormat = null;
     private double holdings = 0.0;
     private double bankPrice = 0.0;
-    private int bankCurrencyId = 0;
+    private String bankCurrencyName = null;
 
     /**
      * Initialize the Common core.
@@ -179,7 +179,7 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
         displayFormat = null;
         holdings = 0.0;
         bankPrice = 0.0;
-        bankCurrencyId = 0;
+        bankCurrencyName = null;
     }
 
     /**
@@ -576,10 +576,10 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
 
         //TODO : That with names
         value = getStorageHandler().getStorageEngine().getConfigEntry("bankcurrency");
-        if (value != null && Tools.isInteger(value) && getCurrencyManager().getCurrency(Integer.parseInt(value)) != null) {
-            bankCurrencyId = Integer.parseInt(value);
+        if (value != null && Tools.isInteger(value) && getCurrencyManager().getCurrency(value) != null) {
+            bankCurrencyName = value;
         } else {
-            bankCurrencyId = Common.getInstance().getCurrencyManager().getDefaultCurrency().getDatabaseID();
+            bankCurrencyName = Common.getInstance().getCurrencyManager().getDefaultCurrency().getName();
             sendConsoleMessage(Level.SEVERE, "Invalid value for the bank currency ID on creation. Defaulting to default currency");
 
         }
@@ -647,8 +647,8 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
      *
      * @return The default currency ID.
      */
-    public int getBankCurrencyId() {
-        return bankCurrencyId;
+    public String getBankCurrencyName() {
+        return bankCurrencyName;
     }
 
     /**
@@ -657,12 +657,11 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
     private void quickSetup() {
         initialiseDatabase();
         Common.getInstance().initializeCurrency();
-        Common.getInstance().getCurrencyManager().addCurrency(getMainConfig().getString("System.QuickSetup.Currency.Name"), getMainConfig().getString("System.QuickSetup.Currency.NamePlural"), getMainConfig().getString("System.QuickSetup.Currency.Minor"), getMainConfig().getString("System.QuickSetup.Currency.MinorPlural"), 0.0, getMainConfig().getString("System.QuickSetup.Currency.Sign"), true);
-        int dbId = Common.getInstance().getCurrencyManager().getCurrency(getMainConfig().getString("System.QuickSetup.Currency.Name")).getDatabaseID();
-        Common.getInstance().getCurrencyManager().setDefault(dbId);
+        Currency currency = Common.getInstance().getCurrencyManager().addCurrency(getMainConfig().getString("System.QuickSetup.Currency.Name"), getMainConfig().getString("System.QuickSetup.Currency.NamePlural"), getMainConfig().getString("System.QuickSetup.Currency.Minor"), getMainConfig().getString("System.QuickSetup.Currency.MinorPlural"), getMainConfig().getString("System.QuickSetup.Currency.Sign"), true);
+        Common.getInstance().getCurrencyManager().setDefault(currency);
         getStorageHandler().getStorageEngine().setConfigEntry("longmode", DisplayFormat.valueOf(getMainConfig().getString("System.QuickSetup.DisplayMode").toUpperCase()).toString());
         getStorageHandler().getStorageEngine().setConfigEntry("holdings", getMainConfig().getString("System.QuickSetup.StartBalance"));
-        getStorageHandler().getStorageEngine().setConfigEntry("bankcurrency", String.valueOf(dbId));
+        getStorageHandler().getStorageEngine().setConfigEntry("bankcurrency", currency.getName());
         getStorageHandler().getStorageEngine().setConfigEntry("bankprice", getMainConfig().getString("System.QuickSetup.PriceBank"));
         initializeCurrency();
         loadDefaultSettings();
