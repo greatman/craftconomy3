@@ -47,7 +47,7 @@ public class TestBankCommands {
         BankCreateCommand command = new BankCreateCommand();
         command.execute(TEST_USER, new String[]{BANK_ACCOUNT});
         assertFalse(Common.getInstance().getAccountManager().exist(BANK_ACCOUNT, true));
-        Common.getInstance().getAccountManager().getAccount(TEST_USER).set(200, "default", Common.getInstance().getCurrencyManager().getDefaultCurrency().getName(), Cause.USER, "greatman");
+        Common.getInstance().getAccountManager().getAccount(TEST_USER,false).set(200, "default", Common.getInstance().getCurrencyManager().getDefaultCurrency().getName(), Cause.USER, "greatman");
         command.execute(TEST_USER, new String[]{BANK_ACCOUNT});
         assertTrue(Common.getInstance().getAccountManager().exist(BANK_ACCOUNT, true));
         command.execute(TEST_USER, new String[]{BANK_ACCOUNT});
@@ -110,7 +110,7 @@ public class TestBankCommands {
     @Test
     public void testBankPermCommand() {
         BankPermCommand command = new BankPermCommand();
-        Common.getInstance().getAccountManager().getAccount(TEST_USER).set(200, "default", Common.getInstance().getCurrencyManager().getDefaultCurrency().getName(), Cause.USER, "greatman");
+        Common.getInstance().getAccountManager().getAccount(TEST_USER,false).set(200, "default", Common.getInstance().getCurrencyManager().getDefaultCurrency().getName(), Cause.USER, "greatman");
         new BankCreateCommand().execute(TEST_USER, new String[]{BANK_ACCOUNT});
         Account account = Common.getInstance().getAccountManager().getAccount(BANK_ACCOUNT, true);
         command.execute(TEST_USER, new String[] {BANK_ACCOUNT, "deposit", TEST_USER2, "true"});
@@ -176,7 +176,7 @@ public class TestBankCommands {
     @Test
     public void testBankWithdrawCommand() {
         BankWithdrawCommand command = new BankWithdrawCommand();
-        Common.getInstance().getAccountManager().getAccount(TEST_USER).set(200, "default", Common.getInstance().getCurrencyManager().getDefaultCurrency().getName(), Cause.USER, "greatman");
+        Common.getInstance().getAccountManager().getAccount(TEST_USER,false).set(200, "default", Common.getInstance().getCurrencyManager().getDefaultCurrency().getName(), Cause.USER, "greatman");
         new BankCreateCommand().execute(TEST_USER, new String[]{BANK_ACCOUNT});
         Account account = Common.getInstance().getAccountManager().getAccount(BANK_ACCOUNT, true);
         account.set(200, "default", Common.getInstance().getCurrencyManager().getDefaultCurrency().getName(), Cause.UNKNOWN, null);

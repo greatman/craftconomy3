@@ -167,7 +167,7 @@ public class SQLiteToMySQLConverter {
 
             Common.getInstance().sendConsoleMessage(Level.INFO, "Inserting currency information");
             for (Map.Entry<Integer, Currency> currency : currencyList.entrySet()) {
-                Common.getInstance().getStorageHandler().getStorageEngine().saveCurrency(currency.getValue());
+                Common.getInstance().getStorageHandler().getStorageEngine().saveCurrency(currency.getValue().getName(), currency.getValue());
             }
 
             Common.getInstance().sendConsoleMessage(Level.INFO, "Inserting config information");

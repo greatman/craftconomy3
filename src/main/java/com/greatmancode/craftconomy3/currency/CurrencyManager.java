@@ -101,7 +101,7 @@ public class CurrencyManager {
     private Currency addCurrency(String name, String plural, String minor, String minorPlural, String sign, boolean save, boolean status) {
         Currency currency = new Currency(name, plural, minor, minorPlural, sign, status);
         if (save) {
-            Common.getInstance().getStorageHandler().getStorageEngine().saveCurrency(currency);
+            Common.getInstance().getStorageHandler().getStorageEngine().saveCurrency(name, currency);
         }
         currencyList.put(currency.getName(), currency);
         return currency;
