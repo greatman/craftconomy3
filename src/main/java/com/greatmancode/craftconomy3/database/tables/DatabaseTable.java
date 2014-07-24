@@ -21,7 +21,7 @@ package com.greatmancode.craftconomy3.database.tables;
 /**
  * Created by greatman on 2014-07-13.
  */
-public class DatabaseTable {
+public abstract class DatabaseTable {
 
     private String prefix;
 

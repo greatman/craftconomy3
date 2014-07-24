@@ -72,6 +72,47 @@ public class MySQLEngine extends StorageEngine {
         exchangeTable = new ExchangeTable(tablePrefix);
         logTable = new LogTable(tablePrefix);
         worldGroupTable = new WorldGroupTable(tablePrefix);
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = db.getConnection();
+            statement = connection.prepareStatement(accountTable.CREATE_TABLE_MYSQL);
+            statement.executeUpdate();
+            statement.close();
+
+            statement = connection.prepareStatement(currencyTable.CREATE_TABLE_MYSQL);
+            statement.executeUpdate();
+            statement.close();
+
+            statement = connection.prepareStatement(configTable.CREATE_TABLE_MYSQL);
+            statement.executeUpdate();
+            statement.close();
+
+            statement = connection.prepareStatement(worldGroupTable.CREATE_TABLE_MYSQL);
+            statement.executeUpdate();
+            statement.close();
+
+            statement = connection.prepareStatement(balanceTable.CREATE_TABLE_MYSQL);
+            statement.executeUpdate();
+            statement.close();
+
+            statement = connection.prepareStatement(currencyTable.CREATE_TABLE_MYSQL);
+            statement.executeUpdate();
+            statement.close();
+
+            statement = connection.prepareStatement(accessTable.CREATE_TABLE_MYSQL);
+            statement.executeUpdate();
+            statement.close();
+
+            statement = connection.prepareStatement(exchangeTable.CREATE_TABLE_MYSQL);
+            statement.executeUpdate();
+            statement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close(statement);
+            close(connection);
+        }
     }
 
     @Override
@@ -719,7 +760,8 @@ public class MySQLEngine extends StorageEngine {
     }
 
     @Override
-    public void deleteAccount(String name, boolean bankAccount) {
+    public boolean deleteAccount(String name, boolean bankAccount) {
+        boolean result = false;
         Connection connection = null;
         PreparedStatement statement = null;
         try {
@@ -727,13 +769,16 @@ public class MySQLEngine extends StorageEngine {
             statement = connection.prepareStatement(accountTable.DELETE_ENTRY);
             statement.setString(1, name);
             statement.setBoolean(2, bankAccount);
-            statement.executeUpdate();
+            if (statement.executeUpdate() == 1) {
+                result = true;
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             close(statement);
             close(connection);
         }
+        return result;
     }
 
     @Override
@@ -761,32 +806,130 @@ public class MySQLEngine extends StorageEngine {
 
     @Override
     public void saveWorldGroup(String name, String worldList) {
-
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = db.getConnection();
+            statement = connection.prepareStatement(worldGroupTable.SELECT_ENTRY);
+            statement.setString(1, name);
+            ResultSet set = statement.executeQuery();
+            if (set.next()) {
+                statement.close();
+                statement = connection.prepareStatement(worldGroupTable.UPDATE_ENTRY);
+                statement.setString(1, worldList);
+                statement.setString(2, name);
+                statement.executeUpdate();
+            } else {
+                statement.close();
+                statement = connection.prepareStatement(worldGroupTable.INSERT_ENTRY_WITH_WORLDLIST);
+                statement.setString(1, name);
+                statement.setString(2, worldList);
+                statement.executeUpdate();
+            }
+        } catch(SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close(statement);
+            close(connection);
+        }
     }
 
     @Override
     public List<String> getAllCurrencyNames() {
-        return null;
+        List<String> results = new ArrayList<>();
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = db.getConnection();
+            statement = connection.prepareStatement(currencyTable.SELECT_ALL_ENTRY);
+            ResultSet set = statement.executeQuery();
+            while(set.next()) {
+                results.add(set.getString("name"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close(statement);
+            close(connection);
+        }
+        return results;
     }
 
     @Override
     public void setDefaultCurrency(Currency currency) {
-
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = db.getConnection();
+            statement = connection.prepareStatement(currencyTable.SET_AS_DEFAULT);
+            statement.setString(1, currency.getName());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close(statement);
+            close(connection);
+        }
     }
 
     @Override
     public void setDefaultBankCurrency(Currency currency) {
-
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = db.getConnection();
+            statement = connection.prepareStatement(currencyTable.SET_AS_DEFAULT_BANK);
+            statement.setString(1, currency.getName());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close(statement);
+            close(connection);
+        }
     }
 
     @Override
     public Currency getCurrency(String name) {
-        return null;
+        Currency result = null;
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = db.getConnection();
+            statement = connection.prepareStatement(currencyTable.SELECT_ENTRY);
+            statement.setString(1,name);
+            ResultSet set = statement.executeQuery();
+            if (set.next()) {
+                result = new Currency(set.getString("name"), set.getString("plural"), set.getString("minor"),set.getString("minorPlural"), set.getString("sign"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close(statement);
+            close(connection);
+        }
+        return result;
     }
 
     @Override
     public Map<String, Currency> getAllCurrencies() {
-        return null;
+        Map<String, Currency> results = new HashMap<>();
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = db.getConnection();
+            statement = connection.prepareStatement(currencyTable.SELECT_ALL_ENTRY);
+            ResultSet set = statement.executeQuery();
+            while(set.next()) {
+                results.put(set.getString("name"), new Currency(set.getString("name"), set.getString("plural"), set.getString("minor"),set.getString("minorPlural"), set.getString("sign")));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close(statement);
+            close(connection);
+        }
+        return results;
     }
 
     @Override

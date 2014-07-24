@@ -34,6 +34,8 @@ public class WorldGroupTable extends DatabaseTable {
 
     public final String INSERT_ENTRY = "INSERT INTO " + getPrefix() + TABLE_NAME + "(groupName) VALUES(?)";
 
+    public final String INSERT_ENTRY_WITH_WORLDLIST = "INSERT INTO " + getPrefix() + TABLE_NAME + "(groupName, worldList) VALUES(?,?)";
+
     public final String UPDATE_ENTRY = "UPDATE " + getPrefix() + TABLE_NAME + " SET worldList=? WHERE groupName=?";
 
     public final String DELETE_ENTRY = "DELETE FROM "+getPrefix()+TABLE_NAME+" WHERE groupName=?";
