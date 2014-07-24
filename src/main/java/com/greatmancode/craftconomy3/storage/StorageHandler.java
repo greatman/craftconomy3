@@ -19,8 +19,8 @@
 package com.greatmancode.craftconomy3.storage;
 
 import com.greatmancode.craftconomy3.Common;
-import com.greatmancode.craftconomy3.storage.mysql.MySQLEngine;
-import com.greatmancode.craftconomy3.storage.sqlite.SQLiteEngine;
+import com.greatmancode.craftconomy3.storage.sql.H2Engine;
+import com.greatmancode.craftconomy3.storage.sql.MySQLEngine;
 
 /**
  * Created by greatman on 2014-07-13.
@@ -30,12 +30,15 @@ public class StorageHandler {
     private final StorageEngine engine;
 
     public StorageHandler() {
+        System.out.println(Common.getInstance().getMainConfig().getString("System.Database.Type"));
         switch (Common.getInstance().getMainConfig().getString("System.Database.Type")) {
-            case "sqlite":
-                engine = new SQLiteEngine();
+            case "h2":
+                engine = new H2Engine();
+                System.out.println("DID H2");
                 break;
             case "mysql":
                 engine = new MySQLEngine();
+                System.out.println("DID MYSQL");
                 break;
             default:
                 engine = null;

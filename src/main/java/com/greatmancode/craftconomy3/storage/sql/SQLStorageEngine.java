@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Craftconomy3.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.greatmancode.craftconomy3.storage.mysql;
+package com.greatmancode.craftconomy3.storage.sql;
 
 import com.greatmancode.craftconomy3.Cause;
 import com.greatmancode.craftconomy3.Common;
@@ -33,13 +33,15 @@ import com.greatmancode.craftconomy3.database.tables.*;
 import com.greatmancode.craftconomy3.groups.WorldGroup;
 import com.greatmancode.craftconomy3.storage.StorageEngine;
 import com.greatmancode.craftconomy3.utils.NoExchangeRate;
-import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
 import java.sql.*;
 import java.util.*;
 
-public class MySQLEngine extends StorageEngine {
+/**
+ * Created by greatman on 2014-07-24.
+ */
+public abstract class SQLStorageEngine extends StorageEngine {
 
     protected String tablePrefix;
     protected HikariDataSource db;
@@ -52,68 +54,7 @@ public class MySQLEngine extends StorageEngine {
     protected LogTable logTable;
     protected WorldGroupTable worldGroupTable;
 
-    public MySQLEngine() {
-        HikariConfig config = new HikariConfig();
-        config.setMaximumPoolSize(10);
-        config.setDataSourceClassName("com.mysql.jdbc.jdbc2.optional.MysqlDataSource");
-        config.addDataSourceProperty("serverName", Common.getInstance().getMainConfig().getString("System.Database.Address"));
-        config.addDataSourceProperty("port", Common.getInstance().getMainConfig().getString("System.Database.Port"));
-        config.addDataSourceProperty("databaseName", Common.getInstance().getMainConfig().getString("System.Database.Db"));
-        config.addDataSourceProperty("user", Common.getInstance().getMainConfig().getString("System.Database.Username"));
-        config.addDataSourceProperty("password", Common.getInstance().getMainConfig().getString("System.Database.Password"));
-        config.addDataSourceProperty("autoDeserialize", true);
-        db = new HikariDataSource(config);
-        this.tablePrefix = Common.getInstance().getMainConfig().getString("System.Database.Prefix");
-        accessTable = new AccessTable(tablePrefix);
-        accountTable = new AccountTable(tablePrefix);
-        balanceTable = new BalanceTable(tablePrefix);
-        configTable = new ConfigTable(tablePrefix);
-        currencyTable = new CurrencyTable(tablePrefix);
-        exchangeTable = new ExchangeTable(tablePrefix);
-        logTable = new LogTable(tablePrefix);
-        worldGroupTable = new WorldGroupTable(tablePrefix);
-        Connection connection = null;
-        PreparedStatement statement = null;
-        try {
-            connection = db.getConnection();
-            statement = connection.prepareStatement(accountTable.CREATE_TABLE_MYSQL);
-            statement.executeUpdate();
-            statement.close();
 
-            statement = connection.prepareStatement(currencyTable.CREATE_TABLE_MYSQL);
-            statement.executeUpdate();
-            statement.close();
-
-            statement = connection.prepareStatement(configTable.CREATE_TABLE_MYSQL);
-            statement.executeUpdate();
-            statement.close();
-
-            statement = connection.prepareStatement(worldGroupTable.CREATE_TABLE_MYSQL);
-            statement.executeUpdate();
-            statement.close();
-
-            statement = connection.prepareStatement(balanceTable.CREATE_TABLE_MYSQL);
-            statement.executeUpdate();
-            statement.close();
-
-            statement = connection.prepareStatement(currencyTable.CREATE_TABLE_MYSQL);
-            statement.executeUpdate();
-            statement.close();
-
-            statement = connection.prepareStatement(accessTable.CREATE_TABLE_MYSQL);
-            statement.executeUpdate();
-            statement.close();
-
-            statement = connection.prepareStatement(exchangeTable.CREATE_TABLE_MYSQL);
-            statement.executeUpdate();
-            statement.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            close(statement);
-            close(connection);
-        }
-    }
 
     @Override
     public void disable() {
@@ -325,7 +266,7 @@ public class MySQLEngine extends StorageEngine {
         double result = 0;
         try {
             connection = db.getConnection();
-            statement = connection.prepareStatement(balanceTable.SELECT_WORLD_ENTRY_ACCOUNT);
+            statement = connection.prepareStatement(balanceTable.SELECT_WORLD_CURRENCY_ENTRY_ACCOUNT);
             statement.setString(1, account.getAccountName());
             statement.setString(2, world);
             statement.setString(3, currency.getName());
@@ -342,9 +283,19 @@ public class MySQLEngine extends StorageEngine {
                 statement.close();
             } else {
                 result = amount;
+                statement.close();
+                statement = connection.prepareStatement("SELECT id from CC3_ACCOUNT WHERE name=?");
+                statement.setString(1,account.getAccountName());
+                set = statement.executeQuery();
+                if (set.next()) {
+                    System.out.println("WE HAZ ENTRY");
+                } else {
+                    System.out.println("NOTHING!?");
+                }
                 statement = connection.prepareStatement(balanceTable.INSERT_ENTRY);
                 statement.setDouble(1, result);
                 statement.setString(2, world);
+                System.out.println(account.getAccountName());
                 statement.setString(3, account.getAccountName());
                 statement.setString(4, currency.getName());
                 statement.executeUpdate();
@@ -538,19 +489,21 @@ public class MySQLEngine extends StorageEngine {
                 statement.setString(2, currency.getPlural());
                 statement.setString(3, currency.getMinor());
                 statement.setString(4, currency.getMinorPlural());
-                statement.setBoolean(5, currency.getStatus());
-                statement.setBoolean(6, currency.isPrimaryBankCurrency());
-                statement.setString(7, oldName);
+                statement.setString(5, currency.getSign());
+                statement.setBoolean(6, currency.getStatus());
+                statement.setBoolean(7, currency.isPrimaryBankCurrency());
+                statement.setString(8, oldName);
                 statement.executeUpdate();
             } else {
                 statement.close();
-                statement = connection.prepareStatement(exchangeTable.INSERT_ENTRY);
+                statement = connection.prepareStatement(currencyTable.INSERT_ENTRY);
                 statement.setString(1, currency.getName());
                 statement.setString(2, currency.getPlural());
                 statement.setString(3, currency.getMinor());
                 statement.setString(4, currency.getMinorPlural());
-                statement.setBoolean(5, currency.getStatus());
-                statement.setBoolean(6, currency.isPrimaryBankCurrency());
+                statement.setString(5, currency.getSign());
+                statement.setBoolean(6, currency.getStatus());
+                statement.setBoolean(7, currency.isPrimaryBankCurrency());
                 statement.executeUpdate();
             }
         } catch (SQLException e) {
@@ -861,7 +814,10 @@ public class MySQLEngine extends StorageEngine {
         PreparedStatement statement = null;
         try {
             connection = db.getConnection();
-            statement = connection.prepareStatement(currencyTable.SET_AS_DEFAULT);
+            statement = connection.prepareStatement(currencyTable.SET_AS_DEFAULT_1);
+            statement.executeUpdate();
+            statement.close();
+            statement = connection.prepareStatement(currencyTable.SET_AS_DEFAULT_2);
             statement.setString(1, currency.getName());
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -878,7 +834,10 @@ public class MySQLEngine extends StorageEngine {
         PreparedStatement statement = null;
         try {
             connection = db.getConnection();
-            statement = connection.prepareStatement(currencyTable.SET_AS_DEFAULT_BANK);
+            statement = connection.prepareStatement(currencyTable.SET_AS_DEFAULT_BANK_1);
+            statement.executeUpdate();
+            statement.close();
+            statement = connection.prepareStatement(currencyTable.SET_AS_DEFAULT_BANK_2);
             statement.setString(1, currency.getName());
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -961,8 +920,8 @@ public class MySQLEngine extends StorageEngine {
 
     @Override
     public void saveImporterUsers(List<Converter.User> userList) {
-        StringBuilder builder = new StringBuilder("INSERT INTO "+tablePrefix+AccountTable.TABLE_NAME+"(name) VALUES(");
-        StringBuilder balanceBuilder = new StringBuilder("INSERT INTO "+tablePrefix+BalanceTable.TABLE_NAME+"(balance, worldName, currency_id, username_id) VALUES(");
+        StringBuilder builder = new StringBuilder("INSERT INTO "+tablePrefix+ AccountTable.TABLE_NAME+"(name) VALUES(");
+        StringBuilder balanceBuilder = new StringBuilder("INSERT INTO "+tablePrefix+ BalanceTable.TABLE_NAME+"(balance, worldName, currency_id, username_id) VALUES(");
         boolean first = true;
         for (Converter.User userEntry : userList) {
             if (!first) {
@@ -995,14 +954,14 @@ public class MySQLEngine extends StorageEngine {
     }
 
 
-    private void close(Connection connection) {
+    protected void close(Connection connection) {
         try {
             if (connection != null) connection.close();
         } catch (SQLException e) {
         }
     }
 
-    private void close(PreparedStatement statement) {
+    protected void close(PreparedStatement statement) {
         try {
             if (statement != null) statement.close();
         } catch (SQLException e) {

@@ -30,11 +30,26 @@ public class LogTable extends DatabaseTable {
             "  `worldName` varchar(50)," +
             "  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP," +
             "  `amount` double DEFAULT NULL," +
-            "  `currency_id` text," +
+            "  `currency_id` varchar(50)," +
             "  PRIMARY KEY (`id`)," +
-            "  ADD CONSTRAINT `fk_log_account` FOREIGN KEY (`username_id`) REFERENCES `" + getPrefix() + AccountTable.TABLE_NAME + "` (`id`) ON DELETE CASCADE;" +
-            " ADD CONSTRAINT `fk_log_currency` FOREIGN KEY (`currency_id`) REFERENCES `" + getPrefix() + CurrencyTable.TABLE_NAME + "` (`name`) ON DELETE CASCADE;" +
+            "  ADD CONSTRAINT `fk_log_account` FOREIGN KEY (`username_id`) REFERENCES `" + getPrefix() + AccountTable.TABLE_NAME + "` (`id`) ON DELETE CASCADE," +
+            " ADD CONSTRAINT `fk_log_currency` FOREIGN KEY (`currency_id`) REFERENCES `" + getPrefix() + CurrencyTable.TABLE_NAME + "` (`name`) ON DELETE CASCADE" +
             ") ENGINE=InnoDB;";
+
+    public final String CREATE_TABLE_H2 = "CREATE TABLE `" + getPrefix() + TABLE_NAME + "` (" +
+            "  `id` int(11) NOT NULL AUTO_INCREMENT," +
+            "  `username_id` int(11) DEFAULT NULL," +
+            "  `type` varchar(30)," +
+            "  `cause` varchar(50)," +
+            "  `causeReason` varchar(50)," +
+            "  `worldName` varchar(50)," +
+            "  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP," +
+            "  `amount` double DEFAULT NULL," +
+            "  `currency_id` varchar(50)," +
+            "  PRIMARY KEY (`id`)," +
+            "  FOREIGN KEY (`username_id`) REFERENCES `" + getPrefix() + AccountTable.TABLE_NAME + "` (`id`) ON DELETE CASCADE," +
+            "  FOREIGN KEY (`currency_id`) REFERENCES `" + getPrefix() + CurrencyTable.TABLE_NAME + "` (`name`) ON DELETE CASCADE" +
+            ");";
 
     public final String INSERT_ENTRY = "INSERT INTO " + getPrefix() + TABLE_NAME + "" +
             "(username_id, type, cause, causeReason, worldName, amount, currency_id, timestamp)" +

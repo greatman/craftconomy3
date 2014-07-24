@@ -941,7 +941,7 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
         mainConfig.setValue("System.Case-sentitive", false);
         mainConfig.setValue("System.CreateOnLogin", false);
         mainConfig.setValue("System.Logging.Enabled", false);
-        mainConfig.setValue("System.Database.Type", "sqlite");
+        mainConfig.setValue("System.Database.Type", "h2");
         mainConfig.setValue("System.Database.Address", "localhost");
         mainConfig.setValue("System.Database.Port", 3306);
         mainConfig.setValue("System.Database.Username", "root");

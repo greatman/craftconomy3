@@ -26,7 +26,13 @@ public class WorldGroupTable extends DatabaseTable {
             "  `groupName` varchar(255)," +
             "  `worldList` varchar(255)," +
             "  PRIMARY KEY (`groupName`)" +
-            ") ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;";
+            ") ENGINE=InnoDB;";
+
+    public final String CREATE_TABLE_H2 = "CREATE TABLE `" + getPrefix() + TABLE_NAME + "` (" +
+            "  `groupName` varchar(255)," +
+            "  `worldList` varchar(255)," +
+            "  PRIMARY KEY (`groupName`)" +
+            ");";
 
     public final String SELECT_ALL_ENTRY = "SELECT * FROM "+getPrefix()+ TABLE_NAME;
 

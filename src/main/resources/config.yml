@@ -28,9 +28,9 @@ System:
     # mysql
     #  - These will attempt to connect to MySQL
     ##
-    # sqlite
-    #  - These will attempt to create & connect to SQLite
-    Type: 'sqlite'
+    # h2
+    #  - These will attempt to create & connect to H2
+    Type: 'h2'
     
     #Modify if using MySQL
     Address: 'localhost'
@@ -40,7 +40,7 @@ System:
     Db: 'Craftconomy'
     Prefix: 'cc3_'
 
-    #Used when you come from SQLite and want a MySQL database
+    #Used when you come from H2 and want a MySQL database
     ConvertFromSQLite: false
 
     #the database revision

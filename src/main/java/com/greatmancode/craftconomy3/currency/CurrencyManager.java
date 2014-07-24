@@ -43,6 +43,7 @@ public class CurrencyManager {
 
     public CurrencyManager() {
         // Let's load all currency in the database
+        System.out.println(Common.getInstance().getStorageHandler().getStorageEngine());
         currencyList = Common.getInstance().getStorageHandler().getStorageEngine().getAllCurrencies();
         for (Map.Entry<String, Currency> currencyEntry : currencyList.entrySet()) {
             if (currencyEntry.getValue().getStatus()) {

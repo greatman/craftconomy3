@@ -34,6 +34,18 @@ public class AccessTable extends DatabaseTable {
             "  ADD CONSTRAINT `fk_acl_account` FOREIGN KEY (`account_id`) REFERENCES `" + getPrefix() + AccountTable.TABLE_NAME + "` (`id`);" +
             ") ENGINE=InnoDB;";
 
+    public final String CREATE_TABLE_H2 = "CREATE TABLE `" + getPrefix() + TABLE_NAME + "` (" +
+            "  `account_id` int(11)," +
+            "  `playerName` varchar(16)," +
+            "  `owner` BOOLEAN DEFAULT NULL," +
+            "  `balance` BOOLEAN DEFAULT FALSE," +
+            "  `deposit` BOOLEAN DEFAULT FALSE," +
+            "  `acl` BOOLEAN DEFAULT FALSE," +
+            "  `withdraw` BOOLEAN DEFAULT FALSE," +
+            " PRIMARY KEY(account_id, playerName)," +
+            " FOREIGN KEY (`account_id`) REFERENCES `" + getPrefix() + AccountTable.TABLE_NAME + "` (`id`)" +
+            ");";
+
     public final String SELECT_ENTRY = "SELECT * FROM " + getPrefix() + TABLE_NAME + " " +
             "LEFT JOIN " + getPrefix() + AccountTable.TABLE_NAME + " ON " +
             getPrefix() + TABLE_NAME + ".account_id = " + getPrefix() + AccountTable.TABLE_NAME + ".id WHERE " + getPrefix() + AccountTable.TABLE_NAME + ".name=? AND " + getPrefix() + AccountTable.TABLE_NAME + ".bank=?";

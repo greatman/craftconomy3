@@ -28,17 +28,29 @@ public class BalanceTable extends DatabaseTable {
 
     public final String CREATE_TABLE_MYSQL = "CREATE TABLE " + getPrefix() + TABLE_NAME + "` (" +
             "  `" + BALANCE_FIELD + "` double DEFAULT NULL," +
-            "  `" + WORLD_NAME_FIELD + "` text," +
-            "  `username_id` int(11)," +
+            "  `" + WORLD_NAME_FIELD + "` varchar(255)," +
+            "  `username` varchar(," +
             "  `" + CURRENCY_FIELD + "` varchar(50)," +
             "  PRIMARY KEY (" + WORLD_NAME_FIELD + ", username_id, currency_id)," +
             "  CONSTRAINT `fk_balance_account`" +
             "    FOREIGN KEY (username_id)" +
-            "    REFERENCES " + getPrefix() + AccountTable.TABLE_NAME + " (id)) ON UPDATE CASCADE ON DELETE CASCADE" +
+            "    REFERENCES " + getPrefix() + AccountTable.TABLE_NAME + "(id) ON UPDATE CASCADE ON DELETE CASCADE" +
             "  CONSTRAINT `fk_balance_currency`" +
             "    FOREIGN KEY (" + CURRENCY_FIELD + ")" +
-            "    REFERENCES " + getPrefix() + "currency (name)) ON UPDATE CASCADE ON DELETE CASCADE" +
+            "    REFERENCES " + getPrefix() + CurrencyTable.TABLE_NAME +"(name) ON UPDATE CASCADE ON DELETE CASCADE" +
             ") ENGINE=InnoDB;";
+
+    public final String CREATE_TABLE_H2 = "CREATE TABLE " + getPrefix() + TABLE_NAME + " (" +
+            "  `" + BALANCE_FIELD + "` double DEFAULT NULL," +
+            "  `" + WORLD_NAME_FIELD + "` varchar(255)," +
+            "  `username_id` int(11)," +
+            "  `" + CURRENCY_FIELD + "` varchar(50)," +
+            "  PRIMARY KEY (" + WORLD_NAME_FIELD + ", username_id, currency_id)," +
+            "    FOREIGN KEY (username_id)" +
+            "    REFERENCES " + getPrefix() + AccountTable.TABLE_NAME + "(id) ON UPDATE CASCADE ON DELETE CASCADE," +
+            "    FOREIGN KEY (" + CURRENCY_FIELD + ")" +
+            "    REFERENCES " + getPrefix() + CurrencyTable.TABLE_NAME + "(name) ON UPDATE CASCADE ON DELETE CASCADE" +
+            ")";
 
     public final String SELECT_ALL_ENTRY_ACCOUNT = "SELECT * FROM " + getPrefix() + TABLE_NAME + " " +
             "LEFT JOIN " + getPrefix() + AccountTable.TABLE_NAME + " " +
@@ -50,18 +62,18 @@ public class BalanceTable extends DatabaseTable {
             "ON " + getPrefix() + TABLE_NAME + ".username_id = " + getPrefix() + AccountTable.TABLE_NAME + ".id " +
             "WHERE " + getPrefix() + AccountTable.TABLE_NAME + ".name=? AND " + WORLD_NAME_FIELD + "=?";
 
-    public final String SELECT_WORLD_CURRENCY_ENTRY_ACCOUNT = "SELECT * FROM " + getPrefix() + TABLE_NAME + " " +
+    public final String SELECT_WORLD_CURRENCY_ENTRY_ACCOUNT = "SELECT balance, worldName, currency_id, username_id FROM " + getPrefix() + TABLE_NAME + " " +
             "LEFT JOIN " + getPrefix() + AccountTable.TABLE_NAME + " " +
             "ON " + getPrefix() + TABLE_NAME + ".username_id = " + getPrefix() + AccountTable.TABLE_NAME + ".id " +
-            "LEFT JOIN " + getPrefix() + AccountTable.TABLE_NAME + " " +
-            "ON " + getPrefix() + TABLE_NAME + ".currency_id = " + getPrefix() + CurrencyTable.TABLE_NAME + ".id " +
+            "LEFT JOIN " + getPrefix() + CurrencyTable.TABLE_NAME + " " +
+            "ON " + getPrefix() + TABLE_NAME + ".currency_id = " + getPrefix() + CurrencyTable.TABLE_NAME + ".name " +
             "WHERE " + getPrefix() + AccountTable.TABLE_NAME + ".name=? AND " + WORLD_NAME_FIELD + "=? AND " + getPrefix() + CurrencyTable.TABLE_NAME + ".name=?";
 
     public final String INSERT_ENTRY = "INSERT INTO " + getPrefix() + TABLE_NAME + "" +
             "(" + BALANCE_FIELD + ", " + WORLD_NAME_FIELD + ", username_id, currency_id) " +
-            "VALUES(?, ?, (SELECT id from " + getPrefix() + AccountTable.TABLE_NAME + " WHERE name=?), (SELECT id FROM " + getPrefix() + CurrencyTable.TABLE_NAME + " WHERE name=?))";
+            "VALUES(?, ?, (SELECT id from " + getPrefix() + AccountTable.TABLE_NAME + " WHERE name=?),?)";
 
-    public final String UPDATE_ENTRY = "UPDATE " + getPrefix() + TABLE_NAME + " SET balance=?" +
+    public final String UPDATE_ENTRY = "UPDATE " + getPrefix() + TABLE_NAME + " SET balance=? " +
             "LEFT JOIN " + getPrefix() + AccountTable.TABLE_NAME + " " +
             "ON " + getPrefix() + TABLE_NAME + ".username_id = " + getPrefix() + AccountTable.TABLE_NAME + ".id " +
             "LEFT JOIN " + getPrefix() + CurrencyTable.TABLE_NAME + " " +

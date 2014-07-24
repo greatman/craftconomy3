@@ -24,7 +24,7 @@ public class AccountTable extends DatabaseTable {
     public static final String TABLE_NAME = "account";
     public final String CREATE_TABLE_MYSQL = "CREATE TABLE `" + getPrefix() + TABLE_NAME + "` (" +
             "  `id` int(11) NOT NULL AUTO_INCREMENT," +
-            "  `name` text," +
+            "  `name` varchar(50)," +
             "  `infiniteMoney` boolean DEFAULT FALSE," +
             "  `uuid` varchar(36) UNIQUE," +
             "  `ignoreACL` boolean DEFAULT FALSE," +
@@ -33,6 +33,16 @@ public class AccountTable extends DatabaseTable {
             "  KEY `account_name_index` (`name`(50))," +
             "  KEY `account_uuid_index` (`uuid`(50))" +
             ") ENGINE=InnoDB;";
+
+    public final String CREATE_TABLE_H2 = "CREATE TABLE " + getPrefix() + TABLE_NAME + " (" +
+            "id int PRIMARY KEY AUTO_INCREMENT," +
+            "name varchar(50)," +
+            "infiniteMoney boolean DEFAULT FALSE," +
+            "uuid varchar(36) NULL," +
+            "ignoreACL boolean DEFAULT FALSE," +
+            "bank boolean DEFAULT FALSE);" +
+            "CREATE INDEX account_name ON " + getPrefix() + TABLE_NAME + "(name);" +
+            "CREATE INDEX account_uuid ON " + getPrefix() + TABLE_NAME + "(uuid);";
 
     public final String SELECT_ENTRY_NAME = "SELECT * FROM " + getPrefix() + TABLE_NAME + " WHERE name=? AND bank=?";
 

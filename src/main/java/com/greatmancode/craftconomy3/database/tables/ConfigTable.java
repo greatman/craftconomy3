@@ -26,14 +26,20 @@ public class ConfigTable extends DatabaseTable {
     public final String CREATE_TABLE_MYSQL = "CREATE TABLE `" + getPrefix() + TABLE_NAME + "` (" +
             "  `" + NAME_FIELD + "` varchar(30) NOT NULL," +
             "  `" + VALUE_FIELD + "` varchar(255) NOT NULL," +
-            "  PRIMARY KEY (`name`)" +
+            "  PRIMARY KEY (`"+NAME_FIELD+"`)" +
             ") ENGINE=InnoDB;";
 
-    public final String SELECT_ENTRY = "SELECT * FROM " + getPrefix() + TABLE_NAME + " WHERE name=?";
+    public final String CREATE_TABLE_H2 = "CREATE TABLE `" + getPrefix() + TABLE_NAME + "` (" +
+            "  `" + NAME_FIELD + "` varchar(30) NOT NULL," +
+            "  `" + VALUE_FIELD + "` varchar(255) NOT NULL," +
+            "  PRIMARY KEY (`"+NAME_FIELD+"`)" +
+            ");";
 
-    public final String INSERT_ENTRY = "INSERT INTO " + getPrefix() + TABLE_NAME + "(name,value) VALUES(?,?)";
+    public final String SELECT_ENTRY = "SELECT * FROM " + getPrefix() + TABLE_NAME + " WHERE "+NAME_FIELD+"=?";
 
-    public final String UPDATE_ENTRY = "UPDATE " + getPrefix() + TABLE_NAME + " SET value=? WHERE name=?";
+    public final String INSERT_ENTRY = "INSERT INTO " + getPrefix() + TABLE_NAME + "("+NAME_FIELD+","+VALUE_FIELD+") VALUES(?,?)";
+
+    public final String UPDATE_ENTRY = "UPDATE " + getPrefix() + TABLE_NAME + " SET "+VALUE_FIELD+"=? WHERE "+NAME_FIELD+"=?";
 
     public ConfigTable(String prefix) {
         super(prefix);
