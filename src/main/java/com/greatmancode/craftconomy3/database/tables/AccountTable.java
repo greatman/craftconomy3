@@ -50,6 +50,12 @@ public class AccountTable extends DatabaseTable {
 
     public final String DELETE_ENTRY = "DELETE FROM " + getPrefix() + TABLE_NAME + " WHERE name=? AND bank=?";
 
+    public final String UPDATE_NAME_BY_UUID = "UPDATE "+getPrefix()+TABLE_NAME + " SET name=? WHERE uuid=?";
+
+    public final String UPDATE_UUID_BY_NAME = "UPDATE "+getPrefix()+TABLE_NAME+" SET uuid=? WHERE name=?";
+
+
+
     public AccountTable(String prefix) {
         super(prefix);
     }

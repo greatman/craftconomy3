@@ -38,6 +38,8 @@ public class ExchangeTable extends DatabaseTable {
     public final String SELECT_ENTRY = "SELECT * FROM " + getPrefix() + TABLE_NAME + " " +
             "WHERE from_currency=? AND to_currency=?";
 
+    public final String SELECT_ALL = "SELECT * FROM "+getPrefix() + TABLE_NAME;
+
     public final String INSERT_ENTRY = "INSERT INTO " + getPrefix() + TABLE_NAME + "(from_currency, to_currency, amount) " +
             "VALUES(?,?,?)";
 

@@ -230,7 +230,7 @@ public abstract class StorageEngine {
 
     public abstract void cleanLog(Timestamp timestamp);
 
-    public abstract boolean deleteAccount(String name, boolean bankAccount);
+    public abstract void deleteAccount(String name, boolean bankAccount);
 
     public abstract boolean accountExist(String name, boolean bankAccount);
 

@@ -50,6 +50,11 @@ public class AccessTable extends DatabaseTable {
             getPrefix() + TABLE_NAME + ".account_id = " + getPrefix() + AccountTable.TABLE_NAME + ".id " +
             "WHERE " + getPrefix() + AccountTable.TABLE_NAME + ".name=? AND " + getPrefix() + AccountTable.TABLE_NAME + ".bank=? AND playerName=?";
 
+    public final String GET_ACCOUNT_LIST = "SELECT "+getPrefix()+AccountTable.TABLE_NAME+".name FROM "+getPrefix()+TABLE_NAME+
+            "LEFT JOIN " + getPrefix() + AccountTable.TABLE_NAME + " ON " +
+            getPrefix() + TABLE_NAME + ".account_id = " + getPrefix() + AccountTable.TABLE_NAME + ".id " +
+            "WHERE playerName=?";
+
     public AccessTable(String prefix) {
         super(prefix);
     }

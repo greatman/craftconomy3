@@ -23,16 +23,20 @@ public class WorldGroupTable extends DatabaseTable {
     public static final String TABLE_NAME = "worldgroup";
 
     public final String CREATE_TABLE_MYSQL = "CREATE TABLE `" + getPrefix() + TABLE_NAME + "` (" +
-            "  `worldList` varchar(255)," +
             "  `groupName` varchar(255)," +
+            "  `worldList` varchar(255)," +
             "  PRIMARY KEY (`groupName`)" +
             ") ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;";
+
+    public final String SELECT_ALL_ENTRY = "SELECT * FROM "+getPrefix()+ TABLE_NAME;
 
     public final String SELECT_ENTRY = "SELECT * FROM " + getPrefix() + TABLE_NAME + " WHERE groupName=?";
 
     public final String INSERT_ENTRY = "INSERT INTO " + getPrefix() + TABLE_NAME + "(groupName) VALUES(?)";
 
     public final String UPDATE_ENTRY = "UPDATE " + getPrefix() + TABLE_NAME + " SET worldList=? WHERE groupName=?";
+
+    public final String DELETE_ENTRY = "DELETE FROM "+getPrefix()+TABLE_NAME+" WHERE groupName=?";
 
     public WorldGroupTable(String prefix) {
         super(prefix);

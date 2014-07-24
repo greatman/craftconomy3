@@ -539,27 +539,99 @@ public class MySQLEngine extends StorageEngine {
 
     @Override
     public void updateUsername(String name, UUID uuid) {
-
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = db.getConnection();
+            statement = connection.prepareStatement(accountTable.UPDATE_NAME_BY_UUID);
+            statement.setString(1, name);
+            statement.setString(2, uuid.toString());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close(statement);
+            close(connection);
+        }
     }
 
     @Override
     public void updateUUID(String name, UUID uuid) {
-
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = db.getConnection();
+            statement = connection.prepareStatement(accountTable.UPDATE_UUID_BY_NAME);
+            statement.setString(1, uuid.toString());
+            statement.setString(2, name);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close(statement);
+            close(connection);
+        }
     }
 
     @Override
     public Map<String, WorldGroup> getWorldGroups() {
-        return null;
+        Map<String, WorldGroup> result = new HashMap<>();
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = db.getConnection();
+            statement = connection.prepareStatement(worldGroupTable.SELECT_ALL_ENTRY);
+            ResultSet set = statement.executeQuery();
+            while (set.next()) {
+                result.put(set.getString("groupName"), new WorldGroup(set.getString("groupName")));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close(statement);
+            close(connection);
+        }
+        return result;
     }
 
     @Override
     public void removeWorldGroup(String group) {
-
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = db.getConnection();
+            statement = connection.prepareStatement(worldGroupTable.DELETE_ENTRY);
+            statement.setString(1, group);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close(statement);
+            close(connection);
+        }
     }
 
     @Override
     public String[] getBankAccountList(String sender) {
-        return new String[0];
+        List<String> results = new ArrayList<>();
+        Connection connection = null;
+        PreparedStatement statement = null;
+
+        try {
+            connection = db.getConnection();
+            statement = connection.prepareStatement(accessTable.GET_ACCOUNT_LIST);
+            statement.setString(1, sender);
+            ResultSet set = statement.executeQuery();
+            while (set.next()) {
+                results.add(set.getString("name"));
+            }
+        } catch(SQLException e) {
+
+        } finally {
+            close(statement);
+            close(connection);
+        }
+        return (String[]) results.toArray();
     }
 
     @Override
@@ -586,9 +658,11 @@ public class MySQLEngine extends StorageEngine {
     @Override
     public List<TopCommand.TopEntry> getTopEntry(int page, Currency currency, String world) {
         List<TopCommand.TopEntry> result = new ArrayList<>();
+        Connection connection = null;
+        PreparedStatement statement = null;
         try {
-            Connection connection = db.getConnection();
-            PreparedStatement statement = connection.prepareStatement(balanceTable.LIST_TOP_ACCOUNT);
+            connection = db.getConnection();
+            statement = connection.prepareStatement(balanceTable.LIST_TOP_ACCOUNT);
             statement.setString(1, world);
             statement.setString(2, currency.getName());
             statement.setInt(3, (page - 1) * 10);
@@ -599,28 +673,90 @@ public class MySQLEngine extends StorageEngine {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            close(statement);
+            close(connection);
         }
         return result;
     }
 
     @Override
     public List<CurrencyRatesCommand.CurrencyRateEntry> getCurrencyExchanges() {
-        return null;
+        List<CurrencyRatesCommand.CurrencyRateEntry> results = new ArrayList<>();
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = db.getConnection();
+            statement = connection.prepareStatement(exchangeTable.SELECT_ALL);
+            ResultSet set = statement.executeQuery();
+            while (set.next()) {
+                results.add(new CurrencyRatesCommand.CurrencyRateEntry(Common.getInstance().getCurrencyManager().getCurrency(set.getString("from_currency")),Common.getInstance().getCurrencyManager().getCurrency(set.getString("to_currency")),set.getDouble("amount")));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close(statement);
+            close(connection);
+        }
+        return results;
     }
 
     @Override
     public void cleanLog(Timestamp timestamp) {
-
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = db.getConnection();
+            statement = connection.prepareStatement(logTable.CLEAN_ENTRY);
+            statement.setTimestamp(1, timestamp);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close(statement);
+            close(connection);
+        }
     }
 
     @Override
-    public boolean deleteAccount(String name, boolean bankAccount) {
-        return false;
+    public void deleteAccount(String name, boolean bankAccount) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = db.getConnection();
+            statement = connection.prepareStatement(accountTable.DELETE_ENTRY);
+            statement.setString(1, name);
+            statement.setBoolean(2, bankAccount);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close(statement);
+            close(connection);
+        }
     }
 
     @Override
     public boolean accountExist(String name, boolean bankAccount) {
-        return false;
+        boolean result = false;
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = db.getConnection();
+            statement = connection.prepareStatement(accountTable.SELECT_ENTRY_NAME);
+            statement.setString(1, name);
+            statement.setBoolean(2, bankAccount);
+            ResultSet set = statement.executeQuery();
+            if (set.next()) {
+                result = true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close(statement);
+            close(connection);
+        }
+        return result;
     }
 
     @Override

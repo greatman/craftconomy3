@@ -59,5 +59,11 @@ public class CurrencyRatesCommand extends CommandExecutor {
     public static class CurrencyRateEntry {
         public double amount;
         public Currency from, to;
+
+        public CurrencyRateEntry(Currency from, Currency to, double amount) {
+            this.amount = amount;
+            this.from = from;
+            this.to = to;
+        }
     }
 }
