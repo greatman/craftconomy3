@@ -19,7 +19,7 @@
 package com.greatmancode.craftconomy3.storage.sql;
 
 import com.greatmancode.craftconomy3.Common;
-import com.greatmancode.craftconomy3.database.tables.*;
+import com.greatmancode.craftconomy3.storage.sql.tables.*;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
@@ -73,7 +73,7 @@ public class MySQLEngine extends SQLStorageEngine {
             statement.executeUpdate();
             statement.close();
 
-            statement = connection.prepareStatement(currencyTable.CREATE_TABLE_MYSQL);
+            statement = connection.prepareStatement(logTable.CREATE_TABLE_MYSQL);
             statement.executeUpdate();
             statement.close();
 

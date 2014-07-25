@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Craftconomy3.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.greatmancode.craftconomy3.database.tables;
+package com.greatmancode.craftconomy3.storage.sql.tables;
 
 public class BalanceTable extends DatabaseTable {
 
@@ -26,10 +26,10 @@ public class BalanceTable extends DatabaseTable {
     public static final String CURRENCY_FIELD = "currency_id";
     public static final String TABLE_NAME = "balance";
 
-    public final String CREATE_TABLE_MYSQL = "CREATE TABLE " + getPrefix() + TABLE_NAME + "` (" +
+    public final String CREATE_TABLE_MYSQL = "CREATE TABLE IF NOT EXISTS " + getPrefix() + TABLE_NAME + "` (" +
             "  `" + BALANCE_FIELD + "` double DEFAULT NULL," +
             "  `" + WORLD_NAME_FIELD + "` varchar(255)," +
-            "  `username` varchar(," +
+            "  `username_id` int(11)," +
             "  `" + CURRENCY_FIELD + "` varchar(50)," +
             "  PRIMARY KEY (" + WORLD_NAME_FIELD + ", username_id, currency_id)," +
             "  CONSTRAINT `fk_balance_account`" +
@@ -40,7 +40,7 @@ public class BalanceTable extends DatabaseTable {
             "    REFERENCES " + getPrefix() + CurrencyTable.TABLE_NAME +"(name) ON UPDATE CASCADE ON DELETE CASCADE" +
             ") ENGINE=InnoDB;";
 
-    public final String CREATE_TABLE_H2 = "CREATE TABLE " + getPrefix() + TABLE_NAME + " (" +
+    public final String CREATE_TABLE_H2 = "CREATE TABLE IF NOT EXISTS " + getPrefix() + TABLE_NAME + " (" +
             "  `" + BALANCE_FIELD + "` double DEFAULT NULL," +
             "  `" + WORLD_NAME_FIELD + "` varchar(255)," +
             "  `username_id` int(11)," +
@@ -73,21 +73,9 @@ public class BalanceTable extends DatabaseTable {
             "(" + BALANCE_FIELD + ", " + WORLD_NAME_FIELD + ", username_id, currency_id) " +
             "VALUES(?, ?, (SELECT id from " + getPrefix() + AccountTable.TABLE_NAME + " WHERE name=?),?)";
 
-    public final String UPDATE_ENTRY = "UPDATE " + getPrefix() + TABLE_NAME + " SET balance=? " +
-            "LEFT JOIN " + getPrefix() + AccountTable.TABLE_NAME + " " +
-            "ON " + getPrefix() + TABLE_NAME + ".username_id = " + getPrefix() + AccountTable.TABLE_NAME + ".id " +
-            "LEFT JOIN " + getPrefix() + CurrencyTable.TABLE_NAME + " " +
-            "ON " + getPrefix() + TABLE_NAME + "." + CURRENCY_FIELD + " = " + getPrefix() + CurrencyTable.TABLE_NAME + ".id " +
-            "WHERE " + getPrefix() + AccountTable.TABLE_NAME + ".name=?" +
-            "AND " + getPrefix() + CurrencyTable.TABLE_NAME + ".name=? AND " + WORLD_NAME_FIELD + "=?";
-
-    public final String DEPOSIT_ENTRY = "UPDATE " + getPrefix() + TABLE_NAME + " SET balance=?" +
-            "LEFT JOIN " + getPrefix() + AccountTable.TABLE_NAME + " " +
-            "ON " + getPrefix() + TABLE_NAME + ".username_id = " + getPrefix() + AccountTable.TABLE_NAME + ".id " +
-            "LEFT JOIN " + getPrefix() + CurrencyTable.TABLE_NAME + " " +
-            "ON " + getPrefix() + TABLE_NAME + "." + CURRENCY_FIELD + " = " + getPrefix() + CurrencyTable.TABLE_NAME + ".id " +
-            "WHERE " + getPrefix() + AccountTable.TABLE_NAME + ".name=?" +
-            "AND " + getPrefix() + CurrencyTable.TABLE_NAME + ".name=?";
+    public final String UPDATE_ENTRY = "UPDATE "+getPrefix()+TABLE_NAME+" SET balance=? " +
+            "WHERE username_id=(SELECT id FROM "+getPrefix()+AccountTable.TABLE_NAME+" WHERE name=?) " +
+            "AND "+CURRENCY_FIELD+"=? AND "+WORLD_NAME_FIELD+"=?";
 
     public final String LIST_TOP_ACCOUNT = "SELECT balance, " + getPrefix() + CurrencyTable.TABLE_NAME + ".name AS currencyName, " + getPrefix() + AccountTable.TABLE_NAME + ".username FROM " + getPrefix() + TABLE_NAME + " " +
             "LEFT JOIN " + getPrefix() + AccountTable.TABLE_NAME + " " +

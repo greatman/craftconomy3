@@ -16,13 +16,13 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Craftconomy3.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.greatmancode.craftconomy3.database.tables;
+package com.greatmancode.craftconomy3.storage.sql.tables;
 
 public class CurrencyTable extends DatabaseTable {
 
     public static final String TABLE_NAME = "currency";
 
-    public final String CREATE_TABLE_MYSQL = "CREATE TABLE `" + getPrefix() + TABLE_NAME + "` (" +
+    public final String CREATE_TABLE_MYSQL = "CREATE TABLE IF NOT EXISTS `" + getPrefix() + TABLE_NAME + "` (" +
             "  `name` varchar(50)," +
             "  `plural` varchar(50)," +
             "  `minor` varchar(50)," +
@@ -33,7 +33,7 @@ public class CurrencyTable extends DatabaseTable {
             "  PRIMARY KEY (`name`)" +
             ") ENGINE=InnoDB;";
 
-    public final String CREATE_TABLE_H2 = "CREATE TABLE `" + getPrefix() + TABLE_NAME + "` (" +
+    public final String CREATE_TABLE_H2 = "CREATE TABLE IF NOT EXISTS `" + getPrefix() + TABLE_NAME + "` (" +
             "  `name` varchar(50)," +
             "  `plural` varchar(50)," +
             "  `minor` varchar(50)," +
@@ -58,7 +58,7 @@ public class CurrencyTable extends DatabaseTable {
 
     public final String SET_AS_DEFAULT_BANK_2 = "UPDATE " + getPrefix() + TABLE_NAME + " SET bankCurrency=TRUE WHERE name=?";
 
-    public final String UPDATE_ENTRY = "UPDATE " + getPrefix() + TABLE_NAME + " SET name=? plural=? minor=? minorplural=? sign=? status=? bankCurrency=? WHERE name=?";
+    public final String UPDATE_ENTRY = "UPDATE " + getPrefix() + TABLE_NAME + " SET name=?, plural=?, minor=?, minorplural=?, sign=?, status=?, bankCurrency=? WHERE name=?";
 
     public final String DELETE_ENTRY = "DELETE FROM " + getPrefix() + TABLE_NAME + " WHERE name=?";
 

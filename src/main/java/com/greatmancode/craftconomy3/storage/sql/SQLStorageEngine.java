@@ -29,7 +29,7 @@ import com.greatmancode.craftconomy3.commands.money.LogCommand;
 import com.greatmancode.craftconomy3.commands.money.TopCommand;
 import com.greatmancode.craftconomy3.converter.Converter;
 import com.greatmancode.craftconomy3.currency.Currency;
-import com.greatmancode.craftconomy3.database.tables.*;
+import com.greatmancode.craftconomy3.storage.sql.tables.*;
 import com.greatmancode.craftconomy3.groups.WorldGroup;
 import com.greatmancode.craftconomy3.storage.StorageEngine;
 import com.greatmancode.craftconomy3.utils.NoExchangeRate;
@@ -240,7 +240,7 @@ public abstract class SQLStorageEngine extends StorageEngine {
         PreparedStatement statement = null;
         try {
             connection = db.getConnection();
-            statement = connection.prepareStatement(balanceTable.SELECT_WORLD_ENTRY_ACCOUNT);
+            statement = connection.prepareStatement(balanceTable.SELECT_WORLD_CURRENCY_ENTRY_ACCOUNT);
             statement.setString(1, account.getAccountName());
             statement.setString(2, world);
             statement.setString(3, currency.getName());
@@ -272,7 +272,7 @@ public abstract class SQLStorageEngine extends StorageEngine {
             statement.setString(3, currency.getName());
             ResultSet set = statement.executeQuery();
             if (set.next()) {
-                result = set.getDouble(balanceTable.BALANCE_FIELD) + amount;
+                result = amount;
                 statement.close();
                 statement = connection.prepareStatement(balanceTable.UPDATE_ENTRY);
                 statement.setDouble(1, result);

@@ -19,7 +19,7 @@
 package com.greatmancode.craftconomy3.converter.converters;
 
 import com.greatmancode.craftconomy3.converter.Converter;
-import com.greatmancode.craftconomy3.database.tables.mineconomy.MineconomyTable;
+import com.greatmancode.craftconomy3.storage.sql.tables.mineconomy.MineconomyTable;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 

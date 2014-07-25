@@ -20,7 +20,7 @@ package com.greatmancode.craftconomy3.converter.converters;
 
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.converter.Converter;
-import com.greatmancode.craftconomy3.database.tables.iconomy.IConomyTable;
+import com.greatmancode.craftconomy3.storage.sql.tables.iconomy.IConomyTable;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 

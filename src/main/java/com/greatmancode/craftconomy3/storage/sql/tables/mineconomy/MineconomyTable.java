@@ -16,20 +16,9 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Craftconomy3.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.greatmancode.craftconomy3.database.tables;
+package com.greatmancode.craftconomy3.storage.sql.tables.mineconomy;
 
-/**
- * Created by greatman on 2014-07-13.
- */
-public abstract class DatabaseTable {
+public class MineconomyTable {
 
-    private String prefix;
-
-    public DatabaseTable(String prefix) {
-        this.prefix = prefix;
-    }
-
-    protected String getPrefix() {
-        return prefix;
-    }
+    public static final String SELECT_ENTRY = "SELECT * FROM mineconomy_accounts";
 }

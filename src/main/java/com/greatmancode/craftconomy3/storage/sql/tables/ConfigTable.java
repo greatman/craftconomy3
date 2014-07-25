@@ -16,20 +16,20 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Craftconomy3.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.greatmancode.craftconomy3.database.tables;
+package com.greatmancode.craftconomy3.storage.sql.tables;
 
 public class ConfigTable extends DatabaseTable {
 
     public static final String TABLE_NAME = "config";
     public static final String NAME_FIELD = "name";
     public static final String VALUE_FIELD = "value";
-    public final String CREATE_TABLE_MYSQL = "CREATE TABLE `" + getPrefix() + TABLE_NAME + "` (" +
+    public final String CREATE_TABLE_MYSQL = "CREATE TABLE IF NOT EXISTS `" + getPrefix() + TABLE_NAME + "` (" +
             "  `" + NAME_FIELD + "` varchar(30) NOT NULL," +
             "  `" + VALUE_FIELD + "` varchar(255) NOT NULL," +
             "  PRIMARY KEY (`"+NAME_FIELD+"`)" +
             ") ENGINE=InnoDB;";
 
-    public final String CREATE_TABLE_H2 = "CREATE TABLE `" + getPrefix() + TABLE_NAME + "` (" +
+    public final String CREATE_TABLE_H2 = "CREATE TABLE IF NOT EXISTS `" + getPrefix() + TABLE_NAME + "` (" +
             "  `" + NAME_FIELD + "` varchar(30) NOT NULL," +
             "  `" + VALUE_FIELD + "` varchar(255) NOT NULL," +
             "  PRIMARY KEY (`"+NAME_FIELD+"`)" +

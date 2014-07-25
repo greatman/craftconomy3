@@ -16,13 +16,13 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Craftconomy3.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.greatmancode.craftconomy3.database.tables;
+package com.greatmancode.craftconomy3.storage.sql.tables;
 
 public class AccountTable extends DatabaseTable {
 
 
     public static final String TABLE_NAME = "account";
-    public final String CREATE_TABLE_MYSQL = "CREATE TABLE `" + getPrefix() + TABLE_NAME + "` (" +
+    public final String CREATE_TABLE_MYSQL = "CREATE TABLE IF NOT EXISTS `" + getPrefix() + TABLE_NAME + "` (" +
             "  `id` int(11) NOT NULL AUTO_INCREMENT," +
             "  `name` varchar(50)," +
             "  `infiniteMoney` boolean DEFAULT FALSE," +
@@ -34,15 +34,15 @@ public class AccountTable extends DatabaseTable {
             "  KEY `account_uuid_index` (`uuid`(50))" +
             ") ENGINE=InnoDB;";
 
-    public final String CREATE_TABLE_H2 = "CREATE TABLE " + getPrefix() + TABLE_NAME + " (" +
+    public final String CREATE_TABLE_H2 = "CREATE TABLE IF NOT EXISTS " + getPrefix() + TABLE_NAME + " (" +
             "id int PRIMARY KEY AUTO_INCREMENT," +
             "name varchar(50)," +
             "infiniteMoney boolean DEFAULT FALSE," +
             "uuid varchar(36) NULL," +
             "ignoreACL boolean DEFAULT FALSE," +
             "bank boolean DEFAULT FALSE);" +
-            "CREATE INDEX account_name ON " + getPrefix() + TABLE_NAME + "(name);" +
-            "CREATE INDEX account_uuid ON " + getPrefix() + TABLE_NAME + "(uuid);";
+            "CREATE INDEX IF NOT EXISTS account_name ON " + getPrefix() + TABLE_NAME + "(name);" +
+            "CREATE INDEX IF NOT EXISTS account_uuid ON " + getPrefix() + TABLE_NAME + "(uuid);";
 
     public final String SELECT_ENTRY_NAME = "SELECT * FROM " + getPrefix() + TABLE_NAME + " WHERE name=? AND bank=?";
 
@@ -54,9 +54,9 @@ public class AccountTable extends DatabaseTable {
 
     public final String INSERT_ENTRY_ALL_INFO = "INSERT INTO " + getPrefix() + TABLE_NAME + "(name,uuid,infiniteMoney,ignoreACL,bank) VALUES(?,?,?,?,?)";
 
-    public final String UPDATE_INFINITEMONEY_ENTRY = "UPDATE " + getPrefix() + TABLE_NAME + " SET infiniteMoney=?,WHERE name=? AND bank=?";
+    public final String UPDATE_INFINITEMONEY_ENTRY = "UPDATE " + getPrefix() + TABLE_NAME + " SET infiniteMoney=? WHERE name=? AND bank=?";
 
-    public final String UPDATE_IGNOREACL_ENTRY = "UPDATE " + getPrefix() + TABLE_NAME + " SET infiniteMoney=?,WHERE name=? AND bank=?";
+    public final String UPDATE_IGNOREACL_ENTRY = "UPDATE " + getPrefix() + TABLE_NAME + " SET infiniteMoney=? WHERE name=? AND bank=?";
 
     public final String DELETE_ENTRY = "DELETE FROM " + getPrefix() + TABLE_NAME + " WHERE name=? AND bank=?";
 

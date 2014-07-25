@@ -16,13 +16,13 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Craftconomy3.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.greatmancode.craftconomy3.database.tables;
+package com.greatmancode.craftconomy3.storage.sql.tables;
 
 public class AccessTable extends DatabaseTable {
 
     public static final String TABLE_NAME = "acl";
 
-    public final String CREATE_TABLE_MYSQL = "CREATE TABLE `" + getPrefix() + TABLE_NAME + "` (" +
+    public final String CREATE_TABLE_MYSQL = "CREATE TABLE IF NOT EXISTS `" + getPrefix() + TABLE_NAME + "` (" +
             "  `account_id` int(11) DEFAULT NULL," +
             "  `playerName` varchar(16)," +
             "  `owner` BOOLEAN DEFAULT NULL," +
@@ -34,7 +34,7 @@ public class AccessTable extends DatabaseTable {
             "  ADD CONSTRAINT `fk_acl_account` FOREIGN KEY (`account_id`) REFERENCES `" + getPrefix() + AccountTable.TABLE_NAME + "` (`id`);" +
             ") ENGINE=InnoDB;";
 
-    public final String CREATE_TABLE_H2 = "CREATE TABLE `" + getPrefix() + TABLE_NAME + "` (" +
+    public final String CREATE_TABLE_H2 = "CREATE TABLE IF NOT EXISTS `" + getPrefix() + TABLE_NAME + "` (" +
             "  `account_id` int(11)," +
             "  `playerName` varchar(16)," +
             "  `owner` BOOLEAN DEFAULT NULL," +

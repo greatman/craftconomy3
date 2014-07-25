@@ -19,13 +19,7 @@
 package com.greatmancode.craftconomy3.currency;
 
 import com.greatmancode.craftconomy3.Common;
-import com.greatmancode.craftconomy3.database.tables.BalanceTable;
-import com.greatmancode.craftconomy3.database.tables.CurrencyTable;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.*;
 
 /**

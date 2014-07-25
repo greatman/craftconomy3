@@ -21,9 +21,7 @@ package com.greatmancode.craftconomy3.converter;
 import com.greatmancode.craftconomy3.Cause;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.LogInfo;
-import com.greatmancode.craftconomy3.account.Account;
-import com.greatmancode.craftconomy3.currency.Currency;
-import com.greatmancode.craftconomy3.database.tables.*;
+import com.greatmancode.craftconomy3.storage.sql.tables.*;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 

@@ -41,7 +41,7 @@ public class TestConfigurationManager {
 		Common.getInstance().getMainConfig().setValue("System.Setup", true);
 		assertEquals(true, Common.getInstance().getMainConfig().getBoolean("System.Setup"));
 		Common.getInstance().getMainConfig().setValue("System.Setup", false);
-		assertEquals("sqlite", Common.getInstance().getMainConfig().getString("System.Database.Type"));
+		assertEquals("h2", Common.getInstance().getMainConfig().getString("System.Database.Type"));
 		assertEquals(3306, Common.getInstance().getMainConfig().getInt("System.Database.Port"));
 		Common.getInstance().getMainConfig().setValue("test", 30);
 		assertEquals(30, Common.getInstance().getMainConfig().getLong("test"));
