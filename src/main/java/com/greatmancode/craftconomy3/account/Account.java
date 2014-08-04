@@ -197,7 +197,7 @@ public class Account {
      */
     public double withdraw(double amount, String world, String currencyName, Cause cause, String causeReason) {
         BalanceTable balanceTable;
-        double result = getBalance(world,currencyName) + format(amount);
+        double result = getBalance(world,currencyName) - format(amount);
         if (!Common.getInstance().getWorldGroupManager().worldGroupExist(world)) {
             world = Common.getInstance().getWorldGroupManager().getWorldGroupName(world);
         }
@@ -350,5 +350,6 @@ public class Account {
      */
     public void setIgnoreACL(boolean ignore) {
         Common.getInstance().getStorageHandler().getStorageEngine().setIgnoreACL(this, ignore);
+        ignoreACL = ignore;
     }
 }

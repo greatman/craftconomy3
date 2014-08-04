@@ -570,6 +570,7 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
         } else {
             getStorageHandler().getStorageEngine().setConfigEntry("bankprice", 100.0 + "");
             sendConsoleMessage(Level.SEVERE, "No default value was set for bank creation or was invalid! Defaulting to 100.");
+            bankPrice = 100.0;
         }
     }
 
@@ -638,9 +639,9 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
         Common.getInstance().initializeCurrency();
         Currency currency = Common.getInstance().getCurrencyManager().addCurrency(getMainConfig().getString("System.QuickSetup.Currency.Name"), getMainConfig().getString("System.QuickSetup.Currency.NamePlural"), getMainConfig().getString("System.QuickSetup.Currency.Minor"), getMainConfig().getString("System.QuickSetup.Currency.MinorPlural"), getMainConfig().getString("System.QuickSetup.Currency.Sign"), true);
         Common.getInstance().getCurrencyManager().setDefault(currency);
+        Common.getInstance().getCurrencyManager().setDefaultBankCurrency(currency);
         getStorageHandler().getStorageEngine().setConfigEntry("longmode", DisplayFormat.valueOf(getMainConfig().getString("System.QuickSetup.DisplayMode").toUpperCase()).toString());
         getStorageHandler().getStorageEngine().setConfigEntry("holdings", getMainConfig().getString("System.QuickSetup.StartBalance"));
-        getStorageHandler().getStorageEngine().setConfigEntry("bankcurrency", currency.getName());
         getStorageHandler().getStorageEngine().setConfigEntry("bankprice", getMainConfig().getString("System.QuickSetup.PriceBank"));
         initializeCurrency();
         loadDefaultSettings();

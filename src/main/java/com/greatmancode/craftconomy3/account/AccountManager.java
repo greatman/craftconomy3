@@ -59,7 +59,7 @@ public class AccountManager {
         } else if (!bankAccount && accountList.containsKey(newName)) {
             account = accountList.get(newName);
         } else {
-            account = Common.getInstance().getStorageHandler().getStorageEngine().getAccount(name, bankAccount);
+            account = Common.getInstance().getStorageHandler().getStorageEngine().getAccount(newName, bankAccount);
             if (bankAccount) {
                 bankList.put(newName, account);
             } else {
@@ -94,12 +94,12 @@ public class AccountManager {
         if (bankAccount) {
             result = bankList.containsKey(newName);
             if (!result) {
-                result = Common.getInstance().getStorageHandler().getStorageEngine().accountExist(name, bankAccount);
+                result = Common.getInstance().getStorageHandler().getStorageEngine().accountExist(newName, bankAccount);
             }
         } else {
             result = accountList.containsKey(newName);
             if (!result) {
-                result = Common.getInstance().getStorageHandler().getStorageEngine().accountExist(name, bankAccount);
+                result = Common.getInstance().getStorageHandler().getStorageEngine().accountExist(newName, bankAccount);
             }
         }
         return result;

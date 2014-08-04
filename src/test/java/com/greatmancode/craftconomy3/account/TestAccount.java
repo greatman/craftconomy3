@@ -37,6 +37,7 @@ public class TestAccount {
 	@Test
 	public void testAccount() {
         Account account = Common.getInstance().getAccountManager().getAccount("greatman321", false);
+        assertEquals(100, Common.getInstance().getAccountManager().getAccount("greatman321", false).getBalance(UnitTestServerCaller.worldName, Common.getInstance().getCurrencyManager().getDefaultBankCurrency().getName()), 0);
 		account.deposit(50.0, UnitTestServerCaller.worldName, Common.getInstance().getCurrencyManager().getDefaultCurrency().getName());
 		assertTrue(account.hasEnough(50.0, UnitTestServerCaller.worldName, Common.getInstance().getCurrencyManager().getDefaultCurrency().getName()));
 		account.set(0, UnitTestServerCaller.worldName, Common.getInstance().getCurrencyManager().getDefaultCurrency().getName());

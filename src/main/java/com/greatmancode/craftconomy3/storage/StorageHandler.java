@@ -30,15 +30,12 @@ public class StorageHandler {
     private final StorageEngine engine;
 
     public StorageHandler() {
-        System.out.println(Common.getInstance().getMainConfig().getString("System.Database.Type"));
         switch (Common.getInstance().getMainConfig().getString("System.Database.Type")) {
             case "h2":
                 engine = new H2Engine();
-                System.out.println("DID H2");
                 break;
             case "mysql":
                 engine = new MySQLEngine();
-                System.out.println("DID MYSQL");
                 break;
             default:
                 engine = null;

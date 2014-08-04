@@ -23,6 +23,7 @@ import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.TestInitializator;
 import com.greatmancode.craftconomy3.account.Account;
 import com.greatmancode.craftconomy3.commands.bank.*;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -69,10 +70,10 @@ public class TestBankCommands {
         BankTakeCommand command = new BankTakeCommand();
         Common.getInstance().getAccountManager().getAccount(BANK_ACCOUNT, true);
         command.execute(TEST_USER, new String[]{BANK_ACCOUNT, "100"});
-        assertEquals(0, Common.getInstance().getAccountManager().getAccount(BANK_ACCOUNT, true).getBalance("default", Common.getInstance().getCurrencyManager().getDefaultCurrency().getName()), 0);
-        Common.getInstance().getAccountManager().getAccount(BANK_ACCOUNT, true).deposit(200, "default", Common.getInstance().getCurrencyManager().getDefaultCurrency().getName(), Cause.UNKNOWN, "unittest");
+        assertEquals(0, Common.getInstance().getAccountManager().getAccount(BANK_ACCOUNT, true).getBalance(Account.getWorldGroupOfPlayerCurrentlyIn(TEST_USER), Common.getInstance().getCurrencyManager().getDefaultCurrency().getName()), 0);
+        Common.getInstance().getAccountManager().getAccount(BANK_ACCOUNT, true).deposit(200, Account.getWorldGroupOfPlayerCurrentlyIn(TEST_USER), Common.getInstance().getCurrencyManager().getDefaultCurrency().getName(), Cause.UNKNOWN, "unittest");
         command.execute(TEST_USER, new String[]{BANK_ACCOUNT, "100"});
-        assertEquals(100, Common.getInstance().getAccountManager().getAccount(BANK_ACCOUNT, true).getBalance("default", Common.getInstance().getCurrencyManager().getDefaultCurrency().getName()), 0);
+        assertEquals(100, Common.getInstance().getAccountManager().getAccount(BANK_ACCOUNT, true).getBalance(Account.getWorldGroupOfPlayerCurrentlyIn(TEST_USER), Common.getInstance().getCurrencyManager().getDefaultCurrency().getName()), 0);
     }
 
     @Test

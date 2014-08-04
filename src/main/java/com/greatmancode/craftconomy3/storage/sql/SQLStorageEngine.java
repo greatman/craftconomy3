@@ -176,10 +176,18 @@ public abstract class SQLStorageEngine extends StorageEngine {
         PreparedStatement statement = null;
         try {
             connection = db.getConnection();
-            statement = connection.prepareStatement(configTable.UPDATE_ENTRY);
-            statement.setString(1, value);
-            statement.setString(2, name);
-            statement.executeUpdate();
+            if (getConfigEntry(name) != null) {
+                statement = connection.prepareStatement(configTable.UPDATE_ENTRY);
+                statement.setString(1, value);
+                statement.setString(2, name);
+                statement.executeUpdate();
+            } else {
+                statement = connection.prepareStatement(configTable.INSERT_ENTRY);
+                statement.setString(1, name);
+                statement.setString(2, value);
+                statement.executeUpdate();
+            }
+
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -377,7 +385,7 @@ public abstract class SQLStorageEngine extends StorageEngine {
         PreparedStatement statement = null;
         try {
             connection = db.getConnection();
-            statement = connection.prepareStatement(accessTable.SELECT_ENTRY);
+            statement = connection.prepareStatement(accessTable.SELECT_ENTRY_UNIQUE);
             statement.setString(1,account.getAccountName());
             statement.setBoolean(2, account.isBankAccount());
             statement.setString(3, name);
