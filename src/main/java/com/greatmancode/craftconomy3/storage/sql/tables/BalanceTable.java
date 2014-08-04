@@ -26,7 +26,7 @@ public class BalanceTable extends DatabaseTable {
     public static final String CURRENCY_FIELD = "currency_id";
     public static final String TABLE_NAME = "balance";
 
-    public final String CREATE_TABLE_MYSQL = "CREATE TABLE IF NOT EXISTS " + getPrefix() + TABLE_NAME + "` (" +
+    public final String CREATE_TABLE_MYSQL = "CREATE TABLE IF NOT EXISTS " + getPrefix() + TABLE_NAME + " (" +
             "  `" + BALANCE_FIELD + "` double DEFAULT NULL," +
             "  `" + WORLD_NAME_FIELD + "` varchar(255)," +
             "  `username_id` int(11)," +
