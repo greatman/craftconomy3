@@ -4,6 +4,6 @@ jdk:
   - openjdk7
 services: mysql
 before_script:
-  - mysql -e 'create database Craftconomy;'
+  - mysql -e 'create database craftconomy;'
   - mvn clean install
 script: "mvn -Dmysql=true clean install"

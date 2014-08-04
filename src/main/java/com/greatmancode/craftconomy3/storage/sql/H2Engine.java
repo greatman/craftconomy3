@@ -37,6 +37,7 @@ public class H2Engine extends SQLStorageEngine {
         config.addDataSourceProperty("user", "sa");
         System.out.println("jdbc:h2:"+new File(Common.getInstance().getServerCaller().getDataFolder(), "database").getAbsolutePath());
         config.addDataSourceProperty("url", "jdbc:h2:file:"+new File(Common.getInstance().getServerCaller().getDataFolder().getPath(), "database").getAbsolutePath()+";MV_STORE=FALSE;TRACE_LEVEL_FILE=3");
+        config.setConnectionTimeout(5000);
         db = new HikariDataSource(config);
         this.tablePrefix = Common.getInstance().getMainConfig().getString("System.Database.Prefix");
         accessTable = new AccessTable(tablePrefix);
