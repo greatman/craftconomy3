@@ -44,6 +44,10 @@ public class TestInitializator {
         new Common().onEnable(new UnitTestServerCaller(new UnitTestLoader()), Logger.getLogger("unittest"));
         Common.getInstance().getMainConfig().setValue("System.QuickSetup.Enable", true);
         Common.getInstance().getMainConfig().setValue("System.Logging.Enabled", true);
+        if (Boolean.getBoolean("mysql")) {
+            Common.getInstance().getMainConfig().setValue("System.Database.Username", "travis");
+            Common.getInstance().getMainConfig().setValue("System.Database.Type", "mysql");
+        }
         try {
             setStaticValue("com.greatmancode.craftconomy3.Common", "initialized", false);
         } catch (NoSuchFieldException e) {
