@@ -31,7 +31,7 @@ public class AccountTable extends DatabaseTable {
             "  `bank` boolean DEFAULT FALSE," +
             "  PRIMARY KEY (id)," +
             "  KEY `account_name_index` (`name`(50))," +
-            "  KEY `account_uuid_index` (`uuid`(50))" +
+            "  KEY `account_uuid_index` (`uuid`(36))" +
             ") ENGINE=InnoDB;";
 
     public final String CREATE_TABLE_H2 = "CREATE TABLE IF NOT EXISTS " + getPrefix() + TABLE_NAME + " (" +
