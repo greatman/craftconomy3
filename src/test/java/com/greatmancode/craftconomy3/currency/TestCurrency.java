@@ -18,60 +18,86 @@
  */
 package com.greatmancode.craftconomy3.currency;
 
+import com.greatmancode.craftconomy3.Common;
+import com.greatmancode.craftconomy3.TestInitializator;
 import junit.framework.TestCase;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
-public class TestCurrency extends TestCase {
+import static org.junit.Assert.assertEquals;
+
+public class TestCurrency {
+
+    @Before
+    public void setUp() {
+        new TestInitializator();
+    }
+
+    @After
+    public void close() { Common.getInstance().onDisable();};
+
 	//TODO: Null tests
-	public void testGetName() {
+	@Test
+    public void testGetName() {
 		Currency currency = new Currency("test", "plural", "minor", "minorplural", "$");
 		assertEquals("test", currency.getName());
 	}
 
+    @Test
 	public void testSetName() {
 		Currency currency = new Currency("test", "plural", "minor", "minorplural", "$");
 		currency.setName("testing");
 		assertEquals("testing", currency.getName());
 	}
 
+    @Test
 	public void testGetPlural() {
 		Currency currency = new Currency("test", "plural", "minor", "minorplural", "$");
 		assertEquals("plural", currency.getPlural());
 	}
 
+    @Test
 	public void testSetPlural() {
 		Currency currency = new Currency("test", "plural", "minor", "minorplural", "$");
 		currency.setPlural("plurall");
 		assertEquals("plurall", currency.getPlural());
 	}
 
+    @Test
 	public void testGetMinor() {
 		Currency currency = new Currency("test", "plural", "minor", "minorplural", "$");
 		assertEquals("minor", currency.getMinor());
 	}
 
+    @Test
 	public void testSetMinor() {
 		Currency currency = new Currency("test", "plural", "minor", "minorplural", "$");
 		currency.setMinor("minors");
 		assertEquals("minors", currency.getMinor());
 	}
 
+    @Test
 	public void testGetMinorPlural() {
 		Currency currency = new Currency("test", "plural", "minor", "minorplural", "$");
 		assertEquals("minorplural", currency.getMinorPlural());
 	}
 
+    @Test
 	public void testSetMinorPlural() {
 		Currency currency = new Currency("test", "plural", "minor", "minorplural", "$");
 		currency.setMinorPlural("minorPlurals");
 		assertEquals("minorPlurals", currency.getMinorPlural());
 	}
 
+    @Test
 	public void testSetSign() {
 		Currency currency = new Currency("test", "plural", "minor", "minorplural", "$");
 		currency.setSign("asdf");
 		assertEquals("asdf", currency.getSign());
 	}
 
+    @Test
 	public void testGetSign() {
 		Currency currency = new Currency("test", "plural", "minor", "minorplural", "$");
 		assertEquals("$", currency.getSign());

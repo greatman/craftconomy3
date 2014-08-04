@@ -18,9 +18,11 @@
  */
 package com.greatmancode.craftconomy3.commands;
 
+import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.TestInitializator;
 import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.reflections.Reflections;
@@ -33,7 +35,10 @@ public class TestLoadedCommands {
 		new TestInitializator();
 	}
 
-	@Test
+    @After
+    public void close() { Common.getInstance().onDisable();};
+
+    @Test
 	public void testCommands() {
 
 		Reflections reflections = new Reflections("com.greatmancode.craftconomy3.commands");

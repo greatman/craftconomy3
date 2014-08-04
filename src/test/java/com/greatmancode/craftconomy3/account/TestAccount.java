@@ -22,6 +22,7 @@ import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.TestInitializator;
 import com.greatmancode.tools.caller.unittest.UnitTestServerCaller;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -34,7 +35,10 @@ public class TestAccount {
 		new TestInitializator();
 	}
 
-	@Test
+    @After
+    public void close() { Common.getInstance().onDisable();};
+
+    @Test
 	public void testAccount() {
         Account account = Common.getInstance().getAccountManager().getAccount("greatman321", false);
         assertEquals(100, Common.getInstance().getAccountManager().getAccount("greatman321", false).getBalance(UnitTestServerCaller.worldName, Common.getInstance().getCurrencyManager().getDefaultBankCurrency().getName()), 0);

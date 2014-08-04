@@ -21,6 +21,7 @@ package com.greatmancode.craftconomy3.database;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.TestInitializator;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -32,7 +33,10 @@ public class TestDatabaseManager {
 		new TestInitializator();
 	}
 
-	@Test
+    @After
+    public void close() { Common.getInstance().onDisable();};
+
+    @Test
 	public void testDatabaseManager() {
 		assertNotNull(Common.getInstance().getStorageHandler());
         assertNotNull(Common.getInstance().getStorageHandler().getStorageEngine());

@@ -41,12 +41,18 @@ public class TestBankCommands {
     @Before
     public void setUp() {
         new TestInitializator();
+        System.out.println("Initialized");
     }
+
+    @After
+    public void close() { Common.getInstance().onDisable();};
 
     @Test
     public void testBankCreateCommand() {
         BankCreateCommand command = new BankCreateCommand();
+        System.out.println("Creating a bank account!");
         command.execute(TEST_USER, new String[]{BANK_ACCOUNT});
+        System.out.println("DONE");
         assertFalse(Common.getInstance().getAccountManager().exist(BANK_ACCOUNT, true));
         Common.getInstance().getAccountManager().getAccount(TEST_USER,false).set(200, "default", Common.getInstance().getCurrencyManager().getDefaultCurrency().getName(), Cause.USER, "greatman");
         command.execute(TEST_USER, new String[]{BANK_ACCOUNT});

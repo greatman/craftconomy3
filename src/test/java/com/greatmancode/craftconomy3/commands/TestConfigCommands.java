@@ -24,6 +24,7 @@ import com.greatmancode.craftconomy3.TestInitializator;
 import com.greatmancode.craftconomy3.commands.config.ConfigBankPriceCommand;
 import com.greatmancode.craftconomy3.commands.config.ConfigFormatCommand;
 import com.greatmancode.craftconomy3.commands.config.ConfigHoldingsCommand;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -40,6 +41,9 @@ public class TestConfigCommands {
     public void setUp() {
         new TestInitializator();
     }
+
+    @After
+    public void close() { Common.getInstance().onDisable();};
 
     @Test
     public void testBankPriceCommand() {

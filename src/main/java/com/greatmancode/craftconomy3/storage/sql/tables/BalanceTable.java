@@ -71,10 +71,10 @@ public class BalanceTable extends DatabaseTable {
 
     public final String INSERT_ENTRY = "INSERT INTO " + getPrefix() + TABLE_NAME + "" +
             "(" + BALANCE_FIELD + ", " + WORLD_NAME_FIELD + ", username_id, currency_id) " +
-            "VALUES(?, ?, (SELECT id from " + getPrefix() + AccountTable.TABLE_NAME + " WHERE name=?),?)";
+            "VALUES(?, ?, (SELECT id from " + getPrefix() + AccountTable.TABLE_NAME + " WHERE "+getPrefix()+AccountTable.TABLE_NAME+".name=? AND bank=?),?)";
 
     public final String UPDATE_ENTRY = "UPDATE "+getPrefix()+TABLE_NAME+" SET balance=? " +
-            "WHERE username_id=(SELECT id FROM "+getPrefix()+AccountTable.TABLE_NAME+" WHERE name=?) " +
+            "WHERE username_id=(SELECT id FROM "+getPrefix()+AccountTable.TABLE_NAME+" WHERE name=? AND bank=?) " +
             "AND "+CURRENCY_FIELD+"=? AND "+WORLD_NAME_FIELD+"=?";
 
     public final String LIST_TOP_ACCOUNT = "SELECT balance, " + getPrefix() + CurrencyTable.TABLE_NAME + ".name AS currencyName, " + getPrefix() + AccountTable.TABLE_NAME + ".username FROM " + getPrefix() + TABLE_NAME + " " +

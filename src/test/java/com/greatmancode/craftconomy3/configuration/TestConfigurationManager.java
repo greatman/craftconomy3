@@ -21,6 +21,7 @@ package com.greatmancode.craftconomy3.configuration;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.TestInitializator;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -33,7 +34,10 @@ public class TestConfigurationManager {
 		new TestInitializator();
 	}
 
-	@Test
+    @After
+    public void close() { Common.getInstance().onDisable();};
+
+    @Test
 	public void test() {
 		assertNotNull(Common.getInstance().getConfigurationManager());
 		assertNotNull(Common.getInstance().getMainConfig());

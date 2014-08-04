@@ -18,15 +18,17 @@
  */
 package com.greatmancode.craftconomy3.account;
 
+import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.TestInitializator;
 import junit.framework.TestCase;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class TestBankAccount extends TestCase{
+public class TestBankAccount {
 
 
     @Before
@@ -34,9 +36,12 @@ public class TestBankAccount extends TestCase{
         new TestInitializator();
     }
 
+    @After
+    public void close() { Common.getInstance().onDisable();};
+
     @Test
     public void testBankAccount() {
-        Account account = new Account("testbank", true, false, false);
+        Account account = Common.getInstance().getAccountManager().getAccount("testbank", true);
         assertTrue(account.isBankAccount());
         assertFalse(account.ignoreACL());
     }

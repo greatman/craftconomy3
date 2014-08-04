@@ -22,6 +22,7 @@ import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.TestInitializator;
 import com.greatmancode.tools.caller.unittest.UnitTestServerCaller;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -36,7 +37,10 @@ public class TestWorldGroupManager {
 		new TestInitializator();
 	}
 
-	@Test
+    @After
+    public void close() { Common.getInstance().onDisable();};
+
+    @Test
 	public void testWorldGroupManager() {
 		assertFalse(Common.getInstance().getWorldGroupManager().worldGroupExist("testeur"));
 

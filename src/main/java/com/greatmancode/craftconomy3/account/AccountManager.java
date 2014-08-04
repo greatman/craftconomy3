@@ -126,6 +126,11 @@ public class AccountManager {
         boolean result = false;
         if (exist(name, bankAccount)) {
             result = Common.getInstance().getStorageHandler().getStorageEngine().deleteAccount(name, bankAccount);
+            if (bankAccount) {
+                bankList.remove(name);
+            } else {
+                accountList.remove(name);
+            }
         }
         return result;
     }

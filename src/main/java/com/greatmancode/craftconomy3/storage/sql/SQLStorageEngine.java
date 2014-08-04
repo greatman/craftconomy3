@@ -100,7 +100,8 @@ public abstract class SQLStorageEngine extends StorageEngine {
                 statement.setDouble(1, Common.getInstance().getDefaultHoldings());
                 statement.setString(2, Account.getWorldGroupOfPlayerCurrentlyIn(name));
                 statement.setString(3, name);
-                statement.setString(4, Common.getInstance().getCurrencyManager().getDefaultCurrency().getName());
+                statement.setBoolean(4, bankAccount);
+                statement.setString(5, Common.getInstance().getCurrencyManager().getDefaultCurrency().getName());
                 statement.executeUpdate();
                 statement.close();
             }
@@ -132,13 +133,14 @@ public abstract class SQLStorageEngine extends StorageEngine {
             connection = db.getConnection();
             statement = connection.prepareStatement(logTable.INSERT_ENTRY);
             statement.setString(1, account.getAccountName());
-            statement.setString(2, info.toString());
-            statement.setString(3, cause.toString());
-            statement.setString(4, causeReason);
-            statement.setString(5, worldName);
-            statement.setDouble(6, amount);
-            statement.setString(7, currency.getName());
-            statement.setTimestamp(8, timestamp);
+            statement.setBoolean(2, account.isBankAccount());
+            statement.setString(3, info.toString());
+            statement.setString(4, cause.toString());
+            statement.setString(5, causeReason);
+            statement.setString(6, worldName);
+            statement.setDouble(7, amount);
+            statement.setString(8, currency.getName());
+            statement.setTimestamp(9, timestamp);
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -285,27 +287,20 @@ public abstract class SQLStorageEngine extends StorageEngine {
                 statement = connection.prepareStatement(balanceTable.UPDATE_ENTRY);
                 statement.setDouble(1, result);
                 statement.setString(2, account.getAccountName());
-                statement.setString(3, currency.getName());
-                statement.setString(4, world);
+                statement.setBoolean(3, account.isBankAccount());
+                statement.setString(4, currency.getName());
+                statement.setString(5, world);
                 statement.executeUpdate();
                 statement.close();
             } else {
                 result = amount;
                 statement.close();
-                statement = connection.prepareStatement("SELECT id from CC3_ACCOUNT WHERE name=?");
-                statement.setString(1,account.getAccountName());
-                set = statement.executeQuery();
-                if (set.next()) {
-                    System.out.println("WE HAZ ENTRY");
-                } else {
-                    System.out.println("NOTHING!?");
-                }
                 statement = connection.prepareStatement(balanceTable.INSERT_ENTRY);
                 statement.setDouble(1, result);
                 statement.setString(2, world);
-                System.out.println(account.getAccountName());
                 statement.setString(3, account.getAccountName());
-                statement.setString(4, currency.getName());
+                statement.setBoolean(4, account.isBankAccount());
+                statement.setString(5, currency.getName());
                 statement.executeUpdate();
                 statement.close();
             }

@@ -24,6 +24,7 @@ import com.greatmancode.craftconomy3.commands.money.BalanceCommand;
 import com.greatmancode.craftconomy3.commands.money.CreateCommand;
 import com.greatmancode.craftconomy3.commands.money.DeleteCommand;
 import com.greatmancode.craftconomy3.commands.money.GiveCommand;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -43,6 +44,9 @@ public class TestMoneyCommands {
     public void setUp() {
         new TestInitializator();
     }
+
+    @After
+    public void close() { Common.getInstance().onDisable();};
 
     @Test
     public void testBalanceCommand() {
