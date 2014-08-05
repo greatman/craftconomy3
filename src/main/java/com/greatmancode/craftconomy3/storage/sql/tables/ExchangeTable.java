@@ -26,10 +26,10 @@ public class ExchangeTable extends DatabaseTable {
             "  `from_currency` VARCHAR(50) NOT NULL," +
             "  `to_currency` VARCHAR(50) NOT NULL," +
             "  `amount` double DEFAULT 1.0," +
-            "  PRIMARY KEY (`from_currency`, to_currency)" +
+            "  PRIMARY KEY (`from_currency`, to_currency)," +
             "  CONSTRAINT `fk_exchange_currencyfrom`" +
             "    FOREIGN KEY (from_currency)" +
-            "    REFERENCES " + getPrefix() + CurrencyTable.TABLE_NAME + " (name)) ON UPDATE CASCADE ON DELETE CASCADE" +
+            "    REFERENCES " + getPrefix() + CurrencyTable.TABLE_NAME + " (name)) ON UPDATE CASCADE ON DELETE CASCADE," +
             "  CONSTRAINT `fk_exchange_currencyto`" +
             "    FOREIGN KEY (to_currency)" +
             "    REFERENCES " + getPrefix() + CurrencyTable.TABLE_NAME + " (name)) ON UPDATE CASCADE ON DELETE CASCADE" +

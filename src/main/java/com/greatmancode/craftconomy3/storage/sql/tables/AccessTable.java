@@ -31,7 +31,7 @@ public class AccessTable extends DatabaseTable {
             "  `acl` BOOLEAN DEFAULT FALSE," +
             "  `withdraw` BOOLEAN DEFAULT FALSE," +
             "  PRIMARY KEY (`account_id`, `playerName`)," +
-            "  ADD CONSTRAINT `fk_acl_account` FOREIGN KEY (`account_id`) REFERENCES `" + getPrefix() + AccountTable.TABLE_NAME + "` (`id`);" +
+            "  CONSTRAINT `fk_acl_account` FOREIGN KEY (`account_id`) REFERENCES `" + getPrefix() + AccountTable.TABLE_NAME + "` (`id`);" +
             ") ENGINE=InnoDB;";
 
     public final String CREATE_TABLE_H2 = "CREATE TABLE IF NOT EXISTS `" + getPrefix() + TABLE_NAME + "` (" +
