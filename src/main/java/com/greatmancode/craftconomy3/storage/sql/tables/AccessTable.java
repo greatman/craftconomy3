@@ -30,7 +30,7 @@ public class AccessTable extends DatabaseTable {
             "  `deposit` BOOLEAN DEFAULT FALSE," +
             "  `acl` BOOLEAN DEFAULT FALSE," +
             "  `withdraw` BOOLEAN DEFAULT FALSE," +
-            "  PRIMARY KEY (`account_id`, 'playerName')," +
+            "  PRIMARY KEY (`account_id`, `playerName`)," +
             "  ADD CONSTRAINT `fk_acl_account` FOREIGN KEY (`account_id`) REFERENCES `" + getPrefix() + AccountTable.TABLE_NAME + "` (`id`);" +
             ") ENGINE=InnoDB;";
 
