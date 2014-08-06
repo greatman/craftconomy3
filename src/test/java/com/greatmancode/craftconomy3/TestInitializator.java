@@ -53,6 +53,15 @@ public class TestInitializator {
         if (Boolean.getBoolean("mysql")) {
             Common.getInstance().getMainConfig().setValue("System.Database.Username", "travis");
             Common.getInstance().getMainConfig().setValue("System.Database.Type", "mysql");
+            if (System.getProperty("MYSQL_USERNAME") != null) {
+                Common.getInstance().getMainConfig().setValue("System.Database.Username", System.getProperty("MYSQL_USERNAME"));
+            }
+            if (System.getProperty("MYSQL_PASSWORD") != null) {
+                Common.getInstance().getMainConfig().setValue("System.Database.Password", System.getProperty("MYSQL_PASSWORD"));
+            }
+            if (System.getProperty("MYSQL_DATABASE") != null) {
+                Common.getInstance().getMainConfig().setValue("System.Database.Db", System.getProperty("MYSQL_DATABASE"));
+            }
             setupMySQL();
         }
         try {
