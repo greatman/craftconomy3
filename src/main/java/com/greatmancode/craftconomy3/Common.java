@@ -237,8 +237,6 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
     public void sendConsoleMessage(Level level, String msg) {
         if (!(getServerCaller() instanceof UnitTestServerCaller)) {
             getLogger().log(level, msg);
-        } else {
-            getServerCaller().getPlayerCaller().sendMessage("LOG", level + ":" + msg);
         }
     }
 
