@@ -22,29 +22,29 @@ public class WorldGroupTable extends DatabaseTable {
 
     public static final String TABLE_NAME = "worldgroup";
 
-    public final String CREATE_TABLE_MYSQL = "CREATE TABLE IF NOT EXISTS `" + getPrefix() + TABLE_NAME + "` (" +
+    public final String createTableMySQL = "CREATE TABLE IF NOT EXISTS `" + getPrefix() + TABLE_NAME + "` (" +
             "  `groupName` varchar(255)," +
             "  `worldList` varchar(255)," +
             "  PRIMARY KEY (`groupName`)" +
             ") ENGINE=InnoDB;";
 
-    public final String CREATE_TABLE_H2 = "CREATE TABLE IF NOT EXISTS `" + getPrefix() + TABLE_NAME + "` (" +
+    public final String createTableH2 = "CREATE TABLE IF NOT EXISTS `" + getPrefix() + TABLE_NAME + "` (" +
             "  `groupName` varchar(255)," +
             "  `worldList` varchar(255)," +
             "  PRIMARY KEY (`groupName`)" +
             ");";
 
-    public final String SELECT_ALL_ENTRY = "SELECT * FROM "+getPrefix()+ TABLE_NAME;
+    public final String selectAllEntry = "SELECT * FROM "+getPrefix()+ TABLE_NAME;
 
-    public final String SELECT_ENTRY = "SELECT * FROM " + getPrefix() + TABLE_NAME + " WHERE groupName=?";
+    public final String selectEntry = "SELECT * FROM " + getPrefix() + TABLE_NAME + " WHERE groupName=?";
 
-    public final String INSERT_ENTRY = "INSERT INTO " + getPrefix() + TABLE_NAME + "(groupName) VALUES(?)";
+    public final String insertEntry = "INSERT INTO " + getPrefix() + TABLE_NAME + "(groupName) VALUES(?)";
 
-    public final String INSERT_ENTRY_WITH_WORLDLIST = "INSERT INTO " + getPrefix() + TABLE_NAME + "(groupName, worldList) VALUES(?,?)";
+    public final String insertEntryWithWorldlist = "INSERT INTO " + getPrefix() + TABLE_NAME + "(groupName, worldList) VALUES(?,?)";
 
-    public final String UPDATE_ENTRY = "UPDATE " + getPrefix() + TABLE_NAME + " SET worldList=? WHERE groupName=?";
+    public final String updateEntry = "UPDATE " + getPrefix() + TABLE_NAME + " SET worldList=? WHERE groupName=?";
 
-    public final String DELETE_ENTRY = "DELETE FROM "+getPrefix()+TABLE_NAME+" WHERE groupName=?";
+    public final String deleteEntry = "DELETE FROM "+getPrefix()+TABLE_NAME+" WHERE groupName=?";
 
     public WorldGroupTable(String prefix) {
         super(prefix);

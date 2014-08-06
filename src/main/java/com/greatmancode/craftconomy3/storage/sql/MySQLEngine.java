@@ -55,35 +55,35 @@ public class MySQLEngine extends SQLStorageEngine {
         PreparedStatement statement = null;
         try {
             connection = db.getConnection();
-            statement = connection.prepareStatement(accountTable.CREATE_TABLE_MYSQL);
+            statement = connection.prepareStatement(accountTable.createTableMySQL);
             statement.executeUpdate();
             statement.close();
 
-            statement = connection.prepareStatement(currencyTable.CREATE_TABLE_MYSQL);
+            statement = connection.prepareStatement(currencyTable.createTableMySQL);
             statement.executeUpdate();
             statement.close();
 
-            statement = connection.prepareStatement(configTable.CREATE_TABLE_MYSQL);
+            statement = connection.prepareStatement(configTable.createTableMySQL);
             statement.executeUpdate();
             statement.close();
 
-            statement = connection.prepareStatement(worldGroupTable.CREATE_TABLE_MYSQL);
+            statement = connection.prepareStatement(worldGroupTable.createTableMySQL);
             statement.executeUpdate();
             statement.close();
 
-            statement = connection.prepareStatement(balanceTable.CREATE_TABLE_MYSQL);
+            statement = connection.prepareStatement(balanceTable.createTableMySQL);
             statement.executeUpdate();
             statement.close();
 
-            statement = connection.prepareStatement(logTable.CREATE_TABLE_MYSQL);
+            statement = connection.prepareStatement(logTable.createTableMySQL);
             statement.executeUpdate();
             statement.close();
 
-            statement = connection.prepareStatement(accessTable.CREATE_TABLE_MYSQL);
+            statement = connection.prepareStatement(accessTable.createTableMySQL);
             statement.executeUpdate();
             statement.close();
 
-            statement = connection.prepareStatement(exchangeTable.CREATE_TABLE_MYSQL);
+            statement = connection.prepareStatement(exchangeTable.createTableMySQL);
             statement.executeUpdate();
             statement.close();
         } catch (SQLException e) {

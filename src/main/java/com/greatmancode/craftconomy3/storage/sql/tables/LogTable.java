@@ -21,7 +21,7 @@ package com.greatmancode.craftconomy3.storage.sql.tables;
 public class LogTable extends DatabaseTable {
     public static final String TABLE_NAME = "log";
 
-    public final String CREATE_TABLE_MYSQL = "CREATE TABLE IF NOT EXISTS `" + getPrefix() + TABLE_NAME + "` (" +
+    public final String createTableMySQL = "CREATE TABLE IF NOT EXISTS `" + getPrefix() + TABLE_NAME + "` (" +
             "  `id` int(11) NOT NULL AUTO_INCREMENT," +
             "  `username_id` int(11) DEFAULT NULL," +
             "  `type` varchar(30)," +
@@ -36,7 +36,7 @@ public class LogTable extends DatabaseTable {
             "  CONSTRAINT `fk_log_currency` FOREIGN KEY (`currency_id`) REFERENCES `" + getPrefix() + CurrencyTable.TABLE_NAME + "` (`name`) ON DELETE CASCADE" +
             ") ENGINE=InnoDB;";
 
-    public final String CREATE_TABLE_H2 = "CREATE TABLE IF NOT EXISTS `" + getPrefix() + TABLE_NAME + "` (" +
+    public final String createTableH2 = "CREATE TABLE IF NOT EXISTS `" + getPrefix() + TABLE_NAME + "` (" +
             "  `id` int(11) NOT NULL AUTO_INCREMENT," +
             "  `username_id` int(11) DEFAULT NULL," +
             "  `type` varchar(30)," +
@@ -51,21 +51,21 @@ public class LogTable extends DatabaseTable {
             "  FOREIGN KEY (`currency_id`) REFERENCES `" + getPrefix() + CurrencyTable.TABLE_NAME + "` (`name`) ON DELETE CASCADE" +
             ");";
 
-    public final String INSERT_ENTRY = "INSERT INTO " + getPrefix() + TABLE_NAME + "" +
+    public final String insertEntry = "INSERT INTO " + getPrefix() + TABLE_NAME + "" +
             "(username_id, type, cause, causeReason, worldName, amount, currency_id, timestamp)" +
             "VALUES((SELECT id from " + getPrefix() + AccountTable.TABLE_NAME + " WHERE name=? AND bank=?),?,?,?,?,?,?,?)";
 
-    public final String SELECT_ENTRY = "SELECT * FROM " + getPrefix() + TABLE_NAME + " " +
+    public final String selectEntry = "SELECT * FROM " + getPrefix() + TABLE_NAME + " " +
             "LEFT JOIN " + getPrefix() + AccountTable.TABLE_NAME + " " +
             "ON " + getPrefix() + TABLE_NAME + ".username_id = " + getPrefix() + AccountTable.TABLE_NAME + ".id " +
             "WHERE " + getPrefix() + AccountTable.TABLE_NAME + ".name=?";
 
-    public final String SELECT_ENTRY_LIMIT = "SELECT * FROM " + getPrefix() + TABLE_NAME + " " +
+    public final String selectEntryLimit = "SELECT * FROM " + getPrefix() + TABLE_NAME + " " +
             "LEFT JOIN " + getPrefix() + AccountTable.TABLE_NAME + " " +
             "ON " + getPrefix() + TABLE_NAME + ".username_id = " + getPrefix() + AccountTable.TABLE_NAME + ".id " +
             "WHERE " + getPrefix() + AccountTable.TABLE_NAME + ".name=? LIMIT ?,? ORDER BY " + TABLE_NAME + ".id";
 
-    public final String CLEAN_ENTRY = "DELETE FROM " + getPrefix() + TABLE_NAME + " WHERE timestamp <= ?";
+    public final String cleanEntry = "DELETE FROM " + getPrefix() + TABLE_NAME + " WHERE timestamp <= ?";
 
     public LogTable(String prefix) {
         super(prefix);

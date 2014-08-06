@@ -23,23 +23,24 @@ public class ConfigTable extends DatabaseTable {
     public static final String TABLE_NAME = "config";
     public static final String NAME_FIELD = "name";
     public static final String VALUE_FIELD = "value";
-    public final String CREATE_TABLE_MYSQL = "CREATE TABLE IF NOT EXISTS `" + getPrefix() + TABLE_NAME + "` (" +
+
+    public final String createTableMySQL = "CREATE TABLE IF NOT EXISTS `" + getPrefix() + TABLE_NAME + "` (" +
             "  `" + NAME_FIELD + "` varchar(30) NOT NULL," +
             "  `" + VALUE_FIELD + "` varchar(255) NOT NULL," +
             "  PRIMARY KEY (`"+NAME_FIELD+"`)" +
             ") ENGINE=InnoDB;";
 
-    public final String CREATE_TABLE_H2 = "CREATE TABLE IF NOT EXISTS `" + getPrefix() + TABLE_NAME + "` (" +
+    public final String createTableH2 = "CREATE TABLE IF NOT EXISTS `" + getPrefix() + TABLE_NAME + "` (" +
             "  `" + NAME_FIELD + "` varchar(30) NOT NULL," +
             "  `" + VALUE_FIELD + "` varchar(255) NOT NULL," +
             "  PRIMARY KEY (`"+NAME_FIELD+"`)" +
             ");";
 
-    public final String SELECT_ENTRY = "SELECT * FROM " + getPrefix() + TABLE_NAME + " WHERE "+NAME_FIELD+"=?";
+    public final String selectEntry = "SELECT * FROM " + getPrefix() + TABLE_NAME + " WHERE "+NAME_FIELD+"=?";
 
-    public final String INSERT_ENTRY = "INSERT INTO " + getPrefix() + TABLE_NAME + "("+NAME_FIELD+","+VALUE_FIELD+") VALUES(?,?)";
+    public final String insertEntry = "INSERT INTO " + getPrefix() + TABLE_NAME + "("+NAME_FIELD+","+VALUE_FIELD+") VALUES(?,?)";
 
-    public final String UPDATE_ENTRY = "UPDATE " + getPrefix() + TABLE_NAME + " SET "+VALUE_FIELD+"=? WHERE "+NAME_FIELD+"=?";
+    public final String updateEntry = "UPDATE " + getPrefix() + TABLE_NAME + " SET "+VALUE_FIELD+"=? WHERE "+NAME_FIELD+"=?";
 
     public ConfigTable(String prefix) {
         super(prefix);

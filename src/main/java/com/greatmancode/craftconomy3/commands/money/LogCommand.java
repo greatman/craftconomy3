@@ -120,5 +120,7 @@ public class LogCommand extends CommandExecutor {
         public String type, worldName, cause, causeReason;
         public Currency currency;
         public double amount;
+
+        
     }
 }

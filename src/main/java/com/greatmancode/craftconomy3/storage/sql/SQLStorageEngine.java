@@ -67,17 +67,17 @@ public abstract class SQLStorageEngine extends StorageEngine {
         try {
             boolean infiniteMoney = false, ignoreACL = false;
             connection = db.getConnection();
-            statement = connection.prepareStatement(accountTable.SELECT_ENTRY_NAME);
+            statement = connection.prepareStatement(accountTable.selectEntryName);
             statement.setString(1, name);
             statement.setBoolean(2, bankAccount);
             ResultSet set = statement.executeQuery();
             if (!set.next()) {
                 statement.close();
                 if (bankAccount) {
-                    statement = connection.prepareStatement(accountTable.INSERT_ENTRY_BANK);
+                    statement = connection.prepareStatement(accountTable.insertEntryBank);
                     statement.setString(1, name);
                 } else {
-                    statement = connection.prepareStatement(accountTable.INSERT_ENTRY);
+                    statement = connection.prepareStatement(accountTable.insertEntry);
                     statement.setString(1, name);
                     if (Common.getInstance().getServerCaller().getPlayerCaller().isOnline(name)) {
                         statement.setString(2, Common.getInstance().getServerCaller().getPlayerCaller().getUUID(name).toString());
@@ -94,7 +94,7 @@ public abstract class SQLStorageEngine extends StorageEngine {
             }
             statement.close();
             if (create && !bankAccount) {
-                statement = connection.prepareStatement(balanceTable.INSERT_ENTRY);
+                statement = connection.prepareStatement(balanceTable.insertEntry);
                 statement.setDouble(1, Common.getInstance().getDefaultHoldings());
                 statement.setString(2, Account.getWorldGroupOfPlayerCurrentlyIn(name));
                 statement.setString(3, name);
@@ -129,7 +129,7 @@ public abstract class SQLStorageEngine extends StorageEngine {
         PreparedStatement statement = null;
         try {
             connection = db.getConnection();
-            statement = connection.prepareStatement(logTable.INSERT_ENTRY);
+            statement = connection.prepareStatement(logTable.insertEntry);
             statement.setString(1, account.getAccountName());
             statement.setBoolean(2, account.isBankAccount());
             statement.setString(3, info.toString());
@@ -155,7 +155,7 @@ public abstract class SQLStorageEngine extends StorageEngine {
         String result = null;
         try {
             connection = db.getConnection();
-            statement = connection.prepareStatement(configTable.SELECT_ENTRY);
+            statement = connection.prepareStatement(configTable.selectEntry);
             statement.setString(1, name);
             ResultSet set = statement.executeQuery();
             if (set.next()) {
@@ -177,12 +177,12 @@ public abstract class SQLStorageEngine extends StorageEngine {
         try {
             connection = db.getConnection();
             if (getConfigEntry(name) != null) {
-                statement = connection.prepareStatement(configTable.UPDATE_ENTRY);
+                statement = connection.prepareStatement(configTable.updateEntry);
                 statement.setString(1, value);
                 statement.setString(2, name);
                 statement.executeUpdate();
             } else {
-                statement = connection.prepareStatement(configTable.INSERT_ENTRY);
+                statement = connection.prepareStatement(configTable.insertEntry);
                 statement.setString(1, name);
                 statement.setString(2, value);
                 statement.executeUpdate();
@@ -203,7 +203,7 @@ public abstract class SQLStorageEngine extends StorageEngine {
         PreparedStatement statement = null;
         try {
             connection = db.getConnection();
-            statement = connection.prepareStatement(balanceTable.SELECT_ALL_ENTRY_ACCOUNT);
+            statement = connection.prepareStatement(balanceTable.selectAllEntryAccount);
             statement.setString(1, account.getAccountName());
             ResultSet set = statement.executeQuery();
             while (set.next()) {
@@ -225,7 +225,7 @@ public abstract class SQLStorageEngine extends StorageEngine {
         PreparedStatement statement = null;
         try {
             connection = db.getConnection();
-            statement = connection.prepareStatement(balanceTable.SELECT_WORLD_ENTRY_ACCOUNT);
+            statement = connection.prepareStatement(balanceTable.selectWorldEntryAccount);
             statement.setString(1, account.getAccountName());
             statement.setString(2, worldName);
             ResultSet set = statement.executeQuery();
@@ -248,7 +248,7 @@ public abstract class SQLStorageEngine extends StorageEngine {
         PreparedStatement statement = null;
         try {
             connection = db.getConnection();
-            statement = connection.prepareStatement(balanceTable.SELECT_WORLD_CURRENCY_ENTRY_ACCOUNT);
+            statement = connection.prepareStatement(balanceTable.selectWorldCurrencyEntryAccount);
             statement.setString(1, account.getAccountName());
             statement.setString(2, world);
             statement.setString(3, currency.getName());
@@ -274,7 +274,7 @@ public abstract class SQLStorageEngine extends StorageEngine {
         double result = 0;
         try {
             connection = db.getConnection();
-            statement = connection.prepareStatement(balanceTable.SELECT_WORLD_CURRENCY_ENTRY_ACCOUNT);
+            statement = connection.prepareStatement(balanceTable.selectWorldCurrencyEntryAccount);
             statement.setString(1, account.getAccountName());
             statement.setString(2, world);
             statement.setString(3, currency.getName());
@@ -282,7 +282,7 @@ public abstract class SQLStorageEngine extends StorageEngine {
             if (set.next()) {
                 result = amount;
                 statement.close();
-                statement = connection.prepareStatement(balanceTable.UPDATE_ENTRY);
+                statement = connection.prepareStatement(balanceTable.updateEntry);
                 statement.setDouble(1, result);
                 statement.setString(2, account.getAccountName());
                 statement.setBoolean(3, account.isBankAccount());
@@ -293,7 +293,7 @@ public abstract class SQLStorageEngine extends StorageEngine {
             } else {
                 result = amount;
                 statement.close();
-                statement = connection.prepareStatement(balanceTable.INSERT_ENTRY);
+                statement = connection.prepareStatement(balanceTable.insertEntry);
                 statement.setDouble(1, result);
                 statement.setString(2, world);
                 statement.setString(3, account.getAccountName());
@@ -317,7 +317,7 @@ public abstract class SQLStorageEngine extends StorageEngine {
         PreparedStatement statement = null;
         try {
             connection = db.getConnection();
-            statement = connection.prepareStatement(accountTable.UPDATE_INFINITEMONEY_ENTRY);
+            statement = connection.prepareStatement(accountTable.updateInfinitemoneyEntry);
             statement.setBoolean(1, infinite);
             statement.setString(2, account.getAccountName());
             statement.setBoolean(3, account.isBankAccount());
@@ -336,7 +336,7 @@ public abstract class SQLStorageEngine extends StorageEngine {
         PreparedStatement statement = null;
         try {
             connection = db.getConnection();
-            statement = connection.prepareStatement(accountTable.UPDATE_IGNOREACL_ENTRY);
+            statement = connection.prepareStatement(accountTable.updateIgnoreaclEntry);
             statement.setBoolean(1, ignoreACL);
             statement.setString(2, account.getAccountName());
             statement.setBoolean(3, account.isBankAccount());
@@ -356,7 +356,7 @@ public abstract class SQLStorageEngine extends StorageEngine {
         PreparedStatement statement = null;
         try {
             connection = db.getConnection();
-            statement = connection.prepareStatement(accessTable.SELECT_ENTRY);
+            statement = connection.prepareStatement(accessTable.selectEntry);
             statement.setString(1, account.getAccountName());
             statement.setBoolean(2, account.isBankAccount());
             ResultSet set = statement.executeQuery();
@@ -378,14 +378,14 @@ public abstract class SQLStorageEngine extends StorageEngine {
         PreparedStatement statement = null;
         try {
             connection = db.getConnection();
-            statement = connection.prepareStatement(accessTable.SELECT_ENTRY_UNIQUE);
+            statement = connection.prepareStatement(accessTable.selectEntryUnique);
             statement.setString(1,account.getAccountName());
             statement.setBoolean(2, account.isBankAccount());
             statement.setString(3, name);
             ResultSet set = statement.executeQuery();
             if (set.next()) {
                 statement.close();
-                statement = connection.prepareStatement(accessTable.UPDATE_ENTRY);
+                statement = connection.prepareStatement(accessTable.updateEntry);
                 statement.setBoolean(1, owner);
                 statement.setBoolean(2, balance);
                 statement.setBoolean(3, deposit);
@@ -396,7 +396,7 @@ public abstract class SQLStorageEngine extends StorageEngine {
                 statement.setString(8, name);
             } else {
                 statement.close();
-                statement = connection.prepareStatement(accessTable.INSERT_ENTRY);
+                statement = connection.prepareStatement(accessTable.insertEntry);
                 statement.setString(1, account.getAccountName());
                 statement.setBoolean(2, account.isBankAccount());
                 statement.setString(3, name);
@@ -423,7 +423,7 @@ public abstract class SQLStorageEngine extends StorageEngine {
         PreparedStatement statement = null;
         try {
             connection = db.getConnection();
-            statement = connection.prepareStatement(exchangeTable.SELECT_ENTRY);
+            statement = connection.prepareStatement(exchangeTable.selectEntry);
             statement.setString(1, currency.getName());
             statement.setString(2, otherCurrency.getName());
             ResultSet set = statement.executeQuery();
@@ -447,20 +447,20 @@ public abstract class SQLStorageEngine extends StorageEngine {
         PreparedStatement statement = null;
         try {
             connection = db.getConnection();
-            statement = connection.prepareStatement(exchangeTable.SELECT_ENTRY);
+            statement = connection.prepareStatement(exchangeTable.selectEntry);
             statement.setString(1, currency.getName());
             statement.setString(2, otherCurrency.getName());
             ResultSet set = statement.executeQuery();
             if (set.next()) {
                 statement.close();
-                statement = connection.prepareStatement(exchangeTable.UPDATE_ENTRY);
+                statement = connection.prepareStatement(exchangeTable.updateEntry);
                 statement.setString(1, currency.getName());
                 statement.setString(2, otherCurrency.getName());
                 statement.setDouble(3, amount);
                 statement.executeUpdate();
             } else {
                 statement.close();
-                statement = connection.prepareStatement(exchangeTable.INSERT_ENTRY);
+                statement = connection.prepareStatement(exchangeTable.insertEntry);
                 statement.setString(1, currency.getName());
                 statement.setString(2, otherCurrency.getName());
                 statement.setDouble(3, amount);
@@ -480,12 +480,12 @@ public abstract class SQLStorageEngine extends StorageEngine {
         PreparedStatement statement = null;
         try {
             connection = db.getConnection();
-            statement = connection.prepareStatement(currencyTable.SELECT_ENTRY);
+            statement = connection.prepareStatement(currencyTable.selectEntry);
             statement.setString(1, currency.getName());
             ResultSet set = statement.executeQuery();
             if (set.next()) {
                 statement.close();
-                statement = connection.prepareStatement(currencyTable.UPDATE_ENTRY);
+                statement = connection.prepareStatement(currencyTable.updateEntry);
                 statement.setString(1, currency.getName());
                 statement.setString(2, currency.getPlural());
                 statement.setString(3, currency.getMinor());
@@ -497,7 +497,7 @@ public abstract class SQLStorageEngine extends StorageEngine {
                 statement.executeUpdate();
             } else {
                 statement.close();
-                statement = connection.prepareStatement(currencyTable.INSERT_ENTRY);
+                statement = connection.prepareStatement(currencyTable.insertEntry);
                 statement.setString(1, currency.getName());
                 statement.setString(2, currency.getPlural());
                 statement.setString(3, currency.getMinor());
@@ -521,7 +521,7 @@ public abstract class SQLStorageEngine extends StorageEngine {
         PreparedStatement statement = null;
         try {
             connection = db.getConnection();
-            statement = connection.prepareStatement(currencyTable.DELETE_ENTRY);
+            statement = connection.prepareStatement(currencyTable.deleteEntry);
             statement.setString(1, currency.getName());
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -538,7 +538,7 @@ public abstract class SQLStorageEngine extends StorageEngine {
         PreparedStatement statement = null;
         try {
             connection = db.getConnection();
-            statement = connection.prepareStatement(accountTable.UPDATE_NAME_BY_UUID);
+            statement = connection.prepareStatement(accountTable.updateNameByUuid);
             statement.setString(1, name);
             statement.setString(2, uuid.toString());
             statement.executeUpdate();
@@ -556,7 +556,7 @@ public abstract class SQLStorageEngine extends StorageEngine {
         PreparedStatement statement = null;
         try {
             connection = db.getConnection();
-            statement = connection.prepareStatement(accountTable.UPDATE_UUID_BY_NAME);
+            statement = connection.prepareStatement(accountTable.updateUuidByName);
             statement.setString(1, uuid.toString());
             statement.setString(2, name);
             statement.executeUpdate();
@@ -575,7 +575,7 @@ public abstract class SQLStorageEngine extends StorageEngine {
         PreparedStatement statement = null;
         try {
             connection = db.getConnection();
-            statement = connection.prepareStatement(worldGroupTable.SELECT_ALL_ENTRY);
+            statement = connection.prepareStatement(worldGroupTable.selectAllEntry);
             ResultSet set = statement.executeQuery();
             while (set.next()) {
                 result.put(set.getString("groupName"), new WorldGroup(set.getString("groupName")));
@@ -595,7 +595,7 @@ public abstract class SQLStorageEngine extends StorageEngine {
         PreparedStatement statement = null;
         try {
             connection = db.getConnection();
-            statement = connection.prepareStatement(worldGroupTable.DELETE_ENTRY);
+            statement = connection.prepareStatement(worldGroupTable.deleteEntry);
             statement.setString(1, group);
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -614,7 +614,7 @@ public abstract class SQLStorageEngine extends StorageEngine {
 
         try {
             connection = db.getConnection();
-            statement = connection.prepareStatement(accessTable.GET_ACCOUNT_LIST);
+            statement = connection.prepareStatement(accessTable.getAccountList);
             statement.setString(1, sender);
             ResultSet set = statement.executeQuery();
             while (set.next()) {
@@ -636,7 +636,7 @@ public abstract class SQLStorageEngine extends StorageEngine {
         PreparedStatement statement = null;
         try {
             connection = db.getConnection();
-            statement = connection.prepareStatement(logTable.SELECT_ENTRY_LIMIT);
+            statement = connection.prepareStatement(logTable.selectEntryLimit);
             statement.setString(1, user.getAccountName());
             statement.setInt(2, (page - 1) * 10);
             statement.setInt(3, 10);
@@ -657,7 +657,7 @@ public abstract class SQLStorageEngine extends StorageEngine {
         PreparedStatement statement = null;
         try {
             connection = db.getConnection();
-            statement = connection.prepareStatement(balanceTable.LIST_TOP_ACCOUNT);
+            statement = connection.prepareStatement(balanceTable.listTopAccount);
             statement.setString(1, world);
             statement.setString(2, currency.getName());
             statement.setInt(3, (page - 1) * 10);
@@ -682,7 +682,7 @@ public abstract class SQLStorageEngine extends StorageEngine {
         PreparedStatement statement = null;
         try {
             connection = db.getConnection();
-            statement = connection.prepareStatement(exchangeTable.SELECT_ALL);
+            statement = connection.prepareStatement(exchangeTable.selectAll);
             ResultSet set = statement.executeQuery();
             while (set.next()) {
                 results.add(new CurrencyRatesCommand.CurrencyRateEntry(Common.getInstance().getCurrencyManager().getCurrency(set.getString("from_currency")),Common.getInstance().getCurrencyManager().getCurrency(set.getString("to_currency")),set.getDouble("amount")));
@@ -702,7 +702,7 @@ public abstract class SQLStorageEngine extends StorageEngine {
         PreparedStatement statement = null;
         try {
             connection = db.getConnection();
-            statement = connection.prepareStatement(logTable.CLEAN_ENTRY);
+            statement = connection.prepareStatement(logTable.cleanEntry);
             statement.setTimestamp(1, timestamp);
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -720,7 +720,7 @@ public abstract class SQLStorageEngine extends StorageEngine {
         PreparedStatement statement = null;
         try {
             connection = db.getConnection();
-            statement = connection.prepareStatement(accountTable.DELETE_ENTRY);
+            statement = connection.prepareStatement(accountTable.deleteEntry);
             statement.setString(1, name);
             statement.setBoolean(2, bankAccount);
             if (statement.executeUpdate() == 1) {
@@ -742,7 +742,7 @@ public abstract class SQLStorageEngine extends StorageEngine {
         PreparedStatement statement = null;
         try {
             connection = db.getConnection();
-            statement = connection.prepareStatement(accountTable.SELECT_ENTRY_NAME);
+            statement = connection.prepareStatement(accountTable.selectEntryName);
             statement.setString(1, name);
             statement.setBoolean(2, bankAccount);
             ResultSet set = statement.executeQuery();
@@ -764,18 +764,18 @@ public abstract class SQLStorageEngine extends StorageEngine {
         PreparedStatement statement = null;
         try {
             connection = db.getConnection();
-            statement = connection.prepareStatement(worldGroupTable.SELECT_ENTRY);
+            statement = connection.prepareStatement(worldGroupTable.selectEntry);
             statement.setString(1, name);
             ResultSet set = statement.executeQuery();
             if (set.next()) {
                 statement.close();
-                statement = connection.prepareStatement(worldGroupTable.UPDATE_ENTRY);
+                statement = connection.prepareStatement(worldGroupTable.updateEntry);
                 statement.setString(1, worldList);
                 statement.setString(2, name);
                 statement.executeUpdate();
             } else {
                 statement.close();
-                statement = connection.prepareStatement(worldGroupTable.INSERT_ENTRY_WITH_WORLDLIST);
+                statement = connection.prepareStatement(worldGroupTable.insertEntryWithWorldlist);
                 statement.setString(1, name);
                 statement.setString(2, worldList);
                 statement.executeUpdate();
@@ -795,7 +795,7 @@ public abstract class SQLStorageEngine extends StorageEngine {
         PreparedStatement statement = null;
         try {
             connection = db.getConnection();
-            statement = connection.prepareStatement(currencyTable.SELECT_ALL_ENTRY);
+            statement = connection.prepareStatement(currencyTable.selectAllEntry);
             ResultSet set = statement.executeQuery();
             while(set.next()) {
                 results.add(set.getString("name"));
@@ -815,10 +815,10 @@ public abstract class SQLStorageEngine extends StorageEngine {
         PreparedStatement statement = null;
         try {
             connection = db.getConnection();
-            statement = connection.prepareStatement(currencyTable.SET_AS_DEFAULT_1);
+            statement = connection.prepareStatement(currencyTable.setAsDefault1);
             statement.executeUpdate();
             statement.close();
-            statement = connection.prepareStatement(currencyTable.SET_AS_DEFAULT_2);
+            statement = connection.prepareStatement(currencyTable.setAsDefault2);
             statement.setString(1, currency.getName());
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -835,10 +835,10 @@ public abstract class SQLStorageEngine extends StorageEngine {
         PreparedStatement statement = null;
         try {
             connection = db.getConnection();
-            statement = connection.prepareStatement(currencyTable.SET_AS_DEFAULT_BANK_1);
+            statement = connection.prepareStatement(currencyTable.setAsDefaultBank1);
             statement.executeUpdate();
             statement.close();
-            statement = connection.prepareStatement(currencyTable.SET_AS_DEFAULT_BANK_2);
+            statement = connection.prepareStatement(currencyTable.setAsDefaultBank2);
             statement.setString(1, currency.getName());
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -856,7 +856,7 @@ public abstract class SQLStorageEngine extends StorageEngine {
         PreparedStatement statement = null;
         try {
             connection = db.getConnection();
-            statement = connection.prepareStatement(currencyTable.SELECT_ENTRY);
+            statement = connection.prepareStatement(currencyTable.selectEntry);
             statement.setString(1,name);
             ResultSet set = statement.executeQuery();
             if (set.next()) {
@@ -878,7 +878,7 @@ public abstract class SQLStorageEngine extends StorageEngine {
         PreparedStatement statement = null;
         try {
             connection = db.getConnection();
-            statement = connection.prepareStatement(currencyTable.SELECT_ALL_ENTRY);
+            statement = connection.prepareStatement(currencyTable.selectAllEntry);
             ResultSet set = statement.executeQuery();
             while(set.next()) {
                 results.put(set.getString("name"), new Currency(set.getString("name"), set.getString("plural"), set.getString("minor"),set.getString("minorPlural"), set.getString("sign")));
@@ -899,14 +899,14 @@ public abstract class SQLStorageEngine extends StorageEngine {
         PreparedStatement statement = null;
         try {
             connection = db.getConnection();
-            statement = connection.prepareStatement(worldGroupTable.SELECT_ENTRY);
+            statement = connection.prepareStatement(worldGroupTable.selectEntry);
             statement.setString(1, name);
             ResultSet set = statement.executeQuery();
             if (set.next()) {
                 result = set.getString("worldList");
             } else {
                 statement.close();
-                statement = connection.prepareStatement(worldGroupTable.INSERT_ENTRY);
+                statement = connection.prepareStatement(worldGroupTable.insertEntry);
                 statement.setString(1, name);
                 statement.executeUpdate();
             }
@@ -931,8 +931,8 @@ public abstract class SQLStorageEngine extends StorageEngine {
             } else {
                 first = false;
             }
-            builder.append("'"+userEntry.user+"')");
-            balanceBuilder.append(userEntry.balance+",default,"+Common.getInstance().getCurrencyManager().getDefaultCurrency().getName()+",(SELECT id from " + tablePrefix + AccountTable.TABLE_NAME + " WHERE name=?))");
+            builder.append("'"+userEntry.getUser()+"')");
+            balanceBuilder.append(userEntry.getBalance()+",default,"+Common.getInstance().getCurrencyManager().getDefaultCurrency().getName()+",(SELECT id from " + tablePrefix + AccountTable.TABLE_NAME + " WHERE name=?))");
         }
         builder.append(";");
         balanceBuilder.append(";");

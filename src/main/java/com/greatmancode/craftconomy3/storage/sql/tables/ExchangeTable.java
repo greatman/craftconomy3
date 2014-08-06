@@ -22,7 +22,7 @@ public class ExchangeTable extends DatabaseTable {
 
     public static final String TABLE_NAME = "exchange";
 
-    public final String CREATE_TABLE_MYSQL = "CREATE TABLE IF NOT EXISTS `" + getPrefix() + TABLE_NAME + "` (" +
+    public final String createTableMySQL = "CREATE TABLE IF NOT EXISTS `" + getPrefix() + TABLE_NAME + "` (" +
             "  `from_currency` VARCHAR(50) NOT NULL," +
             "  `to_currency` VARCHAR(50) NOT NULL," +
             "  `amount` double DEFAULT 1.0," +
@@ -35,7 +35,7 @@ public class ExchangeTable extends DatabaseTable {
             "    REFERENCES " + getPrefix() + CurrencyTable.TABLE_NAME + " (name) ON UPDATE CASCADE ON DELETE CASCADE" +
             ") ENGINE=InnoDB;";
 
-    public final String CREATE_TABLE_H2 = "CREATE TABLE IF NOT EXISTS `" + getPrefix() + TABLE_NAME + "` (" +
+    public final String createTableH2 = "CREATE TABLE IF NOT EXISTS `" + getPrefix() + TABLE_NAME + "` (" +
             "  `from_currency` VARCHAR(50) NOT NULL," +
             "  `to_currency` VARCHAR(50) NOT NULL," +
             "  `amount` double DEFAULT 1.0," +
@@ -46,15 +46,15 @@ public class ExchangeTable extends DatabaseTable {
             "    REFERENCES " + getPrefix() + CurrencyTable.TABLE_NAME + "(name) ON UPDATE CASCADE ON DELETE CASCADE" +
             ");";
 
-    public final String SELECT_ENTRY = "SELECT * FROM " + getPrefix() + TABLE_NAME + " " +
+    public final String selectEntry = "SELECT * FROM " + getPrefix() + TABLE_NAME + " " +
             "WHERE from_currency=? AND to_currency=?";
 
-    public final String SELECT_ALL = "SELECT * FROM "+getPrefix() + TABLE_NAME;
+    public final String selectAll = "SELECT * FROM "+getPrefix() + TABLE_NAME;
 
-    public final String INSERT_ENTRY = "INSERT INTO " + getPrefix() + TABLE_NAME + "(from_currency, to_currency, amount) " +
+    public final String insertEntry = "INSERT INTO " + getPrefix() + TABLE_NAME + "(from_currency, to_currency, amount) " +
             "VALUES(?,?,?)";
 
-    public final String UPDATE_ENTRY = "UPDATE " + getPrefix() + TABLE_NAME + " SET amount=? " +
+    public final String updateEntry = "UPDATE " + getPrefix() + TABLE_NAME + " SET amount=? " +
             "WHERE from_currency.name=? AND to_currency.name=?";
 
     public ExchangeTable(String prefix) {

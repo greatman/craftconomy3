@@ -22,7 +22,7 @@ public class AccountTable extends DatabaseTable {
 
 
     public static final String TABLE_NAME = "account";
-    public final String CREATE_TABLE_MYSQL = "CREATE TABLE IF NOT EXISTS `" + getPrefix() + TABLE_NAME + "` (" +
+    public final String createTableMySQL = "CREATE TABLE IF NOT EXISTS `" + getPrefix() + TABLE_NAME + "` (" +
             "  `id` int(11) NOT NULL AUTO_INCREMENT," +
             "  `name` varchar(50)," +
             "  `infiniteMoney` boolean DEFAULT FALSE," +
@@ -34,7 +34,7 @@ public class AccountTable extends DatabaseTable {
             "  KEY `account_uuid_index` (`uuid`(36))" +
             ") ENGINE=InnoDB;";
 
-    public final String CREATE_TABLE_H2 = "CREATE TABLE IF NOT EXISTS " + getPrefix() + TABLE_NAME + " (" +
+    public final String createTableH2 = "CREATE TABLE IF NOT EXISTS " + getPrefix() + TABLE_NAME + " (" +
             "id int PRIMARY KEY AUTO_INCREMENT," +
             "name varchar(50)," +
             "infiniteMoney boolean DEFAULT FALSE," +
@@ -44,25 +44,25 @@ public class AccountTable extends DatabaseTable {
             "CREATE INDEX IF NOT EXISTS account_name ON " + getPrefix() + TABLE_NAME + "(name);" +
             "CREATE INDEX IF NOT EXISTS account_uuid ON " + getPrefix() + TABLE_NAME + "(uuid);";
 
-    public final String SELECT_ENTRY_NAME = "SELECT * FROM " + getPrefix() + TABLE_NAME + " WHERE name=? AND bank=?";
+    public final String selectEntryName = "SELECT * FROM " + getPrefix() + TABLE_NAME + " WHERE name=? AND bank=?";
 
-    public final String SELECT_ENTRY_UUID = "SELECT * FROM " + getPrefix() + TABLE_NAME + " WHERE uuid=?";
+    public final String selectEntryUuid = "SELECT * FROM " + getPrefix() + TABLE_NAME + " WHERE uuid=?";
 
-    public final String INSERT_ENTRY = "INSERT INTO " + getPrefix() + TABLE_NAME + "(name,uuid) VALUES(?,?)";
+    public final String insertEntry = "INSERT INTO " + getPrefix() + TABLE_NAME + "(name,uuid) VALUES(?,?)";
 
-    public final String INSERT_ENTRY_BANK = "INSERT INTO " + getPrefix() + TABLE_NAME + "(name,bank) VALUES(?,true)";
+    public final String insertEntryBank = "INSERT INTO " + getPrefix() + TABLE_NAME + "(name,bank) VALUES(?,true)";
 
-    public final String INSERT_ENTRY_ALL_INFO = "INSERT INTO " + getPrefix() + TABLE_NAME + "(name,uuid,infiniteMoney,ignoreACL,bank) VALUES(?,?,?,?,?)";
+    public final String insertEntryAllInfo = "INSERT INTO " + getPrefix() + TABLE_NAME + "(name,uuid,infiniteMoney,ignoreACL,bank) VALUES(?,?,?,?,?)";
 
-    public final String UPDATE_INFINITEMONEY_ENTRY = "UPDATE " + getPrefix() + TABLE_NAME + " SET infiniteMoney=? WHERE name=? AND bank=?";
+    public final String updateInfinitemoneyEntry = "UPDATE " + getPrefix() + TABLE_NAME + " SET infiniteMoney=? WHERE name=? AND bank=?";
 
-    public final String UPDATE_IGNOREACL_ENTRY = "UPDATE " + getPrefix() + TABLE_NAME + " SET infiniteMoney=? WHERE name=? AND bank=?";
+    public final String updateIgnoreaclEntry = "UPDATE " + getPrefix() + TABLE_NAME + " SET infiniteMoney=? WHERE name=? AND bank=?";
 
-    public final String DELETE_ENTRY = "DELETE FROM " + getPrefix() + TABLE_NAME + " WHERE name=? AND bank=?";
+    public final String deleteEntry = "DELETE FROM " + getPrefix() + TABLE_NAME + " WHERE name=? AND bank=?";
 
-    public final String UPDATE_NAME_BY_UUID = "UPDATE "+getPrefix()+TABLE_NAME + " SET name=? WHERE uuid=?";
+    public final String updateNameByUuid = "UPDATE "+getPrefix()+TABLE_NAME + " SET name=? WHERE uuid=?";
 
-    public final String UPDATE_UUID_BY_NAME = "UPDATE "+getPrefix()+TABLE_NAME+" SET uuid=? WHERE name=?";
+    public final String updateUuidByName = "UPDATE "+getPrefix()+TABLE_NAME+" SET uuid=? WHERE name=?";
 
 
 

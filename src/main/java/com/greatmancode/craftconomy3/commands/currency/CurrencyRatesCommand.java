@@ -57,13 +57,25 @@ public class CurrencyRatesCommand extends CommandExecutor {
     }
 
     public static class CurrencyRateEntry {
-        public double amount;
-        public Currency from, to;
+        private double amount;
+        private Currency from, to;
 
         public CurrencyRateEntry(Currency from, Currency to, double amount) {
             this.amount = amount;
             this.from = from;
             this.to = to;
+        }
+
+        public double getAmount() {
+            return amount;
+        }
+
+        public Currency getFrom() {
+            return from;
+        }
+
+        public Currency getTo() {
+            return to;
         }
     }
 }

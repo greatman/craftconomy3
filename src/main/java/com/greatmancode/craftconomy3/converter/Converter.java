@@ -173,15 +173,23 @@ public abstract class Converter {
         /**
          * the user name
          */
-        public String user;
+        private String user;
         /**
          * the account balance
          */
-        public double balance;
+        private double balance;
 
         public User(String user, double balance) {
             this.user = user;
             this.balance = balance;
+        }
+
+        public String getUser() {
+            return user;
+        }
+
+        public double getBalance() {
+            return balance;
         }
     }
 }

@@ -22,7 +22,7 @@ public class AccessTable extends DatabaseTable {
 
     public static final String TABLE_NAME = "acl";
 
-    public final String CREATE_TABLE_MYSQL = "CREATE TABLE IF NOT EXISTS `" + getPrefix() + TABLE_NAME + "` (" +
+    public final String createTableMySQL = "CREATE TABLE IF NOT EXISTS `" + getPrefix() + TABLE_NAME + "` (" +
             "  `account_id` int(11) DEFAULT NULL," +
             "  `playerName` varchar(16)," +
             "  `owner` BOOLEAN DEFAULT NULL," +
@@ -34,7 +34,7 @@ public class AccessTable extends DatabaseTable {
             "  CONSTRAINT `fk_acl_account` FOREIGN KEY (`account_id`) REFERENCES `" + getPrefix() + AccountTable.TABLE_NAME + "` (`id`)" +
             ") ENGINE=InnoDB;";
 
-    public final String CREATE_TABLE_H2 = "CREATE TABLE IF NOT EXISTS `" + getPrefix() + TABLE_NAME + "` (" +
+    public final String createTableH2 = "CREATE TABLE IF NOT EXISTS `" + getPrefix() + TABLE_NAME + "` (" +
             "  `account_id` int(11)," +
             "  `playerName` varchar(16)," +
             "  `owner` BOOLEAN DEFAULT NULL," +
@@ -46,21 +46,21 @@ public class AccessTable extends DatabaseTable {
             " FOREIGN KEY (`account_id`) REFERENCES `" + getPrefix() + AccountTable.TABLE_NAME + "` (`id`)" +
             ");";
 
-    public final String SELECT_ENTRY = "SELECT * FROM " + getPrefix() + TABLE_NAME + " " +
+    public final String selectEntry = "SELECT * FROM " + getPrefix() + TABLE_NAME + " " +
             "LEFT JOIN " + getPrefix() + AccountTable.TABLE_NAME + " ON " +
             getPrefix() + TABLE_NAME + ".account_id = " + getPrefix() + AccountTable.TABLE_NAME + ".id WHERE " + getPrefix() + AccountTable.TABLE_NAME + ".name=? AND " + getPrefix() + AccountTable.TABLE_NAME + ".bank=?";
 
-    public final String SELECT_ENTRY_UNIQUE = "SELECT * FROM " + getPrefix() + TABLE_NAME + " " +
+    public final String selectEntryUnique = "SELECT * FROM " + getPrefix() + TABLE_NAME + " " +
             "LEFT JOIN " + getPrefix() + AccountTable.TABLE_NAME + " ON " +
             getPrefix() + TABLE_NAME + ".account_id = " + getPrefix() + AccountTable.TABLE_NAME + ".id WHERE " + getPrefix() + AccountTable.TABLE_NAME + ".name=? AND " + getPrefix() + AccountTable.TABLE_NAME + ".bank=? AND playerName=?";
 
-    public final String INSERT_ENTRY = "INSERT INTO " + getPrefix() + TABLE_NAME + "" +
+    public final String insertEntry = "INSERT INTO " + getPrefix() + TABLE_NAME + "" +
             "(account_id, playerName, owner, balance, deposit, acl, withdraw) VALUES((SELECT id from " + getPrefix() + AccountTable.TABLE_NAME + " WHERE name=? AND bank=?),?,?,?,?,?,?)";
 
-    public final String UPDATE_ENTRY = "UPDATE " + getPrefix() + TABLE_NAME + " SET owner=? , balance=?, deposit=?, acl=?, withdraw=? " +
+    public final String updateEntry = "UPDATE " + getPrefix() + TABLE_NAME + " SET owner=? , balance=?, deposit=?, acl=?, withdraw=? " +
             "WHERE account_id=(SELECT id FROM "+getPrefix()+AccountTable.TABLE_NAME+" WHERE name=? AND bank=?) AND playerName=?";
 
-    public final String GET_ACCOUNT_LIST = "SELECT "+getPrefix()+AccountTable.TABLE_NAME+".name FROM "+getPrefix()+TABLE_NAME+
+    public final String getAccountList = "SELECT "+getPrefix()+AccountTable.TABLE_NAME+".name FROM "+getPrefix()+TABLE_NAME+
             "LEFT JOIN " + getPrefix() + AccountTable.TABLE_NAME + " ON " +
             getPrefix() + TABLE_NAME + ".account_id = " + getPrefix() + AccountTable.TABLE_NAME + ".id " +
             "WHERE playerName=?";

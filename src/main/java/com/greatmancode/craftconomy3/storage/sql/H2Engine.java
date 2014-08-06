@@ -52,35 +52,35 @@ public class H2Engine extends SQLStorageEngine {
         PreparedStatement statement = null;
         try {
             connection = db.getConnection();
-            statement = connection.prepareStatement(accountTable.CREATE_TABLE_H2);
+            statement = connection.prepareStatement(accountTable.createTableH2);
             statement.executeUpdate();
             statement.close();
 
-            statement = connection.prepareStatement(currencyTable.CREATE_TABLE_H2);
+            statement = connection.prepareStatement(currencyTable.createTableH2);
             statement.executeUpdate();
             statement.close();
 
-            statement = connection.prepareStatement(configTable.CREATE_TABLE_H2);
+            statement = connection.prepareStatement(configTable.createTableH2);
             statement.executeUpdate();
             statement.close();
 
-            statement = connection.prepareStatement(worldGroupTable.CREATE_TABLE_H2);
+            statement = connection.prepareStatement(worldGroupTable.createTableH2);
             statement.executeUpdate();
             statement.close();
 
-            statement = connection.prepareStatement(balanceTable.CREATE_TABLE_H2);
+            statement = connection.prepareStatement(balanceTable.createTableH2);
             statement.executeUpdate();
             statement.close();
 
-            statement = connection.prepareStatement(accessTable.CREATE_TABLE_H2);
+            statement = connection.prepareStatement(accessTable.createTableH2);
             statement.executeUpdate();
             statement.close();
 
-            statement = connection.prepareStatement(exchangeTable.CREATE_TABLE_H2);
+            statement = connection.prepareStatement(exchangeTable.createTableH2);
             statement.executeUpdate();
             statement.close();
 
-            statement = connection.prepareStatement(logTable.CREATE_TABLE_H2);
+            statement = connection.prepareStatement(logTable.createTableH2);
             statement.executeUpdate();
             statement.close();
         } catch (SQLException e) {

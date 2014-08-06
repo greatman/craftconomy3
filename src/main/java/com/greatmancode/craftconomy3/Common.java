@@ -121,8 +121,6 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
             Common.getInstance().getServerCaller().registerPermission("craftconomy.*");
             commandManager = new CommandHandler(serverCaller);
             registerCommands();
-            //commandManager = new CommandLoader();
-            //commandManager.initialize();
             if (getMainConfig().getBoolean("System.Setup")) {
 
                 //We got quick setup. Let's do it!!!!
@@ -144,7 +142,7 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
                 sendConsoleMessage(Level.INFO, getLanguageManager().getString("ready"));
             }
 
-            //TODO: Let's make that less ugly shall we?
+
             getServerCaller().registerPermission("craftconomy.money.log.others");
             initialized = true;
         }
