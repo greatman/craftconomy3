@@ -77,29 +77,22 @@ public class NewSetupDatabaseCommand extends CommandExecutor {
 
     private void start(String sender, String[] args) {
         if (args.length == 1) {
-            if (args[0].equalsIgnoreCase("sqlite")) {
-                step = INTERNALSTEP.SQLITE;
-                sqliteOrH2(sender, true);
-            } else if (args[0].equalsIgnoreCase("mysql")) {
+            if (args[0].equalsIgnoreCase("mysql")) {
                 step = INTERNALSTEP.MYSQL;
                 Common.getInstance().getMainConfig().setValue(CONFIG_NODE, "mysql");
                 Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_GREEN}}You selected {{WHITE}}MySQL{{DARK_GREEN}}. Please type {{WHITE}}/ccsetup database address <Your host>");
             } else if (args[0].equalsIgnoreCase("h2")) {
                 step = INTERNALSTEP.H2;
-                sqliteOrH2(sender, false);
+                h2(sender);
             } else {
                 Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_RED}}Invalid value!");
-                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_GREEN}}Please type {{WHITE}}/ccsetup database <sqlite/mysql/h2>");
+                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_GREEN}}Please type {{WHITE}}/ccsetup database <mysql/h2>");
             }
         }
     }
 
-    private void sqliteOrH2(String sender, boolean sqlite) {
-        if (sqlite) {
-            Common.getInstance().getMainConfig().setValue(CONFIG_NODE, "sqlite");
-        } else {
-            Common.getInstance().getMainConfig().setValue(CONFIG_NODE, "h2");
-        }
+    private void h2(String sender) {
+        Common.getInstance().getMainConfig().setValue(CONFIG_NODE, "h2");
         Common.getInstance().initialiseDatabase();
         done(sender);
     }
