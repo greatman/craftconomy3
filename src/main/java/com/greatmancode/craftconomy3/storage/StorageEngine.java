@@ -216,37 +216,119 @@ public abstract class StorageEngine {
      */
     public abstract void updateUUID(String name, UUID uuid);
 
+    /**
+     * Get all the world groups in the system
+     * @return A map of the world groups.
+     */
     public abstract Map<String, WorldGroup> getWorldGroups();
 
+    /**
+     * Remove a world group from the system
+     * @param group The name of the world group
+     */
     public abstract void removeWorldGroup(String group);
 
-    public abstract String[] getBankAccountList(String sender);
+    /**
+     * Retrieve the list of bank account this player have access to
+     * @param playerName The player name
+     * @return A String array of the accounts.
+     */
+    public abstract String[] getBankAccountList(String playerName);
 
+    /**
+     * Get the logs of an account
+     * @param user The account to retrieve the log from
+     * @param page The page number of the entry.
+     * @return
+     */
     public abstract List<LogCommand.LogEntry> getLog(Account user, int page);
 
+    /**
+     * Retrieve a list of the top accounts
+     * @param page The page number
+     * @param currency The currency
+     * @param world The world group.
+     * @return A list of the top accounts
+     */
     public abstract List<TopCommand.TopEntry> getTopEntry(int page, Currency currency, String world);
 
+    /**
+     * Get the exchange rates of every currencies
+     * @return A list of the exchange rates
+     */
     public abstract List<CurrencyRatesCommand.CurrencyRateEntry> getCurrencyExchanges();
 
+    /**
+     * Clear the logs before the timestamp given
+     * @param timestamp The lowest date a log entry can have
+     */
     public abstract void cleanLog(Timestamp timestamp);
 
+    /**
+     * Delete a account from the backend
+     * @param name The name of the account
+     * @param bankAccount If the account is a bank account or not
+     * @return True if the account is deleted, else false.
+     */
     public abstract boolean deleteAccount(String name, boolean bankAccount);
 
+    /**
+     * Checks if a account exist
+     * @param name The name of the account
+     * @param bankAccount If the account is a bank account or not
+     * @return True if the account exists, else false.
+     */
     public abstract boolean accountExist(String name, boolean bankAccount);
 
+    /**
+     * Save a world group
+     * @param name The name of the world group.
+     * @param worldList The worlds being in this world group seperated by , .
+     */
     public abstract void saveWorldGroup(String name, String worldList);
 
+    /**
+     * Get the names of all the currencies in the system.
+     * @return A list of all the currencies
+     */
     public abstract List<String> getAllCurrencyNames();
 
+    /**
+     * Set the default currency of the system
+     * @param currency The currency to set as default
+     */
     public abstract void setDefaultCurrency(Currency currency);
 
+
+    /**
+     * Set the default bank creation currency.
+     * @param currency The currency
+     */
     public abstract void setDefaultBankCurrency(Currency currency);
 
+    /**
+     * Retrieve a currency
+     * @param name The name of the currency
+     * @return The currency if it exists else null
+     */
     public abstract Currency getCurrency(String name);
 
+    /**
+     * Retrieve all currencies
+     * @return A map of the currencies.
+     */
     public abstract Map<String,Currency> getAllCurrencies();
 
+    /**
+     * Get the raw value of the world list of a world group.
+     * @param name The name of the world group.
+     * @return The list of worlds in a string seperated by commas (,)
+     */
     public abstract String retrieveWorldGroupWorlds(String name);
 
-    public abstract void saveImporterUsers(List<Converter.User> userList2);
+    /**
+     * Save the converted accounts into the backend
+     * @param userList The user list being converted
+     */
+    public abstract void saveImporterUsers(List<Converter.User> userList);
 }

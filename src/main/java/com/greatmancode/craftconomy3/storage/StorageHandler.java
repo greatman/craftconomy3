@@ -44,10 +44,17 @@ public class StorageHandler {
         }
     }
 
+    /**
+     * Retrieve the storage engine currently loaded.
+     * @return The storage engine.
+     */
     public StorageEngine getStorageEngine() {
         return engine;
     }
 
+    /**
+     * Disable the storage engine.
+     */
     public void disable() {
         engine.disable();
     }
