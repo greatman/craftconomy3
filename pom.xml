@@ -113,6 +113,11 @@
             <artifactId>slf4j-api</artifactId>
             <version>1.7.7</version>
         </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>1.4.180</version>
+        </dependency>
     </dependencies>
 
 	<build>
@@ -199,7 +204,6 @@
                                     <pattern>org.slf4j</pattern>
                                     <shadedPattern>com.greatmancode.org.slf4j</shadedPattern>
                                 </relocation>
-
 							</relocations>
 							<artifactSet>
                                 <includes>
@@ -207,6 +211,7 @@
                                     <include>com.zaxxer:HikariCP</include>
                                     <include>org.javassist:javassist</include>
                                     <include>org.slf4j:slf4j-api</include>
+                                    <include>com.h2database:h2</include>
                                 </includes>
 							</artifactSet>
 						</configuration>
