@@ -21,6 +21,7 @@ package com.greatmancode.craftconomy3.converter.converters;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.converter.Converter;
 import com.greatmancode.craftconomy3.storage.sql.tables.iconomy.IConomyTable;
+import com.greatmancode.tools.utils.Tools;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
@@ -184,19 +185,22 @@ public class Iconomy6 extends Converter {
      * @return True if the convert is done. Else false.
      */
     private boolean importDatabase(String sender) {
+        Connection connection = null;
+        PreparedStatement statement = null;
         try {
-            Connection connection = db.getConnection();
-            PreparedStatement statement = connection.prepareStatement(IConomyTable.SELECT_ENTRY);
+            connection = db.getConnection();
+            statement = connection.prepareStatement(IConomyTable.SELECT_ENTRY);
             ResultSet set = statement.executeQuery();
             List<User> userList = new ArrayList<User>();
             while (set.next()) {
                 userList.add(new User(set.getString("username"), set.getDouble("balance")));
             }
-            statement.close();
-            connection.close();
             addAccountToString(sender, userList);
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            Tools.closeJDBCStatement(statement);
+            Tools.closeJDBCConnection(connection);
         }
         return true;
     }

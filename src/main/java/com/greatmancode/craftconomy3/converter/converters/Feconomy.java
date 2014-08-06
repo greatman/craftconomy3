@@ -20,6 +20,7 @@ package com.greatmancode.craftconomy3.converter.converters;
 
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.converter.Converter;
+import com.greatmancode.tools.utils.Tools;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -76,9 +77,10 @@ public class Feconomy extends Converter {
      * @return True if the convert is done. Else false.
      */
     private boolean importDatabase(String sender) {
+        PreparedStatement statement = null;
         try {
-            Statement statement = connect.createStatement();
-            ResultSet rs = statement.executeQuery("SELECT * FROM fe_accounts");
+            statement = connect.prepareStatement("SELECT * FROM fe_accounts");
+            ResultSet rs = statement.executeQuery();
             List<User> userList = new ArrayList<User>();
             while (rs.next()) {
                 userList.add(new User(rs.getString("name"), rs.getDouble("money")));
@@ -87,11 +89,9 @@ public class Feconomy extends Converter {
             addAccountToString(sender, userList);
         } catch (SQLException e) {
             e.printStackTrace();
-        }
-        try {
-            connect.close();
-        } catch (SQLException e) {
-            Common.getInstance().getLogger().severe("Unable to disconnect from the Feconomy database! Message: " + e.getMessage());
+        } finally {
+            Tools.closeJDBCStatement(statement);
+            Tools.closeJDBCConnection(connect);
         }
         return true;
     }

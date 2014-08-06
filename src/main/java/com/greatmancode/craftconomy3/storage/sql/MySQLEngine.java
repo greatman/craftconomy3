@@ -20,6 +20,7 @@ package com.greatmancode.craftconomy3.storage.sql;
 
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.storage.sql.tables.*;
+import com.greatmancode.tools.utils.Tools;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
@@ -88,8 +89,8 @@ public class MySQLEngine extends SQLStorageEngine {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            close(statement);
-            close(connection);
+            Tools.closeJDBCStatement(statement);
+            Tools.closeJDBCConnection(connection);
         }
     }
 

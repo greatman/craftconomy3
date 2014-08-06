@@ -33,14 +33,12 @@ import com.greatmancode.craftconomy3.storage.sql.tables.*;
 import com.greatmancode.craftconomy3.groups.WorldGroup;
 import com.greatmancode.craftconomy3.storage.StorageEngine;
 import com.greatmancode.craftconomy3.utils.NoExchangeRate;
+import com.greatmancode.tools.utils.Tools;
 import com.zaxxer.hikari.HikariDataSource;
 
 import java.sql.*;
 import java.util.*;
 
-/**
- * Created by greatman on 2014-07-24.
- */
 public abstract class SQLStorageEngine extends StorageEngine {
 
     protected String tablePrefix;
@@ -109,8 +107,8 @@ public abstract class SQLStorageEngine extends StorageEngine {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            close(statement);
-            close(connection);
+            Tools.closeJDBCStatement(statement);
+            Tools.closeJDBCConnection(connection);
         }
         return null;
     }
@@ -145,8 +143,8 @@ public abstract class SQLStorageEngine extends StorageEngine {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            close(statement);
-            close(connection);
+            Tools.closeJDBCStatement(statement);
+            Tools.closeJDBCConnection(connection);
         }
     }
 
@@ -166,8 +164,8 @@ public abstract class SQLStorageEngine extends StorageEngine {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            close(statement);
-            close(connection);
+            Tools.closeJDBCStatement(statement);
+            Tools.closeJDBCConnection(connection);
         }
         return result;
     }
@@ -193,8 +191,8 @@ public abstract class SQLStorageEngine extends StorageEngine {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            close(statement);
-            close(connection);
+            Tools.closeJDBCStatement(statement);
+            Tools.closeJDBCConnection(connection);
         }
     }
 
@@ -214,8 +212,8 @@ public abstract class SQLStorageEngine extends StorageEngine {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            close(statement);
-            close(connection);
+            Tools.closeJDBCStatement(statement);
+            Tools.closeJDBCConnection(connection);
         }
         return balanceList;
     }
@@ -237,8 +235,8 @@ public abstract class SQLStorageEngine extends StorageEngine {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            close(statement);
-            close(connection);
+            Tools.closeJDBCStatement(statement);
+            Tools.closeJDBCConnection(connection);
         }
         return balanceList;
     }
@@ -263,8 +261,8 @@ public abstract class SQLStorageEngine extends StorageEngine {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            close(statement);
-            close(connection);
+            Tools.closeJDBCStatement(statement);
+            Tools.closeJDBCConnection(connection);
         }
         return balance;
     }
@@ -307,8 +305,8 @@ public abstract class SQLStorageEngine extends StorageEngine {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            close(statement);
-            close(connection);
+            Tools.closeJDBCStatement(statement);
+            Tools.closeJDBCConnection(connection);
         }
         return result;
     }
@@ -327,8 +325,8 @@ public abstract class SQLStorageEngine extends StorageEngine {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            close(statement);
-            close(connection);
+            Tools.closeJDBCStatement(statement);
+            Tools.closeJDBCConnection(connection);
         }
     }
 
@@ -346,8 +344,8 @@ public abstract class SQLStorageEngine extends StorageEngine {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            close(statement);
-            close(connection);
+            Tools.closeJDBCStatement(statement);
+            Tools.closeJDBCConnection(connection);
         }
     }
 
@@ -368,8 +366,8 @@ public abstract class SQLStorageEngine extends StorageEngine {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            close(statement);
-            close(connection);
+            Tools.closeJDBCStatement(statement);
+            Tools.closeJDBCConnection(connection);
         }
         return result;
     }
@@ -412,8 +410,8 @@ public abstract class SQLStorageEngine extends StorageEngine {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            close(statement);
-            close(connection);
+            Tools.closeJDBCStatement(statement);
+            Tools.closeJDBCConnection(connection);
         }
         return new AccountACLValue(deposit,withdraw,acl,balance,owner);
     }
@@ -437,8 +435,8 @@ public abstract class SQLStorageEngine extends StorageEngine {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            close(statement);
-            close(connection);
+            Tools.closeJDBCStatement(statement);
+            Tools.closeJDBCConnection(connection);
         }
         return result;
     }
@@ -471,8 +469,8 @@ public abstract class SQLStorageEngine extends StorageEngine {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            close(statement);
-            close(connection);
+            Tools.closeJDBCStatement(statement);
+            Tools.closeJDBCConnection(connection);
         }
     }
 
@@ -512,8 +510,8 @@ public abstract class SQLStorageEngine extends StorageEngine {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            close(statement);
-            close(connection);
+            Tools.closeJDBCStatement(statement);
+            Tools.closeJDBCConnection(connection);
         }
     }
 
@@ -529,8 +527,8 @@ public abstract class SQLStorageEngine extends StorageEngine {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            close(statement);
-            close(connection);
+            Tools.closeJDBCStatement(statement);
+            Tools.closeJDBCConnection(connection);
         }
     }
 
@@ -547,8 +545,8 @@ public abstract class SQLStorageEngine extends StorageEngine {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            close(statement);
-            close(connection);
+            Tools.closeJDBCStatement(statement);
+            Tools.closeJDBCConnection(connection);
         }
     }
 
@@ -565,8 +563,8 @@ public abstract class SQLStorageEngine extends StorageEngine {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            close(statement);
-            close(connection);
+            Tools.closeJDBCStatement(statement);
+            Tools.closeJDBCConnection(connection);
         }
     }
 
@@ -585,8 +583,8 @@ public abstract class SQLStorageEngine extends StorageEngine {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            close(statement);
-            close(connection);
+            Tools.closeJDBCStatement(statement);
+            Tools.closeJDBCConnection(connection);
         }
         return result;
     }
@@ -603,8 +601,8 @@ public abstract class SQLStorageEngine extends StorageEngine {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            close(statement);
-            close(connection);
+            Tools.closeJDBCStatement(statement);
+            Tools.closeJDBCConnection(connection);
         }
     }
 
@@ -625,8 +623,8 @@ public abstract class SQLStorageEngine extends StorageEngine {
         } catch(SQLException e) {
 
         } finally {
-            close(statement);
-            close(connection);
+            Tools.closeJDBCStatement(statement);
+            Tools.closeJDBCConnection(connection);
         }
         return (String[]) results.toArray();
     }
@@ -646,8 +644,8 @@ public abstract class SQLStorageEngine extends StorageEngine {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            close(statement);
-            close(connection);
+            Tools.closeJDBCStatement(statement);
+            Tools.closeJDBCConnection(connection);
         }
         return logEntryList;
     }
@@ -671,8 +669,8 @@ public abstract class SQLStorageEngine extends StorageEngine {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            close(statement);
-            close(connection);
+            Tools.closeJDBCStatement(statement);
+            Tools.closeJDBCConnection(connection);
         }
         return result;
     }
@@ -692,8 +690,8 @@ public abstract class SQLStorageEngine extends StorageEngine {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            close(statement);
-            close(connection);
+            Tools.closeJDBCStatement(statement);
+            Tools.closeJDBCConnection(connection);
         }
         return results;
     }
@@ -710,8 +708,8 @@ public abstract class SQLStorageEngine extends StorageEngine {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            close(statement);
-            close(connection);
+            Tools.closeJDBCStatement(statement);
+            Tools.closeJDBCConnection(connection);
         }
     }
 
@@ -731,8 +729,8 @@ public abstract class SQLStorageEngine extends StorageEngine {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            close(statement);
-            close(connection);
+            Tools.closeJDBCStatement(statement);
+            Tools.closeJDBCConnection(connection);
         }
         return result;
     }
@@ -754,8 +752,8 @@ public abstract class SQLStorageEngine extends StorageEngine {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            close(statement);
-            close(connection);
+            Tools.closeJDBCStatement(statement);
+            Tools.closeJDBCConnection(connection);
         }
         return result;
     }
@@ -785,8 +783,8 @@ public abstract class SQLStorageEngine extends StorageEngine {
         } catch(SQLException e) {
             e.printStackTrace();
         } finally {
-            close(statement);
-            close(connection);
+            Tools.closeJDBCStatement(statement);
+            Tools.closeJDBCConnection(connection);
         }
     }
 
@@ -805,8 +803,8 @@ public abstract class SQLStorageEngine extends StorageEngine {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            close(statement);
-            close(connection);
+            Tools.closeJDBCStatement(statement);
+            Tools.closeJDBCConnection(connection);
         }
         return results;
     }
@@ -826,8 +824,8 @@ public abstract class SQLStorageEngine extends StorageEngine {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            close(statement);
-            close(connection);
+            Tools.closeJDBCStatement(statement);
+            Tools.closeJDBCConnection(connection);
         }
     }
 
@@ -846,8 +844,8 @@ public abstract class SQLStorageEngine extends StorageEngine {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            close(statement);
-            close(connection);
+            Tools.closeJDBCStatement(statement);
+            Tools.closeJDBCConnection(connection);
         }
     }
 
@@ -867,8 +865,8 @@ public abstract class SQLStorageEngine extends StorageEngine {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            close(statement);
-            close(connection);
+            Tools.closeJDBCStatement(statement);
+            Tools.closeJDBCConnection(connection);
         }
         return result;
     }
@@ -888,8 +886,8 @@ public abstract class SQLStorageEngine extends StorageEngine {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            close(statement);
-            close(connection);
+            Tools.closeJDBCStatement(statement);
+            Tools.closeJDBCConnection(connection);
         }
         return results;
     }
@@ -915,8 +913,8 @@ public abstract class SQLStorageEngine extends StorageEngine {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            close(statement);
-            close(connection);
+            Tools.closeJDBCStatement(statement);
+            Tools.closeJDBCConnection(connection);
         }
         return result;
     }
@@ -949,26 +947,10 @@ public abstract class SQLStorageEngine extends StorageEngine {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            close(statement);
-            close(connection);
+            Tools.closeJDBCStatement(statement);
+            Tools.closeJDBCConnection(connection);
         }
 
 
-    }
-
-
-    protected void close(Connection connection) {
-        try {
-            if (connection != null) connection.close();
-        } catch (SQLException e) {
-        }
-    }
-
-    protected void close(PreparedStatement statement) {
-        try {
-            if (statement != null) statement.close();
-        } catch (SQLException e) {
-
-        }
     }
 }

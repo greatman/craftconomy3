@@ -20,6 +20,7 @@ package com.greatmancode.craftconomy3.converter.converters;
 
 import com.greatmancode.craftconomy3.converter.Converter;
 import com.greatmancode.craftconomy3.storage.sql.tables.mineconomy.MineconomyTable;
+import com.greatmancode.tools.utils.Tools;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
@@ -91,9 +92,11 @@ public class Mineconomy extends Converter {
     }
 
     private List<User> importMySQL(String sender) {
+        Connection connection = null;
+        PreparedStatement statement = null;
         try {
-            Connection connection = db.getConnection();
-            PreparedStatement statement = connection.prepareStatement(MineconomyTable.SELECT_ENTRY);
+            connection = db.getConnection();
+            statement = connection.prepareStatement(MineconomyTable.SELECT_ENTRY);
             ResultSet set = statement.executeQuery();
             List<User> userList = new ArrayList<User>();
             while (set.next()) {
@@ -102,6 +105,9 @@ public class Mineconomy extends Converter {
             return userList;
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            Tools.closeJDBCStatement(statement);
+            Tools.closeJDBCConnection(connection);
         }
         return null;
     }
