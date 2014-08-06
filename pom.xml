@@ -186,7 +186,6 @@
 							<goal>shade</goal>
 						</goals>
 						<configuration>
-                            <minimizeJar>true</minimizeJar>
 							<relocations>
 								<relocation>
 									<pattern>com.greatmancode.tools</pattern>
