@@ -20,10 +20,16 @@ package com.greatmancode.craftconomy3;
 
 import java.io.File;
 import java.lang.reflect.Field;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.logging.Logger;
 
+import com.greatmancode.craftconomy3.storage.sql.MySQLEngine;
 import com.greatmancode.tools.caller.unittest.UnitTestServerCaller;
 import com.greatmancode.tools.interfaces.UnitTestLoader;
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 
 public class TestInitializator {
 	public TestInitializator() {
@@ -47,6 +53,7 @@ public class TestInitializator {
         if (Boolean.getBoolean("mysql")) {
             Common.getInstance().getMainConfig().setValue("System.Database.Username", "travis");
             Common.getInstance().getMainConfig().setValue("System.Database.Type", "mysql");
+            setupMySQL();
         }
         try {
             setStaticValue("com.greatmancode.craftconomy3.Common", "initialized", false);
@@ -59,6 +66,48 @@ public class TestInitializator {
         }
         new Common().onEnable(new UnitTestServerCaller(new UnitTestLoader()), Logger.getLogger("unittest"));
 	}
+
+    private void setupMySQL() {
+        HikariConfig config = new HikariConfig();
+        config.setMaximumPoolSize(10);
+        config.setDataSourceClassName("com.mysql.jdbc.jdbc2.optional.MysqlDataSource");
+        config.addDataSourceProperty("serverName", Common.getInstance().getMainConfig().getString("System.Database.Address"));
+        config.addDataSourceProperty("port", Common.getInstance().getMainConfig().getString("System.Database.Port"));
+        config.addDataSourceProperty("databaseName", Common.getInstance().getMainConfig().getString("System.Database.Db"));
+        config.addDataSourceProperty("user", Common.getInstance().getMainConfig().getString("System.Database.Username"));
+        config.addDataSourceProperty("password", Common.getInstance().getMainConfig().getString("System.Database.Password"));
+        config.addDataSourceProperty("autoDeserialize", true);
+        config.setConnectionTimeout(5000);
+        HikariDataSource db = new HikariDataSource(config);
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = db.getConnection();
+            statement = connection.prepareStatement("DROP DATABASE " +Common.getInstance().getMainConfig().getString("System.Database.Db"));
+            statement.executeUpdate();
+            statement.close();
+            statement = connection.prepareStatement("CREATE DATABASE " + Common.getInstance().getMainConfig().getString("System.Database.Db"));
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        db.close();
+    }
 
     /**
      * Use reflection to change value of any static field.
