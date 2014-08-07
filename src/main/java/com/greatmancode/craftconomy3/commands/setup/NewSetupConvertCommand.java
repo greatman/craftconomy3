@@ -150,11 +150,11 @@ public class NewSetupConvertCommand extends CommandExecutor {
     }
 
     private void start(String sender, String[] args) {
-        if (args[0].equalsIgnoreCase("yes")) {
+        if ("yes".equalsIgnoreCase(args[0])) {
             step = INTERNALSTEP.SELECT_CONVERT;
             Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_GREEN}}I currently support those systems: {{WHITE}}" + getConverterListFormatted());
             Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_GREEN}}Please type {{WHITE}}/ccsetup convert <" + getConverterListFormatted() + ">");
-        } else if (args[0].equalsIgnoreCase("no")) {
+        } else if ("no".equalsIgnoreCase(args[0])) {
             Common.getInstance().getMainConfig().setValue("System.Setup", false);
             Common.getInstance().reloadPlugin();
             Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_GREEN}}The setup is done! Enjoy Craftconomy!");

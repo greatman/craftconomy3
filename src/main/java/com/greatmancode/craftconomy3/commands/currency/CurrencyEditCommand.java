@@ -25,16 +25,16 @@ public class CurrencyEditCommand extends CommandExecutor {
     @Override
     public void execute(String sender, String[] args) {
         if (Common.getInstance().getCurrencyManager().getCurrency(args[1]) != null) {
-            if (!args[2].equals("")) {
-                if (args[0].equals("name")) {
+            if (!"".equals(args[2])) {
+                if ("name".equalsIgnoreCase(args[0])) {
                     Common.getInstance().getCurrencyManager().getCurrency(args[1]).setName(args[2]);
-                } else if (args[0].equals("nameplural")) {
+                } else if ("nameplural".equalsIgnoreCase(args[0])) {
                     Common.getInstance().getCurrencyManager().getCurrency(args[1]).setPlural(args[2]);
-                } else if (args[0].equals("minor")) {
+                } else if ("minor".equalsIgnoreCase(args[0])) {
                     Common.getInstance().getCurrencyManager().getCurrency(args[1]).setMinor(args[2]);
-                } else if (args[0].equals("minorplural")) {
+                } else if ("minorplural".equalsIgnoreCase(args[0])) {
                     Common.getInstance().getCurrencyManager().getCurrency(args[1]).setMinorPlural(args[2]);
-                } else if (args[0].equals("sign")) {
+                } else if ("sign".equalsIgnoreCase(args[0])) {
                     Common.getInstance().getCurrencyManager().getCurrency(args[1]).setSign(args[2]);
                 } else {
                     Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("invalid_type"));

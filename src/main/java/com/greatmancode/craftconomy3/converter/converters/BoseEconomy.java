@@ -75,10 +75,10 @@ public class BoseEconomy extends Converter {
                     line = flatFileReader.readLine();
                     // Line for account type
                     String type = line.split(" ")[1];
-                    if (type.equalsIgnoreCase("player")) {
+                    if ("player".equalsIgnoreCase(type)) {
                         accountImporter(sender, username);
                         i++;
-                    } else if (type.equalsIgnoreCase("bank")) {
+                    } else if ("type".equalsIgnoreCase(type)) {
                         bankImporter(username);
                         i++;
                     }
@@ -100,17 +100,17 @@ public class BoseEconomy extends Converter {
         if (line.contains("members")) {
             line = flatFileReader.readLine();
             line = line.replaceAll(TAB_CHECK, "");
-            while (!line.equals("}")) {
+            while (!"}".equals(line)) {
                 Common.getInstance().getAccountManager().getAccount(username,true).getAccountACL().set(line, true, true, false, true, false);
                 line = flatFileReader.readLine();
                 line = line.replaceAll(TAB_CHECK, "");
             }
         }
         line = flatFileReader.readLine();
-        if (line.contains("owners")) {
+        if ("owners".contains(line)) {
             line = flatFileReader.readLine();
             line = line.replaceAll(TAB_CHECK, "");
-            while (!line.equals("}")) {
+            while (!"}".equals(line)) {
                 Common.getInstance().getAccountManager().getAccount(username, true).getAccountACL().set(line, true, true, true, true, true);
                 line = flatFileReader.readLine();
                 line = line.replaceAll(TAB_CHECK, "");
@@ -122,6 +122,5 @@ public class BoseEconomy extends Converter {
         String line = flatFileReader.readLine();
         double amount = Double.parseDouble(line.split(" ")[1]);
         userList.add(new User(username, amount));
-        //Common.getInstance().getAccountManager().getAccount(username).set(amount, Common.getInstance().getServerCaller().getDefaultWorld(), Common.getInstance().getCurrencyManager().getCurrency(CurrencyManager.defaultCurrencyID).getName());
     }
 }

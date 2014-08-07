@@ -77,11 +77,11 @@ public class NewSetupDatabaseCommand extends CommandExecutor {
 
     private void start(String sender, String[] args) {
         if (args.length == 1) {
-            if (args[0].equalsIgnoreCase("mysql")) {
+            if ("mysql".equalsIgnoreCase(args[0])) {
                 step = INTERNALSTEP.MYSQL;
                 Common.getInstance().getMainConfig().setValue(CONFIG_NODE, "mysql");
                 Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_GREEN}}You selected {{WHITE}}MySQL{{DARK_GREEN}}. Please type {{WHITE}}/ccsetup database address <Your host>");
-            } else if (args[0].equalsIgnoreCase("h2")) {
+            } else if ("h2".equalsIgnoreCase(args[0])) {
                 step = INTERNALSTEP.H2;
                 h2(sender);
             } else {
@@ -99,11 +99,11 @@ public class NewSetupDatabaseCommand extends CommandExecutor {
 
     private void mysql(String sender, String[] args) {
         if (args.length == 2) {
-            if (args[0].equalsIgnoreCase("address")) {
+            if ("address".equalsIgnoreCase(args[0])) {
                 VALUES.put("address", args[1]);
                 Common.getInstance().getMainConfig().setValue("System.Database.Address", args[1]);
                 Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_GREEN}}Alright! Please type {{WHITE}}/ccsetup database port <Your port> {{DARK_GREEN}}to set your MySQL port (Usually 3306)");
-            } else if (args[0].equalsIgnoreCase("port")) {
+            } else if ("port".equalsIgnoreCase(args[0])) {
                 if (Tools.isInteger(args[1])) {
                     int port = Integer.parseInt(args[1]);
                     VALUES.put("port", args[1]);
@@ -112,11 +112,11 @@ public class NewSetupDatabaseCommand extends CommandExecutor {
                 } else {
                     Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_RED}}Invalid port!");
                 }
-            } else if (args[0].equalsIgnoreCase("username")) {
+            } else if ("username".equalsIgnoreCase(args[0])) {
                 VALUES.put("username", args[1]);
                 Common.getInstance().getMainConfig().setValue("System.Database.Username", args[1]);
                 Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_GREEN}}Saved! Please type {{WHITE}}/ccsetup database password <Password> {{DARK_GREEN}}to set your MySQL password (enter \"\" for none)");
-            } else if (args[0].equalsIgnoreCase("password")) {
+            } else if ("password".equalsIgnoreCase(args[0])) {
                 if (args[1].equals("''") || args[1].equals("\"\"")) {
                     VALUES.put("password", "");
                     Common.getInstance().getMainConfig().setValue("System.Database.Password", "");
@@ -125,11 +125,11 @@ public class NewSetupDatabaseCommand extends CommandExecutor {
                     Common.getInstance().getMainConfig().setValue("System.Database.Password", args[1]);
                 }
                 Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_GREEN}}Saved! Please type {{WHITE}}/ccsetup database db <Database Name> {{DARK_GREEN}}to set your MySQL database.");
-            } else if (args[0].equalsIgnoreCase("db")) {
+            } else if ("db".equalsIgnoreCase(args[0])) {
                 VALUES.put("db", args[1]);
                 Common.getInstance().getMainConfig().setValue("System.Database.Db", args[1]);
                 Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_GREEN}}Saved! Please type {{WHITE}}/ccsetup database prefix <Prefix> {{DARK_GREEN}}to set your table prefix (If not sure, put cc3_).");
-            } else if (args[0].equalsIgnoreCase("prefix")) {
+            } else if ("prefix".equalsIgnoreCase(args[0])) {
                 VALUES.put("prefix", args[1]);
                 Common.getInstance().getMainConfig().setValue("System.Database.Prefix", args[1]);
                 Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_GREEN}}Done! Please wait while the database is initializing.");

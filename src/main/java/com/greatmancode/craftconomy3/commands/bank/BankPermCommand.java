@@ -29,13 +29,13 @@ public class BankPermCommand extends CommandExecutor {
             Account account = Common.getInstance().getAccountManager().getAccount(args[0], true);
             if (account.getAccountACL().canAcl(sender) || account.getAccountACL().isOwner(sender) || Common.getInstance().getServerCaller().getPlayerCaller().checkPermission(sender, "craftconomy.bank.perm.others")) {
 
-                if (args[1].equalsIgnoreCase("deposit")) {
+                if ("deposit".equalsIgnoreCase(args[1])) {
                     account.getAccountACL().setDeposit(args[2], Boolean.parseBoolean(args[3]));
-                } else if (args[1].equalsIgnoreCase("withdraw")) {
+                } else if ("withdraw".equalsIgnoreCase(args[1])) {
                     account.getAccountACL().setWithdraw(args[2], Boolean.parseBoolean(args[3]));
-                } else if (args[1].equalsIgnoreCase("acl")) {
+                } else if ("acl".equalsIgnoreCase(args[1])) {
                     account.getAccountACL().setAcl(args[2], Boolean.parseBoolean(args[3]));
-                } else if (args[1].equalsIgnoreCase("show")) {
+                } else if ("show".equalsIgnoreCase(args[1])) {
                     account.getAccountACL().setShow(args[2], Boolean.parseBoolean(args[3]));
                 } else {
                     Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("invalid_flag"));

@@ -24,7 +24,7 @@ import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 public class GroupDelWorldCommand extends CommandExecutor {
     @Override
     public void execute(String sender, String[] args) {
-        if (!Common.getInstance().getWorldGroupManager().getWorldGroupName(args[0]).equals("default")) {
+        if (!"default".equals(Common.getInstance().getWorldGroupManager().getWorldGroupName(args[0]))) {
             Common.getInstance().getWorldGroupManager().removeWorldFromGroup(args[0]);
             Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("world_removed_from_group"));
         } else {

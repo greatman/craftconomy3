@@ -43,7 +43,7 @@ public class Mineconomy extends Converter {
     @Override
     public List<String> getDbInfo() {
         if (getDbInfoList().size() == 0) {
-            if (getSelectedDbType().equalsIgnoreCase("mysql")) {
+            if ("mysql".equals(getSelectedDbType())) {
                 getDbInfoList().add("address");
                 getDbInfoList().add("port");
                 getDbInfoList().add("username");
@@ -57,9 +57,9 @@ public class Mineconomy extends Converter {
     @Override
     public boolean connect() {
         boolean result = false;
-        if (getSelectedDbType().equalsIgnoreCase("flatfile")) {
+        if ("flatfile".equals(getSelectedDbType())) {
 
-        } else if (getSelectedDbType().equalsIgnoreCase("mysql")) {
+        } else if ("mysql".equals(getSelectedDbType())) {
             HikariConfig config = new HikariConfig();
             config.setMaximumPoolSize(10);
             config.setDataSourceClassName("com.mysql.jdbc.jdbc2.optional.MysqlDataSource");
@@ -82,7 +82,7 @@ public class Mineconomy extends Converter {
     @Override
     public boolean importData(String sender) {
         List<User> userList;
-        if (getSelectedDbType().equalsIgnoreCase("flatfile")) {
+        if ("flatfile".equals(getSelectedDbType())) {
             userList = importFlatfile(sender);
         } else {
             userList = importMySQL(sender);

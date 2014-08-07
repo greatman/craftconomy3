@@ -36,18 +36,9 @@ public class AccountManager {
      * Retrieve a account. Accounts prefixed with bank: are bank accounts.
      *
      * @param name The name of the account to retrieve
+     * @param bankAccount If the account is a bank account
      * @return A economy account
-     * @deprecated Use { @link #getAccount(String, boolean) }
      */
-    public Account getAccount(String name) {
-        //TODO LEGACY SUPPORT
-        if (name.startsWith("bank:")) {
-            return getAccount(name, true);
-        } else {
-            return getAccount(name, false);
-        }
-    }
-
     public Account getAccount(String name, boolean bankAccount) {
         String newName = name;
         if (!Common.getInstance().getMainConfig().getBoolean("System.Case-sentitive")) {
@@ -73,18 +64,9 @@ public class AccountManager {
      * Check if a account exist in the database.
      *
      * @param name The name to check
+     * @param bankAccount If the account is a bank account
      * @return True if the account exists else false
-     * @deprecated Use { @link #exist(String, boolean) }
      */
-    public boolean exist(String name) {
-        //TODO LEGACY SUPPORT
-        if (name.startsWith("bank:")) {
-            return exist(name, true);
-        } else {
-            return exist(name, false);
-        }
-    }
-
     public boolean exist(String name, boolean bankAccount) {
         String newName = name;
         if (!Common.getInstance().getMainConfig().getBoolean("System.Case-sentitive")) {
@@ -109,19 +91,9 @@ public class AccountManager {
      * Delete a account from the system
      *
      * @param name The account name
+     * @param bankAccount If the account is a bank account
      * @return True if the account has been deleted. Else false.
-     * @deprecated Use { @link #delete(String, boolean) }
      */
-    public boolean delete(String name) {
-        //TODO LEGACY SUPPORT
-        if (name.startsWith("bank:")) {
-            return delete(name, true);
-        } else {
-            return delete(name, false);
-        }
-
-    }
-
     public boolean delete(String name, boolean bankAccount) {
         boolean result = false;
         if (exist(name, bankAccount)) {
@@ -135,6 +107,10 @@ public class AccountManager {
         return result;
     }
 
+    /**
+     * Clear the account cache from this user. Useful due to the UUID feature in minecraft.
+     * @param name The name of the player/account.
+     */
     public void clearCache(String name) {
         accountList.remove(name);
     }

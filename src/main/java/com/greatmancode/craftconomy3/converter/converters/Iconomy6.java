@@ -55,9 +55,9 @@ public class Iconomy6 extends Converter {
     public List<String> getDbInfo() {
 
         if (getDbInfoList().size() == 0) {
-            if (getSelectedDbType().equals("flatfile") || getSelectedDbType().equals("minidb") || getSelectedDbType().equals("sqlite")) {
+            if ("flatfile".equals(getSelectedDbType()) || "minidb".equals(getSelectedDbType()) || "sqlite".equals(getSelectedDbType())) {
                 getDbInfoList().add("filename");
-            } else if (getSelectedDbType().equals("mysql")) {
+            } else if ("mysql".equals(getSelectedDbType())) {
                 getDbInfoList().add("address");
                 getDbInfoList().add("port");
                 getDbInfoList().add("username");
@@ -71,11 +71,11 @@ public class Iconomy6 extends Converter {
     @Override
     public boolean connect() {
         boolean result = false;
-        if (getSelectedDbType().equals("flatfile") || getSelectedDbType().equals("minidb")) {
+        if ("flatfile".equals(getSelectedDbType()) || "minidb".equals(getSelectedDbType())) {
             result = loadFile();
-        } else if (getSelectedDbType().equals("mysql")) {
+        } else if ("mysql".equals(getSelectedDbType())) {
             loadMySQL();
-        } else if (getSelectedDbType().equals("sqlite")) {
+        } else if ("sqlite".equals(getSelectedDbType())) {
             loadSQLite();
         }
 

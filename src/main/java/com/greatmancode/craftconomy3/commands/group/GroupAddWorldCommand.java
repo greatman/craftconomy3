@@ -26,7 +26,7 @@ public class GroupAddWorldCommand extends CommandExecutor {
     public void execute(String sender, String[] args) {
         if (Common.getInstance().getWorldGroupManager().worldGroupExist(args[0])) {
             if (Common.getInstance().getServerCaller().worldExist(args[1])) {
-                if (!Common.getInstance().getWorldGroupManager().getWorldGroupName(args[1]).equals("default")) {
+                if (!"default".equals(Common.getInstance().getWorldGroupManager().getWorldGroupName(args[1]))) {
                     Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().parse("world_already_in_group", args[1]));
                     return;
                 }
