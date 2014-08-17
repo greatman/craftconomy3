@@ -905,6 +905,10 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
         ccgroup.addCommand("addworld", new GroupAddWorldCommand());
         ccgroup.addCommand("delworld", new GroupDelWorldCommand());
         commandManager.registerMainCommand("ccgroup", ccgroup);
+
+        SubCommand payCommand = new SubCommand("pay", commandManager, null, 1);
+        payCommand.addCommand("", new PayCommand());
+        commandManager.registerMainCommand("pay", payCommand);
     }
 
     /**
