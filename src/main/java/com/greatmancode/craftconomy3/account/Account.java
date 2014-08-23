@@ -312,7 +312,7 @@ public class Account {
      * set a certain amount of money in the account
      *
      * @param amount       The amount of money to set
-     * @param world        The World / World group we want to set money to
+     * @param world        The World group we want to set money to
      * @param currencyName The currency we want to set money to
      * @param cause        The cause of the change.
      * @param causeReason  The reason of the cause.
@@ -321,23 +321,25 @@ public class Account {
     public double set(double amount, String world, String currencyName, Cause cause, String causeReason) {
         BalanceTable balanceTable;
         double result = 0;
+        if (!Common.getInstance().getWorldGroupManager().worldGroupExist(world)) {
+            world = Common.getInstance().getWorldGroupManager().getWorldGroupName(world);
+        }
         amount = format(amount);
-        String newWorld = Common.getInstance().getWorldGroupManager().getWorldGroupName(world);
         Currency currency = Common.getInstance().getCurrencyManager().getCurrency(currencyName);
         if (currency != null) {
             if (!hasInfiniteMoney()) {
-                balanceTable = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal(BalanceTable.USERNAME_ID_FIELD, account.getId()).and().equal(BalanceTable.CURRENCY_ID_FIELD, currency.getDatabaseID()).and().equal(BalanceTable.WORLD_NAME_FIELD, newWorld).execute().findOne();
+                balanceTable = Common.getInstance().getDatabaseManager().getDatabase().select(BalanceTable.class).where().equal(BalanceTable.USERNAME_ID_FIELD, account.getId()).and().equal(BalanceTable.CURRENCY_ID_FIELD, currency.getDatabaseID()).and().equal(BalanceTable.WORLD_NAME_FIELD, world).execute().findOne();
                 if (balanceTable != null) {
                     balanceTable.setBalance(amount);
                 } else {
                     balanceTable = new BalanceTable();
                     balanceTable.setCurrency_id(currency.getDatabaseID());
                     balanceTable.setUsername_id(account.getId());
-                    balanceTable.setWorldName(newWorld);
+                    balanceTable.setWorldName(world);
                     balanceTable.setBalance(amount);
                 }
                 Common.getInstance().getDatabaseManager().getDatabase().save(balanceTable);
-                Common.getInstance().writeLog(LogInfo.SET, cause, causeReason, this, amount, currency, newWorld);
+                Common.getInstance().writeLog(LogInfo.SET, cause, causeReason, this, amount, currency, world);
                 result = balanceTable.getBalance();
                 Common.getInstance().getServerCaller().throwEvent(new EconomyChangeEvent(this.getAccountName(), result));
             }
