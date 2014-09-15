@@ -41,7 +41,6 @@ public class EventManager implements Listener {
         }
         if (!Common.getInstance().getMainConfig().getBoolean("System.Setup")) {
             //We search if the UUID is in the database
-            System.out.println(event.getPlayer().getUuid().toString());
             AccountTable table = Common.getInstance().getDatabaseManager().getDatabase().select(AccountTable.class).where().equal("uuid", event.getPlayer().getUuid().toString()).execute().findOne();
             if (table != null && !table.getName().equals(event.getPlayer().getName())) {
                 //Clear the cache of the player
