@@ -33,6 +33,7 @@ import com.greatmancode.craftconomy3.currency.CurrencyManager;
 import com.greatmancode.craftconomy3.events.EventManager;
 import com.greatmancode.craftconomy3.groups.WorldGroupsManager;
 import com.greatmancode.craftconomy3.storage.StorageHandler;
+import com.greatmancode.craftconomy3.utils.OldFormatConverter;
 import com.greatmancode.tools.caller.unittest.UnitTestServerCaller;
 import com.greatmancode.tools.commands.CommandHandler;
 import com.greatmancode.tools.commands.SubCommand;
@@ -44,8 +45,10 @@ import com.greatmancode.tools.utils.Metrics;
 import com.greatmancode.tools.utils.Tools;
 import com.greatmancode.tools.utils.Updater;
 
+import javax.xml.transform.TransformerException;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.logging.Level;
@@ -960,10 +963,19 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
             String value = getStorageHandler().getStorageEngine().getConfigEntry("dbVersion");
             if (value != null) {
                 //We have a old database, do the whole conversion
-                //TODO Implement that
+                try {
+                    new OldFormatConverter().run();
+                    getMainConfig().setValue("Database.dbVersion", 1);
+                    sendConsoleMessage(Level.INFO, "Updated to Revision 1!");
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                } catch (TransformerException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                getMainConfig().setValue("Database.dbVersion", 1);
+                sendConsoleMessage(Level.INFO, "Updated to Revision 1!");
             }
-            getMainConfig().setValue("Database.dbVersion", 1);
-            sendConsoleMessage(Level.INFO, "Updated to Revision 1!");
         }
     }
 
