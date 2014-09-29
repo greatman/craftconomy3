@@ -45,7 +45,6 @@ import com.greatmancode.tools.utils.Metrics;
 import com.greatmancode.tools.utils.Tools;
 import com.greatmancode.tools.utils.Updater;
 
-import javax.xml.transform.TransformerException;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.SQLException;
@@ -969,7 +968,7 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
                     sendConsoleMessage(Level.INFO, "Updated to Revision 1!");
                 } catch (SQLException e) {
                     e.printStackTrace();
-                } catch (TransformerException e) {
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
             } else {
