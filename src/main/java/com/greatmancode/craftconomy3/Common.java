@@ -520,9 +520,9 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
     }
 
     /**
-     * Retrieve the {@link LanguageManager}
+     * Retrieve the {@link com.greatmancode.tools.language.LanguageManager}
      *
-     * @return The {@link LanguageManager}
+     * @return The {@link com.greatmancode.tools.language.LanguageManager}
      */
     public LanguageManager getLanguageManager() {
         return languageManager;

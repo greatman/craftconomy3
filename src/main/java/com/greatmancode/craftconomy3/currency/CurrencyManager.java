@@ -37,7 +37,6 @@ public class CurrencyManager {
 
     public CurrencyManager() {
         // Let's load all currency in the database
-        System.out.println(Common.getInstance().getStorageHandler().getStorageEngine());
         currencyList = Common.getInstance().getStorageHandler().getStorageEngine().getAllCurrencies();
         for (Map.Entry<String, Currency> currencyEntry : currencyList.entrySet()) {
             if (currencyEntry.getValue().getStatus()) {
@@ -86,6 +85,7 @@ public class CurrencyManager {
      * @param minorPlural The minor (cents) part of the currency in plural
      * @param sign        The sign of the currency
      * @param save        Do we add it in the database?
+     * @return a Currency instance
      */
     // TODO: A check if the currency already exist.
     public Currency addCurrency(String name, String plural, String minor, String minorPlural, String sign, boolean save) {

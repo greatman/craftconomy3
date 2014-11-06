@@ -158,6 +158,7 @@ public abstract class Converter {
     /**
      * Add the given accounts to the system
      *
+     * @param sender The sender so we can send messages back to him
      * @param userList2 Account list
      */
     protected void addAccountToString(String sender, List<User> userList2) {

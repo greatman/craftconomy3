@@ -48,7 +48,7 @@ public abstract class StorageEngine {
      *
      * @param name   The account name
      * @param isBank If the account is a bank or not
-     * @return
+     * @return An Account
      */
     public Account getAccount(String name, boolean isBank) {
         return getAccount(name, isBank, true);
@@ -174,7 +174,7 @@ public abstract class StorageEngine {
      * @param acl      If the player can modify the ACL
      * @param show     If the player can show the balance
      * @param owner    If the player is the owner
-     * @return
+     * @return The value for ACL to put in the account.
      */
     public abstract AccountACLValue saveACL(Account account, String name, boolean deposit, boolean withdraw, boolean acl, boolean show, boolean owner);
 
@@ -200,6 +200,7 @@ public abstract class StorageEngine {
     /**
      * Save a currency in the backend
      *
+     * @param oldName The name of the currency if overriding a existing currency
      * @param currency The currency to save
      */
     public abstract void saveCurrency(String oldName, Currency currency);
@@ -250,7 +251,7 @@ public abstract class StorageEngine {
      * Get the logs of an account
      * @param user The account to retrieve the log from
      * @param page The page number of the entry.
-     * @return
+     * @return A list of actions from an account
      */
     public abstract List<LogCommand.LogEntry> getLog(Account user, int page);
 

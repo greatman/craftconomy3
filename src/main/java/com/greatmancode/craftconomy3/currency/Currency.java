@@ -196,6 +196,7 @@ public class Currency {
 
     /**
      * Set the default flag to true.
+     * @param status If this currency is the default one or not
      */
     protected void setDefault(boolean status) {
         this.status = status;

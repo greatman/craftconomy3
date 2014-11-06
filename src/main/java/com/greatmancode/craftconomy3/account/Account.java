@@ -41,6 +41,9 @@ public class Account {
      * Load a account. Creates one if it doesn't exist.
      *
      * @param name The account name
+     * @param bankAccount If the account is a bank account
+     * @param infiniteMoney If the account have no money limit
+     * @param ignoreACL If the account ignore it's ACL values (Bank only)
      */
     public Account(String name, boolean bankAccount, boolean infiniteMoney, boolean ignoreACL) {
         this.name = name;
@@ -282,6 +285,7 @@ public class Account {
     /**
      * Returns the world that the player is currently in
      *
+     * @param playerName The player name.
      * @return The world name that the player is currently in or any if he is not online/Multiworld system not enabled
      */
     private static String getWorldPlayerCurrentlyIn(String playerName) {
@@ -291,6 +295,7 @@ public class Account {
     /**
      * Retrieve the world group of the player
      *
+     * @param playerName The player name
      * @return The worldGroup of the player.
      */
     public static String getWorldGroupOfPlayerCurrentlyIn(String playerName) {
