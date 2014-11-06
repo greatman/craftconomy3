@@ -60,7 +60,7 @@ public abstract class SQLStorageEngine extends StorageEngine {
     }
 
     @Override
-    public Account getAccount(String name, boolean bankAccount) {
+    public Account getAccount(String name, boolean bankAccount, boolean createDefault) {
         boolean create = false;
         PreparedStatement statement = null;
         Connection connection = null;
@@ -93,7 +93,7 @@ public abstract class SQLStorageEngine extends StorageEngine {
                 ignoreACL = set.getBoolean("ignoreACL");
             }
             statement.close();
-            if (create && !bankAccount) {
+            if (create && !bankAccount && createDefault) {
                 statement = connection.prepareStatement(balanceTable.insertEntry);
                 statement.setDouble(1, Common.getInstance().getDefaultHoldings());
                 statement.setString(2, Account.getWorldGroupOfPlayerCurrentlyIn(name));

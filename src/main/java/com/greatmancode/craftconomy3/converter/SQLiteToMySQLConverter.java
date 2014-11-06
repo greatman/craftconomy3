@@ -202,7 +202,7 @@ public class SQLiteToMySQLConverter {
             }
             connection.close();
             db.close();
-
+            Common.getInstance().sendConsoleMessage(Level.INFO, "Convertion complete!");
         } catch (SQLException e) {
             e.printStackTrace();
         }

@@ -44,6 +44,7 @@ import com.greatmancode.tools.language.LanguageManager;
 import com.greatmancode.tools.utils.Metrics;
 import com.greatmancode.tools.utils.Tools;
 import com.greatmancode.tools.utils.Updater;
+import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -966,9 +967,12 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
                     new OldFormatConverter().run();
                     getMainConfig().setValue("Database.dbVersion", 1);
                     sendConsoleMessage(Level.INFO, "Updated to Revision 1!");
+
                 } catch (SQLException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (ParseException e) {
                     e.printStackTrace();
                 }
             } else {

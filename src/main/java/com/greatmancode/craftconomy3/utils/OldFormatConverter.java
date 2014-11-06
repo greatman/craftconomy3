@@ -18,7 +18,11 @@
  */
 package com.greatmancode.craftconomy3.utils;
 
+import com.greatmancode.craftconomy3.Cause;
 import com.greatmancode.craftconomy3.Common;
+import com.greatmancode.craftconomy3.LogInfo;
+import com.greatmancode.craftconomy3.account.Account;
+import com.greatmancode.craftconomy3.currency.Currency;
 import com.greatmancode.craftconomy3.storage.StorageEngine;
 import com.greatmancode.craftconomy3.storage.sql.H2Engine;
 import com.greatmancode.craftconomy3.storage.sql.MySQLEngine;
@@ -26,14 +30,17 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.io.*;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.sql.*;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.UUID;
 import java.util.logging.Level;
 
 public class OldFormatConverter {
@@ -41,7 +48,7 @@ public class OldFormatConverter {
     private HikariDataSource db;
     private String tablePrefix;
 
-    public void run() throws SQLException, IOException {
+    public void run() throws SQLException, IOException, ParseException {
         String dbType = Common.getInstance().getMainConfig().getString("System.Database.Type");
         HikariConfig config = new HikariConfig();
         if (dbType.equalsIgnoreCase("mysql")) {
@@ -64,16 +71,18 @@ public class OldFormatConverter {
             Common.getInstance().sendConsoleMessage(Level.SEVERE, "Unknown database type for old format converter!");
             return;
         }
+        Connection connection = db.getConnection();
         this.tablePrefix = Common.getInstance().getMainConfig().getString("System.Database.Prefix");
 
-        File accountFile = new File(Common.getInstance().getServerCaller().getDataFolder(), "accounts.xml");
+        File accountFile = new File(Common.getInstance().getServerCaller().getDataFolder(), "accounts.json");
 
-        Connection connection = db.getConnection();
+
 
         Common.getInstance().sendConsoleMessage(Level.INFO, "Doing a backup in a xml file before doing the conversion.");
         //Document setup
         JSONObject mainObject = new JSONObject();
 
+        Common.getInstance().sendConsoleMessage(Level.INFO, "Saving currency table");
         //Currencies
         PreparedStatement statement = connection.prepareStatement("SELECT * FROM " + tablePrefix + "currency");
         ResultSet set = statement.executeQuery();
@@ -93,6 +102,7 @@ public class OldFormatConverter {
         mainObject.put("currencies", array);
 
         //World groups
+        Common.getInstance().sendConsoleMessage(Level.INFO, "Saving world group table");
         array = new JSONArray();
         statement = connection.prepareStatement("SELECT * FROM " + tablePrefix + "worldgroup");
         set = statement.executeQuery();
@@ -106,6 +116,7 @@ public class OldFormatConverter {
         mainObject.put("worldgroups", array);
 
         //Exchange table
+        Common.getInstance().sendConsoleMessage(Level.INFO, "Saving exchange table");
         array = new JSONArray();
         statement = connection.prepareStatement("SELECT * FROM " + tablePrefix + "exchange");
         set = statement.executeQuery();
@@ -120,6 +131,7 @@ public class OldFormatConverter {
         mainObject.put("exchanges", array);
 
         //config table
+        Common.getInstance().sendConsoleMessage(Level.INFO, "Saving config table");
         array = new JSONArray();
         statement = connection.prepareStatement("SELECT * FROM " + tablePrefix + "config");
         set = statement.executeQuery();
@@ -133,6 +145,7 @@ public class OldFormatConverter {
         mainObject.put("configs", array);
 
         //account table
+        Common.getInstance().sendConsoleMessage(Level.INFO, "Saving account table");
         array = new JSONArray();
         statement = connection.prepareStatement("SELECT * FROM " + tablePrefix + "account");
         set = statement.executeQuery();
@@ -169,6 +182,7 @@ public class OldFormatConverter {
                 object.put("causeReason", internalSet.getString("causeReason"));
                 object.put("currencyName", internalSet.getString("currencyName"));
                 object.put("worldName", internalSet.getString("worldName"));
+                object.put("amount", internalSet.getDouble("amount"));
                 logArray.add(object);
             }
             internalStatement.close();
@@ -195,10 +209,14 @@ public class OldFormatConverter {
         }
         statement.close();
         mainObject.put("accounts", array);
-        FileWriter writer = new FileWriter(new File(Common.getInstance().getServerCaller().getDataFolder(), "accounts.json"));
-        mainObject.writeJSONString(writer);
+        Common.getInstance().sendConsoleMessage(Level.INFO, "Writing json file");
+        FileWriter writer = new FileWriter(accountFile);
+        writer.write(mainObject.toJSONString());
+        writer.flush();
+        writer.close();
+        Common.getInstance().sendConsoleMessage(Level.INFO, "File written! Dropping all tables");
         //The backup is now saved. Let's drop everything
-        /*statement = connection.prepareStatement("DROP TABLE " + tablePrefix + "config");
+        statement = connection.prepareStatement("DROP TABLE " + tablePrefix + "config");
         statement.execute();
         statement.close();
         statement = connection.prepareStatement("DROP TABLE " + tablePrefix + "acl");
@@ -213,7 +231,7 @@ public class OldFormatConverter {
         statement = connection.prepareStatement("DROP TABLE " + tablePrefix + "worldgroup");
         statement.execute();
         statement.close();
-        statement = connection.prepareStatement("DROP TABLE " + tablePrefix + "access");
+        statement = connection.prepareStatement("DROP TABLE " + tablePrefix + "exchange");
         statement.execute();
         statement.close();
         statement = connection.prepareStatement("DROP TABLE " + tablePrefix + "account");
@@ -222,16 +240,22 @@ public class OldFormatConverter {
         statement = connection.prepareStatement("DROP TABLE " + tablePrefix + "currency");
         statement.execute();
         statement.close();
+        statement = connection.prepareStatement("DROP TABLE " + tablePrefix + "payday");
+        statement.execute();
+        statement.close();
 
         connection.close();
-        step2();*/
+        step2();
 
     }
 
-    private void step2() throws SQLException {
+    private void step2() throws SQLException, IOException, ParseException {
+        Common.getInstance().sendConsoleMessage(Level.INFO, "Converting step 2: Inserting the data back in all the new tables");
+        Common.getInstance().sendConsoleMessage(Level.INFO, "Creating the new tables");
         String dbType = Common.getInstance().getMainConfig().getString("System.Database.Type");
 
         if (dbType.equals("sqlite")) {
+            Common.getInstance().sendConsoleMessage(Level.INFO, "You are using SQLite! This is now deprecated. Selecting H2 instead.");
             Common.getInstance().getMainConfig().setValue("System.Database.Type", "h2");
             dbType = "h2";
         }
@@ -242,7 +266,112 @@ public class OldFormatConverter {
 
         } else if (dbType.equalsIgnoreCase("h2")) {
             engine = new H2Engine();
+        } else {
+            throw new UnsupportedOperationException("Unknown database!");
         }
+        Common.getInstance().sendConsoleMessage(Level.INFO, "Loading backup json file");
         File accountFile = new File(Common.getInstance().getServerCaller().getDataFolder(), "accounts.json");
+
+        System.out.println(accountFile.exists());
+        JSONObject jsonObject = (JSONObject) new JSONParser().parse(new FileReader(accountFile));
+        Map<Integer, String> currenciesMap = new HashMap<>();
+
+        Common.getInstance().sendConsoleMessage(Level.INFO,"Saving currencies");
+        //Create the currency table
+        JSONArray currencyArray = (JSONArray) jsonObject.get("currencies");
+        Iterator<JSONObject> iterator = currencyArray.iterator();
+        while (iterator.hasNext()) {
+            JSONObject obj = iterator.next();
+            currenciesMap.put(((Long) obj.get("id")).intValue(), (String)obj.get("name"));
+            Currency currency = new Currency((String)obj.get("name"), (String)obj.get("plural"), (String)obj.get("minor"), (String)obj.get("minorPlural"), (String)obj.get("sign"));
+            try {
+                Class clazz = currency.getClass();
+                Method setDefault = clazz.getDeclaredMethod("setDefault", boolean.class);
+                setDefault.setAccessible(true);
+                setDefault.invoke(currency, (boolean) obj.get("status"));
+            } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+                e.printStackTrace();
+            }
+            engine.saveCurrency("", currency);
+        }
+
+        Common.getInstance().sendConsoleMessage(Level.INFO, "Saving world groups...");
+        JSONArray worldgroup = (JSONArray) jsonObject.get("worldgroups");
+        iterator = worldgroup.iterator();
+        while (iterator.hasNext()) {
+            JSONObject obj = iterator.next();
+            engine.saveWorldGroup((String)obj.get("groupName"), (String)obj.get("worldList"));
+        }
+
+        Common.getInstance().sendConsoleMessage(Level.INFO, "Saving Exchange rates");
+        JSONArray exchangeArray = (JSONArray) jsonObject.get("exchanges");
+        iterator = exchangeArray.iterator();
+        while (iterator.hasNext()) {
+            JSONObject obj = iterator.next();
+            int id_from = ((Long) obj.get("from_currency_id")).intValue();
+            int id_to = ((Long) obj.get("to_currency_id")).intValue();
+            engine.setExchangeRate(engine.getCurrency(currenciesMap.get(id_from)), engine.getCurrency(currenciesMap.get(id_to)), (double)obj.get("amount"));
+        }
+
+        Common.getInstance().sendConsoleMessage(Level.INFO, "Saving configs");
+        JSONArray configArray = (JSONArray) jsonObject.get("configs");
+        iterator = configArray.iterator();
+        while (iterator.hasNext()) {
+            JSONObject obj = iterator.next();
+            if (!obj.get("name").equals("dbVersion")) {
+                engine.setConfigEntry((String)obj.get("name"), (String)obj.get("value"));
+            }
+        }
+
+        Common.getInstance().sendConsoleMessage(Level.INFO, "Saving accounts. This may take a long time.");
+        boolean log = false;
+        if (Common.getInstance().getMainConfig().getBoolean("System.Logging.Enabled")) {
+            Common.getInstance().getMainConfig().setValue("System.Logging.Enabled", false);
+            log = true;
+        }
+        JSONArray accounts = (JSONArray) jsonObject.get("accounts");
+        iterator = accounts.iterator();
+        while (iterator.hasNext()) {
+            JSONObject obj = iterator.next();
+            String name = (String) obj.get("name");
+            Account account = null;
+            if (name.startsWith("bank:")) {
+                account = engine.getAccount(name.split(":")[1], true, false);
+            } else {
+                account = engine.getAccount(name, false, false);
+            }
+            engine.setIgnoreACL(account, (Boolean) obj.get("ignoreACL"));
+            engine.setInfiniteMoney(account, (Boolean) obj.get("infiniteMoney"));
+            if (obj.get("uuid") != null) {
+                engine.updateUUID(account.getAccountName(), UUID.fromString((String) obj.get("uuid")));
+            }
+
+            JSONArray balances = (JSONArray) obj.get("balances");
+            Iterator<JSONObject> internalIterator = balances.iterator();
+            while (internalIterator.hasNext()) {
+                JSONObject internalObj = internalIterator.next();
+                engine.setBalance(account, (double)internalObj.get("balance"), engine.getCurrency(currenciesMap.get(((Long)internalObj.get("currency_id")).intValue())),(String)internalObj.get("worldName"));
+            }
+
+            JSONArray logs = (JSONArray) obj.get("logs");
+            internalIterator = logs.iterator();
+            while (internalIterator.hasNext()) {
+                JSONObject internalObj = internalIterator.next();
+                engine.saveLog(LogInfo.valueOf((String) internalObj.get("type")), Cause.valueOf((String) internalObj.get("cause")),(String)internalObj.get("causeReason"),account, (double)internalObj.get("amount"),engine.getCurrency((String) internalObj.get("currencyName")),(String)internalObj.get("worldName"), (Timestamp) internalObj.get("timestamp"));
+            }
+
+            JSONArray acls = (JSONArray) obj.get("acls");
+            internalIterator = acls.iterator();
+            while (internalIterator.hasNext()) {
+                JSONObject internalObj = internalIterator.next();
+                //{"owner":true,"balance":true,"playerName":"khron_nexx","deposit":true,"acl":true,"withdraw":true}
+                engine.saveACL(account, (String)internalObj.get("playerName"), (boolean)internalObj.get("deposit"), (boolean)internalObj.get("withdraw"), (boolean) internalObj.get("acl"), (boolean) internalObj.get("balance"), (boolean) internalObj.get("owner"));
+            }
+
+        }
+        if (log) {
+            Common.getInstance().getMainConfig().setValue("System.Logging.Enabled", true);
+        }
+        Common.getInstance().sendConsoleMessage(Level.INFO, "Converting done!");
     }
 }

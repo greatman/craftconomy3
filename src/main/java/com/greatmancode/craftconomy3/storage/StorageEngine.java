@@ -50,7 +50,18 @@ public abstract class StorageEngine {
      * @param isBank If the account is a bank or not
      * @return
      */
-    public abstract Account getAccount(String name, boolean isBank);
+    public Account getAccount(String name, boolean isBank) {
+        return getAccount(name, isBank, true);
+    }
+
+    /**
+     * Retrieve an account from the storage. If it doesn't exist, it must be created
+     * @param name The account name
+     * @param isBank If the account is a bank account or not
+     * @param createDefault If it adds the default balance in or not
+     * @return An Account
+     */
+    public abstract Account getAccount(String name, boolean isBank, boolean createDefault);
 
     /**
      * Retrieve an account from the storage. Doesn't care if it doesn't exist.
