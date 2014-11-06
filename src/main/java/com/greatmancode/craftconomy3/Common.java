@@ -34,6 +34,7 @@ import com.greatmancode.craftconomy3.events.EventManager;
 import com.greatmancode.craftconomy3.groups.WorldGroupsManager;
 import com.greatmancode.craftconomy3.storage.StorageHandler;
 import com.greatmancode.craftconomy3.utils.OldFormatConverter;
+import com.greatmancode.tools.caller.bukkit.BukkitServerCaller;
 import com.greatmancode.tools.caller.unittest.UnitTestServerCaller;
 import com.greatmancode.tools.commands.CommandHandler;
 import com.greatmancode.tools.commands.SubCommand;
@@ -112,7 +113,7 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
                     this.getLogger().log(Level.SEVERE, String.format(getLanguageManager().getString("metric_start_error"), e.getMessage()));
                 }
             }
-            if (getMainConfig().getBoolean("System.CheckNewVersion") && !(serverCaller instanceof UnitTestServerCaller)) {
+            if (getMainConfig().getBoolean("System.CheckNewVersion") && (serverCaller instanceof BukkitServerCaller)) {
                 updater = new Updater(serverCaller, 35564, Updater.UpdateType.NO_DOWNLOAD, false);
                 if (updater.getResult() == Updater.UpdateResult.UPDATE_AVAILABLE) {
                     sendConsoleMessage(Level.WARNING, getLanguageManager().parse("running_old_version", updater.getLatestName()));
