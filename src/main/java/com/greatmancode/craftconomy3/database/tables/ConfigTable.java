@@ -23,7 +23,7 @@ import com.alta189.simplesave.Id;
 import com.alta189.simplesave.Table;
 import lombok.Data;
 
-@Table("config")
+@Table("config2")
 @Data
 @SuppressWarnings("PMD.UnusedPrivateField")
 public class ConfigTable {
