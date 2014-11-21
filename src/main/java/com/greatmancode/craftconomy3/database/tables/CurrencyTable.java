@@ -23,7 +23,7 @@ import com.alta189.simplesave.Id;
 import com.alta189.simplesave.Table;
 import lombok.Data;
 
-@Table("currency")
+@Table("currency2")
 @Data
 @SuppressWarnings("PMD.UnusedPrivateField")
 public class CurrencyTable {
