@@ -16,6 +16,6 @@ commands:
     payday:
       description: Payday management command
     ccgroup:
-      description: world group management command.
+      description: world group management command
     pay:
       description: /money pay shortcut
