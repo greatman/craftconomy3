@@ -87,6 +87,14 @@ public class AccountManager {
         return result;
     }
 
+    @Deprecated
+    public boolean exist(String name) {
+        if (name.startsWith("bank:")) {
+            return exist(name.split("bank:")[1], true);
+        } else {
+            return exist(name, false);
+        }
+    }
     /**
      * Delete a account from the system
      *
