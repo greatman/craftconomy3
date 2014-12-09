@@ -200,6 +200,8 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
         languageManager = new LanguageManager(serverCaller, serverCaller.getDataFolder(), "lang.yml");
         loadLanguage();
         serverCaller.setCommandPrefix(languageManager.getString("command_prefix"));
+        commandManager = new CommandHandler(serverCaller);
+        registerCommands();
         commandManager.setLevel(1);
         initialiseDatabase();
         updateDatabase();
