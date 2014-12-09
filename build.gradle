@@ -1,0 +1,82 @@
+// Tasks to perform when no task is specified
+defaultTasks 'clean', 'build', 'shadow'
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'eclipse'
+apply plugin: 'com.github.johnrengelman.shadow' // Provides dependency shading
+apply plugin: 'license'
+apply from: 'etc/publish.gradle'
+
+group = 'com.greatmancode'
+version = '3.2-SNAPSHOT'
+
+description = "Craftconomy3"
+
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+
+ext.url = 'https://github.com/greatman/craftconomy3'
+ext.bukkitVersion = '1.7.9-R0.2'
+
+
+compileJava {
+    options.encoding = 'UTF-8'
+}
+
+configurations.all {
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+}
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.github.jengelman.gradle.plugins:shadow:1.1.2'
+        classpath 'nl.javadude.gradle.plugins:license-gradle-plugin:0.11.0'
+    }
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    maven { url "http://oss.sonatype.org/content/repositories/snapshots" }
+    maven { url "http://repo.bukkit.org/content/groups/public/" }
+    maven { url "http://repo.greatmancode.com/content/groups/public/" }
+    maven { url "http://repo.visualillusionsent.net/repository/public/" }
+    maven { url "http://repo.larry1123.net/content/groups/public/" }
+    maven { url "https://libraries.minecraft.net" }
+}
+
+dependencies {
+    compile group: 'com.greatmancode', name: 'tools', version:'1.1-SNAPSHOT'
+    compile group: 'com.zaxxer', name: 'HikariCP', version:'1.4.0'
+    compile group: 'org.javassist', name: 'javassist', version:'3.18.2-GA'
+    compile group: 'org.slf4j', name: 'slf4j-api', version:'1.7.7'
+    compile group: 'com.h2database', name: 'h2', version:'1.4.180'
+    compile group: 'org.xerial', name: 'sqlite-jdbc', version:'3.7.15-M1'
+    testCompile group: 'junit', name: 'junit', version:'4.11'
+    testCompile group: 'org.bukkit', name: 'bukkit', version:'1.7.9-R0.2'
+    testCompile group: 'org.reflections', name: 'reflections', version:'0.9.9-RC1'
+    compile group: 'org.projectlombok', name: 'lombok', version:'1.12.6'
+}
+
+shadowJar {
+    dependencies {
+        include(dependency('com.greatmancode:tools:1.1-SNAPSHOT'))
+        include(dependency('com.zaxxer:HikariCP:1.4.0'))
+        include(dependency('org.javassist:javassist'))
+        include(dependency('org.slf4j:slf4j-api:1.7.7'))
+        include(dependency('com.h2database:h2:1.4.180'))
+    }
+    relocate 'com.greatmancode.tools', 'com.greatmancode.craftconomy3.tools'
+    relocate 'com.zaxxer.hikari', 'com.greatmancode.com.zaxxer.hikari'
+    relocate 'javassist', 'com.greatmancode.javassist'
+    relocate 'org.slf4j', 'com.greatmancode.org.slf4j'
+}
+
+license {
+    header rootProject.file('LICENSE.txt')
+    skipExistingHeaders true //Temporary
+}

@@ -77,12 +77,12 @@ public class BalanceTable extends DatabaseTable {
             "WHERE username_id=(SELECT id FROM "+getPrefix()+AccountTable.TABLE_NAME+" WHERE name=? AND bank=?) " +
             "AND "+CURRENCY_FIELD+"=? AND "+WORLD_NAME_FIELD+"=?";
 
-    public final String listTopAccount = "SELECT balance, " + getPrefix() + CurrencyTable.TABLE_NAME + ".name AS currencyName, " + getPrefix() + AccountTable.TABLE_NAME + ".username FROM " + getPrefix() + TABLE_NAME + " " +
+    public final String listTopAccount = "SELECT balance, " + getPrefix() + CurrencyTable.TABLE_NAME + ".name AS currencyName, " + getPrefix() + AccountTable.TABLE_NAME + ".name FROM " + getPrefix() + TABLE_NAME + " " +
             "LEFT JOIN " + getPrefix() + AccountTable.TABLE_NAME + " " +
             "ON " + getPrefix() + TABLE_NAME + ".username_id = " + getPrefix() + AccountTable.TABLE_NAME + ".id " +
-            "LEFT JOIN " + getPrefix() + AccountTable.TABLE_NAME + " " +
-            "ON " + getPrefix() + TABLE_NAME + ".currency_id = " + getPrefix() + CurrencyTable.TABLE_NAME + ".id " +
-            "WHERE " + WORLD_NAME_FIELD + "=? AND " + CurrencyTable.TABLE_NAME + ".name=? ORDER BY balance DESC LIMIT ?,?";
+            "LEFT JOIN " + getPrefix() + CurrencyTable.TABLE_NAME + " " +
+            "ON " + getPrefix() + TABLE_NAME + ".currency_id = " + getPrefix() + CurrencyTable.TABLE_NAME + ".name " +
+            "WHERE " + WORLD_NAME_FIELD + "=? AND " + getPrefix() + CurrencyTable.TABLE_NAME + ".name=? ORDER BY balance DESC LIMIT ?,?";
 
     public BalanceTable(String prefix) {
         super(prefix);

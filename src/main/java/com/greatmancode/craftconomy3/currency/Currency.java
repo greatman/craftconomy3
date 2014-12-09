@@ -43,14 +43,20 @@ public class Currency {
         this(name, plural, minor, minorPlural, sign, false);
     }
 
-    protected Currency(String name, String plural, String minor, String minorPlural, String sign, boolean status) {
+    public Currency(String name, String plural, String minor, String minorPlural, String sign, boolean status) {
+        this(name,plural,minor,minorPlural,sign,status,false);
+    }
+
+    public Currency(String name, String plural, String minor, String minorPlural, String sign, boolean status, boolean bankCurrency) {
         this.name = name;
         this.plural = plural;
         this.minor = minor;
         this.minorPlural = minorPlural;
         this.sign = sign;
         this.status = status;
+        this.bankCurrency = bankCurrency;
     }
+
 
 
     /**
@@ -212,5 +218,18 @@ public class Currency {
 
     protected void setBankCurrency(boolean bankCurrency) {
         this.bankCurrency = bankCurrency;
+    }
+
+    @Override
+    public String toString() {
+        return "Currency{" +
+                "name='" + name + '\'' +
+                ", plural='" + plural + '\'' +
+                ", minor='" + minor + '\'' +
+                ", minorPlural='" + minorPlural + '\'' +
+                ", sign='" + sign + '\'' +
+                ", status=" + status +
+                ", bankCurrency=" + bankCurrency +
+                '}';
     }
 }

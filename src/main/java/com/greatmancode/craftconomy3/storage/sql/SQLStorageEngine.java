@@ -664,7 +664,7 @@ public abstract class SQLStorageEngine extends StorageEngine {
             statement.setInt(4, 10);
             ResultSet set = statement.executeQuery();
             while (set.next()) {
-                result.add(new TopCommand.TopEntry(set.getString("username"), Common.getInstance().getCurrencyManager().getCurrency(set.getString("currencyName")), set.getDouble("balance")));
+                result.add(new TopCommand.TopEntry(set.getString("name"), Common.getInstance().getCurrencyManager().getCurrency(set.getString("currencyName")), set.getDouble("balance")));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -881,7 +881,7 @@ public abstract class SQLStorageEngine extends StorageEngine {
             statement = connection.prepareStatement(currencyTable.selectAllEntry);
             ResultSet set = statement.executeQuery();
             while(set.next()) {
-                results.put(set.getString("name"), new Currency(set.getString("name"), set.getString("plural"), set.getString("minor"),set.getString("minorPlural"), set.getString("sign")));
+                results.put(set.getString("name"), new Currency(set.getString("name"), set.getString("plural"), set.getString("minor"),set.getString("minorPlural"), set.getString("sign"), set.getBoolean("status"), set.getBoolean("bankCurrency")));
             }
         } catch (SQLException e) {
             e.printStackTrace();
