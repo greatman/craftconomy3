@@ -60,6 +60,15 @@ public class AccountManager {
         return account;
     }
 
+    @Deprecated
+    public Account getAccount(String name) {
+        if (name.startsWith("bank:")) {
+            return getAccount(name.split("bank:")[1], true);
+        } else {
+            return getAccount(name, false);
+        }
+    }
+
     /**
      * Check if a account exist in the database.
      *

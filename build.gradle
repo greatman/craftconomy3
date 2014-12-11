@@ -20,6 +20,41 @@ ext.url = 'https://github.com/greatman/craftconomy3'
 ext.bukkitVersion = '1.7.9-R0.2'
 
 
+def gitDescribe() {
+    try {
+        // determine git-describe output
+        def stdout = new ByteArrayOutputStream()
+        exec {
+            commandLine 'git', 'describe', '--always', '--dirty=*'
+            standardOutput = stdout
+        }
+        return stdout.toString().trim()
+    } catch (e) {
+        return "unknown"
+    }
+}
+def getVersionName() {
+    try {
+        // determine git-describe output
+        def version = gitDescribe()
+
+        // add on jenkins or travis build information
+        def jenkins_build = System.getenv("BUILD_NUMBER")
+        def travis_build = System.getenv("TRAVIS_BUILD_NUMBER")
+        if (jenkins_build != null) {
+            version += "-b" + jenkins_build
+        } else if (travis_build != null) {
+            version += "-trv" + travis_build
+        } else {
+            version += "-dev"
+        }
+
+        return version
+    } catch (e) {
+        return "unknown-version"
+    }
+}
+
 compileJava {
     options.encoding = 'UTF-8'
 }
@@ -75,6 +110,18 @@ shadowJar {
     relocate 'javassist', 'com.greatmancode.javassist'
     relocate 'org.slf4j', 'com.greatmancode.org.slf4j'
 }
+
+task filter(type: Copy) {
+    from ('src/main/resources') {
+        exclude 'config.yml'
+        exclude 'loader.yml'
+    }
+    into 'build/resources/main'
+    def versionFinal = version + "-" + getVersionName()
+    expand(version: versionFinal)
+}
+
+jar.dependsOn filter
 
 license {
     header rootProject.file('LICENSE.txt')
