@@ -137,7 +137,6 @@ public class Iconomy6 extends Converter {
         config.addDataSourceProperty("user", "sa");
         config.addDataSourceProperty("password", "sa");
         config.addDataSourceProperty("url", "jdbc:h2:file:" + new File(Common.getInstance().getServerCaller().getDataFolder().getPath(), getDbConnectInfo().get("filename")).getAbsolutePath() + ";MV_STORE=FALSE");
-        config.addDataSourceProperty("autoDeserialize", true);
         db = new HikariDataSource(config);
     }
 
