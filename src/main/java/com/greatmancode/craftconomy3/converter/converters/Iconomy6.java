@@ -64,6 +64,9 @@ public class Iconomy6 extends Converter {
                 getDbInfoList().add("username");
                 getDbInfoList().add("password");
                 getDbInfoList().add("database");
+            } else if ("h2".equals(getSelectedDbType())) {
+                getDbInfoList().add("tablename");
+                getDbInfoList().add("filename");
             }
         }
         return getDbInfoList();
@@ -133,7 +136,7 @@ public class Iconomy6 extends Converter {
         config.setDataSourceClassName("org.h2.jdbcx.JdbcDataSource");
         config.addDataSourceProperty("user", "sa");
         config.addDataSourceProperty("password", "sa");
-        config.setJdbcUrl("jdbc:h2:"+ new File(Common.getInstance().getServerCaller().getDataFolder().getPath(), "minecraft").getAbsolutePath() +";AUTO_RECONNECT=TRUE");
+        config.setJdbcUrl("jdbc:h2:"+ new File(Common.getInstance().getServerCaller().getDataFolder().getPath(), getDbConnectInfo().get("filename")).getAbsolutePath() +";AUTO_RECONNECT=TRUE");
         config.addDataSourceProperty("autoDeserialize", true);
         db = new HikariDataSource(config);
     }
@@ -203,7 +206,11 @@ public class Iconomy6 extends Converter {
         PreparedStatement statement = null;
         try {
             connection = db.getConnection();
-            statement = connection.prepareStatement(IConomyTable.SELECT_ENTRY);
+            if (getDbConnectInfo().get("tablename") != null) {
+                statement = connection.prepareStatement("SELECT * FROM " + getDbConnectInfo().get("tablename"));
+            } else {
+                statement = connection.prepareStatement(IConomyTable.SELECT_ENTRY);
+            }
             ResultSet set = statement.executeQuery();
             List<User> userList = new ArrayList<User>();
             while (set.next()) {
