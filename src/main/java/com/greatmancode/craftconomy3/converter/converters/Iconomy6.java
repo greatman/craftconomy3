@@ -49,6 +49,7 @@ public class Iconomy6 extends Converter {
         getDbTypes().add("minidb");
         getDbTypes().add("sqlite");
         getDbTypes().add("mysql");
+        getDbTypes().add("h2");
     }
 
     @Override
@@ -77,6 +78,8 @@ public class Iconomy6 extends Converter {
             loadMySQL();
         } else if ("sqlite".equals(getSelectedDbType())) {
             loadSQLite();
+        } else if ("h2".equals(getSelectedDbType())) {
+            loadH2();
         }
 
         if (db != null) {
@@ -122,6 +125,17 @@ public class Iconomy6 extends Converter {
         } catch (NumberFormatException e) {
             Common.getInstance().getLogger().severe("Illegal Port!");
         }
+    }
+
+    private void loadH2() {
+        HikariConfig config = new HikariConfig();
+        config.setMaximumPoolSize(10);
+        config.setDataSourceClassName("org.h2.jdbcx.JdbcDataSource");
+        config.addDataSourceProperty("user", "sa");
+        config.addDataSourceProperty("password", "sa");
+        config.setJdbcUrl("jdbc:h2:"+ new File(Common.getInstance().getServerCaller().getDataFolder().getPath(), "minecraft").getAbsolutePath() +";AUTO_RECONNECT=TRUE");
+        config.addDataSourceProperty("autoDeserialize", true);
+        db = new HikariDataSource(config);
     }
 
     /**
