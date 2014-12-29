@@ -1,4 +1,5 @@
 language: java
+sudo: false
 jdk:
 - oraclejdk8
 services: mysql
@@ -7,7 +8,7 @@ before_install:
   - mysql -e 'create database craftconomy;'
 script: ./gradlew -Dmysql=true && ./gradlew
 after_success:
-  - "[[ $TRAVIS_PULL_REQUEST == false ]] && [[ $TRAVIS_REPO_SLUG == greatman/craftconomy3 ]] && [[ $TRAVIS_BRANCH == master ]] && ./gradlew uploadArchives"
+  - "[[ $TRAVIS_PULL_REQUEST == false ]] && [[ $TRAVIS_REPO_SLUG == greatman/craftconomy3 ]] && [[ $TRAVIS_BRANCH == newdatabase ]] && ./gradlew uploadArchives"
 env:
   global:
   - secure: BcM1cxGDc28hKtfVljXalvEg9oSIRvj63wyiA6NrIwaNVFdXnnhwAhlE3XwCfLdLH4T7LPc+OhpXzMtLZcVxPgYlkZeUQlUXGC5IEb8ZIwyZZuvnL1anrw/TLD+6uaMkpYwEdx4yOTysBFYa+8zIU8QG0RH5rcNGFTy1BoA/xWs=
