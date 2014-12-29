@@ -21,6 +21,7 @@ package com.greatmancode.craftconomy3.account;
 import com.greatmancode.craftconomy3.Common;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -130,5 +131,14 @@ public class AccountManager {
      */
     public void clearCache(String name) {
         accountList.remove(name);
+    }
+
+    /**
+     * Retrieve a list of all the accounts
+     * @param bank If we want a bank list or not
+     * @return A List of accounts
+     */
+    public List<String> getAllAccounts(boolean bank) {
+        return Common.getInstance().getStorageHandler().getStorageEngine().getAllAccounts(bank);
     }
 }

@@ -119,6 +119,28 @@ public abstract class SQLStorageEngine extends StorageEngine {
     }
 
     @Override
+    public List<String> getAllAccounts(boolean bank) {
+        List<String> result = new ArrayList<>();
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = db.getConnection();
+            statement = connection.prepareStatement(accountTable.selectAllEntry);
+            statement.setBoolean(1, bank);
+            ResultSet set = statement.executeQuery();
+            while (set.next()) {
+                result.add(set.getString("name"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            Tools.closeJDBCStatement(statement);
+            Tools.closeJDBCConnection(connection);
+        }
+        return result;
+    }
+
+    @Override
     public void saveLog(LogInfo info, Cause cause, String causeReason, Account account, double amount, Currency currency, String worldName) {
         saveLog(info, cause, causeReason, account, amount, currency, worldName, new Timestamp(System.currentTimeMillis()));
     }

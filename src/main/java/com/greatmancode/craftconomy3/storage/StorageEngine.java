@@ -71,6 +71,14 @@ public abstract class StorageEngine {
      */
     public abstract Account getAccount(UUID uuid);
 
+
+    /**
+     * Retrieve all account names
+     * @param bank If we want to retrieve the bank accounts or not
+     * @return A List of all accounts
+     */
+    public abstract List<String> getAllAccounts(boolean bank);
+
     /**
      * Write a transaction to the Log.
      *

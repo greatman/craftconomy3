@@ -122,6 +122,8 @@ shadowJar {
     relocate 'com.zaxxer.hikari', 'com.greatmancode.com.zaxxer.hikari'
     relocate 'javassist', 'com.greatmancode.javassist'
     relocate 'org.slf4j', 'com.greatmancode.org.slf4j'
+    //baseName = 'craftconomy3'
+    classifier = ''
 }
 
 task filter(type: Copy) {
@@ -166,7 +168,6 @@ task javadocJar(type: Jar) {
     classifier = 'javadoc'
     from javadoc
 }
-
 artifacts {
     archives shadowJar, javadocJar, sourcesJar
 }

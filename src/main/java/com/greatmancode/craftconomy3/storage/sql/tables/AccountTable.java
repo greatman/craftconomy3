@@ -48,6 +48,8 @@ public class AccountTable extends DatabaseTable {
 
     public final String selectEntryUuid = "SELECT * FROM " + getPrefix() + TABLE_NAME + " WHERE uuid=?";
 
+    public final String selectAllEntry = "SELECT name FROM " + getPrefix()+ TABLE_NAME + " WHERE bank=?";
+
     public final String insertEntry = "INSERT INTO " + getPrefix() + TABLE_NAME + "(name,uuid) VALUES(?,?)";
 
     public final String insertEntryBank = "INSERT INTO " + getPrefix() + TABLE_NAME + "(name,bank) VALUES(?,true)";
