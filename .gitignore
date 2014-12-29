@@ -9,3 +9,5 @@ atlassian-ide-plugin.xml
 .idea
 *.iml
 build
+key.gpg
+.gradle

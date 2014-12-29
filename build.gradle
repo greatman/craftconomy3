@@ -6,18 +6,31 @@ apply plugin: 'idea'
 apply plugin: 'eclipse'
 apply plugin: 'com.github.johnrengelman.shadow' // Provides dependency shading
 apply plugin: 'license'
-apply from: 'etc/publish.gradle'
 
 group = 'com.greatmancode'
 version = '3.2-SNAPSHOT'
-
+//archiveBaseName = "craftconomy3"
 description = "Craftconomy3"
-
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
+ext.version = version;
 
+//Variables for signing & other stuff
 ext.url = 'https://github.com/greatman/craftconomy3'
 ext.bukkitVersion = '1.7.9-R0.2'
+ext."signing.keyId" = System.getenv("keyId")
+ext."signing.secretKeyRingFile" = System.getenv("secretKeyRingFile")
+ext."signing.password" = System.getenv("keyPassword")
+
+
+ext.isReleaseVersion = !version.endsWith("SNAPSHOT")
+if (ext.isReleaseVersion) {
+    apply plugin: 'signing'
+    signing {
+        required = { isReleaseVersion && gradle.taskGraph.hasTask("uploadArchives") }
+        sign configurations.archives
+    }
+}
 
 
 def gitDescribe() {
@@ -126,4 +139,78 @@ jar.dependsOn filter
 license {
     header rootProject.file('LICENSE.txt')
     skipExistingHeaders true //Temporary
+}
+
+
+// child script to publish to a maven repo
+apply plugin: 'maven-publish'
+apply plugin: 'maven'
+
+// allow javadoc archive on Java 8 even if the javadoc isn't complete
+if (JavaVersion.current().isJava8Compatible()) {
+    allprojects {
+        tasks.withType(Javadoc) {
+            options.addStringOption('Xdoclint:none', '-quiet')
+        }
+    }
+}
+
+// source jar
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from sourceSets.main.java.srcDirs
+}
+
+// javadoc jar
+task javadocJar(type: Jar) {
+    classifier = 'javadoc'
+    from javadoc
+}
+
+artifacts {
+    archives shadowJar, javadocJar, sourcesJar
+}
+
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+            repository( url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                authentication(userName: System.getenv("sonatypeUsername"), password: System.getenv("sonatypePassword"))
+            }
+
+            snapshotRepository( url: "https://oss.sonatype.org/content/repositories/") {
+                authentication(userName: System.getenv("sonatypeUsername"), password: System.getenv("sonatypePassword"))
+            }
+
+            pom.project {
+                name 'Craftconomy3'
+                packaging 'jar'
+                description 'Economy plugin for multiple Minecraft server implementation.'
+                url 'https://github.com/greatman/craftconomy3'
+
+                scm {
+                    connection 'https://github.com/greatman/craftconomy3.git'
+                    developerConnection 'https://github.com/greatman/craftconomy3.git'
+                    url 'https://github.com/greatman/craftconomy3'
+                }
+
+                licenses {
+                    license {
+                        name 'LGPL v3'
+                        url 'https://www.gnu.org/licenses/lgpl.html'
+                    }
+                }
+                developers {
+                    developer {
+                        id 'greatman'
+                        name 'William Lebel'
+                        email 'lebelwilliam@gmail.com'
+                    }
+                }
+            }
+        }
+    }
 }
