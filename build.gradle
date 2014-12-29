@@ -184,7 +184,7 @@ uploadArchives {
                 authentication(userName: System.getenv("sonatypeUsername"), password: System.getenv("sonatypePassword"))
             }
 
-            snapshotRepository( url: "https://oss.sonatype.org/content/repositories/") {
+            snapshotRepository( url: "https://oss.sonatype.org/content/repositories/snapshots/") {
                 authentication(userName: System.getenv("sonatypeUsername"), password: System.getenv("sonatypePassword"))
             }
 
