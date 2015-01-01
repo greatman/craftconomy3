@@ -122,7 +122,9 @@ public class Iconomy6 extends Converter {
             MySQLConfiguration config = new MySQLConfiguration();
             config.setHost(getDbConnectInfo().get("address"));
             config.setUser(getDbConnectInfo().get("username"));
-            config.setPassword(getDbConnectInfo().get("password"));
+            if (!getDbConnectInfo().get("password").equals("\"\"") && !getDbConnectInfo().get("password").equals("''")) {
+                config.setPassword(getDbConnectInfo().get("password"));   
+            }
             config.setDatabase(getDbConnectInfo().get("database"));
             config.setPort(Integer.parseInt(getDbConnectInfo().get("port")));
             db = DatabaseFactory.createNewDatabase(config);
