@@ -42,10 +42,14 @@ public class EventManager implements Listener {
         if (!Common.getInstance().getMainConfig().getBoolean("System.Setup")) {
             //We search if the UUID is in the database
             AccountTable table = Common.getInstance().getDatabaseManager().getDatabase().select(AccountTable.class).where().equal("uuid", event.getPlayer().getUuid().toString()).execute().findOne();
-            if (table != null && !table.getName().equals(event.getPlayer().getName())) {
+            if (table != null && !table.getName().equalsIgnoreCase(event.getPlayer().getName())) {
                 //Clear the cache of the player
                 Common.getInstance().getAccountManager().clearCache(table.getName());
-                table.setName(event.getPlayer().getName());
+                String playerName = event.getPlayer().getName();
+                if (!Common.getInstance().getMainConfig().getBoolean("System.Case-sentitive")) {
+                    playerName = playerName.toLowerCase();
+                }
+                table.setName(playerName);
                 Common.getInstance().getDatabaseManager().getDatabase().save(table);
             } else {
                 //Did the player already had a account? If so, let's insert his UUID
