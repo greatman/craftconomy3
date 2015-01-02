@@ -166,15 +166,27 @@ public abstract class Converter {
     protected void addAccountToString(List<User> userList2) {
         stringBuilder = new StringBuilder();
         List<User> userList = new ArrayList<User>(userList2);
-        stringBuilder.append("INSERT INTO ").append(Common.getInstance().getMainConfig().getString("System.Database.Prefix")).append("account(name) VALUES ");
+        User user = userList2.get(0);
+        //If the user contains a UUID we switch to UUID mode.
+        if (user.contains("-")) {
+            stringBuilder.append("INSERT INTO ").append(Common.getInstance().getMainConfig().getString("System.Database.Prefix")).append("account(uuid) VALUES ");
+        } else {
+            stringBuilder.append("INSERT INTO ").append(Common.getInstance().getMainConfig().getString("System.Database.Prefix")).append("account(name) VALUES ");
+        }
         Iterator<User> iterator = userList.iterator();
         boolean first = true, isCaseSentitive = Common.getInstance().getMainConfig().getBoolean("System.Case-sentitive"), isSQLite = Common.getInstance().getDatabaseManager().getDatabase() instanceof SQLiteDatabase;
         while (iterator.hasNext()) {
+            User user = iterator.next();
             if (isSQLite && !first) {
                 stringBuilder = new StringBuilder();
-                stringBuilder.append("INSERT INTO ").append(Common.getInstance().getMainConfig().getString("System.Database.Prefix")).append("account(name) VALUES ");
+                if (user.contains("-")) {
+                    stringBuilder.append("INSERT INTO ").append(Common.getInstance().getMainConfig().getString("System.Database.Prefix")).append("account(uuid) VALUES ");
+                } else {
+                    stringBuilder.append("INSERT INTO ").append(Common.getInstance().getMainConfig().getString("System.Database.Prefix")).append("account(name) VALUES ");
+                }
+                
             }
-            User user = iterator.next();
+
             if (isCaseSentitive) {
                 stringBuilder.append("('").append(user.user).append("')");
             } else {
@@ -217,7 +229,11 @@ public abstract class Converter {
                 stringBuilder.append("INSERT INTO ").append(Common.getInstance().getMainConfig().getString("System.Database.Prefix")).append("balance(username_id, currency_id, worldName,balance) VALUES ");
             }
             User user = iterator.next();
-            AccountTable account = Common.getInstance().getDatabaseManager().getDatabase().select(AccountTable.class).where().equal("name", user.user).execute().findOne();
+            if (user.user.contains("-")) {
+                AccountTable account = Common.getInstance().getDatabaseManager().getDatabase().select(AccountTable.class).where().equal("uuid", user.user).execute().findOne();
+            } else {
+                AccountTable account = Common.getInstance().getDatabaseManager().getDatabase().select(AccountTable.class).where().equal("name", user.user).execute().findOne();
+            }
             stringBuilder.append("(").append(account.getId()).append(",").append(Common.getInstance().getCurrencyManager().getDefaultCurrency().getDatabaseID()).append(",'").append(WorldGroupsManager.DEFAULT_GROUP_NAME).append("',").append(user.balance).append(")");
             if (!isSQLite) {
                 if (iterator.hasNext()) {
