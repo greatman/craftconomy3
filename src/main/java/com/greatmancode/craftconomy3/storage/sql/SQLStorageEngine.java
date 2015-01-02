@@ -115,6 +115,22 @@ public abstract class SQLStorageEngine extends StorageEngine {
 
     @Override
     public Account getAccount(UUID uuid) {
+        PreparedStatement statement = null;
+        Connection connection = null;
+        try {
+            connection = db.getConnection();
+            statement = connection.prepareStatement(accountTable.selectEntryUuid);
+            statement.setString(1, uuid.toString());
+            ResultSet set = statement.executeQuery();
+            if (set.next()) {
+                return new Account(set.getString("name"), set.getBoolean("bank"), set.getBoolean("infiniteMoney"), set.getBoolean("ignoreACL"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            Tools.closeJDBCStatement(statement);
+            Tools.closeJDBCConnection(connection);
+        }
         return null;
     }
 
