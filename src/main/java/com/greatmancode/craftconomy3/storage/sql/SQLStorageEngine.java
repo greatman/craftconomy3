@@ -954,8 +954,8 @@ public abstract class SQLStorageEngine extends StorageEngine {
         boolean first = true;
         for (Converter.User userEntry : userList) {
             if (!first) {
-                builder.append(",");
-                balanceBuilder.append(",");
+                builder.append(",(");
+                balanceBuilder.append(",(");
             } else {
                 first = false;
             }
