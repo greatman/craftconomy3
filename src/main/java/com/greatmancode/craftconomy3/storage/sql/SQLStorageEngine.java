@@ -943,7 +943,13 @@ public abstract class SQLStorageEngine extends StorageEngine {
 
     @Override
     public void saveImporterUsers(List<Converter.User> userList) {
-        StringBuilder builder = new StringBuilder("INSERT INTO "+tablePrefix+ AccountTable.TABLE_NAME+"(name) VALUES(");
+        Converter.User user = userList.get(0);
+        StringBuilder builder;
+        if (user.getUser().contains("-")) {
+             builder = new StringBuilder("INSERT INTO "+tablePrefix+ AccountTable.TABLE_NAME+"(uuid) VALUES(");
+        } else {
+            builder = new StringBuilder("INSERT INTO "+tablePrefix+ AccountTable.TABLE_NAME+"(name) VALUES(");
+        }
         StringBuilder balanceBuilder = new StringBuilder("INSERT INTO "+tablePrefix+ BalanceTable.TABLE_NAME+"(balance, worldName, currency_id, username_id) VALUES(");
         boolean first = true;
         for (Converter.User userEntry : userList) {
@@ -954,7 +960,11 @@ public abstract class SQLStorageEngine extends StorageEngine {
                 first = false;
             }
             builder.append("'"+userEntry.getUser()+"')");
-            balanceBuilder.append(userEntry.getBalance()+",default,"+Common.getInstance().getCurrencyManager().getDefaultCurrency().getName()+",(SELECT id from " + tablePrefix + AccountTable.TABLE_NAME + " WHERE name=?))");
+            if (userEntry.getUser().contains("-")) {
+                balanceBuilder.append(userEntry.getBalance()+",default,"+Common.getInstance().getCurrencyManager().getDefaultCurrency().getName()+",(SELECT id from " + tablePrefix + AccountTable.TABLE_NAME + " WHERE uuid=?))");
+            } else {
+                balanceBuilder.append(userEntry.getBalance()+",default,"+Common.getInstance().getCurrencyManager().getDefaultCurrency().getName()+",(SELECT id from " + tablePrefix + AccountTable.TABLE_NAME + " WHERE name=?))");
+            }
         }
         builder.append(";");
         balanceBuilder.append(";");
