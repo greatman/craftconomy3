@@ -168,7 +168,7 @@ public abstract class Converter {
         List<User> userList = new ArrayList<User>(userList2);
         User user = userList2.get(0);
         //If the user contains a UUID we switch to UUID mode.
-        if (user.contains("-")) {
+        if (user.user.contains("-")) {
             stringBuilder.append("INSERT INTO ").append(Common.getInstance().getMainConfig().getString("System.Database.Prefix")).append("account(uuid) VALUES ");
         } else {
             stringBuilder.append("INSERT INTO ").append(Common.getInstance().getMainConfig().getString("System.Database.Prefix")).append("account(name) VALUES ");
