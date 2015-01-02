@@ -91,7 +91,6 @@ repositories {
     mavenCentral()
     maven { url "http://oss.sonatype.org/content/repositories/snapshots" }
     maven { url "http://repo.bukkit.org/content/groups/public/" }
-    maven { url "http://repo.greatmancode.com/content/groups/public/" }
     maven { url "http://repo.visualillusionsent.net/repository/public/" }
     maven { url "http://repo.larry1123.net/content/groups/public/" }
     maven { url "https://libraries.minecraft.net" }
