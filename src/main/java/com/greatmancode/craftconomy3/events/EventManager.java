@@ -43,7 +43,7 @@ public class EventManager implements Listener {
         if (!Common.getInstance().getMainConfig().getBoolean("System.Setup")) {
             //We search if the UUID is in the database
             Account account = Common.getInstance().getStorageHandler().getStorageEngine().getAccount(event.getPlayer().getUuid());
-            if (account != null && !account.getAccountName().equals(event.getPlayer().getName())) {
+            if (account != null && !event.getPlayer().getName().equals(account.getAccountName())) {
                 Common.getInstance().getAccountManager().clearCache(account.getAccountName());
                 Common.getInstance().getStorageHandler().getStorageEngine().updateUsername(event.getPlayer().getName().toLowerCase(), event.getPlayer().getUuid());
             } else if (account == null){
