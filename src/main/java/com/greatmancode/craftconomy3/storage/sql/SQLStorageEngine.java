@@ -977,9 +977,9 @@ public abstract class SQLStorageEngine extends StorageEngine {
             }
             builder.append("'"+userEntry.getUser()+"')");
             if (userEntry.getUser().contains("-")) {
-                balanceBuilder.append(userEntry.getBalance()+",default,"+Common.getInstance().getCurrencyManager().getDefaultCurrency().getName()+",(SELECT id from " + tablePrefix + AccountTable.TABLE_NAME + " WHERE uuid=?))");
+                balanceBuilder.append(userEntry.getBalance()+",'default','"+Common.getInstance().getCurrencyManager().getDefaultCurrency().getName()+"',(SELECT id from " + tablePrefix + AccountTable.TABLE_NAME + " WHERE uuid='"+userEntry.getUser()+"'))");
             } else {
-                balanceBuilder.append(userEntry.getBalance()+",default,"+Common.getInstance().getCurrencyManager().getDefaultCurrency().getName()+",(SELECT id from " + tablePrefix + AccountTable.TABLE_NAME + " WHERE name=?))");
+                balanceBuilder.append(userEntry.getBalance()+",'default','"+Common.getInstance().getCurrencyManager().getDefaultCurrency().getName()+"',(SELECT id from " + tablePrefix + AccountTable.TABLE_NAME + " WHERE name='"+userEntry.getUser()+"'))");
             }
         }
         builder.append(";");
@@ -992,6 +992,8 @@ public abstract class SQLStorageEngine extends StorageEngine {
             statement.executeUpdate();
             statement.close();
             statement = connection.prepareStatement(balanceBuilder.toString());
+            statement.executeUpdate();
+            statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
