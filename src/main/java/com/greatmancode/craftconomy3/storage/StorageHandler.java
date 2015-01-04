@@ -33,9 +33,11 @@ public class StorageHandler {
         switch (Common.getInstance().getMainConfig().getString("System.Database.Type")) {
             case "h2":
                 engine = new H2Engine();
+                Common.getInstance().addMetricsGraph("Database Engine", "h2");
                 break;
             case "mysql":
                 engine = new MySQLEngine();
+                Common.getInstance().addMetricsGraph("Database Engine", "MySQL");
                 break;
             default:
                 engine = null;

@@ -471,11 +471,7 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
      * @param value The value of the entry
      */
     public void addMetricsGraph(String title, boolean value) {
-        String stringEnabled = "No";
-        if (value) {
-            stringEnabled = "Yes";
-        }
-        addMetricsGraph(title, stringEnabled);
+        addMetricsGraph(title, value ? "Yes" : "No");
     }
 
     /**
@@ -483,6 +479,7 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
      */
     public void startMetrics() {
         if (metrics != null) {
+            getLogger().info("Starting Metrics.");
             metrics.start();
         }
     }
@@ -560,6 +557,7 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
             getStorageHandler().getStorageEngine().setConfigEntry("longmode", "long");
             displayFormat = DisplayFormat.LONG;
         }
+        addMetricsGraph("Display Format", displayFormat.toString());
         value = getStorageHandler().getStorageEngine().getConfigEntry("holdings");
         if (value != null && Tools.isValidDouble(value)) {
             holdings = Double.parseDouble(value);
