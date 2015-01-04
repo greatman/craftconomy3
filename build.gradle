@@ -214,6 +214,28 @@ uploadArchives {
                         email 'lebelwilliam@gmail.com'
                     }
                 }
+                repositories {
+                    repository {
+                        id 'spigot-repo'
+                        url 'https://hub.spigotmc.org/nexus/content/groups/public/'
+                    }
+                    repository {
+                        id 'canary-repo'
+                        url 'http://repo.visualillusionsent.net/repository/public/'
+                    }
+                    repository {
+                        id 'larry-repo'
+                        url 'http://repo.larry1123.net/content/groups/public/'
+                    }
+                    repository {
+                        id 'minecraft-repo'
+                        url 'https://libraries.minecraft.net'
+                    }
+                    repository {
+                        id 'sponge-repo'
+                        url 'http://repo.spongepowered.org/Sponge/maven'
+                    }
+                }
             }
         }
     }
