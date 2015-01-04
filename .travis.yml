@@ -10,6 +10,11 @@ install: ./gradlew -Dmysql=true && ./gradlew
 after_success:
 - '[[ $TRAVIS_PULL_REQUEST == false ]] && [[ $TRAVIS_REPO_SLUG == greatman/craftconomy3
   ]] && [[ $TRAVIS_BRANCH == master ]] && ./gradlew uploadArchives'
+notifications:
+  email: false
+  on_start: true
+  webhooks:
+    - http://n.tkte.ch/h/532/Xo4RyovGi5OccQTo2cOb5Xlf
 env:
   global:
   - secure: EBZCH5tIhdY4m1Jf/4oeurfXUV3R9d6bDwxnbTIke88nMPKoYV48V4a1cObiBXbYrV4ivWJqqbfTHv/f7cPMzwCHc7fT2cfjxLCOsVXzyJhAk49RMlQFyfA8dyb+UKi3W20PJfJ/itJJLlnFOTUBVeiHUGp8uTBMa0qH4c3oxNo=
