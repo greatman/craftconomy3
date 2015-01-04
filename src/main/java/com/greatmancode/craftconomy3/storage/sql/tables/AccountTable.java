@@ -30,8 +30,7 @@ public class AccountTable extends DatabaseTable {
             "  `ignoreACL` boolean DEFAULT FALSE," +
             "  `bank` boolean DEFAULT FALSE," +
             "  PRIMARY KEY (id)," +
-            "  KEY `account_name_index` (`name`(50))," +
-            "  KEY `account_uuid_index` (`uuid`(36))" +
+            "  KEY `account_name_index` (`name`(50))" +
             ") ENGINE=InnoDB;";
 
     public final String createTableH2 = "CREATE TABLE IF NOT EXISTS " + getPrefix() + TABLE_NAME + " (" +
