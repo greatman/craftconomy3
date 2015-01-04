@@ -4,16 +4,17 @@ jdk:
 - oraclejdk8
 services: mysql
 before_install:
-  - openssl aes-256-cbc -k "$opensslkey" -in key.gpg.enc -out key.gpg -d
-  - mysql -e 'create database craftconomy;'
+- openssl aes-256-cbc -k "$opensslkey" -in key.gpg.enc -out key.gpg -d
+- mysql -e 'create database craftconomy;'
 install: ./gradlew -Dmysql=true && ./gradlew
 after_success:
-  - "[[ $TRAVIS_PULL_REQUEST == false ]] && [[ $TRAVIS_REPO_SLUG == greatman/craftconomy3 ]] && [[ $TRAVIS_BRANCH == newdatabase ]] && ./gradlew uploadArchives"
+- '[[ $TRAVIS_PULL_REQUEST == false ]] && [[ $TRAVIS_REPO_SLUG == greatman/craftconomy3
+  ]] && [[ $TRAVIS_BRANCH == master ]] && ./gradlew uploadArchives'
 env:
   global:
-  - secure: BcM1cxGDc28hKtfVljXalvEg9oSIRvj63wyiA6NrIwaNVFdXnnhwAhlE3XwCfLdLH4T7LPc+OhpXzMtLZcVxPgYlkZeUQlUXGC5IEb8ZIwyZZuvnL1anrw/TLD+6uaMkpYwEdx4yOTysBFYa+8zIU8QG0RH5rcNGFTy1BoA/xWs=
-  - secure: GvxaFbpEy9fDXxsWXXVVUpDRqq60ukA14YY6IIStpoGrJxzGHVBPzJXLzogXyRhRMb0O+HfKc84jQhOhokS5QmaI1fSDmJWrl59mfUFTBPlfBvAMWNw4emravzy7p8NNIQUz0VAk+KmDFL4CuGZpyLkjsg2GomP7hm+BbVRTA5k=
-  - secure: ZbaVbvt50trYWLVMaBhVyOGt9uq9w5Bx7g0hy6VWhke/XgKABpQhHMGozYImcc1L9eIAX+T+BwxsmdefTe9mDs3V/O/rJF9GsZrNkTS4ZlkViHOLyhTvrkptcQVIDbDksBvf96QOtiUtaV/3VpKIaAR7KLpVYM8tQCS0Xjw4tFA=
-  - secure: bi7I3hRXbJSETQX62yIUxkXC0GHBd49ylrqkSEZsdPQUg+uXIEQvumJPEdRm/6M9tA+pHBn7jNzKBE9j3/2fg3TkbyD2HlI+L8Z4q2G8aHSIlD+2jb5blrOFTfp/FZ3Qkhtl8hlXGD5M5A+a9nSEXkP5GRL+VIBlFfQcE3AdVNE=
-  - secure: agP7xZ/VAVr+SPt/o7pbOFiZV8sA/2bDDLnkQC8cBWmCiIKTz3O7Dok9KmAFzG/AIFSORm9P5OWX45qEyKMzV04WFRkIVC64AFs5MnWAUJsUvB74tg73LeflWxPv5GXSklR93awaGG7oufqMTkFTqKJKkasgEq0BlcbmgZeaqto=
-  - secure: RbVwrcv9rRAaJSuHgfvdsjAsaZm0JwMRa8NLQkjlutQwsVNKHse0CMA+hRg615KeGJ8d1W9yWKw3ZHg5Wp+izSaCvH5YV1+GzCXhW+amYMr8x3OqPJ5YrNcQrgkzrMpmJbD5SARZztDelglUykgUrlPKhlFG8JvFti1HGpiNcuY=
+  - secure: EBZCH5tIhdY4m1Jf/4oeurfXUV3R9d6bDwxnbTIke88nMPKoYV48V4a1cObiBXbYrV4ivWJqqbfTHv/f7cPMzwCHc7fT2cfjxLCOsVXzyJhAk49RMlQFyfA8dyb+UKi3W20PJfJ/itJJLlnFOTUBVeiHUGp8uTBMa0qH4c3oxNo=
+  - secure: dvpFZ7DH3HWDb20nD4kf2SfdVWynRFBRyhiwnwfpfhbTwr4vCGSN9PqQjT985aMknN8va4L9Bx43RmQ5xXIzHPWyqkD/MzqN/PtZk4eoH7mtkovDtUb+84GqxjjX8P0GojQNulyxekQsis/CyLXnjD+pHVwfR9vA0w7ZQIszdLA=
+  - secure: gyjOwsFfhTAnJUi8iK2X6Y5dCnyKWWw1uhOCJVMxaDdctJtrsdUCbOsfE5KxIZrWGFaVnMyoYa4df2lyfmUfB0ZJy0v+k3Jh747BdW5Wr3h7QQGZkY0CqPLX+2Ttqd9j3aa5Yv2cq5VzU8ViE5nA3/zukaiH3VP4/+mLVtGmMjA=
+  - secure: GPtF+XT7He4FL2vwhL5xCFmqiPaD8GDPdadRL2KOta25qRyR4qQo/NmbpyMqzYN8PNj/F0pzs9b1h/lAYHQNrsrEy0knaFoo8Fyp5CcnHrCV4iLYptvQkT6zZQC68cdUzUOX2FVoV7CUwmae1RZhpv4BJJltdTrHtAXE3IoOfVI=
+  - secure: kDv/cw8Bp82i4mjHIjnVuaQbP+N8HFIL6FhQM68vc/leCBjWFWIN1TJBsHTRSOeS6DWaD8DjSatomaToFK5Rh73L+i3OnhRmHZze/9OJdzbqQeOFLV36GRDuo7ZAxHsEH2LFyCmJFNyqghm8V/4/vfgWcNlHJW6BjwksIf5ARIg=
+  - secure: kJtOq45qJ8ZyJx2J8eJQn75bdkHYI6BLuqR5c5IbbF3PoKmXTIznOKu75cQ6amHYk635jDtGBrB0DON26Vxd1R906FKjPFaGB23kXAK3eBPP0RpmIZc7Q14xRFDp4oOVrHnMUpmMD6wISqweoYyzhWAW1x+4I0KNBxQO3oKmjH8=
