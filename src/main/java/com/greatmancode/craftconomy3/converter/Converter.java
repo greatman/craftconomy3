@@ -19,6 +19,7 @@
 package com.greatmancode.craftconomy3.converter;
 
 import com.greatmancode.craftconomy3.Common;
+import lombok.Getter;
 
 import java.util.*;
 
@@ -170,6 +171,7 @@ public abstract class Converter {
     /**
      * Represents a economy user
      */
+    @Getter
     public class User {
         /**
          * the user name
@@ -180,17 +182,17 @@ public abstract class Converter {
          */
         private double balance;
 
+        private String uuid;
+
         public User(String user, double balance) {
             this.user = user;
             this.balance = balance;
         }
 
-        public String getUser() {
-            return user;
-        }
-
-        public double getBalance() {
-            return balance;
+        public User(String user, String uuid, double balance) {
+            this.user = user;
+            this.uuid = uuid;
+            this.balance = balance;
         }
     }
 }

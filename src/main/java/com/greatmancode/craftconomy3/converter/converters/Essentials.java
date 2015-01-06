@@ -59,25 +59,37 @@ public class Essentials extends Converter {
         int i = 0;
         String line;
         for (File account : accounts) {
+            String uuid = null;
+            String name = null;
+            double money = 0;
+            boolean haveMoney = false;
+            if (account.getName().contains("-")) {
+                uuid = account.getName().replace(".yml", "");
+            }
             try {
                 BufferedReader reader = new BufferedReader(new FileReader(account));
-                while ((line = reader.readLine()) != null) {
-                    //money: '0.0'
-                    if (line.startsWith("money:")) {
-                        String value = line.replace("money: '", "");
-                        if (value.contains("money")) {
-                            value = line.replace("money: ", "");
-                        }
-                        value = value.substring(0, value.length() - 1);
-                        try {
-                            double money = Double.parseDouble(value);
-                            String name = account.getName().replace(".yml", "");
-                            userList.add(new User(name, money));
-                        } catch (NumberFormatException e) {
-                            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{RED}}Error while reading {{WHITE}}" + account.getName() + "{{RED}}! Error is: {{WHITE}}" + e.getMessage());
-                        }
+                try {
+                    while ((line = reader.readLine()) != null) {
+                        //This is a UUID essentials file.
 
+                        //money: '0.0'
+                        if (line.startsWith("money:")) {
+                            String value = line.replace("money: '", "");
+                            if (value.contains("money")) {
+                                value = line.replace("money: ", "");
+                            }
+                            money = Double.parseDouble(value.substring(0, value.length() - 1));
+                            haveMoney = true;
+                        } else if (line.startsWith("lastAccountName:")) {
+                            name = line.replace("lastAccountName: ", "").trim();
+                        }
                     }
+                } catch (NumberFormatException e) {
+                    Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_RED}}The account "+uuid+" don't have a valid money value!");
+
+                }
+                if (haveMoney) {
+                    userList.add(new User(name,uuid,money));
                 }
                 if (i % 10 == 0) {
                     Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, i + " {{DARK_GREEN}}accounts loaded.");
