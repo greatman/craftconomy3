@@ -81,7 +81,7 @@ public class Essentials extends Converter {
                             money = Double.parseDouble(value.substring(0, value.length() - 1));
                             haveMoney = true;
                         } else if (line.startsWith("lastAccountName:")) {
-                            name = line.replace("lastAccountName: ", "").trim();
+                            name = line.replace("lastAccountName: ", "").trim().replace("\'", "").replace("\"", "");
                         }
                     }
                 } catch (NumberFormatException e) {
