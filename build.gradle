@@ -8,7 +8,7 @@ apply plugin: 'com.github.johnrengelman.shadow' // Provides dependency shading
 apply plugin: 'license'
 
 group = 'com.greatmancode'
-version = '3.2'
+version = '3.2.1-SNAPSHOT'
 //archiveBaseName = "craftconomy3"
 description = "Craftconomy3"
 sourceCompatibility = 1.7

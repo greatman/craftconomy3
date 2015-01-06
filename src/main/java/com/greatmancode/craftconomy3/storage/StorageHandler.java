@@ -21,6 +21,7 @@ package com.greatmancode.craftconomy3.storage;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.storage.sql.H2Engine;
 import com.greatmancode.craftconomy3.storage.sql.MySQLEngine;
+import com.greatmancode.craftconomy3.storage.sql.SQLiteEngine;
 
 /**
  * Created by greatman on 2014-07-13.
@@ -38,6 +39,10 @@ public class StorageHandler {
             case "mysql":
                 engine = new MySQLEngine();
                 Common.getInstance().addMetricsGraph("Database Engine", "MySQL");
+                break;
+            case "sqlite":
+                engine = new SQLiteEngine();
+                Common.getInstance().getLogger().severe("SQLite is now deprecated! Only supported method is retrieving the configuration for the format converter. It should be automaticly changed to h2 after the converter.");
                 break;
             default:
                 engine = null;
