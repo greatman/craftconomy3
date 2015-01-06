@@ -975,8 +975,8 @@ public abstract class SQLStorageEngine extends StorageEngine {
             } else {
                 builder.append("'"+userEntry.getUser()+"','"+userEntry.getUuid()+"')");
             }
-            if (userEntry.getUser().contains("-")) {
-                balanceBuilder.append(userEntry.getBalance()+",'default','"+Common.getInstance().getCurrencyManager().getDefaultCurrency().getName()+"',(SELECT id from " + tablePrefix + AccountTable.TABLE_NAME + " WHERE uuid='"+userEntry.getUser()+"'))");
+            if (userEntry.getUuid() != null) {
+                balanceBuilder.append(userEntry.getBalance()+",'default','"+Common.getInstance().getCurrencyManager().getDefaultCurrency().getName()+"',(SELECT id from " + tablePrefix + AccountTable.TABLE_NAME + " WHERE uuid='"+userEntry.getUuid()+"'))");
             } else {
                 balanceBuilder.append(userEntry.getBalance()+",'default','"+Common.getInstance().getCurrencyManager().getDefaultCurrency().getName()+"',(SELECT id from " + tablePrefix + AccountTable.TABLE_NAME + " WHERE name='"+userEntry.getUser()+"'))");
             }
