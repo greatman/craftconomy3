@@ -50,7 +50,7 @@ public class SQLiteEngine extends StorageEngine {
     public SQLiteEngine() {
         this.tablePrefix = Common.getInstance().getMainConfig().getString("System.Database.Prefix");
         HikariConfig config = new HikariConfig();
-        config.setDataSourceClassName("org.sqlite.SQLiteDataSource");
+        config.setDriverClassName("org.sqlite.JDBC");
         config.setJdbcUrl("jdbc:sqlite:"+ Common.getInstance().getServerCaller().getDataFolder() + "database.db");
         db = new HikariDataSource(config);
         configTable = new ConfigTable(tablePrefix);
