@@ -64,7 +64,7 @@ public class OldFormatConverter {
             db = new HikariDataSource(config);
 
         } else if (dbType.equalsIgnoreCase("sqlite")) {
-            config.setDataSourceClassName("org.sqlite.SQLiteDataSource");
+            config.setDriverClassName("org.sqlite.JDBC");
             config.setJdbcUrl("jdbc:sqlite:"+Common.getInstance().getServerCaller().getDataFolder() + "database.db");
             db = new HikariDataSource(config);
         } else {
