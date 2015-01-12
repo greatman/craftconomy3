@@ -94,7 +94,7 @@ repositories {
     maven { url "http://repo.visualillusionsent.net/repository/public/" }
     maven { url "http://repo.larry1123.net/content/groups/public/" }
     maven { url "https://libraries.minecraft.net" }
-    maven { url "http://repo.spongepowered.org/Sponge/maven" }
+    maven { url "http://repo.spongepowered.org/maven" }
 }
 
 dependencies {

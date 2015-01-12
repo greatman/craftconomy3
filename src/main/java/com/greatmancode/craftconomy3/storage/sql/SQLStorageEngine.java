@@ -62,6 +62,10 @@ public abstract class SQLStorageEngine extends StorageEngine {
 
     @Override
     public Account getAccount(String name, boolean bankAccount, boolean createDefault) {
+        //If plugin is still in setup mode, it's better to just throw nulls around so it doesn't break the converter.
+        if (Common.getInstance().getCommandManager().getLevel() == 0) {
+            return null;
+        }
         boolean create = false;
         PreparedStatement statement = null;
         Connection connection = null;
