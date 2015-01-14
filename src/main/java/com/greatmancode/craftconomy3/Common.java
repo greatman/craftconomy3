@@ -980,6 +980,20 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
                 getMainConfig().setValue("Database.dbVersion", 1);
                 sendConsoleMessage(Level.INFO, "Updated to Revision 1!");
             }
+        } else if (getMainConfig().getInt("Database.dbVersion") == -1) {
+            alertOldDbVersion(-1,1);
+            try {
+                    new OldFormatConverter().step2();
+                    getMainConfig().setValue("Database.dbVersion", 1);
+                    sendConsoleMessage(Level.INFO, "Updated to Revision 1!");
+
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
         }
     }
 
