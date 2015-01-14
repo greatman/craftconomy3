@@ -350,7 +350,10 @@ public class OldFormatConverter {
             Iterator<JSONObject> internalIterator = balances.iterator();
             while (internalIterator.hasNext()) {
                 JSONObject internalObj = internalIterator.next();
-                engine.setBalance(account, (double)internalObj.get("balance"), engine.getCurrency(currenciesMap.get(((Long)internalObj.get("currency_id")).intValue())),(String)internalObj.get("worldName"));
+                Currency currency = engine.getCurrency(currenciesMap.get(((Long) internalObj.get("currency_id")).intValue()));
+                if (currency != null) {
+                    engine.setBalance(account, (double)internalObj.get("balance"), currency, (String)internalObj.get("worldName"));
+                }
             }
 
             JSONArray logs = (JSONArray) obj.get("logs");
