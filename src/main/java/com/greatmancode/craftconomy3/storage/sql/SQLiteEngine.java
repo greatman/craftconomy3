@@ -37,6 +37,7 @@ import com.greatmancode.tools.utils.Tools;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
+import java.io.File;
 import java.sql.*;
 import java.util.List;
 import java.util.Map;
@@ -51,7 +52,7 @@ public class SQLiteEngine extends StorageEngine {
         this.tablePrefix = Common.getInstance().getMainConfig().getString("System.Database.Prefix");
         HikariConfig config = new HikariConfig();
         config.setDriverClassName("org.sqlite.JDBC");
-        config.setJdbcUrl("jdbc:sqlite:"+ Common.getInstance().getServerCaller().getDataFolder() + "database.db");
+        config.setJdbcUrl("jdbc:sqlite:"+ Common.getInstance().getServerCaller().getDataFolder() + File.separator +  "database.db");
         db = new HikariDataSource(config);
         configTable = new ConfigTable(tablePrefix);
     }
