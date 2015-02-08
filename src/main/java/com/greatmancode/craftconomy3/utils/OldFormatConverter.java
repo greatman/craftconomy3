@@ -176,9 +176,9 @@ public class OldFormatConverter {
             JSONArray logArray = new JSONArray();
             while(internalSet.next()) {
                 JSONObject object = new JSONObject();
-                object.put("type", internalSet.getObject("type"));
-                object.put("cause", internalSet.getObject("cause"));
-                object.put("timestamp", internalSet.getTimestamp("timestamp"));
+                object.put("type", getObject(internalSet.getBlob("type" )).toString());
+                object.put("cause", getObject(internalSet.getBlob("cause")).toString());
+                object.put("timestamp", internalSet.getTimestamp("timestamp").getTime());
                 object.put("causeReason", internalSet.getString("causeReason"));
                 object.put("currencyName", internalSet.getString("currencyName"));
                 object.put("worldName", internalSet.getString("worldName"));
@@ -273,6 +273,7 @@ public class OldFormatConverter {
         File accountFile = new File(Common.getInstance().getServerCaller().getDataFolder(), "accounts.json");
 
         System.out.println(accountFile.exists());
+
         JSONObject jsonObject = (JSONObject) new JSONParser().parse(new FileReader(accountFile));
         Map<Integer, String> currenciesMap = new HashMap<>();
 
@@ -360,7 +361,7 @@ public class OldFormatConverter {
             internalIterator = logs.iterator();
             while (internalIterator.hasNext()) {
                 JSONObject internalObj = internalIterator.next();
-                engine.saveLog(LogInfo.valueOf((String) internalObj.get("type")), Cause.valueOf((String) internalObj.get("cause")),(String)internalObj.get("causeReason"),account, (double)internalObj.get("amount"),engine.getCurrency((String) internalObj.get("currencyName")),(String)internalObj.get("worldName"), (Timestamp) internalObj.get("timestamp"));
+                engine.saveLog(LogInfo.valueOf((String) internalObj.get("type")), Cause.valueOf((String) internalObj.get("cause")),(String)internalObj.get("causeReason"),account, (double)internalObj.get("amount"),engine.getCurrency((String) internalObj.get("currencyName")),(String)internalObj.get("worldName"), new Timestamp((long)internalObj.get("timestamp")));
             }
 
             JSONArray acls = (JSONArray) obj.get("acls");
@@ -376,5 +377,28 @@ public class OldFormatConverter {
             Common.getInstance().getMainConfig().setValue("System.Logging.Enabled", true);
         }
         Common.getInstance().sendConsoleMessage(Level.INFO, "Converting done!");
+    }
+
+    private Object getObject(Blob blob) throws SQLException {
+        try
+        {
+            ObjectInputStream is = null;
+            is = new ObjectInputStream(blob.getBinaryStream());
+            Object o = null;
+            try {
+                return is.readObject();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    is.close();
+                } catch (Exception ignored) {
+                }
+            }
+        } catch ( IOException e )
+        {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
