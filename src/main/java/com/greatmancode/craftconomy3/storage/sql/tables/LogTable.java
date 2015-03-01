@@ -63,7 +63,7 @@ public class LogTable extends DatabaseTable {
     public final String selectEntryLimit = "SELECT * FROM " + getPrefix() + TABLE_NAME + " " +
             "LEFT JOIN " + getPrefix() + AccountTable.TABLE_NAME + " " +
             "ON " + getPrefix() + TABLE_NAME + ".username_id = " + getPrefix() + AccountTable.TABLE_NAME + ".id " +
-            "WHERE " + getPrefix() + AccountTable.TABLE_NAME + ".name=? ORDER BY " + TABLE_NAME + ".id LIMIT ?,?";
+            "WHERE " + getPrefix() + AccountTable.TABLE_NAME + ".name=? ORDER BY " + getPrefix() + TABLE_NAME + ".id LIMIT ?,?";
 
     public final String cleanEntry = "DELETE FROM " + getPrefix() + TABLE_NAME + " WHERE timestamp <= ?";
 
