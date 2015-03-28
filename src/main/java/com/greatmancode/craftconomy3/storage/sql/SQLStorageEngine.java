@@ -670,7 +670,7 @@ public abstract class SQLStorageEngine extends StorageEngine {
             Tools.closeJDBCStatement(statement);
             Tools.closeJDBCConnection(connection);
         }
-        return (String[]) results.toArray();
+        return results.toArray(new String[0]);
     }
 
     @Override
