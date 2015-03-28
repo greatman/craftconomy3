@@ -27,11 +27,11 @@ import java.sql.Timestamp;
 
 class LogCommandThread implements Runnable {
 
-    class TopCommandThreadEnd implements Runnable {
+    class LogCommandThreadEnd implements Runnable {
         private final String sender;
         private final String ret;
 
-        public TopCommandThreadEnd(String sender, String ret) {
+        public LogCommandThreadEnd(String sender, String ret) {
             this.sender = sender;
             this.ret = ret;
         }
@@ -62,7 +62,7 @@ class LogCommandThread implements Runnable {
             }
             ret += "\n";
         }
-        Common.getInstance().getServerCaller().getSchedulerCaller().delay(new TopCommandThreadEnd(sender, ret), 0, false);
+        Common.getInstance().getServerCaller().getSchedulerCaller().delay(new LogCommandThreadEnd(sender, ret), 0, false);
     }
 }
 
