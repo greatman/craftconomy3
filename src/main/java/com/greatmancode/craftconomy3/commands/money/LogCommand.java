@@ -115,12 +115,21 @@ public class LogCommand extends CommandExecutor {
         return "craftconomy.money.log";
     }
 
-    public class LogEntry {
+    public static class LogEntry {
         public Timestamp timestamp;
         public String type, worldName, cause, causeReason;
         public Currency currency;
         public double amount;
 
+        public LogEntry(Timestamp timestamp, String type, String worldName, String cause, String causeReason, Currency currency, double amount) {
+            this.timestamp = timestamp;
+            this.type = type;
+            this.worldName = worldName;
+            this.cause = cause;
+            this.causeReason = causeReason;
+            this.currency = currency;
+            this.amount = amount;
+        }
         
     }
 }
