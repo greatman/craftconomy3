@@ -27,11 +27,11 @@ import java.sql.Timestamp;
 
 class LogCommandThread implements Runnable {
 
-    class TopCommandThreadEnd implements Runnable {
+    class LogCommandThreadEnd implements Runnable {
         private final String sender;
         private final String ret;
 
-        public TopCommandThreadEnd(String sender, String ret) {
+        public LogCommandThreadEnd(String sender, String ret) {
             this.sender = sender;
             this.ret = ret;
         }
@@ -62,7 +62,7 @@ class LogCommandThread implements Runnable {
             }
             ret += "\n";
         }
-        Common.getInstance().getServerCaller().getSchedulerCaller().delay(new TopCommandThreadEnd(sender, ret), 0, false);
+        Common.getInstance().getServerCaller().getSchedulerCaller().delay(new LogCommandThreadEnd(sender, ret), 0, false);
     }
 }
 
@@ -115,12 +115,21 @@ public class LogCommand extends CommandExecutor {
         return "craftconomy.money.log";
     }
 
-    public class LogEntry {
+    public static class LogEntry {
         public Timestamp timestamp;
         public String type, worldName, cause, causeReason;
         public Currency currency;
         public double amount;
 
+        public LogEntry(Timestamp timestamp, String type, String worldName, String cause, String causeReason, Currency currency, double amount) {
+            this.timestamp = timestamp;
+            this.type = type;
+            this.worldName = worldName;
+            this.cause = cause;
+            this.causeReason = causeReason;
+            this.currency = currency;
+            this.amount = amount;
+        }
         
     }
 }

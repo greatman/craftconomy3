@@ -731,6 +731,9 @@ public abstract class SQLStorageEngine extends StorageEngine {
             statement.setInt(2, (page - 1) * 10);
             statement.setInt(3, 10);
             ResultSet set = statement.executeQuery();
+            while (set.next()) {
+                logEntryList.add(new LogCommand.LogEntry(set.getTimestamp("timestamp"), set.getString("type"), set.getString("worldName"), set.getString("cause"), set.getString("causeReason"), Common.getInstance().getCurrencyManager().getCurrency(set.getString("currency_id")), set.getDouble("amount")));
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
