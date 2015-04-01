@@ -4,6 +4,7 @@ jdk:
 - oraclejdk8
 services: mysql
 before_install:
+- echo $opensslkey
 - openssl aes-256-cbc -k "$opensslkey" -in key.gpg.enc -out key.gpg -d
 - mysql -e 'create database craftconomy;'
 script: ./gradlew -Dmysql=true && ./gradlew
