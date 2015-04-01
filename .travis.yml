@@ -4,12 +4,13 @@ jdk:
 - oraclejdk8
 services: mysql
 before_install:
-- openssl aes-256-cbc -k "$opensslkey" -in key.gpg.enc -out key.gpg -d
+- 'if [[ $TRAVIS_PULL_REQUEST == false ]] && [[ $TRAVIS_REPO_SLUG == greatman/craftconomy3
+  ]] && [[ $TRAVIS_BRANCH == master ]]; then openssl aes-256-cbc -k "$opensslkey" -in key.gpg.enc -out key.gpg -d; fi'
 - mysql -e 'create database craftconomy;'
 script: ./gradlew -Dmysql=true && ./gradlew
 after_success:
-- '[[ $TRAVIS_PULL_REQUEST == false ]] && [[ $TRAVIS_REPO_SLUG == greatman/craftconomy3
-  ]] && [[ $TRAVIS_BRANCH == master ]] && ./gradlew uploadArchives'
+- 'if [[ $TRAVIS_PULL_REQUEST == false ]] && [[ $TRAVIS_REPO_SLUG == greatman/craftconomy3
+  ]] && [[ $TRAVIS_BRANCH == master ]]; then ./gradlew uploadArchives; fi'
 notifications:
   email: false
   on_start: true
