@@ -95,6 +95,8 @@ repositories {
     maven { url "http://repo.larry1123.net/content/groups/public/" }
     maven { url "https://libraries.minecraft.net" }
     maven { url "http://repo.spongepowered.org/maven" }
+    maven { url "http://repo.mcstats.org/content/repositories/releases/" }
+
 }
 
 dependencies {
@@ -237,6 +239,10 @@ uploadArchives {
                     repository {
                         id 'sponge-repo'
                         url 'http://repo.spongepowered.org/maven'
+                    }
+                    repository {
+                        id 'metrics-repo'
+                        url 'http://repo.mcstats.org/content/repositories/releases/'
                     }
                 }
             }
