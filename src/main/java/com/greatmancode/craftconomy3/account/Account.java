@@ -41,7 +41,7 @@ public class Account {
     /**
      * Load a account. Creates one if it doesn't exist.
      *
-     * @param id The unique id used in the database as primary index
+     * @param id The unique id used in the database as primary key
      * @param name The account name
      * @param bankAccount If the account is a bank account
      * @param infiniteMoney If the account have no money limit
