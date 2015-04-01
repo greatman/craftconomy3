@@ -67,6 +67,7 @@ public abstract class SQLStorageEngine extends StorageEngine {
             return null;
         }
         boolean create = false;
+        int id = 0;
         PreparedStatement statement = null;
         Connection connection = null;
         try {
@@ -79,10 +80,10 @@ public abstract class SQLStorageEngine extends StorageEngine {
             if (!set.next()) {
                 statement.close();
                 if (bankAccount) {
-                    statement = connection.prepareStatement(accountTable.insertEntryBank);
+                    statement = connection.prepareStatement(accountTable.insertEntryBank, Statement.RETURN_GENERATED_KEYS);
                     statement.setString(1, name);
                 } else {
-                    statement = connection.prepareStatement(accountTable.insertEntry);
+                    statement = connection.prepareStatement(accountTable.insertEntry, Statement.RETURN_GENERATED_KEYS);
                     statement.setString(1, name);
                     if (Common.getInstance().getServerCaller().getPlayerCaller().isOnline(name)) {
                         statement.setString(2, Common.getInstance().getServerCaller().getPlayerCaller().getUUID(name).toString());
@@ -91,11 +92,16 @@ public abstract class SQLStorageEngine extends StorageEngine {
                     }
                 }
                 statement.executeUpdate();
+                ResultSet keys = statement.getGeneratedKeys();
+                keys.first();
+                id = keys.getInt(1);
+                keys.close();
                 statement.close();
                 create = true;
             } else {
                 infiniteMoney = set.getBoolean("infiniteMoney");
                 ignoreACL = set.getBoolean("ignoreACL");
+                id = set.getInt("id");
             }
             statement.close();
             if (create && !bankAccount && createDefault) {
@@ -108,7 +114,7 @@ public abstract class SQLStorageEngine extends StorageEngine {
                 statement.executeUpdate();
                 statement.close();
             }
-            return new Account(name, bankAccount, infiniteMoney, ignoreACL);
+            return new Account(id, name, bankAccount, infiniteMoney, ignoreACL);
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -130,7 +136,7 @@ public abstract class SQLStorageEngine extends StorageEngine {
             statement.setString(1, uuid.toString());
             ResultSet set = statement.executeQuery();
             if (set.next()) {
-                return new Account(set.getString("name"), set.getBoolean("bank"), set.getBoolean("infiniteMoney"), set.getBoolean("ignoreACL"));
+                return new Account(set.getInt("id"), set.getString("name"), set.getBoolean("bank"), set.getBoolean("infiniteMoney"), set.getBoolean("ignoreACL"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -345,10 +351,9 @@ public abstract class SQLStorageEngine extends StorageEngine {
                 statement.close();
                 statement = connection.prepareStatement(balanceTable.updateEntry);
                 statement.setDouble(1, result);
-                statement.setString(2, account.getAccountName());
-                statement.setBoolean(3, account.isBankAccount());
-                statement.setString(4, currency.getName());
-                statement.setString(5, world);
+                statement.setInt(2, account.getId());
+                statement.setString(3, currency.getName());
+                statement.setString(4, world);
                 statement.executeUpdate();
                 statement.close();
             } else {

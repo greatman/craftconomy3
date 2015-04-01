@@ -11,3 +11,4 @@ atlassian-ide-plugin.xml
 build
 key.gpg
 .gradle
+/.nb-gradle/
