@@ -58,10 +58,10 @@ public class AccessTable extends DatabaseTable {
             "(account_id, playerName, owner, balance, deposit, acl, withdraw) VALUES((SELECT id from " + getPrefix() + AccountTable.TABLE_NAME + " WHERE name=? AND bank=?),?,?,?,?,?,?)";
 
     public final String updateEntry = "UPDATE " + getPrefix() + TABLE_NAME + " SET owner=? , balance=?, deposit=?, acl=?, withdraw=? " +
-            "WHERE account_id=(SELECT id FROM "+getPrefix()+AccountTable.TABLE_NAME+" WHERE name=? AND bank=?) AND playerName=?";
+            "WHERE account_id=(SELECT id FROM " + getPrefix() + AccountTable.TABLE_NAME + " WHERE name=? AND bank=?) AND playerName=?";
 
-    public final String getAccountList = "SELECT "+getPrefix()+AccountTable.TABLE_NAME+".name FROM "+getPrefix()+TABLE_NAME+
-            " LEFT JOIN " + getPrefix() + AccountTable.TABLE_NAME + " ON " +
+    public final String getAccountList = "SELECT " + getPrefix() + AccountTable.TABLE_NAME+".name FROM " + getPrefix() + TABLE_NAME + " " +
+            "LEFT JOIN " + getPrefix() + AccountTable.TABLE_NAME + " ON " +
             getPrefix() + TABLE_NAME + ".account_id = " + getPrefix() + AccountTable.TABLE_NAME + ".id " +
             "WHERE playerName=?";
 
