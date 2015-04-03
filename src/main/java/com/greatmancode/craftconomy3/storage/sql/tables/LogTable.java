@@ -65,7 +65,7 @@ public class LogTable extends DatabaseTable {
             "ON " + getPrefix() + TABLE_NAME + ".username_id = " + getPrefix() + AccountTable.TABLE_NAME + ".id " +
             "LEFT JOIN " + getPrefix() + CurrencyTable.TABLE_NAME + " " +
             "ON " + getPrefix() + TABLE_NAME + ".currency_id = " + getPrefix() + CurrencyTable.TABLE_NAME + ".name " +
-            "WHERE " + getPrefix() + AccountTable.TABLE_NAME + ".name=? ORDER BY " + getPrefix() + TABLE_NAME + ".id LIMIT ?,?";
+            "WHERE " + getPrefix() + AccountTable.TABLE_NAME + ".name=? ORDER BY " + getPrefix() + TABLE_NAME + ".id DESC LIMIT ?,?";
 
     public final String cleanEntry = "DELETE FROM " + getPrefix() + TABLE_NAME + " WHERE timestamp <= ?";
 
