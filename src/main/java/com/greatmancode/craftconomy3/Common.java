@@ -96,11 +96,14 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
             sendConsoleMessage(Level.INFO, "Loading the Configuration");
             config = new ConfigurationManager(serverCaller);
             mainConfig = config.loadFile(serverCaller.getDataFolder(), "config.yml");
-            if (!mainConfig.has("System.Setup")) {
+            if (!mainConfig.has( "System.Setup" )) {
                 initializeConfig();
             }
             if (!getMainConfig().has("System.Database.Prefix")) {
                 getMainConfig().setValue("System.Database.Prefix", "cc3_");
+            }
+            if (!getMainConfig().has("System.Database.Poolsize")) {
+                getMainConfig().setValue("System.Database.Poolsize", 10);
             }
 
             languageManager = new LanguageManager(serverCaller, serverCaller.getDataFolder(), "lang.yml");
