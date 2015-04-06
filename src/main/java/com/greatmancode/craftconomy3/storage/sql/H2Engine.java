@@ -33,7 +33,7 @@ public class H2Engine extends SQLStorageEngine {
 
     public H2Engine() {
         HikariConfig config = new HikariConfig();
-        config.setMaximumPoolSize(10);
+        config.setMaximumPoolSize(Common.getInstance().getMainConfig().getInt("System.Database.Poolsize"));
         config.setDataSourceClassName("org.h2.jdbcx.JdbcDataSource");
         config.addDataSourceProperty("user", "sa");
         config.addDataSourceProperty("url", "jdbc:h2:file:"+new File(Common.getInstance().getServerCaller().getDataFolder().getPath(), "database").getAbsolutePath()+";MV_STORE=FALSE");
