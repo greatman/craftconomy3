@@ -102,6 +102,9 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
             if (!getMainConfig().has("System.Database.Prefix")) {
                 getMainConfig().setValue("System.Database.Prefix", "cc3_");
             }
+            if (!getMainConfig().has("System.Database.Poolsize")) {
+                getMainConfig().setValue("System.Database.Poolsize", 10);
+            }
 
             languageManager = new LanguageManager(serverCaller, serverCaller.getDataFolder(), "lang.yml");
             loadLanguage();
@@ -951,6 +954,7 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
         mainConfig.setValue("System.Database.Password", "");
         mainConfig.setValue("System.Database.Db", "craftconomy");
         mainConfig.setValue("System.Database.Prefix", "cc3_");
+        mainConfig.setValue("System.Database.Poolsize", 10);
         mainConfig.setValue("System.Database.ConvertFromSQLite", false);
     }
 

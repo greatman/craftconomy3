@@ -32,7 +32,7 @@ public class MySQLEngine extends SQLStorageEngine {
 
     public MySQLEngine() {
         HikariConfig config = new HikariConfig();
-        config.setMaximumPoolSize(10);
+        config.setMaximumPoolSize(Common.getInstance().getMainConfig().getInt("System.Database.Poolsize"));
         config.setDataSourceClassName("com.mysql.jdbc.jdbc2.optional.MysqlDataSource");
         config.addDataSourceProperty("serverName", Common.getInstance().getMainConfig().getString("System.Database.Address"));
         config.addDataSourceProperty("port", Common.getInstance().getMainConfig().getString("System.Database.Port"));
