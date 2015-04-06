@@ -96,7 +96,7 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
             sendConsoleMessage(Level.INFO, "Loading the Configuration");
             config = new ConfigurationManager(serverCaller);
             mainConfig = config.loadFile(serverCaller.getDataFolder(), "config.yml");
-            if (!mainConfig.has( "System.Setup" )) {
+            if (!mainConfig.has("System.Setup")) {
                 initializeConfig();
             }
             if (!getMainConfig().has("System.Database.Prefix")) {
