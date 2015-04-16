@@ -111,7 +111,12 @@ public class TestBankCommands {
 
     @Test
     public void testBankListCommand() {
-
+        //Can't use the global-defined accounts since we require the user to have exactly one account after adding it
+        String BANK_LIST_USER = "banklistuser",
+                BANK_LIST_ACC = "banklistacc";
+        Account bank = Common.getInstance().getAccountManager().getAccount(BANK_LIST_ACC, true);
+        bank.getAccountACL().set(BANK_LIST_USER, true, true, true, true, true);
+        assertEquals(Common.getInstance().getStorageHandler().getStorageEngine().getBankAccountList(BANK_LIST_USER).length, 1);
     }
 
     @Test
