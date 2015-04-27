@@ -101,10 +101,10 @@ repositories {
 
 dependencies {
     compile group: 'com.greatmancode', name: 'tools', version:'1.1'
-    compile group: 'com.zaxxer', name: 'HikariCP', version:'1.4.0'
-    compile group: 'org.javassist', name: 'javassist', version:'3.18.2-GA'
-    compile group: 'org.slf4j', name: 'slf4j-api', version:'1.7.7'
-    compile group: 'com.h2database', name: 'h2', version:'1.4.180'
+    compile group: 'com.zaxxer', name: 'HikariCP-java6', version:'2.3.7'
+    compile group: 'org.javassist', name: 'javassist', version:'3.19.0-GA'
+    compile group: 'org.slf4j', name: 'slf4j-api', version:'1.7.12'
+    compile group: 'com.h2database', name: 'h2', version:'1.4.187'
     compile group: 'org.xerial', name: 'sqlite-jdbc', version:'3.7.15-M1'
     testCompile group: 'junit', name: 'junit', version:'4.11'
     testCompile group: 'org.bukkit', name: 'bukkit', version:'1.8-R0.1-SNAPHSOT'
@@ -115,10 +115,10 @@ dependencies {
 shadowJar {
     dependencies {
         include(dependency('com.greatmancode:tools:1.1'))
-        include(dependency('com.zaxxer:HikariCP:1.4.0'))
+        include(dependency('com.zaxxer:HikariCP-java6:2.3.7'))
         include(dependency('org.javassist:javassist'))
-        include(dependency('org.slf4j:slf4j-api:1.7.7'))
-        include(dependency('com.h2database:h2:1.4.180'))
+        include(dependency('org.slf4j:slf4j-api:1.7.12'))
+        include(dependency('com.h2database:h2:1.4.187'))
     }
     relocate 'com.greatmancode.tools', 'com.greatmancode.craftconomy3.tools'
     relocate 'com.zaxxer.hikari', 'com.greatmancode.com.zaxxer.hikari'

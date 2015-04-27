@@ -267,4 +267,19 @@ public class SQLiteEngine extends StorageEngine {
     public void saveImporterUsers(List<Converter.User> userList) {
 
     }
+
+    @Override
+    public void disableAutoCommit() {
+
+    }
+
+    @Override
+    public void enableAutoCommit() {
+
+    }
+
+    @Override
+    public void commit() {
+
+    }
 }

@@ -269,6 +269,7 @@ public class OldFormatConverter {
         } else {
             throw new UnsupportedOperationException("Unknown database!");
         }
+        engine.disableAutoCommit();
         Common.getInstance().sendConsoleMessage(Level.INFO, "Loading backup json file");
         File accountFile = new File(Common.getInstance().getServerCaller().getDataFolder(), "accounts.json");
 
@@ -368,11 +369,12 @@ public class OldFormatConverter {
             internalIterator = acls.iterator();
             while (internalIterator.hasNext()) {
                 JSONObject internalObj = internalIterator.next();
-                //{"owner":true,"balance":true,"playerName":"khron_nexx","deposit":true,"acl":true,"withdraw":true}
                 engine.saveACL(account, (String)internalObj.get("playerName"), (boolean)internalObj.get("deposit"), (boolean)internalObj.get("withdraw"), (boolean) internalObj.get("acl"), (boolean) internalObj.get("balance"), (boolean) internalObj.get("owner"));
             }
 
         }
+        engine.commit();
+        engine.enableAutoCommit();
         if (log) {
             Common.getInstance().getMainConfig().setValue("System.Logging.Enabled", true);
         }

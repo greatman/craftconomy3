@@ -29,9 +29,9 @@ import com.greatmancode.craftconomy3.commands.money.LogCommand;
 import com.greatmancode.craftconomy3.commands.money.TopCommand;
 import com.greatmancode.craftconomy3.converter.Converter;
 import com.greatmancode.craftconomy3.currency.Currency;
-import com.greatmancode.craftconomy3.storage.sql.tables.*;
 import com.greatmancode.craftconomy3.groups.WorldGroup;
 import com.greatmancode.craftconomy3.storage.StorageEngine;
+import com.greatmancode.craftconomy3.storage.sql.tables.*;
 import com.greatmancode.craftconomy3.utils.BackendErrorException;
 import com.greatmancode.craftconomy3.utils.NoExchangeRate;
 import com.greatmancode.tools.utils.Tools;
@@ -52,7 +52,7 @@ public abstract class SQLStorageEngine extends StorageEngine {
     protected ExchangeTable exchangeTable;
     protected LogTable logTable;
     protected WorldGroupTable worldGroupTable;
-
+    private Connection commitConnection;
 
 
     @Override
@@ -71,7 +71,9 @@ public abstract class SQLStorageEngine extends StorageEngine {
         Connection connection = null;
         try {
             boolean infiniteMoney = false, ignoreACL = false;
-            connection = db.getConnection();
+            System.out.println("TESTING " + commitConnection);
+            System.out.println((commitConnection != null) ? commitConnection : db.getConnection());
+            connection = (commitConnection != null) ? commitConnection : db.getConnection();
             statement = connection.prepareStatement(accountTable.selectEntryName);
             statement.setString(1, name);
             statement.setBoolean(2, bankAccount);
@@ -113,7 +115,9 @@ public abstract class SQLStorageEngine extends StorageEngine {
             e.printStackTrace();
         } finally {
             Tools.closeJDBCStatement(statement);
-            Tools.closeJDBCConnection(connection);
+            if (commitConnection == null) {
+                Tools.closeJDBCConnection(connection);
+            }
         }
         return null;
     }
@@ -123,7 +127,7 @@ public abstract class SQLStorageEngine extends StorageEngine {
         PreparedStatement statement = null;
         Connection connection = null;
         try {
-            connection = db.getConnection();
+            connection = (commitConnection != null) ? commitConnection : db.getConnection();
             statement = connection.prepareStatement(accountTable.selectEntryUuid);
             statement.setString(1, uuid.toString());
             ResultSet set = statement.executeQuery();
@@ -134,7 +138,9 @@ public abstract class SQLStorageEngine extends StorageEngine {
             e.printStackTrace();
         } finally {
             Tools.closeJDBCStatement(statement);
-            Tools.closeJDBCConnection(connection);
+            if (commitConnection == null) {
+                Tools.closeJDBCConnection(connection);
+            }
         }
         return null;
     }
@@ -145,7 +151,7 @@ public abstract class SQLStorageEngine extends StorageEngine {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
-            connection = db.getConnection();
+            connection = (commitConnection != null) ? commitConnection : db.getConnection();
             statement = connection.prepareStatement(accountTable.selectAllEntry);
             statement.setBoolean(1, bank);
             ResultSet set = statement.executeQuery();
@@ -156,7 +162,9 @@ public abstract class SQLStorageEngine extends StorageEngine {
             e.printStackTrace();
         } finally {
             Tools.closeJDBCStatement(statement);
-            Tools.closeJDBCConnection(connection);
+            if (commitConnection == null) {
+                Tools.closeJDBCConnection(connection);
+            }
         }
         return result;
     }
@@ -171,7 +179,7 @@ public abstract class SQLStorageEngine extends StorageEngine {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
-            connection = db.getConnection();
+            connection = (commitConnection != null) ? commitConnection : db.getConnection();
             statement = connection.prepareStatement(logTable.insertEntry);
             statement.setString(1, account.getAccountName());
             statement.setBoolean(2, account.isBankAccount());
@@ -187,7 +195,9 @@ public abstract class SQLStorageEngine extends StorageEngine {
             e.printStackTrace();
         } finally {
             Tools.closeJDBCStatement(statement);
-            Tools.closeJDBCConnection(connection);
+            if (commitConnection == null) {
+                Tools.closeJDBCConnection(connection);
+            }
         }
     }
 
@@ -197,7 +207,7 @@ public abstract class SQLStorageEngine extends StorageEngine {
         PreparedStatement statement = null;
         String result = null;
         try {
-            connection = db.getConnection();
+            connection = (commitConnection != null) ? commitConnection : db.getConnection();
             statement = connection.prepareStatement(configTable.selectEntry);
             statement.setString(1, name);
             ResultSet set = statement.executeQuery();
@@ -208,7 +218,9 @@ public abstract class SQLStorageEngine extends StorageEngine {
             e.printStackTrace();
         } finally {
             Tools.closeJDBCStatement(statement);
-            Tools.closeJDBCConnection(connection);
+            if (commitConnection == null) {
+                Tools.closeJDBCConnection(connection);
+            }
         }
         return result;
     }
@@ -218,7 +230,7 @@ public abstract class SQLStorageEngine extends StorageEngine {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
-            connection = db.getConnection();
+            connection = (commitConnection != null) ? commitConnection : db.getConnection();
             if (getConfigEntry(name) != null) {
                 statement = connection.prepareStatement(configTable.updateEntry);
                 statement.setString(1, value);
@@ -235,7 +247,9 @@ public abstract class SQLStorageEngine extends StorageEngine {
             e.printStackTrace();
         } finally {
             Tools.closeJDBCStatement(statement);
-            Tools.closeJDBCConnection(connection);
+            if (commitConnection == null) {
+                Tools.closeJDBCConnection(connection);
+            }
         }
     }
 
@@ -245,7 +259,7 @@ public abstract class SQLStorageEngine extends StorageEngine {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
-            connection = db.getConnection();
+            connection = (commitConnection != null) ? commitConnection : db.getConnection();
             statement = connection.prepareStatement(balanceTable.selectAllEntryAccount);
             statement.setString(1, account.getAccountName());
             ResultSet set = statement.executeQuery();
@@ -256,7 +270,9 @@ public abstract class SQLStorageEngine extends StorageEngine {
             e.printStackTrace();
         } finally {
             Tools.closeJDBCStatement(statement);
-            Tools.closeJDBCConnection(connection);
+            if (commitConnection == null) {
+                Tools.closeJDBCConnection(connection);
+            }
         }
         return balanceList;
     }
@@ -267,7 +283,7 @@ public abstract class SQLStorageEngine extends StorageEngine {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
-            connection = db.getConnection();
+            connection = (commitConnection != null) ? commitConnection : db.getConnection();
             statement = connection.prepareStatement(balanceTable.selectWorldEntryAccount);
             statement.setString(1, account.getAccountName());
             statement.setString(2, worldName);
@@ -279,7 +295,9 @@ public abstract class SQLStorageEngine extends StorageEngine {
             e.printStackTrace();
         } finally {
             Tools.closeJDBCStatement(statement);
-            Tools.closeJDBCConnection(connection);
+            if (commitConnection == null) {
+                Tools.closeJDBCConnection(connection);
+            }
         }
         return balanceList;
     }
@@ -290,7 +308,7 @@ public abstract class SQLStorageEngine extends StorageEngine {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
-            connection = db.getConnection();
+            connection = (commitConnection != null) ? commitConnection : db.getConnection();
             statement = connection.prepareStatement(balanceTable.selectWorldCurrencyEntryAccount);
             statement.setString(1, account.getAccountName());
             statement.setString(2, world);
@@ -305,7 +323,9 @@ public abstract class SQLStorageEngine extends StorageEngine {
             e.printStackTrace();
         } finally {
             Tools.closeJDBCStatement(statement);
-            Tools.closeJDBCConnection(connection);
+            if (commitConnection == null) {
+                Tools.closeJDBCConnection(connection);
+            }
         }
         return balance;
     }
@@ -316,7 +336,7 @@ public abstract class SQLStorageEngine extends StorageEngine {
         PreparedStatement statement = null;
         double result = 0;
         try {
-            connection = db.getConnection();
+            connection = (commitConnection != null) ? commitConnection : db.getConnection();
             statement = connection.prepareStatement(balanceTable.selectWorldCurrencyEntryAccount);
             statement.setString(1, account.getAccountName());
             statement.setString(2, world);
@@ -350,7 +370,9 @@ public abstract class SQLStorageEngine extends StorageEngine {
             throw new BackendErrorException(e.getMessage());
         } finally {
             Tools.closeJDBCStatement(statement);
-            Tools.closeJDBCConnection(connection);
+            if (commitConnection == null) {
+                Tools.closeJDBCConnection(connection);
+            }
         }
         return result;
     }
@@ -360,7 +382,7 @@ public abstract class SQLStorageEngine extends StorageEngine {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
-            connection = db.getConnection();
+            connection = (commitConnection != null) ? commitConnection : db.getConnection();
             statement = connection.prepareStatement(accountTable.updateInfinitemoneyEntry);
             statement.setBoolean(1, infinite);
             statement.setString(2, account.getAccountName());
@@ -370,7 +392,9 @@ public abstract class SQLStorageEngine extends StorageEngine {
             e.printStackTrace();
         } finally {
             Tools.closeJDBCStatement(statement);
-            Tools.closeJDBCConnection(connection);
+            if (commitConnection == null) {
+                Tools.closeJDBCConnection(connection);
+            }
         }
     }
 
@@ -379,7 +403,7 @@ public abstract class SQLStorageEngine extends StorageEngine {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
-            connection = db.getConnection();
+            connection = (commitConnection != null) ? commitConnection : db.getConnection();
             statement = connection.prepareStatement(accountTable.updateIgnoreaclEntry);
             statement.setBoolean(1, ignoreACL);
             statement.setString(2, account.getAccountName());
@@ -389,7 +413,9 @@ public abstract class SQLStorageEngine extends StorageEngine {
             e.printStackTrace();
         } finally {
             Tools.closeJDBCStatement(statement);
-            Tools.closeJDBCConnection(connection);
+            if (commitConnection == null) {
+                Tools.closeJDBCConnection(connection);
+            }
         }
     }
 
@@ -399,7 +425,7 @@ public abstract class SQLStorageEngine extends StorageEngine {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
-            connection = db.getConnection();
+            connection = (commitConnection != null) ? commitConnection : db.getConnection();
             statement = connection.prepareStatement(accessTable.selectEntry);
             statement.setString(1, account.getAccountName());
             statement.setBoolean(2, account.isBankAccount());
@@ -411,7 +437,9 @@ public abstract class SQLStorageEngine extends StorageEngine {
             e.printStackTrace();
         } finally {
             Tools.closeJDBCStatement(statement);
-            Tools.closeJDBCConnection(connection);
+            if (commitConnection == null) {
+                Tools.closeJDBCConnection(connection);
+            }
         }
         return result;
     }
@@ -421,9 +449,9 @@ public abstract class SQLStorageEngine extends StorageEngine {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
-            connection = db.getConnection();
+            connection = (commitConnection != null) ? commitConnection : db.getConnection();
             statement = connection.prepareStatement(accessTable.selectEntryUnique);
-            statement.setString(1,account.getAccountName());
+            statement.setString(1, account.getAccountName());
             statement.setBoolean(2, account.isBankAccount());
             statement.setString(3, name);
             ResultSet set = statement.executeQuery();
@@ -455,9 +483,11 @@ public abstract class SQLStorageEngine extends StorageEngine {
             e.printStackTrace();
         } finally {
             Tools.closeJDBCStatement(statement);
-            Tools.closeJDBCConnection(connection);
+            if (commitConnection == null) {
+                Tools.closeJDBCConnection(connection);
+            }
         }
-        return new AccountACLValue(deposit,withdraw,acl,balance,owner);
+        return new AccountACLValue(deposit, withdraw, acl, balance, owner);
     }
 
     @Override
@@ -466,7 +496,7 @@ public abstract class SQLStorageEngine extends StorageEngine {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
-            connection = db.getConnection();
+            connection = (commitConnection != null) ? commitConnection : db.getConnection();
             statement = connection.prepareStatement(exchangeTable.selectEntry);
             statement.setString(1, currency.getName());
             statement.setString(2, otherCurrency.getName());
@@ -480,7 +510,9 @@ public abstract class SQLStorageEngine extends StorageEngine {
             e.printStackTrace();
         } finally {
             Tools.closeJDBCStatement(statement);
-            Tools.closeJDBCConnection(connection);
+            if (commitConnection == null) {
+                Tools.closeJDBCConnection(connection);
+            }
         }
         return result;
     }
@@ -490,7 +522,7 @@ public abstract class SQLStorageEngine extends StorageEngine {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
-            connection = db.getConnection();
+            connection = (commitConnection != null) ? commitConnection : db.getConnection();
             statement = connection.prepareStatement(exchangeTable.selectEntry);
             statement.setString(1, currency.getName());
             statement.setString(2, otherCurrency.getName());
@@ -514,7 +546,9 @@ public abstract class SQLStorageEngine extends StorageEngine {
             e.printStackTrace();
         } finally {
             Tools.closeJDBCStatement(statement);
-            Tools.closeJDBCConnection(connection);
+            if (commitConnection == null) {
+                Tools.closeJDBCConnection(connection);
+            }
         }
     }
 
@@ -523,7 +557,7 @@ public abstract class SQLStorageEngine extends StorageEngine {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
-            connection = db.getConnection();
+            connection = (commitConnection != null) ? commitConnection : db.getConnection();
             statement = connection.prepareStatement(currencyTable.selectEntry);
             statement.setString(1, currency.getName());
             ResultSet set = statement.executeQuery();
@@ -555,7 +589,9 @@ public abstract class SQLStorageEngine extends StorageEngine {
             e.printStackTrace();
         } finally {
             Tools.closeJDBCStatement(statement);
-            Tools.closeJDBCConnection(connection);
+            if (commitConnection == null) {
+                Tools.closeJDBCConnection(connection);
+            }
         }
     }
 
@@ -564,7 +600,7 @@ public abstract class SQLStorageEngine extends StorageEngine {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
-            connection = db.getConnection();
+            connection = (commitConnection != null) ? commitConnection : db.getConnection();
             statement = connection.prepareStatement(currencyTable.deleteEntry);
             statement.setString(1, currency.getName());
             statement.executeUpdate();
@@ -572,7 +608,9 @@ public abstract class SQLStorageEngine extends StorageEngine {
             e.printStackTrace();
         } finally {
             Tools.closeJDBCStatement(statement);
-            Tools.closeJDBCConnection(connection);
+            if (commitConnection == null) {
+                Tools.closeJDBCConnection(connection);
+            }
         }
     }
 
@@ -581,7 +619,7 @@ public abstract class SQLStorageEngine extends StorageEngine {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
-            connection = db.getConnection();
+            connection = (commitConnection != null) ? commitConnection : db.getConnection();
             statement = connection.prepareStatement(accountTable.updateNameByUuid);
             statement.setString(1, name);
             statement.setString(2, uuid.toString());
@@ -590,7 +628,9 @@ public abstract class SQLStorageEngine extends StorageEngine {
             e.printStackTrace();
         } finally {
             Tools.closeJDBCStatement(statement);
-            Tools.closeJDBCConnection(connection);
+            if (commitConnection == null) {
+                Tools.closeJDBCConnection(connection);
+            }
         }
     }
 
@@ -599,7 +639,7 @@ public abstract class SQLStorageEngine extends StorageEngine {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
-            connection = db.getConnection();
+            connection = (commitConnection != null) ? commitConnection : db.getConnection();
             statement = connection.prepareStatement(accountTable.updateUuidByName);
             statement.setString(1, uuid.toString());
             statement.setString(2, name);
@@ -608,7 +648,9 @@ public abstract class SQLStorageEngine extends StorageEngine {
             e.printStackTrace();
         } finally {
             Tools.closeJDBCStatement(statement);
-            Tools.closeJDBCConnection(connection);
+            if (commitConnection == null) {
+                Tools.closeJDBCConnection(connection);
+            }
         }
     }
 
@@ -618,7 +660,7 @@ public abstract class SQLStorageEngine extends StorageEngine {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
-            connection = db.getConnection();
+            connection = (commitConnection != null) ? commitConnection : db.getConnection();
             statement = connection.prepareStatement(worldGroupTable.selectAllEntry);
             ResultSet set = statement.executeQuery();
             while (set.next()) {
@@ -628,7 +670,9 @@ public abstract class SQLStorageEngine extends StorageEngine {
             e.printStackTrace();
         } finally {
             Tools.closeJDBCStatement(statement);
-            Tools.closeJDBCConnection(connection);
+            if (commitConnection == null) {
+                Tools.closeJDBCConnection(connection);
+            }
         }
         return result;
     }
@@ -638,7 +682,7 @@ public abstract class SQLStorageEngine extends StorageEngine {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
-            connection = db.getConnection();
+            connection = (commitConnection != null) ? commitConnection : db.getConnection();
             statement = connection.prepareStatement(worldGroupTable.deleteEntry);
             statement.setString(1, group);
             statement.executeUpdate();
@@ -646,7 +690,9 @@ public abstract class SQLStorageEngine extends StorageEngine {
             e.printStackTrace();
         } finally {
             Tools.closeJDBCStatement(statement);
-            Tools.closeJDBCConnection(connection);
+            if (commitConnection == null) {
+                Tools.closeJDBCConnection(connection);
+            }
         }
     }
 
@@ -657,18 +703,20 @@ public abstract class SQLStorageEngine extends StorageEngine {
         PreparedStatement statement = null;
 
         try {
-            connection = db.getConnection();
+            connection = (commitConnection != null) ? commitConnection : db.getConnection();
             statement = connection.prepareStatement(accessTable.getAccountList);
             statement.setString(1, sender);
             ResultSet set = statement.executeQuery();
             while (set.next()) {
                 results.add(set.getString("name"));
             }
-        } catch(SQLException e) {
+        } catch (SQLException e) {
 
         } finally {
             Tools.closeJDBCStatement(statement);
-            Tools.closeJDBCConnection(connection);
+            if (commitConnection == null) {
+                Tools.closeJDBCConnection(connection);
+            }
         }
         return results.toArray(new String[0]);
     }
@@ -679,7 +727,7 @@ public abstract class SQLStorageEngine extends StorageEngine {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
-            connection = db.getConnection();
+            connection = (commitConnection != null) ? commitConnection : db.getConnection();
             statement = connection.prepareStatement(logTable.selectEntryLimit);
             statement.setString(1, user.getAccountName());
             statement.setInt(2, (page - 1) * 10);
@@ -689,7 +737,9 @@ public abstract class SQLStorageEngine extends StorageEngine {
             e.printStackTrace();
         } finally {
             Tools.closeJDBCStatement(statement);
-            Tools.closeJDBCConnection(connection);
+            if (commitConnection == null) {
+                Tools.closeJDBCConnection(connection);
+            }
         }
         return logEntryList;
     }
@@ -700,7 +750,7 @@ public abstract class SQLStorageEngine extends StorageEngine {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
-            connection = db.getConnection();
+            connection = (commitConnection != null) ? commitConnection : db.getConnection();
             statement = connection.prepareStatement(balanceTable.listTopAccount);
             statement.setString(1, world);
             statement.setString(2, currency.getName());
@@ -714,7 +764,9 @@ public abstract class SQLStorageEngine extends StorageEngine {
             e.printStackTrace();
         } finally {
             Tools.closeJDBCStatement(statement);
-            Tools.closeJDBCConnection(connection);
+            if (commitConnection == null) {
+                Tools.closeJDBCConnection(connection);
+            }
         }
         return result;
     }
@@ -725,17 +777,19 @@ public abstract class SQLStorageEngine extends StorageEngine {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
-            connection = db.getConnection();
+            connection = (commitConnection != null) ? commitConnection : db.getConnection();
             statement = connection.prepareStatement(exchangeTable.selectAll);
             ResultSet set = statement.executeQuery();
             while (set.next()) {
-                results.add(new CurrencyRatesCommand.CurrencyRateEntry(Common.getInstance().getCurrencyManager().getCurrency(set.getString("from_currency")),Common.getInstance().getCurrencyManager().getCurrency(set.getString("to_currency")),set.getDouble("amount")));
+                results.add(new CurrencyRatesCommand.CurrencyRateEntry(Common.getInstance().getCurrencyManager().getCurrency(set.getString("from_currency")), Common.getInstance().getCurrencyManager().getCurrency(set.getString("to_currency")), set.getDouble("amount")));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             Tools.closeJDBCStatement(statement);
-            Tools.closeJDBCConnection(connection);
+            if (commitConnection == null) {
+                Tools.closeJDBCConnection(connection);
+            }
         }
         return results;
     }
@@ -745,7 +799,7 @@ public abstract class SQLStorageEngine extends StorageEngine {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
-            connection = db.getConnection();
+            connection = (commitConnection != null) ? commitConnection : db.getConnection();
             statement = connection.prepareStatement(logTable.cleanEntry);
             statement.setTimestamp(1, timestamp);
             statement.executeUpdate();
@@ -753,7 +807,9 @@ public abstract class SQLStorageEngine extends StorageEngine {
             e.printStackTrace();
         } finally {
             Tools.closeJDBCStatement(statement);
-            Tools.closeJDBCConnection(connection);
+            if (commitConnection == null) {
+                Tools.closeJDBCConnection(connection);
+            }
         }
     }
 
@@ -763,7 +819,7 @@ public abstract class SQLStorageEngine extends StorageEngine {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
-            connection = db.getConnection();
+            connection = (commitConnection != null) ? commitConnection : db.getConnection();
             statement = connection.prepareStatement(accountTable.deleteEntry);
             statement.setString(1, name);
             statement.setBoolean(2, bankAccount);
@@ -774,7 +830,9 @@ public abstract class SQLStorageEngine extends StorageEngine {
             e.printStackTrace();
         } finally {
             Tools.closeJDBCStatement(statement);
-            Tools.closeJDBCConnection(connection);
+            if (commitConnection == null) {
+                Tools.closeJDBCConnection(connection);
+            }
         }
         return result;
     }
@@ -785,7 +843,7 @@ public abstract class SQLStorageEngine extends StorageEngine {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
-            connection = db.getConnection();
+            connection = (commitConnection != null) ? commitConnection : db.getConnection();
             statement = connection.prepareStatement(accountTable.selectEntryName);
             statement.setString(1, name);
             statement.setBoolean(2, bankAccount);
@@ -797,7 +855,9 @@ public abstract class SQLStorageEngine extends StorageEngine {
             e.printStackTrace();
         } finally {
             Tools.closeJDBCStatement(statement);
-            Tools.closeJDBCConnection(connection);
+            if (commitConnection == null) {
+                Tools.closeJDBCConnection(connection);
+            }
         }
         return result;
     }
@@ -807,7 +867,7 @@ public abstract class SQLStorageEngine extends StorageEngine {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
-            connection = db.getConnection();
+            connection = (commitConnection != null) ? commitConnection : db.getConnection();
             statement = connection.prepareStatement(worldGroupTable.selectEntry);
             statement.setString(1, name);
             ResultSet set = statement.executeQuery();
@@ -824,11 +884,13 @@ public abstract class SQLStorageEngine extends StorageEngine {
                 statement.setString(2, worldList);
                 statement.executeUpdate();
             }
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             Tools.closeJDBCStatement(statement);
-            Tools.closeJDBCConnection(connection);
+            if (commitConnection == null) {
+                Tools.closeJDBCConnection(connection);
+            }
         }
     }
 
@@ -838,17 +900,19 @@ public abstract class SQLStorageEngine extends StorageEngine {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
-            connection = db.getConnection();
+            connection = (commitConnection != null) ? commitConnection : db.getConnection();
             statement = connection.prepareStatement(currencyTable.selectAllEntry);
             ResultSet set = statement.executeQuery();
-            while(set.next()) {
+            while (set.next()) {
                 results.add(set.getString("name"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             Tools.closeJDBCStatement(statement);
-            Tools.closeJDBCConnection(connection);
+            if (commitConnection == null) {
+                Tools.closeJDBCConnection(connection);
+            }
         }
         return results;
     }
@@ -858,7 +922,7 @@ public abstract class SQLStorageEngine extends StorageEngine {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
-            connection = db.getConnection();
+            connection = (commitConnection != null) ? commitConnection : db.getConnection();
             statement = connection.prepareStatement(currencyTable.setAsDefault1);
             statement.executeUpdate();
             statement.close();
@@ -869,7 +933,9 @@ public abstract class SQLStorageEngine extends StorageEngine {
             e.printStackTrace();
         } finally {
             Tools.closeJDBCStatement(statement);
-            Tools.closeJDBCConnection(connection);
+            if (commitConnection == null) {
+                Tools.closeJDBCConnection(connection);
+            }
         }
     }
 
@@ -878,7 +944,7 @@ public abstract class SQLStorageEngine extends StorageEngine {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
-            connection = db.getConnection();
+            connection = (commitConnection != null) ? commitConnection : db.getConnection();
             statement = connection.prepareStatement(currencyTable.setAsDefaultBank1);
             statement.executeUpdate();
             statement.close();
@@ -889,7 +955,9 @@ public abstract class SQLStorageEngine extends StorageEngine {
             e.printStackTrace();
         } finally {
             Tools.closeJDBCStatement(statement);
-            Tools.closeJDBCConnection(connection);
+            if (commitConnection == null) {
+                Tools.closeJDBCConnection(connection);
+            }
         }
     }
 
@@ -899,18 +967,20 @@ public abstract class SQLStorageEngine extends StorageEngine {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
-            connection = db.getConnection();
+            connection = (commitConnection != null) ? commitConnection : db.getConnection();
             statement = connection.prepareStatement(currencyTable.selectEntry);
-            statement.setString(1,name);
+            statement.setString(1, name);
             ResultSet set = statement.executeQuery();
             if (set.next()) {
-                result = new Currency(set.getString("name"), set.getString("plural"), set.getString("minor"),set.getString("minorPlural"), set.getString("sign"));
+                result = new Currency(set.getString("name"), set.getString("plural"), set.getString("minor"), set.getString("minorPlural"), set.getString("sign"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             Tools.closeJDBCStatement(statement);
-            Tools.closeJDBCConnection(connection);
+            if (commitConnection == null) {
+                Tools.closeJDBCConnection(connection);
+            }
         }
         return result;
     }
@@ -921,17 +991,19 @@ public abstract class SQLStorageEngine extends StorageEngine {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
-            connection = db.getConnection();
+            connection = (commitConnection != null) ? commitConnection : db.getConnection();
             statement = connection.prepareStatement(currencyTable.selectAllEntry);
             ResultSet set = statement.executeQuery();
-            while(set.next()) {
-                results.put(set.getString("name"), new Currency(set.getString("name"), set.getString("plural"), set.getString("minor"),set.getString("minorPlural"), set.getString("sign"), set.getBoolean("status"), set.getBoolean("bankCurrency")));
+            while (set.next()) {
+                results.put(set.getString("name"), new Currency(set.getString("name"), set.getString("plural"), set.getString("minor"), set.getString("minorPlural"), set.getString("sign"), set.getBoolean("status"), set.getBoolean("bankCurrency")));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             Tools.closeJDBCStatement(statement);
-            Tools.closeJDBCConnection(connection);
+            if (commitConnection == null) {
+                Tools.closeJDBCConnection(connection);
+            }
         }
         return results;
     }
@@ -942,7 +1014,7 @@ public abstract class SQLStorageEngine extends StorageEngine {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
-            connection = db.getConnection();
+            connection = (commitConnection != null) ? commitConnection : db.getConnection();
             statement = connection.prepareStatement(worldGroupTable.selectEntry);
             statement.setString(1, name);
             ResultSet set = statement.executeQuery();
@@ -958,7 +1030,9 @@ public abstract class SQLStorageEngine extends StorageEngine {
             e.printStackTrace();
         } finally {
             Tools.closeJDBCStatement(statement);
-            Tools.closeJDBCConnection(connection);
+            if (commitConnection == null) {
+                Tools.closeJDBCConnection(connection);
+            }
         }
         return result;
     }
@@ -966,8 +1040,8 @@ public abstract class SQLStorageEngine extends StorageEngine {
     @Override
     public void saveImporterUsers(List<Converter.User> userList) {
         StringBuilder builder;
-        builder = new StringBuilder("INSERT INTO "+tablePrefix+ AccountTable.TABLE_NAME+"(name,uuid) VALUES(");
-        StringBuilder balanceBuilder = new StringBuilder("INSERT INTO "+tablePrefix+ BalanceTable.TABLE_NAME+"(balance, worldName, currency_id, username_id) VALUES(");
+        builder = new StringBuilder("INSERT INTO " + tablePrefix + AccountTable.TABLE_NAME + "(name,uuid) VALUES(");
+        StringBuilder balanceBuilder = new StringBuilder("INSERT INTO " + tablePrefix + BalanceTable.TABLE_NAME + "(balance, worldName, currency_id, username_id) VALUES(");
         boolean first = true;
         for (Converter.User userEntry : userList) {
             if (!first) {
@@ -977,14 +1051,14 @@ public abstract class SQLStorageEngine extends StorageEngine {
                 first = false;
             }
             if (userEntry.getUuid() == null) {
-                builder.append("'"+userEntry.getUser()+"',null)");
+                builder.append("'" + userEntry.getUser() + "',null)");
             } else {
-                builder.append("'"+userEntry.getUser()+"','"+userEntry.getUuid()+"')");
+                builder.append("'" + userEntry.getUser() + "','" + userEntry.getUuid() + "')");
             }
             if (userEntry.getUuid() != null) {
-                balanceBuilder.append(userEntry.getBalance()+",'default','"+Common.getInstance().getCurrencyManager().getDefaultCurrency().getName()+"',(SELECT id from " + tablePrefix + AccountTable.TABLE_NAME + " WHERE uuid='"+userEntry.getUuid()+"'))");
+                balanceBuilder.append(userEntry.getBalance() + ",'default','" + Common.getInstance().getCurrencyManager().getDefaultCurrency().getName() + "',(SELECT id from " + tablePrefix + AccountTable.TABLE_NAME + " WHERE uuid='" + userEntry.getUuid() + "'))");
             } else {
-                balanceBuilder.append(userEntry.getBalance()+",'default','"+Common.getInstance().getCurrencyManager().getDefaultCurrency().getName()+"',(SELECT id from " + tablePrefix + AccountTable.TABLE_NAME + " WHERE name='"+userEntry.getUser()+"'))");
+                balanceBuilder.append(userEntry.getBalance() + ",'default','" + Common.getInstance().getCurrencyManager().getDefaultCurrency().getName() + "',(SELECT id from " + tablePrefix + AccountTable.TABLE_NAME + " WHERE name='" + userEntry.getUser() + "'))");
             }
         }
         builder.append(";");
@@ -992,7 +1066,7 @@ public abstract class SQLStorageEngine extends StorageEngine {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
-            connection = db.getConnection();
+            connection = (commitConnection != null) ? commitConnection : db.getConnection();
             statement = connection.prepareStatement(builder.toString());
             statement.executeUpdate();
             statement.close();
@@ -1003,9 +1077,42 @@ public abstract class SQLStorageEngine extends StorageEngine {
             e.printStackTrace();
         } finally {
             Tools.closeJDBCStatement(statement);
-            Tools.closeJDBCConnection(connection);
+            if (commitConnection == null) {
+                Tools.closeJDBCConnection(connection);
+            }
         }
 
 
+    }
+
+    @Override
+    public void disableAutoCommit() {
+        try {
+            commitConnection = db.getConnection();
+            commitConnection.setAutoCommit(false);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void enableAutoCommit() {
+        try {
+            commitConnection.close();
+            commitConnection = null;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void commit() {
+        if (commitConnection != null) {
+            try {
+                commitConnection.commit();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

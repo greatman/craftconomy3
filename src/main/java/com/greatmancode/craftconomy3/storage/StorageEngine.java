@@ -351,4 +351,19 @@ public abstract class StorageEngine {
      * @param userList The user list being converted
      */
     public abstract void saveImporterUsers(List<Converter.User> userList);
+
+    /**
+     * Disable auto-commit in the storage engine
+     */
+    public abstract void disableAutoCommit();
+
+    /**
+     * Enable auto-commit in the storage engine (default)
+     */
+    public abstract void enableAutoCommit();
+
+    /**
+     * Commit the changes. Only works when autocommit is disabled
+     */
+    public abstract void commit();
 }
