@@ -81,7 +81,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.github.jengelman.gradle.plugins:shadow:1.1.2'
+        classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.1'
         classpath 'nl.javadude.gradle.plugins:license-gradle-plugin:0.11.0'
     }
 }
@@ -89,7 +89,7 @@ buildscript {
 repositories {
     mavenLocal()
     mavenCentral()
-    maven { url "http://oss.sonatype.org/content/repositories/snapshots" }
+    //maven { url "http://oss.sonatype.org/content/repositories/snapshots" }
     maven { url "https://hub.spigotmc.org/nexus/content/groups/public/" }
     maven { url "http://repo.visualillusionsent.net/repository/public/" }
     maven { url "http://repo.larry1123.net/content/groups/public/" }
@@ -100,30 +100,32 @@ repositories {
 }
 
 dependencies {
-    compile group: 'com.greatmancode', name: 'tools', version:'1.1'
+    compile group: 'com.greatmancode', name: 'tools', version:'1.2-SNAPSHOT'
     compile group: 'com.zaxxer', name: 'HikariCP-java6', version:'2.3.7'
-    compile group: 'org.javassist', name: 'javassist', version:'3.19.0-GA'
+    compile group: 'org.javassist', name: 'javassist', version:'3.18.2-GA'
     compile group: 'org.slf4j', name: 'slf4j-api', version:'1.7.12'
     compile group: 'com.h2database', name: 'h2', version:'1.4.187'
     compile group: 'org.xerial', name: 'sqlite-jdbc', version:'3.7.15-M1'
     testCompile group: 'junit', name: 'junit', version:'4.11'
-    testCompile group: 'org.bukkit', name: 'bukkit', version:'1.8-R0.1-SNAPHSOT'
+    testCompile group: 'org.bukkit', name: 'bukkit', version:'1.8.3-R0.1-SNAPSHOT'
     testCompile group: 'org.reflections', name: 'reflections', version:'0.9.9-RC1'
     compile group: 'org.projectlombok', name: 'lombok', version:'1.12.6'
+    compile group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1'
 }
 
 shadowJar {
     dependencies {
-        include(dependency('com.greatmancode:tools:1.1'))
+        include(dependency('com.greatmancode:tools:1.2-SNAPSHOT'))
         include(dependency('com.zaxxer:HikariCP-java6:2.3.7'))
         include(dependency('org.javassist:javassist'))
         include(dependency('org.slf4j:slf4j-api:1.7.12'))
         include(dependency('com.h2database:h2:1.4.187'))
+        include(dependency('com.googlecode.json-simple:json-simple:1.1'))
     }
     relocate 'com.greatmancode.tools', 'com.greatmancode.craftconomy3.tools'
-    relocate 'com.zaxxer.hikari', 'com.greatmancode.com.zaxxer.hikari'
-    relocate 'javassist', 'com.greatmancode.javassist'
-    relocate 'org.slf4j', 'com.greatmancode.org.slf4j'
+    relocate 'com.zaxxer.hikari', 'com.greatmancode.com.zaxxer.libs.hikari'
+    //relocate 'javassist', 'com.greatmancode.libs.javassist'
+    relocate 'org.slf4j', 'com.greatmancode.libs.org.slf4j'
     //baseName = 'craftconomy3'
     classifier = ''
 }

@@ -138,7 +138,7 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
                     sendConsoleMessage(Level.WARNING, getLanguageManager().getString("loaded_setup_mode"));
                 }
             } else {
-                commandManager.setLevel(1);
+                commandManager.setCurrentLevel(1);
                 initialiseDatabase();
                 updateDatabase();
                 initializeCurrency();
@@ -205,7 +205,7 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
         serverCaller.setCommandPrefix(languageManager.getString("command_prefix"));
         commandManager = new CommandHandler(serverCaller);
         registerCommands();
-        commandManager.setLevel(1);
+        commandManager.setCurrentLevel(1);
         initialiseDatabase();
         updateDatabase();
         initializeCurrency();
@@ -652,7 +652,7 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
         loadDefaultSettings();
         Common.getInstance().startUp();
         Common.getInstance().getMainConfig().setValue("System.Setup", false);
-        commandManager.setLevel(1);
+        commandManager.setCurrentLevel(1);
         sendConsoleMessage(Level.INFO, "Quick-Config done!");
     }
 
