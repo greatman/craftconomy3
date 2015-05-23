@@ -89,7 +89,7 @@ buildscript {
 repositories {
     mavenLocal()
     mavenCentral()
-    //maven { url "http://oss.sonatype.org/content/repositories/snapshots" }
+    maven { url "http://oss.sonatype.org/content/repositories/snapshots" }
     maven { url "https://hub.spigotmc.org/nexus/content/groups/public/" }
     maven { url "http://repo.visualillusionsent.net/repository/public/" }
     maven { url "http://repo.larry1123.net/content/groups/public/" }
