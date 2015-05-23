@@ -71,8 +71,6 @@ public abstract class SQLStorageEngine extends StorageEngine {
         Connection connection = null;
         try {
             boolean infiniteMoney = false, ignoreACL = false;
-            System.out.println("TESTING " + commitConnection);
-            System.out.println((commitConnection != null) ? commitConnection : db.getConnection());
             connection = (commitConnection != null) ? commitConnection : db.getConnection();
             statement = connection.prepareStatement(accountTable.selectEntryName);
             statement.setString(1, name);
