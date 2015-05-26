@@ -21,6 +21,7 @@ package com.greatmancode.craftconomy3.converter;
 import com.greatmancode.craftconomy3.Cause;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.LogInfo;
+import com.greatmancode.craftconomy3.currency.Currency;
 import com.greatmancode.craftconomy3.storage.sql.tables.*;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -30,26 +31,24 @@ import java.sql.*;
 import java.util.*;
 import java.util.logging.Level;
 
-/**
- * Created by greatman on 2014-07-06.
- */
-public class SQLiteToMySQLConverter {
+public class H2ToMySQLConverter {
 
-    private Map<Integer, Account> accountList = new HashMap<Integer, Account>();
-    private Map<Integer, Currency> currencyList = new HashMap<Integer, Currency>();
-    private List<Config> configList = new ArrayList<Config>();
-    private List<Exchange> exchangeList = new ArrayList<Exchange>();
-    private List<WorldGroup> worldGroupList = new ArrayList<WorldGroup>();
+    private Map<Integer, Account> accountList = new HashMap<>();
+    private Map<String, Currency> currencyList = new HashMap<>();
+    private List<Config> configList = new ArrayList<>();
+    private List<Exchange> exchangeList = new ArrayList<>();
+    private List<WorldGroup> worldGroupList = new ArrayList<>();
     private HikariDataSource db;
     private String prefix;
 
     public void run() {
         Common.getInstance().sendConsoleMessage(Level.INFO, Common.getInstance().getLanguageManager().getString("starting_database_convert"));
         HikariConfig hikariConfig = new HikariConfig();
-        hikariConfig.setMaximumPoolSize(10);
-        hikariConfig.setDataSourceClassName("com.sqlite.SQLiteDataSource");
-        hikariConfig.addDataSourceProperty("databaseName", new File(Common.getInstance().getServerCaller().getDataFolder(), "database.db").getAbsolutePath());
-        db = new HikariDataSource(hikariConfig);
+        hikariConfig.setMaximumPoolSize(Common.getInstance().getMainConfig().getInt("System.Database.Poolsize"));
+        hikariConfig.setDataSourceClassName("org.h2.jdbcx.JdbcDataSource");
+        hikariConfig.addDataSourceProperty("user", "sa");
+        hikariConfig.addDataSourceProperty("url", "jdbc:h2:file:" + new File(Common.getInstance().getServerCaller().getDataFolder().getPath(), "database").getAbsolutePath() + ";MV_STORE=FALSE");
+        hikariConfig.setConnectionTimeout(5000);db = new HikariDataSource(hikariConfig);
         prefix = Common.getInstance().getMainConfig().getString("System.Database.Prefix");
         try {
             Connection connection = db.getConnection();
@@ -63,7 +62,7 @@ public class SQLiteToMySQLConverter {
                 account.name = set.getString("name");
                 account.ignoreACL = set.getBoolean("ignoreACL");
                 account.uuid = UUID.fromString(set.getString("uuid"));
-                account.infiniteMoney = set.getBoolean("ignoreACL");
+                account.infiniteMoney = set.getBoolean("infiniteMoney");
                 account.bank = set.getBoolean("bank");
                 accountList.put(account.id, account);
             }
@@ -74,8 +73,8 @@ public class SQLiteToMySQLConverter {
             statement = connection.prepareStatement("SELECT * FROM " + prefix + CurrencyTable.TABLE_NAME);
             set = statement.executeQuery();
             while (set.next()) {
-                Currency currency = new Currency(set.getInt("id"), set.getString("name"), set.getString("plural"), set.getString("minor"), set.getString("minorPlural"), set.getString("sign"), set.getBoolean("status"));
-                currencyList.put(currency.id, currency);
+                Currency currency = new Currency(set.getString("name"), set.getString("plural"), set.getString("minor"), set.getString("minorPlural"), set.getString("sign"), set.getBoolean("status"));
+                currencyList.put(currency.getName(), currency);
             }
             set.close();
             statement.close();
@@ -87,8 +86,8 @@ public class SQLiteToMySQLConverter {
                 Balance balance = new Balance();
                 balance.balance = set.getDouble("balance");
                 balance.worldName = set.getString("worldName");
-                balance.currency_id = set.getInt("currency_id");
-                accountList.get(set.getInt("account_id")).balanceList.add(balance);
+                balance.currency_id = set.getString("currency_id");
+                accountList.get(set.getInt("username_id")).balanceList.add(balance);
             }
             set.close();
             statement.close();
@@ -126,8 +125,8 @@ public class SQLiteToMySQLConverter {
             set = statement.executeQuery();
             while (set.next()) {
                 Exchange exchange = new Exchange();
-                exchange.currency_id_from = set.getInt("from_currency_id");
-                exchange.currency_id_to = set.getInt("to_currency_id");
+                exchange.currency_id_from = set.getString("from_currency");
+                exchange.currency_id_to = set.getString("to_currency");
                 exchange.amount = set.getInt("amount");
                 exchangeList.add(exchange);
             }
@@ -142,11 +141,11 @@ public class SQLiteToMySQLConverter {
                 log.amount = set.getDouble("amount");
                 log.cause = set.getString("cause");
                 log.causeReason = set.getString("causeReason");
-                log.currency_id = set.getInt("currency_id");
+                log.currency_id = set.getString("currency_id");
                 log.timestamp = set.getTimestamp("timestamp");
                 log.type = set.getString("type");
                 log.worldName = set.getString("worldName");
-                accountList.get(set.getInt("account_id")).logList.add(log);
+                accountList.get(set.getInt("username_id")).logList.add(log);
             }
             set.close();
             statement.close();
@@ -162,9 +161,9 @@ public class SQLiteToMySQLConverter {
             }
             set.close();
             statement.close();
-
+            Common.getInstance().getStorageHandler().getStorageEngine().disableAutoCommit();
             Common.getInstance().sendConsoleMessage(Level.INFO, "Inserting currency information");
-            for (Map.Entry<Integer, Currency> currency : currencyList.entrySet()) {
+            for (Map.Entry<String, Currency> currency : currencyList.entrySet()) {
                 Common.getInstance().getStorageHandler().getStorageEngine().saveCurrency(currency.getValue().getName(), currency.getValue());
             }
 
@@ -185,21 +184,23 @@ public class SQLiteToMySQLConverter {
 
             Common.getInstance().sendConsoleMessage(Level.INFO, "Inserting account/balance/log/access information");
             for (Map.Entry<Integer, Account> accountEntry : accountList.entrySet()) {
-                com.greatmancode.craftconomy3.account.Account account = Common.getInstance().getStorageHandler().getStorageEngine().getAccount(accountEntry.getValue().name, accountEntry.getValue().bank);
+                com.greatmancode.craftconomy3.account.Account account = Common.getInstance().getStorageHandler().getStorageEngine().getAccount(accountEntry.getValue().name, accountEntry.getValue().bank, false);
                 Common.getInstance().getStorageHandler().getStorageEngine().updateUUID(accountEntry.getValue().name, accountEntry.getValue().uuid);
                 Common.getInstance().getStorageHandler().getStorageEngine().setInfiniteMoney(account, accountEntry.getValue().infiniteMoney);
                 Common.getInstance().getStorageHandler().getStorageEngine().setIgnoreACL(account, accountEntry.getValue().ignoreACL);
 
                 for (Balance balance : accountEntry.getValue().balanceList) {
-                    account.set(balance.balance, balance.worldName, currencyList.get(balance.currency_id).getName(), Cause.CONVERT, "SQLite=>MySQL conversion");
+                    Common.getInstance().getStorageHandler().getStorageEngine().setBalance(account, balance.balance, currencyList.get(balance.currency_id), balance.worldName);
                 }
                 for (Access access : accountEntry.getValue().accessList) {
-                    account.getAccountACL().set(access.playerName, access.deposit, access.withdraw, access.acl, access.balance, access.owner);
+                    Common.getInstance().getStorageHandler().getStorageEngine().saveACL(account, access.playerName, access.deposit, access.withdraw, access.acl, access.balance, access.owner);
                 }
                 for (Log log : accountEntry.getValue().logList) {
                     Common.getInstance().getStorageHandler().getStorageEngine().saveLog(LogInfo.valueOf(log.type.toUpperCase()), Cause.valueOf(log.cause.toUpperCase()), log.causeReason, account, log.amount, currencyList.get(log.currency_id), log.worldName, log.timestamp);
                 }
             }
+            Common.getInstance().getStorageHandler().getStorageEngine().commit();
+            Common.getInstance().getStorageHandler().getStorageEngine().enableAutoCommit();
             connection.close();
             db.close();
             Common.getInstance().sendConsoleMessage(Level.INFO, "Convertion complete!");
@@ -218,19 +219,9 @@ public class SQLiteToMySQLConverter {
         public List<Log> logList = new ArrayList<Log>();
     }
 
-    private class Currency extends com.greatmancode.craftconomy3.currency.Currency{
-        public int id;
-
-        public Currency(int id, String name, String plural, String minor, String minorPlural, String sign, boolean status) {
-            super(name, plural, minor, minorPlural, sign, status);
-            this.id = id;
-        }
-    }
-
     private class Balance {
         public double balance;
-        public String worldName;
-        public int currency_id;
+        public String worldName, currency_id;
     }
 
     private class Access {
@@ -243,15 +234,14 @@ public class SQLiteToMySQLConverter {
     }
 
     private class Exchange {
-        public int currency_id_from, currency_id_to;
+        public String currency_id_from, currency_id_to;
         public double amount;
     }
 
     private class Log {
-        public String type, cause, causeReason, worldName;
+        public String type, cause, causeReason, worldName, currency_id;
         public Timestamp timestamp;
         public double amount;
-        public int currency_id;
     }
 
     private class WorldGroup {

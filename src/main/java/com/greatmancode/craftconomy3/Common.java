@@ -28,6 +28,7 @@ import com.greatmancode.craftconomy3.commands.group.GroupCreateCommand;
 import com.greatmancode.craftconomy3.commands.group.GroupDelWorldCommand;
 import com.greatmancode.craftconomy3.commands.money.*;
 import com.greatmancode.craftconomy3.commands.setup.*;
+import com.greatmancode.craftconomy3.converter.H2ToMySQLConverter;
 import com.greatmancode.craftconomy3.currency.Currency;
 import com.greatmancode.craftconomy3.currency.CurrencyManager;
 import com.greatmancode.craftconomy3.events.EventManager;
@@ -392,9 +393,10 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
             storageHandler = new StorageHandler();
 
             //TODO: Re-support that
-            /*if (getMainConfig().getBoolean("System.Database.ConvertFromSQLite")) {
-                convertDatabase(dbManager);
-            }*/
+            if (getMainConfig().getBoolean("System.Database.ConvertFromH2")) {
+                convertDatabase();
+            }
+
             databaseInitialized = true;
             sendConsoleMessage(Level.INFO, getLanguageManager().getString("database_manager_loaded"));
         }
@@ -405,12 +407,12 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
      *
      * @param dbManagernew The MySQL instance
      */
-    /*private void convertDatabase(DatabaseManager dbManagernew) throws InvalidDatabaseConstructor {
+    private void convertDatabase(){
         sendConsoleMessage(Level.INFO, getLanguageManager().getString("starting_database_convert"));
-        new SQLiteToMySQLConverter().run();
+        new H2ToMySQLConverter().run();
         sendConsoleMessage(Level.INFO, getLanguageManager().getString("convert_done"));
-        getMainConfig().setValue("System.Database.ConvertFromSQLite", false);
-    }*/
+        getMainConfig().setValue("System.Database.ConvertFromH2", false);
+    }
 
     /**
      * Initialize the {@link CurrencyManager}
@@ -953,7 +955,7 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
         mainConfig.setValue("System.Database.Db", "craftconomy");
         mainConfig.setValue("System.Database.Prefix", "cc3_");
         mainConfig.setValue("System.Database.Poolsize", 10);
-        mainConfig.setValue("System.Database.ConvertFromSQLite", false);
+        mainConfig.setValue("System.Database.ConvertFromH2", false);
     }
 
     /**
