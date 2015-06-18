@@ -100,7 +100,7 @@ repositories {
 }
 
 dependencies {
-    compile group: 'com.greatmancode', name: 'tools', version:'1.2'
+    compile group: 'com.greatmancode', name: 'tools', version:'1.3-SNAPSHOT'
     compile group: 'com.zaxxer', name: 'HikariCP-java6', version:'2.3.7'
     compile group: 'org.javassist', name: 'javassist', version:'3.18.2-GA'
     compile group: 'org.slf4j', name: 'slf4j-api', version:'1.7.12'
@@ -115,7 +115,7 @@ dependencies {
 
 shadowJar {
     dependencies {
-        include(dependency('com.greatmancode:tools:1.2'))
+        include(dependency('com.greatmancode:tools:1.3-SNAPSHOT'))
         include(dependency('com.zaxxer:HikariCP-java6:2.3.7'))
         include(dependency('org.javassist:javassist'))
         include(dependency('org.slf4j:slf4j-api:1.7.12'))
