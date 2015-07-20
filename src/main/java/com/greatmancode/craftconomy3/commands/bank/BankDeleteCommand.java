@@ -35,6 +35,7 @@ public class BankDeleteCommand extends CommandExecutor {
                     owner.deposit(balance.getBalance(), balance.getWorld(), balance.getCurrency().getName(), Cause.BANK_DELETE, args[0]);
                 }
                 Common.getInstance().getAccountManager().delete(args[0], true);
+                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("bank_account_deleted"));
             } else {
                 Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("bank_delete_not_owner"));
             }

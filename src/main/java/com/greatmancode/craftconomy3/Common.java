@@ -906,6 +906,7 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
         languageManager.addLanguageEntry("rates_header", "{{DARK_GREEN}}[Currency rates]");
         languageManager.addLanguageEntry("bank_delete_cmd_help", "/bank delete <Name> - Delete a bank account that you own.");
         languageManager.addLanguageEntry("bank_delete_not_owner", "{{DARK_RED}}You aren't this bank owner!");
+        languageManager.addLanguageEntry("bank_account_deleted", "Bank account deleted");
         languageManager.addLanguageEntry("currency_list_cmd_help", "/currency list - List all the currencies");
         languageManager.addLanguageEntry("currency_list_title", "{{DARK_GREEN}}====== {{WHITE}}Currencies {{DARK_GREEN}}======");
         languageManager.addLanguageEntry("invalid_time_log", "Invalid time! It needs to be a positive number!");
