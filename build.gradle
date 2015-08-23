@@ -100,6 +100,7 @@ repositories {
 }
 
 dependencies {
+    compile group: 'org.spongepowered', name: 'spongeapi', version: '2.1-SNAPSHOT'
     compile group: 'com.greatmancode', name: 'tools', version:'1.3-SNAPSHOT'
     compile group: 'com.zaxxer', name: 'HikariCP-java6', version:'2.3.7'
     compile group: 'org.javassist', name: 'javassist', version:'3.18.2-GA'
