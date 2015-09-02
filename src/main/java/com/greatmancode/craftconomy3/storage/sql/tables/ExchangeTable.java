@@ -27,10 +27,10 @@ public class ExchangeTable extends DatabaseTable {
             "  `to_currency` VARCHAR(50) NOT NULL," +
             "  `amount` double DEFAULT 1.0," +
             "  PRIMARY KEY (`from_currency`, to_currency)," +
-            "  CONSTRAINT `fk_exchange_currencyfrom`" +
+            "  CONSTRAINT `"+getPrefix()+"fk_exchange_currencyfrom`" +
             "    FOREIGN KEY (from_currency)" +
             "    REFERENCES " + getPrefix() + CurrencyTable.TABLE_NAME + " (name) ON UPDATE CASCADE ON DELETE CASCADE," +
-            "  CONSTRAINT `fk_exchange_currencyto`" +
+            "  CONSTRAINT `"+getPrefix()+"fk_exchange_currencyto`" +
             "    FOREIGN KEY (to_currency)" +
             "    REFERENCES " + getPrefix() + CurrencyTable.TABLE_NAME + " (name) ON UPDATE CASCADE ON DELETE CASCADE" +
             ") ENGINE=InnoDB;";

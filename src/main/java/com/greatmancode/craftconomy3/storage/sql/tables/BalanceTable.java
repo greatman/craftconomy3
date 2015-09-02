@@ -32,10 +32,10 @@ public class BalanceTable extends DatabaseTable {
             "  `username_id` int(11)," +
             "  `" + CURRENCY_FIELD + "` varchar(50)," +
             "  PRIMARY KEY (" + WORLD_NAME_FIELD + ", username_id, currency_id)," +
-            "  CONSTRAINT `fk_balance_account`" +
+            "  CONSTRAINT `"+getPrefix()+"fk_balance_account`" +
             "    FOREIGN KEY (username_id)" +
             "    REFERENCES " + getPrefix() + AccountTable.TABLE_NAME + "(id) ON UPDATE CASCADE ON DELETE CASCADE," +
-            "  CONSTRAINT `fk_balance_currency`" +
+            "  CONSTRAINT `"+getPrefix()+"fk_balance_currency`" +
             "    FOREIGN KEY (" + CURRENCY_FIELD + ")" +
             "    REFERENCES " + getPrefix() + CurrencyTable.TABLE_NAME +"(name) ON UPDATE CASCADE ON DELETE CASCADE" +
             ") ENGINE=InnoDB;";
