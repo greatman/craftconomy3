@@ -1,7 +1,7 @@
-/*
+/**
  * This file is part of Craftconomy3.
  *
- * Copyright (c) 2011-2014, Greatman <http://github.com/greatman/>
+ * Copyright (c) 2011-2016, Greatman <http://github.com/greatman/>
  *
  * Craftconomy3 is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -26,6 +26,10 @@ import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 public class BalanceCommand extends CommandExecutor {
     @Override
     public void execute(String sender, String[] args) {
+        if (args.length == 0) {
+            Common.getInstance().getCommandManager().getCommand("money").execute("", sender, args);
+            return;
+        }
         if (Common.getInstance().getAccountManager().exist(args[0], false)) {
             //TODO: Format this properly
             Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{WHITE}} " + args[0] + " " + Common.getInstance().getLanguageManager().getString("money_all_title"));
@@ -50,7 +54,7 @@ public class BalanceCommand extends CommandExecutor {
 
     @Override
     public int minArgs() {
-        return 1;
+        return 0;
     }
 
     @Override
