@@ -23,6 +23,7 @@ import com.greatmancode.craftconomy3.account.Account;
 import com.greatmancode.tools.events.interfaces.EventHandler;
 import com.greatmancode.tools.events.interfaces.Listener;
 import com.greatmancode.tools.events.playerEvent.PlayerJoinEvent;
+import com.greatmancode.tools.events.playerEvent.PreJoinEvent;
 import com.greatmancode.tools.utils.Updater;
 
 /**
@@ -37,21 +38,26 @@ public class EventManager implements Listener {
      */
     @EventHandler
     public void playerJoinEvent(PlayerJoinEvent event) {
-        if (Common.getInstance().getMainConfig().getBoolean("System.CheckNewVersion") && Common.getInstance().getServerCaller().getPlayerCaller().isOp(event.getPlayer().getName()) && Common.getInstance().getVersionChecker().getResult() == Updater.UpdateResult.UPDATE_AVAILABLE) {
-            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(event.getPlayer().getName(), "{{DARK_CYAN}}Craftconomy is out of date! New version is " + Common.getInstance().getVersionChecker().getLatestName());
+        if (Common.getInstance().getMainConfig().getBoolean("System.CheckNewVersion") && Common.getInstance().getServerCaller().getPlayerCaller().isOp(event.getP().getName()) && Common.getInstance().getVersionChecker().getResult() == Updater.UpdateResult.UPDATE_AVAILABLE) {
+            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(event.getP().getName(), "{{DARK_CYAN}}Craftconomy is out of date! New version is " + Common.getInstance().getVersionChecker().getLatestName());
         }
+
+    }
+
+    @EventHandler
+    public void PreJoinEvent(PreJoinEvent event) {
         if (!Common.getInstance().getMainConfig().getBoolean("System.Setup")) {
             //We search if the UUID is in the database
-            Account account = Common.getInstance().getStorageHandler().getStorageEngine().getAccount(event.getPlayer().getUuid());
-            if (account != null && !event.getPlayer().getName().equals(account.getAccountName())) {
+            Account account = Common.getInstance().getStorageHandler().getStorageEngine().getAccount(event.getUuid());
+            if (account != null && !event.getName().equals(account.getAccountName())) {
                 Common.getInstance().getAccountManager().clearCache(account.getAccountName());
-                Common.getInstance().getStorageHandler().getStorageEngine().updateUsername(event.getPlayer().getName().toLowerCase(), event.getPlayer().getUuid());
+                Common.getInstance().getStorageHandler().getStorageEngine().updateUsername(event.getName().toLowerCase(), event.getUuid());
             } else if (account == null){
                 //We set deh UUID
-                Common.getInstance().getStorageHandler().getStorageEngine().updateUUID(event.getPlayer().getName(), event.getPlayer().getUuid());
+                Common.getInstance().getStorageHandler().getStorageEngine().updateUUID(event.getName(), event.getUuid());
             }
             if (Common.getInstance().getMainConfig().getBoolean("System.CreateOnLogin")) {
-                Common.getInstance().getAccountManager().getAccount(event.getPlayer().getName(), false);
+                Common.getInstance().getAccountManager().getAccount(event.getName(), false);
             }
         }
     }

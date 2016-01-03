@@ -144,10 +144,9 @@ jar.dependsOn filter
 
 license {
     header rootProject.file('HEADER.txt')
-    ext.copyright = 'Copyright (c) 2011-2014, Greatman'
+    ext.copyright = 'Copyright (c) 2011-2016, Greatman'
     ext.url = 'http://github.com/greatman'
     ext.name = 'Craftconomy3'
-    skipExistingHeaders true //Temporary
 }
 
 
