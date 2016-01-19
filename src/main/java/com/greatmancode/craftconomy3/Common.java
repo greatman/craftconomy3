@@ -43,6 +43,7 @@ import com.greatmancode.tools.configuration.Config;
 import com.greatmancode.tools.configuration.ConfigurationManager;
 import com.greatmancode.tools.interfaces.caller.ServerCaller;
 import com.greatmancode.tools.language.LanguageManager;
+import com.greatmancode.tools.utils.FeatherBoard;
 import com.greatmancode.tools.utils.Metrics;
 import com.greatmancode.tools.utils.Tools;
 import com.greatmancode.tools.utils.Updater;
@@ -152,6 +153,7 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
 
 
             getServerCaller().registerPermission("craftconomy.money.log.others");
+            addFeatherboardSupport();
             initialized = true;
         }
     }
@@ -1014,5 +1016,19 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
         Common.getInstance().sendConsoleMessage(Level.INFO, "Your database is out of date! (Version " + currentVersion + "). Updating it to Revision " + newVersion + ".");
     }
 
+    private void addFeatherboardSupport() {
+        if (getServerCaller() instanceof BukkitServerCaller) {
+            FeatherBoard.registerPlaceHolder(getServerCaller().getLoader(), "cc3money", new FeatherBoard.FeatherBoardReplaceEvent() {
+
+                @Override
+                public String getResult(String username, boolean isOnline) {
+                    if (getAccountManager().exist(username, false)) {
+                        return format(null, getCurrencyManager().getDefaultCurrency(), getAccountManager().getAccount(username, false).getBalance("default", getCurrencyManager().getDefaultCurrency().getName()), getDisplayFormat());
+                    }
+                    return "";
+                }
+            });
+        }
+    }
 
 }
