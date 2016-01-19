@@ -1017,7 +1017,7 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
     }
 
     private void addFeatherboardSupport() {
-        if (getServerCaller() instanceof BukkitServerCaller) {
+        if (getServerCaller() instanceof BukkitServerCaller && getServerCaller().isPluginEnabled("MVdWPlaceholderAPI")) {
             FeatherBoard.registerPlaceHolder(getServerCaller().getLoader(), "cc3money", new FeatherBoard.FeatherBoardReplaceEvent() {
 
                 @Override

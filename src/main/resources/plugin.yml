@@ -21,6 +21,7 @@ name: Craftconomy3
 main: com.greatmancode.craftconomy3.tools.interfaces.BukkitLoader
 version: ${version}
 author: Greatman
+softdepends: [MVdWPlaceholderAPI]
 commands:
     money:
       description: Check / Distribute currency.
