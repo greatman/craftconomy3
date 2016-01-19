@@ -65,6 +65,8 @@ public class TestConfigCommands {
         assertEquals(DisplayFormat.LONG, Common.getInstance().getDisplayFormat());
         command.execute(TEST_USER, new String[] {"sign"});
         assertEquals(DisplayFormat.SIGN, Common.getInstance().getDisplayFormat());
+        command.execute(TEST_USER, new String[] {"signfront"});
+        assertEquals(DisplayFormat.SIGNFRONT, Common.getInstance().getDisplayFormat());
         command.execute(TEST_USER, new String[] {"majoronly"});
         assertEquals(DisplayFormat.MAJORONLY, Common.getInstance().getDisplayFormat());
         command.execute(TEST_USER, new String[] {"small"});

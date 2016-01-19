@@ -365,7 +365,9 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
                 string.append(amount).append(".").append(coin).append(" ").append(name);
             } else if (format == DisplayFormat.SIGN) {
                 string.append(currency.getSign()).append(amount).append(".").append(coin);
-            } else if (format == DisplayFormat.MAJORONLY) {
+            } else if (format == DisplayFormat.SIGNFRONT) {
+                string.append(amount).append(".").append(coin).append(currency.getSign());
+            }else if (format == DisplayFormat.MAJORONLY) {
                 string.append(amount).append(" ").append(name);
             }
         }
@@ -790,7 +792,7 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
         languageManager.addLanguageEntry("cant_withdraw_bank", "{{DARK_RED}}You can't withdraw in this account!");
         languageManager.addLanguageEntry("bank_price_modified", "{{DARK_GREEN}}Bank price modified!");
         languageManager.addLanguageEntry("config_bankprice_cmd_help", "/craftconomy bankprice <Amount> - Change the price to create a bank account.");
-        languageManager.addLanguageEntry("config_format_cmd_help", "/craftconomy format <long/small/sign/majoronly> - Set the display format.");
+        languageManager.addLanguageEntry("config_format_cmd_help", "/craftconomy format <long/small/sign/signfront/majoronly> - Set the display format.");
         languageManager.addLanguageEntry("config_cmd_help", "/craftconomy - shows config command help");
         languageManager.addLanguageEntry("config_holdings_cmd_help", "/craftconomy holdings <Amount> - Set the default amount of money of a user account.");
         languageManager.addLanguageEntry("config_help_title", "{{DARK_GREEN}} ======== Craftconomy Commands ========");

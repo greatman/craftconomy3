@@ -32,6 +32,10 @@ public enum DisplayFormat {
      */
     SIGN,
     /**
+     * 2.1$
+     */
+    SIGNFRONT,
+    /**
      * 2.01 dollars
      */
     SMALL,
