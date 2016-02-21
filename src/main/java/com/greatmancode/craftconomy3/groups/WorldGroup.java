@@ -30,7 +30,7 @@ import java.util.List;
  */
 public class WorldGroup {
     private String name;
-    private List<String> worldList = new ArrayList<String>();
+    private List<String> worldList = new ArrayList<>();
 
     /**
      * Initialize a world group.

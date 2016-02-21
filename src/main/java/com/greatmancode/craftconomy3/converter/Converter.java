@@ -34,7 +34,7 @@ public abstract class Converter {
     /**
      * Contains the type of Database (flatfile, sqlite, etc.) supported by the originating plugin
      */
-    private final List<String> dbTypes = new ArrayList<String>();
+    private final List<String> dbTypes = new ArrayList<>();
     /**
      * Contains the selected Db Type.
      */
@@ -42,11 +42,11 @@ public abstract class Converter {
     /**
      * Contains all the required fields about the selected database type
      */
-    private final List<String> dbInfo = new ArrayList<String>();
+    private final List<String> dbInfo = new ArrayList<>();
     /**
      * Contains all the information about the required fields entered by the user.
      */
-    private final Map<String, String> dbConnectInfo = new HashMap<String, String>();
+    private final Map<String, String> dbConnectInfo = new HashMap<>();
 
     /**
      * Retrieve a list of all the database type.

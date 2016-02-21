@@ -214,9 +214,9 @@ public class H2ToMySQLConverter {
         public UUID uuid;
         public boolean infiniteMoney, ignoreACL, bank;
         public int id;
-        public List<Balance> balanceList = new ArrayList<Balance>();
-        public List<Access> accessList = new ArrayList<Access>();
-        public List<Log> logList = new ArrayList<Log>();
+        public List<Balance> balanceList = new ArrayList<>();
+        public List<Access> accessList = new ArrayList<>();
+        public List<Log> logList = new ArrayList<>();
     }
 
     private class Balance {

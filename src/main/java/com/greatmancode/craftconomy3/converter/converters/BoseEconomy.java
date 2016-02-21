@@ -31,7 +31,7 @@ import java.util.regex.Pattern;
 public class BoseEconomy extends Converter {
     private static final String TAB_CHECK = "\\t+";
     private BufferedReader flatFileReader = null;
-    private List<User> userList = new ArrayList<User>();
+    private List<User> userList = new ArrayList<>();
 
     public BoseEconomy() {
         getDbTypes().add("flatfile");

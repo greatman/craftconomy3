@@ -98,7 +98,7 @@ public class Mineconomy extends Converter {
             connection = db.getConnection();
             statement = connection.prepareStatement(MineconomyTable.SELECT_ENTRY);
             ResultSet set = statement.executeQuery();
-            List<User> userList = new ArrayList<User>();
+            List<User> userList = new ArrayList<>();
             while (set.next()) {
                 userList.add(new User(set.getString("account"), set.getDouble("balance")));
             }

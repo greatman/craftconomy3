@@ -34,7 +34,7 @@ public class NewSetupDatabaseCommand extends CommandExecutor {
         H2;
     }
 
-    private static final Map<String, String> VALUES = new HashMap<String, String>();
+    private static final Map<String, String> VALUES = new HashMap<>();
     private static final String ERROR_MESSAGE = "{{DARK_RED}}A error occured. The error is: {{WHITE}}%s";
     private static final String CONFIG_NODE = "System.Database.Type";
     private INTERNALSTEP step = INTERNALSTEP.START;

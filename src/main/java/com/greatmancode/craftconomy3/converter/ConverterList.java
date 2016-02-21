@@ -32,7 +32,7 @@ public class ConverterList {
     /**
      * Contains the list of the loaded converters.
      */
-    private final Map<String, Converter> converterList = new HashMap<String, Converter>();
+    private final Map<String, Converter> converterList = new HashMap<>();
 
     public Map<String, Converter> getConverterList() {
         return converterList;

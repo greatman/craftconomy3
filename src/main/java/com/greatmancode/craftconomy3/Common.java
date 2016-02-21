@@ -408,8 +408,6 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
 
     /**
      * Convert from SQLite to MySQL
-     *
-     * @param dbManagernew The MySQL instance
      */
     private void convertDatabase(){
         sendConsoleMessage(Level.INFO, getLanguageManager().getString("starting_database_convert"));

@@ -30,8 +30,8 @@ import java.util.Map;
  * @author greatman
  */
 public class AccountManager {
-    private final Map<String, Account> accountList = new HashMap<String, Account>();
-    private final Map<String, Account> bankList = new HashMap<String, Account>();
+    private final Map<String, Account> accountList = new HashMap<>();
+    private final Map<String, Account> bankList = new HashMap<>();
 
     /**
      * Retrieve a account. Accounts prefixed with bank: are bank accounts.

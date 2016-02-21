@@ -186,7 +186,7 @@ public class Currency {
 
     /**
      * Save the currency information. Used while changing the main currency name.
-     * @param oldName
+     * @param oldName The old currency name.
      */
     private void save(String oldName) {
         Common.getInstance().getStorageHandler().getStorageEngine().saveCurrency(oldName, this);

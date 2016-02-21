@@ -81,7 +81,7 @@ public class Feconomy extends Converter {
         try {
             statement = connect.prepareStatement("SELECT * FROM fe_accounts");
             ResultSet rs = statement.executeQuery();
-            List<User> userList = new ArrayList<User>();
+            List<User> userList = new ArrayList<>();
             while (rs.next()) {
                 userList.add(new User(rs.getString("name"), rs.getDouble("money")));
             }

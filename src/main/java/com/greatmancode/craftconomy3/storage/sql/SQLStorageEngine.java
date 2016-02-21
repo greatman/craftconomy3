@@ -259,7 +259,7 @@ public abstract class SQLStorageEngine extends StorageEngine {
 
     @Override
     public List<Balance> getAllBalance(Account account) {
-        List<Balance> balanceList = new ArrayList<Balance>();
+        List<Balance> balanceList = new ArrayList<>();
         Connection connection = null;
         PreparedStatement statement = null;
         try {
@@ -283,7 +283,7 @@ public abstract class SQLStorageEngine extends StorageEngine {
 
     @Override
     public List<Balance> getAllWorldBalance(Account account, String worldName) {
-        List<Balance> balanceList = new ArrayList<Balance>();
+        List<Balance> balanceList = new ArrayList<>();
         Connection connection = null;
         PreparedStatement statement = null;
         try {
@@ -721,7 +721,7 @@ public abstract class SQLStorageEngine extends StorageEngine {
                 Tools.closeJDBCConnection(connection);
             }
         }
-        return results.toArray(new String[0]);
+        return results.toArray(new String[results.size()]);
     }
 
     @Override

@@ -35,7 +35,7 @@ public class NewSetupCurrencyCommand extends CommandExecutor {
         SIGN;
     }
 
-    private Map<String, String> map = new HashMap<String, String>();
+    private Map<String, String> map = new HashMap<>();
 
     @Override
     public void execute(String sender, String[] args) {

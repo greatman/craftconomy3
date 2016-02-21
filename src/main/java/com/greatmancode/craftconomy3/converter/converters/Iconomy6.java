@@ -168,13 +168,13 @@ public class Iconomy6 extends Converter {
         boolean result = false;
 
         try {
-            List<String> file = new ArrayList<String>();
+            List<String> file = new ArrayList<>();
             String str;
             while ((str = flatFileReader.readLine()) != null) {
                 file.add(str);
             }
             flatFileReader.close();
-            List<User> userList = new ArrayList<User>();
+            List<User> userList = new ArrayList<>();
             for (String aFile : file) {
                 String[] info = aFile.split(" ");
                 try {
@@ -211,7 +211,7 @@ public class Iconomy6 extends Converter {
                 statement = connection.prepareStatement(IConomyTable.SELECT_ENTRY);
             }
             ResultSet set = statement.executeQuery();
-            List<User> userList = new ArrayList<User>();
+            List<User> userList = new ArrayList<>();
             while (set.next()) {
                 userList.add(new User(set.getString("username"), set.getDouble("balance")));
             }
