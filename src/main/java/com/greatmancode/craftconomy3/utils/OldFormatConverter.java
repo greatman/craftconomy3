@@ -66,6 +66,7 @@ public class OldFormatConverter {
         } else if (dbType.equalsIgnoreCase("sqlite")) {
             config.setDriverClassName("org.sqlite.JDBC");
             config.setJdbcUrl("jdbc:sqlite:"+ Common.getInstance().getServerCaller().getDataFolder() + File.separator +  "database.db");
+            config.setConnectionTestQuery("SELECT 1");
             db = new HikariDataSource(config);
         } else {
             Common.getInstance().sendConsoleMessage(Level.SEVERE, "Unknown database type for old format converter!");
