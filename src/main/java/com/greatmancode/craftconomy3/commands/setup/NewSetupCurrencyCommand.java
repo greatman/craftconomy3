@@ -86,7 +86,7 @@ public class NewSetupCurrencyCommand extends CommandExecutor {
 
     private void name(String sender, String name) {
         map.put("name", name);
-        Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_GREEN}}Now, let's configure the {{WHITE}}Plural {{DARK_GREEN}} currency name. (Ex: {{WHITE}}Dollars{{DARK_GREEN}}). Please type {{WHITE}}/ccsetup currency nameplural <Plural>");
+        Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_GREEN}}Now, let's configure the {{WHITE}}plural {{DARK_GREEN}} currency name. (Ex: {{WHITE}}Dollars{{DARK_GREEN}}). Please type {{WHITE}}/ccsetup currency nameplural <Plural>");
         done(sender);
     }
 
