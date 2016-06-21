@@ -61,7 +61,11 @@ public class H2ToMySQLConverter {
                 account.id = set.getInt("id");
                 account.name = set.getString("name");
                 account.ignoreACL = set.getBoolean("ignoreACL");
-                account.uuid = UUID.fromString(set.getString("uuid"));
+                if (set.getString("uuid") != null) {
+                    account.uuid = UUID.fromString(set.getString("uuid"));
+                } else if (!set.getBoolean("bank")){
+                    account.uuid = Common.getInstance().getServerCaller().getPlayerCaller().getUUID(account.name);
+                }
                 account.infiniteMoney = set.getBoolean("infiniteMoney");
                 account.bank = set.getBoolean("bank");
                 accountList.put(account.id, account);
