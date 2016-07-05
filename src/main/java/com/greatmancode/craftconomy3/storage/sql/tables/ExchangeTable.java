@@ -55,7 +55,7 @@ public class ExchangeTable extends DatabaseTable {
             "VALUES(?,?,?)";
 
     public final String updateEntry = "UPDATE " + getPrefix() + TABLE_NAME + " SET amount=? " +
-            "WHERE from_currency.name=? AND to_currency.name=?";
+            "WHERE from_currency=? AND to_currency=?";
 
     public ExchangeTable(String prefix) {
         super(prefix);
