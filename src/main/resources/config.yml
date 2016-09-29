@@ -29,6 +29,7 @@ System:
       MinorPlural: Coins
       Sign: $
     StartBalance: 100.0
+    BankEnable: false
     PriceBank: 200.0
     #Available values: Long, small, majoronly, sign
     DisplayMode: long
