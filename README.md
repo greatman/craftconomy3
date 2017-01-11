@@ -7,7 +7,7 @@ Fell free to contribute with pull requests to improve Craftconomy.
 
 ## Current release : 3.4 Alpha 1
 
-## Build
+## Build [![Build Status](https://travis-ci.org/Aztorius/craftconomy4.svg?branch=master)](https://travis-ci.org/Aztorius/craftconomy4)
 
 TODO
 
