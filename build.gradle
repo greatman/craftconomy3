@@ -11,8 +11,8 @@ group = 'com.aztorius'
 version = '4.0.0-SNAPSHOT'
 //archiveBaseName = "craftconomy4"
 description = "Craftconomy4"
-sourceCompatibility = 1.7
-targetCompatibility = 1.7
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 ext.version = version;
 
 //Variables for signing & other stuff
