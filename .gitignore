@@ -12,3 +12,6 @@ build
 key.gpg
 .gradle
 /.nb-gradle/
+/src/bin
+/src/main/bin
+/src/main/java/bin
