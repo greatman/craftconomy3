@@ -7,17 +7,17 @@ apply plugin: 'eclipse'
 apply plugin: 'com.github.johnrengelman.shadow' // Provides dependency shading
 apply plugin: 'license'
 
-group = 'com.greatmancode'
-version = '3.4.0-SNAPSHOT'
-//archiveBaseName = "craftconomy3"
-description = "Craftconomy3"
+group = 'com.aztorius'
+version = '4.0.0-SNAPSHOT'
+//archiveBaseName = "craftconomy4"
+description = "Craftconomy4"
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
 ext.version = version;
 
 //Variables for signing & other stuff
-ext.url = 'https://github.com/greatman/craftconomy3'
-ext.bukkitVersion = '1.7.9-R0.2'
+ext.url = 'https://github.com/Aztorius/craftconomy4'
+ext.bukkitVersion = '1.8.8-R0.1'
 ext."signing.keyId" = System.getenv("keyId")
 ext."signing.secretKeyRingFile" = System.getenv("secretKeyRingFile")
 ext."signing.password" = System.getenv("keyPassword")
@@ -123,11 +123,11 @@ shadowJar {
         include(dependency('com.h2database:h2:1.4.187'))
         include(dependency('com.googlecode.json-simple:json-simple:1.1'))
     }
-    relocate 'com.greatmancode.tools', 'com.greatmancode.craftconomy3.tools'
+    relocate 'com.greatmancode.tools', 'com.greatmancode.craftconomy4.tools'
     relocate 'com.zaxxer.hikari', 'com.greatmancode.com.zaxxer.libs.hikari'
     //relocate 'javassist', 'com.greatmancode.libs.javassist'
     relocate 'org.slf4j', 'com.greatmancode.libs.org.slf4j'
-    //baseName = 'craftconomy3'
+    //baseName = 'craftconomy4'
     classifier = ''
 }
 
@@ -145,9 +145,9 @@ jar.dependsOn filter
 
 license {
     header rootProject.file('HEADER.txt')
-    ext.copyright = 'Copyright (c) 2011-2016, Greatman'
-    ext.url = 'http://github.com/greatman'
-    ext.name = 'Craftconomy3'
+    ext.copyright = 'Copyright (c) 2017, Aztorius'
+    ext.url = 'http://github.com/Aztorius'
+    ext.name = 'Craftconomy4'
 }
 
 
@@ -197,15 +197,15 @@ uploadArchives {
             }
 
             pom.project {
-                name 'Craftconomy3'
+                name 'Craftconomy4'
                 packaging 'jar'
                 description 'Economy plugin for multiple Minecraft server implementation.'
-                url 'https://github.com/greatman/craftconomy3'
+                url 'https://github.com/greatman/craftconomy4'
 
                 scm {
-                    connection 'https://github.com/greatman/craftconomy3.git'
-                    developerConnection 'https://github.com/greatman/craftconomy3.git'
-                    url 'https://github.com/greatman/craftconomy3'
+                    connection 'https://github.com/greatman/craftconomy4.git'
+                    developerConnection 'https://github.com/greatman/craftconomy4.git'
+                    url 'https://github.com/greatman/craftconomy4'
                 }
 
                 licenses {

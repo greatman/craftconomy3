@@ -1,5 +1,6 @@
 This file is part of ${name}.
 
+Copyright (c) 2011-2016, Greatman <http://github.com/greatman/>
 ${copyright} <${url}/>
 
 ${name} is free software: you can redistribute it and/or modify
