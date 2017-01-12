@@ -9,7 +9,17 @@ Fell free to contribute with pull requests to improve Craftconomy.
 
 ## Build [![Build Status](https://travis-ci.org/Aztorius/craftconomy4.svg?branch=master)](https://travis-ci.org/Aztorius/craftconomy4)
 
-TODO
+JAR files will be in build/libs
+
+### Linux
+
+```
+./gradlew
+```
+
+### Windows
+
+Use gradlew.bat
 
 ## License
 Craftconomy is under the LGPLv3, see LICENSE.txt file.
