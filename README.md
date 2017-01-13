@@ -9,6 +9,8 @@ Fell free to contribute with pull requests to improve Craftconomy.
 
 ## Build [![Build Status](https://travis-ci.org/Aztorius/craftconomy4.svg?branch=master)](https://travis-ci.org/Aztorius/craftconomy4)
 
+Craftconomy4 use Java 1.8.
+
 JAR files will be in build/libs
 
 ### Linux

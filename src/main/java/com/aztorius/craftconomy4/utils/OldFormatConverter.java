@@ -289,7 +289,7 @@ public class OldFormatConverter {
             currenciesMap.put(((Long) obj.get("id")).intValue(), (String)obj.get("name"));
             Currency currency = new Currency((String)obj.get("name"), (String)obj.get("plural"), (String)obj.get("minor"), (String)obj.get("minorPlural"), (String)obj.get("sign"));
             try {
-                Class clazz = currency.getClass();
+                Class<? extends Currency> clazz = currency.getClass();
                 Method setDefault = clazz.getDeclaredMethod("setDefault", boolean.class);
                 setDefault.setAccessible(true);
                 setDefault.invoke(currency, (boolean) obj.get("status"));
