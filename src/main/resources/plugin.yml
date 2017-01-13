@@ -22,7 +22,7 @@ name: Craftconomy4
 main: com.aztorius.craftconomy4.tools.interfaces.BukkitLoader
 version: ${version}
 authors: [Greatman, Aztorius]
-softdepends: [MVdWPlaceholderAPI]
+softdepends: [Vault, MVdWPlaceholderAPI]
 commands:
     money:
       description: Check / Distribute currency.

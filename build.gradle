@@ -123,10 +123,10 @@ shadowJar {
         include(dependency('com.h2database:h2:1.4.187'))
         include(dependency('com.googlecode.json-simple:json-simple:1.1'))
     }
-    relocate 'com.greatmancode.tools', 'com.greatmancode.craftconomy4.tools'
-    relocate 'com.zaxxer.hikari', 'com.greatmancode.com.zaxxer.libs.hikari'
-    //relocate 'javassist', 'com.greatmancode.libs.javassist'
-    relocate 'org.slf4j', 'com.greatmancode.libs.org.slf4j'
+    relocate 'com.greatmancode.tools', 'com.aztorius.craftconomy4.tools'
+    relocate 'com.zaxxer.hikari', 'com.aztorius.com.zaxxer.libs.hikari'
+    //relocate 'javassist', 'com.aztorius.libs.javassist'
+    relocate 'org.slf4j', 'com.aztorius.libs.org.slf4j'
     //baseName = 'craftconomy4'
     classifier = ''
 }
@@ -200,12 +200,12 @@ uploadArchives {
                 name 'Craftconomy4'
                 packaging 'jar'
                 description 'Economy plugin for multiple Minecraft server implementation.'
-                url 'https://github.com/greatman/craftconomy4'
+                url 'https://github.com/Aztorius/craftconomy4'
 
                 scm {
-                    connection 'https://github.com/greatman/craftconomy4.git'
-                    developerConnection 'https://github.com/greatman/craftconomy4.git'
-                    url 'https://github.com/greatman/craftconomy4'
+                    connection 'https://github.com/Aztorius/craftconomy4.git'
+                    developerConnection 'https://github.com/Aztorius/craftconomy4.git'
+                    url 'https://github.com/Aztorius/craftconomy4'
                 }
 
                 licenses {
@@ -219,6 +219,11 @@ uploadArchives {
                         id 'greatman'
                         name 'William Lebel'
                         email 'lebelwilliam@gmail.com'
+                    }
+                    developer {
+                        id 'aztorius'
+                        name 'William Bonnaventure'
+                        email 'informaticien77.fr@gmail.com'
                     }
                 }
                 repositories {
