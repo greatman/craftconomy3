@@ -162,7 +162,7 @@ public class Currency {
      *
      * @param otherCurrency The other currency to exchange to
      * @return The exchange rate or Double.MIN_VALUE if no exchange information are found.
-     * @throws com.aztorius.craftconomy3.utils.NoExchangeRate If there's no exchange rate between the 2 currencies.
+     * @throws com.aztorius.craftconomy4.utils.NoExchangeRate If there's no exchange rate between the 2 currencies.
      */
     public double getExchangeRate(Currency otherCurrency) throws NoExchangeRate {
         return Common.getInstance().getStorageHandler().getStorageEngine().getExchangeRate(this, otherCurrency);
