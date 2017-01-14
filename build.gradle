@@ -7,7 +7,7 @@ apply plugin: 'eclipse'
 apply plugin: 'com.github.johnrengelman.shadow' // Provides dependency shading
 apply plugin: 'license'
 
-group = 'com.aztorius'
+group = 'com.greatmancode'
 version = '3.4.0-SNAPSHOT'
 //archiveBaseName = "craftconomy3"
 description = "Craftconomy3"

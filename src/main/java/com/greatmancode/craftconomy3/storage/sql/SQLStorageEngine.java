@@ -715,7 +715,7 @@ public abstract class SQLStorageEngine extends StorageEngine {
                 results.add(set.getString("name"));
             }
         } catch (SQLException e) {
-
+            e.printStackTrace();
         } finally {
             Tools.closeJDBCStatement(statement);
             if (commitConnection == null) {

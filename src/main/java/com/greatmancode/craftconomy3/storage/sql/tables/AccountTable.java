@@ -31,7 +31,7 @@ public class AccountTable extends DatabaseTable {
             "  `ignoreACL` boolean DEFAULT FALSE," +
             "  `bank` boolean DEFAULT FALSE," +
             "  PRIMARY KEY (id)," +
-            "  KEY `"+getPrefix()+"account_name_index` (`name`(50))" +
+            "  KEY `" + getPrefix() + "account_name_index` (`name`(50))" +
             ") ENGINE=InnoDB;";
 
     public final String createTableH2 = "CREATE TABLE IF NOT EXISTS " + getPrefix() + TABLE_NAME + " (" +
@@ -41,8 +41,8 @@ public class AccountTable extends DatabaseTable {
             "uuid varchar(36) NULL," +
             "ignoreACL boolean DEFAULT FALSE," +
             "bank boolean DEFAULT FALSE);" +
-            "CREATE INDEX IF NOT EXISTS "+getPrefix()+"account_name ON " + getPrefix() + TABLE_NAME + "(name);" +
-            "CREATE INDEX IF NOT EXISTS "+getPrefix()+"account_uuid ON " + getPrefix() + TABLE_NAME + "(uuid);";
+            "CREATE INDEX IF NOT EXISTS " + getPrefix() + "account_name ON " + getPrefix() + TABLE_NAME + "(name);" +
+            "CREATE INDEX IF NOT EXISTS " + getPrefix() + "account_uuid ON " + getPrefix() + TABLE_NAME + "(uuid);";
 
     public final String selectEntryName = "SELECT * FROM " + getPrefix() + TABLE_NAME + " WHERE name=? AND bank=?";
 
@@ -62,9 +62,9 @@ public class AccountTable extends DatabaseTable {
 
     public final String deleteEntry = "DELETE FROM " + getPrefix() + TABLE_NAME + " WHERE name=? AND bank=?";
 
-    public final String updateNameByUuid = "UPDATE "+getPrefix()+TABLE_NAME + " SET name=? WHERE uuid=?";
+    public final String updateNameByUuid = "UPDATE " + getPrefix() + TABLE_NAME + " SET name=? WHERE uuid=?";
 
-    public final String updateUuidByName = "UPDATE "+getPrefix()+TABLE_NAME+" SET uuid=? WHERE name=?";
+    public final String updateUuidByName = "UPDATE " + getPrefix() + TABLE_NAME + " SET uuid=? WHERE name=?";
 
 
 
