@@ -74,9 +74,9 @@ public class BalanceTable extends DatabaseTable {
             "(" + BALANCE_FIELD + ", " + WORLD_NAME_FIELD + ", username_id, currency_id) " +
             "VALUES(?, ?, (SELECT id from " + getPrefix() + AccountTable.TABLE_NAME + " WHERE "+getPrefix()+AccountTable.TABLE_NAME+".name=? AND bank=?),?)";
 
-    public final String updateEntry = "UPDATE "+getPrefix()+TABLE_NAME+" SET balance=? " +
+    public final String updateEntry = "UPDATE " + getPrefix() + TABLE_NAME + " SET balance=? " +
             "WHERE username_id=? " +
-            "AND "+CURRENCY_FIELD+"=? AND "+WORLD_NAME_FIELD+"=?";
+            "AND " + CURRENCY_FIELD + "=? AND " + WORLD_NAME_FIELD + "=?";
 
     public final String listTopAccount = "SELECT balance, " + getPrefix() + CurrencyTable.TABLE_NAME + ".name AS currencyName, " + getPrefix() + AccountTable.TABLE_NAME + ".name FROM " + getPrefix() + TABLE_NAME + " " +
             "LEFT JOIN " + getPrefix() + AccountTable.TABLE_NAME + " " +
