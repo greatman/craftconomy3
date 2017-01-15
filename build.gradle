@@ -104,11 +104,11 @@ repositories {
 
 dependencies {
     compile group: 'com.greatmancode', name: 'tools', version:'1.3-SNAPSHOT'
-    compile group: 'com.zaxxer', name: 'HikariCP', version:'2.4.3'
+    compile group: 'com.zaxxer', name: 'HikariCP', version:'2.5.1'
     compile group: 'org.slf4j', name: 'slf4j-api', version:'1.7.22'
     compile group: 'org.slf4j', name: 'slf4j-simple', version:'1.7.22'
     compile group: 'com.h2database', name: 'h2', version:'1.4.193'
-    compile group: 'org.xerial', name: 'sqlite-jdbc', version:'3.7.15-M1'
+    compile group: 'org.xerial', name: 'sqlite-jdbc', version:'3.16.1'
     testCompile group: 'junit', name: 'junit', version:'4.11'
     testCompile group: 'org.bukkit', name: 'bukkit', version:'1.8.8-R0.1-SNAPSHOT'
     testCompile group: 'org.reflections', name: 'reflections', version:'0.9.9-RC1'
@@ -119,7 +119,7 @@ dependencies {
 shadowJar {
     dependencies {
         include(dependency('com.greatmancode:tools:1.3-SNAPSHOT'))
-        include(dependency('com.zaxxer:HikariCP:2.4.3'))
+        include(dependency('com.zaxxer:HikariCP:2.5.1'))
         include(dependency('org.slf4j:slf4j-api:1.7.22'))
         include(dependency('org.slf4j:slf4j-simple:1.7.22'))
         include(dependency('com.h2database:h2:1.4.193'))
