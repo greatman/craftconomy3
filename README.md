@@ -24,4 +24,4 @@ JAR files will be in build/libs
 Use gradlew.bat
 
 ## License
-Craftconomy is under the LGPLv3, see LICENSE.txt file.
+Craftconomy is under the LGPLv3, see LICENSE file.
