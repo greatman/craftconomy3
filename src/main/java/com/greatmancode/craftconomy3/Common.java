@@ -28,6 +28,7 @@ import com.greatmancode.craftconomy3.commands.group.GroupAddWorldCommand;
 import com.greatmancode.craftconomy3.commands.group.GroupCreateCommand;
 import com.greatmancode.craftconomy3.commands.group.GroupDelWorldCommand;
 import com.greatmancode.craftconomy3.commands.money.*;
+import com.greatmancode.craftconomy3.commands.pay.*;
 import com.greatmancode.craftconomy3.commands.setup.*;
 import com.greatmancode.craftconomy3.converter.H2ToMySQLConverter;
 import com.greatmancode.craftconomy3.currency.Currency;
@@ -727,7 +728,7 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
         ccgroup.addCommand("delworld", new GroupDelWorldCommand());
         commandManager.registerMainCommand("ccgroup", ccgroup);
 
-        SubCommand payCommand = new SubCommand("pay", commandManager, null, 1);
+        SubCommand payCommand = new PayShortCommand("pay", commandManager, null, 1);
         payCommand.addCommand("", new PayCommand());
         commandManager.registerMainCommand("pay", payCommand);
     }
