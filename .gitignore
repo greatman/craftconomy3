@@ -15,3 +15,4 @@ key.gpg
 /src/bin
 /src/main/bin
 /src/main/java/bin
+/src/test/java/bin

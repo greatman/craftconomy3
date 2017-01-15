@@ -19,6 +19,7 @@
  */
 package com.greatmancode.craftconomy3.account;
 
+import com.greatmancode.craftconomy3.Cause;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.TestInitializator;
 import com.greatmancode.tools.caller.unittest.UnitTestServerCaller;
@@ -43,19 +44,19 @@ public class TestAccount {
 	public void testAccount() {
         Account account = Common.getInstance().getAccountManager().getAccount("greatman321", false);
         assertEquals(100, Common.getInstance().getAccountManager().getAccount("greatman321", false).getBalance(UnitTestServerCaller.worldName, Common.getInstance().getCurrencyManager().getDefaultBankCurrency().getName()), 0);
-		account.deposit(50.0, UnitTestServerCaller.worldName, Common.getInstance().getCurrencyManager().getDefaultCurrency().getName());
+		account.deposit(50.0, UnitTestServerCaller.worldName, Common.getInstance().getCurrencyManager().getDefaultCurrency().getName(), Cause.VAULT, "Test");
 		assertTrue(account.hasEnough(50.0, UnitTestServerCaller.worldName, Common.getInstance().getCurrencyManager().getDefaultCurrency().getName()));
-		account.set(0, UnitTestServerCaller.worldName, Common.getInstance().getCurrencyManager().getDefaultCurrency().getName());
+		account.set(0, UnitTestServerCaller.worldName, Common.getInstance().getCurrencyManager().getDefaultCurrency().getName(), Cause.VAULT, "Test");
 		assertTrue(account.hasEnough(0, UnitTestServerCaller.worldName, Common.getInstance().getCurrencyManager().getDefaultCurrency().getName()));
-		account.deposit(0.009999999993056037, UnitTestServerCaller.worldName, Common.getInstance().getCurrencyManager().getDefaultCurrency().getName());
+		account.deposit(0.009999999993056037, UnitTestServerCaller.worldName, Common.getInstance().getCurrencyManager().getDefaultCurrency().getName(), Cause.VAULT, "Test");
 		assertFalse(account.hasEnough(0.01, UnitTestServerCaller.worldName, Common.getInstance().getCurrencyManager().getDefaultCurrency().getName()));
-		account.deposit(50.00999999934834832463284, UnitTestServerCaller.worldName, Common.getInstance().getCurrencyManager().getDefaultCurrency().getName());
+		account.deposit(50.00999999934834832463284, UnitTestServerCaller.worldName, Common.getInstance().getCurrencyManager().getDefaultCurrency().getName(), Cause.VAULT, "Test");
 		assertFalse(account.hasEnough(50.01, UnitTestServerCaller.worldName, Common.getInstance().getCurrencyManager().getDefaultCurrency().getName()));
 		assertTrue(account.hasEnough(50.00, UnitTestServerCaller.worldName, Common.getInstance().getCurrencyManager().getDefaultCurrency().getName()));
 
 		Account account2 = Common.getInstance().getAccountManager().getAccount("test123", false);
-		account.withdraw(0.35, UnitTestServerCaller.worldName, Common.getInstance().getCurrencyManager().getDefaultCurrency().getName());
-		account2.deposit(0.35, UnitTestServerCaller.worldName, Common.getInstance().getCurrencyManager().getDefaultCurrency().getName());
+		account.withdraw(0.35, UnitTestServerCaller.worldName, Common.getInstance().getCurrencyManager().getDefaultCurrency().getName(), Cause.VAULT, "Test");
+		account2.deposit(0.35, UnitTestServerCaller.worldName, Common.getInstance().getCurrencyManager().getDefaultCurrency().getName(), Cause.VAULT, "Test");
 		assertTrue(account.hasEnough(49.65, UnitTestServerCaller.worldName, Common.getInstance().getCurrencyManager().getDefaultCurrency().getName()));
 		assertTrue(account2.hasEnough(0.35, UnitTestServerCaller.worldName, Common.getInstance().getCurrencyManager().getDefaultCurrency().getName()));
 
