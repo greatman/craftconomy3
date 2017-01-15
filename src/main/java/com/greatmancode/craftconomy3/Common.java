@@ -772,6 +772,7 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
         languageManager.addLanguageEntry("invalid_amount", "{{DARK_RED}}Invalid amount!");
         languageManager.addLanguageEntry("bank_cant_deposit", "{{DARK_RED}}You can't deposit in this account!");
         languageManager.addLanguageEntry("deposited", "{{DARK_GREEN}}Deposited {{WHITE}}%s {{DARK_GREEN}}in the {{WHITE}}%s {{DARK_GREEN}}bank Account.");
+        languageManager.addLanguageEntry("bank_account_empty", "{{DARK_GREEN}}The {{WHITE}}%s {{DARK_GREEN}}bank Account is empty.");
         languageManager.addLanguageEntry("bank_help_title", "{{DARK_GREEN}} ======== Bank Commands ========");
         languageManager.addLanguageEntry("bank_create_cmd_help", "/bank create <Account Name> - Create a bank account");
         languageManager.addLanguageEntry("bank_balance_cmd_help", "/bank balance <Account Name> - Check the balance of a account.");

@@ -706,11 +706,15 @@ public abstract class SQLStorageEngine extends StorageEngine {
         List<String> results = new ArrayList<>();
         Connection connection = null;
         PreparedStatement statement = null;
+        String newSender = sender;
+        if (!Common.getInstance().getMainConfig().getBoolean("System.Case-sentitive")) {
+            newSender = sender.toLowerCase();
+        }
 
         try {
             connection = (commitConnection != null) ? commitConnection : db.getConnection();
             statement = connection.prepareStatement(accessTable.getAccountList);
-            statement.setString(1, sender.toLowerCase());
+            statement.setString(1, newSender);
             ResultSet set = statement.executeQuery();
             while (set.next()) {
                 results.add(set.getString("name"));
