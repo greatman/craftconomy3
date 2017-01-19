@@ -364,7 +364,7 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
                 if (Long.parseLong(coin) > 1) {
                     subName = currency.getMinorPlural();
                 }
-                string.append(amount).append(" ").append(name).append(" ").append(coin).append(" ").append(subName);
+                string.append(amount).append(" ").append(name).append(" ").append(Long.toString(Long.parseLong(coin))).append(" ").append(subName);
             } else if (format == DisplayFormat.SMALL) {
                 string.append(amount).append(".").append(coin).append(" ").append(name);
             } else if (format == DisplayFormat.SIGN) {
