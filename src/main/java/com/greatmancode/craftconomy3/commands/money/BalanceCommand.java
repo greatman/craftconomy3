@@ -33,7 +33,7 @@ public class BalanceCommand extends CommandExecutor {
         }
         if (Common.getInstance().getAccountManager().exist(args[0], false)) {
             //TODO: Format this properly
-            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{WHITE}} " + args[0] + " " + Common.getInstance().getLanguageManager().getString("money_all_title"));
+            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{WHITE}}" + args[0] + " " + Common.getInstance().getLanguageManager().getString("money_all_title"));
             Account account = Common.getInstance().getAccountManager().getAccount(args[0], false);
             for (Balance bl : account.getAllBalance()) {
                 Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().format(bl.getWorld(), bl.getCurrency(), bl.getBalance()));
