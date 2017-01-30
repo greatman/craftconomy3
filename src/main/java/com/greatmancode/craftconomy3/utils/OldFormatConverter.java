@@ -90,14 +90,15 @@ public class OldFormatConverter {
         ResultSet set = statement.executeQuery();
         JSONArray array = new JSONArray();
         while (set.next()) {
-            JSONObject entry = new JSONObject();
-            entry.put("id", set.getInt("id"));
-            entry.put("name", set.getString("name"));
-            entry.put("plural", set.getString("plural"));
-            entry.put("minor", set.getString("minor"));
-            entry.put("minorPlural", set.getString("minorPlural"));
-            entry.put("sign", set.getString("sign"));
-            entry.put("status", set.getBoolean("status"));
+            HashMap<String,Object> entry_map = new HashMap<String,Object>();
+            entry_map.put("id", set.getInt("id"));
+            entry_map.put("name", set.getString("name"));
+            entry_map.put("plural", set.getString("plural"));
+            entry_map.put("minor", set.getString("minor"));
+            entry_map.put("minorPlural", set.getString("minorPlural"));
+            entry_map.put("sign", set.getString("sign"));
+            entry_map.put("status", set.getBoolean("status"));
+            JSONObject entry = new JSONObject(entry_map);
             array.add(entry);
         }
         statement.close();
