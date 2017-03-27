@@ -35,7 +35,7 @@ public class LogTable extends DatabaseTable {
             "  PRIMARY KEY (`id`)," +
             "  CONSTRAINT `"+getPrefix()+"fk_log_account` FOREIGN KEY (`username_id`) REFERENCES `" + getPrefix() + AccountTable.TABLE_NAME + "` (`id`) ON DELETE CASCADE," +
             "  CONSTRAINT `"+getPrefix()+"fk_log_currency` FOREIGN KEY (`currency_id`) REFERENCES `" + getPrefix() + CurrencyTable.TABLE_NAME + "` (`name`) ON DELETE CASCADE" +
-            ") ENGINE=InnoDB;";
+            ") ENGINE=InnoDB CHARSET=utf8;";
 
     public final String createTableH2 = "CREATE TABLE IF NOT EXISTS `" + getPrefix() + TABLE_NAME + "` (" +
             "  `id` int(11) NOT NULL AUTO_INCREMENT," +

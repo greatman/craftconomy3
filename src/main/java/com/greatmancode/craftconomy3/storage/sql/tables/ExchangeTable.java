@@ -34,7 +34,7 @@ public class ExchangeTable extends DatabaseTable {
             "  CONSTRAINT `"+getPrefix()+"fk_exchange_currencyto`" +
             "    FOREIGN KEY (to_currency)" +
             "    REFERENCES " + getPrefix() + CurrencyTable.TABLE_NAME + " (name) ON UPDATE CASCADE ON DELETE CASCADE" +
-            ") ENGINE=InnoDB;";
+            ") ENGINE=InnoDB CHARSET=utf8;";
 
     public final String createTableH2 = "CREATE TABLE IF NOT EXISTS `" + getPrefix() + TABLE_NAME + "` (" +
             "  `from_currency` VARCHAR(50) NOT NULL," +

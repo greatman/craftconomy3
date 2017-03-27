@@ -39,7 +39,7 @@ public class BalanceTable extends DatabaseTable {
             "  CONSTRAINT `"+getPrefix()+"fk_balance_currency`" +
             "    FOREIGN KEY (" + CURRENCY_FIELD + ")" +
             "    REFERENCES " + getPrefix() + CurrencyTable.TABLE_NAME +"(name) ON UPDATE CASCADE ON DELETE CASCADE" +
-            ") ENGINE=InnoDB;";
+            ") ENGINE=InnoDB CHARSET=utf8;";
 
     public final String createTableH2 = "CREATE TABLE IF NOT EXISTS " + getPrefix() + TABLE_NAME + " (" +
             "  `" + BALANCE_FIELD + "` double DEFAULT NULL," +
