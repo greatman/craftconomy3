@@ -284,9 +284,9 @@ public class OldFormatConverter {
         Common.getInstance().sendConsoleMessage(Level.INFO,"Saving currencies");
         //Create the currency table
         JSONArray currencyArray = (JSONArray) jsonObject.get("currencies");
-        Iterator<JSONObject> iterator = currencyArray.iterator();
+        Iterator<?> iterator = currencyArray.iterator();
         while (iterator.hasNext()) {
-            JSONObject obj = iterator.next();
+            JSONObject obj = (JSONObject) iterator.next();
             currenciesMap.put(((Long) obj.get("id")).intValue(), (String)obj.get("name"));
             Currency currency = new Currency((String)obj.get("name"), (String)obj.get("plural"), (String)obj.get("minor"), (String)obj.get("minorPlural"), (String)obj.get("sign"));
             try {
@@ -304,7 +304,7 @@ public class OldFormatConverter {
         JSONArray worldgroup = (JSONArray) jsonObject.get("worldgroups");
         iterator = worldgroup.iterator();
         while (iterator.hasNext()) {
-            JSONObject obj = iterator.next();
+            JSONObject obj = (JSONObject) iterator.next();
             engine.saveWorldGroup((String)obj.get("groupName"), (String)obj.get("worldList"));
         }
 
@@ -312,7 +312,7 @@ public class OldFormatConverter {
         JSONArray exchangeArray = (JSONArray) jsonObject.get("exchanges");
         iterator = exchangeArray.iterator();
         while (iterator.hasNext()) {
-            JSONObject obj = iterator.next();
+            JSONObject obj = (JSONObject) iterator.next();
             int id_from = ((Long) obj.get("from_currency_id")).intValue();
             int id_to = ((Long) obj.get("to_currency_id")).intValue();
             engine.setExchangeRate(engine.getCurrency(currenciesMap.get(id_from)), engine.getCurrency(currenciesMap.get(id_to)), (double)obj.get("amount"));
@@ -322,7 +322,7 @@ public class OldFormatConverter {
         JSONArray configArray = (JSONArray) jsonObject.get("configs");
         iterator = configArray.iterator();
         while (iterator.hasNext()) {
-            JSONObject obj = iterator.next();
+            JSONObject obj = (JSONObject) iterator.next();
             if (!obj.get("name").equals("dbVersion")) {
                 engine.setConfigEntry((String)obj.get("name"), (String)obj.get("value"));
             }
@@ -337,7 +337,7 @@ public class OldFormatConverter {
         JSONArray accounts = (JSONArray) jsonObject.get("accounts");
         iterator = accounts.iterator();
         while (iterator.hasNext()) {
-            JSONObject obj = iterator.next();
+            JSONObject obj = (JSONObject) iterator.next();
             String name = (String) obj.get("name");
             Account account = null;
             if (name.startsWith("bank:")) {
@@ -352,9 +352,9 @@ public class OldFormatConverter {
             }
 
             JSONArray balances = (JSONArray) obj.get("balances");
-            Iterator<JSONObject> internalIterator = balances.iterator();
+            Iterator<?> internalIterator = balances.iterator();
             while (internalIterator.hasNext()) {
-                JSONObject internalObj = internalIterator.next();
+                JSONObject internalObj = (JSONObject) internalIterator.next();
                 Currency currency = engine.getCurrency(currenciesMap.get(((Long) internalObj.get("currency_id")).intValue()));
                 if (currency != null) {
                     engine.setBalance(account, (double)internalObj.get("balance"), currency, (String)internalObj.get("worldName"));
@@ -364,14 +364,14 @@ public class OldFormatConverter {
             JSONArray logs = (JSONArray) obj.get("logs");
             internalIterator = logs.iterator();
             while (internalIterator.hasNext()) {
-                JSONObject internalObj = internalIterator.next();
+                JSONObject internalObj = (JSONObject) internalIterator.next();
                 engine.saveLog(LogInfo.valueOf((String) internalObj.get("type")), Cause.valueOf((String) internalObj.get("cause")),(String)internalObj.get("causeReason"),account, (double)internalObj.get("amount"),engine.getCurrency((String) internalObj.get("currencyName")),(String)internalObj.get("worldName"), new Timestamp((long)internalObj.get("timestamp")));
             }
 
             JSONArray acls = (JSONArray) obj.get("acls");
             internalIterator = acls.iterator();
             while (internalIterator.hasNext()) {
-                JSONObject internalObj = internalIterator.next();
+                JSONObject internalObj = (JSONObject) internalIterator.next();
                 engine.saveACL(account, (String)internalObj.get("playerName"), (boolean)internalObj.get("deposit"), (boolean)internalObj.get("withdraw"), (boolean) internalObj.get("acl"), (boolean) internalObj.get("balance"), (boolean) internalObj.get("owner"));
             }
 
