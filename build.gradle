@@ -149,6 +149,7 @@ license {
     ext.copyright = 'Copyright (c) 2017, Aztorius'
     ext.url = 'http://github.com/Aztorius'
     ext.name = 'Craftconomy3'
+    exclude "**/loader.yml"
 }
 
 
