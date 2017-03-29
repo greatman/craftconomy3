@@ -7,6 +7,9 @@ Fell free to contribute with pull requests to improve Craftconomy.
 
 ## Current release : 3.4 Beta 2
 
+- Bukkit/Spigot 1.8, 1.9, 1.10, 1.11 supported
+- Sponge 1.10, 1.11 supported
+
 ## Build [![Build Status](https://travis-ci.org/Aztorius/craftconomy3.svg?branch=master)](https://travis-ci.org/Aztorius/craftconomy3)
 
 Craftconomy3 use Java 1.8.
