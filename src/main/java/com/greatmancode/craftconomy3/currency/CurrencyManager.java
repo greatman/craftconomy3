@@ -89,9 +89,14 @@ public class CurrencyManager {
      * @param save        Do we add it in the database?
      * @return a Currency instance
      */
-    // TODO: A check if the currency already exist.
     public Currency addCurrency(String name, String plural, String minor, String minorPlural, String sign, boolean save) {
-        return addCurrency(name, plural, minor, minorPlural, sign, save, false);
+        if (getCurrency(name) != null) {
+            // TODO: Currency already exists
+            return null;
+        }
+        else {
+            return addCurrency(name, plural, minor, minorPlural, sign, save, false);
+        }
     }
 
 
