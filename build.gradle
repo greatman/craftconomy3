@@ -151,6 +151,8 @@ license {
     ext.name = 'Craftconomy3'
     exclude "**/loader.yml"
     exclude "**/*.class"
+    exclude "**/*.project"
+    exclude "**/*.classpath"
 }
 
 

@@ -23,8 +23,8 @@ import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.account.Account;
 import com.greatmancode.tools.events.interfaces.EventHandler;
 import com.greatmancode.tools.events.interfaces.Listener;
-import com.greatmancode.tools.events.playerEvent.PlayerJoinEvent;
-import com.greatmancode.tools.events.playerEvent.PreJoinEvent;
+import com.greatmancode.tools.events.playerevent.PlayerJoinEvent;
+import com.greatmancode.tools.events.playerevent.PreJoinEvent;
 import com.greatmancode.tools.utils.Updater;
 
 /**
