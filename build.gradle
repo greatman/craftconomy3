@@ -150,6 +150,7 @@ license {
     ext.url = 'http://github.com/Aztorius'
     ext.name = 'Craftconomy3'
     exclude "**/loader.yml"
+    exclude "**/*.class"
 }
 
 
