@@ -34,6 +34,10 @@ System:
     #Available values: Long, small, majoronly, sign
     DisplayMode: long
 
+  Colors:
+    CurrencyMajorColor: &6
+    CurrencyMinorColor: &7
+
   CheckNewVersion: true
   Case-sentitive: false
   CreateOnLogin: false
