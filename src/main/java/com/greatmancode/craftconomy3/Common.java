@@ -388,7 +388,7 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
                 if (Long.parseLong(coin) > 1) {
                     subName = currency.getMinorPlural();
                 }
-                string.append(currencyMajorColor).append(amount).append("&f ").append(name).append(" ").append(currencyMinorColor).append(Long.toString(Long.parseLong(coin))).append("&f ").append(subName);
+                string.append(currencyMajorColor).append(amount).append(name).append(" ").append(currencyMinorColor).append(Long.toString(Long.parseLong(coin))).append(" ").append(subName).append("&f");
             } else if (format == DisplayFormat.SMALL) {
                 string.append(currencyMajorColor).append(amount).append("&f.").append(currencyMinorColor).append(coin).append("&f ").append(name);
             } else if (format == DisplayFormat.SIGN) {
@@ -396,7 +396,7 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
             } else if (format == DisplayFormat.SIGNFRONT) {
                 string.append(currencyMajorColor).append(amount).append("&f.").append(currencyMinorColor).append(coin).append("&f").append(currency.getSign());
             } else if (format == DisplayFormat.MAJORONLY) {
-                string.append(currencyMajorColor).append(amount).append("&f ").append(name);
+                string.append(currencyMajorColor).append(amount).append(" ").append(name).append("&f");
             }
         }
         return string.toString();
