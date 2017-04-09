@@ -7,11 +7,11 @@ before_install:
 - 'if [[ $TRAVIS_PULL_REQUEST == false ]] && [[ $TRAVIS_REPO_SLUG == greatman/craftconomy3
   ]] && [[ $TRAVIS_BRANCH == master ]]; then openssl aes-256-cbc -k "$opensslkey" -in key.gpg.enc -out key.gpg -d; fi'
 - mysql -e 'create database craftconomy;'
-script:
 - git clone https://github.com/Aztorius/GreatmancodeTools.git
 - cd GreatmancodeTools
 - ./gradlew install
 - cd ..
+script:
 - ./gradlew -Dmysql=true && ./gradlew
 after_success:
 - 'if [[ $TRAVIS_PULL_REQUEST == false ]] && [[ $TRAVIS_REPO_SLUG == greatman/craftconomy3
