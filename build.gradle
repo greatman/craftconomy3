@@ -103,25 +103,25 @@ repositories {
 
 dependencies {
     compile group: 'com.greatmancode', name: 'tools', version:'1.3-SNAPSHOT'
-    compile group: 'com.zaxxer', name: 'HikariCP', version:'2.5.1'
-    compile group: 'org.slf4j', name: 'slf4j-api', version:'1.7.22'
+    compile group: 'com.zaxxer', name: 'HikariCP', version:'2.6.1'
+    compile group: 'org.slf4j', name: 'slf4j-api', version:'1.7.25'
     compile group: 'org.slf4j', name: 'slf4j-simple', version:'1.7.22'
-    compile group: 'com.h2database', name: 'h2', version:'1.4.193'
+    compile group: 'com.h2database', name: 'h2', version:'1.4.194'
     compile group: 'org.xerial', name: 'sqlite-jdbc', version:'3.16.1'
     testCompile group: 'junit', name: 'junit', version:'4.12'
     testCompile group: 'org.bukkit', name: 'bukkit', version:'1.8.8-R0.1-SNAPSHOT'
-    testCompile group: 'org.reflections', name: 'reflections', version:'0.9.10'
-    compile group: 'org.projectlombok', name: 'lombok', version:'1.16.12'
+    testCompile group: 'org.reflections', name: 'reflections', version:'0.9.11'
+    compile group: 'org.projectlombok', name: 'lombok', version:'1.16.16'
     compile group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
 }
 
 shadowJar {
     dependencies {
         include(dependency('com.greatmancode:tools:1.3-SNAPSHOT'))
-        include(dependency('com.zaxxer:HikariCP:2.5.1'))
-        include(dependency('org.slf4j:slf4j-api:1.7.22'))
+        include(dependency('com.zaxxer:HikariCP:2.6.1'))
+        include(dependency('org.slf4j:slf4j-api:1.7.25'))
         include(dependency('org.slf4j:slf4j-simple:1.7.22'))
-        include(dependency('com.h2database:h2:1.4.193'))
+        include(dependency('com.h2database:h2:1.4.194'))
         include(dependency('com.googlecode.json-simple:json-simple:1.1.1'))
     }
     relocate 'com.greatmancode.tools', 'com.greatmancode.craftconomy3.tools'
