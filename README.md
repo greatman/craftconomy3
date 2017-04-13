@@ -5,7 +5,7 @@ This is a fork from https://github.com/greatman/craftconomy3 which is no longer 
 
 Fell free to contribute with pull requests to improve Craftconomy.
 
-## Current release : 3.4 Beta 2
+## Current release : 3.4 Beta 3
 
 - Bukkit/Spigot 1.8, 1.9, 1.10, 1.11 supported
 - Sponge 1.10, 1.11 experimental
