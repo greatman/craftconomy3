@@ -20,7 +20,6 @@ package com.greatmancode.craftconomy3.converter.converters;
 
 import com.greatmancode.craftconomy3.Cause;
 import com.greatmancode.craftconomy3.Common;
-import com.greatmancode.craftconomy3.account.Account;
 import com.greatmancode.craftconomy3.converter.Converter;
 
 import java.io.*;

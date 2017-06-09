@@ -20,7 +20,6 @@ package com.greatmancode.craftconomy3.account;
 
 import com.greatmancode.craftconomy3.currency.Currency;
 
-import junit.framework.TestCase;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
