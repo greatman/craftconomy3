@@ -708,7 +708,7 @@ public abstract class SQLStorageEngine extends StorageEngine {
         try {
             connection = (commitConnection != null) ? commitConnection : db.getConnection();
             statement = connection.prepareStatement(accessTable.getAccountList);
-            statement.setString(1, sender);
+            statement.setString(1, sender.toLowerCase());
             ResultSet set = statement.executeQuery();
             while (set.next()) {
                 results.add(set.getString("name"));
