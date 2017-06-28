@@ -31,7 +31,7 @@ public class CurrencyTable extends DatabaseTable {
             "  `status` BOOLEAN DEFAULT FALSE," +
             "  `bankCurrency` BOOLEAN DEFAULT FALSE," +
             "  PRIMARY KEY (`name`)" +
-            ") ENGINE=InnoDB;";
+            ") ENGINE=InnoDB CHARSET=utf8;";
 
     public final String createTableH2 = "CREATE TABLE IF NOT EXISTS `" + getPrefix() + TABLE_NAME + "` (" +
             "  `name` varchar(50)," +
