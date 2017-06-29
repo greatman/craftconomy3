@@ -24,14 +24,6 @@ ext."signing.password" = System.getenv("keyPassword")
 
 
 ext.isReleaseVersion = !version.endsWith("SNAPSHOT")
-if (ext.isReleaseVersion) {
-    apply plugin: 'signing'
-    signing {
-        required = { isReleaseVersion && gradle.taskGraph.hasTask("uploadArchives") }
-        sign configurations.archives
-    }
-}
-
 
 def gitDescribe() {
     try {
