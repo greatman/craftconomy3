@@ -86,19 +86,19 @@ public class NewSetupCurrencyCommand extends CommandExecutor {
 
     private void name(String sender, String name) {
         map.put("name", name);
-        Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_GREEN}}Now, let's configure the currency name but in {{WHITE}}Plural {{DARK_GREEN}}(Ex: {{WHITE}}Dollars{{DARK_GREEN}}). Please type {{WHITE}}/ccsetup currency nameplural <Plural>");
+        Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_GREEN}}Now, let's configure the {{WHITE}}plural {{DARK_GREEN}} currency name. (Ex: {{WHITE}}Dollars{{DARK_GREEN}}). Please type {{WHITE}}/ccsetup currency nameplural <Plural>");
         done(sender);
     }
 
     private void namePlural(String sender, String namePlural) {
         map.put("nameplural", namePlural);
-        Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_GREEN}}Now, let's configure the currency name but for the {{WHITE}}minor {{DARK_GREEN}}(Ex: {{WHITE}}Coin{{DARK_GREEN}}). Please type {{WHITE}}/ccsetup currency minor <Minor>");
+        Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_GREEN}}Now, let's configure the currency name for the {{WHITE}}minor currency.{{DARK_GREEN}} (Ex: {{WHITE}}Coin{{DARK_GREEN}}). Please type {{WHITE}}/ccsetup currency minor <Minor>");
         done(sender);
     }
 
     private void minor(String sender, String minor) {
         map.put("minor", minor);
-        Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_GREEN}}Now, let's configure the currency name but for the {{WHITE}}minor in plural {{DARK_GREEN}}(Ex: {{WHITE}}Coins{{DARK_GREEN}}). Please type {{WHITE}}/ccsetup currency minorplural <Minor plural>");
+        Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_GREEN}}Now, let's configure the {{WHITE}}plural minor currency.{{DARK_GREEN}} (Ex: {{WHITE}}Coins{{DARK_GREEN}}). Please type {{WHITE}}/ccsetup currency minorplural <Minor plural>");
         done(sender);
     }
 
