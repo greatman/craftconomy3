@@ -30,8 +30,8 @@ public class AccountTable extends DatabaseTable {
             "  `ignoreACL` boolean DEFAULT FALSE," +
             "  `bank` boolean DEFAULT FALSE," +
             "  PRIMARY KEY (id)," +
-            "  KEY `"+getPrefix()+"account_name_index` (`name`(50))" +
-            ") ENGINE=InnoDB;";
+            "  KEY `" + getPrefix() + "account_name_index` (`name`(50))" +
+            ") ENGINE=InnoDB CHARSET=utf8;";
 
     public final String createTableH2 = "CREATE TABLE IF NOT EXISTS " + getPrefix() + TABLE_NAME + " (" +
             "id int PRIMARY KEY AUTO_INCREMENT," +

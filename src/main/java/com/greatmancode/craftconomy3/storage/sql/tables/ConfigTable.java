@@ -28,7 +28,7 @@ public class ConfigTable extends DatabaseTable {
             "  `" + NAME_FIELD + "` varchar(30) NOT NULL," +
             "  `" + VALUE_FIELD + "` varchar(255) NOT NULL," +
             "  PRIMARY KEY (`"+NAME_FIELD+"`)" +
-            ") ENGINE=InnoDB;";
+            ") ENGINE=InnoDB CHARSET=utf8;";
 
     public final String createTableH2 = "CREATE TABLE IF NOT EXISTS `" + getPrefix() + TABLE_NAME + "` (" +
             "  `" + NAME_FIELD + "` varchar(30) NOT NULL," +
