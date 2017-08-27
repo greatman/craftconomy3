@@ -26,7 +26,7 @@ public class WorldGroupTable extends DatabaseTable {
             "  `groupName` varchar(255)," +
             "  `worldList` varchar(255)," +
             "  PRIMARY KEY (`groupName`)" +
-            ") ENGINE=InnoDB CHARSET=utf8;";
+            ") ENGINE=InnoDB;";
 
     public final String createTableH2 = "CREATE TABLE IF NOT EXISTS `" + getPrefix() + TABLE_NAME + "` (" +
             "  `groupName` varchar(255)," +
