@@ -42,6 +42,9 @@ System:
   Case-sentitive: false
   CreateOnLogin: false
 
+  # Disable send message to player about money received
+  SilentGiveCommand: false
+
   # Logs all monetary transactions passed through CraftConomy in a table.
   Logging:
     Enabled: false
