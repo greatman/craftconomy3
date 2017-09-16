@@ -53,7 +53,7 @@ public class GiveCommand extends CommandExecutor {
 
                 Common.getInstance().getAccountManager().getAccount(args[0], false).deposit(amount, worldName, currency.getName(), Cause.USER, sender);
                 Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().parse("money_give_send", Common.getInstance().format(worldName, currency, amount), args[0]));
-                if (Common.getInstance().getServerCaller().getPlayerCaller().isOnline(args[0])) {
+                if (!Common.getInstance().getMainConfig().getBoolean("System.SilentGiveCommand") && Common.getInstance().getServerCaller().getPlayerCaller().isOnline(args[0])) {
                     Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(args[0], Common.getInstance().getLanguageManager().parse("money_give_received", Common.getInstance().format(worldName, currency, amount), sender));
                 }
             } else {

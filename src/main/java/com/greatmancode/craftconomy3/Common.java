@@ -978,6 +978,7 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
         mainConfig.setValue("System.CheckNewVersion", true);
         mainConfig.setValue("System.Case-sentitive", false);
         mainConfig.setValue("System.CreateOnLogin", false);
+        mainConfig.setValue("System.SilentGiveCommand", false);
         mainConfig.setValue("System.Logging.Enabled", false);
         mainConfig.setValue("System.Database.Type", "h2");
         mainConfig.setValue("System.Database.Address", "localhost");
