@@ -87,8 +87,6 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
     private DisplayFormat displayFormat = null;
     private double holdings = 0.0;
     private double bankPrice = 0.0;
-    private String currencyMajorColor = null;
-    private String currencyMinorColor = null;
 
     /**
      * Initialize the Common core.
@@ -97,21 +95,17 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
         this.serverCaller = serverCaller;
         instance = this;
         this.log = log;
-
         if (!initialized) {
             sendConsoleMessage(Level.INFO, "Starting up!");
             sendConsoleMessage(Level.INFO, "Loading the Configuration");
             config = new ConfigurationManager(serverCaller);
             mainConfig = config.loadFile(serverCaller.getDataFolder(), "config.yml");
-
             if (!mainConfig.has("System.Setup")) {
                 initializeConfig();
             }
-
             if (!getMainConfig().has("System.Database.Prefix")) {
                 getMainConfig().setValue("System.Database.Prefix", "cc3_");
             }
-
             if (!getMainConfig().has("System.Database.Poolsize")) {
                 getMainConfig().setValue("System.Database.Poolsize", 10);
             }
@@ -119,7 +113,6 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
             languageManager = new LanguageManager(serverCaller, serverCaller.getDataFolder(), "lang.yml");
             loadLanguage();
             serverCaller.setCommandPrefix(languageManager.getString("command_prefix"));
-
             if (!(getServerCaller() instanceof UnitTestServerCaller)) {
                 try {
                     metrics = new Metrics("Craftconomy", this.getServerCaller().getPluginVersion(), serverCaller);
@@ -127,22 +120,18 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
                     this.getLogger().log(Level.SEVERE, String.format(getLanguageManager().getString("metric_start_error"), e.getMessage()));
                 }
             }
-
             if (getMainConfig().getBoolean("System.CheckNewVersion") && (serverCaller instanceof BukkitServerCaller)) {
                 updater = new Updater(serverCaller, 35564, Updater.UpdateType.NO_DOWNLOAD, false);
-
                 if (updater.getResult() == Updater.UpdateResult.UPDATE_AVAILABLE) {
                     sendConsoleMessage(Level.WARNING, getLanguageManager().parse("running_old_version", updater.getLatestName()));
                 }
             }
-
             sendConsoleMessage(Level.INFO, "Loading listeners.");
             serverCaller.getLoader().getEventManager().registerEvents(this, new EventManager());
             sendConsoleMessage(Level.INFO, "Loading commands");
             Common.getInstance().getServerCaller().registerPermission("craftconomy.*");
             commandManager = new CommandHandler(serverCaller);
             registerCommands();
-
             if (getMainConfig().getBoolean("System.Setup")) {
 
                 //We got quick setup. Let's do it!!!!
@@ -164,13 +153,6 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
                 sendConsoleMessage(Level.INFO, getLanguageManager().getString("ready"));
             }
 
-            if (!getMainConfig().has("System.Colors")) {
-                getMainConfig().setValue("System.Colors.CurrencyMajorColor", "&6");
-                getMainConfig().setValue("System.Colors.CurrencyMinorColor", "&7");
-            }
-
-            currencyMajorColor = getMainConfig().getString("System.Colors.CurrencyMajorColor");
-            currencyMinorColor = getMainConfig().getString("System.Colors.CurrencyMinorColor");
 
             getServerCaller().registerPermission("craftconomy.money.log.others");
             addFeatherboardSupport();
@@ -347,7 +329,6 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
             // We put the world name if the conf is true
             string.append(worldName).append(": ");
         }
-
         if (currency != null) {
             // We removes some cents if it's something like 20.20381 it would set it
             // to 20.20
@@ -357,13 +338,10 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
             unusualSymbols.setGroupingSeparator(',');
             DecimalFormat decimalFormat = new DecimalFormat("###,###", unusualSymbols);
             String name = currency.getName();
-
             if (balance > 1.0 || balance < 1.0) {
                 name = currency.getPlural();
             }
-
             String coin;
-
             if (theAmount.length == 2) {
                 if (theAmount[1].length() >= 2) {
                     coin = theAmount[1].substring(0, 2);
@@ -373,9 +351,7 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
             } else {
                 coin = "0";
             }
-
             String amount;
-
             try {
                 amount = decimalFormat.format(Double.parseDouble(theAmount[0]));
             } catch (NumberFormatException e) {
@@ -388,15 +364,15 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
                 if (Long.parseLong(coin) > 1) {
                     subName = currency.getMinorPlural();
                 }
-                string.append(currencyMajorColor).append(amount).append(" ").append(name).append(" ").append(currencyMinorColor).append(Long.toString(Long.parseLong(coin))).append(" ").append(subName).append("&f");
+                string.append(amount).append(" ").append(name).append(" ").append(Long.toString(Long.parseLong(coin))).append(" ").append(subName);
             } else if (format == DisplayFormat.SMALL) {
-                string.append(currencyMajorColor).append(amount).append("&f.").append(currencyMinorColor).append(coin).append("&f ").append(name);
+                string.append(amount).append(".").append(coin).append(" ").append(name);
             } else if (format == DisplayFormat.SIGN) {
-                string.append(currencyMajorColor).append(currency.getSign()).append(amount).append("&f.").append(currencyMinorColor).append(coin).append("&f");
+                string.append(currency.getSign()).append(amount).append(".").append(coin);
             } else if (format == DisplayFormat.SIGNFRONT) {
-                string.append(currencyMajorColor).append(amount).append("&f.").append(currencyMinorColor).append(coin).append("&f").append(currency.getSign());
+                string.append(amount).append(".").append(coin).append(currency.getSign());
             } else if (format == DisplayFormat.MAJORONLY) {
-                string.append(currencyMajorColor).append(amount).append(" ").append(name).append("&f");
+                string.append(amount).append(" ").append(name);
             }
         }
         return string.toString();
@@ -973,11 +949,10 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
         mainConfig.setValue("System.QuickSetup.StartBalance", 100.0);
         mainConfig.setValue("System.QuickSetup.PriceBank", 200.0);
         mainConfig.setValue("System.QuickSetup.DisplayMode", "long");
-        mainConfig.setValue("System.Colors.CurrencyMajorColor", "&6");
-        mainConfig.setValue("System.Colors.CurrencyMinorColor", "&7");
         mainConfig.setValue("System.CheckNewVersion", true);
         mainConfig.setValue("System.Case-sentitive", false);
         mainConfig.setValue("System.CreateOnLogin", false);
+        mainConfig.setValue("System.SilentGiveCommand", false);
         mainConfig.setValue("System.Logging.Enabled", false);
         mainConfig.setValue("System.Database.Type", "h2");
         mainConfig.setValue("System.Database.Address", "localhost");
