@@ -8,7 +8,7 @@ apply plugin: 'com.github.johnrengelman.shadow' // Provides dependency shading
 apply plugin: 'license'
 
 group = 'com.greatmancode'
-version = '3.3.1'
+version = '3.4.0-SNAPSHOT'
 //archiveBaseName = "craftconomy3"
 description = "Craftconomy3"
 sourceCompatibility = 1.7
@@ -106,11 +106,10 @@ dependencies {
     compile group: 'com.greatmancode', name: 'tools', version:'1.3-SNAPSHOT'
     compile group: 'com.zaxxer', name: 'HikariCP', version:'2.4.3'
     compile group: 'org.slf4j', name: 'slf4j-api', version:'1.7.12'
-    compile group: 'org.slf4j', name: 'slf4j-simple', version:'1.7.12'
     compile group: 'com.h2database', name: 'h2', version:'1.4.187'
     compile group: 'org.xerial', name: 'sqlite-jdbc', version:'3.7.15-M1'
     testCompile group: 'junit', name: 'junit', version:'4.11'
-    testCompile group: 'org.bukkit', name: 'bukkit', version:'1.8.3-R0.1-SNAPSHOT'
+    testCompile group: 'org.bukkit', name: 'bukkit', version:'1.8.8-R0.1-SNAPSHOT'
     testCompile group: 'org.reflections', name: 'reflections', version:'0.9.9-RC1'
     compile group: 'org.projectlombok', name: 'lombok', version:'1.12.6'
     compile group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1'
