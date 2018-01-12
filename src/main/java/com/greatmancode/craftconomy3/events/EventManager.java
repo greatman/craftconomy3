@@ -2,6 +2,7 @@
  * This file is part of Craftconomy3.
  *
  * Copyright (c) 2011-2016, Greatman <http://github.com/greatman/>
+ * Copyright (c) 2017, Aztorius <http://github.com/Aztorius/>
  *
  * Craftconomy3 is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -22,8 +23,8 @@ import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.account.Account;
 import com.greatmancode.tools.events.interfaces.EventHandler;
 import com.greatmancode.tools.events.interfaces.Listener;
-import com.greatmancode.tools.events.playerEvent.PlayerJoinEvent;
-import com.greatmancode.tools.events.playerEvent.PreJoinEvent;
+import com.greatmancode.tools.events.playerevent.PlayerJoinEvent;
+import com.greatmancode.tools.events.playerevent.PreJoinEvent;
 import com.greatmancode.tools.utils.Updater;
 
 /**

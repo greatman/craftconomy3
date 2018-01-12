@@ -2,6 +2,7 @@
 # This file is part of Craftconomy3.
 #
 # Copyright (c) 2011-2016, Greatman <http://github.com/greatman/>
+# Copyright (c) 2017, Aztorius <http://github.com/Aztorius/>
 #
 # Craftconomy3 is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Lesser General Public License as published by
@@ -33,6 +34,10 @@ System:
     #Available values: Long, small, majoronly, sign
     DisplayMode: long
 
+  Colors:
+    CurrencyMajorColor: &6
+    CurrencyMinorColor: &7
+
   CheckNewVersion: true
   Case-sentitive: false
   CreateOnLogin: false
@@ -40,7 +45,7 @@ System:
   # Logs all monetary transactions passed through CraftConomy in a table.
   Logging:
     Enabled: false
-    
+
   Database:
     # Databases Supported:
     ##
@@ -50,7 +55,7 @@ System:
     # h2
     #  - These will attempt to create & connect to H2
     Type: 'h2'
-    
+
     #Modify if using MySQL
     Address: 'localhost'
     Port: 3306

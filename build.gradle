@@ -11,13 +11,13 @@ group = 'com.greatmancode'
 version = '3.4.0-SNAPSHOT'
 //archiveBaseName = "craftconomy3"
 description = "Craftconomy3"
-sourceCompatibility = 1.7
-targetCompatibility = 1.7
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 ext.version = version;
 
 //Variables for signing & other stuff
-ext.url = 'https://github.com/greatman/craftconomy3'
-ext.bukkitVersion = '1.7.9-R0.2'
+ext.url = 'https://github.com/Aztorius/craftconomy3'
+ext.bukkitVersion = '1.8.8-R0.1'
 ext."signing.keyId" = System.getenv("keyId")
 ext."signing.secretKeyRingFile" = System.getenv("secretKeyRingFile")
 ext."signing.password" = System.getenv("keyPassword")
@@ -70,6 +70,7 @@ def getVersionName() {
 
 compileJava {
     options.encoding = 'UTF-8'
+    options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
 }
 
 configurations.all {
@@ -98,31 +99,30 @@ repositories {
     maven { url "http://repo.larry1123.net/content/groups/public/" }
     maven { url "https://libraries.minecraft.net" }
     maven { url "http://repo.spongepowered.org/maven" }
-    maven { url "http://repo.mcstats.org/content/repositories/releases/" }
-
 }
 
 dependencies {
     compile group: 'com.greatmancode', name: 'tools', version:'1.3-SNAPSHOT'
-    compile group: 'com.zaxxer', name: 'HikariCP', version:'2.4.3'
-    compile group: 'org.slf4j', name: 'slf4j-api', version:'1.7.12'
-    compile group: 'com.h2database', name: 'h2', version:'1.4.187'
-    compile group: 'org.xerial', name: 'sqlite-jdbc', version:'3.7.15-M1'
-    testCompile group: 'junit', name: 'junit', version:'4.11'
+    compile group: 'com.zaxxer', name: 'HikariCP', version:'2.6.1'
+    compile group: 'org.slf4j', name: 'slf4j-api', version:'1.7.25'
+    compile group: 'org.slf4j', name: 'slf4j-simple', version:'1.7.22'
+    compile group: 'com.h2database', name: 'h2', version:'1.4.194'
+    compile group: 'org.xerial', name: 'sqlite-jdbc', version:'3.16.1'
+    testCompile group: 'junit', name: 'junit', version:'4.12'
     testCompile group: 'org.bukkit', name: 'bukkit', version:'1.8.8-R0.1-SNAPSHOT'
-    testCompile group: 'org.reflections', name: 'reflections', version:'0.9.9-RC1'
-    compile group: 'org.projectlombok', name: 'lombok', version:'1.12.6'
-    compile group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1'
+    testCompile group: 'org.reflections', name: 'reflections', version:'0.9.11'
+    compile group: 'org.projectlombok', name: 'lombok', version:'1.16.16'
+    compile group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
 }
 
 shadowJar {
     dependencies {
         include(dependency('com.greatmancode:tools:1.3-SNAPSHOT'))
-        include(dependency('com.zaxxer:HikariCP:2.4.3'))
-        include(dependency('org.slf4j:slf4j-api:1.7.12'))
-        include(dependency('org.slf4j:slf4j-simple:1.7.12'))
-        include(dependency('com.h2database:h2:1.4.187'))
-        include(dependency('com.googlecode.json-simple:json-simple:1.1'))
+        include(dependency('com.zaxxer:HikariCP:2.6.1'))
+        include(dependency('org.slf4j:slf4j-api:1.7.25'))
+        include(dependency('org.slf4j:slf4j-simple:1.7.22'))
+        include(dependency('com.h2database:h2:1.4.194'))
+        include(dependency('com.googlecode.json-simple:json-simple:1.1.1'))
     }
     relocate 'com.greatmancode.tools', 'com.greatmancode.craftconomy3.tools'
     relocate 'com.zaxxer.hikari', 'com.greatmancode.com.zaxxer.libs.hikari'
@@ -146,9 +146,13 @@ jar.dependsOn filter
 
 license {
     header rootProject.file('HEADER.txt')
-    ext.copyright = 'Copyright (c) 2011-2016, Greatman'
-    ext.url = 'http://github.com/greatman'
+    ext.copyright = 'Copyright (c) 2017, Aztorius'
+    ext.url = 'http://github.com/Aztorius'
     ext.name = 'Craftconomy3'
+    exclude "**/loader.yml"
+    exclude "**/*.class"
+    exclude "**/*.project"
+    exclude "**/*.classpath"
 }
 
 
@@ -201,12 +205,12 @@ uploadArchives {
                 name 'Craftconomy3'
                 packaging 'jar'
                 description 'Economy plugin for multiple Minecraft server implementation.'
-                url 'https://github.com/greatman/craftconomy3'
+                url 'https://github.com/Aztorius/craftconomy3'
 
                 scm {
-                    connection 'https://github.com/greatman/craftconomy3.git'
-                    developerConnection 'https://github.com/greatman/craftconomy3.git'
-                    url 'https://github.com/greatman/craftconomy3'
+                    connection 'https://github.com/Aztorius/craftconomy3.git'
+                    developerConnection 'https://github.com/Aztorius/craftconomy3.git'
+                    url 'https://github.com/Aztorius/craftconomy3'
                 }
 
                 licenses {
@@ -221,6 +225,11 @@ uploadArchives {
                         name 'William Lebel'
                         email 'lebelwilliam@gmail.com'
                     }
+                    developer {
+                        id 'aztorius'
+                        name 'William Bonnaventure'
+                        email 'informaticien77.fr@gmail.com'
+                }
                 }
                 repositories {
                     repository {
@@ -243,12 +252,8 @@ uploadArchives {
                         id 'sponge-repo'
                         url 'http://repo.spongepowered.org/maven'
                     }
-                    repository {
-                        id 'metrics-repo'
-                        url 'http://repo.mcstats.org/content/repositories/releases/'
                     }
                 }
             }
         }
-    }
 }

@@ -2,6 +2,7 @@
  * This file is part of Craftconomy3.
  *
  * Copyright (c) 2011-2016, Greatman <http://github.com/greatman/>
+ * Copyright (c) 2017, Aztorius <http://github.com/Aztorius/>
  *
  * Craftconomy3 is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -113,13 +114,17 @@ public class AccountManager {
      * @return True if the account has been deleted. Else false.
      */
     public boolean delete(String name, boolean bankAccount) {
+        String newName = name;
+        if (!Common.getInstance().getMainConfig().getBoolean("System.Case-sentitive")) {
+            newName = name.toLowerCase();
+        }
         boolean result = false;
-        if (exist(name, bankAccount)) {
-            result = Common.getInstance().getStorageHandler().getStorageEngine().deleteAccount(name, bankAccount);
+        if (exist(newName, bankAccount)) {
+            result = Common.getInstance().getStorageHandler().getStorageEngine().deleteAccount(newName, bankAccount);
             if (bankAccount) {
-                bankList.remove(name);
+                bankList.remove(newName);
             } else {
-                accountList.remove(name);
+                accountList.remove(newName);
             }
         }
         return result;

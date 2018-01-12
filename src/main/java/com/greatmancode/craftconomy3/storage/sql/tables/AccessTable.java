@@ -2,6 +2,7 @@
  * This file is part of Craftconomy3.
  *
  * Copyright (c) 2011-2016, Greatman <http://github.com/greatman/>
+ * Copyright (c) 2017, Aztorius <http://github.com/Aztorius/>
  *
  * Craftconomy3 is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -60,7 +61,7 @@ public class AccessTable extends DatabaseTable {
     public final String updateEntry = "UPDATE " + getPrefix() + TABLE_NAME + " SET owner=? , balance=?, deposit=?, acl=?, withdraw=? " +
             "WHERE account_id=(SELECT id FROM " + getPrefix() + AccountTable.TABLE_NAME + " WHERE name=? AND bank=?) AND playerName=?";
 
-    public final String getAccountList = "SELECT " + getPrefix() + AccountTable.TABLE_NAME+".name FROM " + getPrefix() + TABLE_NAME + " " +
+    public final String getAccountList = "SELECT * FROM " + getPrefix() + TABLE_NAME + " " +
             "LEFT JOIN " + getPrefix() + AccountTable.TABLE_NAME + " ON " +
             getPrefix() + TABLE_NAME + ".account_id = " + getPrefix() + AccountTable.TABLE_NAME + ".id " +
             "WHERE playerName=?";

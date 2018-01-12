@@ -2,6 +2,7 @@
  * This file is part of Craftconomy3.
  *
  * Copyright (c) 2011-2016, Greatman <http://github.com/greatman/>
+ * Copyright (c) 2017, Aztorius <http://github.com/Aztorius/>
  *
  * Craftconomy3 is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -40,14 +41,14 @@ public class AccountTable extends DatabaseTable {
             "uuid varchar(36) NULL," +
             "ignoreACL boolean DEFAULT FALSE," +
             "bank boolean DEFAULT FALSE);" +
-            "CREATE INDEX IF NOT EXISTS "+getPrefix()+"account_name ON " + getPrefix() + TABLE_NAME + "(name);" +
-            "CREATE INDEX IF NOT EXISTS "+getPrefix()+"account_uuid ON " + getPrefix() + TABLE_NAME + "(uuid);";
+            "CREATE INDEX IF NOT EXISTS " + getPrefix() + "account_name ON " + getPrefix() + TABLE_NAME + "(name);" +
+            "CREATE INDEX IF NOT EXISTS " + getPrefix() + "account_uuid ON " + getPrefix() + TABLE_NAME + "(uuid);";
 
     public final String selectEntryName = "SELECT * FROM " + getPrefix() + TABLE_NAME + " WHERE name=? AND bank=?";
 
     public final String selectEntryUuid = "SELECT * FROM " + getPrefix() + TABLE_NAME + " WHERE uuid=?";
 
-    public final String selectAllEntry = "SELECT name FROM " + getPrefix()+ TABLE_NAME + " WHERE bank=?";
+    public final String selectAllEntry = "SELECT name FROM " + getPrefix() + TABLE_NAME + " WHERE bank=?";
 
     public final String insertEntry = "INSERT INTO " + getPrefix() + TABLE_NAME + "(name,uuid) VALUES(?,?)";
 
@@ -61,9 +62,9 @@ public class AccountTable extends DatabaseTable {
 
     public final String deleteEntry = "DELETE FROM " + getPrefix() + TABLE_NAME + " WHERE name=? AND bank=?";
 
-    public final String updateNameByUuid = "UPDATE "+getPrefix()+TABLE_NAME + " SET name=? WHERE uuid=?";
+    public final String updateNameByUuid = "UPDATE " + getPrefix() + TABLE_NAME + " SET name=? WHERE uuid=?";
 
-    public final String updateUuidByName = "UPDATE "+getPrefix()+TABLE_NAME+" SET uuid=? WHERE name=?";
+    public final String updateUuidByName = "UPDATE " + getPrefix() + TABLE_NAME + " SET uuid=? WHERE name=?";
 
 
 

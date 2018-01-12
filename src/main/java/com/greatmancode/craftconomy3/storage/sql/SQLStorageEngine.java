@@ -2,6 +2,7 @@
  * This file is part of Craftconomy3.
  *
  * Copyright (c) 2011-2016, Greatman <http://github.com/greatman/>
+ * Copyright (c) 2017, Aztorius <http://github.com/Aztorius/>
  *
  * Craftconomy3 is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -266,6 +267,7 @@ public abstract class SQLStorageEngine extends StorageEngine {
             connection = (commitConnection != null) ? commitConnection : db.getConnection();
             statement = connection.prepareStatement(balanceTable.selectAllEntryAccount);
             statement.setString(1, account.getAccountName());
+
             ResultSet set = statement.executeQuery();
             while (set.next()) {
                 balanceList.add(new Balance(set.getString(balanceTable.WORLD_NAME_FIELD), Common.getInstance().getCurrencyManager().getCurrency(set.getString(balanceTable.CURRENCY_FIELD)), set.getDouble(balanceTable.BALANCE_FIELD)));
@@ -704,17 +706,21 @@ public abstract class SQLStorageEngine extends StorageEngine {
         List<String> results = new ArrayList<>();
         Connection connection = null;
         PreparedStatement statement = null;
+        String newSender = sender;
+        if (!Common.getInstance().getMainConfig().getBoolean("System.Case-sentitive")) {
+            newSender = sender.toLowerCase();
+        }
 
         try {
             connection = (commitConnection != null) ? commitConnection : db.getConnection();
             statement = connection.prepareStatement(accessTable.getAccountList);
-            statement.setString(1, sender);
+            statement.setString(1, newSender);
             ResultSet set = statement.executeQuery();
             while (set.next()) {
                 results.add(set.getString("name"));
             }
         } catch (SQLException e) {
-                e.printStackTrace();
+            e.printStackTrace();
         } finally {
             Tools.closeJDBCStatement(statement);
             if (commitConnection == null) {

@@ -2,6 +2,7 @@
  * This file is part of Craftconomy3.
  *
  * Copyright (c) 2011-2016, Greatman <http://github.com/greatman/>
+ * Copyright (c) 2017, Aztorius <http://github.com/Aztorius/>
  *
  * Craftconomy3 is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -32,7 +33,7 @@ public class BalanceCommand extends CommandExecutor {
         }
         if (Common.getInstance().getAccountManager().exist(args[0], false)) {
             //TODO: Format this properly
-            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{WHITE}} " + args[0] + " " + Common.getInstance().getLanguageManager().getString("money_all_title"));
+            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{WHITE}}" + args[0] + " " + Common.getInstance().getLanguageManager().getString("money_all_title"));
             Account account = Common.getInstance().getAccountManager().getAccount(args[0], false);
             for (Balance bl : account.getAllBalance()) {
                 Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().format(bl.getWorld(), bl.getCurrency(), bl.getBalance()));

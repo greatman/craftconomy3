@@ -2,6 +2,7 @@
  * This file is part of Craftconomy3.
  *
  * Copyright (c) 2011-2016, Greatman <http://github.com/greatman/>
+ * Copyright (c) 2017, Aztorius <http://github.com/Aztorius/>
  *
  * Craftconomy3 is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -88,9 +89,14 @@ public class CurrencyManager {
      * @param save        Do we add it in the database?
      * @return a Currency instance
      */
-    // TODO: A check if the currency already exist.
     public Currency addCurrency(String name, String plural, String minor, String minorPlural, String sign, boolean save) {
-        return addCurrency(name, plural, minor, minorPlural, sign, save, false);
+        if (getCurrency(name) != null) {
+            // TODO: Currency already exists
+            return null;
+        }
+        else {
+            return addCurrency(name, plural, minor, minorPlural, sign, save, false);
+        }
     }
 
 
