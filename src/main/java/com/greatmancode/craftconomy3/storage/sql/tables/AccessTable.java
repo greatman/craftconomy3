@@ -24,8 +24,8 @@ public class AccessTable extends DatabaseTable {
     public static final String TABLE_NAME = "acl";
 
     public final String createTableMySQL = "CREATE TABLE IF NOT EXISTS `" + getPrefix() + TABLE_NAME + "` (" +
-            "  `account_id` int(11) DEFAULT NULL," +
-            "  `playerName` varchar(16)," +
+            "  `account_id` int(11) NOT NULL," +
+            "  `playerName` varchar(16) NOT NULL," +
             "  `owner` BOOLEAN DEFAULT NULL," +
             "  `balance` BOOLEAN DEFAULT FALSE," +
             "  `deposit` BOOLEAN DEFAULT FALSE," +
