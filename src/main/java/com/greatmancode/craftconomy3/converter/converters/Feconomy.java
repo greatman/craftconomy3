@@ -21,6 +21,7 @@ package com.greatmancode.craftconomy3.converter.converters;
 
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.converter.Converter;
+import com.greatmancode.tools.commands.CommandSender;
 import com.greatmancode.tools.utils.Tools;
 
 import java.sql.*;
@@ -67,7 +68,7 @@ public class Feconomy extends Converter {
     }
 
     @Override
-    public boolean importData(String sender) {
+    public boolean importData(CommandSender sender) {
         return importDatabase(sender);
     }
 
@@ -77,7 +78,7 @@ public class Feconomy extends Converter {
      * @param sender The command sender so we can send back messages.
      * @return True if the convert is done. Else false.
      */
-    private boolean importDatabase(String sender) {
+    private boolean importDatabase(CommandSender sender) {
         PreparedStatement statement = null;
         try {
             statement = connect.prepareStatement("SELECT * FROM fe_accounts");

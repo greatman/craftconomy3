@@ -252,7 +252,7 @@ public class OldFormatConverter {
 
     }
 
-    public void step2() throws SQLException, IOException, ParseException {
+    public void step2() throws IOException, ParseException {
         Common.getInstance().sendConsoleMessage(Level.INFO, "Converting step 2: Inserting the data back in all the new tables");
         Common.getInstance().sendConsoleMessage(Level.INFO, "Creating the new tables");
         String dbType = Common.getInstance().getMainConfig().getString("System.Database.Type");

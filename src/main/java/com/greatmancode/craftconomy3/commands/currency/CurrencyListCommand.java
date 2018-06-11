@@ -20,6 +20,7 @@
 package com.greatmancode.craftconomy3.commands.currency;
 
 import com.greatmancode.craftconomy3.Common;
+import com.greatmancode.tools.commands.CommandSender;
 import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 
 import java.util.Arrays;
@@ -27,9 +28,9 @@ import java.util.Arrays;
 public class CurrencyListCommand extends CommandExecutor {
 
     @Override
-    public void execute(String sender, String[] args) {
-        Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().parse("currency_list_title"));
-        Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Arrays.toString(Common.getInstance().getCurrencyManager().getCurrencyNames().toArray()));
+    public void execute(CommandSender sender, String[] args) {
+        Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance().getLanguageManager().parse("currency_list_title"));
+        Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Arrays.toString(Common.getInstance().getCurrencyManager().getCurrencyNames().toArray()));
     }
 
     @Override

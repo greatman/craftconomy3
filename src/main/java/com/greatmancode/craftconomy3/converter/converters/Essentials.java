@@ -21,6 +21,7 @@ package com.greatmancode.craftconomy3.converter.converters;
 
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.converter.Converter;
+import com.greatmancode.tools.commands.CommandSender;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -43,7 +44,7 @@ public class Essentials extends Converter {
     }
 
     @Override
-    public boolean importData(String sender) {
+    public boolean importData(CommandSender sender) {
         File accountsFolder = new File("plugins/Essentials/userdata/");
 
         if (!accountsFolder.isDirectory()) {
@@ -86,14 +87,14 @@ public class Essentials extends Converter {
                         }
                     }
                 } catch (NumberFormatException e) {
-                    Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_RED}}The account "+uuid+" don't have a valid money value!");
+                    Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), "{{DARK_RED}}The account "+uuid+" don't have a valid money value!");
 
                 }
                 if (haveMoney) {
                     userList.add(new User(name,uuid,money));
                 }
                 if (i % 10 == 0) {
-                    Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, i + " {{DARK_GREEN}}accounts loaded.");
+                    Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), i + " {{DARK_GREEN}}accounts loaded.");
                 }
                 i++;
                 reader.close();

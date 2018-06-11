@@ -35,6 +35,7 @@ import com.greatmancode.craftconomy3.storage.StorageEngine;
 import com.greatmancode.craftconomy3.storage.sql.tables.*;
 import com.greatmancode.craftconomy3.utils.BackendErrorException;
 import com.greatmancode.craftconomy3.utils.NoExchangeRate;
+import com.greatmancode.tools.entities.Player;
 import com.greatmancode.tools.utils.Tools;
 import com.zaxxer.hikari.HikariDataSource;
 
@@ -86,10 +87,14 @@ public abstract class SQLStorageEngine extends StorageEngine {
                 } else {
                     statement = connection.prepareStatement(accountTable.insertEntry, Statement.RETURN_GENERATED_KEYS);
                     statement.setString(1, name);
-                    if (Common.getInstance().getServerCaller().getPlayerCaller().isOnline(name)) {
-                        statement.setString(2, Common.getInstance().getServerCaller().getPlayerCaller().getUUID(name).toString());
+                    Player player = Common.getInstance().getServerCaller().getPlayerCaller().getOnlinePlayer(name);
+                    if (player != null) {
+                        statement.setString(2, player.getUuid().toString());
                     } else {
-                        statement.setString(2, null);
+                        UUID uuid = Common.getInstance().getServerCaller().getPlayerCaller().getUUID(name);
+                        String value = (uuid == null)? "": uuid.toString();
+                        // warning offline player generated
+                        statement.setString(2, value);
                     }
                 }
                 statement.executeUpdate();
@@ -105,10 +110,16 @@ public abstract class SQLStorageEngine extends StorageEngine {
                 id = set.getInt("id");
             }
             statement.close();
+            Player player = Common.getInstance().getServerCaller().getPlayerCaller().getOnlinePlayer(name);
+            UUID uuid = player.getUuid();
             if (create && !bankAccount && createDefault) {
                 statement = connection.prepareStatement(balanceTable.insertEntry);
                 statement.setDouble(1, Common.getInstance().getDefaultHoldings());
-                statement.setString(2, Account.getWorldGroupOfPlayerCurrentlyIn(name));
+                if(uuid != null){
+                    statement.setString(2, Account.getWorldGroupOfPlayerCurrentlyIn(uuid));
+                } else {
+                    statement.setString(2, null);
+                }
                 statement.setString(3, name);
                 statement.setBoolean(4, bankAccount);
                 statement.setString(5, Common.getInstance().getCurrencyManager().getDefaultCurrency().getName());
@@ -270,7 +281,7 @@ public abstract class SQLStorageEngine extends StorageEngine {
 
             ResultSet set = statement.executeQuery();
             while (set.next()) {
-                balanceList.add(new Balance(set.getString(balanceTable.WORLD_NAME_FIELD), Common.getInstance().getCurrencyManager().getCurrency(set.getString(balanceTable.CURRENCY_FIELD)), set.getDouble(balanceTable.BALANCE_FIELD)));
+                balanceList.add(new Balance(set.getString(BalanceTable.WORLD_NAME_FIELD), Common.getInstance().getCurrencyManager().getCurrency(set.getString(BalanceTable.CURRENCY_FIELD)), set.getDouble(BalanceTable.BALANCE_FIELD)));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -295,7 +306,7 @@ public abstract class SQLStorageEngine extends StorageEngine {
             statement.setString(2, worldName);
             ResultSet set = statement.executeQuery();
             while (set.next()) {
-                balanceList.add(new Balance(set.getString(balanceTable.WORLD_NAME_FIELD), Common.getInstance().getCurrencyManager().getCurrency(set.getString(balanceTable.CURRENCY_FIELD)), set.getDouble(balanceTable.BALANCE_FIELD)));
+                balanceList.add(new Balance(set.getString(BalanceTable.WORLD_NAME_FIELD), Common.getInstance().getCurrencyManager().getCurrency(set.getString(BalanceTable.CURRENCY_FIELD)), set.getDouble(BalanceTable.BALANCE_FIELD)));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -321,7 +332,7 @@ public abstract class SQLStorageEngine extends StorageEngine {
             statement.setString(3, currency.getName());
             ResultSet set = statement.executeQuery();
             if (set.next()) {
-                balance = set.getDouble(balanceTable.BALANCE_FIELD);
+                balance = set.getDouble(BalanceTable.BALANCE_FIELD);
             } else {
                 balance = 0;
             }

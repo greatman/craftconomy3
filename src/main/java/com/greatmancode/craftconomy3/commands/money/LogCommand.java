@@ -22,6 +22,7 @@ package com.greatmancode.craftconomy3.commands.money;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.account.Account;
 import com.greatmancode.craftconomy3.currency.Currency;
+import com.greatmancode.tools.commands.CommandSender;
 import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 
 import java.sql.Timestamp;
@@ -29,25 +30,25 @@ import java.sql.Timestamp;
 class LogCommandThread implements Runnable {
 
     class LogCommandThreadEnd implements Runnable {
-        private final String sender;
+        private final CommandSender sender;
         private final String ret;
 
-        public LogCommandThreadEnd(String sender, String ret) {
+        public LogCommandThreadEnd(CommandSender sender, String ret) {
             this.sender = sender;
             this.ret = ret;
         }
 
         @Override
         public void run() {
-            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, ret);
+            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), ret);
         }
     }
 
-    private final String sender;
+    private final CommandSender sender;
     private final int page;
     private final Account user;
 
-    public LogCommandThread(String sender, int page, Account user) {
+    public LogCommandThread(CommandSender sender, int page, Account user) {
         this.sender = sender;
         this.page = page;
         this.user = user;
@@ -69,7 +70,7 @@ class LogCommandThread implements Runnable {
 
 public class LogCommand extends CommandExecutor {
     @Override
-    public void execute(String sender, String[] args) {
+    public void execute(CommandSender sender, String[] args) {
         int page = 1;
         if (args.length >= 1) {
             try {
@@ -78,17 +79,18 @@ public class LogCommand extends CommandExecutor {
                     page = 1;
                 }
             } catch (NumberFormatException e) {
-                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("invalid_page"));
+                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance().getLanguageManager().getString("invalid_page"));
                 return;
             }
         }
-        Account user = Common.getInstance().getAccountManager().getAccount(sender, false);
-        if (args.length == 2 && Common.getInstance().getServerCaller().getPlayerCaller().checkPermission(sender, "craftconomy.money.log.others")) {
+        Account user = Common.getInstance().getAccountManager().getAccount(sender.getName(), false);
+        if (args.length == 2 && Common.getInstance().getServerCaller().getPlayerCaller().checkPermission(sender.getUuid(), "craftconomy.money.log.others")) {
             if (Common.getInstance().getAccountManager().exist(args[1], false)) {
                 user = Common.getInstance().getAccountManager().getAccount(args[1], false);
             }
         }
-        Common.getInstance().getServerCaller().getSchedulerCaller().delay(new LogCommandThread(sender, page, user), 0, false);
+        Common.getInstance().getServerCaller().getSchedulerCaller().delay(new LogCommandThread(sender, page, user),
+                0, false);
     }
 
     @Override

@@ -22,29 +22,40 @@ package com.greatmancode.craftconomy3.commands.bank;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.account.Account;
 import com.greatmancode.craftconomy3.account.Balance;
+import com.greatmancode.tools.commands.CommandSender;
+import com.greatmancode.tools.commands.PlayerCommandSender;
 import com.greatmancode.tools.commands.interfaces.CommandExecutor;
+
+import java.util.UUID;
 
 public class BankBalanceCommand extends CommandExecutor {
     @Override
-    public void execute(String sender, String[] args) {
-        if (Common.getInstance().getAccountManager().exist(args[0], true)) {
-            Account account = Common.getInstance().getAccountManager().getAccount(args[0], true);
-            if (account.getAccountACL().canShow(sender) || Common.getInstance().getServerCaller().getPlayerCaller().checkPermission(sender, "craftconomy.bank.balance.others")) {
-                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("bank_statement"));
-                if (account.getAllBalance().isEmpty()){
-                    Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().parse("bank_account_empty", account.getAccountName()));
-                }
-                else{
-                    for (Balance bl : account.getAllBalance()) {
-                        Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().format(bl.getWorld(), bl.getCurrency(), bl.getBalance()));
+    public void execute(CommandSender sender, String[] args) {
+        UUID senderUUID = null;
+        if(sender instanceof PlayerCommandSender) {
+            PlayerCommandSender player = (PlayerCommandSender) sender;
+            senderUUID= ((PlayerCommandSender) sender).getUuid();
+        }
+            if (Common.getInstance().getAccountManager().exist(args[0], true)) {
+                Account account = Common.getInstance().getAccountManager().getAccount(args[0], true);
+                if (account.getAccountACL().canShow(sender.getName()) || Common.getInstance().getServerCaller()
+                        .getPlayerCaller().checkPermission(senderUUID, "craftconomy.bank.balance.others")) {
+                    Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(senderUUID, Common.getInstance()
+                            .getLanguageManager().getString("bank_statement"));
+                    if (account.getAllBalance().isEmpty()) {
+                        Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(senderUUID, Common
+                                .getInstance().getLanguageManager().parse("bank_account_empty", account.getAccountName()));
+                    } else {
+                        for (Balance bl : account.getAllBalance()) {
+                            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(senderUUID, Common.getInstance().format(bl.getWorld(), bl.getCurrency(), bl.getBalance()));
+                        }
                     }
+                } else {
+                    Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(senderUUID, Common.getInstance().getLanguageManager().getString("cant_check_bank_statement"));
                 }
             } else {
-                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("cant_check_bank_statement"));
+                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(senderUUID, Common.getInstance().getLanguageManager().getString("account_not_exist"));
             }
-        } else {
-            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("account_not_exist"));
-        }
     }
 
     @Override

@@ -21,14 +21,17 @@ package com.greatmancode.craftconomy3.commands.bank;
 
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.account.Account;
+import com.greatmancode.tools.commands.CommandSender;
 import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 
 public class BankPermCommand extends CommandExecutor {
     @Override
-    public void execute(String sender, String[] args) {
+    public void execute(CommandSender sender, String[] args) {
         if (Common.getInstance().getAccountManager().exist(args[0], true)) {
             Account account = Common.getInstance().getAccountManager().getAccount(args[0], true);
-            if (account.getAccountACL().canAcl(sender) || account.getAccountACL().isOwner(sender) || Common.getInstance().getServerCaller().getPlayerCaller().checkPermission(sender, "craftconomy.bank.perm.others")) {
+            if (account.getAccountACL().canAcl(sender.getName()) || account.getAccountACL().isOwner(sender.getName()) ||
+                    Common
+                    .getInstance().getServerCaller().getPlayerCaller().checkPermission(sender.getUuid(), "craftconomy.bank.perm.others")) {
 
                 if ("deposit".equalsIgnoreCase(args[1])) {
                     account.getAccountACL().setDeposit(args[2], Boolean.parseBoolean(args[3]));
@@ -39,15 +42,15 @@ public class BankPermCommand extends CommandExecutor {
                 } else if ("show".equalsIgnoreCase(args[1])) {
                     account.getAccountACL().setShow(args[2], Boolean.parseBoolean(args[3]));
                 } else {
-                    Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("invalid_flag"));
+                    Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance().getLanguageManager().getString("invalid_flag"));
                     return;
                 }
-                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().parse("bank_flag_set", args[1], args[2], args[3]));
+                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance().getLanguageManager().parse("bank_flag_set", args[1], args[2], args[3]));
             } else {
-                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("cant_modify_acl"));
+                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance().getLanguageManager().getString("cant_modify_acl"));
             }
         } else {
-            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("account_not_exist!"));
+            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance().getLanguageManager().getString("account_not_exist!"));
         }
     }
 

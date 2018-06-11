@@ -23,25 +23,28 @@ import com.greatmancode.craftconomy3.Cause;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.account.Account;
 import com.greatmancode.craftconomy3.account.Balance;
+import com.greatmancode.tools.commands.CommandSender;
 import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 
 public class BankDeleteCommand extends CommandExecutor {
     @Override
-    public void execute(String sender, String[] args) {
+    public void execute(CommandSender sender, String[] args) {
         if (Common.getInstance().getAccountManager().exist(args[0], true)) {
             Account account = Common.getInstance().getAccountManager().getAccount(args[0], true);
-            if (account.getAccountACL().isOwner(sender) || Common.getInstance().getServerCaller().getPlayerCaller().checkPermission(sender, "craftconomy.bank.delete.admin")) {
-                Account owner = Common.getInstance().getAccountManager().getAccount(sender, false);
+            if (account.getAccountACL().isOwner(sender.getName()) || Common.getInstance().getServerCaller()
+                    .getPlayerCaller()
+                    .checkPermission(sender.getUuid(), "craftconomy.bank.delete.admin")) {
+                Account owner = Common.getInstance().getAccountManager().getAccount(sender.getName(), false);
                 for (Balance balance : account.getAllBalance()) {
                     owner.deposit(balance.getBalance(), balance.getWorld(), balance.getCurrency().getName(), Cause.BANK_DELETE, args[0]);
                 }
                 Common.getInstance().getAccountManager().delete(args[0], true);
-                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("bank_account_deleted"));
+                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance().getLanguageManager().getString("bank_account_deleted"));
             } else {
-                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("bank_delete_not_owner"));
+                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance().getLanguageManager().getString("bank_delete_not_owner"));
             }
         } else {
-            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("account_not_exist"));
+            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance().getLanguageManager().getString("account_not_exist"));
         }
     }
 

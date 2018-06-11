@@ -23,15 +23,18 @@ import com.greatmancode.craftconomy3.Cause;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.account.Account;
 import com.greatmancode.craftconomy3.currency.Currency;
+import com.greatmancode.tools.commands.CommandSender;
 import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 import com.greatmancode.tools.utils.Tools;
 
 public class BankWithdrawCommand extends CommandExecutor {
     @Override
-    public void execute(String sender, String[] args) {
+    public void execute(CommandSender sender, String[] args) {
         if (Common.getInstance().getAccountManager().exist(args[0], true)) {
             Account bankAccount = Common.getInstance().getAccountManager().getAccount(args[0], true);
-            if (bankAccount.getAccountACL().canWithdraw(sender) || Common.getInstance().getServerCaller().getPlayerCaller().checkPermission(sender, "craftconomy.bank.withdraw.others")) {
+            if (bankAccount.getAccountACL().canWithdraw(sender.getName()) || Common.getInstance().getServerCaller()
+                    .getPlayerCaller
+                    ().checkPermission(sender.getUuid(), "craftconomy.bank.withdraw.others")) {
                 if (Tools.isValidDouble(args[1])) {
                     double amount = Double.parseDouble(args[1]);
                     Currency currency = Common.getInstance().getCurrencyManager().getDefaultCurrency();
@@ -39,27 +42,28 @@ public class BankWithdrawCommand extends CommandExecutor {
                         if (Common.getInstance().getCurrencyManager().getCurrency(args[2]) != null) {
                             currency = Common.getInstance().getCurrencyManager().getCurrency(args[2]);
                         } else {
-                            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("currency_not_exist"));
+                            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance().getLanguageManager().getString("currency_not_exist"));
                             return;
                         }
                     }
-                    Account playerAccount = Common.getInstance().getAccountManager().getAccount(sender, false);
-                    if (bankAccount.hasEnough(amount, Account.getWorldGroupOfPlayerCurrentlyIn(sender), currency.getName())) {
-                        bankAccount.withdraw(amount, Account.getWorldGroupOfPlayerCurrentlyIn(sender), currency.getName(), Cause.BANK_WITHDRAW, sender);
-                        playerAccount.deposit(amount, Account.getWorldGroupOfPlayerCurrentlyIn(sender), currency.getName(), Cause.BANK_WITHDRAW, bankAccount.getAccountName());
+                    Account playerAccount = Common.getInstance().getAccountManager().getAccount(sender.getName(), false);
+                    if (bankAccount.hasEnough(amount, Account.getWorldGroupOfPlayerCurrentlyIn(sender.getUuid()), currency.getName())) {
+                        bankAccount.withdraw(amount, Account.getWorldGroupOfPlayerCurrentlyIn(sender.getUuid()),
+                                currency.getName(), Cause.BANK_WITHDRAW, sender.getName());
+                        playerAccount.deposit(amount, Account.getWorldGroupOfPlayerCurrentlyIn(sender.getUuid()), currency.getName(), Cause.BANK_WITHDRAW, bankAccount.getAccountName());
                         //TODO: Language
-                        Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_GREEN}}Withdrawed {{WHITE}}" + Common.getInstance().format(null, currency, amount) + "{{DARK_GREEN}} from the {{WHITE}}" + args[0] + "{{DARK_GREEN}} bank Account.");
+                        Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), "{{DARK_GREEN}}Withdrawed {{WHITE}}" + Common.getInstance().format(null, currency, amount) + "{{DARK_GREEN}} from the {{WHITE}}" + args[0] + "{{DARK_GREEN}} bank Account.");
                     } else {
-                        Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("bank_not_enough_money"));
+                        Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance().getLanguageManager().getString("bank_not_enough_money"));
                     }
                 } else {
-                    Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("invalid_amount"));
+                    Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance().getLanguageManager().getString("invalid_amount"));
                 }
             } else {
-                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("cant_withdraw_bank"));
+                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance().getLanguageManager().getString("cant_withdraw_bank"));
             }
         } else {
-            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("account_not_exist"));
+            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance().getLanguageManager().getString("account_not_exist"));
         }
     }
 

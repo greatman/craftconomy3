@@ -20,6 +20,7 @@
 package com.greatmancode.craftconomy3.commands.config;
 
 import com.greatmancode.craftconomy3.Common;
+import com.greatmancode.tools.commands.CommandSender;
 import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 
 import java.sql.Timestamp;
@@ -27,14 +28,14 @@ import java.util.Calendar;
 
 public class ConfigClearLogCommand extends CommandExecutor {
     @Override
-    public void execute(String sender, String[] args) {
+    public void execute(CommandSender sender, String[] args) {
         Calendar calendar = Calendar.getInstance();
         try {
             calendar.add(Calendar.DAY_OF_MONTH, -Integer.parseInt(args[0]));
             Common.getInstance().getStorageHandler().getStorageEngine().cleanLog(new Timestamp(calendar.getTimeInMillis()));
-            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("log_cleared"));
+            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance().getLanguageManager().getString("log_cleared"));
         } catch (NumberFormatException e) {
-            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("invalid_time_log"));
+            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance().getLanguageManager().getString("invalid_time_log"));
         }
     }
 

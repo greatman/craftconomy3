@@ -23,12 +23,14 @@ import com.greatmancode.craftconomy3.Cause;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.account.Account;
 import com.greatmancode.craftconomy3.currency.Currency;
+import com.greatmancode.tools.commands.CommandSender;
 import com.greatmancode.tools.commands.interfaces.CommandExecutor;
+import com.greatmancode.tools.entities.Player;
 import com.greatmancode.tools.utils.Tools;
 
 public class PayCommand extends CommandExecutor {
     @Override
-    public void execute(String sender, String[] args) {
+    public void execute(CommandSender sender, String[] args) {
         if (Common.getInstance().getAccountManager().exist(args[0], false)) {
             if (Tools.isValidDouble(args[1])) {
                 double amount = Double.parseDouble(args[1]);
@@ -37,27 +39,34 @@ public class PayCommand extends CommandExecutor {
                     if (Common.getInstance().getCurrencyManager().getCurrency(args[2]) != null) {
                         currency = Common.getInstance().getCurrencyManager().getCurrency(args[2]);
                     } else {
-                        Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("currency_not_exist"));
+                        Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance().getLanguageManager().getString("currency_not_exist"));
                         return;
                     }
                 }
-                boolean hasEnough = Common.getInstance().getAccountManager().getAccount(sender, false).hasEnough(amount, Account.getWorldGroupOfPlayerCurrentlyIn(sender), currency.getName());
+                boolean hasEnough = Common.getInstance().getAccountManager().getAccount(sender.getName(), false).hasEnough
+                        (amount, Account.getWorldGroupOfPlayerCurrentlyIn(sender.getUuid()), currency.getName());
 
                 if (hasEnough) {
-                    Common.getInstance().getAccountManager().getAccount(sender, false).withdraw(amount, Account.getWorldGroupOfPlayerCurrentlyIn(sender), currency.getName(), Cause.PAYMENT, args[0]);
-                    Common.getInstance().getAccountManager().getAccount(args[0], false).deposit(amount, Account.getWorldGroupOfPlayerCurrentlyIn(sender), currency.getName(), Cause.PAYMENT, sender);
-                    Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().parse("money_pay_sent", Common.getInstance().format(null, currency, amount), args[0]));
-                    if (Common.getInstance().getServerCaller().getPlayerCaller().isOnline(args[0])) {
-                        Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(args[0], Common.getInstance().getLanguageManager().parse("money_pay_received", Common.getInstance().format(null, currency, amount), sender));
+                    Common.getInstance().getAccountManager().getAccount(sender.getName(), false).withdraw(amount, Account
+                            .getWorldGroupOfPlayerCurrentlyIn(sender.getUuid()), currency.getName(), Cause.PAYMENT, args[0]);
+                    Common.getInstance().getAccountManager().getAccount(args[0], false).deposit(amount, Account
+                            .getWorldGroupOfPlayerCurrentlyIn(sender.getUuid()), currency.getName(), Cause.PAYMENT,
+                            sender.getName());
+                    Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance().getLanguageManager().parse("money_pay_sent", Common.getInstance().format(null, currency, amount), args[0]));
+                    Player reciever = Common.getInstance().getServerCaller().getPlayerCaller().getOnlinePlayer(args[0]);
+                    if (reciever != null) {
+                        Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(reciever.getUuid(), Common
+                                .getInstance().getLanguageManager().parse("money_pay_received",
+                                        Common.getInstance().format(null, currency, amount), sender.getName()));
                     }
                 } else {
-                    Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("not_enough_money"));
+                    Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance().getLanguageManager().getString("not_enough_money"));
                 }
             } else {
-                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("invalid_amount"));
+                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance().getLanguageManager().getString("invalid_amount"));
             }
         } else {
-            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("player_not_exist"));
+            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance().getLanguageManager().getString("player_not_exist"));
         }
     }
 

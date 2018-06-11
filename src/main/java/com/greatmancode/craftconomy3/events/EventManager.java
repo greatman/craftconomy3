@@ -40,7 +40,7 @@ public class EventManager implements Listener {
     @EventHandler
     public void playerJoinEvent(PlayerJoinEvent event) {
         if (Common.getInstance().getMainConfig().getBoolean("System.CheckNewVersion") && Common.getInstance().getServerCaller().getPlayerCaller().isOP(event.getP().getUuid()) && Common.getInstance().getVersionChecker().getResult() == Updater.UpdateResult.UPDATE_AVAILABLE) {
-            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(event.getP().getName(), "{{DARK_CYAN}}Craftconomy is out of date! New version is " + Common.getInstance().getVersionChecker().getLatestName());
+            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(event.getP().getUuid(),"{{DARK_CYAN}}Craftconomy is out of date! New version is " + Common.getInstance().getVersionChecker().getLatestName());
         }
 
     }

@@ -38,6 +38,6 @@ public enum Cause implements Serializable {
     BANK_DELETE,
     PAYDAY_TAX,
     PAYDAY_WAGE,
-    UNKNOWN;
-
+    UNKNOWN
+    
 }

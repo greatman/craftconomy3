@@ -36,8 +36,8 @@ public class TestConfigurationManager {
 	}
 
     @After
-    public void close() { Common.getInstance().onDisable();};
-
+    public void close() { Common.getInstance().onDisable();}
+    
     @Test
 	public void test() {
 		assertNotNull(Common.getInstance().getConfigurationManager());

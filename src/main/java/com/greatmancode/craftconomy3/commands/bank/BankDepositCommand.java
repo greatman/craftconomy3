@@ -23,45 +23,59 @@ import com.greatmancode.craftconomy3.Cause;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.account.Account;
 import com.greatmancode.craftconomy3.currency.Currency;
+import com.greatmancode.tools.commands.CommandSender;
 import com.greatmancode.tools.commands.interfaces.CommandExecutor;
+import com.greatmancode.tools.entities.Player;
 import com.greatmancode.tools.utils.Tools;
 
 public class BankDepositCommand extends CommandExecutor {
+    
     @Override
-    public void execute(String sender, String[] args) {
-        if (Common.getInstance().getAccountManager().exist(args[0], true)) {
-            Account bankAccount = Common.getInstance().getAccountManager().getAccount(args[0], true);
-            if (bankAccount.getAccountACL().canDeposit(sender) || Common.getInstance().getServerCaller().getPlayerCaller().checkPermission(sender, "craftconomy.bank.deposit.others")) {
-                if (Tools.isValidDouble(args[1])) {
-                    double amount = Double.parseDouble(args[1]);
-                    Currency currency = Common.getInstance().getCurrencyManager().getDefaultCurrency();
-                    if (args.length > 2) {
-                        if (Common.getInstance().getCurrencyManager().getCurrency(args[2]) != null) {
-                            currency = Common.getInstance().getCurrencyManager().getCurrency(args[2]);
-                        } else {
-                            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("currency_not_exist"));
-                            return;
+    public void execute(CommandSender sender, String[] args) {
+        if(sender instanceof Player) {
+            Player player = (Player) sender;
+            if (Common.getInstance().getAccountManager().exist(args[0], true)) {
+                Account bankAccount = Common.getInstance().getAccountManager().getAccount(args[0], true);
+                if (bankAccount.getAccountACL().canDeposit(player.getName()) ||
+                        Common.getInstance().getServerCaller()
+                                .getPlayerCaller()
+                                .checkPermission(player.getUuid(), "craftconomy.bank.deposit.others")) {
+                    if (Tools.isValidDouble(args[1])) {
+                        double amount = Double.parseDouble(args[1]);
+                        Currency currency = Common.getInstance().getCurrencyManager().getDefaultCurrency();
+                        if (args.length > 2) {
+                            if (Common.getInstance().getCurrencyManager().getCurrency(args[2]) != null) {
+                                currency = Common.getInstance().getCurrencyManager().getCurrency(args[2]);
+                            } else {
+                                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(player.getUuid(),
+                                        Common.getInstance().getLanguageManager().getString("currency_not_exist"));
+                                return;
+                            }
                         }
-                    }
-                    Account playerAccount = Common.getInstance().getAccountManager().getAccount(sender, false);
-                    if (playerAccount.hasEnough(amount, Account.getWorldGroupOfPlayerCurrentlyIn(sender), currency.getName())) {
-                        playerAccount.withdraw(amount, Account.getWorldGroupOfPlayerCurrentlyIn(sender), currency.getName(), Cause.BANK_DEPOSIT, bankAccount.getAccountName());
-                        bankAccount.deposit(amount, Account.getWorldGroupOfPlayerCurrentlyIn(sender), currency.getName(), Cause.BANK_DEPOSIT, sender);
-                        Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().parse("deposited", Common.getInstance().format(null, currency, amount), args[0]));
+                        Account playerAccount = Common.getInstance().getAccountManager().getAccount(player.getName(), false);
+                        if (playerAccount.hasEnough(amount, Account.getWorldGroupOfPlayerCurrentlyIn(sender.getUuid()),
+                                currency.getName())) {
+                            playerAccount.withdraw(amount, Account.getWorldGroupOfPlayerCurrentlyIn(player.getUuid()),
+                                    currency.getName(), Cause.BANK_DEPOSIT, bankAccount.getAccountName());
+                            bankAccount.deposit(amount, Account.getWorldGroupOfPlayerCurrentlyIn(player.getUuid()),
+                                    currency.getName(), Cause.BANK_DEPOSIT, sender.getName());
+                            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(player.getUuid(), Common
+                                    .getInstance().getLanguageManager().parse("deposited", Common.getInstance().format(null, currency, amount), args[0]));
+                        } else {
+                            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(player.getUuid(), Common.getInstance().getLanguageManager().getString("not_enough_money"));
+                        }
                     } else {
-                        Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("not_enough_money"));
+                        Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(player.getUuid(), Common.getInstance().getLanguageManager().getString("invalid_amount"));
                     }
                 } else {
-                    Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("invalid_amount"));
+                    Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(player.getUuid(), Common.getInstance().getLanguageManager().getString("bank_cant_deposit"));
                 }
             } else {
-                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("bank_cant_deposit"));
+                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(player.getUuid(), Common.getInstance().getLanguageManager().getString("account_not_exist"));
             }
-        } else {
-            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("account_not_exist"));
         }
     }
-
+    
     @Override
     public String help() {
         return Common.getInstance().getLanguageManager().getString("bank_deposit_cmd_help");

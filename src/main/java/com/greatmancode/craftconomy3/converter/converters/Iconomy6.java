@@ -22,6 +22,7 @@ package com.greatmancode.craftconomy3.converter.converters;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.converter.Converter;
 import com.greatmancode.craftconomy3.storage.sql.tables.iconomy.IConomyTable;
+import com.greatmancode.tools.commands.CommandSender;
 import com.greatmancode.tools.utils.Tools;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -149,7 +150,7 @@ public class Iconomy6 extends Converter {
     }
 
     @Override
-    public boolean importData(String sender) {
+    public boolean importData(CommandSender sender) {
         boolean result = false;
         if (flatFileReader != null) {
             result = importFlatFile(sender);
@@ -165,7 +166,7 @@ public class Iconomy6 extends Converter {
      * @param sender The command sender so we can send back messages.
      * @return True if the convert is done. Else false.
      */
-    private boolean importFlatFile(String sender) {
+    private boolean importFlatFile(CommandSender sender) {
         boolean result = false;
 
         try {
@@ -201,7 +202,7 @@ public class Iconomy6 extends Converter {
      * @param sender The command sender so we can send back messages.
      * @return True if the convert is done. Else false.
      */
-    private boolean importDatabase(String sender) {
+    private boolean importDatabase(CommandSender sender) {
         Connection connection = null;
         PreparedStatement statement = null;
         try {

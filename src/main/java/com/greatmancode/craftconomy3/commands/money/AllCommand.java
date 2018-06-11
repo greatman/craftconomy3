@@ -22,15 +22,17 @@ package com.greatmancode.craftconomy3.commands.money;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.account.Account;
 import com.greatmancode.craftconomy3.account.Balance;
+import com.greatmancode.tools.commands.CommandSender;
 import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 
 public class AllCommand extends CommandExecutor {
     @Override
-    public void execute(String sender, String[] args) {
-        Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("money_all_title"));
-        Account account = Common.getInstance().getAccountManager().getAccount(sender, false);
+    public void execute(CommandSender sender, String[] args) {
+        Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance()
+                .getLanguageManager().getString("money_all_title"));
+        Account account = Common.getInstance().getAccountManager().getAccount(sender.getName(), false);
         for (Balance bl : account.getAllBalance()) {
-            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().format(bl.getWorld(), bl.getCurrency(), bl.getBalance()));
+            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance().format(bl.getWorld(), bl.getCurrency(), bl.getBalance()));
         }
     }
 

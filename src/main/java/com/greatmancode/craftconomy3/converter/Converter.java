@@ -20,6 +20,7 @@
 package com.greatmancode.craftconomy3.converter;
 
 import com.greatmancode.craftconomy3.Common;
+import com.greatmancode.tools.commands.CommandSender;
 import lombok.Getter;
 
 import java.util.*;
@@ -131,7 +132,7 @@ public abstract class Converter {
      * @param sender The name of the sender so we can send status update.
      * @return True if everything went well else false.
      */
-    public abstract boolean importData(String sender);
+    public abstract boolean importData(CommandSender sender);
 
     /**
      * Get the selected database type
@@ -163,10 +164,10 @@ public abstract class Converter {
      * @param sender The sender so we can send messages back to him
      * @param userList2 Account list
      */
-    protected void addAccountToString(String sender, List<User> userList2) {
-        Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_RED}}Converting accounts. This may take a while.");
+    protected void addAccountToString(CommandSender sender, List<User> userList2) {
+        Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), "{{DARK_RED}}Converting accounts. This may take a while.");
         Common.getInstance().getStorageHandler().getStorageEngine().saveImporterUsers(userList2);
-        Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, userList2.size() + " {{DARK_GREEN}}accounts converted! Enjoy!");
+        Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), userList2.size() + " {{DARK_GREEN}}accounts converted! Enjoy!");
     }
 
     /**

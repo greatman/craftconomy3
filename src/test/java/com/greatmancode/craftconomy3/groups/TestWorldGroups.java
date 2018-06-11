@@ -38,10 +38,10 @@ public class TestWorldGroups {
 	}
 
     @After
-    public void close() { Common.getInstance().onDisable();};
-
+    public void close() { Common.getInstance().onDisable();}
+    
     @Test
-	public void testWorldGroup() throws NoSuchFieldException, IllegalAccessException {
+	public void testWorldGroup() {
 		WorldGroup worldGroup = new WorldGroup("test");
 
 

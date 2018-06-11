@@ -27,6 +27,7 @@ import com.greatmancode.craftconomy3.storage.sql.tables.BalanceTable;
 import com.greatmancode.tools.events.event.EconomyChangeEvent;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Represents a economy account.
@@ -289,21 +290,21 @@ public class Account {
     /**
      * Returns the world that the player is currently in
      *
-     * @param playerName The player name.
+     * @param  playerUUID The player uuid.
      * @return The world name that the player is currently in or any if he is not online/Multiworld system not enabled
      */
-    private static String getWorldPlayerCurrentlyIn(String playerName) {
-        return Common.getInstance().getServerCaller().getPlayerCaller().getPlayerWorld(playerName);
+    private static String getWorldPlayerCurrentlyIn(UUID playerUUID) {
+        return Common.getInstance().getServerCaller().getPlayerCaller().getPlayerWorld(playerUUID);
     }
 
     /**
      * Retrieve the world group of the player
      *
-     * @param playerName The player name
+     * @param  playerUUID The player uuid
      * @return The worldGroup of the player.
      */
-    public static String getWorldGroupOfPlayerCurrentlyIn(String playerName) {
-        return Common.getInstance().getWorldGroupManager().getWorldGroupName(getWorldPlayerCurrentlyIn(playerName));
+    public static String getWorldGroupOfPlayerCurrentlyIn(UUID playerUUID) {
+        return Common.getInstance().getWorldGroupManager().getWorldGroupName(getWorldPlayerCurrentlyIn(playerUUID));
     }
 
     /**

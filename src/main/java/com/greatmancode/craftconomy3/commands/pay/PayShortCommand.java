@@ -19,6 +19,7 @@
  */
 package com.greatmancode.craftconomy3.commands.pay;
 
+import com.greatmancode.tools.commands.CommandSender;
 import com.greatmancode.tools.commands.interfaces.Command;
 import com.greatmancode.tools.commands.CommandHandler;
 import com.greatmancode.tools.commands.SubCommand;
@@ -62,15 +63,16 @@ public class PayShortCommand extends SubCommand {
     * Command contains the Player name
     */
     @Override
-    public void execute(String command, String sender, String[] args) {
+    public void execute(String command, CommandSender sender, String[] args) {
         if (level <= commandHandler.getCurrentLevel()) {
             if (commandExist(command)) {
                 Command entry = commandList.get("");
                 if (entry instanceof CommandExecutor) {
                     CommandExecutor cmd = ((CommandExecutor) entry);
-                    if (commandHandler.getServerCaller().getPlayerCaller().checkPermission(sender, cmd.getPermissionNode())) {
-                        if (cmd.playerOnly() && sender.equalsIgnoreCase("console")) {
-                            commandHandler.getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_RED}}Only players can do this command!");
+                    if (commandHandler.getServerCaller().getPlayerCaller().checkPermission(sender.getUuid(), cmd
+                            .getPermissionNode())) {
+                        if (cmd.playerOnly() && sender.getName().equalsIgnoreCase("console")) {
+                            commandHandler.getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), "{{DARK_RED}}Only players can do this command!");
                             return;
                         }
                         if (args.length >= cmd.minArgs() - 1 && args.length <= cmd.maxArgs() - 1) {
@@ -79,10 +81,10 @@ public class PayShortCommand extends SubCommand {
                             System.arraycopy(args, 0, newArgs, 1, args.length);
                             cmd.execute(sender, newArgs);
                         } else {
-                            commandHandler.getServerCaller().getPlayerCaller().sendMessage(sender, cmd.help());
+                            commandHandler.getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), cmd.help());
                         }
                     } else {
-                        commandHandler.getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_RED}}Permission denied!");
+                        commandHandler.getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), "{{DARK_RED}}Permission denied!");
                     }
                 } else if (entry instanceof SubCommand) {
                     SubCommand subCommand = (SubCommand) entry;
@@ -105,7 +107,7 @@ public class PayShortCommand extends SubCommand {
                 }
             }
         } else {
-            commandHandler.getServerCaller().getPlayerCaller().sendMessage(sender, commandHandler.getWrongLevelMsg());
+            commandHandler.getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), commandHandler.getWrongLevelMsg());
         }
     }
 }

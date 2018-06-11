@@ -21,14 +21,15 @@ package com.greatmancode.craftconomy3.commands.currency;
 
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.currency.Currency;
+import com.greatmancode.tools.commands.CommandSender;
 import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 
 public class CurrencyRatesCommand extends CommandExecutor {
     @Override
-    public void execute(String sender, String[] args) {
-        Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("rates_header"));
+    public void execute(CommandSender sender, String[] args) {
+        Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance().getLanguageManager().getString("rates_header"));
         for (CurrencyRateEntry entry : Common.getInstance().getStorageHandler().getStorageEngine().getCurrencyExchanges()) {
-            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "1 " + entry.from.getName() + " => " + entry.amount + " " + entry.to.getName());
+            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), "1 " + entry.from.getName() + " => " + entry.amount + " " + entry.to.getName());
         }
     }
 

@@ -25,15 +25,18 @@ import com.greatmancode.craftconomy3.TestInitializator;
 import com.greatmancode.craftconomy3.commands.config.ConfigBankPriceCommand;
 import com.greatmancode.craftconomy3.commands.config.ConfigFormatCommand;
 import com.greatmancode.craftconomy3.commands.config.ConfigHoldingsCommand;
+import com.greatmancode.tools.commands.PlayerCommandSender;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
 
 public class TestConfigCommands {
 
-    private static final String TEST_USER = "testuser39";
+    private static  PlayerCommandSender TEST_USER;
     private static final String TEST_ACCOUNT = "testuser30";
     private static final String TEST_ACCOUNT2 = "Testuser31";
     private static final String TEST_ACCOUNT3 = "Testuser32";
@@ -41,11 +44,12 @@ public class TestConfigCommands {
     @Before
     public void setUp() {
         new TestInitializator();
+        TEST_USER = createTestUser("TestUser39");
     }
 
     @After
-    public void close() { Common.getInstance().onDisable();};
-
+    public void close() { Common.getInstance().onDisable();}
+    
     @Test
     public void testBankPriceCommand() {
         ConfigBankPriceCommand command = new ConfigBankPriceCommand();
@@ -99,5 +103,9 @@ public class TestConfigCommands {
         assertEquals(0, Common.getInstance().getDefaultHoldings(), 0);
         Common.getInstance().getAccountManager().getAccount(TEST_ACCOUNT, false);
         assertEquals(0, Common.getInstance().getAccountManager().getAccount(TEST_ACCOUNT, false).getBalance("default", Common.getInstance().getCurrencyManager().getDefaultCurrency().getName()), 0);
+    }
+    
+    private PlayerCommandSender createTestUser(String name){
+        return new PlayerCommandSender(name, UUID.randomUUID());
     }
 }

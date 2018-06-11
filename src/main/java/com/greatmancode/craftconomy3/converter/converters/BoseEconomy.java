@@ -22,6 +22,7 @@ package com.greatmancode.craftconomy3.converter.converters;
 import com.greatmancode.craftconomy3.Cause;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.converter.Converter;
+import com.greatmancode.tools.commands.CommandSender;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -61,13 +62,13 @@ public class BoseEconomy extends Converter {
     }
 
     @Override
-    public boolean importData(String sender) {
+    public boolean importData(CommandSender sender) {
         String line = "";
         try {
             int i = 0;
             while (line != null) {
                 if (i % ALERT_EACH_X_ACCOUNT == 0) {
-                    Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, i + " {{DARK_GREEN}}accounts imported.");
+                    Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), i + " {{DARK_GREEN}}accounts imported.");
                 }
                 line = flatFileReader.readLine();
                 if (line != null && Pattern.compile("[?a-zA-Z0-9\\s{_-]+").matcher(line).matches()) {
@@ -76,7 +77,7 @@ public class BoseEconomy extends Converter {
                     // Line for account type
                     String type = line.split(" ")[1];
                     if ("player".equalsIgnoreCase(type)) {
-                        accountImporter(sender, username);
+                        accountImporter(sender.getName(), username);
                         i++;
                     } else if ("type".equalsIgnoreCase(type)) {
                         bankImporter(username);

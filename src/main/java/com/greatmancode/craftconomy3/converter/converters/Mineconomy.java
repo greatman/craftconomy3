@@ -21,6 +21,7 @@ package com.greatmancode.craftconomy3.converter.converters;
 
 import com.greatmancode.craftconomy3.converter.Converter;
 import com.greatmancode.craftconomy3.storage.sql.tables.mineconomy.MineconomyTable;
+import com.greatmancode.tools.commands.CommandSender;
 import com.greatmancode.tools.utils.Tools;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -81,7 +82,7 @@ public class Mineconomy extends Converter {
     }
 
     @Override
-    public boolean importData(String sender) {
+    public boolean importData(CommandSender sender) {
         List<User> userList;
         if ("flatfile".equals(getSelectedDbType())) {
             userList = importFlatfile(sender);
@@ -92,7 +93,7 @@ public class Mineconomy extends Converter {
         return true;
     }
 
-    private List<User> importMySQL(String sender) {
+    private List<User> importMySQL(CommandSender sender) {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
@@ -113,7 +114,7 @@ public class Mineconomy extends Converter {
         return null;
     }
 
-    private List<User> importFlatfile(String sender) {
+    private List<User> importFlatfile(CommandSender sender) {
         return null;
     }
 }

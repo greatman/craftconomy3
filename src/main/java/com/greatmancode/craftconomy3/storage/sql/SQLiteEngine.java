@@ -156,7 +156,7 @@ public class SQLiteEngine extends StorageEngine {
     }
 
     @Override
-    public double getExchangeRate(Currency currency, Currency otherCurrency) throws NoExchangeRate {
+    public double getExchangeRate(Currency currency, Currency otherCurrency) {
         return 0;
     }
 

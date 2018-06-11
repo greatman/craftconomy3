@@ -39,8 +39,8 @@ public class TestWorldGroupManager {
 	}
 
     @After
-    public void close() { Common.getInstance().onDisable();};
-
+    public void close() { Common.getInstance().onDisable();}
+    
     @Test
 	public void testWorldGroupManager() {
 		assertFalse(Common.getInstance().getWorldGroupManager().worldGroupExist("testeur"));

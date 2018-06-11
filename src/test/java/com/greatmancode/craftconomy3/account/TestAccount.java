@@ -38,8 +38,8 @@ public class TestAccount {
 	}
 
     @After
-    public void close() { Common.getInstance().onDisable();};
-
+    public void close() { Common.getInstance().onDisable();}
+    
     @Test
 	public void testAccount() {
         Account account = Common.getInstance().getAccountManager().getAccount("greatman321", false);

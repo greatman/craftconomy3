@@ -24,12 +24,13 @@ import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.account.Account;
 import com.greatmancode.craftconomy3.currency.Currency;
 import com.greatmancode.craftconomy3.utils.NoExchangeRate;
+import com.greatmancode.tools.commands.CommandSender;
 import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 import com.greatmancode.tools.utils.Tools;
 
 public class ExchangeCommand extends CommandExecutor {
     @Override
-    public void execute(String sender, String[] args) {
+    public void execute(CommandSender sender, String[] args) {
         if (Tools.isValidDouble(args[2])) {
             double amount = Double.parseDouble(args[2]);
             Currency currency1 = Common.getInstance().getCurrencyManager().getCurrency(args[0]);
@@ -37,21 +38,22 @@ public class ExchangeCommand extends CommandExecutor {
             if (currency1 != null && currency2 != null) {
                 try {
                     double exchangeRate = currency1.getExchangeRate(currency2);
-                    Account account = Common.getInstance().getAccountManager().getAccount(sender, false);
-                    if (account.hasEnough(amount, Common.getInstance().getServerCaller().getPlayerCaller().getPlayerWorld(sender), currency1.getName())) {
+                    Account account = Common.getInstance().getAccountManager().getAccount(sender.getName(), false);
+                    if (account.hasEnough(amount, Common.getInstance().getServerCaller().getPlayerCaller()
+                            .getPlayerWorld(sender.getUuid()), currency1.getName())) {
                         double value = amount * exchangeRate;
-                        account.withdraw(amount, Common.getInstance().getServerCaller().getPlayerCaller().getPlayerWorld(sender), currency1.getName(), Cause.EXCHANGE, currency2.getName());
-                        account.deposit(value, Common.getInstance().getServerCaller().getPlayerCaller().getPlayerWorld(sender), currency2.getName(), Cause.EXCHANGE, currency1.getName());
-                        Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().parse("exchange_done", amount, currency1.getName(), value, currency2.getName()));
+                        account.withdraw(amount, Common.getInstance().getServerCaller().getPlayerCaller().getPlayerWorld(sender.getUuid()), currency1.getName(), Cause.EXCHANGE, currency2.getName());
+                        account.deposit(value, Common.getInstance().getServerCaller().getPlayerCaller().getPlayerWorld(sender.getUuid()), currency2.getName(), Cause.EXCHANGE, currency1.getName());
+                        Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance().getLanguageManager().parse("exchange_done", amount, currency1.getName(), value, currency2.getName()));
                     }
                 } catch (NoExchangeRate noExchangeRate) {
-                    Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().parse("no_exchange_rate", currency1.getName(), currency2.getName()));
+                    Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance().getLanguageManager().parse("no_exchange_rate", currency1.getName(), currency2.getName()));
                 }
             } else {
-                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("currency_not_exist"));
+                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance().getLanguageManager().getString("currency_not_exist"));
             }
         } else {
-            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("invalid_amount"));
+            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance().getLanguageManager().getString("invalid_amount"));
         }
     }
 

@@ -35,9 +35,9 @@ public class TestCurrency {
     }
 
     @After
-    public void close() { Common.getInstance().onDisable();};
-
-	//TODO: Null tests
+    public void close() { Common.getInstance().onDisable();}
+    
+    //TODO: Null tests
 	@Test
     public void testGetName() {
 		Currency currency = new Currency("test", "plural", "minor", "minorplural", "$");

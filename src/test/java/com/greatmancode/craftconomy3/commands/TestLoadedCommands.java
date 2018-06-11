@@ -37,8 +37,8 @@ public class TestLoadedCommands {
 	}
 
     @After
-    public void close() { Common.getInstance().onDisable();};
-
+    public void close() { Common.getInstance().onDisable();}
+    
     @Test
 	public void testCommands() {
 

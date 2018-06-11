@@ -22,6 +22,7 @@ package com.greatmancode.craftconomy3.commands.money;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.currency.Currency;
 import com.greatmancode.craftconomy3.groups.WorldGroupsManager;
+import com.greatmancode.tools.commands.CommandSender;
 import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 
 import java.util.List;
@@ -30,26 +31,26 @@ class TopCommandThread implements Runnable {
     public static final int NUMBER_ELEMENTS = 10;
 
     class TopCommandThreadEnd implements Runnable {
-        private final String sender;
+        private final CommandSender sender;
         private final String ret;
 
-        public TopCommandThreadEnd(String sender, String ret) {
+        public TopCommandThreadEnd(CommandSender sender, String ret) {
             this.sender = sender;
             this.ret = ret;
         }
 
         @Override
         public void run() {
-            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, ret);
+            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), ret);
         }
     }
 
-    private final String sender;
+    private final CommandSender sender;
     private final int page;
     private final String world;
     private final Currency currency;
 
-    public TopCommandThread(String sender, int page, String world, Currency currency) {
+    public TopCommandThread(CommandSender sender, int page, String world, Currency currency) {
         this.sender = sender;
         this.page = page;
         this.world = world;
@@ -71,7 +72,7 @@ class TopCommandThread implements Runnable {
 
 public class TopCommand extends CommandExecutor {
     @Override
-    public void execute(String sender, String[] args) {
+    public void execute(CommandSender sender, String[] args) {
         int page = 1;
         Currency currency;
         if (args.length == 0) {
@@ -80,7 +81,7 @@ public class TopCommand extends CommandExecutor {
             if (Common.getInstance().getCurrencyManager().getCurrency(args[0]) != null) {
                 currency = Common.getInstance().getCurrencyManager().getCurrency(args[0]);
             } else {
-                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("currency_not_exist"));
+                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance().getLanguageManager().getString("currency_not_exist"));
                 return;
             }
         }
@@ -92,7 +93,8 @@ public class TopCommand extends CommandExecutor {
                     page = 1;
                 }
             } catch (NumberFormatException e) {
-                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().getLanguageManager().getString("invalid_page"));
+                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance()
+                        .getLanguageManager().getString("invalid_page"));
                 return;
             }
         }

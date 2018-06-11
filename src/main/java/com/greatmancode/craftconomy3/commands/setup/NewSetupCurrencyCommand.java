@@ -22,6 +22,7 @@ package com.greatmancode.craftconomy3.commands.setup;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.NewSetupWizard;
 import com.greatmancode.craftconomy3.currency.Currency;
+import com.greatmancode.tools.commands.CommandSender;
 import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 
 import java.util.HashMap;
@@ -33,13 +34,13 @@ public class NewSetupCurrencyCommand extends CommandExecutor {
         NAMEPLURAL,
         MINOR,
         MINORPLURAL,
-        SIGN;
+        SIGN
     }
 
     private Map<String, String> map = new HashMap<>();
 
     @Override
-    public void execute(String sender, String[] args) {
+    public void execute(CommandSender sender, String[] args) {
 
         try {
             INTERNALSTEP step = INTERNALSTEP.valueOf(args[0].toUpperCase());
@@ -56,7 +57,7 @@ public class NewSetupCurrencyCommand extends CommandExecutor {
                 sign(sender, args[1]);
             }
         } catch (IllegalArgumentException e) {
-            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_RED}}Invalid sub-step! Please write a valid one.");
+            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), "{{DARK_RED}}Invalid sub-step! Please write a valid one.");
         }
     }
 
@@ -85,41 +86,41 @@ public class NewSetupCurrencyCommand extends CommandExecutor {
         return "craftconomy.setup";
     }
 
-    private void name(String sender, String name) {
+    private void name(CommandSender sender, String name) {
         map.put("name", name);
-        Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_GREEN}}Now, let's configure the currency name but in {{WHITE}}Plural {{DARK_GREEN}}(Ex: {{WHITE}}Dollars{{DARK_GREEN}}). Please type {{WHITE}}/ccsetup currency nameplural <Plural>");
+        Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), "{{DARK_GREEN}}Now, let's configure the currency name but in {{WHITE}}Plural {{DARK_GREEN}}(Ex: {{WHITE}}Dollars{{DARK_GREEN}}). Please type {{WHITE}}/ccsetup currency nameplural <Plural>");
         done(sender);
     }
 
-    private void namePlural(String sender, String namePlural) {
+    private void namePlural(CommandSender sender, String namePlural) {
         map.put("nameplural", namePlural);
-        Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_GREEN}}Now, let's configure the currency name but for the {{WHITE}}minor {{DARK_GREEN}}(Ex: {{WHITE}}Coin{{DARK_GREEN}}). Please type {{WHITE}}/ccsetup currency minor <Minor>");
+        Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), "{{DARK_GREEN}}Now, let's configure the currency name but for the {{WHITE}}minor {{DARK_GREEN}}(Ex: {{WHITE}}Coin{{DARK_GREEN}}). Please type {{WHITE}}/ccsetup currency minor <Minor>");
         done(sender);
     }
 
-    private void minor(String sender, String minor) {
+    private void minor(CommandSender sender, String minor) {
         map.put("minor", minor);
-        Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_GREEN}}Now, let's configure the currency name but for the {{WHITE}}minor in plural {{DARK_GREEN}}(Ex: {{WHITE}}Coins{{DARK_GREEN}}). Please type {{WHITE}}/ccsetup currency minorplural <Minor plural>");
+        Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), "{{DARK_GREEN}}Now, let's configure the currency name but for the {{WHITE}}minor in plural {{DARK_GREEN}}(Ex: {{WHITE}}Coins{{DARK_GREEN}}). Please type {{WHITE}}/ccsetup currency minorplural <Minor plural>");
         done(sender);
     }
 
-    private void minorPlural(String sender, String minorPlural) {
+    private void minorPlural(CommandSender sender, String minorPlural) {
         map.put("minorplural", minorPlural);
-        Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_GREEN}}Finally, let's put a {{WHITE}}sign {{DARK_GREEN}}on that currency (Ex: {{WHITE}}$ {{DARK_GREEN}}). Please type {{WHITE}}/ccsetup currency sign <Sign>");
+        Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), "{{DARK_GREEN}}Finally, let's put a {{WHITE}}sign {{DARK_GREEN}}on that currency (Ex: {{WHITE}}$ {{DARK_GREEN}}). Please type {{WHITE}}/ccsetup currency sign <Sign>");
         done(sender);
     }
 
-    private void sign(String sender, String sign) {
+    private void sign(CommandSender sender, String sign) {
         map.put("sign", sign);
         done(sender);
     }
 
-    private void done(String sender) {
+    private void done(CommandSender sender) {
         if (map.size() == 5) {
             Currency currency = Common.getInstance().getCurrencyManager().addCurrency(map.get("name"), map.get("nameplural"), map.get("minor"), map.get("minorplural"), map.get("sign"), true);
             Common.getInstance().getCurrencyManager().setDefault(currency);
             Common.getInstance().getCurrencyManager().setDefaultBankCurrency(currency);
-            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_GREEN}}We are done for that step! Only 2 remaining! Please type {{WHITE}}/ccsetup basic");
+            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), "{{DARK_GREEN}}We are done for that step! Only 2 remaining! Please type {{WHITE}}/ccsetup basic");
             NewSetupWizard.setState(NewSetupWizard.BASIC_STEP);
         }
     }
