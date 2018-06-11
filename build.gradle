@@ -90,6 +90,8 @@ repositories {
     maven { url "http://repo.visualillusionsent.net/repository/public/" }
     maven { url "https://libraries.minecraft.net" }
     maven { url "http://repo.spongepowered.org/maven" }
+    maven { url "http://repo.mcstats.org/content/repositories/releases/" }
+
 }
 
 dependencies {
@@ -108,7 +110,7 @@ dependencies {
 
 shadowJar {
     dependencies {
-        include(dependency('com.greatmancode:tools:1.3-SNAPSHOT'))
+        include(dependency('com.greatmancode:tools:1.4-SNAPSHOT'))
         include(dependency('com.zaxxer:HikariCP:2.6.1'))
         include(dependency('org.slf4j:slf4j-api:1.7.25'))
         include(dependency('org.slf4j:slf4j-simple:1.7.22'))
@@ -185,11 +187,11 @@ uploadArchives {
                 beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
             }
 
-            repository( url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
                 authentication(userName: System.getenv("sonatypeUsername"), password: System.getenv("sonatypePassword"))
             }
 
-            snapshotRepository( url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+            snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
                 authentication(userName: System.getenv("sonatypeUsername"), password: System.getenv("sonatypePassword"))
             }
 
@@ -221,7 +223,7 @@ uploadArchives {
                         id 'aztorius'
                         name 'William Bonnaventure'
                         email 'informaticien77.fr@gmail.com'
-                }
+                    }
                 }
                 repositories {
                     repository {
@@ -243,6 +245,10 @@ uploadArchives {
                     repository {
                         id 'sponge-repo'
                         url 'http://repo.spongepowered.org/maven'
+                    }
+                    repository {
+                        id 'metrics-repo'
+                        url 'http://repo.mcstats.org/content/repositories/releases/'
                     }
                     }
                 }
