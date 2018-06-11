@@ -114,7 +114,7 @@ shadowJar {
         include(dependency('com.zaxxer:HikariCP:2.6.1'))
         include(dependency('org.slf4j:slf4j-api:1.7.25'))
         include(dependency('org.slf4j:slf4j-simple:1.7.22'))
-        include(dependency('com.h2database:h2:1.4.194'))
+        include(dependency('com.h2database:h2:1.4.197'))
         include(dependency('com.googlecode.json-simple:json-simple:1.1.1'))
     }
     relocate 'com.greatmancode.tools', 'com.greatmancode.craftconomy3.tools'

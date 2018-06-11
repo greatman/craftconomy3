@@ -131,6 +131,7 @@
             <groupId>org.xerial</groupId>
             <artifactId>sqlite-jdbc</artifactId>
             <version>3.16.1</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -142,6 +143,7 @@
             <groupId>org.reflections</groupId>
             <artifactId>reflections</artifactId>
             <version>0.9.11</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -187,7 +189,6 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
-                            <minimizeJar>true</minimizeJar>
                             <relocations>
                                 <relocation>
                                     <pattern>com.greatmancode.tools</pattern>
@@ -204,7 +205,6 @@
                             </relocations>
                           <artifactSet>
                               <excludes>
-                                  <exclude>com.googlecode.json-simple:json-simple</exclude>
                                   <exclude>org.projectlombok:lombok</exclude>
                                   <exclude>com.google.guava:guava</exclude>
                                   <exlude>org.bukkit:*</exlude>
@@ -213,7 +213,6 @@
                                   <exclude>com.google.code.guava:gson</exclude>
                                   <exclude>org.yaml:snakeyaml</exclude>
                                   <exclude>org.apache.commons:commons-lang3</exclude>
-                                  <exclude></exclude>
                               </excludes>
                           </artifactSet>
                         </configuration>
