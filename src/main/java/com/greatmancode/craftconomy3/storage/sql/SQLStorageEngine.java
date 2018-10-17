@@ -111,7 +111,8 @@ public abstract class SQLStorageEngine extends StorageEngine {
             }
             statement.close();
             Player player = Common.getInstance().getServerCaller().getPlayerCaller().getOnlinePlayer(name);
-            UUID uuid = player.getUuid();
+            UUID uuid = null;
+            if(player !=null)uuid = player.getUuid();
             if (create && !bankAccount && createDefault) {
                 statement = connection.prepareStatement(balanceTable.insertEntry);
                 statement.setDouble(1, Common.getInstance().getDefaultHoldings());

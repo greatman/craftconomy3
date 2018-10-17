@@ -39,10 +39,11 @@ public class EventManager implements Listener {
      */
     @EventHandler
     public void playerJoinEvent(PlayerJoinEvent event) {
-        if (Common.getInstance().getMainConfig().getBoolean("System.CheckNewVersion") && Common.getInstance().getServerCaller().getPlayerCaller().isOP(event.getP().getUuid()) && Common.getInstance().getVersionChecker().getResult() == Updater.UpdateResult.UPDATE_AVAILABLE) {
-            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(event.getP().getUuid(),"{{DARK_CYAN}}Craftconomy is out of date! New version is " + Common.getInstance().getVersionChecker().getLatestName());
+        if (!Common.getInstance().getMainConfig().getBoolean("System.Setup")) {
+            if (Common.getInstance().getMainConfig().getBoolean("System.CreateOnLogin")) {
+                Common.getInstance().getAccountManager().getAccount(event.getP().getName(), false);
+            }
         }
-
     }
 
     @EventHandler
@@ -56,9 +57,6 @@ public class EventManager implements Listener {
             } else if (account == null){
                 //We set deh UUID
                 Common.getInstance().getStorageHandler().getStorageEngine().updateUUID(event.getName(), event.getUuid());
-            }
-            if (Common.getInstance().getMainConfig().getBoolean("System.CreateOnLogin")) {
-                Common.getInstance().getAccountManager().getAccount(event.getName(), false);
             }
         }
     }
