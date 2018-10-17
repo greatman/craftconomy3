@@ -17,12 +17,12 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with Craftconomy3.  If not, see <http://www.gnu.org/licenses/>.
 #
-
 name: Craftconomy3
 main: com.greatmancode.craftconomy3.tools.interfaces.BukkitLoader
-version: ${version}
-authors: [Greatman, Aztorius]
-softdepends: [MVdWPlaceholderAPI]
+version: ${plugin.version}
+api-version: ${spigot.api.version}
+authors: [Greatman, Aztorius, Narimm]
+softdepends: [MVdWPlaceholderAPI, Vault]
 commands:
     money:
       description: Check / Distribute currency.

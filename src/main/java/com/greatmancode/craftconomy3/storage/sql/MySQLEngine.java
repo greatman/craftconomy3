@@ -41,6 +41,8 @@ public class MySQLEngine extends SQLStorageEngine {
         config.addDataSourceProperty("user", Common.getInstance().getMainConfig().getString("System.Database.Username"));
         config.addDataSourceProperty("password", Common.getInstance().getMainConfig().getString("System.Database.Password"));
         config.addDataSourceProperty("autoDeserialize", true);
+        config.addDataSourceProperty("useSSL",Common.getInstance().getMainConfig().getString(
+                "System.Database.useSSL"));
         config.setConnectionTimeout(5000);
         db = new HikariDataSource(config);
         this.tablePrefix = Common.getInstance().getMainConfig().getString("System.Database.Prefix");
