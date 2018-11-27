@@ -33,7 +33,6 @@ public class WorldGroupsManager {
 
     public WorldGroupsManager() {
         list = Common.getInstance().getStorageHandler().getStorageEngine().getWorldGroups();
-        Common.getInstance().addMetricsGraph("WorldGroupCount", list.size() + "");
     }
 
     /**

@@ -47,7 +47,6 @@ public class CurrencyManager {
                 defaultBankCurrency = currencyEntry.getValue();
             }
         }
-        Common.getInstance().addMetricsGraph("NumberCurrency", currencyList.size() + "");
     }
 
     /**
