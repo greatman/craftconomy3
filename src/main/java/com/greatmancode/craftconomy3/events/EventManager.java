@@ -25,7 +25,6 @@ import com.greatmancode.tools.events.interfaces.EventHandler;
 import com.greatmancode.tools.events.interfaces.Listener;
 import com.greatmancode.tools.events.playerEvent.PlayerJoinEvent;
 import com.greatmancode.tools.events.playerEvent.PreJoinEvent;
-import com.greatmancode.tools.utils.Updater;
 
 import java.util.logging.Level;
 

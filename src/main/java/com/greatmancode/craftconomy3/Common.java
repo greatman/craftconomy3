@@ -46,9 +46,7 @@ import com.greatmancode.tools.configuration.ConfigurationManager;
 import com.greatmancode.tools.interfaces.caller.ServerCaller;
 import com.greatmancode.tools.language.LanguageManager;
 import com.greatmancode.tools.utils.FeatherBoard;
-import com.greatmancode.tools.utils.Metrics;
 import com.greatmancode.tools.utils.Tools;
-import com.greatmancode.tools.utils.Updater;
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
@@ -80,9 +78,7 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
     private boolean databaseInitialized = false;
     private boolean currencyInitialized = false;
     private static boolean initialized = false;
-    private Metrics metrics = null;
     private Config mainConfig = null;
-    private Updater updater;
     //Default values
     private DisplayFormat displayFormat = null;
     private double holdings = 0.0;
@@ -113,19 +109,6 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
             languageManager = new LanguageManager(serverCaller, serverCaller.getDataFolder(), "lang.yml");
             loadLanguage();
             serverCaller.setCommandPrefix(languageManager.getString("command_prefix"));
-            if (!(getServerCaller() instanceof UnitTestServerCaller)) {
-                try {
-                    metrics = new Metrics("Craftconomy", this.getServerCaller().getPluginVersion(), serverCaller);
-                } catch (IOException e) {
-                    this.getLogger().log(Level.SEVERE, String.format(getLanguageManager().getString("metric_start_error"), e.getMessage()));
-                }
-            }
-            if (getMainConfig().getBoolean("System.CheckNewVersion") && (serverCaller instanceof BukkitServerCaller)) {
-                updater = new Updater(serverCaller, 35564, Updater.UpdateType.NO_DOWNLOAD, false);
-                if (updater.getResult() == Updater.UpdateResult.UPDATE_AVAILABLE) {
-                    sendConsoleMessage(Level.WARNING, getLanguageManager().parse("running_old_version", updater.getLatestName()));
-                }
-            }
             sendConsoleMessage(Level.INFO, "Loading listeners.");
             serverCaller.getLoader().getEventManager().registerEvents(this, new EventManager());
             sendConsoleMessage(Level.INFO, "Loading commands");
@@ -447,48 +430,9 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
         sendConsoleMessage(Level.INFO, getLanguageManager().getString("loading_account_manager"));
         accountManager = new AccountManager();
         //addMetricsGraph("Multiworld", getConfigurationManager().isMultiWorld());
-        startMetrics();
         sendConsoleMessage(Level.INFO, getLanguageManager().getString("account_manager_loaded"));
         eventManager = new EventManager();
         initializeWorldGroup();
-    }
-
-    /**
-     * Add a graph to Metrics
-     *
-     * @param title The title of the Graph
-     * @param value The value of the entry
-     */
-    public void addMetricsGraph(String title, String value) {
-        if (metrics != null) {
-            Metrics.Graph graph = metrics.createGraph(title);
-            graph.addPlotter(new Metrics.Plotter(value) {
-                @Override
-                public int getValue() {
-                    return 1;
-                }
-            });
-        }
-    }
-
-    /**
-     * Add a graph to Metrics
-     *
-     * @param title The title of the Graph
-     * @param value The value of the entry
-     */
-    public void addMetricsGraph(String title, boolean value) {
-        addMetricsGraph(title, value ? "Yes" : "No");
-    }
-
-    /**
-     * Start Metrics.
-     */
-    public void startMetrics() {
-        if (metrics != null) {
-            getLogger().info("Starting Metrics.");
-            metrics.start();
-        }
     }
 
     /**
@@ -506,15 +450,6 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
         if (getMainConfig().getBoolean("System.Logging.Enabled")) {
             getStorageHandler().getStorageEngine().saveLog(info, cause, causeReason, account, amount, currency, worldName);
         }
-    }
-
-    /**
-     * Get the version Checker.
-     *
-     * @return The version checker. May return null if the system is disabled in the config.yml
-     */
-    public Updater getVersionChecker() {
-        return updater;
     }
 
     /**
@@ -564,7 +499,6 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
             getStorageHandler().getStorageEngine().setConfigEntry("longmode", "long");
             displayFormat = DisplayFormat.LONG;
         }
-        addMetricsGraph("Display Format", displayFormat.toString());
         value = getStorageHandler().getStorageEngine().getConfigEntry("holdings");
         if (value != null && Tools.isValidDouble(value)) {
             holdings = Double.parseDouble(value);
