@@ -164,9 +164,7 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
         databaseInitialized = false;
         currencyInitialized = false;
         initialized = false;
-        metrics = null;
         mainConfig = null;
-        updater = null;
         //Default values
         displayFormat = null;
         holdings = 0.0;
