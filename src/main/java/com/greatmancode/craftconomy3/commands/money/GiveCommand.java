@@ -24,7 +24,6 @@ import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.account.Account;
 import com.greatmancode.craftconomy3.currency.Currency;
 import com.greatmancode.tools.commands.CommandSender;
-import com.greatmancode.tools.commands.PlayerCommandSender;
 import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 import com.greatmancode.tools.entities.Player;
 import com.greatmancode.tools.utils.Tools;
@@ -41,22 +40,21 @@ public class GiveCommand extends CommandExecutor {
                     if (Common.getInstance().getCurrencyManager().getCurrency(args[2]) != null) {
                         currency = Common.getInstance().getCurrencyManager().getCurrency(args[2]);
                     } else {
-                        Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance().getLanguageManager().getString("currency_not_exist"));
+                        Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getName(), Common.getInstance().getLanguageManager().getString("currency_not_exist"));
                         return;
                     }
                 }
                 String worldName = Account.getWorldGroupOfPlayerCurrentlyIn(sender.getUuid());
                 if (args.length > 3) {
                     if (!Common.getInstance().getServerCaller().worldExist(args[3])) {
-                        Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance().getLanguageManager().getString("world_not_exist"));
+                        Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getName(), Common.getInstance().getLanguageManager().getString("world_not_exist"));
                         return;
                     }
                     worldName = Common.getInstance().getWorldGroupManager().getWorldGroupName(args[3]);
                 }
-
-                Common.getInstance().getAccountManager().getAccount(args[0], false).deposit(amount, worldName,
-                        currency.getName(), Cause.USER, sender.getName());
-                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance().getLanguageManager().parse("money_give_send", Common.getInstance().format(worldName, currency, amount), args[0]));
+                Account account = Common.getInstance().getAccountManager().getAccount(args[0], false);
+                account.deposit(amount, worldName, currency.getName(), Cause.USER, sender.getName());
+                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getName(), Common.getInstance().getLanguageManager().parse("money_give_send", Common.getInstance().format(worldName, currency, amount), args[0]));
                 if (!Common.getInstance().getMainConfig().getBoolean("System.SilentGiveCommand")) {
                     Player reciever = Common.getInstance().getServerCaller().getPlayerCaller().getOnlinePlayer(args[0]);
                     if (reciever != null) {

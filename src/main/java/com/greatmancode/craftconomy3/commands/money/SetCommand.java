@@ -52,9 +52,8 @@ public class SetCommand extends CommandExecutor {
                     }
                     worldName = Common.getInstance().getWorldGroupManager().getWorldGroupName(args[3]);
                 }
-
-                Common.getInstance().getAccountManager().getAccount(args[0], false).set(amount, worldName, currency
-                        .getName(), Cause.USER, sender.getName());
+                Account account = Common.getInstance().getAccountManager().getAccount(args[0], false);
+                account.set(amount, worldName, currency.getName(), Cause.USER, sender.getName());
                 Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common
                         .getInstance().getLanguageManager().parse("money_set", args[0], Common.getInstance().format
                                 (worldName, currency, amount)));
