@@ -865,6 +865,7 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
         languageManager.addLanguageEntry("convert_done", "Conversion done!");
         languageManager.addLanguageEntry("config_reload_help_cmd", "/craftconomy reload - Reload craftconomy.");
         languageManager.addLanguageEntry("craftconomy_reloaded", "Craftconomy has been reloaded!");
+        languageManager.addLanguageEntry("account_null", "Account was returned as null!!!");
     }
 
     /**
