@@ -40,7 +40,10 @@ class LogCommandThread implements Runnable {
 
         @Override
         public void run() {
-            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), ret);
+            if(sender.getUuid() != null)
+                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), ret);
+            else
+                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getName(), ret);
         }
     }
 
@@ -64,7 +67,7 @@ class LogCommandThread implements Runnable {
             }
             ret += "\n";
         }
-        Common.getInstance().getServerCaller().getSchedulerCaller().delay(new LogCommandThreadEnd(sender, ret), 0, false);
+        Common.getInstance().getServerCaller().getSchedulerCaller().delay(new LogCommandThreadEnd(sender, ret), 0, true);
     }
 }
 
