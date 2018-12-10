@@ -24,7 +24,6 @@ import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.account.Account;
 import com.greatmancode.craftconomy3.currency.Currency;
 import com.greatmancode.tools.commands.CommandSender;
-import com.greatmancode.tools.commands.PlayerCommandSender;
 import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 import com.greatmancode.tools.entities.Player;
 import com.greatmancode.tools.utils.Tools;
