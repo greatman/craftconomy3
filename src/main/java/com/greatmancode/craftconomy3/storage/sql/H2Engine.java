@@ -34,13 +34,13 @@ public class H2Engine extends SQLStorageEngine {
 
     public H2Engine() {
         HikariConfig config = new HikariConfig();
-        config.setMaximumPoolSize(Common.getInstance().getMainConfig().getInt("System.Database.Poolsize"));
+        config.setMaximumPoolSize(Common.getInstance().getMainConfig().getInt("System.Database.Poolsize",20));
         config.setDataSourceClassName("org.h2.jdbcx.JdbcDataSource");
         config.addDataSourceProperty("user", "sa");
         config.addDataSourceProperty("url", "jdbc:h2:file:"+new File(Common.getInstance().getServerCaller().getDataFolder().getPath(), "database").getAbsolutePath()+";MV_STORE=FALSE");
         config.setConnectionTimeout(5000);
         db = new HikariDataSource(config);
-        this.tablePrefix = Common.getInstance().getMainConfig().getString("System.Database.Prefix");
+        this.tablePrefix = Common.getInstance().getMainConfig().getString("System.Database.Prefix","cc3_");
         accessTable = new AccessTable(tablePrefix);
         accountTable = new AccountTable(tablePrefix);
         balanceTable = new BalanceTable(tablePrefix);

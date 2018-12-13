@@ -20,11 +20,12 @@
 package com.greatmancode.craftconomy3.commands.config;
 
 import com.greatmancode.craftconomy3.Common;
+import com.greatmancode.craftconomy3.commands.AbstractCommand;
 import com.greatmancode.tools.commands.CommandSender;
 import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 import com.greatmancode.tools.utils.Tools;
 
-public class ConfigBankPriceCommand extends CommandExecutor {
+public class ConfigBankPriceCommand extends AbstractCommand {
     public ConfigBankPriceCommand(String name) {
         super(name);
     }
@@ -33,9 +34,9 @@ public class ConfigBankPriceCommand extends CommandExecutor {
     public void execute(CommandSender sender, String[] args) {
         if (Tools.isValidDouble(args[0])) {
             Common.getInstance().setBankPrice(Double.parseDouble(args[0]));
-            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance().getLanguageManager().getString("bank_price_modified"));
+            sendMessage(sender, Common.getInstance().getLanguageManager().getString("bank_price_modified"));
         } else {
-            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance().getLanguageManager().getString("invalid_amount"));
+            sendMessage(sender, Common.getInstance().getLanguageManager().getString("invalid_amount"));
         }
     }
 

@@ -21,10 +21,11 @@ package com.greatmancode.craftconomy3.commands.bank;
 
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.account.Account;
+import com.greatmancode.craftconomy3.commands.AbstractCommand;
 import com.greatmancode.tools.commands.CommandSender;
 import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 
-public class BankIgnoreACLCommand extends CommandExecutor {
+public class BankIgnoreACLCommand extends AbstractCommand {
     public BankIgnoreACLCommand(String name) {
         super(name);
     }
@@ -35,12 +36,12 @@ public class BankIgnoreACLCommand extends CommandExecutor {
             Account account = Common.getInstance().getAccountManager().getAccount(args[0], true);
             account.setIgnoreACL(!account.ignoreACL());
             if (account.ignoreACL()) {
-                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance().getLanguageManager().getString("account_is_ignoring_acl"));
+                sendMessage(sender, Common.getInstance().getLanguageManager().getString("account_is_ignoring_acl"));
             } else {
-                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance().getLanguageManager().getString("account_is_not_ignoring_acl"));
+                sendMessage(sender, Common.getInstance().getLanguageManager().getString("account_is_not_ignoring_acl"));
             }
         } else {
-            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance().getLanguageManager().getString("account_not_exist"));
+            sendMessage(sender, Common.getInstance().getLanguageManager().getString("account_not_exist"));
         }
     }
 

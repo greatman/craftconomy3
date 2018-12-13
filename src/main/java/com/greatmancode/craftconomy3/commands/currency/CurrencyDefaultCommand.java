@@ -20,10 +20,11 @@
 package com.greatmancode.craftconomy3.commands.currency;
 
 import com.greatmancode.craftconomy3.Common;
+import com.greatmancode.craftconomy3.commands.AbstractCommand;
 import com.greatmancode.tools.commands.CommandSender;
 import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 
-public class CurrencyDefaultCommand extends CommandExecutor {
+public class CurrencyDefaultCommand extends AbstractCommand {
     public CurrencyDefaultCommand(String name) {
         super(name);
     }
@@ -32,9 +33,9 @@ public class CurrencyDefaultCommand extends CommandExecutor {
     public void execute(CommandSender sender, String[] args) {
         if (Common.getInstance().getCurrencyManager().getCurrency(args[0]) != null) {
             Common.getInstance().getCurrencyManager().setDefault(Common.getInstance().getCurrencyManager().getCurrency(args[0]));
-            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance().getLanguageManager().parse("default_currency_set", args[0]));
+            sendMessage(sender, Common.getInstance().getLanguageManager().parse("default_currency_set", args[0]));
         } else {
-            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance().getLanguageManager().getString("currency_not_exist"));
+            sendMessage(sender, Common.getInstance().getLanguageManager().getString("currency_not_exist"));
         }
     }
 

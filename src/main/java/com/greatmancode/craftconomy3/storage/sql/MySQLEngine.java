@@ -21,6 +21,7 @@ package com.greatmancode.craftconomy3.storage.sql;
 
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.storage.sql.tables.*;
+import com.greatmancode.tools.utils.DripReporterLoader;
 import com.greatmancode.tools.utils.Tools;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -33,21 +34,26 @@ public class MySQLEngine extends SQLStorageEngine {
 
     public MySQLEngine() {
         HikariConfig config = new HikariConfig();
-        config.setMaximumPoolSize(Common.getInstance().getMainConfig().getInt("System.Database.Poolsize"));
+        config.setMaximumPoolSize(Common.getInstance().getMainConfig().getInt("System.Database.Poolsize",20));
         config.setDataSourceClassName("com.mysql.jdbc.jdbc2.optional.MysqlDataSource");
-        config.addDataSourceProperty("serverName", Common.getInstance().getMainConfig().getString("System.Database.Address"));
-        config.addDataSourceProperty("port", Common.getInstance().getMainConfig().getString("System.Database.Port"));
-        config.addDataSourceProperty("databaseName", Common.getInstance().getMainConfig().getString("System.Database.Db"));
-        config.addDataSourceProperty("user", Common.getInstance().getMainConfig().getString("System.Database.Username"));
-        config.addDataSourceProperty("password", Common.getInstance().getMainConfig().getString("System.Database.Password"));
+        config.addDataSourceProperty("serverName", Common.getInstance().getMainConfig().getString("System.Database.Address","localhost"));
+        config.addDataSourceProperty("port", Common.getInstance().getMainConfig().getString("System.Database.Port","3306"));
+        config.addDataSourceProperty("databaseName", Common.getInstance().getMainConfig().getString("System.Database.Db","Craftconomy"));
+        config.addDataSourceProperty("user", Common.getInstance().getMainConfig().getString("System.Database.Username","root"));
+        config.addDataSourceProperty("password", Common.getInstance().getMainConfig().getString("System.Database.Password",""));
         config.addDataSourceProperty("autoDeserialize", true);
-        String useSSL = Common.getInstance().getMainConfig().getString(
-                "System.Database.useSSL");
+        String useSSL = Common.getInstance().getMainConfig().getString("System.Database.useSSL","false");
+        if(Common.getInstance().getMainConfig().getBoolean("System.Database.useMetrics",false)){
+            if(DripReporterLoader.enabled){
+                config.setHealthCheckRegistry(DripReporterLoader.getApi().getHealthRegistry());
+                config.setMetricRegistry(DripReporterLoader.getApi().getRegistry());
+            }
+        }
         if(useSSL == null)useSSL = "false";
         config.addDataSourceProperty("useSSL",Boolean.valueOf(useSSL));
         config.setConnectionTimeout(5000);
         db = new HikariDataSource(config);
-        this.tablePrefix = Common.getInstance().getMainConfig().getString("System.Database.Prefix");
+        this.tablePrefix = Common.getInstance().getMainConfig().getString("System.Database.Prefix","cc3_");
         accessTable = new AccessTable(tablePrefix);
         accountTable = new AccountTable(tablePrefix);
         balanceTable = new BalanceTable(tablePrefix);

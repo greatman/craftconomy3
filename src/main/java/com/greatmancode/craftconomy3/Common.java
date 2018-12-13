@@ -19,6 +19,7 @@
  */
 package com.greatmancode.craftconomy3;
 
+import au.com.addstar.dripreporter.DripReporterApi;
 import com.greatmancode.craftconomy3.account.Account;
 import com.greatmancode.craftconomy3.account.AccountManager;
 import com.greatmancode.craftconomy3.commands.bank.*;
@@ -45,6 +46,7 @@ import com.greatmancode.tools.configuration.Config;
 import com.greatmancode.tools.configuration.ConfigurationManager;
 import com.greatmancode.tools.interfaces.caller.ServerCaller;
 import com.greatmancode.tools.language.LanguageManager;
+import com.greatmancode.tools.utils.DripReporterLoader;
 import com.greatmancode.tools.utils.FeatherBoard;
 import com.greatmancode.tools.utils.Tools;
 import org.json.simple.parser.ParseException;
@@ -105,6 +107,9 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
             if (!getMainConfig().has("System.Database.Poolsize")) {
                 getMainConfig().setValue("System.Database.Poolsize", 10);
             }
+            if(!getMainConfig().has("System.Metrics.enabled")){
+                getMainConfig().setValue("System.Metrics.enabled", false);
+            }
 
             languageManager = new LanguageManager(serverCaller, serverCaller.getDataFolder(), "lang.yml");
             loadLanguage();
@@ -125,6 +130,11 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
                     sendConsoleMessage(Level.WARNING, getLanguageManager().getString("loaded_setup_mode"));
                 }
             } else {
+                if(getMainConfig().getBoolean("System.Metrics.enabled",false)){
+                    if(DripReporterLoader.hookDripReporterApi(serverCaller.getLoader())){
+                        sendConsoleMessage(Level.INFO,getLanguageManager().getString("metric_enabled"));
+                    };
+                }
                 commandManager.setCurrentLevel(1);
                 initialiseDatabase();
                 updateDatabase();
@@ -578,7 +588,12 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
     private void quickSetup() {
         initialiseDatabase();
         Common.getInstance().initializeCurrency();
-        Currency currency = Common.getInstance().getCurrencyManager().addCurrency(getMainConfig().getString("System.QuickSetup.Currency.Name","Dollar"), getMainConfig().getString("System.QuickSetup.Currency.NamePlural"), getMainConfig().getString("System.QuickSetup.Currency.Minor"), getMainConfig().getString("System.QuickSetup.Currency.MinorPlural"), getMainConfig().getString("System.QuickSetup.Currency.Sign","$"), true);
+        String main = getMainConfig().getString("System.QuickSetup.Currency.Name","Dollar");
+        String mainplural = getMainConfig().getString("System.QuickSetup.Currency.NamePlural","Dollars");
+        String minor = getMainConfig().getString("System.QuickSetup.Currency.Minor","cent");
+        String minorPlural =getMainConfig().getString("System.QuickSetup.Currency.MinorPlural","cents");
+        String sign = getMainConfig().getString("System.QuickSetup.Currency.Sign","$");
+        Currency currency = Common.getInstance().getCurrencyManager().addCurrency(main,mainplural, minor,minorPlural,sign, true);
         Common.getInstance().getCurrencyManager().setDefault(currency);
         Common.getInstance().getCurrencyManager().setDefaultBankCurrency(currency);
         getStorageHandler().getStorageEngine().setConfigEntry("longmode", DisplayFormat.valueOf(getMainConfig().getString("System.QuickSetup.DisplayMode","long").toUpperCase()).toString());
@@ -598,70 +613,70 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
     private void registerCommands() {
         commandManager.setWrongLevelMsg(languageManager.getString("command_disabled_setup_mode"));
         SubCommand money = new SubCommand("money", commandManager, null, 1);
-        money.addCommand("", new MainCommand(""));
-        money.addCommand("all", new AllCommand("all"));
-        money.addCommand("pay", new PayCommand("pay"));
-        money.addCommand("give", new GiveCommand("give"));
-        money.addCommand("take", new TakeCommand("take"));
-        money.addCommand("set", new SetCommand("set"));
-        money.addCommand("delete", new DeleteCommand("delete"));
-        money.addCommand("create", new CreateCommand("create"));
-        money.addCommand("balance", new BalanceCommand("balance"));
-        money.addCommand("top", new TopCommand("top"));
-        money.addCommand("exchange", new ExchangeCommand("exchange"));
-        money.addCommand("infinite", new InfiniteCommand());
-        money.addCommand("log", new LogCommand());
+        money.addCommand(new MainCommand(""));
+        money.addCommand(new AllCommand("all"));
+        money.addCommand(new PayCommand("pay"));
+        money.addCommand(new GiveCommand("give"));
+        money.addCommand(new TakeCommand("take"));
+        money.addCommand(new SetCommand("set"));
+        money.addCommand(new DeleteCommand("delete"));
+        money.addCommand(new CreateCommand("create"));
+        money.addCommand(new BalanceCommand("balance"));
+        money.addCommand(new TopCommand("top"));
+        money.addCommand(new ExchangeCommand("exchange"));
+        money.addCommand(new InfiniteCommand("infinite"));
+        money.addCommand(new LogCommand("log"));
         commandManager.registerMainCommand("money", money);
 
         SubCommand bank = new SubCommand("bank", commandManager, null, 1);
-        bank.addCommand("create", new BankCreateCommand());
-        bank.addCommand("balance", new BankBalanceCommand());
-        bank.addCommand("deposit", new BankDepositCommand());
-        bank.addCommand("withdraw", new BankWithdrawCommand());
-        bank.addCommand("set", new BankSetCommand());
-        bank.addCommand("give", new BankGiveCommand());
-        bank.addCommand("take", new BankTakeCommand());
-        bank.addCommand("perm", new BankPermCommand());
-        bank.addCommand("list", new BankListCommand());
-        bank.addCommand("delete", new BankDeleteCommand());
-        bank.addCommand("ignoreacl", new BankIgnoreACLCommand());
+        bank.addCommand(new BankCreateCommand("create"));
+        bank.addCommand(new BankBalanceCommand("balance"));
+        bank.addCommand(new BankDepositCommand("deposit"));
+        bank.addCommand(new BankWithdrawCommand("withdraw"));
+        bank.addCommand(new BankSetCommand("set"));
+        bank.addCommand(new BankGiveCommand("give"));
+        bank.addCommand(new BankTakeCommand("take"));
+        bank.addCommand(new BankPermCommand("perm"));
+        bank.addCommand(new BankListCommand("list"));
+        bank.addCommand(new BankDeleteCommand("delete"));
+        bank.addCommand(new BankIgnoreACLCommand("ignoreacl"));
         commandManager.registerMainCommand("bank", bank);
 
         SubCommand ccsetup = new SubCommand("ccsetup", commandManager, null, 0);
-        ccsetup.addCommand("", new NewSetupMainCommand());
-        ccsetup.addCommand("database", new NewSetupDatabaseCommand());
-        ccsetup.addCommand("currency", new NewSetupCurrencyCommand());
-        ccsetup.addCommand("basic", new NewSetupBasicCommand());
-        ccsetup.addCommand("convert", new NewSetupConvertCommand());
+        ccsetup.addCommand(new NewSetupMainCommand(""));
+        ccsetup.addCommand(new NewSetupDatabaseCommand("database"));
+        ccsetup.addCommand(new NewSetupCurrencyCommand("currency"));
+        ccsetup.addCommand(new NewSetupBasicCommand("basic"));
+        ccsetup.addCommand(new NewSetupConvertCommand("convert"));
         commandManager.registerMainCommand("ccsetup", ccsetup);
 
         SubCommand currency = new SubCommand("currency", commandManager, null, 1);
-        currency.addCommand("add", new CurrencyAddCommand());
-        currency.addCommand("delete", new CurrencyDeleteCommand());
-        currency.addCommand("edit", new CurrencyEditCommand());
-        currency.addCommand("info", new CurrencyInfoCommand());
-        currency.addCommand("default", new CurrencyDefaultCommand());
-        currency.addCommand("exchange", new CurrencyExchangeCommand());
-        currency.addCommand("rates", new CurrencyRatesCommand());
-        currency.addCommand("list", new CurrencyListCommand());
+        currency.addCommand(new CurrencyAddCommand("add"));
+        currency.addCommand(new CurrencyDeleteCommand("delete"));
+        currency.addCommand(new CurrencyEditCommand("edit"));
+        currency.addCommand(new CurrencyInfoCommand("info"));
+        currency.addCommand(new CurrencyDefaultCommand("default"));
+        currency.addCommand(new CurrencyExchangeCommand("exchange"));
+        currency.addCommand(new CurrencyRatesCommand("rates"));
+        currency.addCommand(new CurrencyListCommand("list"));
         commandManager.registerMainCommand("currency", currency);
 
         SubCommand configCommand = new SubCommand("craftconomy", commandManager, null, 1);
-        configCommand.addCommand("holdings", new ConfigHoldingsCommand());
-        configCommand.addCommand("bankprice", new ConfigBankPriceCommand());
-        configCommand.addCommand("format", new ConfigFormatCommand());
-        configCommand.addCommand("clearlog", new ConfigClearLogCommand());
-        configCommand.addCommand("reload", new ConfigReloadCommand());
+        configCommand.addCommand(new ConfigHoldingsCommand("holdings"));
+        configCommand.addCommand(new ConfigBankPriceCommand("bankprice"));
+        configCommand.addCommand(new ConfigFormatCommand("format"));
+        configCommand.addCommand(new ConfigClearLogCommand("clearlog"));
+        configCommand.addCommand(new ConfigReloadCommand("reload"));
         commandManager.registerMainCommand("craftconomy", configCommand);
 
         SubCommand ccgroup = new SubCommand("ccgroup", commandManager, null, 1);
-        ccgroup.addCommand("create", new GroupCreateCommand());
-        ccgroup.addCommand("addworld", new GroupAddWorldCommand());
-        ccgroup.addCommand("delworld", new GroupDelWorldCommand());
+        ccgroup.addCommand(new GroupCreateCommand("create"));
+        ccgroup.addCommand(new GroupAddWorldCommand("addworld"));
+        ccgroup.addCommand(new GroupDelWorldCommand("delworld"));
         commandManager.registerMainCommand("ccgroup", ccgroup);
 
         SubCommand payCommand = new PayShortCommand("pay", commandManager, null, 1);
-        payCommand.addCommand("", new PayCommand());
+        payCommand.addCommand(new PayCommand(""));
         commandManager.registerMainCommand("pay", payCommand);
     }
 
@@ -902,7 +917,7 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
      * Run a database update.
      */
     private void updateDatabase() {
-        if (getMainConfig().getInt("Database.dbVersion") == 0) {
+        if (getMainConfig().getInt("Database.dbVersion",0) == 0) {
             alertOldDbVersion(0, 1);
             //We first check if we have the DB version in the database. If we do, we have a old layout in our hands
             String value = getStorageHandler().getStorageEngine().getConfigEntry("dbVersion");
@@ -924,7 +939,7 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
                 getMainConfig().setValue("Database.dbVersion", 1);
                 sendConsoleMessage(Level.INFO, "Updated to Revision 1!");
             }
-        } else if (getMainConfig().getInt("Database.dbVersion") == -1) {
+        } else if (getMainConfig().getInt("Database.dbVersion",0) == -1) {
             alertOldDbVersion(-1,1);
             try {
                     new OldFormatConverter().step2();

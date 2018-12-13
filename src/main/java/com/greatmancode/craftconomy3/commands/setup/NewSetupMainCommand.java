@@ -21,10 +21,11 @@ package com.greatmancode.craftconomy3.commands.setup;
 
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.NewSetupWizard;
+import com.greatmancode.craftconomy3.commands.AbstractCommand;
 import com.greatmancode.tools.commands.CommandSender;
 import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 
-public class NewSetupMainCommand extends CommandExecutor {
+public class NewSetupMainCommand extends AbstractCommand {
     public NewSetupMainCommand(String name) {
         super(name);
     }
@@ -62,10 +63,10 @@ public class NewSetupMainCommand extends CommandExecutor {
     }
 
     private void start(CommandSender sender) {
-        Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), "{{DARK_GREEN}}Welcome to the {{WHITE}}Craftconomy 3 {{DARK_GREEN}} setup wizard!");
-        Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), "{{DARK_GREEN}}I will help you configure {{WHITE}}Craftconomy {{DARK_GREEN}}like you want!");
-        Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), "{{DARK_GREEN}}First, I need to know what kind of database you want to use. If you want a {{WHITE}}flatfile {{DARK_GREEN}}database, I recommend {{WHITE}}H2.");
-        Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), "{{DARK_GREEN}}Please type {{WHITE}}/ccsetup database <mysql/h2>");
+        sendMessage(sender, "{{DARK_GREEN}}Welcome to the {{WHITE}}Craftconomy 3 {{DARK_GREEN}} setup wizard!");
+        sendMessage(sender, "{{DARK_GREEN}}I will help you configure {{WHITE}}Craftconomy {{DARK_GREEN}}like you want!");
+        sendMessage(sender, "{{DARK_GREEN}}First, I need to know what kind of database you want to use. If you want a {{WHITE}}flatfile {{DARK_GREEN}}database, I recommend {{WHITE}}H2.");
+        sendMessage(sender, "{{DARK_GREEN}}Please type {{WHITE}}/ccsetup database <mysql/h2>");
         NewSetupWizard.setState(NewSetupWizard.DATABASE_STEP);
     }
 }

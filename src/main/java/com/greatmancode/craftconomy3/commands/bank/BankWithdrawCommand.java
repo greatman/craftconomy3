@@ -22,12 +22,13 @@ package com.greatmancode.craftconomy3.commands.bank;
 import com.greatmancode.craftconomy3.Cause;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.account.Account;
+import com.greatmancode.craftconomy3.commands.AbstractCommand;
 import com.greatmancode.craftconomy3.currency.Currency;
 import com.greatmancode.tools.commands.CommandSender;
 import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 import com.greatmancode.tools.utils.Tools;
 
-public class BankWithdrawCommand extends CommandExecutor {
+public class BankWithdrawCommand extends AbstractCommand {
     public BankWithdrawCommand(String name) {
         super(name);
     }
@@ -46,7 +47,7 @@ public class BankWithdrawCommand extends CommandExecutor {
                         if (Common.getInstance().getCurrencyManager().getCurrency(args[2]) != null) {
                             currency = Common.getInstance().getCurrencyManager().getCurrency(args[2]);
                         } else {
-                            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance().getLanguageManager().getString("currency_not_exist"));
+                            sendMessage(sender, Common.getInstance().getLanguageManager().getString("currency_not_exist"));
                             return;
                         }
                     }
@@ -56,18 +57,18 @@ public class BankWithdrawCommand extends CommandExecutor {
                                 currency.getName(), Cause.BANK_WITHDRAW, sender.getName());
                         playerAccount.deposit(amount, Account.getWorldGroupOfPlayerCurrentlyIn(sender.getUuid()), currency.getName(), Cause.BANK_WITHDRAW, bankAccount.getAccountName());
                         //TODO: Language
-                        Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), "{{DARK_GREEN}}Withdrawed {{WHITE}}" + Common.getInstance().format(null, currency, amount) + "{{DARK_GREEN}} from the {{WHITE}}" + args[0] + "{{DARK_GREEN}} bank Account.");
+                        sendMessage(sender, "{{DARK_GREEN}}Withdrawed {{WHITE}}" + Common.getInstance().format(null, currency, amount) + "{{DARK_GREEN}} from the {{WHITE}}" + args[0] + "{{DARK_GREEN}} bank Account.");
                     } else {
-                        Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance().getLanguageManager().getString("bank_not_enough_money"));
+                        sendMessage(sender, Common.getInstance().getLanguageManager().getString("bank_not_enough_money"));
                     }
                 } else {
-                    Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance().getLanguageManager().getString("invalid_amount"));
+                    sendMessage(sender, Common.getInstance().getLanguageManager().getString("invalid_amount"));
                 }
             } else {
-                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance().getLanguageManager().getString("cant_withdraw_bank"));
+                sendMessage(sender, Common.getInstance().getLanguageManager().getString("cant_withdraw_bank"));
             }
         } else {
-            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance().getLanguageManager().getString("account_not_exist"));
+            sendMessage(sender, Common.getInstance().getLanguageManager().getString("account_not_exist"));
         }
     }
 

@@ -21,6 +21,7 @@ package com.greatmancode.craftconomy3.commands.money;
 
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.account.Account;
+import com.greatmancode.craftconomy3.commands.AbstractCommand;
 import com.greatmancode.craftconomy3.currency.Currency;
 import com.greatmancode.tools.commands.CommandSender;
 import com.greatmancode.tools.commands.interfaces.CommandExecutor;
@@ -71,7 +72,7 @@ class LogCommandThread implements Runnable {
     }
 }
 
-public class LogCommand extends CommandExecutor {
+public class LogCommand extends AbstractCommand {
     public LogCommand(String name) {
         super(name);
     }
@@ -86,11 +87,7 @@ public class LogCommand extends CommandExecutor {
                     page = 1;
                 }
             } catch (NumberFormatException e) {
-                if(sender.getUuid() != null) {
-                    Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance().getLanguageManager().getString("invalid_page"));
-                }else{
-                    Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getName(), Common.getInstance().getLanguageManager().getString("invalid_page"));
-                }
+                sendMessage(sender, Common.getInstance().getLanguageManager().getString("invalid_page"));
                 return;
             }
         }
@@ -101,7 +98,7 @@ public class LogCommand extends CommandExecutor {
             }
         }
         if(user == null){
-            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getName(), Common.getInstance().getLanguageManager().getString("account_null"));
+            sendMessage(sender, Common.getInstance().getLanguageManager().getString("account_null"));
             return;
         }
         Common.getInstance().getServerCaller().getSchedulerCaller().delay(new LogCommandThread(sender, page, user),

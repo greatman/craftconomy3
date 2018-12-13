@@ -20,19 +20,20 @@
 package com.greatmancode.craftconomy3.commands.bank;
 
 import com.greatmancode.craftconomy3.Common;
+import com.greatmancode.craftconomy3.commands.AbstractCommand;
 import com.greatmancode.tools.commands.CommandSender;
 import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 
 import java.util.Arrays;
 
-public class BankListCommand extends CommandExecutor {
+public class BankListCommand extends AbstractCommand {
     public BankListCommand(String name) {
         super(name);
     }
     
     @Override
     public void execute(CommandSender sender, String[] args) {
-        Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance()
+        sendMessage(sender, Common.getInstance()
                 .getLanguageManager().parse("bank_account_list", Arrays.toString(Common.getInstance()
                         .getStorageHandler().getStorageEngine().getBankAccountList(sender.getName()))));
     }

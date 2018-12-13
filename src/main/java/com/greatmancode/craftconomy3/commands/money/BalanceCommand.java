@@ -22,10 +22,11 @@ package com.greatmancode.craftconomy3.commands.money;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.account.Account;
 import com.greatmancode.craftconomy3.account.Balance;
+import com.greatmancode.craftconomy3.commands.AbstractCommand;
 import com.greatmancode.tools.commands.CommandSender;
 import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 
-public class BalanceCommand extends CommandExecutor {
+public class BalanceCommand extends AbstractCommand {
     public BalanceCommand(String name) {
         super(name);
     }
@@ -39,10 +40,10 @@ public class BalanceCommand extends CommandExecutor {
         if (Common.getInstance().getAccountManager().exist(args[0], false)) {
             Account account = Common.getInstance().getAccountManager().getAccount(args[0], false);
             for (Balance bl : account.getAllBalance()) {
-                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance().getLanguageManager().getString("money_all_title") + " " + args[0] + ": §6" + Common.getInstance().format(bl.getWorld(), bl.getCurrency(), bl.getBalance()));
+                sendMessage(sender, Common.getInstance().getLanguageManager().getString("money_all_title") + " " + args[0] + ": §6" + Common.getInstance().format(bl.getWorld(), bl.getCurrency(), bl.getBalance()));
             }
         } else {
-            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance().getLanguageManager().getString("account_not_exist"));
+            sendMessage(sender, Common.getInstance().getLanguageManager().getString("account_not_exist"));
         }
     }
 

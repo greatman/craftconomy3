@@ -21,10 +21,11 @@ package com.greatmancode.craftconomy3.commands.bank;
 
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.account.Account;
+import com.greatmancode.craftconomy3.commands.AbstractCommand;
 import com.greatmancode.tools.commands.CommandSender;
 import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 
-public class BankPermCommand extends CommandExecutor {
+public class BankPermCommand extends AbstractCommand {
     public BankPermCommand(String name) {
         super(name);
     }
@@ -46,15 +47,15 @@ public class BankPermCommand extends CommandExecutor {
                 } else if ("show".equalsIgnoreCase(args[1])) {
                     account.getAccountACL().setShow(args[2], Boolean.parseBoolean(args[3]));
                 } else {
-                    Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance().getLanguageManager().getString("invalid_flag"));
+                    sendMessage(sender, Common.getInstance().getLanguageManager().getString("invalid_flag"));
                     return;
                 }
-                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance().getLanguageManager().parse("bank_flag_set", args[1], args[2], args[3]));
+                sendMessage(sender, Common.getInstance().getLanguageManager().parse("bank_flag_set", args[1], args[2], args[3]));
             } else {
-                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance().getLanguageManager().getString("cant_modify_acl"));
+                sendMessage(sender, Common.getInstance().getLanguageManager().getString("cant_modify_acl"));
             }
         } else {
-            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance().getLanguageManager().getString("account_not_exist!"));
+            sendMessage(sender, Common.getInstance().getLanguageManager().getString("account_not_exist!"));
         }
     }
 
