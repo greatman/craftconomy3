@@ -62,6 +62,10 @@
         <id>spigot-repo</id>
         <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
     </repository>
+        <repository>
+            <id>md5</id>
+            <url>https://repo.md-5.net/content/groups/public/</url>
+        </repository>
     <!-- Addstar repos -->
     <repository>
         <id>addstar-repo</id>
