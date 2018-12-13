@@ -69,6 +69,10 @@ class LogCommandThread implements Runnable {
 }
 
 public class LogCommand extends CommandExecutor {
+    public LogCommand(String name) {
+        super(name);
+    }
+    
     @Override
     public void execute(CommandSender sender, String[] args) {
         int page = 1;

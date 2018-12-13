@@ -27,6 +27,10 @@ import java.sql.Timestamp;
 import java.util.Calendar;
 
 public class ConfigClearLogCommand extends CommandExecutor {
+    public ConfigClearLogCommand(String name) {
+        super(name);
+    }
+    
     @Override
     public void execute(CommandSender sender, String[] args) {
         Calendar calendar = Calendar.getInstance();

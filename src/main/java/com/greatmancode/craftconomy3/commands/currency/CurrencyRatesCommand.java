@@ -25,6 +25,10 @@ import com.greatmancode.tools.commands.CommandSender;
 import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 
 public class CurrencyRatesCommand extends CommandExecutor {
+    public CurrencyRatesCommand(String name) {
+        super(name);
+    }
+    
     @Override
     public void execute(CommandSender sender, String[] args) {
         Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance().getLanguageManager().getString("rates_header"));

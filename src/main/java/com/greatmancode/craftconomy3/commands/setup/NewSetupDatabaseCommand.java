@@ -29,6 +29,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class NewSetupDatabaseCommand extends CommandExecutor {
+    public NewSetupDatabaseCommand(String name) {
+        super(name);
+    }
+    
     private enum INTERNALSTEP {
         START,
         SQLITE,

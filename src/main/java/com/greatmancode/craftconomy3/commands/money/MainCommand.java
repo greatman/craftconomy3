@@ -26,6 +26,10 @@ import com.greatmancode.tools.commands.CommandSender;
 import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 
 public class MainCommand extends CommandExecutor {
+    public MainCommand(String name) {
+        super(name);
+    }
+    
     @Override
     public void execute(CommandSender sender, String[] args) {
         Account account = Common.getInstance().getAccountManager().getAccount(sender.getName(), false);

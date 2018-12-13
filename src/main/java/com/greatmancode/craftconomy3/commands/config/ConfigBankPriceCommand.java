@@ -25,6 +25,10 @@ import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 import com.greatmancode.tools.utils.Tools;
 
 public class ConfigBankPriceCommand extends CommandExecutor {
+    public ConfigBankPriceCommand(String name) {
+        super(name);
+    }
+    
     @Override
     public void execute(CommandSender sender, String[] args) {
         if (Tools.isValidDouble(args[0])) {

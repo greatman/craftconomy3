@@ -28,6 +28,10 @@ import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 import com.greatmancode.tools.utils.Tools;
 
 public class BankGiveCommand extends CommandExecutor {
+    public BankGiveCommand(String name) {
+        super(name);
+    }
+    
     @Override
     public void execute(CommandSender sender, String[] args) {
         if (Common.getInstance().getAccountManager().exist(args[0], true)) {

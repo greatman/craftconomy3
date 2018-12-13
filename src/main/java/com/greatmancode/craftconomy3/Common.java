@@ -115,10 +115,10 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
             Common.getInstance().getServerCaller().registerPermission("craftconomy.*");
             commandManager = new CommandHandler(serverCaller);
             registerCommands();
-            if (getMainConfig().getBoolean("System.Setup")) {
+            if (getMainConfig().getBoolean("System.Setup",true)) {
 
                 //We got quick setup. Let's do it!!!!
-                if (getMainConfig().getBoolean("System.QuickSetup.Enable")) {
+                if (getMainConfig().getBoolean("System.QuickSetup.Enable",false)) {
                     quickSetup();
                     reloadPlugin();
                 } else {
@@ -380,7 +380,7 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
             storageHandler = new StorageHandler();
 
             //TODO: Re-support that
-            if (getMainConfig().getBoolean("System.Database.ConvertFromH2")) {
+            if (getMainConfig().getBoolean("System.Database.ConvertFromH2",false)) {
                 convertDatabase();
             }
 
@@ -445,7 +445,7 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
      * @param worldName   The world name associated with this transaction
      */
     public void writeLog(LogInfo info, Cause cause, String causeReason, Account account, double amount, Currency currency, String worldName) {
-        if (getMainConfig().getBoolean("System.Logging.Enabled")) {
+        if (getMainConfig().getBoolean("System.Logging.Enabled",false)) {
             getStorageHandler().getStorageEngine().saveLog(info, cause, causeReason, account, amount, currency, worldName);
         }
     }
@@ -578,12 +578,12 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
     private void quickSetup() {
         initialiseDatabase();
         Common.getInstance().initializeCurrency();
-        Currency currency = Common.getInstance().getCurrencyManager().addCurrency(getMainConfig().getString("System.QuickSetup.Currency.Name"), getMainConfig().getString("System.QuickSetup.Currency.NamePlural"), getMainConfig().getString("System.QuickSetup.Currency.Minor"), getMainConfig().getString("System.QuickSetup.Currency.MinorPlural"), getMainConfig().getString("System.QuickSetup.Currency.Sign"), true);
+        Currency currency = Common.getInstance().getCurrencyManager().addCurrency(getMainConfig().getString("System.QuickSetup.Currency.Name","Dollar"), getMainConfig().getString("System.QuickSetup.Currency.NamePlural"), getMainConfig().getString("System.QuickSetup.Currency.Minor"), getMainConfig().getString("System.QuickSetup.Currency.MinorPlural"), getMainConfig().getString("System.QuickSetup.Currency.Sign","$"), true);
         Common.getInstance().getCurrencyManager().setDefault(currency);
         Common.getInstance().getCurrencyManager().setDefaultBankCurrency(currency);
-        getStorageHandler().getStorageEngine().setConfigEntry("longmode", DisplayFormat.valueOf(getMainConfig().getString("System.QuickSetup.DisplayMode").toUpperCase()).toString());
-        getStorageHandler().getStorageEngine().setConfigEntry("holdings", getMainConfig().getString("System.QuickSetup.StartBalance"));
-        getStorageHandler().getStorageEngine().setConfigEntry("bankprice", getMainConfig().getString("System.QuickSetup.PriceBank"));
+        getStorageHandler().getStorageEngine().setConfigEntry("longmode", DisplayFormat.valueOf(getMainConfig().getString("System.QuickSetup.DisplayMode","long").toUpperCase()).toString());
+        getStorageHandler().getStorageEngine().setConfigEntry("holdings", getMainConfig().getString("System.QuickSetup.StartBalance","100.0"));
+        getStorageHandler().getStorageEngine().setConfigEntry("bankprice", getMainConfig().getString("System.QuickSetup.PriceBank","200.0"));
         initializeCurrency();
         loadDefaultSettings();
         Common.getInstance().startUp();
@@ -598,17 +598,17 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
     private void registerCommands() {
         commandManager.setWrongLevelMsg(languageManager.getString("command_disabled_setup_mode"));
         SubCommand money = new SubCommand("money", commandManager, null, 1);
-        money.addCommand("", new MainCommand());
-        money.addCommand("all", new AllCommand());
-        money.addCommand("pay", new PayCommand());
-        money.addCommand("give", new GiveCommand());
-        money.addCommand("take", new TakeCommand());
-        money.addCommand("set", new SetCommand());
-        money.addCommand("delete", new DeleteCommand());
-        money.addCommand("create", new CreateCommand());
-        money.addCommand("balance", new BalanceCommand());
-        money.addCommand("top", new TopCommand());
-        money.addCommand("exchange", new ExchangeCommand());
+        money.addCommand("", new MainCommand(""));
+        money.addCommand("all", new AllCommand("all"));
+        money.addCommand("pay", new PayCommand("pay"));
+        money.addCommand("give", new GiveCommand("give"));
+        money.addCommand("take", new TakeCommand("take"));
+        money.addCommand("set", new SetCommand("set"));
+        money.addCommand("delete", new DeleteCommand("delete"));
+        money.addCommand("create", new CreateCommand("create"));
+        money.addCommand("balance", new BalanceCommand("balance"));
+        money.addCommand("top", new TopCommand("top"));
+        money.addCommand("exchange", new ExchangeCommand("exchange"));
         money.addCommand("infinite", new InfiniteCommand());
         money.addCommand("log", new LogCommand());
         commandManager.registerMainCommand("money", money);

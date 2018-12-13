@@ -29,6 +29,10 @@ import com.greatmancode.tools.entities.Player;
 import com.greatmancode.tools.utils.Tools;
 
 public class GiveCommand extends CommandExecutor {
+    public GiveCommand(String name) {
+        super(name);
+    }
+    
     @Override
     public void execute(CommandSender sender, String[] args) {
         if (Common.getInstance().getAccountManager().exist(args[0], false)) {
@@ -40,34 +44,34 @@ public class GiveCommand extends CommandExecutor {
                     if (Common.getInstance().getCurrencyManager().getCurrency(args[2]) != null) {
                         currency = Common.getInstance().getCurrencyManager().getCurrency(args[2]);
                     } else {
-                        Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getName(), Common.getInstance().getLanguageManager().getString("currency_not_exist"));
+                        Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getName(), Common.getInstance().getLanguageManager().getString("currency_not_exist"),getName());
                         return;
                     }
                 }
                 String worldName = Account.getWorldGroupOfPlayerCurrentlyIn(sender.getUuid());
                 if (args.length > 3) {
                     if (!Common.getInstance().getServerCaller().worldExist(args[3])) {
-                        Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getName(), Common.getInstance().getLanguageManager().getString("world_not_exist"));
+                        Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getName(), Common.getInstance().getLanguageManager().getString("world_not_exist"),getName());
                         return;
                     }
                     worldName = Common.getInstance().getWorldGroupManager().getWorldGroupName(args[3]);
                 }
                 Account account = Common.getInstance().getAccountManager().getAccount(args[0], false);
                 account.deposit(amount, worldName, currency.getName(), Cause.USER, sender.getName());
-                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getName(), Common.getInstance().getLanguageManager().parse("money_give_send", Common.getInstance().format(worldName, currency, amount), args[0]));
-                if (!Common.getInstance().getMainConfig().getBoolean("System.SilentGiveCommand")) {
+                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getName(), Common.getInstance().getLanguageManager().parse("money_give_send", Common.getInstance().format(worldName, currency, amount), args[0]),this.getName());
+                if (!Common.getInstance().getMainConfig().getBoolean("System.SilentGiveCommand",false)) {
                     Player reciever = Common.getInstance().getServerCaller().getPlayerCaller().getOnlinePlayer(args[0]);
                     if (reciever != null) {
                         Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(reciever.getUuid(), Common
                                 .getInstance().getLanguageManager().parse("money_give_received", Common.getInstance().format
-                                        (worldName, currency, amount), sender.getName()));
+                                        (worldName, currency, amount), sender.getName()),this.getName());
                     }
                 }
             } else {
-                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance().getLanguageManager().getString("invalid_amount"));
+                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance().getLanguageManager().getString("invalid_amount"),this.getName());
             }
         } else {
-            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance().getLanguageManager().getString("account_not_exist"));
+            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance().getLanguageManager().getString("account_not_exist"),this.getName());
         }
     }
 

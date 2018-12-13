@@ -29,12 +29,15 @@ import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 import java.util.UUID;
 
 public class BankBalanceCommand extends CommandExecutor {
+    public BankBalanceCommand(String name) {
+        super(name);
+    }
+    
     @Override
     public void execute(CommandSender sender, String[] args) {
         UUID senderUUID = null;
         if(sender instanceof PlayerCommandSender) {
-            PlayerCommandSender player = (PlayerCommandSender) sender;
-            senderUUID= ((PlayerCommandSender) sender).getUuid();
+            senderUUID= sender.getUuid();
         }
             if (Common.getInstance().getAccountManager().exist(args[0], true)) {
                 Account account = Common.getInstance().getAccountManager().getAccount(args[0], true);

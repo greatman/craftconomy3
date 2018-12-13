@@ -30,6 +30,10 @@ import com.greatmancode.tools.utils.Tools;
 
 public class BankDepositCommand extends CommandExecutor {
     
+    public BankDepositCommand(String name) {
+        super(name);
+    }
+    
     @Override
     public void execute(CommandSender sender, String[] args) {
         if(sender instanceof Player) {

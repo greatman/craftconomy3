@@ -29,6 +29,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class NewSetupCurrencyCommand extends CommandExecutor {
+    public NewSetupCurrencyCommand(String name) {
+        super(name);
+    }
+    
     private enum INTERNALSTEP {
         NAME,
         NAMEPLURAL,

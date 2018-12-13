@@ -719,7 +719,7 @@ public abstract class SQLStorageEngine extends StorageEngine {
         Connection connection = null;
         PreparedStatement statement = null;
         String newSender = sender;
-        if (!Common.getInstance().getMainConfig().getBoolean("System.Case-sentitive")) {
+        if (!Common.getInstance().getMainConfig().getBoolean("System.Case-sentitive",false)) {
             newSender = sender.toLowerCase();
         }
 

@@ -26,6 +26,10 @@ import com.greatmancode.tools.commands.CommandSender;
 import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 
 public class BankCreateCommand extends CommandExecutor {
+    public BankCreateCommand(String name) {
+        super(name);
+    }
+    
     @Override
     public void execute(CommandSender sender, String[] args) {
         if (!Common.getInstance().getAccountManager().exist(args[0], true)) {

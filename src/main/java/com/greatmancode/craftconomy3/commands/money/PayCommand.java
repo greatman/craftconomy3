@@ -29,6 +29,10 @@ import com.greatmancode.tools.entities.Player;
 import com.greatmancode.tools.utils.Tools;
 
 public class PayCommand extends CommandExecutor {
+    public PayCommand(String name) {
+        super(name);
+    }
+    
     @Override
     public void execute(CommandSender sender, String[] args) {
         if (Common.getInstance().getAccountManager().exist(args[0], false)) {

@@ -27,6 +27,10 @@ import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 import com.greatmancode.tools.utils.Tools;
 
 public class NewSetupBasicCommand extends CommandExecutor {
+    public NewSetupBasicCommand(String name) {
+        super(name);
+    }
+    
     private enum INTERNALSTEP {
         DEFAULT_MONEY,
         BANK_PRICE,

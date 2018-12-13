@@ -31,6 +31,10 @@ import java.util.List;
 import java.util.Map.Entry;
 
 public class NewSetupConvertCommand extends CommandExecutor {
+    public NewSetupConvertCommand(String name) {
+        super(name);
+    }
+    
     private enum INTERNALSTEP {
         START,
         SELECT_CONVERT,

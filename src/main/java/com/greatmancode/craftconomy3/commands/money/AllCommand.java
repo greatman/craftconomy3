@@ -26,13 +26,17 @@ import com.greatmancode.tools.commands.CommandSender;
 import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 
 public class AllCommand extends CommandExecutor {
+    public AllCommand(String name) {
+        super(name);
+    }
+    
     @Override
     public void execute(CommandSender sender, String[] args) {
         Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance()
-                .getLanguageManager().getString("money_all_title"));
+                .getLanguageManager().getString("money_all_title"),getName());
         Account account = Common.getInstance().getAccountManager().getAccount(sender.getName(), false);
         for (Balance bl : account.getAllBalance()) {
-            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance().format(bl.getWorld(), bl.getCurrency(), bl.getBalance()));
+            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance().format(bl.getWorld(), bl.getCurrency(), bl.getBalance()),getName());
         }
     }
 

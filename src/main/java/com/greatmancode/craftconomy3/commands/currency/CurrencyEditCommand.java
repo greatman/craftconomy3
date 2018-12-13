@@ -24,6 +24,10 @@ import com.greatmancode.tools.commands.CommandSender;
 import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 
 public class CurrencyEditCommand extends CommandExecutor {
+    public CurrencyEditCommand(String name) {
+        super(name);
+    }
+    
     @Override
     public void execute(CommandSender sender, String[] args) {
         if (Common.getInstance().getCurrencyManager().getCurrency(args[1]) != null) {

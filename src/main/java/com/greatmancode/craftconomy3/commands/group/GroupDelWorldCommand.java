@@ -24,6 +24,10 @@ import com.greatmancode.tools.commands.CommandSender;
 import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 
 public class GroupDelWorldCommand extends CommandExecutor {
+    public GroupDelWorldCommand(String name) {
+        super(name);
+    }
+    
     @Override
     public void execute(CommandSender sender, String[] args) {
         if (!"default".equals(Common.getInstance().getWorldGroupManager().getWorldGroupName(args[0]))) {

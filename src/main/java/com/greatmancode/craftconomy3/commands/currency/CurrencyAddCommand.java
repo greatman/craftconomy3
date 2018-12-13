@@ -24,6 +24,10 @@ import com.greatmancode.tools.commands.CommandSender;
 import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 
 public class CurrencyAddCommand extends CommandExecutor {
+    public CurrencyAddCommand(String name) {
+        super(name);
+    }
+    
     @Override
     public void execute(CommandSender sender, String[] args) {
         if (args[0] != null && args[1] != null && args[2] != null && args[3] != null && args[4] != null) {

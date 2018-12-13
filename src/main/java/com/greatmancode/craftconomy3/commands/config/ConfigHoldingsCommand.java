@@ -25,6 +25,10 @@ import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 import com.greatmancode.tools.utils.Tools;
 
 public class ConfigHoldingsCommand extends CommandExecutor {
+    public ConfigHoldingsCommand(String name) {
+        super(name);
+    }
+    
     @Override
     public void execute(CommandSender sender, String[] args) {
         if (Tools.isValidDouble(args[0])) {

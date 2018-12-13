@@ -26,6 +26,10 @@ import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 import com.greatmancode.tools.utils.Tools;
 
 public class CurrencyExchangeCommand extends CommandExecutor {
+    public CurrencyExchangeCommand(String name) {
+        super(name);
+    }
+    
     @Override
     public void execute(CommandSender sender, String[] args) {
         Currency currency = Common.getInstance().getCurrencyManager().getCurrency(args[0]);

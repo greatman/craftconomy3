@@ -24,6 +24,10 @@ import com.greatmancode.tools.commands.CommandSender;
 import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 
 public class GroupCreateCommand extends CommandExecutor {
+    public GroupCreateCommand(String name) {
+        super(name);
+    }
+    
     @Override
     public void execute(CommandSender sender, String[] args) {
         if (!Common.getInstance().getWorldGroupManager().worldGroupExist(args[0])) {

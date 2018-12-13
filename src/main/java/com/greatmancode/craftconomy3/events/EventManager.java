@@ -40,8 +40,8 @@ public class EventManager implements Listener {
      */
     @EventHandler
     public void playerJoinEvent(PlayerJoinEvent event) {
-        if (!Common.getInstance().getMainConfig().getBoolean("System.Setup")) {
-            if (Common.getInstance().getMainConfig().getBoolean("System.CreateOnLogin")) {
+        if (!Common.getInstance().getMainConfig().getBoolean("System.Setup",true)) {
+            if (Common.getInstance().getMainConfig().getBoolean("System.CreateOnLogin",false)) {
                 Account acc = Common.getInstance().getAccountManager().getAccount(event.getP().getName(), false);
                 if(acc != null)Common.getInstance().getLogger().log(Level.FINER,"Account retrieved for "+ event.getP().getDisplayName());
                 else
@@ -53,7 +53,7 @@ public class EventManager implements Listener {
 
     @EventHandler
     public void PreJoinEvent(PreJoinEvent event) {
-        if (!Common.getInstance().getMainConfig().getBoolean("System.Setup")) {
+        if (!Common.getInstance().getMainConfig().getBoolean("System.Setup",true)) {
             //We search if the UUID is in the database
             Account account = Common.getInstance().getStorageHandler().getStorageEngine().getAccount(event.getUuid());
             if (account != null && !event.getName().equals(account.getAccountName())) {

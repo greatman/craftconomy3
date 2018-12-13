@@ -26,7 +26,11 @@ import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 import java.util.Arrays;
 
 public class CurrencyListCommand extends CommandExecutor {
-
+    
+    public CurrencyListCommand(String name) {
+        super(name);
+    }
+    
     @Override
     public void execute(CommandSender sender, String[] args) {
         Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance().getLanguageManager().parse("currency_list_title"));
