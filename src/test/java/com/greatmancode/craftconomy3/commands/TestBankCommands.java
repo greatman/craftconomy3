@@ -22,6 +22,7 @@ package com.greatmancode.craftconomy3.commands;
 
 import com.greatmancode.craftconomy3.Cause;
 import com.greatmancode.craftconomy3.Common;
+import com.greatmancode.craftconomy3.TestCommandSender;
 import com.greatmancode.craftconomy3.TestInitializator;
 import com.greatmancode.craftconomy3.account.Account;
 import com.greatmancode.craftconomy3.commands.bank.*;
@@ -49,8 +50,8 @@ public class TestBankCommands {
     public void setUp() {
         new TestInitializator();
         System.out.println("Initialized");
-        TEST_USER = new PlayerCommandSender("testuser39",testUUIDUser);
-        TEST_USER2 = new PlayerCommandSender("testuser40",testUUIDUser2);
+        TEST_USER = new PlayerCommandSender<>("testuser39",testUUIDUser,new TestCommandSender(testUUIDUser,"testuser39"));
+        TEST_USER2 = new PlayerCommandSender<>("testuser40",testUUIDUser2,new TestCommandSender(testUUIDUser2,"testuser40"));
     }
 
     @After
@@ -58,7 +59,7 @@ public class TestBankCommands {
     
     @Test
     public void testBankCreateCommand() {
-        BankCreateCommand command = new BankCreateCommand();
+        BankCreateCommand command = new BankCreateCommand("create");
         System.out.println("Creating a bank account!");
         command.execute(TEST_USER, new String[]{BANK_ACCOUNT});
         System.out.println("DONE");
@@ -73,7 +74,7 @@ public class TestBankCommands {
 
     @Test
     public void testBankGiveCommand() {
-        BankGiveCommand command = new BankGiveCommand();
+        BankGiveCommand command = new BankGiveCommand("give");
         Common.getInstance().getAccountManager().getAccount(BANK_ACCOUNT, true);
         double initialValue = Common.getInstance().getAccountManager().getAccount(BANK_ACCOUNT, true).getBalance("default", Common.getInstance().getCurrencyManager().getDefaultCurrency().getName());
         command.execute(TEST_USER, new String[]{BANK_ACCOUNT, "wow"});
@@ -84,7 +85,7 @@ public class TestBankCommands {
 
     @Test
     public void testBankTakeCommand() {
-        BankTakeCommand command = new BankTakeCommand();
+        BankTakeCommand command = new BankTakeCommand("take");
         Common.getInstance().getAccountManager().getAccount(BANK_ACCOUNT, true);
         command.execute(TEST_USER, new String[]{BANK_ACCOUNT, "100"});
         assertEquals(0, Common.getInstance().getAccountManager().getAccount(BANK_ACCOUNT, true).getBalance(Account
@@ -101,7 +102,7 @@ public class TestBankCommands {
 
     @Test
     public void testBankBalanceCommand() {
-        BankBalanceCommand command = new BankBalanceCommand();
+        BankBalanceCommand command = new BankBalanceCommand("balance");
         Common.getInstance().getAccountManager().getAccount(BANK_ACCOUNT, true);
         command.execute(TEST_USER, new String[] {BANK_ACCOUNT});
         command.execute(TEST_USER, new String[] {"unknown"});
@@ -116,7 +117,7 @@ public class TestBankCommands {
     @Test
     public void testBankIgnoreACLCommand() {
         Common.getInstance().getAccountManager().getAccount(BANK_ACCOUNT, true);
-        BankIgnoreACLCommand command = new BankIgnoreACLCommand();
+        BankIgnoreACLCommand command = new BankIgnoreACLCommand("ignoreacl");
         assertFalse(Common.getInstance().getAccountManager().getAccount(BANK_ACCOUNT, true).ignoreACL());
         command.execute(TEST_USER, new String[]{BANK_ACCOUNT});
         assertTrue(Common.getInstance().getAccountManager().getAccount(BANK_ACCOUNT, true).ignoreACL());
@@ -138,10 +139,10 @@ public class TestBankCommands {
 
     @Test
     public void testBankPermCommand() {
-        BankPermCommand command = new BankPermCommand();
+        BankPermCommand command = new BankPermCommand("permission");
         Common.getInstance().getAccountManager().getAccount(TEST_USER.getName(),false).set(200, "default", Common.getInstance
                 ().getCurrencyManager().getDefaultCurrency().getName(), Cause.USER, "greatman");
-        new BankCreateCommand().execute(TEST_USER, new String[]{BANK_ACCOUNT});
+        new BankCreateCommand("create").execute(TEST_USER, new String[]{BANK_ACCOUNT});
         Account account = Common.getInstance().getAccountManager().getAccount(BANK_ACCOUNT, true);
         command.execute(TEST_USER, new String[] {BANK_ACCOUNT, "deposit", TEST_USER2.getName(), "true"});
         System.out.println("WOW SUPER");
@@ -191,7 +192,7 @@ public class TestBankCommands {
 
     @Test
     public void testBankSetCommand() {
-        BankSetCommand command = new BankSetCommand();
+        BankSetCommand command = new BankSetCommand("set");
         Common.getInstance().getAccountManager().getAccount(BANK_ACCOUNT, true);
         double initialValue = Common.getInstance().getAccountManager().getAccount(BANK_ACCOUNT, true).getBalance("default", Common.getInstance().getCurrencyManager().getDefaultCurrency().getName());
         command.execute(TEST_USER, new String[]{BANK_ACCOUNT, "wow"});
@@ -205,10 +206,10 @@ public class TestBankCommands {
 
     @Test
     public void testBankWithdrawCommand() {
-        BankWithdrawCommand command = new BankWithdrawCommand();
+        BankWithdrawCommand command = new BankWithdrawCommand("withdraw");
         Common.getInstance().getAccountManager().getAccount(TEST_USER.getName(),false).set(200, "default", Common.getInstance
                 ().getCurrencyManager().getDefaultCurrency().getName(), Cause.USER, "greatman");
-        new BankCreateCommand().execute(TEST_USER, new String[]{BANK_ACCOUNT});
+        new BankCreateCommand("create").execute(TEST_USER, new String[]{BANK_ACCOUNT});
         Account account = Common.getInstance().getAccountManager().getAccount(BANK_ACCOUNT, true);
         account.set(200, "default", Common.getInstance().getCurrencyManager().getDefaultCurrency().getName(), Cause.UNKNOWN, null);
         account.withdraw(20, "default", Common.getInstance().getCurrencyManager().getDefaultCurrency().getName(), Cause.UNKNOWN, null);
@@ -217,8 +218,8 @@ public class TestBankCommands {
 
     @Test
     public void testBankDeleteCommand() {
-        new BankCreateCommand().execute(TEST_USER, new String[]{BANK_ACCOUNT});
-        BankDeleteCommand command = new BankDeleteCommand();
+        new BankCreateCommand("create").execute(TEST_USER, new String[]{BANK_ACCOUNT});
+        BankDeleteCommand command = new BankDeleteCommand("delete");
         command.execute(TEST_USER, new String[] {BANK_ACCOUNT});
         assertFalse(Common.getInstance().getAccountManager().exist(BANK_ACCOUNT, true));
     }

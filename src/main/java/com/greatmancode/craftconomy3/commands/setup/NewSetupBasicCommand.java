@@ -22,11 +22,12 @@ package com.greatmancode.craftconomy3.commands.setup;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.DisplayFormat;
 import com.greatmancode.craftconomy3.NewSetupWizard;
+import com.greatmancode.craftconomy3.commands.AbstractCommand;
 import com.greatmancode.tools.commands.CommandSender;
 import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 import com.greatmancode.tools.utils.Tools;
 
-public class NewSetupBasicCommand extends CommandExecutor {
+public class NewSetupBasicCommand extends AbstractCommand {
     public NewSetupBasicCommand(String name) {
         super(name);
     }
@@ -88,9 +89,9 @@ public class NewSetupBasicCommand extends CommandExecutor {
                 NewSetupWizard.setState(NewSetupWizard.CONVERT_STEP);
                 Common.getInstance().loadDefaultSettings();
                 Common.getInstance().startUp();
-                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), "{{DARK_GREEN}}Only 1 step left! Do you want to convert from another system? Type {{WHITE}} /ccsetup convert yes {{DARK_GREEN}}or {{WHITE}}/ccsetup convert no");
+                sendMessage(sender, "{{DARK_GREEN}}Only 1 step left! Do you want to convert from another system? Type {{WHITE}} /ccsetup convert yes {{DARK_GREEN}}or {{WHITE}}/ccsetup convert no");
             } catch (IllegalArgumentException e) {
-                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), "{{DARK_RED}}This display format doesn't exist! Please type {{WHITE}}/ccsetup basic <format>");
+                sendMessage(sender,"{{DARK_RED}}This display format doesn't exist! Please type {{WHITE}}/ccsetup basic <format>");
             }
         }
     }
@@ -100,18 +101,18 @@ public class NewSetupBasicCommand extends CommandExecutor {
             if (Tools.isValidDouble(args[0])) {
                 Common.getInstance().getStorageHandler().getStorageEngine().setConfigEntry("bankprice", args[0]);
                 step = INTERNALSTEP.FORMAT;
-                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), "{{DARK_GREEN}}Now, let's select the display format you want the balance to be shown. Craftconomy have {{WHITE}}4 {{DARK_GREEN}} display formats");
-                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), "{{WHITE}}Long{{DARK_GREEN}}: {{WHITE}}40 Dollars 1 Coin");
-                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), "{{WHITE}}Small{{DARK_GREEN}}: {{WHITE}} 40.1 Dollars");
-                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), "{{WHITE}}Sign{{DARK_GREEN}}: {{WHITE}} $40.1");
-                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), "{{WHITE}}Signfront{{DARK_GREEN}}: {{WHITE}} 40.1$");
-                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), "{{WHITE}}MajorOnly{{DARK_GREEN}}: {{WHITE}}40 Dollars");
-                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), "{{DARK_GREEN}}Please type {{WHITE}}/ccsetup basic <format>");
+                sendMessage(sender, "{{DARK_GREEN}}Now, let's select the display format you want the balance to be shown. Craftconomy have {{WHITE}}4 {{DARK_GREEN}} display formats");
+                sendMessage(sender, "{{WHITE}}Long{{DARK_GREEN}}: {{WHITE}}40 Dollars 1 Coin");
+                sendMessage(sender, "{{WHITE}}Small{{DARK_GREEN}}: {{WHITE}} 40.1 Dollars");
+                sendMessage(sender, "{{WHITE}}Sign{{DARK_GREEN}}: {{WHITE}} $40.1");
+                sendMessage(sender, "{{WHITE}}Signfront{{DARK_GREEN}}: {{WHITE}} 40.1$");
+                sendMessage(sender, "{{WHITE}}MajorOnly{{DARK_GREEN}}: {{WHITE}}40 Dollars");
+                sendMessage(sender, "{{DARK_GREEN}}Please type {{WHITE}}/ccsetup basic <format>");
             } else {
-                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), "{{DARK_RED}}Invalid amount! Please type {{WHITE}}/ccsetup basic <amount>");
+                sendMessage(sender, "{{DARK_RED}}Invalid amount! Please type {{WHITE}}/ccsetup basic <amount>");
             }
         } else {
-            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), "{{DARK_RED}}You need to enter a amount of money! Please type {{WHITE}}/ccsetup basic <amount>");
+            sendMessage(sender, "{{DARK_RED}}You need to enter a amount of money! Please type {{WHITE}}/ccsetup basic <amount>");
         }
     }
 
@@ -120,18 +121,18 @@ public class NewSetupBasicCommand extends CommandExecutor {
             if (Tools.isValidDouble(args[0])) {
                 Common.getInstance().getStorageHandler().getStorageEngine().setConfigEntry("holdings", args[0]);
                 step = INTERNALSTEP.BANK_PRICE;
-                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), "{{DARK_GREEN}}How much do you want your players to pay for a {{WHITE}}bank account{{DARK_GREEN}}? Please type {{WHITE}}/ccsetup basic <amount>");
+                sendMessage(sender, "{{DARK_GREEN}}How much do you want your players to pay for a {{WHITE}}bank account{{DARK_GREEN}}? Please type {{WHITE}}/ccsetup basic <amount>");
             } else {
-                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), "{{DARK_RED}}Invalid amount! Please type {{WHITE}}/ccsetup basic <amount>");
+                sendMessage(sender, "{{DARK_RED}}Invalid amount! Please type {{WHITE}}/ccsetup basic <amount>");
             }
         } else {
-            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), "{{DARK_RED}}You need to enter a amount of money! Please type {{WHITE}}/ccsetup basic <amount>");
+            sendMessage(sender, "{{DARK_RED}}You need to enter a amount of money! Please type {{WHITE}}/ccsetup basic <amount>");
         }
     }
 
     private void start(CommandSender sender) {
-        Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), "{{DARK_GREEN}}Basic setup. In this step, you will configure the basic settings of Craftconomy.");
-        Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), "{{DARK_GREEN}}How much money you want your players to have initially? Please type {{WHITE}}/ccsetup basic <amount>");
+        sendMessage(sender, "{{DARK_GREEN}}Basic setup. In this step, you will configure the basic settings of Craftconomy.");
+        sendMessage(sender, "{{DARK_GREEN}}How much money you want your players to have initially? Please type {{WHITE}}/ccsetup basic <amount>");
         step = INTERNALSTEP.DEFAULT_MONEY;
     }
 }

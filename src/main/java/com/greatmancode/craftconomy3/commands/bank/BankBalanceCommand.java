@@ -22,17 +22,19 @@ package com.greatmancode.craftconomy3.commands.bank;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.account.Account;
 import com.greatmancode.craftconomy3.account.Balance;
+import com.greatmancode.craftconomy3.commands.AbstractCommand;
 import com.greatmancode.tools.commands.CommandSender;
 import com.greatmancode.tools.commands.PlayerCommandSender;
 import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 
 import java.util.UUID;
 
-public class BankBalanceCommand extends CommandExecutor {
+public class BankBalanceCommand extends AbstractCommand {
+
     public BankBalanceCommand(String name) {
         super(name);
     }
-    
+
     @Override
     public void execute(CommandSender sender, String[] args) {
         UUID senderUUID = null;
@@ -43,14 +45,14 @@ public class BankBalanceCommand extends CommandExecutor {
                 Account account = Common.getInstance().getAccountManager().getAccount(args[0], true);
                 if (account.getAccountACL().canShow(sender.getName()) || Common.getInstance().getServerCaller()
                         .getPlayerCaller().checkPermission(senderUUID, "craftconomy.bank.balance.others")) {
-                    Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(senderUUID, Common.getInstance()
-                            .getLanguageManager().getString("bank_statement"));
+                    Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance()
+                            .getLanguageManager().getString("bank_statement"),getName());
                     if (account.getAllBalance().isEmpty()) {
-                        Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(senderUUID, Common
-                                .getInstance().getLanguageManager().parse("bank_account_empty", account.getAccountName()));
+                        Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common
+                                .getInstance().getLanguageManager().parse("bank_account_empty", account.getAccountName()),getName());
                     } else {
                         for (Balance bl : account.getAllBalance()) {
-                            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(senderUUID, Common.getInstance().format(bl.getWorld(), bl.getCurrency(), bl.getBalance()));
+                            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender, Common.getInstance().format(bl.getWorld(), bl.getCurrency(), bl.getBalance()),getName());
                         }
                     }
                 } else {

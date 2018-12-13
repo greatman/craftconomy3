@@ -20,11 +20,12 @@
 package com.greatmancode.craftconomy3.commands.currency;
 
 import com.greatmancode.craftconomy3.Common;
+import com.greatmancode.craftconomy3.commands.AbstractCommand;
 import com.greatmancode.craftconomy3.currency.Currency;
 import com.greatmancode.tools.commands.CommandSender;
 import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 
-public class CurrencyInfoCommand extends CommandExecutor {
+public class CurrencyInfoCommand extends AbstractCommand {
     public CurrencyInfoCommand(String name) {
         super(name);
     }
@@ -33,13 +34,13 @@ public class CurrencyInfoCommand extends CommandExecutor {
     public void execute(CommandSender sender, String[] args) {
         Currency currency = Common.getInstance().getCurrencyManager().getCurrency(args[0]);
         if (currency != null) {
-            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), "{{DARK_GREEN}}======== {{WHITE}}" + currency.getName() + " {{DARK_GREEN}}========");
-            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance().getLanguageManager().parse("currency_info_name", currency.getName()));
-            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance().getLanguageManager().parse("currency_info_name_plural", currency.getPlural()));
-            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance().getLanguageManager().parse("currency_info_minor", currency.getMinor()));
-            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance().getLanguageManager().parse("currency_info_minor_plural", currency.getMinorPlural()));
+            sendMessage(sender, "{{DARK_GREEN}}======== {{WHITE}}" + currency.getName() + " {{DARK_GREEN}}========");
+            sendMessage(sender, Common.getInstance().getLanguageManager().parse("currency_info_name", currency.getName()));
+            sendMessage(sender, Common.getInstance().getLanguageManager().parse("currency_info_name_plural", currency.getPlural()));
+            sendMessage(sender, Common.getInstance().getLanguageManager().parse("currency_info_minor", currency.getMinor()));
+            sendMessage(sender, Common.getInstance().getLanguageManager().parse("currency_info_minor_plural", currency.getMinorPlural()));
         } else {
-            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance().getLanguageManager().getString("currency_not_exist"));
+            sendMessage(sender, Common.getInstance().getLanguageManager().getString("currency_not_exist"));
         }
     }
 

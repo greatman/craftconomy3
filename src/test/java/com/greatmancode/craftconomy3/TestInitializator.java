@@ -80,11 +80,11 @@ public class TestInitializator {
         HikariConfig config = new HikariConfig();
         config.setMaximumPoolSize(10);
         config.setDataSourceClassName("com.mysql.jdbc.jdbc2.optional.MysqlDataSource");
-        config.addDataSourceProperty("serverName", Common.getInstance().getMainConfig().getString("System.Database.Address"));
-        config.addDataSourceProperty("port", Common.getInstance().getMainConfig().getString("System.Database.Port"));
-        config.addDataSourceProperty("databaseName", Common.getInstance().getMainConfig().getString("System.Database.Db"));
-        config.addDataSourceProperty("user", Common.getInstance().getMainConfig().getString("System.Database.Username"));
-        config.addDataSourceProperty("password", Common.getInstance().getMainConfig().getString("System.Database.Password"));
+        config.addDataSourceProperty("serverName", Common.getInstance().getMainConfig().getString("System.Database.Address",""));
+        config.addDataSourceProperty("port", Common.getInstance().getMainConfig().getString("System.Database.Port","0"));
+        config.addDataSourceProperty("databaseName", Common.getInstance().getMainConfig().getString("System.Database.Db",""));
+        config.addDataSourceProperty("user", Common.getInstance().getMainConfig().getString("System.Database.Username",""));
+        config.addDataSourceProperty("password", Common.getInstance().getMainConfig().getString("System.Database.Password",""));
         config.addDataSourceProperty("autoDeserialize", true);
         config.setConnectionTimeout(5000);
         HikariDataSource db = new HikariDataSource(config);
@@ -92,10 +92,10 @@ public class TestInitializator {
         PreparedStatement statement = null;
         try {
             connection = db.getConnection();
-            statement = connection.prepareStatement("DROP DATABASE IF EXISTS " +Common.getInstance().getMainConfig().getString("System.Database.Db"));
+            statement = connection.prepareStatement("DROP DATABASE IF EXISTS " +Common.getInstance().getMainConfig().getString("System.Database.Db",""));
             statement.executeUpdate();
             statement.close();
-            statement = connection.prepareStatement("CREATE DATABASE " + Common.getInstance().getMainConfig().getString("System.Database.Db"));
+            statement = connection.prepareStatement("CREATE DATABASE " + Common.getInstance().getMainConfig().getString("System.Database.Db",""));
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

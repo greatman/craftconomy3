@@ -46,12 +46,12 @@ public class PayShortCommand extends SubCommand {
     }
 
     @Override
-    public void addCommand(String name, Command command) {
-      commandList.put(name, command);
+    public void addCommand( Command command) {
+      commandList.put(command.getName(), command);
       if (command instanceof CommandExecutor) {
         commandHandler.getServerCaller().registerPermission(((CommandExecutor) command).getPermissionNode());
       }
-      super.addCommand(name, command);
+      super.addCommand(command);
     }
 
     @Override
@@ -81,10 +81,10 @@ public class PayShortCommand extends SubCommand {
                             System.arraycopy(args, 0, newArgs, 1, args.length);
                             cmd.execute(sender, newArgs);
                         } else {
-                            commandHandler.getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), cmd.help());
+                            commandHandler.getServerCaller().getPlayerCaller().sendMessage(sender, cmd.help(),getName());
                         }
                     } else {
-                        commandHandler.getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), "{{DARK_RED}}Permission denied!");
+                        commandHandler.getServerCaller().getPlayerCaller().sendMessage(sender, "{{DARK_RED}}Permission denied!",getName());
                     }
                 } else if (entry instanceof SubCommand) {
                     SubCommand subCommand = (SubCommand) entry;
@@ -107,7 +107,7 @@ public class PayShortCommand extends SubCommand {
                 }
             }
         } else {
-            commandHandler.getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), commandHandler.getWrongLevelMsg());
+            commandHandler.getServerCaller().getPlayerCaller().sendMessage(sender, commandHandler.getWrongLevelMsg(),getName());
         }
     }
 }

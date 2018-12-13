@@ -21,10 +21,11 @@ package com.greatmancode.craftconomy3.commands.money;
 
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.account.Account;
+import com.greatmancode.craftconomy3.commands.AbstractCommand;
 import com.greatmancode.tools.commands.CommandSender;
 import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 
-public class InfiniteCommand extends CommandExecutor {
+public class InfiniteCommand extends AbstractCommand {
     public InfiniteCommand(String name) {
         super(name);
     }
@@ -35,13 +36,13 @@ public class InfiniteCommand extends CommandExecutor {
             Account account = Common.getInstance().getAccountManager().getAccount(args[0], false);
             if (account.hasInfiniteMoney()) {
                 account.setInfiniteMoney(false);
-                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance().getLanguageManager().getString("money_infinite_set_false"));
+                sendMessage(sender, Common.getInstance().getLanguageManager().getString("money_infinite_set_false"));
             } else {
                 account.setInfiniteMoney(true);
-                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance().getLanguageManager().getString("money_infinite_set_true"));
+                sendMessage(sender, Common.getInstance().getLanguageManager().getString("money_infinite_set_true"));
             }
         } else {
-            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance().getLanguageManager().getString("account_not_exist"));
+            sendMessage(sender, Common.getInstance().getLanguageManager().getString("account_not_exist"));
         }
     }
 

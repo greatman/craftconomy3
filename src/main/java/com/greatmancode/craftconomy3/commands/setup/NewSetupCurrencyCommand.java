@@ -21,6 +21,7 @@ package com.greatmancode.craftconomy3.commands.setup;
 
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.NewSetupWizard;
+import com.greatmancode.craftconomy3.commands.AbstractCommand;
 import com.greatmancode.craftconomy3.currency.Currency;
 import com.greatmancode.tools.commands.CommandSender;
 import com.greatmancode.tools.commands.interfaces.CommandExecutor;
@@ -28,7 +29,7 @@ import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 import java.util.HashMap;
 import java.util.Map;
 
-public class NewSetupCurrencyCommand extends CommandExecutor {
+public class NewSetupCurrencyCommand extends AbstractCommand {
     public NewSetupCurrencyCommand(String name) {
         super(name);
     }
@@ -61,7 +62,7 @@ public class NewSetupCurrencyCommand extends CommandExecutor {
                 sign(sender, args[1]);
             }
         } catch (IllegalArgumentException e) {
-            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), "{{DARK_RED}}Invalid sub-step! Please write a valid one.");
+            sendMessage(sender, "{{DARK_RED}}Invalid sub-step! Please write a valid one.");
         }
     }
 
@@ -92,19 +93,19 @@ public class NewSetupCurrencyCommand extends CommandExecutor {
 
     private void name(CommandSender sender, String name) {
         map.put("name", name);
-        Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), "{{DARK_GREEN}}Now, let's configure the currency name but in {{WHITE}}Plural {{DARK_GREEN}}(Ex: {{WHITE}}Dollars{{DARK_GREEN}}). Please type {{WHITE}}/ccsetup currency nameplural <Plural>");
+        sendMessage(sender, "{{DARK_GREEN}}Now, let's configure the currency name but in {{WHITE}}Plural {{DARK_GREEN}}(Ex: {{WHITE}}Dollars{{DARK_GREEN}}). Please type {{WHITE}}/ccsetup currency nameplural <Plural>");
         done(sender);
     }
 
     private void namePlural(CommandSender sender, String namePlural) {
         map.put("nameplural", namePlural);
-        Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), "{{DARK_GREEN}}Now, let's configure the currency name but for the {{WHITE}}minor {{DARK_GREEN}}(Ex: {{WHITE}}Coin{{DARK_GREEN}}). Please type {{WHITE}}/ccsetup currency minor <Minor>");
+        sendMessage(sender, "{{DARK_GREEN}}Now, let's configure the currency name but for the {{WHITE}}minor {{DARK_GREEN}}(Ex: {{WHITE}}Coin{{DARK_GREEN}}). Please type {{WHITE}}/ccsetup currency minor <Minor>");
         done(sender);
     }
 
     private void minor(CommandSender sender, String minor) {
         map.put("minor", minor);
-        Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), "{{DARK_GREEN}}Now, let's configure the currency name but for the {{WHITE}}minor in plural {{DARK_GREEN}}(Ex: {{WHITE}}Coins{{DARK_GREEN}}). Please type {{WHITE}}/ccsetup currency minorplural <Minor plural>");
+        sendMessage(sender, "{{DARK_GREEN}}Now, let's configure the currency name but for the {{WHITE}}minor in plural {{DARK_GREEN}}(Ex: {{WHITE}}Coins{{DARK_GREEN}}). Please type {{WHITE}}/ccsetup currency minorplural <Minor plural>");
         done(sender);
     }
 
@@ -124,7 +125,7 @@ public class NewSetupCurrencyCommand extends CommandExecutor {
             Currency currency = Common.getInstance().getCurrencyManager().addCurrency(map.get("name"), map.get("nameplural"), map.get("minor"), map.get("minorplural"), map.get("sign"), true);
             Common.getInstance().getCurrencyManager().setDefault(currency);
             Common.getInstance().getCurrencyManager().setDefaultBankCurrency(currency);
-            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), "{{DARK_GREEN}}We are done for that step! Only 2 remaining! Please type {{WHITE}}/ccsetup basic");
+            sendMessage(sender, "{{DARK_GREEN}}We are done for that step! Only 2 remaining! Please type {{WHITE}}/ccsetup basic");
             NewSetupWizard.setState(NewSetupWizard.BASIC_STEP);
         }
     }

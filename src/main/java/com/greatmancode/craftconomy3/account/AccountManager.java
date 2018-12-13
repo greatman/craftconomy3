@@ -43,7 +43,7 @@ public class AccountManager {
      */
     public Account getAccount(String name, boolean bankAccount) {
         String newName = name;
-        if (!Common.getInstance().getMainConfig().getBoolean("System.Case-sentitive")) {
+        if (!Common.getInstance().getMainConfig().getBoolean("System.Case-sentitive",false)) {
             newName = name.toLowerCase();
         }
         Account account;
@@ -80,7 +80,7 @@ public class AccountManager {
      */
     public boolean exist(String name, boolean bankAccount) {
         String newName = name;
-        if (!Common.getInstance().getMainConfig().getBoolean("System.Case-sentitive")) {
+        if (!Common.getInstance().getMainConfig().getBoolean("System.Case-sentitive",false)) {
             newName = name.toLowerCase();
         }
         boolean result;
@@ -115,7 +115,7 @@ public class AccountManager {
      */
     public boolean delete(String name, boolean bankAccount) {
         String newName = name;
-        if (!Common.getInstance().getMainConfig().getBoolean("System.Case-sentitive")) {
+        if (!Common.getInstance().getMainConfig().getBoolean("System.Case-sentitive",false)) {
             newName = name.toLowerCase();
         }
         boolean result = false;

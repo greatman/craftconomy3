@@ -45,12 +45,12 @@ public class H2ToMySQLConverter {
     public void run() {
         Common.getInstance().sendConsoleMessage(Level.INFO, Common.getInstance().getLanguageManager().getString("starting_database_convert"));
         HikariConfig hikariConfig = new HikariConfig();
-        hikariConfig.setMaximumPoolSize(Common.getInstance().getMainConfig().getInt("System.Database.Poolsize"));
+        hikariConfig.setMaximumPoolSize(Common.getInstance().getMainConfig().getInt("System.Database.Poolsize",20));
         hikariConfig.setDataSourceClassName("org.h2.jdbcx.JdbcDataSource");
         hikariConfig.addDataSourceProperty("user", "sa");
         hikariConfig.addDataSourceProperty("url", "jdbc:h2:file:" + new File(Common.getInstance().getServerCaller().getDataFolder().getPath(), "database").getAbsolutePath() + ";MV_STORE=FALSE");
         hikariConfig.setConnectionTimeout(5000);db = new HikariDataSource(hikariConfig);
-        prefix = Common.getInstance().getMainConfig().getString("System.Database.Prefix");
+        prefix = Common.getInstance().getMainConfig().getString("System.Database.Prefix","cc3_");
         try {
             Connection connection = db.getConnection();
 

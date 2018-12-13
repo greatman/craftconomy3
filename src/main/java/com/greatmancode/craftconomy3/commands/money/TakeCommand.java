@@ -22,13 +22,14 @@ package com.greatmancode.craftconomy3.commands.money;
 import com.greatmancode.craftconomy3.Cause;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.account.Account;
+import com.greatmancode.craftconomy3.commands.AbstractCommand;
 import com.greatmancode.craftconomy3.currency.Currency;
 import com.greatmancode.tools.commands.CommandSender;
 import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 import com.greatmancode.tools.entities.Player;
 import com.greatmancode.tools.utils.Tools;
 
-public class TakeCommand extends CommandExecutor {
+public class TakeCommand extends AbstractCommand {
     public TakeCommand(String name) {
         super(name);
     }
@@ -39,28 +40,19 @@ public class TakeCommand extends CommandExecutor {
             if (Tools.isValidDouble(args[1])) {
                 double amount = Double.parseDouble(args[1]);
                 Currency currency = Common.getInstance().getCurrencyManager().getDefaultCurrency();
-
                 if (args.length > 2) {
-                    if (Common.getInstance().getCurrencyManager().getCurrency(args[2]) != null) {
-                        currency = Common.getInstance().getCurrencyManager().getCurrency(args[2]);
-                    } else {
-                        Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance().getLanguageManager().getString("currency_not_exist"));
-                        return;
-                    }
+                    currency = checkCurrencyExists(sender,args[2]);
+                    if(currency == null)return;
                 }
-
                 String worldName = Account.getWorldGroupOfPlayerCurrentlyIn(sender.getUuid());
                 if (args.length > 3) {
-                    if (!Common.getInstance().getServerCaller().worldExist(args[3])) {
-                        Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance().getLanguageManager().getString("world_not_exist"));
-                        return;
-                    }
+                    if(!checkWorldExists(sender,args[3]))return;
                     worldName = Common.getInstance().getWorldGroupManager().getWorldGroupName(args[3]);
                 }
 
                 Common.getInstance().getAccountManager().getAccount(args[0], false).withdraw(amount, worldName,
                         currency.getName(), Cause.USER, sender.getName());
-                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance().getLanguageManager().parse("money_take", Common.getInstance().format(worldName, currency, amount), args[0]));
+                sendMessage(sender, Common.getInstance().getLanguageManager().parse("money_take", Common.getInstance().format(worldName, currency, amount), args[0]));
                 Player player = Common.getInstance().getServerCaller().getPlayerCaller().getOnlinePlayer(args[0]);
                 if (player != null) {
                     Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(player.getUuid(), Common.getInstance
@@ -68,10 +60,10 @@ public class TakeCommand extends CommandExecutor {
                             currency, amount), sender.getName()));
                 }
             } else {
-                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance().getLanguageManager().getString("invalid_amount"));
+                sendMessage(sender, Common.getInstance().getLanguageManager().getString("invalid_amount"));
             }
         } else {
-            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance().getLanguageManager().getString("player_not_exist"));
+            sendMessage(sender, Common.getInstance().getLanguageManager().getString("player_not_exist"));
         }
     }
 

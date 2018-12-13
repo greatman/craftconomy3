@@ -20,12 +20,13 @@
 package com.greatmancode.craftconomy3.commands.currency;
 
 import com.greatmancode.craftconomy3.Common;
+import com.greatmancode.craftconomy3.commands.AbstractCommand;
 import com.greatmancode.craftconomy3.currency.Currency;
 import com.greatmancode.tools.commands.CommandSender;
 import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 import com.greatmancode.tools.utils.Tools;
 
-public class CurrencyExchangeCommand extends CommandExecutor {
+public class CurrencyExchangeCommand extends AbstractCommand {
     public CurrencyExchangeCommand(String name) {
         super(name);
     }
@@ -37,12 +38,12 @@ public class CurrencyExchangeCommand extends CommandExecutor {
         if (currency != null && currency2 != null) {
             if (Tools.isDouble(args[2])) {
                 currency.setExchangeRate(currency2, Double.parseDouble(args[2]));
-                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance().getLanguageManager().getString("currency_exchange_set"));
+                sendMessage(sender, Common.getInstance().getLanguageManager().getString("currency_exchange_set"));
             } else {
-                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance().getLanguageManager().getString("invalid_amount"));
+                sendMessage(sender, Common.getInstance().getLanguageManager().getString("invalid_amount"));
             }
         } else {
-            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance().getLanguageManager().getString("currency_not_exist"));
+            sendMessage(sender, Common.getInstance().getLanguageManager().getString("currency_not_exist"));
         }
     }
 

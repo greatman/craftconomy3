@@ -22,10 +22,11 @@ package com.greatmancode.craftconomy3.commands.bank;
 import com.greatmancode.craftconomy3.Cause;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.account.Account;
+import com.greatmancode.craftconomy3.commands.AbstractCommand;
 import com.greatmancode.tools.commands.CommandSender;
 import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 
-public class BankCreateCommand extends CommandExecutor {
+public class BankCreateCommand extends AbstractCommand {
     public BankCreateCommand(String name) {
         super(name);
     }
@@ -39,12 +40,12 @@ public class BankCreateCommand extends CommandExecutor {
                         .getBankPrice(), Common.getInstance().getServerCaller().getPlayerCaller().getPlayerWorld(sender.getUuid()), Common.getInstance().getCurrencyManager().getDefaultBankCurrency().getName(), Cause.BANK_CREATION, null);
                 Account account = Common.getInstance().getAccountManager().getAccount(args[0], true);
                 account.getAccountACL().set(sender.getName(), true, true, true, true, true);
-                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance().getLanguageManager().getString("bank_account_created"));
+                sendMessage(sender, Common.getInstance().getLanguageManager().getString("bank_account_created"));
             } else {
-                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance().getLanguageManager().parse("bank_account_not_enough_money_create", Common.getInstance().format(null, Common.getInstance().getCurrencyManager().getDefaultBankCurrency(), Common.getInstance().getBankPrice())));
+                sendMessage(sender, Common.getInstance().getLanguageManager().parse("bank_account_not_enough_money_create", Common.getInstance().format(null, Common.getInstance().getCurrencyManager().getDefaultBankCurrency(), Common.getInstance().getBankPrice())));
             }
         } else {
-            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance().getLanguageManager().getString("account_already_exists"));
+            sendMessage(sender, Common.getInstance().getLanguageManager().getString("account_already_exists"));
         }
     }
 

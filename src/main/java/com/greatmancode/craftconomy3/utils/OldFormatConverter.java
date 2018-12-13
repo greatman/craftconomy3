@@ -50,16 +50,16 @@ public class OldFormatConverter {
     private String tablePrefix;
 
     public void run() throws SQLException, IOException, ParseException {
-        String dbType = Common.getInstance().getMainConfig().getString("System.Database.Type");
+        String dbType = Common.getInstance().getMainConfig().getString("System.Database.Type","h2");
         HikariConfig config = new HikariConfig();
         if (dbType.equalsIgnoreCase("mysql")) {
             config.setMaximumPoolSize(10);
             config.setDataSourceClassName("com.mysql.jdbc.jdbc2.optional.MysqlDataSource");
-            config.addDataSourceProperty("serverName", Common.getInstance().getMainConfig().getString("System.Database.Address"));
-            config.addDataSourceProperty("port", Common.getInstance().getMainConfig().getString("System.Database.Port"));
-            config.addDataSourceProperty("databaseName", Common.getInstance().getMainConfig().getString("System.Database.Db"));
-            config.addDataSourceProperty("user", Common.getInstance().getMainConfig().getString("System.Database.Username"));
-            config.addDataSourceProperty("password", Common.getInstance().getMainConfig().getString("System.Database.Password"));
+            config.addDataSourceProperty("serverName", Common.getInstance().getMainConfig().getString("System.Database.Address","localhost"));
+            config.addDataSourceProperty("port", Common.getInstance().getMainConfig().getString("System.Database.Port","3306"));
+            config.addDataSourceProperty("databaseName", Common.getInstance().getMainConfig().getString("System.Database.Db","Craftconomy"));
+            config.addDataSourceProperty("user", Common.getInstance().getMainConfig().getString("System.Database.Username","root"));
+            config.addDataSourceProperty("password", Common.getInstance().getMainConfig().getString("System.Database.Password",""));
             config.addDataSourceProperty("autoDeserialize", true);
             config.setConnectionTimeout(5000);
             db = new HikariDataSource(config);
@@ -74,7 +74,7 @@ public class OldFormatConverter {
             return;
         }
         Connection connection = db.getConnection();
-        this.tablePrefix = Common.getInstance().getMainConfig().getString("System.Database.Prefix");
+        this.tablePrefix = Common.getInstance().getMainConfig().getString("System.Database.Prefix","cc3_");
 
         File accountFile = new File(Common.getInstance().getServerCaller().getDataFolder(), "accounts.json");
 
@@ -255,7 +255,7 @@ public class OldFormatConverter {
     public void step2() throws IOException, ParseException {
         Common.getInstance().sendConsoleMessage(Level.INFO, "Converting step 2: Inserting the data back in all the new tables");
         Common.getInstance().sendConsoleMessage(Level.INFO, "Creating the new tables");
-        String dbType = Common.getInstance().getMainConfig().getString("System.Database.Type");
+        String dbType = Common.getInstance().getMainConfig().getString("System.Database.Type","h2");
 
         if (dbType.equals("sqlite")) {
             Common.getInstance().sendConsoleMessage(Level.INFO, "You are using SQLite! This is now deprecated. Selecting H2 instead.");
@@ -330,7 +330,7 @@ public class OldFormatConverter {
 
         Common.getInstance().sendConsoleMessage(Level.INFO, "Saving accounts. This may take a long time.");
         boolean log = false;
-        if (Common.getInstance().getMainConfig().getBoolean("System.Logging.Enabled")) {
+        if (Common.getInstance().getMainConfig().getBoolean("System.Logging.Enabled",false)) {
             Common.getInstance().getMainConfig().setValue("System.Logging.Enabled", false);
             log = true;
         }

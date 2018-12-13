@@ -32,7 +32,7 @@ public class StorageHandler {
     private final StorageEngine engine;
 
     public StorageHandler() {
-        switch (Common.getInstance().getMainConfig().getString("System.Database.Type")) {
+        switch (Common.getInstance().getMainConfig().getString("System.Database.Type","h2")) {
             case "h2":
                 engine = new H2Engine();
                 break;

@@ -20,10 +20,11 @@
 package com.greatmancode.craftconomy3.commands.currency;
 
 import com.greatmancode.craftconomy3.Common;
+import com.greatmancode.craftconomy3.commands.AbstractCommand;
 import com.greatmancode.tools.commands.CommandSender;
 import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 
-public class CurrencyDeleteCommand extends CommandExecutor {
+public class CurrencyDeleteCommand extends AbstractCommand {
     public CurrencyDeleteCommand(String name) {
         super(name);
     }
@@ -32,9 +33,9 @@ public class CurrencyDeleteCommand extends CommandExecutor {
     public void execute(CommandSender sender, String[] args) {
         if (Common.getInstance().getCurrencyManager().getCurrency(args[0]) != null) {
             Common.getInstance().getCurrencyManager().deleteCurrency(Common.getInstance().getCurrencyManager().getCurrency(args[0]));
-            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance().getLanguageManager().getString("currency_deleted"));
+            sendMessage(sender, Common.getInstance().getLanguageManager().getString("currency_deleted"));
         } else {
-            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance().getLanguageManager().getString("currency_not_exists"));
+            sendMessage(sender, Common.getInstance().getLanguageManager().getString("currency_not_exists"));
         }
     }
 

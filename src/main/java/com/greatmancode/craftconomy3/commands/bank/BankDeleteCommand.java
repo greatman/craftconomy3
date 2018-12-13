@@ -23,10 +23,11 @@ import com.greatmancode.craftconomy3.Cause;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.account.Account;
 import com.greatmancode.craftconomy3.account.Balance;
+import com.greatmancode.craftconomy3.commands.AbstractCommand;
 import com.greatmancode.tools.commands.CommandSender;
 import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 
-public class BankDeleteCommand extends CommandExecutor {
+public class BankDeleteCommand extends AbstractCommand {
     public BankDeleteCommand(String name) {
         super(name);
     }
@@ -43,12 +44,12 @@ public class BankDeleteCommand extends CommandExecutor {
                     owner.deposit(balance.getBalance(), balance.getWorld(), balance.getCurrency().getName(), Cause.BANK_DELETE, args[0]);
                 }
                 Common.getInstance().getAccountManager().delete(args[0], true);
-                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance().getLanguageManager().getString("bank_account_deleted"));
+                sendMessage(sender, Common.getInstance().getLanguageManager().getString("bank_account_deleted"));
             } else {
-                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance().getLanguageManager().getString("bank_delete_not_owner"));
+                sendMessage(sender, Common.getInstance().getLanguageManager().getString("bank_delete_not_owner"));
             }
         } else {
-            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance().getLanguageManager().getString("account_not_exist"));
+            sendMessage(sender, Common.getInstance().getLanguageManager().getString("account_not_exist"));
         }
     }
 

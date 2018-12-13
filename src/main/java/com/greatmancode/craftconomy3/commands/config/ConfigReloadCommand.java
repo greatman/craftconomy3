@@ -20,10 +20,11 @@
 package com.greatmancode.craftconomy3.commands.config;
 
 import com.greatmancode.craftconomy3.Common;
+import com.greatmancode.craftconomy3.commands.AbstractCommand;
 import com.greatmancode.tools.commands.CommandSender;
 import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 
-public class ConfigReloadCommand extends CommandExecutor {
+public class ConfigReloadCommand extends AbstractCommand {
     public ConfigReloadCommand(String name) {
         super(name);
     }
@@ -32,7 +33,7 @@ public class ConfigReloadCommand extends CommandExecutor {
     public void execute(CommandSender sender, String[] args) {
         Common.getInstance().onDisable();
         Common.getInstance().reloadPlugin();
-        Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance().getLanguageManager().getString("craftconomy_reloaded"));
+        sendMessage(sender, Common.getInstance().getLanguageManager().getString("craftconomy_reloaded"));
     }
 
     @Override

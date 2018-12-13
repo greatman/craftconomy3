@@ -42,19 +42,19 @@ public class TestConfigurationManager {
 	public void test() {
 		assertNotNull(Common.getInstance().getConfigurationManager());
 		assertNotNull(Common.getInstance().getMainConfig());
-		assertEquals(false, Common.getInstance().getMainConfig().getBoolean("System.Setup"));
+		assertEquals(false, Common.getInstance().getMainConfig().getBoolean("System.Setup",true));
 		Common.getInstance().getMainConfig().setValue("System.Setup", true);
-		assertEquals(true, Common.getInstance().getMainConfig().getBoolean("System.Setup"));
+		assertEquals(true, Common.getInstance().getMainConfig().getBoolean("System.Setup",false));
 		Common.getInstance().getMainConfig().setValue("System.Setup", false);
         if (Boolean.getBoolean("mysql")) {
-            assertEquals("mysql", Common.getInstance().getMainConfig().getString("System.Database.Type"));
+            assertEquals("mysql", Common.getInstance().getMainConfig().getString("System.Database.Type",""));
         } else {
-            assertEquals("h2", Common.getInstance().getMainConfig().getString("System.Database.Type"));
+            assertEquals("h2", Common.getInstance().getMainConfig().getString("System.Database.Type",""));
         }
-		assertEquals(3306, Common.getInstance().getMainConfig().getInt("System.Database.Port"));
+		assertEquals(3306, Common.getInstance().getMainConfig().getInt("System.Database.Port",0));
 		Common.getInstance().getMainConfig().setValue("test", 30);
-		assertEquals(30, Common.getInstance().getMainConfig().getLong("test"));
+		assertEquals(30, Common.getInstance().getMainConfig().getLong("test",0));
 		Common.getInstance().getMainConfig().setValue("test", 30.40);
-		assertEquals(30.40, Common.getInstance().getMainConfig().getDouble("test"), 0);
+		assertEquals(30.40, Common.getInstance().getMainConfig().getDouble("test",0D), 0);
 	}
 }

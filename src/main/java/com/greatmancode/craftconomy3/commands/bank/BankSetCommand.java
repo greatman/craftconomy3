@@ -22,12 +22,13 @@ package com.greatmancode.craftconomy3.commands.bank;
 import com.greatmancode.craftconomy3.Cause;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.account.Account;
+import com.greatmancode.craftconomy3.commands.AbstractCommand;
 import com.greatmancode.craftconomy3.currency.Currency;
 import com.greatmancode.tools.commands.CommandSender;
 import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 import com.greatmancode.tools.utils.Tools;
 
-public class BankSetCommand extends CommandExecutor {
+public class BankSetCommand extends AbstractCommand {
     public BankSetCommand(String name) {
         super(name);
     }
@@ -43,26 +44,26 @@ public class BankSetCommand extends CommandExecutor {
                     if (Common.getInstance().getCurrencyManager().getCurrency(args[2]) != null) {
                         currency = Common.getInstance().getCurrencyManager().getCurrency(args[2]);
                     } else {
-                        Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance().getLanguageManager().getString("currency_not_exist"));
+                        sendMessage(sender, Common.getInstance().getLanguageManager().getString("currency_not_exist"));
                         return;
                     }
                 }
                 String worldName = Account.getWorldGroupOfPlayerCurrentlyIn(sender.getUuid());
                 if (args.length > 3) {
                     if (!Common.getInstance().getServerCaller().worldExist(args[3])) {
-                        Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance().getLanguageManager().getString("world_not_exist"));
+                        sendMessage(sender, Common.getInstance().getLanguageManager().getString("world_not_exist"));
                         return;
                     }
                     worldName = Common.getInstance().getWorldGroupManager().getWorldGroupName(args[3]);
                 }
 
                 bankAccount.set(amount, worldName, currency.getName(), Cause.USER, sender.getName());
-                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance().getLanguageManager().parse("bank_set_success", Common.getInstance().format(worldName, currency, amount), args[0]));
+                sendMessage(sender, Common.getInstance().getLanguageManager().parse("bank_set_success", Common.getInstance().format(worldName, currency, amount), args[0]));
             } else {
-                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance().getLanguageManager().getString("invalid_amount"));
+                sendMessage(sender, Common.getInstance().getLanguageManager().getString("invalid_amount"));
             }
         } else {
-            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), Common.getInstance().getLanguageManager().getString("account_not_exist"));
+            sendMessage(sender, Common.getInstance().getLanguageManager().getString("account_not_exist"));
         }
     }
 

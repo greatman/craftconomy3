@@ -21,6 +21,7 @@ package com.greatmancode.craftconomy3.commands.setup;
 
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.NewSetupWizard;
+import com.greatmancode.craftconomy3.commands.AbstractCommand;
 import com.greatmancode.craftconomy3.converter.Converter;
 import com.greatmancode.craftconomy3.converter.ConverterList;
 import com.greatmancode.tools.commands.CommandSender;
@@ -30,7 +31,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 
-public class NewSetupConvertCommand extends CommandExecutor {
+public class NewSetupConvertCommand extends AbstractCommand {
     public NewSetupConvertCommand(String name) {
         super(name);
     }
@@ -94,27 +95,26 @@ public class NewSetupConvertCommand extends CommandExecutor {
                     if (selectedConverter.allSet()) {
                         //We start the convert!
                         if (selectedConverter.connect()) {
-                            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), "{{DARK_GREEN}}All values are ok! Let's start this conversion!");
+                            sendMessage(sender, "{{DARK_GREEN}}All values are ok! Let's start this conversion!");
                             Common.getInstance().getServerCaller().getSchedulerCaller().schedule(new Runnable() {
                                 @Override
                                 public void run() {
-                                    Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), "{{DARK_RED}}NOTICE: {{WHITE}}The conversion is made in another thread so it doesn't hang the server. Craftconomy will be unlocked when the conversion is complete.");
+                                    sendMessage(sender, "{{DARK_RED}}NOTICE: {{WHITE}}The conversion is made in another thread so it doesn't hang the server. Craftconomy will be unlocked when the conversion is complete.");
                                     selectedConverter.importData(sender);
                                     Common.getInstance().getMainConfig().setValue("System.Setup", false);
                                     Common.getInstance().reloadPlugin();
-
-                                    Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), "{{DARK_GREEN}}Conversion complete! Enjoy Craftconomy!");
+                                    sendMessage(sender, "{{DARK_GREEN}}Conversion complete! Enjoy Craftconomy!");
                                 }
                             }, 0, 0, true);
                         } else {
-                            Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), "{{DARK_RED}}Some settings are wrong. Be sure that every settings are ok! Check the console log for more information.");
+                            sendMessage(sender, "{{DARK_RED}}Some settings are wrong. Be sure that every settings are ok! Check the console log for more information.");
                         }
                     } else {
-                        Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), "{{DARK_GREEN}}Value for {{WHITE}}" + args[0] + "{{DARK_GREEN}} set. Please continue.");
+                        sendMessage(sender, "{{DARK_GREEN}}Value for {{WHITE}}" + args[0] + "{{DARK_GREEN}} set. Please continue.");
                     }
                 }
             } else {
-                Common.getInstance().getServerCaller().getPlayerCaller().sendMessage(sender.getUuid(), "{{DARK_RED}}Something is wrong. There isn't a converter selected!");
+                sendMessage(sender, "{{DARK_RED}}Something is wrong. There isn't a converter selected!");
             }
         }
     }
