@@ -107,8 +107,8 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
             if (!getMainConfig().has("System.Database.Poolsize")) {
                 getMainConfig().setValue("System.Database.Poolsize", 10);
             }
-            if(!getMainConfig().has("System.Metrics.enabled")){
-                getMainConfig().setValue("System.Metrics.enabled", false);
+            if(!getMainConfig().has("System.Database.useMetrics")){
+                getMainConfig().setValue("System.Database.useMetrics", false);
             }
 
             languageManager = new LanguageManager(serverCaller, serverCaller.getDataFolder(), "lang.yml");
@@ -130,7 +130,7 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
                     sendConsoleMessage(Level.WARNING, getLanguageManager().getString("loaded_setup_mode"));
                 }
             } else {
-                if(getMainConfig().getBoolean("System.Metrics.enabled",false)){
+                if(getMainConfig().getBoolean("System.Database.useMetrics",false)){
                     if(DripReporterLoader.hookDripReporterApi(serverCaller.getLoader())){
                         sendConsoleMessage(Level.INFO,getLanguageManager().getString("metric_enabled"));
                     };
@@ -684,6 +684,7 @@ public class Common implements com.greatmancode.tools.interfaces.Common {
      * Initialize the configuration file
      */
     private void loadLanguage() {
+        languageManager.addLanguageEntry("metric_enabled", "DripReporter Metrics enabled");
         languageManager.addLanguageEntry("metric_start_error", "Unable to load Metrics! The error is: %s");
         languageManager.addLanguageEntry("checking_new_version", "Checking if there's a new version.");
         languageManager.addLanguageEntry("running_old_version", "Running a old version of Craftconomy! New version is: %s");
