@@ -66,6 +66,12 @@ public class AccountTable extends DatabaseTable {
 
     public final String updateUuidByName = "UPDATE " + getPrefix() + TABLE_NAME + " SET uuid=? WHERE name=?";
 
+    public static String sqlAccountIDbyName(String prefix){
+        return  "SELECT id FROM "+prefix+AccountTable.TABLE_NAME+ " WHERE name =?";
+    }
+    public static String sqlAccountIDbyUUID(String prefix) {
+        return "SELECT id FROM " + prefix + AccountTable.TABLE_NAME + " WHERE uuid =?";
+    }
 
 
     public AccountTable(String prefix) {

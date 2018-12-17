@@ -56,15 +56,13 @@ public class LogTable extends DatabaseTable {
             "(username_id, type, cause, causeReason, worldName, amount, currency_id, timestamp)" +
             "VALUES((SELECT id from " + getPrefix() + AccountTable.TABLE_NAME + " WHERE name=? AND bank=?),?,?,?,?,?,?,?)";
 
-    public final String selectEntry = "SELECT * FROM " + getPrefix() + TABLE_NAME + " " +
-            "LEFT JOIN " + getPrefix() + AccountTable.TABLE_NAME + " " +
-            "ON " + getPrefix() + TABLE_NAME + ".username_id = " + getPrefix() + AccountTable.TABLE_NAME + ".id " +
-            "WHERE " + getPrefix() + AccountTable.TABLE_NAME + ".name=?";
+    public final String selectEntry = "SELECT * FROM " + getPrefix() + TABLE_NAME + 
+            " WHERE " + getPrefix() + TABLE_NAME + ".username_id = (" +AccountTable.sqlAccountIDbyName(getPrefix())+ ")";
+            ;
 
-    public final String selectEntryLimit = "SELECT * FROM " + getPrefix() + TABLE_NAME + " " +
-            "LEFT JOIN " + getPrefix() + AccountTable.TABLE_NAME + " " +
-            "ON " + getPrefix() + TABLE_NAME + ".username_id = " + getPrefix() + AccountTable.TABLE_NAME + ".id " +
-            "WHERE " + getPrefix() + AccountTable.TABLE_NAME + ".name=? ORDER BY " + getPrefix() + TABLE_NAME + ".id DESC LIMIT ?,?";
+    public final String selectEntryLimit = "SELECT * FROM " + getPrefix() + TABLE_NAME + 
+            " WHERE " + getPrefix() + TABLE_NAME + ".username_id = (" +AccountTable.sqlAccountIDbyName(getPrefix())+ ") ORDER BY " +
+            getPrefix() + TABLE_NAME + ".id DESC LIMIT ?,?";
 
     public final String cleanEntry = "DELETE FROM " + getPrefix() + TABLE_NAME + " WHERE timestamp <= ?";
 

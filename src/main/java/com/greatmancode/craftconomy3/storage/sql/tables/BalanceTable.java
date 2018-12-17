@@ -53,22 +53,17 @@ public class BalanceTable extends DatabaseTable {
             "    REFERENCES " + getPrefix() + CurrencyTable.TABLE_NAME + "(name) ON UPDATE CASCADE ON DELETE CASCADE" +
             ")";
 
-    public final String selectAllEntryAccount = "SELECT * FROM " + getPrefix() + TABLE_NAME + " " +
-            "LEFT JOIN " + getPrefix() + AccountTable.TABLE_NAME + " " +
-            "ON " + getPrefix() + TABLE_NAME + ".username_id = " + getPrefix() + AccountTable.TABLE_NAME + ".id " +
-            "WHERE " + getPrefix() + AccountTable.TABLE_NAME + ".name=?";
+    public final String selectAllEntryAccount = "SELECT * FROM " + getPrefix() + TABLE_NAME + " WHERE " + getPrefix() + TABLE_NAME + ".username_id=("+
+            AccountTable.sqlAccountIDbyName(getPrefix())+")";
 
-    public final String selectWorldEntryAccount = "SELECT * FROM " + getPrefix() + TABLE_NAME + " " +
-            "LEFT JOIN " + getPrefix() + AccountTable.TABLE_NAME + " " +
-            "ON " + getPrefix() + TABLE_NAME + ".username_id = " + getPrefix() + AccountTable.TABLE_NAME + ".id " +
-            "WHERE " + getPrefix() + AccountTable.TABLE_NAME + ".name=? AND " + WORLD_NAME_FIELD + "=?";
+
+    public final String selectWorldEntryAccount = "SELECT * FROM " + getPrefix() + TABLE_NAME + " WHERE "
+            + getPrefix() + TABLE_NAME + ".username_id = ("+AccountTable.sqlAccountIDbyName(getPrefix())+") AND " + WORLD_NAME_FIELD + "=?";
 
     public final String selectWorldCurrencyEntryAccount = "SELECT balance, worldName, currency_id, username_id FROM " + getPrefix() + TABLE_NAME + " " +
-            "LEFT JOIN " + getPrefix() + AccountTable.TABLE_NAME + " " +
-            "ON " + getPrefix() + TABLE_NAME + ".username_id = " + getPrefix() + AccountTable.TABLE_NAME + ".id " +
             "LEFT JOIN " + getPrefix() + CurrencyTable.TABLE_NAME + " " +
             "ON " + getPrefix() + TABLE_NAME + ".currency_id = " + getPrefix() + CurrencyTable.TABLE_NAME + ".name " +
-            "WHERE " + getPrefix() + AccountTable.TABLE_NAME + ".name=? AND " + WORLD_NAME_FIELD + "=? AND " + getPrefix() + CurrencyTable.TABLE_NAME + ".name=?";
+            "WHERE "+ getPrefix() + TABLE_NAME + ".username_id = ("+AccountTable.sqlAccountIDbyName(getPrefix())+") AND " + WORLD_NAME_FIELD + "=? AND " + getPrefix() + CurrencyTable.TABLE_NAME + ".name=?";
 
     public final String insertEntry = "INSERT INTO " + getPrefix() + TABLE_NAME + "" +
             "(" + BALANCE_FIELD + ", " + WORLD_NAME_FIELD + ", username_id, currency_id) " +
