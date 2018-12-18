@@ -50,15 +50,30 @@ public class AccountTable extends DatabaseTable {
 
     public final String selectAllEntry = "SELECT name FROM " + getPrefix() + TABLE_NAME + " WHERE bank=?";
 
-    public final String insertEntry = "INSERT INTO " + getPrefix() + TABLE_NAME + "(name,uuid) VALUES(?,?)";
+    public final String insertEntry =
+            "INSERT INTO " + getPrefix() + TABLE_NAME + " " +
+              "(name,uuid) " +
+            "VALUES(?,?)";
 
-    public final String insertEntryBank = "INSERT INTO " + getPrefix() + TABLE_NAME + "(name,bank) VALUES(?,true)";
+    public final String insertEntryBank =
+            "INSERT INTO " + getPrefix() + TABLE_NAME + " " +
+               "(name,bank) " +
+            "VALUES(?,true)";
 
-    public final String insertEntryAllInfo = "INSERT INTO " + getPrefix() + TABLE_NAME + "(name,uuid,infiniteMoney,ignoreACL,bank) VALUES(?,?,?,?,?)";
+    public final String insertEntryAllInfo =
+            "INSERT INTO " + getPrefix() + TABLE_NAME + " " +
+               "(name,uuid,infiniteMoney,ignoreACL,bank) " +
+            "VALUES(?,?,?,?,?)";
 
-    public final String updateInfinitemoneyEntry = "UPDATE " + getPrefix() + TABLE_NAME + " SET infiniteMoney=? WHERE name=? AND bank=?";
+    public final String updateInfinitemoneyEntry =
+            "UPDATE " + getPrefix() + TABLE_NAME + " " +
+            "SET infiniteMoney=? " +
+            "WHERE name=? AND bank=?";
 
-    public final String updateIgnoreaclEntry = "UPDATE " + getPrefix() + TABLE_NAME + " SET infiniteMoney=? WHERE name=? AND bank=?";
+    public final String updateIgnoreaclEntry =
+            "UPDATE " + getPrefix() + TABLE_NAME + " " +
+            "SET infiniteMoney=? " +
+            "WHERE name=? AND bank=?";
 
     public final String deleteEntry = "DELETE FROM " + getPrefix() + TABLE_NAME + " WHERE name=? AND bank=?";
 
@@ -67,12 +82,11 @@ public class AccountTable extends DatabaseTable {
     public final String updateUuidByName = "UPDATE " + getPrefix() + TABLE_NAME + " SET uuid=? WHERE name=?";
 
     public static String sqlAccountIDbyName(String prefix){
-        return  "SELECT id FROM "+prefix+AccountTable.TABLE_NAME+ " WHERE name =?";
+        return "SELECT id FROM " + prefix + AccountTable.TABLE_NAME + " WHERE name =?";
     }
     public static String sqlAccountIDbyUUID(String prefix) {
         return "SELECT id FROM " + prefix + AccountTable.TABLE_NAME + " WHERE uuid =?";
     }
-
 
     public AccountTable(String prefix) {
         super(prefix);

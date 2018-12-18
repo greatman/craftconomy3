@@ -66,23 +66,33 @@ public class AccessTable extends DatabaseTable {
             " FOREIGN KEY (`account_id`) REFERENCES `" + getPrefix() + AccountTable.TABLE_NAME + "` (`id`) ON UPDATE CASCADE ON DELETE CASCADE" +
             ");";
 
-    public final String selectEntry = "SELECT * FROM " + getPrefix() + TABLE_NAME + " " +
-            "LEFT JOIN " + getPrefix() + AccountTable.TABLE_NAME + " ON " +
-            getPrefix() + TABLE_NAME + ".account_id = " + getPrefix() + AccountTable.TABLE_NAME + ".id WHERE " + getPrefix() + AccountTable.TABLE_NAME + ".name=? AND " + getPrefix() + AccountTable.TABLE_NAME + ".bank=?";
+    public final String selectEntry =
+            "SELECT * FROM " + getPrefix() + TABLE_NAME + " " +
+            "LEFT JOIN " + getPrefix() + AccountTable.TABLE_NAME + " " +
+              "ON " + getPrefix() + TABLE_NAME + ".account_id = " + getPrefix() + AccountTable.TABLE_NAME + ".id " +
+            "WHERE " + getPrefix() + AccountTable.TABLE_NAME + ".name=? AND " + getPrefix() + AccountTable.TABLE_NAME + ".bank=?";
 
-    public final String selectEntryUnique = "SELECT * FROM " + getPrefix() + TABLE_NAME + " " +
-            "LEFT JOIN " + getPrefix() + AccountTable.TABLE_NAME + " ON " +
-            getPrefix() + TABLE_NAME + ".account_id = " + getPrefix() + AccountTable.TABLE_NAME + ".id WHERE " + getPrefix() + AccountTable.TABLE_NAME + ".name=? AND " + getPrefix() + AccountTable.TABLE_NAME + ".bank=? AND playerName=?";
+    public final String selectEntryUnique =
+            "SELECT * FROM " + getPrefix() + TABLE_NAME + " " +
+            "LEFT JOIN " + getPrefix() + AccountTable.TABLE_NAME + " " +
+              "ON " + getPrefix() + TABLE_NAME + ".account_id = " + getPrefix() + AccountTable.TABLE_NAME + ".id " +
+            "WHERE " + getPrefix() + AccountTable.TABLE_NAME + ".name=? AND " + getPrefix() + AccountTable.TABLE_NAME + ".bank=? AND playerName=?";
 
-    public final String insertEntry = "INSERT INTO " + getPrefix() + TABLE_NAME + "" +
-            "(account_id, playerName, owner, balance, deposit, acl, withdraw) VALUES((SELECT id from " + getPrefix() + AccountTable.TABLE_NAME + " WHERE name=? AND bank=?),?,?,?,?,?,?)";
+    public final String insertEntry =
+            "INSERT INTO " + getPrefix() + TABLE_NAME + " " +
+              "(account_id, playerName, owner, balance, deposit, acl, withdraw) " +
+            "VALUES((SELECT id from " + getPrefix() + AccountTable.TABLE_NAME + " " +
+            "WHERE name=? AND bank=?),?,?,?,?,?,?)";
 
-    public final String updateEntry = "UPDATE " + getPrefix() + TABLE_NAME + " SET owner=? , balance=?, deposit=?, acl=?, withdraw=? " +
-            "WHERE account_id=(SELECT id FROM " + getPrefix() + AccountTable.TABLE_NAME + " WHERE name=? AND bank=?) AND playerName=?";
+    public final String updateEntry =
+            "UPDATE " + getPrefix() + TABLE_NAME + " SET owner=? , balance=?, deposit=?, acl=?, withdraw=? " +
+            "WHERE account_id=(SELECT id FROM " + getPrefix() + AccountTable.TABLE_NAME + " WHERE name=? AND bank=?) " +
+                  "AND playerName=?";
 
-    public final String getAccountList = "SELECT * FROM " + getPrefix() + TABLE_NAME + " " +
-            "LEFT JOIN " + getPrefix() + AccountTable.TABLE_NAME + " ON " +
-            getPrefix() + TABLE_NAME + ".account_id = " + getPrefix() + AccountTable.TABLE_NAME + ".id " +
+    public final String getAccountList =
+            "SELECT * FROM " + getPrefix() + TABLE_NAME + " " +
+            "LEFT JOIN " + getPrefix() + AccountTable.TABLE_NAME + " " +
+              "ON " + getPrefix() + TABLE_NAME + ".account_id = " + getPrefix() + AccountTable.TABLE_NAME + ".id " +
             "WHERE playerName=?";
 
     public AccessTable(String prefix) {

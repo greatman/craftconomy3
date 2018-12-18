@@ -49,7 +49,9 @@ public class CurrencyTable extends DatabaseTable {
 
     public final String selectEntry = "SELECT * FROM " + getPrefix() + TABLE_NAME + " WHERE name=?";
 
-    public final String insertEntry = "INSERT INTO " + getPrefix() + TABLE_NAME + "(name,plural,minor,minorplural,sign,status,bankCurrency) " +
+    public final String insertEntry =
+            "INSERT INTO " + getPrefix() + TABLE_NAME + " " +
+              "(name,plural,minor,minorplural,sign,status,bankCurrency) " +
             "VALUES (?,?,?,?,?,?,?)";
 
     public final String setAsDefault1 = "UPDATE " + getPrefix() + TABLE_NAME + " SET status=FALSE";
@@ -60,7 +62,10 @@ public class CurrencyTable extends DatabaseTable {
 
     public final String setAsDefaultBank2 = "UPDATE " + getPrefix() + TABLE_NAME + " SET bankCurrency=TRUE WHERE name=?";
 
-    public final String updateEntry = "UPDATE " + getPrefix() + TABLE_NAME + " SET name=?, plural=?, minor=?, minorplural=?, sign=?, status=?, bankCurrency=? WHERE name=?";
+    public final String updateEntry =
+            "UPDATE " + getPrefix() + TABLE_NAME + " " +
+            "SET name=?, plural=?, minor=?, minorplural=?, sign=?, status=?, bankCurrency=? " +
+            "WHERE name=?";
 
     public final String deleteEntry = "DELETE FROM " + getPrefix() + TABLE_NAME + " WHERE name=?";
 

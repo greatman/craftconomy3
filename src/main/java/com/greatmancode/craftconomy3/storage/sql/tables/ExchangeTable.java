@@ -47,15 +47,20 @@ public class ExchangeTable extends DatabaseTable {
             "    REFERENCES " + getPrefix() + CurrencyTable.TABLE_NAME + "(name) ON UPDATE CASCADE ON DELETE CASCADE" +
             ");";
 
-    public final String selectEntry = "SELECT * FROM " + getPrefix() + TABLE_NAME + " " +
+    public final String selectEntry =
+            "SELECT * FROM " + getPrefix() + TABLE_NAME + " " +
             "WHERE from_currency=? AND to_currency=?";
 
-    public final String selectAll = "SELECT * FROM "+getPrefix() + TABLE_NAME;
+    public final String selectAll = "SELECT * FROM "+ getPrefix() + TABLE_NAME;
 
-    public final String insertEntry = "INSERT INTO " + getPrefix() + TABLE_NAME + "(from_currency, to_currency, amount) " +
+    public final String insertEntry =
+            "INSERT INTO " + getPrefix() + TABLE_NAME + " " +
+              "(from_currency, to_currency, amount) " +
             "VALUES(?,?,?)";
 
-    public final String updateEntry = "UPDATE " + getPrefix() + TABLE_NAME + " SET amount=? " +
+    public final String updateEntry =
+            "UPDATE " + getPrefix() + TABLE_NAME + " " +
+            "SET amount=? " +
             "WHERE from_currency.name=? AND to_currency.name=?";
 
     public ExchangeTable(String prefix) {
