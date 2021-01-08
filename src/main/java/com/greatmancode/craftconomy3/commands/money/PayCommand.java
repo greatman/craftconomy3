@@ -23,11 +23,12 @@ import com.greatmancode.craftconomy3.Cause;
 import com.greatmancode.craftconomy3.Common;
 import com.greatmancode.craftconomy3.account.Account;
 import com.greatmancode.craftconomy3.commands.AbstractCommand;
+import com.greatmancode.craftconomy3.events.PayAccountEvent;
 import com.greatmancode.craftconomy3.currency.Currency;
 import com.greatmancode.tools.commands.CommandSender;
-import com.greatmancode.tools.commands.interfaces.CommandExecutor;
 import com.greatmancode.tools.entities.Player;
 import com.greatmancode.tools.utils.Tools;
+import org.bukkit.Bukkit;
 
 public class PayCommand extends AbstractCommand {
     public PayCommand(String name) {
@@ -48,11 +49,18 @@ public class PayCommand extends AbstractCommand {
                         (amount, Account.getWorldGroupOfPlayerCurrentlyIn(sender.getUuid()), currency.getName());
 
                 if (hasEnough) {
-                    Common.getInstance().getAccountManager().getAccount(sender.getName(), false).withdraw(amount, Account
-                            .getWorldGroupOfPlayerCurrentlyIn(sender.getUuid()), currency.getName(), Cause.PAYMENT, args[0]);
-                    Common.getInstance().getAccountManager().getAccount(args[0], false).deposit(amount, Account
-                            .getWorldGroupOfPlayerCurrentlyIn(sender.getUuid()), currency.getName(), Cause.PAYMENT,
-                            sender.getName());
+                    Account from = Common.getInstance().getAccountManager().getAccount(sender.getName(), false);
+                    Account to = Common.getInstance().getAccountManager().getAccount(args[0], false);
+
+                    // Allow cancelling the pay event
+                    PayAccountEvent ev = new PayAccountEvent(from, to, amount);
+                    Bukkit.getPluginManager().callEvent(ev);
+                    if (ev.isCancelled()) return;
+
+                    from.withdraw(amount, Account.getWorldGroupOfPlayerCurrentlyIn(sender.getUuid()),
+                            currency.getName(), Cause.PAYMENT, args[0]);
+                    to.deposit(amount, Account.getWorldGroupOfPlayerCurrentlyIn(sender.getUuid()),
+                            currency.getName(), Cause.PAYMENT, sender.getName());
                     sendMessage(sender, Common.getInstance().getLanguageManager().parse("money_pay_sent", Common.getInstance().format(null, currency, amount), args[0]));
                     Player reciever = Common.getInstance().getServerCaller().getPlayerCaller().getOnlinePlayer(args[0]);
                     if (reciever != null) {
