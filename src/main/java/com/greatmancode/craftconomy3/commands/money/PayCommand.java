@@ -29,6 +29,7 @@ import com.greatmancode.tools.commands.CommandSender;
 import com.greatmancode.tools.entities.Player;
 import com.greatmancode.tools.utils.Tools;
 import org.bukkit.Bukkit;
+import org.bukkit.plugin.PluginManager;
 
 public class PayCommand extends AbstractCommand {
     public PayCommand(String name) {
@@ -53,8 +54,8 @@ public class PayCommand extends AbstractCommand {
                     Account to = Common.getInstance().getAccountManager().getAccount(args[0], false);
 
                     // Allow cancelling the pay event
-                    PayAccountEvent ev = new PayAccountEvent(from, to, amount);
-                    Bukkit.getPluginManager().callEvent(ev);
+                    final PayAccountEvent ev = new PayAccountEvent(from, to, amount);
+                    Bukkit.getServer().getPluginManager().callEvent(ev);
                     if (ev.isCancelled()) return;
 
                     from.withdraw(amount, Account.getWorldGroupOfPlayerCurrentlyIn(sender.getUuid()),

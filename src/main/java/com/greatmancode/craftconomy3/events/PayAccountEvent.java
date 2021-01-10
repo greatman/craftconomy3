@@ -5,6 +5,7 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 public class PayAccountEvent extends Event {
+    private static final HandlerList handlers = new HandlerList();
     boolean cancelled = false;
     Account fromAccount;
     Account toAccount;
@@ -14,6 +15,15 @@ public class PayAccountEvent extends Event {
         fromAccount = from;
         toAccount = to;
         payAmount = amount;
+    }
+
+    @Override
+    public HandlerList getHandlers() {
+        return handlers;
+    }
+
+    public static HandlerList getHandlerList() {
+        return handlers;
     }
 
     public boolean isCancelled() {
@@ -34,10 +44,5 @@ public class PayAccountEvent extends Event {
 
     public double getPayAmount() {
         return payAmount;
-    }
-
-    @Override
-    public HandlerList getHandlers() {
-        return null;
     }
 }
